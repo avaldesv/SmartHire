@@ -1,0 +1,50 @@
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.info-card dl {
+  margin: 0;
+  display: grid;
+  gap: 10px;
+
+  div {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 8px;
+  }
+
+  dt {
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  dd {
+    margin: 0;
+    font-size: 14px;
+  }
+}
+
+.id-section {
+  margin-bottom: 16px;
+
+  h4 {
+    margin: 0 0 4px;
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 500;
+  }
+
+  p { margin: 0; }
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.loading-wrap { display: flex; justify-content: center; padding: 48px; }

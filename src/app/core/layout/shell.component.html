@@ -1,0 +1,41 @@
+<header class="top-header">
+  <div class="brand">
+    <div class="logo-mark">SH</div>
+    <span class="logo-text">Smart Hire</span>
+  </div>
+  <div class="header-actions">
+    <button mat-icon-button matBadge="3" matBadgeColor="primary" aria-label="Notificaciones">
+      <mat-icon>notifications</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="Ayuda">
+      <mat-icon>help_outline</mat-icon>
+    </button>
+    <button mat-button [matMenuTriggerFor]="userMenu" class="user-btn">
+      <span class="avatar">{{ user()?.initials }}</span>
+      <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+    <mat-menu #userMenu="matMenu">
+      <div class="menu-user">
+        <strong>{{ user()?.firstName }} {{ user()?.lastName }}</strong>
+        <small>{{ user()?.email }}</small>
+      </div>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        Cerrar sesión
+      </button>
+    </mat-menu>
+  </div>
+</header>
+
+<nav class="main-nav">
+  @for (item of navItems; track item.path) {
+    <a [routerLink]="item.path" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: item.path === '/home' }">
+      <mat-icon>{{ item.icon }}</mat-icon>
+      {{ item.label }}
+    </a>
+  }
+</nav>
+
+<main class="main-content">
+  <router-outlet />
+</main>

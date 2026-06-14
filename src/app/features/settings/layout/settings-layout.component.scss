@@ -1,0 +1,30 @@
+h2 { margin: 0 0 20px; font-size: 1.35rem; }
+
+.layout-body {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 20px;
+
+  @media (max-width: 768px) { grid-template-columns: 1fr; }
+}
+
+.sidebar {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px;
+
+  a {
+    display: block;
+    padding: 10px 12px;
+    border-radius: 6px;
+    color: #475569;
+    text-decoration: none;
+    font-size: 14px;
+
+    &:hover { background: #f8fafc; }
+    &.active { background: #f0fdfa; color: #0d9488; font-weight: 500; }
+  }
+}
+
+.content { min-width: 0; }

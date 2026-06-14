@@ -1,0 +1,27 @@
+<div class="sh-page">
+  <sh-page-header title="Seguimiento" subtitle="Pipeline kanban de candidatos por etapa" />
+
+  @if (loading) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else {
+    <div class="kanban">
+      @for (stage of stages; track stage.id) {
+        <mat-card class="kanban-column">
+          <mat-card-header>
+            <div class="column-dot" [style.background]="stage.color"></div>
+            <mat-card-title>{{ stage.name }}</mat-card-title>
+            <span class="count">{{ stage.candidatesCount }}</span>
+          </mat-card-header>
+          <mat-card-content>
+            @for (i of [1,2,3]; track i) {
+              <div class="kanban-card">
+                <strong>Candidato {{ i }}</strong>
+                <small>REQ-2025-{{ 800 + stage.order * 10 + i }}</small>
+              </div>
+            }
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  }
+</div>

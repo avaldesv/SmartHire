@@ -1,0 +1,20 @@
+<div class="reports-layout sh-page">
+  <h2>Reportes</h2>
+  <div class="layout-body">
+    <aside class="sidebar">
+      @for (cat of ['generales', 'cubrimiento', 'vacantes']; track cat) {
+        @if (categories[cat].length) {
+          <h4>{{ cat === 'generales' ? 'Generales' : cat === 'cubrimiento' ? 'Cubrimiento' : 'Vacantes' }}</h4>
+          @for (item of navItems; track item.slug) {
+            @if (item.category === cat) {
+              <a [routerLink]="item.slug === 'mmr' ? '/reports/mmr' : ['/reports/view', item.slug]" routerLinkActive="active">{{ item.label }}</a>
+            }
+          }
+        }
+      }
+    </aside>
+    <main class="content">
+      <router-outlet />
+    </main>
+  </div>
+</div>

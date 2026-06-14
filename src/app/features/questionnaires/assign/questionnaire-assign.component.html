@@ -1,0 +1,26 @@
+<div class="sh-page">
+  <sh-page-header title="Asignar cuestionario" subtitle="Vincule un cuestionario a una requisición" />
+
+  <form [formGroup]="form" (ngSubmit)="assign()" class="sh-card assign-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Cuestionario</mat-label>
+      <mat-select formControlName="questionnaireId">
+        @for (q of questionnaires; track q.id) {
+          <mat-option [value]="q.id">{{ q.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Requisición</mat-label>
+      <mat-select formControlName="requisitionId">
+        @for (r of requisitions; track r.id) {
+          <mat-option [value]="r.id">{{ r.label }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <div class="actions">
+      <button mat-stroked-button type="button" routerLink="/questionnaires">Cancelar</button>
+      <button mat-flat-button color="primary" type="submit">Asignar</button>
+    </div>
+  </form>
+</div>

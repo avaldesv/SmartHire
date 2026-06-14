@@ -1,0 +1,48 @@
+.dashboard {
+  .kpi-row {
+    margin-bottom: 24px;
+  }
+}
+
+.banner-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  color: #0d9488;
+  opacity: 0.85;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  h2 {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+  }
+}
+
+.filter-search {
+  min-width: 220px;
+  flex: 1;
+}
+
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 48px;
+}
+
+.req-table {
+  min-width: 2400px;
+}
+
+.solicitudes-section mat-paginator {
+  margin-top: 8px;
+  border-top: 1px solid #e2e8f0;
+}

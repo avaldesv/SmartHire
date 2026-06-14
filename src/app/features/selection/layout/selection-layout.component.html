@@ -1,0 +1,20 @@
+<div class="sh-page selection-layout">
+  <header class="selection-header">
+    <div>
+      <h2>Selección de candidatos</h2>
+      @if (requisition) {
+        <p>{{ requisition.requisitionNo }} — {{ requisition.name }} · {{ requisition.client }}</p>
+      }
+    </div>
+  </header>
+
+  <nav class="selection-tabs">
+    @for (tab of tabs; track tab.path) {
+      <a [routerLink]="['/selection', positionId, tab.path]" routerLinkActive="active">{{ tab.label }}</a>
+    }
+  </nav>
+
+  <div class="tab-content">
+    <router-outlet />
+  </div>
+</div>

@@ -1,0 +1,17 @@
+@if (loading) {
+  <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+} @else {
+  <div class="sh-grid-3">
+    <sh-kpi-card label="Candidatos en análisis" [value]="stats.total" icon="groups" iconBg="#2563eb" />
+    <sh-kpi-card label="Compatibilidad promedio" [value]="stats.avgCompatibility + '%'" icon="percent" iconBg="#0d9488" />
+    <sh-kpi-card label="Con entrevista" [value]="stats.interviewed" icon="event" iconBg="#8b5cf6" />
+  </div>
+
+  <mat-card class="placeholder-card">
+    <mat-card-header><mat-card-title>Análisis detallado</mat-card-title></mat-card-header>
+    <mat-card-content>
+      <p>Vista de análisis comparativo y métricas de funnel para la posición #{{ positionId }}.</p>
+      <p class="hint">Contratados en pipeline: <strong>{{ stats.hired }}</strong></p>
+    </mat-card-content>
+  </mat-card>
+}

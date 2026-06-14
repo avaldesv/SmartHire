@@ -1,0 +1,40 @@
+<div class="ai-chat">
+  <div class="chat-panel sh-card">
+    <h3>Perfil gestión con IA</h3>
+    <div class="messages">
+      @for (msg of messages; track $index) {
+        <div class="message" [class.user]="msg.role === 'user'" [class.ai]="msg.role === 'ai'">
+          @if (msg.role === 'ai') { <mat-icon>smart_toy</mat-icon> }
+          <p>{{ msg.text }}</p>
+        </div>
+      }
+      @if (loading) {
+        <div class="loading"><mat-spinner diameter="24" /></div>
+      }
+    </div>
+
+    <form [formGroup]="searchForm" (ngSubmit)="search()" class="search-form">
+      <mat-form-field appearance="outline"><mat-label>Candidatos</mat-label><input matInput type="number" formControlName="count" /></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>Años exp.</mat-label><input matInput type="number" formControlName="years" /></mat-form-field>
+      <mat-form-field appearance="outline" class="prompt-field"><mat-label>Instrucción</mat-label><input matInput formControlName="prompt" /></mat-form-field>
+      <button mat-flat-button color="primary" type="submit" [disabled]="loading"><mat-icon>search</mat-icon> Buscar</button>
+    </form>
+  </div>
+
+  @if (results.length) {
+    <div class="results">
+      @for (r of results; track r.candidateId) {
+        <mat-card class="result-card">
+          <mat-card-header>
+            <mat-card-title>{{ r.name }}</mat-card-title>
+            <mat-card-subtitle>{{ r.compatibility }}% compatibilidad</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{ r.email }} · {{ r.phone }}</p>
+            <p class="evidence">{{ r.evidence }}</p>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  }
+</div>

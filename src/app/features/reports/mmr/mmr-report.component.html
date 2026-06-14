@@ -1,0 +1,33 @@
+<div class="mmr-report">
+  <h3>Reporte MMR</h3>
+
+  <form [formGroup]="filters" class="sh-filters">
+    <mat-form-field appearance="outline"><mat-label>Año</mat-label><mat-select formControlName="year"><mat-option value="2025">2025</mat-option><mat-option value="2024">2024</mat-option></mat-select></mat-form-field>
+    <mat-form-field appearance="outline"><mat-label>Sucursal</mat-label><mat-select formControlName="branch"><mat-option value="Todos">Todos</mat-option><mat-option value="CDMX">CDMX</mat-option></mat-select></mat-form-field>
+    <button mat-stroked-button type="button" (click)="load()">Actualizar</button>
+  </form>
+
+  <div class="sh-grid-3 kpi-row">
+    <sh-kpi-card label="Fill Rate actual" [value]="kpis.fillRateCurrent" icon="trending_up" iconBg="#0d9488" />
+    <sh-kpi-card label="Fill Rate anterior" [value]="kpis.fillRatePrevious" icon="history" iconBg="#2563eb" />
+    <sh-kpi-card label="Fill Rate YTD" [value]="kpis.fillRateYtd" icon="calendar_today" iconBg="#8b5cf6" />
+  </div>
+
+  @if (loading) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else {
+    <div class="sh-card sh-table-wrap">
+      <table mat-table [dataSource]="rows">
+        <ng-container matColumnDef="indicator"><th mat-header-cell *matHeaderCellDef>Indicador</th><td mat-cell *matCellDef="let row"><strong>{{ row.indicator }}</strong></td></ng-container>
+        @for (m of months; track m; let i = $index) {
+          <ng-container [matColumnDef]="'m' + i">
+            <th mat-header-cell *matHeaderCellDef>{{ m }}</th>
+            <td mat-cell *matCellDef="let row">{{ row.months[i] }}</td>
+          </ng-container>
+        }
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns"></tr>
+      </table>
+    </div>
+  }
+</div>

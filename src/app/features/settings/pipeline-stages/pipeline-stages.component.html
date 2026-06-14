@@ -1,0 +1,16 @@
+<h3>Etapas del pipeline</h3>
+@if (loading) {
+  <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+} @else {
+  <div class="sh-card sh-table-wrap">
+    <table mat-table [dataSource]="data">
+      <ng-container matColumnDef="order"><th mat-header-cell *matHeaderCellDef>Orden</th><td mat-cell *matCellDef="let row">{{ row.order }}</td></ng-container>
+      <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Etapa</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+      <ng-container matColumnDef="color"><th mat-header-cell *matHeaderCellDef>Color</th><td mat-cell *matCellDef="let row"><span class="color-dot" [style.background]="row.color"></span> {{ row.color }}</td></ng-container>
+      <ng-container matColumnDef="candidatesCount"><th mat-header-cell *matHeaderCellDef>Candidatos</th><td mat-cell *matCellDef="let row">{{ row.candidatesCount }}</td></ng-container>
+      <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-icon-button (click)="edit(row)"><mat-icon>edit</mat-icon></button></td></ng-container>
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns"></tr>
+    </table>
+  </div>
+}

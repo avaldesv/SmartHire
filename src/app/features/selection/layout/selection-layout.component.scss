@@ -1,0 +1,29 @@
+.selection-header {
+  margin-bottom: 16px;
+
+  h2 { margin: 0; font-size: 1.35rem; }
+  p { margin: 4px 0 0; color: #64748b; font-size: 14px; }
+}
+
+.selection-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 20px;
+
+  a {
+    padding: 12px 16px;
+    text-decoration: none;
+    color: #64748b;
+    font-weight: 500;
+    font-size: 14px;
+    border-bottom: 2px solid transparent;
+
+    &.active {
+      color: #0d9488;
+      border-bottom-color: #0d9488;
+    }
+
+    &:hover { color: #0f172a; }
+  }
+}

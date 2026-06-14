@@ -1,0 +1,11 @@
+@if (loading) {
+  <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+} @else {
+  <mat-card>
+    <mat-card-header><mat-card-title>{{ title }}</mat-card-title></mat-card-header>
+    <mat-card-content>
+      <p>Vista de reporte <code>{{ slug }}</code> — contenido placeholder.</p>
+      <p class="hint">Los datos reales se cargarán desde el servicio de reportes en una fase posterior.</p>
+    </mat-card-content>
+  </mat-card>
+}

@@ -1,0 +1,40 @@
+h2 { margin: 0 0 20px; font-size: 1.35rem; }
+
+.layout-body {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 20px;
+
+  @media (max-width: 768px) { grid-template-columns: 1fr; }
+}
+
+.sidebar {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+
+  h4 {
+    margin: 16px 0 8px;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #94a3b8;
+    letter-spacing: 0.05em;
+
+    &:first-child { margin-top: 0; }
+  }
+
+  a {
+    display: block;
+    padding: 8px 10px;
+    border-radius: 6px;
+    color: #475569;
+    text-decoration: none;
+    font-size: 14px;
+
+    &:hover { background: #f8fafc; }
+    &.active { background: #f0fdfa; color: #0d9488; font-weight: 500; }
+  }
+}
+
+.content { min-width: 0; }

@@ -1,0 +1,35 @@
+<div class="sh-page">
+  <sh-page-header title="Posiciones" subtitle="Gestión de requisiciones y posiciones abiertas">
+    <button mat-flat-button color="primary" routerLink="/positions/new">
+      <mat-icon>add</mat-icon> Nueva posición
+    </button>
+  </sh-page-header>
+
+  @if (loading) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else {
+    <div class="sh-card sh-table-wrap">
+      <table mat-table [dataSource]="data">
+        <ng-container matColumnDef="requisitionNo">
+          <th mat-header-cell *matHeaderCellDef>Requisición</th>
+          <td mat-cell *matCellDef="let row"><span class="mono-id">{{ row.requisitionNo }}</span></td>
+        </ng-container>
+        <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Puesto</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+        <ng-container matColumnDef="client"><th mat-header-cell *matHeaderCellDef>Cliente</th><td mat-cell *matCellDef="let row">{{ row.client }}</td></ng-container>
+        <ng-container matColumnDef="status"><th mat-header-cell *matHeaderCellDef>Estado</th><td mat-cell *matCellDef="let row"><sh-status-badge [status]="row.status" /></td></ng-container>
+        <ng-container matColumnDef="recruiter"><th mat-header-cell *matHeaderCellDef>Reclutador</th><td mat-cell *matCellDef="let row">{{ row.recruiter }}</td></ng-container>
+        <ng-container matColumnDef="createdAt"><th mat-header-cell *matHeaderCellDef>Creación</th><td mat-cell *matCellDef="let row">{{ row.createdAt | date:'dd/MM/yyyy' }}</td></ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-stroked-button [routerLink]="['/positions', row.id, 'edit']">Editar</button>
+            <button mat-button [routerLink]="['/selection', row.id, 'ai']">Selección</button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns"></tr>
+      </table>
+      <mat-paginator [length]="total" [pageSize]="pageSize" [pageIndex]="pageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onPage($event)" />
+    </div>
+  }
+</div>
