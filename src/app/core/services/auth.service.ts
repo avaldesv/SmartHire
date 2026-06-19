@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable, map, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -33,7 +33,7 @@ export class AuthService {
       .post<LoginApiResponse>(
         this.api.apiUrl('/api/v1/auth/login'),
         { companyId: environment.companyId, username, password },
-        { headers: this.api.buildHeaders() },
+        { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) },
       )
       .pipe(
         tap((res) => {
