@@ -12,12 +12,76 @@
       <mat-form-field appearance="outline"><mat-label>CURP</mat-label><input matInput formControlName="curp" /></mat-form-field>
       <mat-form-field appearance="outline"><mat-label>RFC</mat-label><input matInput formControlName="rfc" /></mat-form-field>
       <mat-form-field appearance="outline"><mat-label>NSS</mat-label><input matInput formControlName="nss" /></mat-form-field>
-      <mat-form-field appearance="outline"><mat-label>Género</mat-label><mat-select formControlName="gender"><mat-option value="Femenino">Femenino</mat-option><mat-option value="Masculino">Masculino</mat-option></mat-select></mat-form-field>
-      <mat-form-field appearance="outline"><mat-label>País</mat-label><input matInput formControlName="country" /></mat-form-field>
-      <mat-form-field appearance="outline"><mat-label>Ciudad</mat-label><input matInput formControlName="city" /></mat-form-field>
-      <mat-form-field appearance="outline"><mat-label>Estado</mat-label><input matInput formControlName="state" /></mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Género</mat-label>
+        <mat-select formControlName="gender">
+          <mat-option value="Femenino">Femenino</mat-option>
+          <mat-option value="Masculino">Masculino</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>País</mat-label>
+        <mat-select formControlName="countryId">
+          @if (loadingGeo.countries) {
+            <mat-option disabled>Cargando...</mat-option>
+          }
+          @for (c of countries; track c.id) {
+            <mat-option [value]="c.id">{{ c.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="stateId">
+          @if (loadingGeo.states) {
+            <mat-option disabled>Cargando...</mat-option>
+          }
+          @for (s of states; track s.id) {
+            <mat-option [value]="s.id">{{ s.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Municipio</mat-label>
+        <mat-select formControlName="municipalityId">
+          @if (loadingGeo.municipalities) {
+            <mat-option disabled>Cargando...</mat-option>
+          }
+          @for (m of municipalities; track m.id) {
+            <mat-option [value]="m.id">{{ m.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Código postal</mat-label>
+        <input matInput formControlName="postalCode" maxlength="5" inputmode="numeric" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Colonia</mat-label>
+        <mat-select formControlName="neighborhoodId">
+          @if (loadingGeo.neighborhoods) {
+            <mat-option disabled>Cargando...</mat-option>
+          }
+          @for (n of neighborhoods; track n.id) {
+            <mat-option [value]="n.id">{{ n.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
       <mat-form-field appearance="outline"><mat-label>Salario deseado</mat-label><input matInput type="number" formControlName="desiredSalary" /></mat-form-field>
-      <mat-form-field appearance="outline"><mat-label>Origen</mat-label><mat-select formControlName="source"><mat-option value="Carga Manual">Carga Manual</mat-option><mat-option value="Jobboard">Jobboard</mat-option><mat-option value="BUC">BUC</mat-option></mat-select></mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Origen</mat-label>
+        <mat-select formControlName="source">
+          <mat-option value="Carga Manual">Carga Manual</mat-option>
+          <mat-option value="Jobboard">Jobboard</mat-option>
+          <mat-option value="BUC">BUC</mat-option>
+        </mat-select>
+      </mat-form-field>
       <div class="toggle-row"><mat-slide-toggle formControlName="active">Activo</mat-slide-toggle></div>
       <div class="form-actions span-2">
         <button mat-stroked-button type="button" (click)="cancel()">Cancelar</button>

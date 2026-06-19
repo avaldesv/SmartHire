@@ -24,7 +24,7 @@ export class LoginComponent {
   error = '';
 
   readonly form = this.fb.nonNullable.group({
-    email: ['gquintana@empresa.com', [Validators.required, Validators.email]],
+    email: ['admin', [Validators.required]],
     password: ['', Validators.required],
   });
 
@@ -35,7 +35,8 @@ export class LoginComponent {
     }
     this.loading = true;
     this.error = '';
-    this.auth.login(this.form.controls.email.value).subscribe({
+    const { email, password } = this.form.getRawValue();
+    this.auth.login(email, password).subscribe({
       next: () => {
         this.loading = false;
         this.router.navigate(['/home']);
@@ -48,7 +49,7 @@ export class LoginComponent {
   }
 
   ssoLogin(): void {
-    this.form.patchValue({ email: 'gquintana@empresa.com', password: 'mock' });
+    this.form.patchValue({ email: 'admin', password: 'admin' });
     this.submit();
   }
 }
