@@ -6,10 +6,49 @@
       <mat-step [stepControl]="clientForm" label="Datos Cliente">
         <form [formGroup]="clientForm" class="step-form">
           <div class="form-grid">
-            <mat-form-field appearance="outline"><mat-label>País cliente</mat-label><mat-select formControlName="clientCountry"><mat-option value="México">México</mat-option></mat-select></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Marca</mat-label><input matInput formControlName="brand" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Tipo reclutamiento</mat-label><mat-select formControlName="recruitmentType"><mat-option value="Reclutamiento Puro">Reclutamiento Puro</mat-option><mat-option value="RPO">RPO</mat-option></mat-select></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Categoría cobertura</mat-label><mat-select formControlName="coverageCategory"><mat-option value="Operativo">Operativo</mat-option><mat-option value="Administrativo">Administrativo</mat-option></mat-select></mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>País cliente</mat-label>
+              <mat-select formControlName="countryId">
+                @if (loadingCatalog.countries) {
+                  <mat-option disabled>Cargando...</mat-option>
+                } @else {
+                  @for (country of countries; track country.id) {
+                    <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                  }
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Marca</mat-label>
+              <mat-select formControlName="brandId" [disabled]="!clientForm.controls.countryId.value || loadingCatalog.brands">
+                @if (loadingCatalog.brands) {
+                  <mat-option disabled>Cargando...</mat-option>
+                } @else {
+                  @for (brand of brands; track brand.id) {
+                    <mat-option [value]="brand.id">{{ brand.name }}</mat-option>
+                  }
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Tipo reclutamiento</mat-label>
+              <mat-select formControlName="recruitmentType">
+                <mat-option value="Reclutamiento Puro">Reclutamiento Puro</mat-option>
+                <mat-option value="RPO">RPO</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Categoría cobertura</mat-label>
+              <mat-select formControlName="coverageTypeId" [disabled]="!clientForm.controls.countryId.value || loadingCatalog.coverageTypes">
+                @if (loadingCatalog.coverageTypes) {
+                  <mat-option disabled>Cargando...</mat-option>
+                } @else {
+                  @for (item of coverageTypes; track item.id) {
+                    <mat-option [value]="item.id">{{ item.name }}</mat-option>
+                  }
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>OT</mat-label><input matInput formControlName="ot" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave cliente</mat-label><input matInput formControlName="clientKey" /></mat-form-field>
             <mat-form-field appearance="outline" class="span-2"><mat-label>Razón social</mat-label><input matInput formControlName="legalName" /></mat-form-field>
@@ -24,8 +63,25 @@
         <form [formGroup]="generalForm" class="step-form">
           <div class="form-grid">
             <mat-form-field appearance="outline" class="span-2"><mat-label>Notas generales</mat-label><textarea matInput rows="3" formControlName="generalNotes"></textarea></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Tipo contrato</mat-label><mat-select formControlName="contractType"><mat-option value="Indeterminado">Indeterminado</mat-option><mat-option value="Temporal">Temporal</mat-option></mat-select></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Turno</mat-label><mat-select formControlName="shift"><mat-option value="Diurno">Diurno</mat-option><mat-option value="Nocturno">Nocturno</mat-option></mat-select></mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Tipo contrato</mat-label>
+              <mat-select formControlName="contractType">
+                <mat-option value="Indeterminado">Indeterminado</mat-option>
+                <mat-option value="Temporal">Temporal</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Turno</mat-label>
+              <mat-select formControlName="shiftId" [disabled]="!clientForm.controls.countryId.value || loadingCatalog.shifts">
+                @if (loadingCatalog.shifts) {
+                  <mat-option disabled>Cargando...</mat-option>
+                } @else {
+                  @for (shift of shifts; track shift.id) {
+                    <mat-option [value]="shift.id">{{ shift.name }}</mat-option>
+                  }
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Salario</mat-label><input matInput type="number" formControlName="salary" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Días laborales</mat-label><input matInput formControlName="workDays" /></mat-form-field>
           </div>
@@ -47,8 +103,25 @@
       <mat-step [stepControl]="hiringForm" label="Contratación">
         <form [formGroup]="hiringForm" class="step-form">
           <div class="form-grid">
-            <mat-form-field appearance="outline"><mat-label>Modalidad</mat-label><mat-select formControlName="contractType"><mat-option value="Temporal">Temporal</mat-option><mat-option value="Directo">Directo</mat-option></mat-select></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Prestaciones</mat-label><mat-select formControlName="benefits"><mat-option value="Estándar">Estándar</mat-option><mat-option value="Premium">Premium</mat-option></mat-select></mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Modalidad</mat-label>
+              <mat-select formControlName="contractType">
+                <mat-option value="Temporal">Temporal</mat-option>
+                <mat-option value="Directo">Directo</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Prestaciones</mat-label>
+              <mat-select formControlName="benefitId" [disabled]="!clientForm.controls.countryId.value || loadingCatalog.benefits">
+                @if (loadingCatalog.benefits) {
+                  <mat-option disabled>Cargando...</mat-option>
+                } @else {
+                  @for (benefit of benefits; track benefit.id) {
+                    <mat-option [value]="benefit.id">{{ benefit.name }}</mat-option>
+                  }
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Días prueba</mat-label><input matInput type="number" formControlName="probationDays" /></mat-form-field>
           </div>
           <div class="step-actions"><button mat-button matStepperPrevious>Atrás</button><button mat-button matStepperNext>Siguiente</button></div>
@@ -58,9 +131,35 @@
       <mat-step [stepControl]="languagesForm" label="Idiomas">
         <form [formGroup]="languagesForm" class="step-form">
           <div class="form-grid">
-            <mat-form-field appearance="outline"><mat-label>Idioma principal</mat-label><input matInput formControlName="primaryLanguage" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Idioma secundario</mat-label><input matInput formControlName="secondaryLanguage" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Nivel requerido</mat-label><mat-select formControlName="levelRequired"><mat-option value="Básico">Básico</mat-option><mat-option value="Intermedio">Intermedio</mat-option><mat-option value="Avanzado">Avanzado</mat-option></mat-select></mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Idioma principal</mat-label>
+              <mat-select formControlName="primaryLanguageId" [disabled]="loadingCatalog.languages">
+                @if (loadingCatalog.languages) {
+                  <mat-option disabled>Cargando...</mat-option>
+                } @else {
+                  @for (lang of languages; track lang.id) {
+                    <mat-option [value]="lang.id">{{ lang.name }}</mat-option>
+                  }
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Idioma secundario</mat-label>
+              <mat-select formControlName="secondaryLanguageId" [disabled]="loadingCatalog.languages">
+                <mat-option [value]="null">Ninguno</mat-option>
+                @for (lang of languages; track lang.id) {
+                  <mat-option [value]="lang.id">{{ lang.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Nivel requerido</mat-label>
+              <mat-select formControlName="levelRequired">
+                <mat-option value="Básico">Básico</mat-option>
+                <mat-option value="Intermedio">Intermedio</mat-option>
+                <mat-option value="Avanzado">Avanzado</mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
           <div class="step-actions"><button mat-button matStepperPrevious>Atrás</button><button mat-button matStepperNext>Siguiente</button></div>
         </form>
@@ -82,7 +181,13 @@
         <form [formGroup]="requirementsForm" class="step-form">
           <div class="form-grid">
             <mat-form-field appearance="outline" class="span-2"><mat-label>Requerimientos</mat-label><textarea matInput rows="4" formControlName="requirements"></textarea></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Escolaridad</mat-label><mat-select formControlName="education"><mat-option value="Licenciatura">Licenciatura</mat-option><mat-option value="Preparatoria">Preparatoria</mat-option></mat-select></mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Escolaridad</mat-label>
+              <mat-select formControlName="education">
+                <mat-option value="Licenciatura">Licenciatura</mat-option>
+                <mat-option value="Preparatoria">Preparatoria</mat-option>
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Años experiencia</mat-label><input matInput type="number" formControlName="experienceYears" /></mat-form-field>
           </div>
           <div class="step-actions"><button mat-button matStepperPrevious>Atrás</button><button mat-button matStepperNext>Siguiente</button></div>
