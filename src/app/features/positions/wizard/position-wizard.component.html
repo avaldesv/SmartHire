@@ -164,10 +164,14 @@
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>Nivel requerido</mat-label>
-              <mat-select formControlName="levelRequired">
-                <mat-option value="Básico">Básico</mat-option>
-                <mat-option value="Intermedio">Intermedio</mat-option>
-                <mat-option value="Avanzado">Avanzado</mat-option>
+              <mat-select formControlName="languageLevelId" [disabled]="!clientForm.controls.countryId.value || loadingCatalog.languageLevels">
+                @if (loadingCatalog.languageLevels) {
+                  <mat-option disabled>Cargando...</mat-option>
+                } @else {
+                  @for (level of languageLevels; track level.id) {
+                    <mat-option [value]="level.id">{{ level.name }}</mat-option>
+                  }
+                }
               </mat-select>
             </mat-form-field>
           </div>
