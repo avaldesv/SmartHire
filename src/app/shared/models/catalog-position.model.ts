@@ -49,3 +49,32 @@ export interface CatalogLanguage {
   name: string;
   isActive: boolean;
 }
+
+export interface CatalogDocumentType {
+  id: number;
+  countryId: number;
+  code: string;
+  name: string;
+  documentType?: string;
+  validatesWithAi?: boolean;
+  isActive: boolean;
+}
+
+export interface CatalogEducationLevel {
+  id: number;
+  countryId: number;
+  code: string;
+  name: string;
+  description?: string;
+  requiresCareer?: boolean;
+  isActive: boolean;
+}
+
+export interface CatalogContractType {
+  id: number;
+  countryId: number;
+  code: string;
+  name: string;
+  description?: string;
+  isActive: boolean;
+}

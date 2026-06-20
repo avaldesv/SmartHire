@@ -24,7 +24,10 @@ import {
 import {
   CatalogBenefit,
   CatalogBrand,
+  CatalogContractType,
   CatalogCoverageType,
+  CatalogDocumentType,
+  CatalogEducationLevel,
   CatalogLanguage,
   CatalogShift,
 } from '../../../shared/models/catalog-position.model';
@@ -65,6 +68,9 @@ export class PositionWizardComponent implements OnInit {
   shifts: CatalogShift[] = [];
   benefits: CatalogBenefit[] = [];
   languages: CatalogLanguage[] = [];
+  documentTypes: CatalogDocumentType[] = [];
+  educationLevels: CatalogEducationLevel[] = [];
+  contractTypes: CatalogContractType[] = [];
 
   loadingCatalog = {
     countries: false,
@@ -73,6 +79,9 @@ export class PositionWizardComponent implements OnInit {
     shifts: false,
     benefits: false,
     languages: false,
+    documentTypes: false,
+    educationLevels: false,
+    contractTypes: false,
   };
 
   loadingGeo = {
@@ -95,7 +104,7 @@ export class PositionWizardComponent implements OnInit {
 
   readonly generalForm = this.fb.nonNullable.group({
     generalNotes: [''],
-    contractType: ['Indeterminado', Validators.required],
+    contractTypeId: [null as number | null, Validators.required],
     shiftId: [null as number | null, Validators.required],
     salary: [0, [Validators.required, Validators.min(1)]],
     workDays: ['L-V', Validators.required],
@@ -108,7 +117,7 @@ export class PositionWizardComponent implements OnInit {
   });
 
   readonly hiringForm = this.fb.nonNullable.group({
-    contractType: ['Temporal', Validators.required],
+    hiringContractTypeId: [null as number | null, Validators.required],
     benefitId: [null as number | null, Validators.required],
     probationDays: [30, Validators.required],
   });
@@ -130,16 +139,11 @@ export class PositionWizardComponent implements OnInit {
 
   readonly requirementsForm = this.fb.nonNullable.group({
     requirements: ['', Validators.required],
-    education: ['Licenciatura', Validators.required],
+    educationLevelId: [null as number | null, Validators.required],
     experienceYears: [2, Validators.required],
   });
 
-  readonly documentsForm = this.fb.nonNullable.group({
-    ine: [true],
-    curp: [true],
-    rfc: [false],
-    comprobante: [true],
-  });
+  readonly selectedDocumentTypeIds = this.fb.nonNullable.control<number[]>([]);
 
   ngOnInit(): void {
     this.setupCountryCascade();
@@ -193,8 +197,10 @@ export class PositionWizardComponent implements OnInit {
       )
       .subscribe((countryId) => {
         this.clientForm.patchValue({ brandId: null, coverageTypeId: null }, { emitEvent: false });
-        this.generalForm.patchValue({ shiftId: null }, { emitEvent: false });
-        this.hiringForm.patchValue({ benefitId: null }, { emitEvent: false });
+        this.generalForm.patchValue({ shiftId: null, contractTypeId: null }, { emitEvent: false });
+        this.hiringForm.patchValue({ benefitId: null, hiringContractTypeId: null }, { emitEvent: false });
+        this.requirementsForm.patchValue({ educationLevelId: null }, { emitEvent: false });
+        this.selectedDocumentTypeIds.setValue([]);
         this.resetAddressGeo();
         this.loadCountryCatalogs(countryId);
         this.loadAddressStates(countryId);
@@ -320,6 +326,9 @@ export class PositionWizardComponent implements OnInit {
     this.loadCoverageTypes(countryId);
     this.loadShifts(countryId);
     this.loadBenefits(countryId);
+    this.loadDocumentTypes(countryId);
+    this.loadEducationLevels(countryId);
+    this.loadContractTypes(countryId);
   }
 
   private loadBrands(countryId: number): void {
@@ -378,6 +387,59 @@ export class PositionWizardComponent implements OnInit {
     });
   }
 
+  private loadDocumentTypes(countryId: number): void {
+    this.loadingCatalog.documentTypes = true;
+    this.catalogService.listDocumentTypes(countryId).subscribe({
+      next: (items) => {
+        this.documentTypes = items;
+        this.loadingCatalog.documentTypes = false;
+      },
+      error: () => {
+        this.documentTypes = [];
+        this.loadingCatalog.documentTypes = false;
+      },
+    });
+  }
+
+  private loadEducationLevels(countryId: number): void {
+    this.loadingCatalog.educationLevels = true;
+    this.catalogService.listEducationLevels(countryId).subscribe({
+      next: (items) => {
+        this.educationLevels = items;
+        this.loadingCatalog.educationLevels = false;
+      },
+      error: () => {
+        this.educationLevels = [];
+        this.loadingCatalog.educationLevels = false;
+      },
+    });
+  }
+
+  private loadContractTypes(countryId: number): void {
+    this.loadingCatalog.contractTypes = true;
+    this.catalogService.listContractTypes(countryId).subscribe({
+      next: (items) => {
+        this.contractTypes = items;
+        this.loadingCatalog.contractTypes = false;
+      },
+      error: () => {
+        this.contractTypes = [];
+        this.loadingCatalog.contractTypes = false;
+      },
+    });
+  }
+
+  isDocumentTypeSelected(id: number): boolean {
+    return this.selectedDocumentTypeIds.value.includes(id);
+  }
+
+  toggleDocumentType(id: number, checked: boolean): void {
+    const current = this.selectedDocumentTypeIds.value;
+    this.selectedDocumentTypeIds.setValue(
+      checked ? [...current, id] : current.filter((itemId) => itemId !== id),
+    );
+  }
+
   exportJson(): void {
     const payload = {
       ...this.clientForm.getRawValue(),
@@ -387,9 +449,7 @@ export class PositionWizardComponent implements OnInit {
       ...this.languagesForm.getRawValue(),
       ...this.addressForm.getRawValue(),
       ...this.requirementsForm.getRawValue(),
-      documents: Object.entries(this.documentsForm.getRawValue())
-        .filter(([, v]) => v)
-        .map(([k]) => k),
+      documentTypeIds: this.selectedDocumentTypeIds.value,
     };
     console.log('JSON export:', payload);
     this.snack.open('JSON exportado a consola', 'Cerrar', { duration: 3000 });
