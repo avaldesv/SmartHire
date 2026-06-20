@@ -31,6 +31,7 @@ import {
   CatalogDocumentType,
   CatalogEducationLevel,
   CatalogLanguage,
+  CatalogLanguageLevel,
   CatalogShift,
 } from '../../../shared/models/catalog-position.model';
 
@@ -73,6 +74,7 @@ export class PositionWizardComponent implements OnInit {
   shifts: CatalogShift[] = [];
   benefits: CatalogBenefit[] = [];
   languages: CatalogLanguage[] = [];
+  languageLevels: CatalogLanguageLevel[] = [];
   documentTypes: CatalogDocumentType[] = [];
   educationLevels: CatalogEducationLevel[] = [];
   contractTypes: CatalogContractType[] = [];
@@ -84,6 +86,7 @@ export class PositionWizardComponent implements OnInit {
     shifts: false,
     benefits: false,
     languages: false,
+    languageLevels: false,
     documentTypes: false,
     educationLevels: false,
     contractTypes: false,
@@ -130,7 +133,7 @@ export class PositionWizardComponent implements OnInit {
   readonly languagesForm = this.fb.nonNullable.group({
     primaryLanguageId: [null as number | null, Validators.required],
     secondaryLanguageId: [null as number | null],
-    levelRequired: ['Intermedio', Validators.required],
+    languageLevelId: [null as number | null, Validators.required],
   });
 
   readonly addressForm = this.fb.nonNullable.group({
@@ -205,6 +208,7 @@ export class PositionWizardComponent implements OnInit {
         this.generalForm.patchValue({ shiftId: null, contractTypeId: null }, { emitEvent: false });
         this.hiringForm.patchValue({ benefitId: null, hiringContractTypeId: null }, { emitEvent: false });
         this.requirementsForm.patchValue({ educationLevelId: null }, { emitEvent: false });
+        this.languagesForm.patchValue({ languageLevelId: null }, { emitEvent: false });
         this.selectedDocumentTypeIds.setValue([]);
         this.resetAddressGeo();
         this.loadCountryCatalogs(countryId);
@@ -334,6 +338,7 @@ export class PositionWizardComponent implements OnInit {
     this.loadDocumentTypes(countryId);
     this.loadEducationLevels(countryId);
     this.loadContractTypes(countryId);
+    this.loadLanguageLevels(countryId);
   }
 
   private loadBrands(countryId: number): void {
@@ -434,6 +439,20 @@ export class PositionWizardComponent implements OnInit {
     });
   }
 
+  private loadLanguageLevels(countryId: number): void {
+    this.loadingCatalog.languageLevels = true;
+    this.catalogService.listLanguageLevels(countryId).subscribe({
+      next: (items) => {
+        this.languageLevels = items;
+        this.loadingCatalog.languageLevels = false;
+      },
+      error: () => {
+        this.languageLevels = [];
+        this.loadingCatalog.languageLevels = false;
+      },
+    });
+  }
+
   isDocumentTypeSelected(id: number): boolean {
     return this.selectedDocumentTypeIds.value.includes(id);
   }
@@ -482,7 +501,7 @@ export class PositionWizardComponent implements OnInit {
       probationDays: hiring.probationDays,
       primaryLanguageId: languages.primaryLanguageId!,
       secondaryLanguageId: languages.secondaryLanguageId,
-      levelRequired: languages.levelRequired,
+      languageLevelId: languages.languageLevelId!,
       address: address.address,
       stateId: address.stateId!,
       municipalityId: address.municipalityId!,

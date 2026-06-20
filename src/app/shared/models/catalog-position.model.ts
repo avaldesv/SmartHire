@@ -50,6 +50,15 @@ export interface CatalogLanguage {
   isActive: boolean;
 }
 
+export interface CatalogLanguageLevel {
+  id: number;
+  countryId: number;
+  code: string;
+  name: string;
+  appliesToCareer?: boolean;
+  isActive: boolean;
+}
+
 export interface CatalogDocumentType {
   id: number;
   countryId: number;

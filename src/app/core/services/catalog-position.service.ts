@@ -10,6 +10,7 @@ import {
   CatalogDocumentType,
   CatalogEducationLevel,
   CatalogLanguage,
+  CatalogLanguageLevel,
   CatalogListRequest,
   CatalogShift,
 } from '../../shared/models/catalog-position.model';
@@ -60,6 +61,15 @@ export class CatalogPositionService {
     const body: CatalogListRequest = { isActive: true, filters: [], ordersBy: ['name:asc'] };
     return this.http
       .post<ApiPageResponse<CatalogLanguage>>(this.api.apiUrl('/api/v1/languages/list'), body, {
+        headers: this.api.buildHeaders(page, size),
+      })
+      .pipe(map((res) => res.data ?? []));
+  }
+
+  listLanguageLevels(countryId: number, page = 0, size = 200): Observable<CatalogLanguageLevel[]> {
+    const body: CatalogListRequest = { countryId, isActive: true, filters: [], ordersBy: ['name:asc'] };
+    return this.http
+      .post<ApiPageResponse<CatalogLanguageLevel>>(this.api.apiUrl('/api/v1/language-levels/list'), body, {
         headers: this.api.buildHeaders(page, size),
       })
       .pipe(map((res) => res.data ?? []));

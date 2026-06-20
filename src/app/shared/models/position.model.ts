@@ -21,7 +21,7 @@ export interface CreatePositionRequest {
   probationDays: number;
   primaryLanguageId: number;
   secondaryLanguageId?: number | null;
-  levelRequired: string;
+  languageLevelId: number;
   address: string;
   stateId: number;
   municipalityId: number;
