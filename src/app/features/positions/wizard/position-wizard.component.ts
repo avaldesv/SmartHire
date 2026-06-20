@@ -11,11 +11,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { distinctUntilChanged, filter } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { CatalogPositionService } from '../../../core/services/catalog-position.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
-import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
+import {
+  CatalogCountry,
+  CatalogMunicipality,
+  CatalogNeighborhood,
+  CatalogState,
+} from '../../../shared/models/catalog-geography.model';
 import {
   CatalogBenefit,
   CatalogBrand,
@@ -52,6 +57,9 @@ export class PositionWizardComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
   countries: CatalogCountry[] = [];
+  states: CatalogState[] = [];
+  municipalities: CatalogMunicipality[] = [];
+  neighborhoods: CatalogNeighborhood[] = [];
   brands: CatalogBrand[] = [];
   coverageTypes: CatalogCoverageType[] = [];
   shifts: CatalogShift[] = [];
@@ -65,6 +73,12 @@ export class PositionWizardComponent implements OnInit {
     shifts: false,
     benefits: false,
     languages: false,
+  };
+
+  loadingGeo = {
+    states: false,
+    municipalities: false,
+    neighborhoods: false,
   };
 
   readonly clientForm = this.fb.nonNullable.group({
@@ -107,9 +121,11 @@ export class PositionWizardComponent implements OnInit {
 
   readonly addressForm = this.fb.nonNullable.group({
     address: ['', Validators.required],
+    stateId: [{ value: null as number | null, disabled: true }, Validators.required],
+    municipalityId: [{ value: null as number | null, disabled: true }, Validators.required],
+    postalCode: ['', [Validators.required, Validators.pattern(/^\d{4,5}$/)]],
+    neighborhoodId: [{ value: null as number | null, disabled: true }, Validators.required],
     city: ['', Validators.required],
-    state: ['', Validators.required],
-    zipCode: ['', Validators.required],
   });
 
   readonly requirementsForm = this.fb.nonNullable.group({
@@ -127,6 +143,7 @@ export class PositionWizardComponent implements OnInit {
 
   ngOnInit(): void {
     this.setupCountryCascade();
+    this.setupAddressCascade();
     this.loadCountries();
     this.loadLanguages();
   }
@@ -178,8 +195,124 @@ export class PositionWizardComponent implements OnInit {
         this.clientForm.patchValue({ brandId: null, coverageTypeId: null }, { emitEvent: false });
         this.generalForm.patchValue({ shiftId: null }, { emitEvent: false });
         this.hiringForm.patchValue({ benefitId: null }, { emitEvent: false });
+        this.resetAddressGeo();
         this.loadCountryCatalogs(countryId);
+        this.loadAddressStates(countryId);
       });
+  }
+
+  private setupAddressCascade(): void {
+    this.addressForm.controls.stateId.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((stateId) => {
+      this.resetAddressMunicipalities();
+      this.resetAddressNeighborhoods();
+      if (stateId == null) {
+        this.addressForm.controls.municipalityId.disable();
+        return;
+      }
+      this.addressForm.controls.municipalityId.enable();
+      this.loadAddressMunicipalities(stateId);
+    });
+
+    this.addressForm.controls.municipalityId.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((municipalityId) => {
+      this.resetAddressNeighborhoods();
+      if (municipalityId == null) {
+        return;
+      }
+      const municipality = this.municipalities.find((m) => m.id === municipalityId);
+      this.addressForm.patchValue({ city: municipality?.name ?? '' }, { emitEvent: false });
+      const postalCode = this.addressForm.controls.postalCode.value;
+      if (postalCode.length >= 4) {
+        this.loadAddressNeighborhoods(postalCode);
+      }
+    });
+
+    this.addressForm.controls.postalCode.valueChanges
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged(),
+        filter((cp) => !!cp && cp.length >= 4),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe((postalCode) => {
+        this.resetAddressNeighborhoods();
+        this.loadAddressNeighborhoods(postalCode);
+      });
+  }
+
+  private loadAddressStates(countryId: number): void {
+    this.loadingGeo.states = true;
+    this.addressForm.controls.stateId.enable();
+    this.geographyService.listStates(countryId).subscribe({
+      next: (items) => {
+        this.states = items;
+        this.loadingGeo.states = false;
+      },
+      error: () => {
+        this.states = [];
+        this.loadingGeo.states = false;
+        this.snack.open('No se pudieron cargar los estados', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  private loadAddressMunicipalities(stateId: number): void {
+    this.loadingGeo.municipalities = true;
+    this.geographyService.listMunicipalities(stateId).subscribe({
+      next: (items) => {
+        this.municipalities = items;
+        this.loadingGeo.municipalities = false;
+      },
+      error: () => {
+        this.municipalities = [];
+        this.loadingGeo.municipalities = false;
+        this.snack.open('No se pudieron cargar los municipios', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  private loadAddressNeighborhoods(postalCode: string): void {
+    this.loadingGeo.neighborhoods = true;
+    this.addressForm.controls.neighborhoodId.disable();
+    this.geographyService.listNeighborhoodsByPostalCode(postalCode).subscribe({
+      next: (items) => {
+        this.neighborhoods = items;
+        this.loadingGeo.neighborhoods = false;
+        if (items.length) {
+          this.addressForm.controls.neighborhoodId.enable();
+        } else {
+          this.snack.open('Sin colonias para ese código postal', 'Cerrar', { duration: 3000 });
+        }
+      },
+      error: () => {
+        this.loadingGeo.neighborhoods = false;
+        this.snack.open('No se pudieron cargar las colonias', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  private resetAddressGeo(): void {
+    this.states = [];
+    this.municipalities = [];
+    this.neighborhoods = [];
+    this.addressForm.patchValue(
+      { stateId: null, municipalityId: null, neighborhoodId: null, city: '', postalCode: '' },
+      { emitEvent: false },
+    );
+    this.addressForm.controls.stateId.disable();
+    this.addressForm.controls.municipalityId.disable();
+    this.addressForm.controls.neighborhoodId.disable();
+  }
+
+  private resetAddressMunicipalities(): void {
+    this.municipalities = [];
+    this.addressForm.controls.municipalityId.disable();
+    this.addressForm.patchValue({ municipalityId: null, city: '' }, { emitEvent: false });
+  }
+
+  private resetAddressNeighborhoods(): void {
+    this.neighborhoods = [];
+    this.addressForm.controls.neighborhoodId.disable();
+    this.addressForm.patchValue({ neighborhoodId: null }, { emitEvent: false });
   }
 
   private loadCountryCatalogs(countryId: number): void {

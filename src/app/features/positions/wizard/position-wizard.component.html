@@ -167,11 +167,58 @@
 
       <mat-step [stepControl]="addressForm" label="Dirección">
         <form [formGroup]="addressForm" class="step-form">
+          @if (!clientForm.controls.countryId.value) {
+            <p class="step-hint">Seleccione el país del cliente en el paso anterior para cargar la geografía.</p>
+          }
           <div class="form-grid">
-            <mat-form-field appearance="outline" class="span-2"><mat-label>Dirección</mat-label><input matInput formControlName="address" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Ciudad</mat-label><input matInput formControlName="city" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Estado</mat-label><input matInput formControlName="state" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>C.P.</mat-label><input matInput formControlName="zipCode" /></mat-form-field>
+            <mat-form-field appearance="outline" class="span-2">
+              <mat-label>Dirección</mat-label>
+              <input matInput formControlName="address" />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Estado</mat-label>
+              <mat-select formControlName="stateId">
+                @if (loadingGeo.states) {
+                  <mat-option disabled>Cargando...</mat-option>
+                } @else {
+                  @for (state of states; track state.id) {
+                    <mat-option [value]="state.id">{{ state.name }}</mat-option>
+                  }
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Municipio</mat-label>
+              <mat-select formControlName="municipalityId">
+                @if (loadingGeo.municipalities) {
+                  <mat-option disabled>Cargando...</mat-option>
+                } @else {
+                  @for (municipality of municipalities; track municipality.id) {
+                    <mat-option [value]="municipality.id">{{ municipality.name }}</mat-option>
+                  }
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Código postal</mat-label>
+              <input matInput formControlName="postalCode" maxlength="5" inputmode="numeric" />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Colonia</mat-label>
+              <mat-select formControlName="neighborhoodId">
+                @if (loadingGeo.neighborhoods) {
+                  <mat-option disabled>Cargando...</mat-option>
+                } @else {
+                  @for (neighborhood of neighborhoods; track neighborhood.id) {
+                    <mat-option [value]="neighborhood.id">{{ neighborhood.name }}</mat-option>
+                  }
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Ciudad</mat-label>
+              <input matInput formControlName="city" />
+            </mat-form-field>
           </div>
           <div class="step-actions"><button mat-button matStepperPrevious>Atrás</button><button mat-button matStepperNext>Siguiente</button></div>
         </form>
