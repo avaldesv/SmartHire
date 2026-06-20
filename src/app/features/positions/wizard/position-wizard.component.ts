@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -11,12 +11,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, forkJoin, switchMap } from 'rxjs';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { CatalogPositionService } from '../../../core/services/catalog-position.service';
 import { PositionService } from '../../../core/services/position.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
-import { CreatePositionRequest } from '../../../shared/models/position.model';
+import { CreatePositionRequest, PositionDetail } from '../../../shared/models/position.model';
 import {
   CatalogCountry,
   CatalogMunicipality,
@@ -58,6 +58,7 @@ import {
 export class PositionWizardComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   private readonly snack = inject(MatSnackBar);
   private readonly geographyService = inject(CatalogGeographyService);
   private readonly catalogService = inject(CatalogPositionService);
@@ -65,6 +66,14 @@ export class PositionWizardComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
   creating = false;
+  loadingPosition = false;
+  editPositionId: number | null = null;
+  requisitionNo: string | null = null;
+  private suppressCountryCascade = false;
+
+  get isEditMode(): boolean {
+    return this.editPositionId != null;
+  }
 
   countries: CatalogCountry[] = [];
   states: CatalogState[] = [];
@@ -161,6 +170,10 @@ export class PositionWizardComponent implements OnInit {
     this.setupAddressCascade();
     this.loadCountries();
     this.loadLanguages();
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam) {
+      this.loadPositionForEdit(Number(idParam));
+    }
   }
 
   private loadCountries(): void {
@@ -169,9 +182,11 @@ export class PositionWizardComponent implements OnInit {
       next: (items) => {
         this.countries = items;
         this.loadingCatalog.countries = false;
-        const mexico = items.find((c) => c.code === 'MX');
-        if (mexico) {
-          this.clientForm.patchValue({ countryId: mexico.id });
+        if (!this.isEditMode) {
+          const mexico = items.find((c) => c.code === 'MX');
+          if (mexico) {
+            this.clientForm.patchValue({ countryId: mexico.id });
+          }
         }
       },
       error: () => {
@@ -187,9 +202,11 @@ export class PositionWizardComponent implements OnInit {
       next: (items) => {
         this.languages = items;
         this.loadingCatalog.languages = false;
-        const spanish = items.find((l) => l.code === 'ES' || l.name.toLowerCase().includes('espa'));
-        if (spanish) {
-          this.languagesForm.patchValue({ primaryLanguageId: spanish.id });
+        if (!this.isEditMode) {
+          const spanish = items.find((l) => l.code === 'ES' || l.name.toLowerCase().includes('espa'));
+          if (spanish) {
+            this.languagesForm.patchValue({ primaryLanguageId: spanish.id });
+          }
         }
       },
       error: () => {
@@ -207,6 +224,11 @@ export class PositionWizardComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((countryId) => {
+        if (this.suppressCountryCascade) {
+          this.loadCountryCatalogs(countryId);
+          this.loadAddressStates(countryId);
+          return;
+        }
         this.clientForm.patchValue({ brandId: null, coverageTypeId: null, requisitionTypeId: null }, { emitEvent: false });
         this.generalForm.patchValue({ shiftId: null, contractTypeId: null }, { emitEvent: false });
         this.hiringForm.patchValue({ benefitId: null, hiringContractTypeId: null }, { emitEvent: false });
@@ -471,6 +493,124 @@ export class PositionWizardComponent implements OnInit {
     });
   }
 
+  private loadPositionForEdit(id: number): void {
+    this.loadingPosition = true;
+    this.positionService.getById(id).subscribe({
+      next: (position) => {
+        this.editPositionId = id;
+        this.requisitionNo = position.requisitionNo;
+        this.hydrateForms(position);
+      },
+      error: () => {
+        this.loadingPosition = false;
+        this.snack.open('No se pudo cargar la requisición', 'Cerrar', { duration: 4000 });
+        this.router.navigate(['/positions']);
+      },
+    });
+  }
+
+  private hydrateForms(position: PositionDetail): void {
+    this.suppressCountryCascade = true;
+    forkJoin({
+      brands: this.catalogService.listBrands(position.countryId),
+      coverageTypes: this.catalogService.listCoverageTypes(position.countryId),
+      shifts: this.catalogService.listShifts(position.countryId),
+      benefits: this.catalogService.listBenefits(position.countryId),
+      documentTypes: this.catalogService.listDocumentTypes(position.countryId),
+      educationLevels: this.catalogService.listEducationLevels(position.countryId),
+      contractTypes: this.catalogService.listContractTypes(position.countryId),
+      languageLevels: this.catalogService.listLanguageLevels(position.countryId),
+      requisitionTypes: this.catalogService.listRequisitionTypes(position.countryId),
+      states: this.geographyService.listStates(position.countryId),
+    })
+      .pipe(
+        switchMap((catalogs) => {
+          this.brands = catalogs.brands;
+          this.coverageTypes = catalogs.coverageTypes;
+          this.shifts = catalogs.shifts;
+          this.benefits = catalogs.benefits;
+          this.documentTypes = catalogs.documentTypes;
+          this.educationLevels = catalogs.educationLevels;
+          this.contractTypes = catalogs.contractTypes;
+          this.languageLevels = catalogs.languageLevels;
+          this.requisitionTypes = catalogs.requisitionTypes;
+          this.states = catalogs.states;
+          this.addressForm.controls.stateId.enable();
+          return this.geographyService.listMunicipalities(position.stateId);
+        }),
+        switchMap((municipalities) => {
+          this.municipalities = municipalities;
+          this.addressForm.controls.municipalityId.enable();
+          return this.geographyService.listNeighborhoodsByPostalCode(position.postalCode);
+        }),
+      )
+      .subscribe({
+        next: (neighborhoods) => {
+          this.neighborhoods = neighborhoods;
+          if (neighborhoods.length) {
+            this.addressForm.controls.neighborhoodId.enable();
+          }
+          this.clientForm.patchValue({
+            countryId: position.countryId,
+            brandId: position.brandId,
+            requisitionTypeId: position.requisitionTypeId,
+            coverageTypeId: position.coverageTypeId,
+            ot: position.ot,
+            clientKey: position.clientKey,
+            legalName: position.legalName,
+            contactName: position.contactName,
+            clientPosition: position.clientPosition,
+          });
+          this.generalForm.patchValue({
+            generalNotes: position.generalNotes ?? '',
+            contractTypeId: position.contractTypeId,
+            shiftId: position.shiftId,
+            salary: Number(position.salary),
+            workDays: position.workDays,
+          });
+          this.manpowerForm.patchValue({
+            positionsCount: position.positionsCount,
+            headcount: position.headcount,
+            startDate: position.startDate,
+          });
+          this.hiringForm.patchValue({
+            hiringContractTypeId: position.hiringContractTypeId,
+            benefitId: position.benefitId,
+            probationDays: position.probationDays,
+          });
+          this.languagesForm.patchValue({
+            primaryLanguageId: position.primaryLanguageId,
+            secondaryLanguageId: position.secondaryLanguageId,
+            languageLevelId: position.languageLevelId,
+          });
+          this.addressForm.patchValue(
+            {
+              address: position.address,
+              stateId: position.stateId,
+              municipalityId: position.municipalityId,
+              postalCode: position.postalCode,
+              neighborhoodId: position.neighborhoodId,
+              city: position.city,
+            },
+            { emitEvent: false },
+          );
+          this.requirementsForm.patchValue({
+            requirements: position.requirements,
+            educationLevelId: position.educationLevelId,
+            experienceYears: position.experienceYears,
+          });
+          this.selectedDocumentTypeIds.setValue(position.documentTypeIds ?? []);
+          this.suppressCountryCascade = false;
+          this.loadingPosition = false;
+        },
+        error: () => {
+          this.suppressCountryCascade = false;
+          this.loadingPosition = false;
+          this.snack.open('Error al cargar catálogos de la requisición', 'Cerrar', { duration: 4000 });
+        },
+      });
+  }
+
   isDocumentTypeSelected(id: number): boolean {
     return this.selectedDocumentTypeIds.value.includes(id);
   }
@@ -537,7 +677,7 @@ export class PositionWizardComponent implements OnInit {
     this.snack.open('Enviado a ATS (simulado)', 'Cerrar', { duration: 3000 });
   }
 
-  create(): void {
+  save(): void {
     const forms = [
       this.clientForm,
       this.generalForm,
@@ -556,17 +696,35 @@ export class PositionWizardComponent implements OnInit {
       return;
     }
     this.creating = true;
-    this.positionService.create(this.buildCreatePayload()).subscribe({
+    const payload = this.buildCreatePayload();
+    const request$ =
+      this.isEditMode && this.editPositionId != null
+        ? this.positionService.update(this.editPositionId, payload)
+        : this.positionService.create(payload);
+
+    request$.subscribe({
       next: () => {
         this.creating = false;
-        this.snack.open('Requisición creada correctamente', 'Cerrar', { duration: 3000 });
+        this.snack.open(
+          this.isEditMode ? 'Requisición actualizada correctamente' : 'Requisición creada correctamente',
+          'Cerrar',
+          { duration: 3000 },
+        );
         this.router.navigate(['/positions']);
       },
       error: () => {
         this.creating = false;
-        this.snack.open('No se pudo crear la requisición', 'Cerrar', { duration: 4000 });
+        this.snack.open(
+          this.isEditMode ? 'No se pudo actualizar la requisición' : 'No se pudo crear la requisición',
+          'Cerrar',
+          { duration: 4000 },
+        );
       },
     });
+  }
+
+  create(): void {
+    this.save();
   }
 
   cancel(): void {
