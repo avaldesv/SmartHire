@@ -14,7 +14,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { CatalogPositionService } from '../../../core/services/catalog-position.service';
+import { PositionService } from '../../../core/services/position.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
+import { CreatePositionRequest } from '../../../shared/models/position.model';
 import {
   CatalogCountry,
   CatalogMunicipality,
@@ -57,7 +59,10 @@ export class PositionWizardComponent implements OnInit {
   private readonly snack = inject(MatSnackBar);
   private readonly geographyService = inject(CatalogGeographyService);
   private readonly catalogService = inject(CatalogPositionService);
+  private readonly positionService = inject(PositionService);
   private readonly destroyRef = inject(DestroyRef);
+
+  creating = false;
 
   countries: CatalogCountry[] = [];
   states: CatalogState[] = [];
@@ -441,18 +446,54 @@ export class PositionWizardComponent implements OnInit {
   }
 
   exportJson(): void {
-    const payload = {
-      ...this.clientForm.getRawValue(),
-      ...this.generalForm.getRawValue(),
-      ...this.manpowerForm.getRawValue(),
-      ...this.hiringForm.getRawValue(),
-      ...this.languagesForm.getRawValue(),
-      ...this.addressForm.getRawValue(),
-      ...this.requirementsForm.getRawValue(),
+    console.log('JSON export:', this.buildCreatePayload());
+    this.snack.open('JSON exportado a consola', 'Cerrar', { duration: 3000 });
+  }
+
+  private buildCreatePayload(): CreatePositionRequest {
+    const address = this.addressForm.getRawValue();
+    const client = this.clientForm.getRawValue();
+    const general = this.generalForm.getRawValue();
+    const manpower = this.manpowerForm.getRawValue();
+    const hiring = this.hiringForm.getRawValue();
+    const languages = this.languagesForm.getRawValue();
+    const requirements = this.requirementsForm.getRawValue();
+
+    return {
+      countryId: client.countryId!,
+      brandId: client.brandId!,
+      recruitmentType: client.recruitmentType,
+      coverageTypeId: client.coverageTypeId!,
+      ot: client.ot,
+      clientKey: client.clientKey,
+      legalName: client.legalName,
+      contactName: client.contactName,
+      clientPosition: client.clientPosition,
+      generalNotes: general.generalNotes,
+      contractTypeId: general.contractTypeId!,
+      shiftId: general.shiftId!,
+      salary: general.salary,
+      workDays: general.workDays,
+      positionsCount: manpower.positionsCount,
+      headcount: manpower.headcount,
+      startDate: manpower.startDate,
+      hiringContractTypeId: hiring.hiringContractTypeId!,
+      benefitId: hiring.benefitId!,
+      probationDays: hiring.probationDays,
+      primaryLanguageId: languages.primaryLanguageId!,
+      secondaryLanguageId: languages.secondaryLanguageId,
+      levelRequired: languages.levelRequired,
+      address: address.address,
+      stateId: address.stateId!,
+      municipalityId: address.municipalityId!,
+      postalCode: address.postalCode,
+      neighborhoodId: address.neighborhoodId!,
+      city: address.city,
+      requirements: requirements.requirements,
+      educationLevelId: requirements.educationLevelId!,
+      experienceYears: requirements.experienceYears,
       documentTypeIds: this.selectedDocumentTypeIds.value,
     };
-    console.log('JSON export:', payload);
-    this.snack.open('JSON exportado a consola', 'Cerrar', { duration: 3000 });
   }
 
   sendAts(): void {
@@ -474,8 +515,21 @@ export class PositionWizardComponent implements OnInit {
       this.snack.open('Complete los campos obligatorios', 'Cerrar', { duration: 3000 });
       return;
     }
-    this.snack.open('Requisición creada correctamente', 'Cerrar', { duration: 3000 });
-    this.router.navigate(['/positions']);
+    if (this.creating) {
+      return;
+    }
+    this.creating = true;
+    this.positionService.create(this.buildCreatePayload()).subscribe({
+      next: () => {
+        this.creating = false;
+        this.snack.open('Requisición creada correctamente', 'Cerrar', { duration: 3000 });
+        this.router.navigate(['/positions']);
+      },
+      error: () => {
+        this.creating = false;
+        this.snack.open('No se pudo crear la requisición', 'Cerrar', { duration: 4000 });
+      },
+    });
   }
 
   cancel(): void {

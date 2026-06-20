@@ -286,7 +286,7 @@
       <button mat-stroked-button type="button" (click)="cancel()">Cancelar</button>
       <button mat-stroked-button type="button" (click)="exportJson()"><mat-icon>code</mat-icon> JSON</button>
       <button mat-stroked-button type="button" (click)="sendAts()"><mat-icon>cloud_upload</mat-icon> ATS</button>
-      <button mat-flat-button color="primary" type="button" (click)="create()"><mat-icon>check</mat-icon> Crear</button>
+      <button mat-flat-button color="primary" type="button" [disabled]="creating" (click)="create()"><mat-icon>check</mat-icon> {{ creating ? 'Creando...' : 'Crear' }}</button>
     </div>
   </div>
 </div>
