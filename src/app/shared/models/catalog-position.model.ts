@@ -87,3 +87,12 @@ export interface CatalogContractType {
   description?: string;
   isActive: boolean;
 }
+
+export interface CatalogRequisitionType {
+  id: number;
+  countryId: number;
+  code: string;
+  name: string;
+  description?: string;
+  isActive: boolean;
+}
