@@ -6,10 +6,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { RequisitionService } from '../../../mock/services/requisition.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { PositionService } from '../../../core/services/position.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
-import { Requisition } from '../../../shared/models';
+import { PositionListItem } from '../../../shared/models/position.model';
 
 @Component({
   selector: 'sh-positions-list',
@@ -22,6 +23,7 @@ import { Requisition } from '../../../shared/models';
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    MatSnackBarModule,
     PageHeaderComponent,
     StatusBadgeComponent,
   ],
@@ -29,10 +31,11 @@ import { Requisition } from '../../../shared/models';
   styleUrl: './positions-list.component.scss',
 })
 export class PositionsListComponent implements OnInit {
-  private readonly reqService = inject(RequisitionService);
+  private readonly positionService = inject(PositionService);
+  private readonly snack = inject(MatSnackBar);
 
   loading = true;
-  data: Requisition[] = [];
+  data: PositionListItem[] = [];
   total = 0;
   pageIndex = 0;
   pageSize = 10;
@@ -45,10 +48,16 @@ export class PositionsListComponent implements OnInit {
 
   load(): void {
     this.loading = true;
-    this.reqService.list({ page: this.pageIndex + 1, pageSize: this.pageSize }).subscribe((res) => {
-      this.data = res.items;
-      this.total = res.total;
-      this.loading = false;
+    this.positionService.list(this.pageIndex, this.pageSize).subscribe({
+      next: (res) => {
+        this.data = res.items;
+        this.total = res.total;
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+        this.snack.open('No se pudieron cargar las posiciones', 'Cerrar', { duration: 4000 });
+      },
     });
   }
 

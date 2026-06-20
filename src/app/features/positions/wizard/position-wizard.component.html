@@ -1,6 +1,12 @@
 <div class="sh-page wizard-page">
-  <sh-page-header title="Nueva requisición" subtitle="Asistente de creación en 8 pasos" />
+  <sh-page-header
+    [title]="isEditMode ? 'Editar requisición' : 'Nueva requisición'"
+    [subtitle]="isEditMode && requisitionNo ? requisitionNo + ' — Asistente en 8 pasos' : 'Asistente de creación en 8 pasos'"
+  />
 
+  @if (loadingPosition) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else {
   <div class="sh-card">
     <mat-stepper linear #stepper>
       <mat-step [stepControl]="clientForm" label="Datos Cliente">
@@ -295,7 +301,11 @@
       <button mat-stroked-button type="button" (click)="cancel()">Cancelar</button>
       <button mat-stroked-button type="button" (click)="exportJson()"><mat-icon>code</mat-icon> JSON</button>
       <button mat-stroked-button type="button" (click)="sendAts()"><mat-icon>cloud_upload</mat-icon> ATS</button>
-      <button mat-flat-button color="primary" type="button" [disabled]="creating" (click)="create()"><mat-icon>check</mat-icon> {{ creating ? 'Creando...' : 'Crear' }}</button>
+      <button mat-flat-button color="primary" type="button" [disabled]="creating" (click)="save()">
+        <mat-icon>check</mat-icon>
+        {{ creating ? (isEditMode ? 'Guardando...' : 'Creando...') : (isEditMode ? 'Guardar' : 'Crear') }}
+      </button>
     </div>
   </div>
+  }
 </div>

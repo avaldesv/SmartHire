@@ -1,3 +1,5 @@
+import { ApiPageResponse } from './catalog-position.model';
+
 export interface CreatePositionRequest {
   countryId: number;
   brandId: number;
@@ -39,3 +41,25 @@ export interface CreatePositionResponse {
   status: string;
   companyId: number;
 }
+
+export interface PositionListItem {
+  id: number;
+  requisitionNo: string;
+  name: string;
+  client: string;
+  status: string;
+  recruiter: string | null;
+  createdAt: string;
+}
+
+export interface PositionDetail extends CreatePositionRequest {
+  id: number;
+  requisitionNo: string;
+  status: string;
+  companyId: number;
+}
+
+export type UpdatePositionRequest = CreatePositionRequest;
+export type UpdatePositionResponse = CreatePositionResponse;
+
+export type PositionListResponse = ApiPageResponse<PositionListItem>;
