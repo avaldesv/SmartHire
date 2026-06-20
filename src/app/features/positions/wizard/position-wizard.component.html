@@ -65,9 +65,14 @@
             <mat-form-field appearance="outline" class="span-2"><mat-label>Notas generales</mat-label><textarea matInput rows="3" formControlName="generalNotes"></textarea></mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>Tipo contrato</mat-label>
-              <mat-select formControlName="contractType">
-                <mat-option value="Indeterminado">Indeterminado</mat-option>
-                <mat-option value="Temporal">Temporal</mat-option>
+              <mat-select formControlName="contractTypeId" [disabled]="!clientForm.controls.countryId.value || loadingCatalog.contractTypes">
+                @if (loadingCatalog.contractTypes) {
+                  <mat-option disabled>Cargando...</mat-option>
+                } @else {
+                  @for (item of contractTypes; track item.id) {
+                    <mat-option [value]="item.id">{{ item.name }}</mat-option>
+                  }
+                }
               </mat-select>
             </mat-form-field>
             <mat-form-field appearance="outline">
@@ -105,9 +110,14 @@
           <div class="form-grid">
             <mat-form-field appearance="outline">
               <mat-label>Modalidad</mat-label>
-              <mat-select formControlName="contractType">
-                <mat-option value="Temporal">Temporal</mat-option>
-                <mat-option value="Directo">Directo</mat-option>
+              <mat-select formControlName="hiringContractTypeId" [disabled]="!clientForm.controls.countryId.value || loadingCatalog.contractTypes">
+                @if (loadingCatalog.contractTypes) {
+                  <mat-option disabled>Cargando...</mat-option>
+                } @else {
+                  @for (item of contractTypes; track item.id) {
+                    <mat-option [value]="item.id">{{ item.name }}</mat-option>
+                  }
+                }
               </mat-select>
             </mat-form-field>
             <mat-form-field appearance="outline">
@@ -230,9 +240,14 @@
             <mat-form-field appearance="outline" class="span-2"><mat-label>Requerimientos</mat-label><textarea matInput rows="4" formControlName="requirements"></textarea></mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>Escolaridad</mat-label>
-              <mat-select formControlName="education">
-                <mat-option value="Licenciatura">Licenciatura</mat-option>
-                <mat-option value="Preparatoria">Preparatoria</mat-option>
+              <mat-select formControlName="educationLevelId" [disabled]="!clientForm.controls.countryId.value || loadingCatalog.educationLevels">
+                @if (loadingCatalog.educationLevels) {
+                  <mat-option disabled>Cargando...</mat-option>
+                } @else {
+                  @for (level of educationLevels; track level.id) {
+                    <mat-option [value]="level.id">{{ level.name }}</mat-option>
+                  }
+                }
               </mat-select>
             </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Años experiencia</mat-label><input matInput type="number" formControlName="experienceYears" /></mat-form-field>
@@ -242,15 +257,28 @@
       </mat-step>
 
       <mat-step label="Documentos">
-        <form [formGroup]="documentsForm" class="step-form">
+        <div class="step-form">
+          @if (!clientForm.controls.countryId.value) {
+            <p class="step-hint">Seleccione el país del cliente para cargar tipos de documento.</p>
+          }
           <div class="doc-checks">
-            <mat-checkbox formControlName="ine">INE</mat-checkbox>
-            <mat-checkbox formControlName="curp">CURP</mat-checkbox>
-            <mat-checkbox formControlName="rfc">RFC</mat-checkbox>
-            <mat-checkbox formControlName="comprobante">Comprobante domicilio</mat-checkbox>
+            @if (loadingCatalog.documentTypes) {
+              <p>Cargando tipos de documento...</p>
+            } @else if (!documentTypes.length) {
+              <p>Sin tipos de documento para el país seleccionado.</p>
+            } @else {
+              @for (doc of documentTypes; track doc.id) {
+                <mat-checkbox
+                  [checked]="isDocumentTypeSelected(doc.id)"
+                  (change)="toggleDocumentType(doc.id, $event.checked)"
+                >
+                  {{ doc.name }}
+                </mat-checkbox>
+              }
+            }
           </div>
           <div class="step-actions"><button mat-button matStepperPrevious>Atrás</button></div>
-        </form>
+        </div>
       </mat-step>
     </mat-stepper>
 

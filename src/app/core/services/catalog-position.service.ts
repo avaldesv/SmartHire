@@ -5,7 +5,10 @@ import {
   ApiPageResponse,
   CatalogBenefit,
   CatalogBrand,
+  CatalogContractType,
   CatalogCoverageType,
+  CatalogDocumentType,
+  CatalogEducationLevel,
   CatalogLanguage,
   CatalogListRequest,
   CatalogShift,
@@ -57,6 +60,33 @@ export class CatalogPositionService {
     const body: CatalogListRequest = { isActive: true, filters: [], ordersBy: ['name:asc'] };
     return this.http
       .post<ApiPageResponse<CatalogLanguage>>(this.api.apiUrl('/api/v1/languages/list'), body, {
+        headers: this.api.buildHeaders(page, size),
+      })
+      .pipe(map((res) => res.data ?? []));
+  }
+
+  listDocumentTypes(countryId: number, page = 0, size = 200): Observable<CatalogDocumentType[]> {
+    const body: CatalogListRequest = { countryId, isActive: true, filters: [], ordersBy: ['name:asc'] };
+    return this.http
+      .post<ApiPageResponse<CatalogDocumentType>>(this.api.apiUrl('/api/v1/document-types/list'), body, {
+        headers: this.api.buildHeaders(page, size),
+      })
+      .pipe(map((res) => res.data ?? []));
+  }
+
+  listEducationLevels(countryId: number, page = 0, size = 200): Observable<CatalogEducationLevel[]> {
+    const body: CatalogListRequest = { countryId, isActive: true, filters: [], ordersBy: ['name:asc'] };
+    return this.http
+      .post<ApiPageResponse<CatalogEducationLevel>>(this.api.apiUrl('/api/v1/education-levels/list'), body, {
+        headers: this.api.buildHeaders(page, size),
+      })
+      .pipe(map((res) => res.data ?? []));
+  }
+
+  listContractTypes(countryId: number, page = 0, size = 200): Observable<CatalogContractType[]> {
+    const body: CatalogListRequest = { countryId, isActive: true, filters: [], ordersBy: ['name:asc'] };
+    return this.http
+      .post<ApiPageResponse<CatalogContractType>>(this.api.apiUrl('/api/v1/contract-types/list'), body, {
         headers: this.api.buildHeaders(page, size),
       })
       .pipe(map((res) => res.data ?? []));
