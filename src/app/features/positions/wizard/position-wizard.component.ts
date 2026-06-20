@@ -32,6 +32,7 @@ import {
   CatalogEducationLevel,
   CatalogLanguage,
   CatalogLanguageLevel,
+  CatalogRequisitionType,
   CatalogShift,
 } from '../../../shared/models/catalog-position.model';
 
@@ -78,10 +79,12 @@ export class PositionWizardComponent implements OnInit {
   documentTypes: CatalogDocumentType[] = [];
   educationLevels: CatalogEducationLevel[] = [];
   contractTypes: CatalogContractType[] = [];
+  requisitionTypes: CatalogRequisitionType[] = [];
 
   loadingCatalog = {
     countries: false,
     brands: false,
+    requisitionTypes: false,
     coverageTypes: false,
     shifts: false,
     benefits: false,
@@ -101,7 +104,7 @@ export class PositionWizardComponent implements OnInit {
   readonly clientForm = this.fb.nonNullable.group({
     countryId: [null as number | null, Validators.required],
     brandId: [null as number | null, Validators.required],
-    recruitmentType: ['Reclutamiento Puro', Validators.required],
+    requisitionTypeId: [null as number | null, Validators.required],
     coverageTypeId: [null as number | null, Validators.required],
     ot: ['', Validators.required],
     clientKey: ['', Validators.required],
@@ -204,7 +207,7 @@ export class PositionWizardComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((countryId) => {
-        this.clientForm.patchValue({ brandId: null, coverageTypeId: null }, { emitEvent: false });
+        this.clientForm.patchValue({ brandId: null, coverageTypeId: null, requisitionTypeId: null }, { emitEvent: false });
         this.generalForm.patchValue({ shiftId: null, contractTypeId: null }, { emitEvent: false });
         this.hiringForm.patchValue({ benefitId: null, hiringContractTypeId: null }, { emitEvent: false });
         this.requirementsForm.patchValue({ educationLevelId: null }, { emitEvent: false });
@@ -339,6 +342,7 @@ export class PositionWizardComponent implements OnInit {
     this.loadEducationLevels(countryId);
     this.loadContractTypes(countryId);
     this.loadLanguageLevels(countryId);
+    this.loadRequisitionTypes(countryId);
   }
 
   private loadBrands(countryId: number): void {
@@ -439,6 +443,20 @@ export class PositionWizardComponent implements OnInit {
     });
   }
 
+  private loadRequisitionTypes(countryId: number): void {
+    this.loadingCatalog.requisitionTypes = true;
+    this.catalogService.listRequisitionTypes(countryId).subscribe({
+      next: (items) => {
+        this.requisitionTypes = items;
+        this.loadingCatalog.requisitionTypes = false;
+      },
+      error: () => {
+        this.requisitionTypes = [];
+        this.loadingCatalog.requisitionTypes = false;
+      },
+    });
+  }
+
   private loadLanguageLevels(countryId: number): void {
     this.loadingCatalog.languageLevels = true;
     this.catalogService.listLanguageLevels(countryId).subscribe({
@@ -481,7 +499,7 @@ export class PositionWizardComponent implements OnInit {
     return {
       countryId: client.countryId!,
       brandId: client.brandId!,
-      recruitmentType: client.recruitmentType,
+      requisitionTypeId: client.requisitionTypeId!,
       coverageTypeId: client.coverageTypeId!,
       ot: client.ot,
       clientKey: client.clientKey,

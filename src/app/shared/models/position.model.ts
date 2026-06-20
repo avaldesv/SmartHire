@@ -1,7 +1,7 @@
 export interface CreatePositionRequest {
   countryId: number;
   brandId: number;
-  recruitmentType: string;
+  requisitionTypeId: number;
   coverageTypeId: number;
   ot: string;
   clientKey: string;

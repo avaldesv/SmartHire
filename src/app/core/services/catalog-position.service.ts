@@ -12,6 +12,7 @@ import {
   CatalogLanguage,
   CatalogLanguageLevel,
   CatalogListRequest,
+  CatalogRequisitionType,
   CatalogShift,
 } from '../../shared/models/catalog-position.model';
 import { ApiClientService } from './api-client.service';
@@ -97,6 +98,15 @@ export class CatalogPositionService {
     const body: CatalogListRequest = { countryId, isActive: true, filters: [], ordersBy: ['name:asc'] };
     return this.http
       .post<ApiPageResponse<CatalogContractType>>(this.api.apiUrl('/api/v1/contract-types/list'), body, {
+        headers: this.api.buildHeaders(page, size),
+      })
+      .pipe(map((res) => res.data ?? []));
+  }
+
+  listRequisitionTypes(countryId: number, page = 0, size = 200): Observable<CatalogRequisitionType[]> {
+    const body: CatalogListRequest = { countryId, isActive: true, filters: [], ordersBy: ['name:asc'] };
+    return this.http
+      .post<ApiPageResponse<CatalogRequisitionType>>(this.api.apiUrl('/api/v1/requisition-types/list'), body, {
         headers: this.api.buildHeaders(page, size),
       })
       .pipe(map((res) => res.data ?? []));

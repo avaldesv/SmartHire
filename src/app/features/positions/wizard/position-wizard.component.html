@@ -32,9 +32,14 @@
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>Tipo reclutamiento</mat-label>
-              <mat-select formControlName="recruitmentType">
-                <mat-option value="Reclutamiento Puro">Reclutamiento Puro</mat-option>
-                <mat-option value="RPO">RPO</mat-option>
+              <mat-select formControlName="requisitionTypeId" [disabled]="!clientForm.controls.countryId.value || loadingCatalog.requisitionTypes">
+                @if (loadingCatalog.requisitionTypes) {
+                  <mat-option disabled>Cargando...</mat-option>
+                } @else {
+                  @for (item of requisitionTypes; track item.id) {
+                    <mat-option [value]="item.id">{{ item.name }}</mat-option>
+                  }
+                }
               </mat-select>
             </mat-form-field>
             <mat-form-field appearance="outline">
