@@ -14,10 +14,16 @@ export class SecurityUserService {
   private readonly http = inject(HttpClient);
   private readonly api = inject(ApiClientService);
 
-  list(page = 0, size = 20): Observable<{ items: SecurityUser[]; total: number }> {
+  list(page = 0, size = 20, search?: string): Observable<{ items: SecurityUser[]; total: number }> {
+    const params: Record<string, string> = {};
+    const term = search?.trim();
+    if (term) {
+      params['search'] = term;
+    }
     return this.http
       .get<SecurityUserListResponse>(this.api.apiUrl('/api/v1/users'), {
         headers: this.api.buildHeaders(page, size),
+        params,
       })
       .pipe(
         map((res) => ({
@@ -41,6 +47,12 @@ export class SecurityUserService {
 
   update(id: number, request: UpdateSecurityUserRequest): Observable<SecurityUser> {
     return this.http.put<SecurityUser>(this.api.apiUrl(`/api/v1/users/${id}`), request, {
+      headers: this.api.buildHeaders(),
+    });
+  }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(this.api.apiUrl(`/api/v1/users/${id}`), {
       headers: this.api.buildHeaders(),
     });
   }

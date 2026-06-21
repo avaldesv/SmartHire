@@ -44,8 +44,8 @@ export class UsersAdminComponent implements OnInit {
 
   loading = true;
   saving = false;
+  deletingId: number | null = null;
   data: SecurityUser[] = [];
-  filtered: SecurityUser[] = [];
   roleOptions: SecurityRole[] = [];
   total = 0;
   pageIndex = 0;
@@ -70,7 +70,10 @@ export class UsersAdminComponent implements OnInit {
   ngOnInit(): void {
     this.loadRoles();
     this.load();
-    this.searchForm.controls.search.valueChanges.pipe(debounceTime(300)).subscribe(() => this.applySearch());
+    this.searchForm.controls.search.valueChanges.pipe(debounceTime(300)).subscribe(() => {
+      this.pageIndex = 0;
+      this.load();
+    });
   }
 
   private loadRoles(): void {
@@ -84,11 +87,11 @@ export class UsersAdminComponent implements OnInit {
 
   load(): void {
     this.loading = true;
-    this.userService.list(this.pageIndex, this.pageSize).subscribe({
+    const search = this.searchForm.controls.search.value;
+    this.userService.list(this.pageIndex, this.pageSize, search).subscribe({
       next: (res) => {
         this.data = res.items;
         this.total = res.total;
-        this.applySearch();
         this.loading = false;
       },
       error: () => {
@@ -96,21 +99,6 @@ export class UsersAdminComponent implements OnInit {
         this.snack.open('No se pudieron cargar los usuarios', 'Cerrar', { duration: 4000 });
       },
     });
-  }
-
-  private applySearch(): void {
-    const term = this.searchForm.controls.search.value.trim().toLowerCase();
-    if (!term) {
-      this.filtered = this.data;
-      return;
-    }
-    this.filtered = this.data.filter(
-      (u) =>
-        u.username.toLowerCase().includes(term) ||
-        u.name.toLowerCase().includes(term) ||
-        u.lastName.toLowerCase().includes(term) ||
-        u.email.toLowerCase().includes(term),
-    );
   }
 
   onPage(e: PageEvent): void {
@@ -234,5 +222,27 @@ export class UsersAdminComponent implements OnInit {
   private onSaveError(): void {
     this.saving = false;
     this.snack.open('No se pudo guardar el usuario', 'Cerrar', { duration: 4000 });
+  }
+
+  deleteUser(row: SecurityUser): void {
+    const label = row.username || row.email;
+    if (!confirm(`¿Eliminar el usuario "${label}"? Esta acción no se puede deshacer.`)) {
+      return;
+    }
+    this.deletingId = row.id;
+    this.userService.delete(row.id).subscribe({
+      next: () => {
+        this.deletingId = null;
+        if (this.editingUserId === row.id) {
+          this.cancelForm();
+        }
+        this.load();
+        this.snack.open('Usuario eliminado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.deletingId = null;
+        this.snack.open('No se pudo eliminar el usuario', 'Cerrar', { duration: 4000 });
+      },
+    });
   }
 }
