@@ -43,7 +43,35 @@
 
 .prompt-field { flex: 1; min-width: 200px; }
 
-.results { display: flex; flex-direction: column; gap: 12px; }
+.results-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1rem 0 0.5rem;
+
+  h4 {
+    margin: 0;
+  }
+
+  .results-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+}
+
+.result-card mat-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
 .result-card .evidence {
   font-size: 13px;
