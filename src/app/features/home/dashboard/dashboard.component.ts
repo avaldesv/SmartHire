@@ -98,10 +98,26 @@ export class DashboardComponent implements OnInit {
         this.countryOptions = countries.filter((c) => c.isActive);
       },
     });
+    this.loadKpis();
     this.loadData();
     this.filters.valueChanges.pipe(debounceTime(300), distinctUntilChanged()).subscribe(() => {
       this.pageIndex = 0;
       this.loadData();
+    });
+  }
+
+  loadKpis(): void {
+    this.positionService.getDashboardKpis().subscribe({
+      next: (res) => {
+        this.kpis = {
+          totalPositions: res.totalPositions,
+          preselected: res.preselectedCandidates,
+          interested: res.interestedCandidates,
+        };
+      },
+      error: () => {
+        this.snack.open('No se pudieron cargar los KPIs', 'Cerrar', { duration: 4000 });
+      },
     });
   }
 
@@ -128,7 +144,6 @@ export class DashboardComponent implements OnInit {
         next: (res) => {
           this.data = res.items;
           this.total = res.total;
-          this.kpis = { ...this.kpis, totalPositions: res.total };
           this.loading = false;
         },
         error: () => {
