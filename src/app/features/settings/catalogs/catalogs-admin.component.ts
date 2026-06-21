@@ -13,6 +13,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CatalogCareerService } from '../../../core/services/catalog-career.service';
 import { CatalogBenefitService } from '../../../core/services/catalog-benefit.service';
+import { CatalogBrandService } from '../../../core/services/catalog-brand.service';
+import { CatalogContractTypeService } from '../../../core/services/catalog-contract-type.service';
+import { CatalogCoverageTypeService } from '../../../core/services/catalog-coverage-type.service';
 import { CatalogCurrencyService } from '../../../core/services/catalog-currency.service';
 import { CatalogDocumentTypeService } from '../../../core/services/catalog-document-type.service';
 import { CatalogGenderService } from '../../../core/services/catalog-gender.service';
@@ -23,6 +26,9 @@ import { CatalogShiftService } from '../../../core/services/catalog-shift.servic
 import { SettingsService } from '../../../mock/services/settings.service';
 import { CatalogCareer } from '../../../shared/models/catalog-career.model';
 import { CatalogBenefit } from '../../../shared/models/catalog-benefit.model';
+import { CatalogBrand } from '../../../shared/models/catalog-brand.model';
+import { CatalogContractType } from '../../../shared/models/catalog-contract-type.model';
+import { CatalogCoverageType } from '../../../shared/models/catalog-coverage-type.model';
 import { CatalogCurrency } from '../../../shared/models/catalog-currency.model';
 import { CatalogDocumentType } from '../../../shared/models/catalog-document-type.model';
 import { CatalogCountry, CatalogMunicipality, CatalogNeighborhood, CatalogState } from '../../../shared/models/catalog-geography.model';
@@ -61,6 +67,9 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly languageService = inject(CatalogLanguageService);
   private readonly shiftService = inject(CatalogShiftService);
   private readonly benefitService = inject(CatalogBenefitService);
+  private readonly brandService = inject(CatalogBrandService);
+  private readonly contractTypeService = inject(CatalogContractTypeService);
+  private readonly coverageTypeService = inject(CatalogCoverageTypeService);
   private readonly documentTypeService = inject(CatalogDocumentTypeService);
   private readonly geographyService = inject(CatalogGeographyService);
   private readonly snack = inject(MatSnackBar);
@@ -149,6 +158,33 @@ export class CatalogsAdminComponent implements OnInit {
   editingDocumentTypeId: number | null = null;
   showDocumentTypeForm = false;
 
+  brands: CatalogBrand[] = [];
+  brandTotal = 0;
+  brandPageIndex = 0;
+  brandPageSize = 10;
+  loadingBrands = false;
+  savingBrand = false;
+  editingBrandId: number | null = null;
+  showBrandForm = false;
+
+  contractTypes: CatalogContractType[] = [];
+  contractTypeTotal = 0;
+  contractTypePageIndex = 0;
+  contractTypePageSize = 10;
+  loadingContractTypes = false;
+  savingContractType = false;
+  editingContractTypeId: number | null = null;
+  showContractTypeForm = false;
+
+  coverageTypes: CatalogCoverageType[] = [];
+  coverageTypeTotal = 0;
+  coverageTypePageIndex = 0;
+  coverageTypePageSize = 10;
+  loadingCoverageTypes = false;
+  savingCoverageType = false;
+  editingCoverageTypeId: number | null = null;
+  showCoverageTypeForm = false;
+
   countryRecords: CatalogCountry[] = [];
   countryRecordTotal = 0;
   countryPageIndex = 0;
@@ -194,6 +230,9 @@ export class CatalogsAdminComponent implements OnInit {
   readonly shiftColumns = ['code', 'name', 'active', 'actions'];
   readonly benefitColumns = ['code', 'name', 'active', 'actions'];
   readonly documentTypeColumns = ['code', 'name', 'documentType', 'validatesWithAi', 'active', 'actions'];
+  readonly brandColumns = ['code', 'name', 'active', 'actions'];
+  readonly contractTypeColumns = ['code', 'name', 'description', 'active', 'actions'];
+  readonly coverageTypeColumns = ['code', 'name', 'description', 'active', 'actions'];
   readonly countryColumns = ['code', 'secondaryCode', 'name', 'active', 'actions'];
   readonly stateColumns = ['code', 'name', 'shortDescription', 'active', 'actions'];
   readonly municipalityColumns = ['code', 'name', 'active', 'actions'];
@@ -257,6 +296,29 @@ export class CatalogsAdminComponent implements OnInit {
     name: ['', Validators.required],
     documentType: ['', Validators.required],
     validatesWithAi: [false],
+    isActive: [true],
+  });
+
+  readonly brandForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    isActive: [true],
+  });
+
+  readonly contractTypeForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
+    isActive: [true],
+  });
+
+  readonly coverageTypeForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
     isActive: [true],
   });
 
@@ -366,6 +428,9 @@ export class CatalogsAdminComponent implements OnInit {
     this.loadShifts();
     this.loadBenefits();
     this.loadDocumentTypes();
+    this.loadBrands();
+    this.loadContractTypes();
+    this.loadCoverageTypes();
     this.loadStates();
   }
 
@@ -379,6 +444,9 @@ export class CatalogsAdminComponent implements OnInit {
     this.shiftPageIndex = 0;
     this.benefitPageIndex = 0;
     this.documentTypePageIndex = 0;
+    this.brandPageIndex = 0;
+    this.contractTypePageIndex = 0;
+    this.coverageTypePageIndex = 0;
     this.statePageIndex = 0;
     this.municipalityPageIndex = 0;
     this.neighborhoodPageIndex = 0;
@@ -388,6 +456,9 @@ export class CatalogsAdminComponent implements OnInit {
     this.cancelShiftForm();
     this.cancelBenefitForm();
     this.cancelDocumentTypeForm();
+    this.cancelBrandForm();
+    this.cancelContractTypeForm();
+    this.cancelCoverageTypeForm();
     this.cancelStateForm();
     this.cancelMunicipalityForm();
     this.cancelNeighborhoodForm();
@@ -585,6 +656,72 @@ export class CatalogsAdminComponent implements OnInit {
     this.documentTypePageIndex = e.pageIndex;
     this.documentTypePageSize = e.pageSize;
     this.loadDocumentTypes();
+  }
+
+  loadBrands(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingBrands = true;
+    this.brandService.list(this.selectedCountryId, this.brandPageIndex, this.brandPageSize).subscribe({
+      next: (res) => {
+        this.brands = res.items;
+        this.brandTotal = res.total;
+        this.loadingBrands = false;
+      },
+      error: () => {
+        this.loadingBrands = false;
+        this.snack.open('No se pudieron cargar las marcas', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  loadContractTypes(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingContractTypes = true;
+    this.contractTypeService.list(this.selectedCountryId, this.contractTypePageIndex, this.contractTypePageSize).subscribe({
+      next: (res) => {
+        this.contractTypes = res.items;
+        this.contractTypeTotal = res.total;
+        this.loadingContractTypes = false;
+      },
+      error: () => {
+        this.loadingContractTypes = false;
+        this.snack.open('No se pudieron cargar los tipos de contrato', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  loadCoverageTypes(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingCoverageTypes = true;
+    this.coverageTypeService.list(this.selectedCountryId, this.coverageTypePageIndex, this.coverageTypePageSize).subscribe({
+      next: (res) => {
+        this.coverageTypes = res.items;
+        this.coverageTypeTotal = res.total;
+        this.loadingCoverageTypes = false;
+      },
+      error: () => {
+        this.loadingCoverageTypes = false;
+        this.snack.open('No se pudieron cargar los tipos de cobertura', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  onBrandPage(e: PageEvent): void {
+    this.brandPageIndex = e.pageIndex;
+    this.brandPageSize = e.pageSize;
+    this.loadBrands();
+  }
+
+  onContractTypePage(e: PageEvent): void {
+    this.contractTypePageIndex = e.pageIndex;
+    this.contractTypePageSize = e.pageSize;
+    this.loadContractTypes();
+  }
+
+  onCoverageTypePage(e: PageEvent): void {
+    this.coverageTypePageIndex = e.pageIndex;
+    this.coverageTypePageSize = e.pageSize;
+    this.loadCoverageTypes();
   }
 
   openCreateGender(): void {
@@ -1009,6 +1146,181 @@ export class CatalogsAdminComponent implements OnInit {
       error: () => {
         this.savingDocumentType = false;
         this.snack.open('No se pudo guardar el tipo de documento', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  openCreateBrand(): void {
+    this.editingBrandId = null;
+    this.showBrandForm = true;
+    this.brandForm.reset({ countryId: this.selectedCountryId, code: '', name: '', isActive: true });
+  }
+
+  openEditBrand(row: CatalogBrand): void {
+    this.editingBrandId = row.id;
+    this.showBrandForm = true;
+    this.brandForm.patchValue({
+      countryId: row.countryId,
+      code: row.code,
+      name: row.name,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelBrandForm(): void {
+    this.showBrandForm = false;
+    this.editingBrandId = null;
+  }
+
+  saveBrand(): void {
+    if (this.brandForm.invalid) {
+      this.brandForm.markAllAsTouched();
+      return;
+    }
+    const value = this.brandForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      isActive: value.isActive,
+    };
+    this.savingBrand = true;
+    const request$ =
+      this.editingBrandId != null
+        ? this.brandService.update(this.editingBrandId, payload)
+        : this.brandService.create(payload);
+    request$.subscribe({
+      next: () => {
+        this.savingBrand = false;
+        this.cancelBrandForm();
+        this.loadBrands();
+        this.snack.open('Marca guardada', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingBrand = false;
+        this.snack.open('No se pudo guardar la marca', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  openCreateContractType(): void {
+    this.editingContractTypeId = null;
+    this.showContractTypeForm = true;
+    this.contractTypeForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      description: '',
+      isActive: true,
+    });
+  }
+
+  openEditContractType(row: CatalogContractType): void {
+    this.editingContractTypeId = row.id;
+    this.showContractTypeForm = true;
+    this.contractTypeForm.patchValue({
+      countryId: row.countryId,
+      code: row.code,
+      name: row.name,
+      description: row.description ?? '',
+      isActive: row.isActive,
+    });
+  }
+
+  cancelContractTypeForm(): void {
+    this.showContractTypeForm = false;
+    this.editingContractTypeId = null;
+  }
+
+  saveContractType(): void {
+    if (this.contractTypeForm.invalid) {
+      this.contractTypeForm.markAllAsTouched();
+      return;
+    }
+    const value = this.contractTypeForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      description: value.description || undefined,
+      isActive: value.isActive,
+    };
+    this.savingContractType = true;
+    const request$ =
+      this.editingContractTypeId != null
+        ? this.contractTypeService.update(this.editingContractTypeId, payload)
+        : this.contractTypeService.create(payload);
+    request$.subscribe({
+      next: () => {
+        this.savingContractType = false;
+        this.cancelContractTypeForm();
+        this.loadContractTypes();
+        this.snack.open('Tipo de contrato guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingContractType = false;
+        this.snack.open('No se pudo guardar el tipo de contrato', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  openCreateCoverageType(): void {
+    this.editingCoverageTypeId = null;
+    this.showCoverageTypeForm = true;
+    this.coverageTypeForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      description: '',
+      isActive: true,
+    });
+  }
+
+  openEditCoverageType(row: CatalogCoverageType): void {
+    this.editingCoverageTypeId = row.id;
+    this.showCoverageTypeForm = true;
+    this.coverageTypeForm.patchValue({
+      countryId: row.countryId,
+      code: row.code,
+      name: row.name,
+      description: row.description ?? '',
+      isActive: row.isActive,
+    });
+  }
+
+  cancelCoverageTypeForm(): void {
+    this.showCoverageTypeForm = false;
+    this.editingCoverageTypeId = null;
+  }
+
+  saveCoverageType(): void {
+    if (this.coverageTypeForm.invalid) {
+      this.coverageTypeForm.markAllAsTouched();
+      return;
+    }
+    const value = this.coverageTypeForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      description: value.description || undefined,
+      isActive: value.isActive,
+    };
+    this.savingCoverageType = true;
+    const request$ =
+      this.editingCoverageTypeId != null
+        ? this.coverageTypeService.update(this.editingCoverageTypeId, payload)
+        : this.coverageTypeService.create(payload);
+    request$.subscribe({
+      next: () => {
+        this.savingCoverageType = false;
+        this.cancelCoverageTypeForm();
+        this.loadCoverageTypes();
+        this.snack.open('Tipo de cobertura guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingCoverageType = false;
+        this.snack.open('No se pudo guardar el tipo de cobertura', 'Cerrar', { duration: 4000 });
       },
     });
   }
