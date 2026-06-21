@@ -50,6 +50,11 @@ export interface PositionListItem {
   status: string;
   recruiter: string | null;
   createdAt: string;
+  ot?: string | null;
+  clientKey?: string | null;
+  positionsCount?: number | null;
+  city?: string | null;
+  startDate?: string | null;
 }
 
 export interface PositionDetail extends CreatePositionRequest {

@@ -62,7 +62,12 @@ export class DashboardComponent implements OnInit {
   readonly displayedColumns = [
     'requisitionNo',
     'name',
+    'ot',
     'client',
+    'clientKey',
+    'positionsCount',
+    'city',
+    'startDate',
     'status',
     'recruiter',
     'createdAt',
