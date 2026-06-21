@@ -210,4 +210,41 @@ export class DashboardComponent implements OnInit {
       },
     });
   }
+
+  approveCancellation(row: PositionListItem): void {
+    if (row.status !== 'PENDING_CANCELLATION') {
+      return;
+    }
+    if (!confirm(`¿Aprobar cancelación de ${row.requisitionNo}? La requisición será eliminada.`)) {
+      return;
+    }
+    this.positionService.approveCancellation(row.id).subscribe({
+      next: () => {
+        this.loadKpis();
+        this.loadData();
+        this.snack.open('Cancelación aprobada', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.snack.open('No se pudo aprobar la cancelación', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  rejectCancellation(row: PositionListItem): void {
+    if (row.status !== 'PENDING_CANCELLATION') {
+      return;
+    }
+    if (!confirm(`¿Rechazar solicitud de cancelación de ${row.requisitionNo}? Volverá a borrador.`)) {
+      return;
+    }
+    this.positionService.rejectCancellation(row.id).subscribe({
+      next: () => {
+        this.loadData();
+        this.snack.open('Solicitud de cancelación rechazada', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.snack.open('No se pudo rechazar la solicitud', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
 }

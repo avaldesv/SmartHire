@@ -87,6 +87,14 @@
                   <mat-icon>pending_actions</mat-icon> Solicitar cancelación
                 </button>
               }
+              @if (row.status === 'PENDING_CANCELLATION') {
+                <button mat-menu-item (click)="approveCancellation(row)">
+                  <mat-icon>check_circle</mat-icon> Aprobar cancelación
+                </button>
+                <button mat-menu-item (click)="rejectCancellation(row)">
+                  <mat-icon>undo</mat-icon> Rechazar solicitud
+                </button>
+              }
               <button mat-menu-item (click)="cancelPosition(row)">
                 <mat-icon>cancel</mat-icon> Cancelar directamente
               </button>

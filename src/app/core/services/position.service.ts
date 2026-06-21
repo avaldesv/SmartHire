@@ -6,6 +6,7 @@ import {
   CreatePositionResponse,
   DuplicatePositionResponse,
   RequestPositionCancellationResponse,
+  RejectPositionCancellationResponse,
   PositionDetail,
   PositionDashboardKpis,
   PositionListItem,
@@ -104,6 +105,22 @@ export class PositionService {
   requestCancellation(id: number): Observable<RequestPositionCancellationResponse> {
     return this.http.post<RequestPositionCancellationResponse>(
       this.api.apiUrl(`/api/v1/positions/${id}/request-cancellation`),
+      {},
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  approveCancellation(id: number): Observable<void> {
+    return this.http.post<void>(
+      this.api.apiUrl(`/api/v1/positions/${id}/approve-cancellation`),
+      {},
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  rejectCancellation(id: number): Observable<RejectPositionCancellationResponse> {
+    return this.http.post<RejectPositionCancellationResponse>(
+      this.api.apiUrl(`/api/v1/positions/${id}/reject-cancellation`),
       {},
       { headers: this.api.buildHeaders() },
     );
