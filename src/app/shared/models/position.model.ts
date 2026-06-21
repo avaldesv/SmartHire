@@ -72,6 +72,7 @@ export interface PositionDetail extends CreatePositionRequest {
 export type UpdatePositionRequest = CreatePositionRequest;
 export type UpdatePositionResponse = CreatePositionResponse;
 export type DuplicatePositionResponse = CreatePositionResponse;
+export type RequestPositionCancellationResponse = CreatePositionResponse;
 
 export type PositionListResponse = ApiPageResponse<PositionListItem>;
 
