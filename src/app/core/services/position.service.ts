@@ -25,14 +25,17 @@ export class PositionService {
     createdFrom?: string | null,
     createdTo?: string | null,
     countryId?: number | null,
+    recruiter?: string | null,
   ): Observable<{ items: PositionListItem[]; total: number }> {
     const term = search?.trim();
+    const recruiterTerm = recruiter?.trim();
     const body = {
       status: status ?? null,
       search: term || null,
       createdFrom: createdFrom || null,
       createdTo: createdTo || null,
       countryId: countryId ?? null,
+      recruiter: recruiterTerm || null,
       filters: [],
       ordersBy: ['createAt:desc'] as string[],
     };
@@ -48,6 +51,8 @@ export class PositionService {
             brand: item.brand ?? '—',
             country: item.country ?? '—',
             state: item.state ?? '—',
+            requisitionType: item.requisitionType ?? '—',
+            coverageType: item.coverageType ?? '—',
             createdAt: item.createdAt,
           })),
           total: res.pagination?.total ?? 0,

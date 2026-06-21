@@ -73,6 +73,8 @@ export class DashboardComponent implements OnInit {
     'city',
     'state',
     'brand',
+    'type',
+    'category',
     'country',
     'startDate',
     'status',
@@ -85,6 +87,7 @@ export class DashboardComponent implements OnInit {
     search: [''],
     status: ['Todos'],
     countryId: [0],
+    recruiter: [''],
     dateFrom: [''],
     dateTo: [''],
   });
@@ -109,6 +112,7 @@ export class DashboardComponent implements OnInit {
     const dateFrom = this.filters.controls.dateFrom.value || null;
     const dateTo = this.filters.controls.dateTo.value || null;
     const countryId = this.filters.controls.countryId.value;
+    const recruiter = this.filters.controls.recruiter.value;
     this.positionService
       .list(
         this.pageIndex,
@@ -118,6 +122,7 @@ export class DashboardComponent implements OnInit {
         dateFrom,
         dateTo,
         countryId > 0 ? countryId : null,
+        recruiter,
       )
       .subscribe({
         next: (res) => {
@@ -140,7 +145,7 @@ export class DashboardComponent implements OnInit {
   }
 
   clearFilters(): void {
-    this.filters.reset({ search: '', status: 'Todos', countryId: 0, dateFrom: '', dateTo: '' });
+    this.filters.reset({ search: '', status: 'Todos', countryId: 0, recruiter: '', dateFrom: '', dateTo: '' });
     this.snack.open('Filtros limpiados', 'Cerrar', { duration: 2500 });
   }
 }
