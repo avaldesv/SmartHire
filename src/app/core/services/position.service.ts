@@ -5,6 +5,7 @@ import {
   CreatePositionRequest,
   CreatePositionResponse,
   DuplicatePositionResponse,
+  RequestPositionCancellationResponse,
   PositionDetail,
   PositionDashboardKpis,
   PositionListItem,
@@ -98,5 +99,13 @@ export class PositionService {
     return this.http.delete<void>(this.api.apiUrl(`/api/v1/positions/${id}`), {
       headers: this.api.buildHeaders(),
     });
+  }
+
+  requestCancellation(id: number): Observable<RequestPositionCancellationResponse> {
+    return this.http.post<RequestPositionCancellationResponse>(
+      this.api.apiUrl(`/api/v1/positions/${id}/request-cancellation`),
+      {},
+      { headers: this.api.buildHeaders() },
+    );
   }
 }

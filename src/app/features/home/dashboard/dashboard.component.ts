@@ -61,7 +61,7 @@ export class DashboardComponent implements OnInit {
 
   kpis = { totalPositions: 0, preselected: 0, interested: 0 };
 
-  readonly statusOptions = ['Todos', 'DRAFT'];
+  readonly statusOptions = ['Todos', 'DRAFT', 'PENDING_CANCELLATION'];
 
   readonly displayedColumns = [
     'requisitionNo',
@@ -178,7 +178,7 @@ export class DashboardComponent implements OnInit {
   }
 
   cancelPosition(row: PositionListItem): void {
-    if (!confirm(`¿Cancelar la requisición ${row.requisitionNo}? Esta acción no se puede deshacer.`)) {
+    if (!confirm(`¿Cancelar directamente la requisición ${row.requisitionNo}? Esta acción no se puede deshacer.`)) {
       return;
     }
     this.positionService.delete(row.id).subscribe({
@@ -189,6 +189,24 @@ export class DashboardComponent implements OnInit {
       },
       error: () => {
         this.snack.open('No se pudo cancelar la requisición', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  requestCancellation(row: PositionListItem): void {
+    if (row.status !== 'DRAFT') {
+      return;
+    }
+    if (!confirm(`¿Solicitar cancelación de ${row.requisitionNo}? Quedará pendiente de aprobación.`)) {
+      return;
+    }
+    this.positionService.requestCancellation(row.id).subscribe({
+      next: () => {
+        this.loadData();
+        this.snack.open('Solicitud de cancelación enviada', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.snack.open('No se pudo solicitar la cancelación', 'Cerrar', { duration: 4000 });
       },
     });
   }
