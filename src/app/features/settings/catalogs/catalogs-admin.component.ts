@@ -11,15 +11,19 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
+import { CatalogCareerService } from '../../../core/services/catalog-career.service';
 import { CatalogCurrencyService } from '../../../core/services/catalog-currency.service';
 import { CatalogGenderService } from '../../../core/services/catalog-gender.service';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { CatalogKinshipService } from '../../../core/services/catalog-kinship.service';
+import { CatalogLanguageService } from '../../../core/services/catalog-language.service';
 import { SettingsService } from '../../../mock/services/settings.service';
+import { CatalogCareer } from '../../../shared/models/catalog-career.model';
 import { CatalogCurrency } from '../../../shared/models/catalog-currency.model';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import { CatalogGender } from '../../../shared/models/catalog-gender.model';
 import { CatalogKinship } from '../../../shared/models/catalog-kinship.model';
+import { CatalogLanguage } from '../../../shared/models/catalog-language.model';
 import { CatalogItem } from '../../../shared/models';
 
 @Component({
@@ -47,6 +51,8 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly genderService = inject(CatalogGenderService);
   private readonly kinshipService = inject(CatalogKinshipService);
   private readonly currencyService = inject(CatalogCurrencyService);
+  private readonly careerService = inject(CatalogCareerService);
+  private readonly languageService = inject(CatalogLanguageService);
   private readonly geographyService = inject(CatalogGeographyService);
   private readonly snack = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
@@ -85,10 +91,32 @@ export class CatalogsAdminComponent implements OnInit {
   editingCurrencyId: number | null = null;
   showCurrencyForm = false;
 
+  careers: CatalogCareer[] = [];
+  careerTotal = 0;
+  careerPageIndex = 0;
+  careerPageSize = 10;
+  loadingCareers = false;
+  savingCareer = false;
+  editingCareerId: number | null = null;
+  showCareerForm = false;
+
+  languages: CatalogLanguage[] = [];
+  languageTotal = 0;
+  languagePageIndex = 0;
+  languagePageSize = 10;
+  loadingLanguages = false;
+  savingLanguage = false;
+  editingLanguageId: number | null = null;
+  showLanguageForm = false;
+
   readonly mockColumns = ['key1', 'key2', 'name', 'description', 'active'];
   readonly genderColumns = ['code', 'name', 'value', 'active', 'actions'];
   readonly kinshipColumns = ['code', 'name', 'active', 'actions'];
   readonly currencyColumns = ['code', 'name', 'symbol', 'denomination', 'active', 'actions'];
+  readonly careerColumns = ['code', 'name', 'active', 'actions'];
+  readonly languageColumns = ['code', 'name', 'active', 'actions'];
+
+  private readonly apiCatalogCategories = new Set(['Carrera']);
 
   readonly genderForm = this.fb.nonNullable.group({
     countryId: [null as number | null, Validators.required],
@@ -113,13 +141,29 @@ export class CatalogsAdminComponent implements OnInit {
     isActive: [true],
   });
 
+  readonly careerForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    isActive: [true],
+  });
+
+  readonly languageForm = this.fb.nonNullable.group({
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    isActive: [true],
+  });
+
   ngOnInit(): void {
     this.settings.getCatalogs().subscribe((items) => {
       this.allCatalogs = items;
-      this.mockCategories = [...new Set(items.map((c) => c.category))];
+      this.mockCategories = [...new Set(items.map((c) => c.category))].filter(
+        (cat) => !this.apiCatalogCategories.has(cat),
+      );
       this.loadingMock = false;
     });
     this.loadKinships();
+    this.loadLanguages();
     this.geographyService.listCountries().subscribe({
       next: (countries) => {
         this.countries = countries;
@@ -140,14 +184,17 @@ export class CatalogsAdminComponent implements OnInit {
   private loadCountryCatalogs(): void {
     this.loadGenders();
     this.loadCurrencies();
+    this.loadCareers();
   }
 
   onCountryChange(countryId: number): void {
     this.selectedCountryId = countryId;
     this.genderPageIndex = 0;
     this.currencyPageIndex = 0;
+    this.careerPageIndex = 0;
     this.cancelGenderForm();
     this.cancelCurrencyForm();
+    this.cancelCareerForm();
     this.loadCountryCatalogs();
   }
 
@@ -214,6 +261,49 @@ export class CatalogsAdminComponent implements OnInit {
     this.currencyPageIndex = e.pageIndex;
     this.currencyPageSize = e.pageSize;
     this.loadCurrencies();
+  }
+
+  loadCareers(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingCareers = true;
+    this.careerService.list(this.selectedCountryId, this.careerPageIndex, this.careerPageSize).subscribe({
+      next: (res) => {
+        this.careers = res.items;
+        this.careerTotal = res.total;
+        this.loadingCareers = false;
+      },
+      error: () => {
+        this.loadingCareers = false;
+        this.snack.open('No se pudieron cargar las carreras', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  loadLanguages(): void {
+    this.loadingLanguages = true;
+    this.languageService.list(this.languagePageIndex, this.languagePageSize).subscribe({
+      next: (res) => {
+        this.languages = res.items;
+        this.languageTotal = res.total;
+        this.loadingLanguages = false;
+      },
+      error: () => {
+        this.loadingLanguages = false;
+        this.snack.open('No se pudieron cargar los idiomas', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  onCareerPage(e: PageEvent): void {
+    this.careerPageIndex = e.pageIndex;
+    this.careerPageSize = e.pageSize;
+    this.loadCareers();
+  }
+
+  onLanguagePage(e: PageEvent): void {
+    this.languagePageIndex = e.pageIndex;
+    this.languagePageSize = e.pageSize;
+    this.loadLanguages();
   }
 
   openCreateGender(): void {
@@ -373,6 +463,101 @@ export class CatalogsAdminComponent implements OnInit {
       error: () => {
         this.savingCurrency = false;
         this.snack.open('No se pudo guardar la moneda', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  openCreateCareer(): void {
+    this.editingCareerId = null;
+    this.showCareerForm = true;
+    this.careerForm.reset({ countryId: this.selectedCountryId, code: '', name: '', isActive: true });
+  }
+
+  openEditCareer(row: CatalogCareer): void {
+    this.editingCareerId = row.id;
+    this.showCareerForm = true;
+    this.careerForm.patchValue({
+      countryId: row.countryId,
+      code: row.code,
+      name: row.name,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelCareerForm(): void {
+    this.showCareerForm = false;
+    this.editingCareerId = null;
+  }
+
+  saveCareer(): void {
+    if (this.careerForm.invalid) {
+      this.careerForm.markAllAsTouched();
+      return;
+    }
+    const value = this.careerForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      isActive: value.isActive,
+    };
+    this.savingCareer = true;
+    const request$ =
+      this.editingCareerId != null
+        ? this.careerService.update(this.editingCareerId, payload)
+        : this.careerService.create(payload);
+    request$.subscribe({
+      next: () => {
+        this.savingCareer = false;
+        this.cancelCareerForm();
+        this.loadCareers();
+        this.snack.open('Carrera guardada', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingCareer = false;
+        this.snack.open('No se pudo guardar la carrera', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  openCreateLanguage(): void {
+    this.editingLanguageId = null;
+    this.showLanguageForm = true;
+    this.languageForm.reset({ code: '', name: '', isActive: true });
+  }
+
+  openEditLanguage(row: CatalogLanguage): void {
+    this.editingLanguageId = row.id;
+    this.showLanguageForm = true;
+    this.languageForm.patchValue({ code: row.code, name: row.name, isActive: row.isActive });
+  }
+
+  cancelLanguageForm(): void {
+    this.showLanguageForm = false;
+    this.editingLanguageId = null;
+  }
+
+  saveLanguage(): void {
+    if (this.languageForm.invalid) {
+      this.languageForm.markAllAsTouched();
+      return;
+    }
+    const value = this.languageForm.getRawValue();
+    this.savingLanguage = true;
+    const request$ =
+      this.editingLanguageId != null
+        ? this.languageService.update(this.editingLanguageId, value)
+        : this.languageService.create(value);
+    request$.subscribe({
+      next: () => {
+        this.savingLanguage = false;
+        this.cancelLanguageForm();
+        this.loadLanguages();
+        this.snack.open('Idioma guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingLanguage = false;
+        this.snack.open('No se pudo guardar el idioma', 'Cerrar', { duration: 4000 });
       },
     });
   }

@@ -175,6 +175,92 @@
     </div>
   </mat-tab>
 
+  <mat-tab label="Carreras">
+    <div class="tab-content">
+      <div class="toolbar">
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>País</mat-label>
+          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+            @for (country of countries; track country.id) {
+              <mat-option [value]="country.id">{{ country.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="button" (click)="openCreateCareer()">
+          <mat-icon>add</mat-icon> Nueva carrera
+        </button>
+      </div>
+      @if (showCareerForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingCareerId ? 'Editar carrera' : 'Nueva carrera' }}</h4>
+          <form [formGroup]="careerForm" class="gender-form" (ngSubmit)="saveCareer()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelCareerForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingCareer">{{ savingCareer ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingCareers) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="careers">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditCareer(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="careerColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: careerColumns"></tr>
+          </table>
+          <mat-paginator [length]="careerTotal" [pageSize]="careerPageSize" [pageIndex]="careerPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCareerPage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Idiomas">
+    <div class="tab-content">
+      <div class="toolbar">
+        <button mat-flat-button color="primary" type="button" (click)="openCreateLanguage()">
+          <mat-icon>add</mat-icon> Nuevo idioma
+        </button>
+      </div>
+      @if (showLanguageForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingLanguageId ? 'Editar idioma' : 'Nuevo idioma' }}</h4>
+          <form [formGroup]="languageForm" class="gender-form" (ngSubmit)="saveLanguage()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelLanguageForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingLanguage">{{ savingLanguage ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingLanguages) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="languages">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditLanguage(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="languageColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: languageColumns"></tr>
+          </table>
+          <mat-paginator [length]="languageTotal" [pageSize]="languagePageSize" [pageIndex]="languagePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onLanguagePage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
   @if (loadingMock) {
     <mat-tab label="...">
       <div class="loading-wrap"><mat-spinner diameter="36" /></div>
