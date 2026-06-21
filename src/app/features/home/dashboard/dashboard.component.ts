@@ -163,4 +163,17 @@ export class DashboardComponent implements OnInit {
     this.filters.reset({ search: '', status: 'Todos', countryId: 0, recruiter: '', dateFrom: '', dateTo: '' });
     this.snack.open('Filtros limpiados', 'Cerrar', { duration: 2500 });
   }
+
+  duplicatePosition(row: PositionListItem): void {
+    this.positionService.duplicate(row.id).subscribe({
+      next: (res) => {
+        this.loadKpis();
+        this.loadData();
+        this.snack.open(`Posición duplicada: REQ-${res.id}`, 'Cerrar', { duration: 4000 });
+      },
+      error: () => {
+        this.snack.open('No se pudo duplicar la posición', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
 }
