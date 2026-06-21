@@ -54,9 +54,15 @@ export class PositionsListComponent implements OnInit {
   pageIndex = 0;
   pageSize = 10;
 
+  readonly statusOptions = ['Todos', 'DRAFT'];
+
   readonly filters = this.fb.nonNullable.group({
     search: [''],
+    status: ['Todos'],
     countryId: [0],
+    recruiter: [''],
+    dateFrom: [''],
+    dateTo: [''],
   });
 
   readonly columns = [
@@ -64,9 +70,17 @@ export class PositionsListComponent implements OnInit {
     'name',
     'ot',
     'client',
+    'clientKey',
+    'positionsCount',
+    'city',
+    'state',
+    'brand',
+    'type',
+    'category',
     'country',
-    'recruiter',
+    'startDate',
     'status',
+    'recruiter',
     'createdAt',
     'actions',
   ];
@@ -86,16 +100,20 @@ export class PositionsListComponent implements OnInit {
 
   load(): void {
     this.loading = true;
+    const status = this.filters.controls.status.value;
     const countryId = this.filters.controls.countryId.value;
+    const dateFrom = this.filters.controls.dateFrom.value || null;
+    const dateTo = this.filters.controls.dateTo.value || null;
     this.positionService
       .list(
         this.pageIndex,
         this.pageSize,
-        null,
+        status !== 'Todos' ? status : null,
         this.filters.controls.search.value,
-        null,
-        null,
+        dateFrom,
+        dateTo,
         countryId > 0 ? countryId : null,
+        this.filters.controls.recruiter.value,
       )
       .subscribe({
         next: (res) => {
@@ -114,5 +132,10 @@ export class PositionsListComponent implements OnInit {
     this.pageIndex = e.pageIndex;
     this.pageSize = e.pageSize;
     this.load();
+  }
+
+  clearFilters(): void {
+    this.filters.reset({ search: '', status: 'Todos', countryId: 0, recruiter: '', dateFrom: '', dateTo: '' });
+    this.snack.open('Filtros limpiados', 'Cerrar', { duration: 2500 });
   }
 }

@@ -73,3 +73,9 @@ export type UpdatePositionRequest = CreatePositionRequest;
 export type UpdatePositionResponse = CreatePositionResponse;
 
 export type PositionListResponse = ApiPageResponse<PositionListItem>;
+
+export interface PositionDashboardKpis {
+  totalPositions: number;
+  preselectedCandidates: number;
+  interestedCandidates: number;
+}

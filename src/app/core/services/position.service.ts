@@ -5,6 +5,7 @@ import {
   CreatePositionRequest,
   CreatePositionResponse,
   PositionDetail,
+  PositionDashboardKpis,
   PositionListItem,
   PositionListResponse,
   UpdatePositionRequest,
@@ -58,6 +59,12 @@ export class PositionService {
           total: res.pagination?.total ?? 0,
         })),
       );
+  }
+
+  getDashboardKpis(): Observable<PositionDashboardKpis> {
+    return this.http.get<PositionDashboardKpis>(this.api.apiUrl('/api/v1/positions/dashboard-kpis'), {
+      headers: this.api.buildHeaders(),
+    });
   }
 
   getById(id: number): Observable<PositionDetail> {
