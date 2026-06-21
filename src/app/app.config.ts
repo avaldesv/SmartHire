@@ -1,12 +1,13 @@
 import { APP_INITIALIZER, ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 import { MSAL_INSTANCE, MsalBroadcastService, MsalService } from '@azure/msal-angular';
 import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
 
 import { routes } from './app.routes';
 import { createMsalConfiguration } from './core/auth/msal.config';
+import { authTokenInterceptor } from './core/interceptors/auth-token.interceptor';
 
 function createMsalInstance(): IPublicClientApplication | null {
   const config = createMsalConfiguration();
@@ -44,7 +45,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimations(),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([authTokenInterceptor])),
     ...msalProviders,
   ],
 };
