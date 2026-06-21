@@ -67,6 +67,9 @@ export class DashboardComponent implements OnInit {
     'clientKey',
     'positionsCount',
     'city',
+    'state',
+    'brand',
+    'country',
     'startDate',
     'status',
     'recruiter',
@@ -77,6 +80,8 @@ export class DashboardComponent implements OnInit {
   readonly filters = this.fb.nonNullable.group({
     search: [''],
     status: ['Todos'],
+    dateFrom: [''],
+    dateTo: [''],
   });
 
   ngOnInit(): void {
@@ -91,8 +96,10 @@ export class DashboardComponent implements OnInit {
     this.loading = true;
     const status = this.filters.controls.status.value;
     const search = this.filters.controls.search.value;
+    const dateFrom = this.filters.controls.dateFrom.value || null;
+    const dateTo = this.filters.controls.dateTo.value || null;
     this.positionService
-      .list(this.pageIndex, this.pageSize, status !== 'Todos' ? status : null, search)
+      .list(this.pageIndex, this.pageSize, status !== 'Todos' ? status : null, search, dateFrom, dateTo)
       .subscribe({
         next: (res) => {
           this.data = res.items;
@@ -114,7 +121,7 @@ export class DashboardComponent implements OnInit {
   }
 
   clearFilters(): void {
-    this.filters.reset({ search: '', status: 'Todos' });
+    this.filters.reset({ search: '', status: 'Todos', dateFrom: '', dateTo: '' });
     this.snack.open('Filtros limpiados', 'Cerrar', { duration: 2500 });
   }
 }

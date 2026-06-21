@@ -22,11 +22,15 @@ export class PositionService {
     size = 20,
     status?: string | null,
     search?: string,
+    createdFrom?: string | null,
+    createdTo?: string | null,
   ): Observable<{ items: PositionListItem[]; total: number }> {
     const term = search?.trim();
     const body = {
       status: status ?? null,
       search: term || null,
+      createdFrom: createdFrom || null,
+      createdTo: createdTo || null,
       filters: [],
       ordersBy: ['createAt:desc'] as string[],
     };
@@ -39,6 +43,9 @@ export class PositionService {
           items: (res.data ?? []).map((item) => ({
             ...item,
             recruiter: item.recruiter ?? '—',
+            brand: item.brand ?? '—',
+            country: item.country ?? '—',
+            state: item.state ?? '—',
             createdAt: item.createdAt,
           })),
           total: res.pagination?.total ?? 0,

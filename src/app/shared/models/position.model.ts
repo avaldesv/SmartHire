@@ -55,6 +55,9 @@ export interface PositionListItem {
   positionsCount?: number | null;
   city?: string | null;
   startDate?: string | null;
+  brand?: string | null;
+  country?: string | null;
+  state?: string | null;
 }
 
 export interface PositionDetail extends CreatePositionRequest {
