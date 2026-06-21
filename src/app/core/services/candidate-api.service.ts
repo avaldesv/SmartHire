@@ -7,6 +7,8 @@ import {
   CandidateListResponse,
   CreateCandidateRequest,
   CreateCandidateResponse,
+  UpdateCandidateRequest,
+  UpdateCandidateResponse,
 } from '../../shared/models/candidate.model';
 import { ApiClientService } from './api-client.service';
 
@@ -53,6 +55,12 @@ export class CandidateApiService {
 
   create(request: CreateCandidateRequest): Observable<CreateCandidateResponse> {
     return this.http.post<CreateCandidateResponse>(this.api.apiUrl('/api/v1/candidates'), request, {
+      headers: this.api.buildHeaders(),
+    });
+  }
+
+  update(id: number, request: UpdateCandidateRequest): Observable<UpdateCandidateResponse> {
+    return this.http.put<UpdateCandidateResponse>(this.api.apiUrl(`/api/v1/candidates/${id}`), request, {
       headers: this.api.buildHeaders(),
     });
   }

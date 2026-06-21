@@ -27,6 +27,8 @@ export interface CandidateDetail {
   genderId: number | null;
   countryId: number | null;
   stateId: number | null;
+  country: string;
+  state: string;
   city: string | null;
   desiredSalary: number | null;
   source: string | null;
@@ -56,5 +58,8 @@ export interface CreateCandidateResponse {
   id: number;
   companyId: number;
 }
+
+export type UpdateCandidateRequest = CreateCandidateRequest & { isActive: boolean };
+export type UpdateCandidateResponse = CreateCandidateResponse;
 
 export type CandidateListResponse = ApiPageResponse<CandidateListItem>;

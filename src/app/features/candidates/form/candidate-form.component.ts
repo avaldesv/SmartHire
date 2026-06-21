@@ -11,8 +11,9 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
-import { CandidateService } from '../../../mock/services/candidate.service';
+import { CandidateApiService } from '../../../core/services/candidate-api.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
+import { CreateCandidateRequest } from '../../../shared/models/candidate.model';
 import {
   CatalogCountry,
   CatalogMunicipality,
@@ -41,13 +42,14 @@ export class CandidateFormComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly candidateService = inject(CandidateService);
+  private readonly candidateService = inject(CandidateApiService);
   private readonly geographyService = inject(CatalogGeographyService);
   private readonly snack = inject(MatSnackBar);
   private readonly destroyRef = inject(DestroyRef);
 
   isEdit = false;
   loading = false;
+  saving = false;
   candidateId: number | null = null;
 
   countries: CatalogCountry[] = [];
@@ -245,26 +247,39 @@ export class CandidateFormComponent implements OnInit {
       this.isEdit = true;
       this.candidateId = +id;
       this.loading = true;
-      this.candidateService.getById(this.candidateId).subscribe((c) => {
-        if (c) {
+      this.candidateService.getById(this.candidateId).subscribe({
+        next: (c) => {
           this.form.patchValue({
             firstName: c.firstName,
             lastName: c.lastName,
             email: c.email,
-            phone: c.phone,
+            phone: c.phone ?? '',
             curp: c.curp ?? '',
             rfc: c.rfc ?? '',
             nss: c.nss ?? '',
-            gender: c.gender ?? '',
             country: c.country,
-            city: c.city,
+            city: c.city ?? '',
             state: c.state,
+            countryId: c.countryId,
+            stateId: c.stateId,
             desiredSalary: c.desiredSalary ?? 0,
-            source: c.source,
-            active: c.active,
+            source: c.source === 'MANUAL' ? 'Carga Manual' : (c.source ?? 'Carga Manual'),
+            active: c.isActive,
           });
-        }
-        this.loading = false;
+          if (c.countryId) {
+            this.form.controls.stateId.enable();
+            this.loadStates(c.countryId);
+          }
+          if (c.stateId) {
+            this.form.controls.municipalityId.enable();
+            this.loadMunicipalities(c.stateId);
+          }
+          this.loading = false;
+        },
+        error: () => {
+          this.loading = false;
+          this.snack.open('No se pudo cargar el candidato', 'Cerrar', { duration: 4000 });
+        },
       });
     }
   }
@@ -274,9 +289,40 @@ export class CandidateFormComponent implements OnInit {
       this.form.markAllAsTouched();
       return;
     }
-    const msg = this.isEdit ? 'Candidato actualizado' : 'Candidato creado';
-    this.snack.open(msg, 'Cerrar', { duration: 3000 });
-    this.router.navigate(['/candidates']);
+    this.saving = true;
+    const payload = this.buildPayload();
+    const request$ = this.isEdit && this.candidateId
+      ? this.candidateService.update(this.candidateId, { ...payload, isActive: this.form.controls.active.value })
+      : this.candidateService.create(payload);
+    request$.subscribe({
+      next: () => {
+        this.saving = false;
+        this.snack.open(this.isEdit ? 'Candidato actualizado' : 'Candidato creado', 'Cerrar', { duration: 3000 });
+        this.router.navigate(['/candidates']);
+      },
+      error: () => {
+        this.saving = false;
+        this.snack.open('No se pudo guardar el candidato', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  private buildPayload(): CreateCandidateRequest {
+    const v = this.form.getRawValue();
+    return {
+      firstName: v.firstName,
+      lastName: v.lastName,
+      email: v.email,
+      phone: v.phone || null,
+      curp: v.curp || null,
+      rfc: v.rfc || null,
+      nss: v.nss || null,
+      countryId: v.countryId,
+      stateId: v.stateId,
+      city: v.city || null,
+      desiredSalary: v.desiredSalary > 0 ? v.desiredSalary : null,
+      source: v.source === 'Carga Manual' ? 'MANUAL' : v.source,
+    };
   }
 
   cancel(): void {
