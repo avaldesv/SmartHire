@@ -37,6 +37,15 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="outline">
+        <mat-label>País</mat-label>
+        <mat-select formControlName="countryId">
+          <mat-option [value]="0">Todos</mat-option>
+          @for (country of countryOptions; track country.id) {
+            <mat-option [value]="country.id">{{ country.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Fecha inicio</mat-label>
         <input matInput type="date" formControlName="dateFrom" />
       </mat-form-field>

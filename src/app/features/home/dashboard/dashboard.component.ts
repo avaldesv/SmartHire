@@ -14,9 +14,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
+import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { PositionService } from '../../../core/services/position.service';
 import { KpiCardComponent } from '../../../shared/components/kpi-card/kpi-card.component';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
+import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import { PositionListItem } from '../../../shared/models/position.model';
 
 @Component({
@@ -45,6 +47,7 @@ import { PositionListItem } from '../../../shared/models/position.model';
 export class DashboardComponent implements OnInit {
   private readonly auth = inject(AuthService);
   private readonly positionService = inject(PositionService);
+  private readonly geographyService = inject(CatalogGeographyService);
   private readonly snack = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
 
@@ -54,6 +57,7 @@ export class DashboardComponent implements OnInit {
   pageSize = 10;
   pageIndex = 0;
   data: PositionListItem[] = [];
+  countryOptions: CatalogCountry[] = [];
 
   kpis = { totalPositions: 0, preselected: 0, interested: 0 };
 
@@ -80,11 +84,17 @@ export class DashboardComponent implements OnInit {
   readonly filters = this.fb.nonNullable.group({
     search: [''],
     status: ['Todos'],
+    countryId: [0],
     dateFrom: [''],
     dateTo: [''],
   });
 
   ngOnInit(): void {
+    this.geographyService.listCountries(0, 200).subscribe({
+      next: (countries) => {
+        this.countryOptions = countries.filter((c) => c.isActive);
+      },
+    });
     this.loadData();
     this.filters.valueChanges.pipe(debounceTime(300), distinctUntilChanged()).subscribe(() => {
       this.pageIndex = 0;
@@ -98,8 +108,17 @@ export class DashboardComponent implements OnInit {
     const search = this.filters.controls.search.value;
     const dateFrom = this.filters.controls.dateFrom.value || null;
     const dateTo = this.filters.controls.dateTo.value || null;
+    const countryId = this.filters.controls.countryId.value;
     this.positionService
-      .list(this.pageIndex, this.pageSize, status !== 'Todos' ? status : null, search, dateFrom, dateTo)
+      .list(
+        this.pageIndex,
+        this.pageSize,
+        status !== 'Todos' ? status : null,
+        search,
+        dateFrom,
+        dateTo,
+        countryId > 0 ? countryId : null,
+      )
       .subscribe({
         next: (res) => {
           this.data = res.items;
@@ -121,7 +140,7 @@ export class DashboardComponent implements OnInit {
   }
 
   clearFilters(): void {
-    this.filters.reset({ search: '', status: 'Todos', dateFrom: '', dateTo: '' });
+    this.filters.reset({ search: '', status: 'Todos', countryId: 0, dateFrom: '', dateTo: '' });
     this.snack.open('Filtros limpiados', 'Cerrar', { duration: 2500 });
   }
 }

@@ -24,6 +24,7 @@ export class PositionService {
     search?: string,
     createdFrom?: string | null,
     createdTo?: string | null,
+    countryId?: number | null,
   ): Observable<{ items: PositionListItem[]; total: number }> {
     const term = search?.trim();
     const body = {
@@ -31,6 +32,7 @@ export class PositionService {
       search: term || null,
       createdFrom: createdFrom || null,
       createdTo: createdTo || null,
+      countryId: countryId ?? null,
       filters: [],
       ordersBy: ['createAt:desc'] as string[],
     };
