@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { SettingsService } from '../../../mock/services/settings.service';
-import { RequisitionService } from '../../../mock/services/requisition.service';
+import { PositionService } from '../../../core/services/position.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { Questionnaire } from '../../../shared/models';
 
@@ -20,7 +20,7 @@ import { Questionnaire } from '../../../shared/models';
 export class QuestionnaireAssignComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly settings = inject(SettingsService);
-  private readonly reqService = inject(RequisitionService);
+  private readonly positionService = inject(PositionService);
   private readonly router = inject(Router);
   private readonly snack = inject(MatSnackBar);
 
@@ -37,9 +37,12 @@ export class QuestionnaireAssignComponent implements OnInit {
       this.questionnaires = q;
       if (q.length) this.form.patchValue({ questionnaireId: q[0].id });
     });
-    this.reqService.list({ pageSize: 20 }).subscribe((res) => {
-      this.requisitions = res.items.map((r) => ({ id: r.id, label: `${r.requisitionNo} — ${r.name}` }));
-      if (this.requisitions.length) this.form.patchValue({ requisitionId: this.requisitions[0].id });
+    this.positionService.list(0, 50).subscribe({
+      next: (res) => {
+        this.requisitions = res.items.map((r) => ({ id: r.id, label: `${r.requisitionNo} — ${r.name}` }));
+        if (this.requisitions.length) this.form.patchValue({ requisitionId: this.requisitions[0].id });
+      },
+      error: () => this.snack.open('No se pudieron cargar las requisiciones', 'Cerrar', { duration: 4000 }),
     });
   }
 
