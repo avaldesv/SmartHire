@@ -5,6 +5,14 @@
     </button>
   </sh-page-header>
 
+  <form [formGroup]="searchForm" class="sh-filters sh-card">
+    <mat-form-field appearance="outline" class="filter-search">
+      <mat-label>Buscar posición</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput formControlName="search" placeholder="Cliente, puesto, OT, clave…" />
+    </mat-form-field>
+  </form>
+
   @if (loading) {
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else {
@@ -15,9 +23,11 @@
           <td mat-cell *matCellDef="let row"><span class="mono-id">{{ row.requisitionNo }}</span></td>
         </ng-container>
         <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Puesto</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+        <ng-container matColumnDef="ot"><th mat-header-cell *matHeaderCellDef>OT</th><td mat-cell *matCellDef="let row">{{ row.ot || '—' }}</td></ng-container>
         <ng-container matColumnDef="client"><th mat-header-cell *matHeaderCellDef>Cliente</th><td mat-cell *matCellDef="let row">{{ row.client }}</td></ng-container>
+        <ng-container matColumnDef="clientKey"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.clientKey || '—' }}</td></ng-container>
+        <ng-container matColumnDef="city"><th mat-header-cell *matHeaderCellDef>Ciudad</th><td mat-cell *matCellDef="let row">{{ row.city || '—' }}</td></ng-container>
         <ng-container matColumnDef="status"><th mat-header-cell *matHeaderCellDef>Estado</th><td mat-cell *matCellDef="let row"><sh-status-badge [status]="row.status" /></td></ng-container>
-        <ng-container matColumnDef="recruiter"><th mat-header-cell *matHeaderCellDef>Reclutador</th><td mat-cell *matCellDef="let row">{{ row.recruiter }}</td></ng-container>
         <ng-container matColumnDef="createdAt"><th mat-header-cell *matHeaderCellDef>Creación</th><td mat-cell *matCellDef="let row">{{ row.createdAt | date:'dd/MM/yyyy' }}</td></ng-container>
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef></th>
