@@ -1,5 +1,5 @@
 export interface CatalogListRequest {
-  isActive?: boolean;
+  isActive?: boolean | null;
   filters?: string[];
   ordersBy?: string[];
   countryId?: number;
@@ -21,6 +21,15 @@ export interface CatalogCountry {
   isActive: boolean;
 }
 
+export interface CreateCountryRequest {
+  code: string;
+  secondaryCode?: string;
+  name: string;
+  isActive?: boolean;
+}
+
+export type UpdateCountryRequest = CreateCountryRequest;
+
 export interface CatalogState {
   id: number;
   countryId: number;
@@ -29,6 +38,16 @@ export interface CatalogState {
   shortDescription?: string;
   isActive: boolean;
 }
+
+export interface CreateStateRequest {
+  countryId: number;
+  code: string;
+  name: string;
+  shortDescription?: string;
+  isActive?: boolean;
+}
+
+export type UpdateStateRequest = CreateStateRequest;
 
 export interface CatalogMunicipality {
   id: number;
