@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
@@ -28,6 +29,7 @@ import { PositionListItem } from '../../../shared/models/position.model';
     MatTableModule,
     MatPaginatorModule,
     MatFormFieldModule,
+    MatInputModule,
     MatSelectModule,
     MatButtonModule,
     MatIconModule,
@@ -68,12 +70,13 @@ export class DashboardComponent implements OnInit {
   ];
 
   readonly filters = this.fb.nonNullable.group({
+    search: [''],
     status: ['Todos'],
   });
 
   ngOnInit(): void {
     this.loadData();
-    this.filters.valueChanges.pipe(debounceTime(200), distinctUntilChanged()).subscribe(() => {
+    this.filters.valueChanges.pipe(debounceTime(300), distinctUntilChanged()).subscribe(() => {
       this.pageIndex = 0;
       this.loadData();
     });
@@ -82,8 +85,9 @@ export class DashboardComponent implements OnInit {
   loadData(): void {
     this.loading = true;
     const status = this.filters.controls.status.value;
+    const search = this.filters.controls.search.value;
     this.positionService
-      .list(this.pageIndex, this.pageSize, status !== 'Todos' ? status : null)
+      .list(this.pageIndex, this.pageSize, status !== 'Todos' ? status : null, search)
       .subscribe({
         next: (res) => {
           this.data = res.items;
@@ -105,7 +109,7 @@ export class DashboardComponent implements OnInit {
   }
 
   clearFilters(): void {
-    this.filters.reset({ status: 'Todos' });
+    this.filters.reset({ search: '', status: 'Todos' });
     this.snack.open('Filtros limpiados', 'Cerrar', { duration: 2500 });
   }
 }
