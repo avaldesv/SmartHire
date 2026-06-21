@@ -1,0 +1,28 @@
+.dialog-subtitle {
+  margin: -0.5rem 0 1rem;
+  color: var(--sh-text-muted, #64748b);
+  font-size: 0.875rem;
+}
+
+.search-row {
+  margin-bottom: 1rem;
+}
+
+.search-field {
+  width: 100%;
+}
+
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+mat-dialog-content {
+  min-width: min(720px, 90vw);
+  max-height: 70vh;
+}
+
+mat-dialog-actions button mat-spinner {
+  display: inline-block;
+}

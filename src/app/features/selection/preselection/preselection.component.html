@@ -2,6 +2,8 @@
   <div class="loading-wrap"><mat-spinner diameter="36" /></div>
 } @else {
   <div class="sh-toolbar-actions">
+    <button mat-stroked-button (click)="openPoolDialog()"><mat-icon>person_add</mat-icon> Agregar del pool</button>
+    <button mat-stroked-button (click)="openApplicationsDialog()"><mat-icon>groups</mat-icon> Ver postulados</button>
     <button mat-stroked-button (click)="action('Enviar Smart')"><mat-icon>send</mat-icon> Enviar Smart</button>
     <button mat-stroked-button (click)="action('Agendar entrevista')"><mat-icon>event</mat-icon> Agendar</button>
     <button mat-stroked-button (click)="action('Solicitar documentos')"><mat-icon>description</mat-icon> Documentos</button>

@@ -34,7 +34,6 @@ export class ShellComponent {
   ];
 
   logout(): void {
-    this.auth.logout();
-    location.href = '/login';
+    this.auth.completeLogout();
   }
 }

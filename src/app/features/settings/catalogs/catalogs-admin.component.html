@@ -1,9 +1,1012 @@
 <h3>Catálogos</h3>
-@if (loading) {
-  <div class="loading-wrap"><mat-spinner diameter="36" /></div>
-} @else {
-  <mat-tab-group>
-    @for (cat of categories; track cat) {
+<mat-tab-group>
+  <mat-tab label="Géneros">
+    <div class="tab-content">
+      <div class="toolbar">
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>País</mat-label>
+          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+            @for (country of countries; track country.id) {
+              <mat-option [value]="country.id">{{ country.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="button" (click)="openCreateGender()">
+          <mat-icon>add</mat-icon> Nuevo género
+        </button>
+      </div>
+
+      @if (showGenderForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingGenderId ? 'Editar género' : 'Nuevo género' }}</h4>
+          <form [formGroup]="genderForm" class="gender-form" (ngSubmit)="saveGender()">
+            <mat-form-field appearance="outline">
+              <mat-label>Clave</mat-label>
+              <input matInput formControlName="code" />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Nombre</mat-label>
+              <input matInput formControlName="name" />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Valor</mat-label>
+              <input matInput formControlName="value" />
+            </mat-form-field>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelGenderForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingGender">
+                {{ savingGender ? 'Guardando...' : 'Guardar' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      }
+
+      @if (loadingGenders) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="genders">
+            <ng-container matColumnDef="code">
+              <th mat-header-cell *matHeaderCellDef>Clave</th>
+              <td mat-cell *matCellDef="let row">{{ row.code }}</td>
+            </ng-container>
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Nombre</th>
+              <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+            </ng-container>
+            <ng-container matColumnDef="value">
+              <th mat-header-cell *matHeaderCellDef>Valor</th>
+              <td mat-cell *matCellDef="let row">{{ row.value || '—' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="active">
+              <th mat-header-cell *matHeaderCellDef>Activo</th>
+              <td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let row">
+                <button mat-stroked-button type="button" (click)="openEditGender(row)">Editar</button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="genderColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: genderColumns"></tr>
+          </table>
+          <mat-paginator
+            [length]="genderTotal"
+            [pageSize]="genderPageSize"
+            [pageIndex]="genderPageIndex"
+            [pageSizeOptions]="[10, 25, 50]"
+            (page)="onGenderPage($event)"
+          />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Parentesco">
+    <div class="tab-content">
+      <div class="toolbar">
+        <button mat-flat-button color="primary" type="button" (click)="openCreateKinship()">
+          <mat-icon>add</mat-icon> Nuevo parentesco
+        </button>
+      </div>
+      @if (showKinshipForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingKinshipId ? 'Editar parentesco' : 'Nuevo parentesco' }}</h4>
+          <form [formGroup]="kinshipForm" class="gender-form" (ngSubmit)="saveKinship()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelKinshipForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingKinship">{{ savingKinship ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingKinships) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="kinships">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditKinship(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="kinshipColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: kinshipColumns"></tr>
+          </table>
+          <mat-paginator [length]="kinshipTotal" [pageSize]="kinshipPageSize" [pageIndex]="kinshipPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onKinshipPage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Compañías">
+    <div class="tab-content">
+      <div class="toolbar">
+        <button mat-flat-button color="primary" type="button" (click)="openCreateCompany()">
+          <mat-icon>add</mat-icon> Nueva compañía
+        </button>
+      </div>
+      @if (showCompanyForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingCompanyId ? 'Editar compañía' : 'Nueva compañía' }}</h4>
+          <form [formGroup]="companyForm" class="gender-form" (ngSubmit)="saveCompany()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelCompanyForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingCompany">{{ savingCompany ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingCompanies) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="companies">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditCompany(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="companyColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: companyColumns"></tr>
+          </table>
+          <mat-paginator [length]="companyTotal" [pageSize]="companyPageSize" [pageIndex]="companyPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCompanyPage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Monedas">
+    <div class="tab-content">
+      <div class="toolbar">
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>País</mat-label>
+          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+            @for (country of countries; track country.id) {
+              <mat-option [value]="country.id">{{ country.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="button" (click)="openCreateCurrency()">
+          <mat-icon>add</mat-icon> Nueva moneda
+        </button>
+      </div>
+      @if (showCurrencyForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingCurrencyId ? 'Editar moneda' : 'Nueva moneda' }}</h4>
+          <form [formGroup]="currencyForm" class="gender-form" (ngSubmit)="saveCurrency()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Símbolo</mat-label><input matInput formControlName="symbol" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Denominación</mat-label><input matInput formControlName="denomination" /></mat-form-field>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelCurrencyForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingCurrency">{{ savingCurrency ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingCurrencies) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="currencies">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="symbol"><th mat-header-cell *matHeaderCellDef>Símbolo</th><td mat-cell *matCellDef="let row">{{ row.symbol || '—' }}</td></ng-container>
+            <ng-container matColumnDef="denomination"><th mat-header-cell *matHeaderCellDef>Denominación</th><td mat-cell *matCellDef="let row">{{ row.denomination || '—' }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditCurrency(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="currencyColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: currencyColumns"></tr>
+          </table>
+          <mat-paginator [length]="currencyTotal" [pageSize]="currencyPageSize" [pageIndex]="currencyPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCurrencyPage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Carreras">
+    <div class="tab-content">
+      <div class="toolbar">
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>País</mat-label>
+          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+            @for (country of countries; track country.id) {
+              <mat-option [value]="country.id">{{ country.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="button" (click)="openCreateCareer()">
+          <mat-icon>add</mat-icon> Nueva carrera
+        </button>
+      </div>
+      @if (showCareerForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingCareerId ? 'Editar carrera' : 'Nueva carrera' }}</h4>
+          <form [formGroup]="careerForm" class="gender-form" (ngSubmit)="saveCareer()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelCareerForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingCareer">{{ savingCareer ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingCareers) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="careers">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditCareer(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="careerColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: careerColumns"></tr>
+          </table>
+          <mat-paginator [length]="careerTotal" [pageSize]="careerPageSize" [pageIndex]="careerPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCareerPage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Idiomas">
+    <div class="tab-content">
+      <div class="toolbar">
+        <button mat-flat-button color="primary" type="button" (click)="openCreateLanguage()">
+          <mat-icon>add</mat-icon> Nuevo idioma
+        </button>
+      </div>
+      @if (showLanguageForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingLanguageId ? 'Editar idioma' : 'Nuevo idioma' }}</h4>
+          <form [formGroup]="languageForm" class="gender-form" (ngSubmit)="saveLanguage()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelLanguageForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingLanguage">{{ savingLanguage ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingLanguages) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="languages">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditLanguage(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="languageColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: languageColumns"></tr>
+          </table>
+          <mat-paginator [length]="languageTotal" [pageSize]="languagePageSize" [pageIndex]="languagePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onLanguagePage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Turnos">
+    <div class="tab-content">
+      <div class="toolbar">
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>País</mat-label>
+          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+            @for (country of countries; track country.id) {
+              <mat-option [value]="country.id">{{ country.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="button" (click)="openCreateShift()">
+          <mat-icon>add</mat-icon> Nuevo turno
+        </button>
+      </div>
+      @if (showShiftForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingShiftId ? 'Editar turno' : 'Nuevo turno' }}</h4>
+          <form [formGroup]="shiftForm" class="gender-form" (ngSubmit)="saveShift()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelShiftForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingShift">{{ savingShift ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingShifts) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="shifts">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditShift(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="shiftColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: shiftColumns"></tr>
+          </table>
+          <mat-paginator [length]="shiftTotal" [pageSize]="shiftPageSize" [pageIndex]="shiftPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onShiftPage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Prestaciones">
+    <div class="tab-content">
+      <div class="toolbar">
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>País</mat-label>
+          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+            @for (country of countries; track country.id) {
+              <mat-option [value]="country.id">{{ country.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="button" (click)="openCreateBenefit()">
+          <mat-icon>add</mat-icon> Nueva prestación
+        </button>
+      </div>
+      @if (showBenefitForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingBenefitId ? 'Editar prestación' : 'Nueva prestación' }}</h4>
+          <form [formGroup]="benefitForm" class="gender-form" (ngSubmit)="saveBenefit()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelBenefitForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingBenefit">{{ savingBenefit ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingBenefits) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="benefits">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditBenefit(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="benefitColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: benefitColumns"></tr>
+          </table>
+          <mat-paginator [length]="benefitTotal" [pageSize]="benefitPageSize" [pageIndex]="benefitPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onBenefitPage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Tipos de documento">
+    <div class="tab-content">
+      <div class="toolbar">
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>País</mat-label>
+          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+            @for (country of countries; track country.id) {
+              <mat-option [value]="country.id">{{ country.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="button" (click)="openCreateDocumentType()">
+          <mat-icon>add</mat-icon> Nuevo tipo
+        </button>
+      </div>
+      @if (showDocumentTypeForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingDocumentTypeId ? 'Editar tipo de documento' : 'Nuevo tipo de documento' }}</h4>
+          <form [formGroup]="documentTypeForm" class="gender-form" (ngSubmit)="saveDocumentType()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Tipo documento</mat-label><input matInput formControlName="documentType" /></mat-form-field>
+            <mat-checkbox formControlName="validatesWithAi">Valida con IA</mat-checkbox>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelDocumentTypeForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingDocumentType">{{ savingDocumentType ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingDocumentTypes) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="documentTypes">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="documentType"><th mat-header-cell *matHeaderCellDef>Tipo</th><td mat-cell *matCellDef="let row">{{ row.documentType || '—' }}</td></ng-container>
+            <ng-container matColumnDef="validatesWithAi"><th mat-header-cell *matHeaderCellDef>IA</th><td mat-cell *matCellDef="let row">{{ row.validatesWithAi ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditDocumentType(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="documentTypeColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: documentTypeColumns"></tr>
+          </table>
+          <mat-paginator [length]="documentTypeTotal" [pageSize]="documentTypePageSize" [pageIndex]="documentTypePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onDocumentTypePage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Marcas">
+    <div class="tab-content">
+      <div class="toolbar">
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>País</mat-label>
+          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+            @for (country of countries; track country.id) {
+              <mat-option [value]="country.id">{{ country.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="button" (click)="openCreateBrand()">
+          <mat-icon>add</mat-icon> Nueva marca
+        </button>
+      </div>
+      @if (showBrandForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingBrandId ? 'Editar marca' : 'Nueva marca' }}</h4>
+          <form [formGroup]="brandForm" class="gender-form" (ngSubmit)="saveBrand()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelBrandForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingBrand">{{ savingBrand ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingBrands) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="brands">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditBrand(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="brandColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: brandColumns"></tr>
+          </table>
+          <mat-paginator [length]="brandTotal" [pageSize]="brandPageSize" [pageIndex]="brandPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onBrandPage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Tipos de contrato">
+    <div class="tab-content">
+      <div class="toolbar">
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>País</mat-label>
+          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+            @for (country of countries; track country.id) {
+              <mat-option [value]="country.id">{{ country.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="button" (click)="openCreateContractType()">
+          <mat-icon>add</mat-icon> Nuevo tipo de contrato
+        </button>
+      </div>
+      @if (showContractTypeForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingContractTypeId ? 'Editar tipo de contrato' : 'Nuevo tipo de contrato' }}</h4>
+          <form [formGroup]="contractTypeForm" class="gender-form" (ngSubmit)="saveContractType()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelContractTypeForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingContractType">{{ savingContractType ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingContractTypes) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="contractTypes">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="description"><th mat-header-cell *matHeaderCellDef>Descripción</th><td mat-cell *matCellDef="let row">{{ row.description || '—' }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditContractType(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="contractTypeColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: contractTypeColumns"></tr>
+          </table>
+          <mat-paginator [length]="contractTypeTotal" [pageSize]="contractTypePageSize" [pageIndex]="contractTypePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onContractTypePage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Tipos de cobertura">
+    <div class="tab-content">
+      <div class="toolbar">
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>País</mat-label>
+          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+            @for (country of countries; track country.id) {
+              <mat-option [value]="country.id">{{ country.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="button" (click)="openCreateCoverageType()">
+          <mat-icon>add</mat-icon> Nuevo tipo de cobertura
+        </button>
+      </div>
+      @if (showCoverageTypeForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingCoverageTypeId ? 'Editar tipo de cobertura' : 'Nuevo tipo de cobertura' }}</h4>
+          <form [formGroup]="coverageTypeForm" class="gender-form" (ngSubmit)="saveCoverageType()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelCoverageTypeForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingCoverageType">{{ savingCoverageType ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingCoverageTypes) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="coverageTypes">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="description"><th mat-header-cell *matHeaderCellDef>Descripción</th><td mat-cell *matCellDef="let row">{{ row.description || '—' }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditCoverageType(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="coverageTypeColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: coverageTypeColumns"></tr>
+          </table>
+          <mat-paginator [length]="coverageTypeTotal" [pageSize]="coverageTypePageSize" [pageIndex]="coverageTypePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCoverageTypePage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Niveles de educación">
+    <div class="tab-content">
+      <div class="toolbar">
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>País</mat-label>
+          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+            @for (country of countries; track country.id) {
+              <mat-option [value]="country.id">{{ country.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="button" (click)="openCreateEducationLevel()">
+          <mat-icon>add</mat-icon> Nuevo nivel de educación
+        </button>
+      </div>
+      @if (showEducationLevelForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingEducationLevelId ? 'Editar nivel de educación' : 'Nuevo nivel de educación' }}</h4>
+          <form [formGroup]="educationLevelForm" class="gender-form" (ngSubmit)="saveEducationLevel()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
+            <mat-checkbox formControlName="requiresCareer">Requiere carrera</mat-checkbox>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelEducationLevelForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingEducationLevel">{{ savingEducationLevel ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingEducationLevels) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="educationLevels">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="description"><th mat-header-cell *matHeaderCellDef>Descripción</th><td mat-cell *matCellDef="let row">{{ row.description || '—' }}</td></ng-container>
+            <ng-container matColumnDef="requiresCareer"><th mat-header-cell *matHeaderCellDef>Requiere carrera</th><td mat-cell *matCellDef="let row">{{ row.requiresCareer ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditEducationLevel(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="educationLevelColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: educationLevelColumns"></tr>
+          </table>
+          <mat-paginator [length]="educationLevelTotal" [pageSize]="educationLevelPageSize" [pageIndex]="educationLevelPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onEducationLevelPage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Niveles de idioma">
+    <div class="tab-content">
+      <div class="toolbar">
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>País</mat-label>
+          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+            @for (country of countries; track country.id) {
+              <mat-option [value]="country.id">{{ country.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="button" (click)="openCreateLanguageLevel()">
+          <mat-icon>add</mat-icon> Nuevo nivel de idioma
+        </button>
+      </div>
+      @if (showLanguageLevelForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingLanguageLevelId ? 'Editar nivel de idioma' : 'Nuevo nivel de idioma' }}</h4>
+          <form [formGroup]="languageLevelForm" class="gender-form" (ngSubmit)="saveLanguageLevel()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-checkbox formControlName="appliesToCareer">Aplica a carrera</mat-checkbox>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelLanguageLevelForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingLanguageLevel">{{ savingLanguageLevel ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingLanguageLevels) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="languageLevels">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="appliesToCareer"><th mat-header-cell *matHeaderCellDef>Aplica a carrera</th><td mat-cell *matCellDef="let row">{{ row.appliesToCareer ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditLanguageLevel(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="languageLevelColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: languageLevelColumns"></tr>
+          </table>
+          <mat-paginator [length]="languageLevelTotal" [pageSize]="languageLevelPageSize" [pageIndex]="languageLevelPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onLanguageLevelPage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Tipos de requisición">
+    <div class="tab-content">
+      <div class="toolbar">
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>País</mat-label>
+          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+            @for (country of countries; track country.id) {
+              <mat-option [value]="country.id">{{ country.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="button" (click)="openCreateRequisitionType()">
+          <mat-icon>add</mat-icon> Nuevo tipo de requisición
+        </button>
+      </div>
+      @if (showRequisitionTypeForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingRequisitionTypeId ? 'Editar tipo de requisición' : 'Nuevo tipo de requisición' }}</h4>
+          <form [formGroup]="requisitionTypeForm" class="gender-form" (ngSubmit)="saveRequisitionType()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelRequisitionTypeForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingRequisitionType">{{ savingRequisitionType ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingRequisitionTypes) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="requisitionTypes">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="description"><th mat-header-cell *matHeaderCellDef>Descripción</th><td mat-cell *matCellDef="let row">{{ row.description || '—' }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditRequisitionType(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="requisitionTypeColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: requisitionTypeColumns"></tr>
+          </table>
+          <mat-paginator [length]="requisitionTypeTotal" [pageSize]="requisitionTypePageSize" [pageIndex]="requisitionTypePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onRequisitionTypePage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Empresas cliente">
+    <div class="tab-content">
+      <div class="toolbar">
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>País</mat-label>
+          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+            @for (country of countries; track country.id) {
+              <mat-option [value]="country.id">{{ country.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="button" (click)="openCreateClientCompany()">
+          <mat-icon>add</mat-icon> Nueva empresa cliente
+        </button>
+      </div>
+      @if (showClientCompanyForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingClientCompanyId ? 'Editar empresa cliente' : 'Nueva empresa cliente' }}</h4>
+          <form [formGroup]="clientCompanyForm" class="gender-form" (ngSubmit)="saveClientCompany()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre comercial</mat-label><input matInput formControlName="tradeName" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>RFC / Tax ID</mat-label><input matInput formControlName="taxId" /></mat-form-field>
+            <mat-checkbox formControlName="r3Interface">Interfaz R3</mat-checkbox>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelClientCompanyForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingClientCompany">{{ savingClientCompany ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingClientCompanies) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="clientCompanies">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="tradeName"><th mat-header-cell *matHeaderCellDef>Nombre comercial</th><td mat-cell *matCellDef="let row">{{ row.tradeName || '—' }}</td></ng-container>
+            <ng-container matColumnDef="taxId"><th mat-header-cell *matHeaderCellDef>RFC / Tax ID</th><td mat-cell *matCellDef="let row">{{ row.taxId || '—' }}</td></ng-container>
+            <ng-container matColumnDef="r3Interface"><th mat-header-cell *matHeaderCellDef>Interfaz R3</th><td mat-cell *matCellDef="let row">{{ row.r3Interface ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditClientCompany(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="clientCompanyColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: clientCompanyColumns"></tr>
+          </table>
+          <mat-paginator [length]="clientCompanyTotal" [pageSize]="clientCompanyPageSize" [pageIndex]="clientCompanyPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onClientCompanyPage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Países">
+    <div class="tab-content">
+      <div class="toolbar">
+        <button mat-flat-button color="primary" type="button" (click)="openCreateCountry()">
+          <mat-icon>add</mat-icon> Nuevo país
+        </button>
+      </div>
+      @if (showCountryForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingCountryId ? 'Editar país' : 'Nuevo país' }}</h4>
+          <form [formGroup]="countryForm" class="gender-form" (ngSubmit)="saveCountry()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Clave 2</mat-label><input matInput formControlName="secondaryCode" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelCountryForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingCountry">{{ savingCountry ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingCountryRecords) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="countryRecords">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
+            <ng-container matColumnDef="secondaryCode"><th mat-header-cell *matHeaderCellDef>Clave 2</th><td mat-cell *matCellDef="let row">{{ row.secondaryCode || '—' }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditCountry(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="countryColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: countryColumns"></tr>
+          </table>
+          <mat-paginator [length]="countryRecordTotal" [pageSize]="countryPageSize" [pageIndex]="countryPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCountryPage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Entidades federativas">
+    <div class="tab-content">
+      <div class="toolbar">
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>País</mat-label>
+          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+            @for (country of countries; track country.id) {
+              <mat-option [value]="country.id">{{ country.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="button" (click)="openCreateState()">
+          <mat-icon>add</mat-icon> Nueva entidad
+        </button>
+      </div>
+      @if (showStateForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingStateId ? 'Editar entidad' : 'Nueva entidad federativa' }}</h4>
+          <form [formGroup]="stateForm" class="gender-form" (ngSubmit)="saveState()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Descripción corta</mat-label><input matInput formControlName="shortDescription" /></mat-form-field>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelStateForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingState">{{ savingState ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingStates) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="states">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="shortDescription"><th mat-header-cell *matHeaderCellDef>Descripción</th><td mat-cell *matCellDef="let row">{{ row.shortDescription || '—' }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditState(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="stateColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: stateColumns"></tr>
+          </table>
+          <mat-paginator [length]="stateTotal" [pageSize]="statePageSize" [pageIndex]="statePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onStatePage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Municipios">
+    <div class="tab-content">
+      <div class="toolbar">
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>País</mat-label>
+          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+            @for (country of countries; track country.id) {
+              <mat-option [value]="country.id">{{ country.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>Entidad federativa</mat-label>
+          <mat-select [value]="selectedStateId" (selectionChange)="onGeoStateChange($event.value)">
+            @for (state of stateOptions; track state.id) {
+              <mat-option [value]="state.id">{{ state.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="button" (click)="openCreateMunicipality()">
+          <mat-icon>add</mat-icon> Nuevo municipio
+        </button>
+      </div>
+      @if (showMunicipalityForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingMunicipalityId ? 'Editar municipio' : 'Nuevo municipio' }}</h4>
+          <form [formGroup]="municipalityForm" class="gender-form" (ngSubmit)="saveMunicipality()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelMunicipalityForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingMunicipality">{{ savingMunicipality ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingMunicipalities) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="municipalities">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code || '—' }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditMunicipality(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="municipalityColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: municipalityColumns"></tr>
+          </table>
+          <mat-paginator [length]="municipalityTotal" [pageSize]="municipalityPageSize" [pageIndex]="municipalityPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onMunicipalityPage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Colonias">
+    <div class="tab-content">
+      <div class="toolbar">
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>País</mat-label>
+          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+            @for (country of countries; track country.id) {
+              <mat-option [value]="country.id">{{ country.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>Entidad federativa</mat-label>
+          <mat-select [value]="selectedStateId" (selectionChange)="onGeoStateChange($event.value)">
+            @for (state of stateOptions; track state.id) {
+              <mat-option [value]="state.id">{{ state.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>Municipio</mat-label>
+          <mat-select [value]="selectedMunicipalityId" (selectionChange)="onMunicipalityChange($event.value)">
+            @for (m of municipalityOptions; track m.id) {
+              <mat-option [value]="m.id">{{ m.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="button" (click)="openCreateNeighborhood()">
+          <mat-icon>add</mat-icon> Nueva colonia
+        </button>
+      </div>
+      @if (showNeighborhoodForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingNeighborhoodId ? 'Editar colonia' : 'Nueva colonia' }}</h4>
+          <form [formGroup]="neighborhoodForm" class="gender-form" (ngSubmit)="saveNeighborhood()">
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Código postal</mat-label><input matInput formControlName="postalCode" maxlength="5" /></mat-form-field>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelNeighborhoodForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingNeighborhood">{{ savingNeighborhood ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingNeighborhoods) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="neighborhoods">
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="postalCode"><th mat-header-cell *matHeaderCellDef>CP</th><td mat-cell *matCellDef="let row">{{ row.postalCode }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditNeighborhood(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="neighborhoodColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: neighborhoodColumns"></tr>
+          </table>
+          <mat-paginator [length]="neighborhoodTotal" [pageSize]="neighborhoodPageSize" [pageIndex]="neighborhoodPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onNeighborhoodPage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  @if (loadingMock) {
+    <mat-tab label="...">
+      <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+    </mat-tab>
+  } @else {
+    @for (cat of mockCategories; track cat) {
       <mat-tab [label]="cat">
         <div class="sh-card sh-table-wrap tab-content">
           <table mat-table [dataSource]="getByCategory(cat)">
@@ -12,11 +1015,11 @@
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
             <ng-container matColumnDef="description"><th mat-header-cell *matHeaderCellDef>Descripción</th><td mat-cell *matCellDef="let row">{{ row.description }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.active ? 'Sí' : 'No' }}</td></ng-container>
-            <tr mat-header-row *matHeaderRowDef="columns"></tr>
-            <tr mat-row *matRowDef="let row; columns: columns"></tr>
+            <tr mat-header-row *matHeaderRowDef="mockColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: mockColumns"></tr>
           </table>
         </div>
       </mat-tab>
     }
-  </mat-tab-group>
-}
+  }
+</mat-tab-group>
