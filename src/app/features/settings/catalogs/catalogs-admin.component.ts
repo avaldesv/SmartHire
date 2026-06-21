@@ -15,6 +15,7 @@ import { CatalogCareerService } from '../../../core/services/catalog-career.serv
 import { CatalogBenefitService } from '../../../core/services/catalog-benefit.service';
 import { CatalogBrandService } from '../../../core/services/catalog-brand.service';
 import { CatalogClientCompanyService } from '../../../core/services/catalog-client-company.service';
+import { CatalogCompanyService } from '../../../core/services/catalog-company.service';
 import { CatalogContractTypeService } from '../../../core/services/catalog-contract-type.service';
 import { CatalogEducationLevelService } from '../../../core/services/catalog-education-level.service';
 import { CatalogLanguageLevelService } from '../../../core/services/catalog-language-level.service';
@@ -32,6 +33,7 @@ import { CatalogCareer } from '../../../shared/models/catalog-career.model';
 import { CatalogBenefit } from '../../../shared/models/catalog-benefit.model';
 import { CatalogBrand } from '../../../shared/models/catalog-brand.model';
 import { CatalogClientCompany } from '../../../shared/models/catalog-client-company.model';
+import { CatalogCompany } from '../../../shared/models/catalog-company.model';
 import { CatalogContractType } from '../../../shared/models/catalog-contract-type.model';
 import { CatalogEducationLevel } from '../../../shared/models/catalog-education-level.model';
 import { CatalogLanguageLevel } from '../../../shared/models/catalog-language-level.model';
@@ -70,6 +72,7 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly settings = inject(SettingsService);
   private readonly genderService = inject(CatalogGenderService);
   private readonly kinshipService = inject(CatalogKinshipService);
+  private readonly companyService = inject(CatalogCompanyService);
   private readonly currencyService = inject(CatalogCurrencyService);
   private readonly careerService = inject(CatalogCareerService);
   private readonly languageService = inject(CatalogLanguageService);
@@ -115,6 +118,15 @@ export class CatalogsAdminComponent implements OnInit {
   savingKinship = false;
   editingKinshipId: number | null = null;
   showKinshipForm = false;
+
+  companies: CatalogCompany[] = [];
+  companyTotal = 0;
+  companyPageIndex = 0;
+  companyPageSize = 10;
+  loadingCompanies = false;
+  savingCompany = false;
+  editingCompanyId: number | null = null;
+  showCompanyForm = false;
 
   currencies: CatalogCurrency[] = [];
   currencyTotal = 0;
@@ -272,6 +284,7 @@ export class CatalogsAdminComponent implements OnInit {
   readonly mockColumns = ['key1', 'key2', 'name', 'description', 'active'];
   readonly genderColumns = ['code', 'name', 'value', 'active', 'actions'];
   readonly kinshipColumns = ['code', 'name', 'active', 'actions'];
+  readonly companyColumns = ['code', 'name', 'active', 'actions'];
   readonly currencyColumns = ['code', 'name', 'symbol', 'denomination', 'active', 'actions'];
   readonly careerColumns = ['code', 'name', 'active', 'actions'];
   readonly languageColumns = ['code', 'name', 'active', 'actions'];
@@ -301,6 +314,12 @@ export class CatalogsAdminComponent implements OnInit {
   });
 
   readonly kinshipForm = this.fb.nonNullable.group({
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    isActive: [true],
+  });
+
+  readonly companyForm = this.fb.nonNullable.group({
     code: ['', Validators.required],
     name: ['', Validators.required],
     isActive: [true],
@@ -448,6 +467,7 @@ export class CatalogsAdminComponent implements OnInit {
       this.loadingMock = false;
     });
     this.loadKinships();
+    this.loadCompanies();
     this.loadLanguages();
     this.loadCountryRecords();
     this.reloadCountryDropdown();
@@ -641,6 +661,27 @@ export class CatalogsAdminComponent implements OnInit {
     this.kinshipPageIndex = e.pageIndex;
     this.kinshipPageSize = e.pageSize;
     this.loadKinships();
+  }
+
+  loadCompanies(): void {
+    this.loadingCompanies = true;
+    this.companyService.list(this.companyPageIndex, this.companyPageSize).subscribe({
+      next: (res) => {
+        this.companies = res.items;
+        this.companyTotal = res.total;
+        this.loadingCompanies = false;
+      },
+      error: () => {
+        this.loadingCompanies = false;
+        this.snack.open('No se pudieron cargar las compañías', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  onCompanyPage(e: PageEvent): void {
+    this.companyPageIndex = e.pageIndex;
+    this.companyPageSize = e.pageSize;
+    this.loadCompanies();
   }
 
   onCurrencyPage(e: PageEvent): void {
@@ -1013,6 +1054,48 @@ export class CatalogsAdminComponent implements OnInit {
       error: () => {
         this.savingKinship = false;
         this.snack.open('No se pudo guardar el parentesco', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  openCreateCompany(): void {
+    this.editingCompanyId = null;
+    this.showCompanyForm = true;
+    this.companyForm.reset({ code: '', name: '', isActive: true });
+  }
+
+  openEditCompany(row: CatalogCompany): void {
+    this.editingCompanyId = row.id;
+    this.showCompanyForm = true;
+    this.companyForm.patchValue({ code: row.code, name: row.name, isActive: row.isActive });
+  }
+
+  cancelCompanyForm(): void {
+    this.showCompanyForm = false;
+    this.editingCompanyId = null;
+  }
+
+  saveCompany(): void {
+    if (this.companyForm.invalid) {
+      this.companyForm.markAllAsTouched();
+      return;
+    }
+    const value = this.companyForm.getRawValue();
+    this.savingCompany = true;
+    const request$ =
+      this.editingCompanyId != null
+        ? this.companyService.update(this.editingCompanyId, value)
+        : this.companyService.create(value);
+    request$.subscribe({
+      next: () => {
+        this.savingCompany = false;
+        this.cancelCompanyForm();
+        this.loadCompanies();
+        this.snack.open('Compañía guardada', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingCompany = false;
+        this.snack.open('No se pudo guardar la compañía', 'Cerrar', { duration: 4000 });
       },
     });
   }
