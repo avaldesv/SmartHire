@@ -96,7 +96,7 @@ export class AuthService {
           this.persistSession(email, res);
         }),
         catchError((err) => {
-          this.logout();
+          this.clearLocalSession();
           return throwError(() => err);
         }),
         tap(() => {
@@ -113,7 +113,40 @@ export class AuthService {
     this.msal.loginRedirect({ scopes: msalScopes });
   }
 
-  logout(): void {
+  logout(): Observable<void> {
+    const refreshToken = sessionStorage.getItem('sh_refresh_token');
+    const request$ =
+      refreshToken != null
+        ? this.http.post<{ success: boolean }>(
+            this.api.apiUrl('/api/v1/auth/logout'),
+            { companyId: environment.companyId, refreshToken },
+            { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) },
+          )
+        : of({ success: true });
+
+    return request$.pipe(
+      tap(() => this.clearLocalSession()),
+      map(() => undefined),
+      catchError(() => {
+        this.clearLocalSession();
+        return of(undefined);
+      }),
+    );
+  }
+
+  completeLogout(): void {
+    this.logout().subscribe(() => this.redirectAfterLogout());
+  }
+
+  private redirectAfterLogout(): void {
+    if (this.isSsoEnabled() && this.msal && this.msal.instance.getAllAccounts().length > 0) {
+      this.msal.logoutRedirect();
+      return;
+    }
+    window.location.href = '/login';
+  }
+
+  private clearLocalSession(): void {
     this.clearRefreshTimer();
     this.currentUser.set(null);
     sessionStorage.removeItem('sh_token');

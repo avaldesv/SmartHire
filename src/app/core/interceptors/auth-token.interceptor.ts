@@ -15,6 +15,7 @@ export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
   const isAuthEndpoint =
     req.url.includes('/api/v1/auth/login') ||
     req.url.includes('/api/v1/auth/refresh') ||
+    req.url.includes('/api/v1/auth/logout') ||
     req.url.includes('/api/v1/auth/sso/exchange');
 
   if (isAuthEndpoint) {
