@@ -1,56 +1,238 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
 import { debounceTime } from 'rxjs';
-import { SettingsService } from '../../../mock/services/settings.service';
-import { SystemUser } from '../../../shared/models';
+import { SecurityRoleService } from '../../../core/services/security-role.service';
+import { SecurityUserService } from '../../../core/services/security-user.service';
+import { SecurityRole } from '../../../shared/models/security-role.model';
+import { SecurityUser } from '../../../shared/models/security-user.model';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'sh-users-admin',
   standalone: true,
-  imports: [ReactiveFormsModule, MatTableModule, MatPaginatorModule, MatFormFieldModule, MatInputModule, MatProgressSpinnerModule],
+  imports: [
+    ReactiveFormsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatSnackBarModule,
+  ],
   templateUrl: './users-admin.component.html',
   styleUrl: './users-admin.component.scss',
 })
 export class UsersAdminComponent implements OnInit {
-  private readonly settings = inject(SettingsService);
+  private readonly userService = inject(SecurityUserService);
+  private readonly roleService = inject(SecurityRoleService);
+  private readonly snack = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
 
   loading = true;
-  data: SystemUser[] = [];
+  saving = false;
+  data: SecurityUser[] = [];
+  filtered: SecurityUser[] = [];
+  roleOptions: SecurityRole[] = [];
   total = 0;
   pageIndex = 0;
   pageSize = 10;
+  editingUserId: number | null = null;
+  showForm = false;
 
   readonly searchForm = this.fb.nonNullable.group({ search: [''] });
-  readonly columns = ['username', 'firstName', 'lastName', 'email', 'profile', 'branch', 'active'];
+  readonly userForm = this.fb.nonNullable.group({
+    username: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required],
+    name: ['', Validators.required],
+    lastName: ['', Validators.required],
+    phone: [''],
+    isActive: [true],
+    roleIds: [[] as number[]],
+  });
+
+  readonly columns = ['username', 'name', 'lastName', 'email', 'roles', 'active', 'actions'];
 
   ngOnInit(): void {
+    this.loadRoles();
     this.load();
-    this.searchForm.controls.search.valueChanges.pipe(debounceTime(300)).subscribe(() => {
-      this.pageIndex = 0;
-      this.load();
+    this.searchForm.controls.search.valueChanges.pipe(debounceTime(300)).subscribe(() => this.applySearch());
+  }
+
+  private loadRoles(): void {
+    this.roleService.list().subscribe({
+      next: (roles) => {
+        this.roleOptions = roles.filter((r) => r.isActive);
+      },
+      error: () => this.snack.open('No se pudieron cargar los roles', 'Cerrar', { duration: 4000 }),
     });
   }
 
   load(): void {
     this.loading = true;
-    this.settings
-      .listUsers({ search: this.searchForm.controls.search.value || undefined, page: this.pageIndex + 1, pageSize: this.pageSize })
-      .subscribe((res) => {
+    this.userService.list(this.pageIndex, this.pageSize).subscribe({
+      next: (res) => {
         this.data = res.items;
         this.total = res.total;
+        this.applySearch();
         this.loading = false;
-      });
+      },
+      error: () => {
+        this.loading = false;
+        this.snack.open('No se pudieron cargar los usuarios', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  private applySearch(): void {
+    const term = this.searchForm.controls.search.value.trim().toLowerCase();
+    if (!term) {
+      this.filtered = this.data;
+      return;
+    }
+    this.filtered = this.data.filter(
+      (u) =>
+        u.username.toLowerCase().includes(term) ||
+        u.name.toLowerCase().includes(term) ||
+        u.lastName.toLowerCase().includes(term) ||
+        u.email.toLowerCase().includes(term),
+    );
   }
 
   onPage(e: PageEvent): void {
     this.pageIndex = e.pageIndex;
     this.pageSize = e.pageSize;
     this.load();
+  }
+
+  roleNames(user: SecurityUser): string {
+    return user.roles?.length ? user.roles.map((r) => r.name).join(', ') : '—';
+  }
+
+  openCreate(): void {
+    this.editingUserId = null;
+    this.showForm = true;
+    this.userForm.reset({
+      username: '',
+      email: '',
+      password: '',
+      name: '',
+      lastName: '',
+      phone: '',
+      isActive: true,
+      roleIds: [],
+    });
+    this.userForm.controls.username.enable();
+    this.userForm.controls.password.setValidators([Validators.required]);
+    this.userForm.controls.password.updateValueAndValidity();
+  }
+
+  openEdit(row: SecurityUser): void {
+    this.editingUserId = row.id;
+    this.showForm = true;
+    this.userForm.controls.username.disable();
+    this.userForm.controls.password.clearValidators();
+    this.userForm.controls.password.updateValueAndValidity();
+    this.userService.getById(row.id).subscribe({
+      next: (user) => {
+        this.userForm.patchValue({
+          username: user.username,
+          email: user.email,
+          password: '',
+          name: user.name,
+          lastName: user.lastName,
+          phone: user.phone ?? '',
+          isActive: user.isActive,
+          roleIds: user.roles?.map((r) => r.id) ?? [],
+        });
+      },
+      error: () => {
+        this.userForm.patchValue({
+          username: row.username,
+          email: row.email,
+          password: '',
+          name: row.name,
+          lastName: row.lastName,
+          phone: row.phone ?? '',
+          isActive: row.isActive,
+          roleIds: row.roles?.map((r) => r.id) ?? [],
+        });
+      },
+    });
+  }
+
+  cancelForm(): void {
+    this.showForm = false;
+    this.editingUserId = null;
+    this.userForm.controls.username.enable();
+  }
+
+  save(): void {
+    if (this.userForm.invalid) {
+      this.userForm.markAllAsTouched();
+      return;
+    }
+    const value = this.userForm.getRawValue();
+    this.saving = true;
+
+    if (this.editingUserId != null) {
+      this.userService
+        .update(this.editingUserId, {
+          email: value.email,
+          name: value.name,
+          lastName: value.lastName,
+          phone: value.phone || undefined,
+          isActive: value.isActive,
+          roleIds: value.roleIds,
+        })
+        .subscribe({
+          next: () => this.onSaveSuccess(),
+          error: () => this.onSaveError(),
+        });
+      return;
+    }
+
+    this.userService
+      .create({
+        username: value.username,
+        email: value.email,
+        password: value.password,
+        name: value.name,
+        lastName: value.lastName,
+        phone: value.phone || undefined,
+        companyId: environment.companyId,
+        isActive: value.isActive,
+        roleIds: value.roleIds,
+      })
+      .subscribe({
+        next: () => this.onSaveSuccess(),
+        error: () => this.onSaveError(),
+      });
+  }
+
+  private onSaveSuccess(): void {
+    this.saving = false;
+    this.cancelForm();
+    this.load();
+    this.snack.open('Usuario guardado', 'Cerrar', { duration: 3000 });
+  }
+
+  private onSaveError(): void {
+    this.saving = false;
+    this.snack.open('No se pudo guardar el usuario', 'Cerrar', { duration: 4000 });
   }
 }
