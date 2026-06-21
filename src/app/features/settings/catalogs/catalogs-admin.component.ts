@@ -25,7 +25,7 @@ import { CatalogCareer } from '../../../shared/models/catalog-career.model';
 import { CatalogBenefit } from '../../../shared/models/catalog-benefit.model';
 import { CatalogCurrency } from '../../../shared/models/catalog-currency.model';
 import { CatalogDocumentType } from '../../../shared/models/catalog-document-type.model';
-import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
+import { CatalogCountry, CatalogState } from '../../../shared/models/catalog-geography.model';
 import { CatalogGender } from '../../../shared/models/catalog-gender.model';
 import { CatalogKinship } from '../../../shared/models/catalog-kinship.model';
 import { CatalogLanguage } from '../../../shared/models/catalog-language.model';
@@ -145,6 +145,24 @@ export class CatalogsAdminComponent implements OnInit {
   editingDocumentTypeId: number | null = null;
   showDocumentTypeForm = false;
 
+  countryRecords: CatalogCountry[] = [];
+  countryRecordTotal = 0;
+  countryPageIndex = 0;
+  countryPageSize = 10;
+  loadingCountryRecords = false;
+  savingCountry = false;
+  editingCountryId: number | null = null;
+  showCountryForm = false;
+
+  states: CatalogState[] = [];
+  stateTotal = 0;
+  statePageIndex = 0;
+  statePageSize = 10;
+  loadingStates = false;
+  savingState = false;
+  editingStateId: number | null = null;
+  showStateForm = false;
+
   readonly mockColumns = ['key1', 'key2', 'name', 'description', 'active'];
   readonly genderColumns = ['code', 'name', 'value', 'active', 'actions'];
   readonly kinshipColumns = ['code', 'name', 'active', 'actions'];
@@ -154,8 +172,10 @@ export class CatalogsAdminComponent implements OnInit {
   readonly shiftColumns = ['code', 'name', 'active', 'actions'];
   readonly benefitColumns = ['code', 'name', 'active', 'actions'];
   readonly documentTypeColumns = ['code', 'name', 'documentType', 'validatesWithAi', 'active', 'actions'];
+  readonly countryColumns = ['code', 'secondaryCode', 'name', 'active', 'actions'];
+  readonly stateColumns = ['code', 'name', 'shortDescription', 'active', 'actions'];
 
-  private readonly apiCatalogCategories = new Set(['Carrera']);
+  private readonly apiCatalogCategories = new Set(['Carrera', 'País', 'Entidad Federativa']);
 
   readonly genderForm = this.fb.nonNullable.group({
     countryId: [null as number | null, Validators.required],
@@ -216,6 +236,21 @@ export class CatalogsAdminComponent implements OnInit {
     isActive: [true],
   });
 
+  readonly countryForm = this.fb.nonNullable.group({
+    code: ['', Validators.required],
+    secondaryCode: [''],
+    name: ['', Validators.required],
+    isActive: [true],
+  });
+
+  readonly stateForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    shortDescription: [''],
+    isActive: [true],
+  });
+
   ngOnInit(): void {
     this.settings.getCatalogs().subscribe((items) => {
       this.allCatalogs = items;
@@ -226,12 +261,19 @@ export class CatalogsAdminComponent implements OnInit {
     });
     this.loadKinships();
     this.loadLanguages();
+    this.loadCountryRecords();
+    this.reloadCountryDropdown();
+  }
+
+  private reloadCountryDropdown(): void {
     this.geographyService.listCountries().subscribe({
       next: (countries) => {
         this.countries = countries;
         const mexico = countries.find((c) => c.code === 'MX');
-        if (mexico) {
+        if (mexico && this.selectedCountryId == null) {
           this.selectedCountryId = mexico.id;
+          this.loadCountryCatalogs();
+        } else if (this.selectedCountryId != null) {
           this.loadCountryCatalogs();
         }
       },
@@ -250,6 +292,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.loadShifts();
     this.loadBenefits();
     this.loadDocumentTypes();
+    this.loadStates();
   }
 
   onCountryChange(countryId: number): void {
@@ -260,12 +303,14 @@ export class CatalogsAdminComponent implements OnInit {
     this.shiftPageIndex = 0;
     this.benefitPageIndex = 0;
     this.documentTypePageIndex = 0;
+    this.statePageIndex = 0;
     this.cancelGenderForm();
     this.cancelCurrencyForm();
     this.cancelCareerForm();
     this.cancelShiftForm();
     this.cancelBenefitForm();
     this.cancelDocumentTypeForm();
+    this.cancelStateForm();
     this.loadCountryCatalogs();
   }
 
@@ -865,6 +910,158 @@ export class CatalogsAdminComponent implements OnInit {
       error: () => {
         this.savingDocumentType = false;
         this.snack.open('No se pudo guardar el tipo de documento', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  loadCountryRecords(): void {
+    this.loadingCountryRecords = true;
+    this.geographyService.listCountriesPage(this.countryPageIndex, this.countryPageSize).subscribe({
+      next: (res) => {
+        this.countryRecords = res.items;
+        this.countryRecordTotal = res.total;
+        this.loadingCountryRecords = false;
+      },
+      error: () => {
+        this.loadingCountryRecords = false;
+        this.snack.open('No se pudieron cargar los países', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  loadStates(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingStates = true;
+    this.geographyService.listStatesPage(this.selectedCountryId, this.statePageIndex, this.statePageSize).subscribe({
+      next: (res) => {
+        this.states = res.items;
+        this.stateTotal = res.total;
+        this.loadingStates = false;
+      },
+      error: () => {
+        this.loadingStates = false;
+        this.snack.open('No se pudieron cargar las entidades federativas', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  onCountryPage(e: PageEvent): void {
+    this.countryPageIndex = e.pageIndex;
+    this.countryPageSize = e.pageSize;
+    this.loadCountryRecords();
+  }
+
+  onStatePage(e: PageEvent): void {
+    this.statePageIndex = e.pageIndex;
+    this.statePageSize = e.pageSize;
+    this.loadStates();
+  }
+
+  openCreateCountry(): void {
+    this.editingCountryId = null;
+    this.showCountryForm = true;
+    this.countryForm.reset({ code: '', secondaryCode: '', name: '', isActive: true });
+  }
+
+  openEditCountry(row: CatalogCountry): void {
+    this.editingCountryId = row.id;
+    this.showCountryForm = true;
+    this.countryForm.patchValue({
+      code: row.code,
+      secondaryCode: row.secondaryCode ?? '',
+      name: row.name,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelCountryForm(): void {
+    this.showCountryForm = false;
+    this.editingCountryId = null;
+  }
+
+  saveCountry(): void {
+    if (this.countryForm.invalid) {
+      this.countryForm.markAllAsTouched();
+      return;
+    }
+    const value = this.countryForm.getRawValue();
+    this.savingCountry = true;
+    const request$ =
+      this.editingCountryId != null
+        ? this.geographyService.updateCountry(this.editingCountryId, value)
+        : this.geographyService.createCountry(value);
+    request$.subscribe({
+      next: () => {
+        this.savingCountry = false;
+        this.cancelCountryForm();
+        this.loadCountryRecords();
+        this.reloadCountryDropdown();
+        this.snack.open('País guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingCountry = false;
+        this.snack.open('No se pudo guardar el país', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  openCreateState(): void {
+    this.editingStateId = null;
+    this.showStateForm = true;
+    this.stateForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      shortDescription: '',
+      isActive: true,
+    });
+  }
+
+  openEditState(row: CatalogState): void {
+    this.editingStateId = row.id;
+    this.showStateForm = true;
+    this.stateForm.patchValue({
+      countryId: row.countryId,
+      code: row.code,
+      name: row.name,
+      shortDescription: row.shortDescription ?? '',
+      isActive: row.isActive,
+    });
+  }
+
+  cancelStateForm(): void {
+    this.showStateForm = false;
+    this.editingStateId = null;
+  }
+
+  saveState(): void {
+    if (this.stateForm.invalid) {
+      this.stateForm.markAllAsTouched();
+      return;
+    }
+    const value = this.stateForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      shortDescription: value.shortDescription,
+      isActive: value.isActive,
+    };
+    this.savingState = true;
+    const request$ =
+      this.editingStateId != null
+        ? this.geographyService.updateState(this.editingStateId, payload)
+        : this.geographyService.createState(payload);
+    request$.subscribe({
+      next: () => {
+        this.savingState = false;
+        this.cancelStateForm();
+        this.loadStates();
+        this.snack.open('Entidad federativa guardada', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingState = false;
+        this.snack.open('No se pudo guardar la entidad federativa', 'Cerrar', { duration: 4000 });
       },
     });
   }

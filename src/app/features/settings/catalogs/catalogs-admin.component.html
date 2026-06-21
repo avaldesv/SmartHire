@@ -406,6 +406,96 @@
     </div>
   </mat-tab>
 
+  <mat-tab label="Países">
+    <div class="tab-content">
+      <div class="toolbar">
+        <button mat-flat-button color="primary" type="button" (click)="openCreateCountry()">
+          <mat-icon>add</mat-icon> Nuevo país
+        </button>
+      </div>
+      @if (showCountryForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingCountryId ? 'Editar país' : 'Nuevo país' }}</h4>
+          <form [formGroup]="countryForm" class="gender-form" (ngSubmit)="saveCountry()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Clave 2</mat-label><input matInput formControlName="secondaryCode" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelCountryForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingCountry">{{ savingCountry ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingCountryRecords) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="countryRecords">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
+            <ng-container matColumnDef="secondaryCode"><th mat-header-cell *matHeaderCellDef>Clave 2</th><td mat-cell *matCellDef="let row">{{ row.secondaryCode || '—' }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditCountry(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="countryColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: countryColumns"></tr>
+          </table>
+          <mat-paginator [length]="countryRecordTotal" [pageSize]="countryPageSize" [pageIndex]="countryPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCountryPage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Entidades federativas">
+    <div class="tab-content">
+      <div class="toolbar">
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>País</mat-label>
+          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+            @for (country of countries; track country.id) {
+              <mat-option [value]="country.id">{{ country.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="button" (click)="openCreateState()">
+          <mat-icon>add</mat-icon> Nueva entidad
+        </button>
+      </div>
+      @if (showStateForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingStateId ? 'Editar entidad' : 'Nueva entidad federativa' }}</h4>
+          <form [formGroup]="stateForm" class="gender-form" (ngSubmit)="saveState()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Descripción corta</mat-label><input matInput formControlName="shortDescription" /></mat-form-field>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelStateForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingState">{{ savingState ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingStates) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="states">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="shortDescription"><th mat-header-cell *matHeaderCellDef>Descripción</th><td mat-cell *matCellDef="let row">{{ row.shortDescription || '—' }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditState(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="stateColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: stateColumns"></tr>
+          </table>
+          <mat-paginator [length]="stateTotal" [pageSize]="statePageSize" [pageIndex]="statePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onStatePage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
   @if (loadingMock) {
     <mat-tab label="...">
       <div class="loading-wrap"><mat-spinner diameter="36" /></div>

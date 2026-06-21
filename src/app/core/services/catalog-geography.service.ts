@@ -8,6 +8,10 @@ import {
   CatalogMunicipality,
   CatalogNeighborhood,
   CatalogState,
+  CreateCountryRequest,
+  CreateStateRequest,
+  UpdateCountryRequest,
+  UpdateStateRequest,
 } from '../../shared/models/catalog-geography.model';
 import { ApiClientService } from './api-client.service';
 
@@ -23,6 +27,58 @@ export class CatalogGeographyService {
         headers: this.api.buildHeaders(page, size),
       })
       .pipe(map((res) => res.data ?? []));
+  }
+
+  listCountriesPage(page = 0, size = 20): Observable<{ items: CatalogCountry[]; total: number }> {
+    const body: CatalogListRequest = { isActive: null, filters: [], ordersBy: ['name:asc'] };
+    return this.http
+      .post<ApiPageResponse<CatalogCountry>>(this.api.apiUrl('/api/v1/countries/list'), body, {
+        headers: this.api.buildHeaders(page, size),
+      })
+      .pipe(
+        map((res) => ({
+          items: res.data ?? [],
+          total: res.pagination?.total ?? 0,
+        })),
+      );
+  }
+
+  createCountry(request: CreateCountryRequest): Observable<CatalogCountry> {
+    return this.http.post<CatalogCountry>(this.api.apiUrl('/api/v1/countries'), request, {
+      headers: this.api.buildHeaders(),
+    });
+  }
+
+  updateCountry(id: number, request: UpdateCountryRequest): Observable<CatalogCountry> {
+    return this.http.put<CatalogCountry>(this.api.apiUrl(`/api/v1/countries/${id}`), request, {
+      headers: this.api.buildHeaders(),
+    });
+  }
+
+  listStatesPage(countryId: number, page = 0, size = 20): Observable<{ items: CatalogState[]; total: number }> {
+    const body: CatalogListRequest = { countryId, isActive: null, filters: [], ordersBy: ['name:asc'] };
+    return this.http
+      .post<ApiPageResponse<CatalogState>>(this.api.apiUrl('/api/v1/states/list'), body, {
+        headers: this.api.buildHeaders(page, size),
+      })
+      .pipe(
+        map((res) => ({
+          items: res.data ?? [],
+          total: res.pagination?.total ?? 0,
+        })),
+      );
+  }
+
+  createState(request: CreateStateRequest): Observable<CatalogState> {
+    return this.http.post<CatalogState>(this.api.apiUrl('/api/v1/states'), request, {
+      headers: this.api.buildHeaders(),
+    });
+  }
+
+  updateState(id: number, request: UpdateStateRequest): Observable<CatalogState> {
+    return this.http.put<CatalogState>(this.api.apiUrl(`/api/v1/states/${id}`), request, {
+      headers: this.api.buildHeaders(),
+    });
   }
 
   listStates(countryId: number, page = 0, size = 500): Observable<CatalogState[]> {
