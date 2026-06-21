@@ -25,7 +25,7 @@ import { CatalogCareer } from '../../../shared/models/catalog-career.model';
 import { CatalogBenefit } from '../../../shared/models/catalog-benefit.model';
 import { CatalogCurrency } from '../../../shared/models/catalog-currency.model';
 import { CatalogDocumentType } from '../../../shared/models/catalog-document-type.model';
-import { CatalogCountry, CatalogState } from '../../../shared/models/catalog-geography.model';
+import { CatalogCountry, CatalogMunicipality, CatalogNeighborhood, CatalogState } from '../../../shared/models/catalog-geography.model';
 import { CatalogGender } from '../../../shared/models/catalog-gender.model';
 import { CatalogKinship } from '../../../shared/models/catalog-kinship.model';
 import { CatalogLanguage } from '../../../shared/models/catalog-language.model';
@@ -72,6 +72,10 @@ export class CatalogsAdminComponent implements OnInit {
 
   countries: CatalogCountry[] = [];
   selectedCountryId: number | null = null;
+  stateOptions: CatalogState[] = [];
+  selectedStateId: number | null = null;
+  municipalityOptions: CatalogMunicipality[] = [];
+  selectedMunicipalityId: number | null = null;
 
   genders: CatalogGender[] = [];
   genderTotal = 0;
@@ -163,6 +167,24 @@ export class CatalogsAdminComponent implements OnInit {
   editingStateId: number | null = null;
   showStateForm = false;
 
+  municipalities: CatalogMunicipality[] = [];
+  municipalityTotal = 0;
+  municipalityPageIndex = 0;
+  municipalityPageSize = 10;
+  loadingMunicipalities = false;
+  savingMunicipality = false;
+  editingMunicipalityId: number | null = null;
+  showMunicipalityForm = false;
+
+  neighborhoods: CatalogNeighborhood[] = [];
+  neighborhoodTotal = 0;
+  neighborhoodPageIndex = 0;
+  neighborhoodPageSize = 10;
+  loadingNeighborhoods = false;
+  savingNeighborhood = false;
+  editingNeighborhoodId: number | null = null;
+  showNeighborhoodForm = false;
+
   readonly mockColumns = ['key1', 'key2', 'name', 'description', 'active'];
   readonly genderColumns = ['code', 'name', 'value', 'active', 'actions'];
   readonly kinshipColumns = ['code', 'name', 'active', 'actions'];
@@ -174,6 +196,8 @@ export class CatalogsAdminComponent implements OnInit {
   readonly documentTypeColumns = ['code', 'name', 'documentType', 'validatesWithAi', 'active', 'actions'];
   readonly countryColumns = ['code', 'secondaryCode', 'name', 'active', 'actions'];
   readonly stateColumns = ['code', 'name', 'shortDescription', 'active', 'actions'];
+  readonly municipalityColumns = ['code', 'name', 'active', 'actions'];
+  readonly neighborhoodColumns = ['name', 'postalCode', 'active', 'actions'];
 
   private readonly apiCatalogCategories = new Set(['Carrera', 'País', 'Entidad Federativa']);
 
@@ -251,6 +275,20 @@ export class CatalogsAdminComponent implements OnInit {
     isActive: [true],
   });
 
+  readonly municipalityForm = this.fb.nonNullable.group({
+    stateId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    isActive: [true],
+  });
+
+  readonly neighborhoodForm = this.fb.nonNullable.group({
+    municipalityId: [null as number | null, Validators.required],
+    name: ['', Validators.required],
+    postalCode: ['', [Validators.required, Validators.pattern(/^\d{5}$/)]],
+    isActive: [true],
+  });
+
   ngOnInit(): void {
     this.settings.getCatalogs().subscribe((items) => {
       this.allCatalogs = items;
@@ -272,12 +310,48 @@ export class CatalogsAdminComponent implements OnInit {
         const mexico = countries.find((c) => c.code === 'MX');
         if (mexico && this.selectedCountryId == null) {
           this.selectedCountryId = mexico.id;
+          this.loadStateOptions();
           this.loadCountryCatalogs();
         } else if (this.selectedCountryId != null) {
+          this.loadStateOptions();
           this.loadCountryCatalogs();
         }
       },
       error: () => this.snack.open('No se pudieron cargar los países', 'Cerrar', { duration: 4000 }),
+    });
+  }
+
+  private loadStateOptions(): void {
+    if (this.selectedCountryId == null) return;
+    this.geographyService.listStates(this.selectedCountryId).subscribe({
+      next: (states) => {
+        this.stateOptions = states;
+        if (this.selectedStateId == null && states.length > 0) {
+          this.selectedStateId = states[0].id;
+          this.loadMunicipalityOptions();
+          this.loadMunicipalities();
+        } else if (this.selectedStateId != null) {
+          this.loadMunicipalityOptions();
+          this.loadMunicipalities();
+        }
+      },
+      error: () => this.snack.open('No se pudieron cargar entidades para el selector', 'Cerrar', { duration: 4000 }),
+    });
+  }
+
+  private loadMunicipalityOptions(): void {
+    if (this.selectedStateId == null) return;
+    this.geographyService.listMunicipalities(this.selectedStateId).subscribe({
+      next: (municipalities) => {
+        this.municipalityOptions = municipalities;
+        if (this.selectedMunicipalityId == null && municipalities.length > 0) {
+          this.selectedMunicipalityId = municipalities[0].id;
+          this.loadNeighborhoods();
+        } else if (this.selectedMunicipalityId != null) {
+          this.loadNeighborhoods();
+        }
+      },
+      error: () => this.snack.open('No se pudieron cargar municipios para el selector', 'Cerrar', { duration: 4000 }),
     });
   }
 
@@ -297,6 +371,8 @@ export class CatalogsAdminComponent implements OnInit {
 
   onCountryChange(countryId: number): void {
     this.selectedCountryId = countryId;
+    this.selectedStateId = null;
+    this.selectedMunicipalityId = null;
     this.genderPageIndex = 0;
     this.currencyPageIndex = 0;
     this.careerPageIndex = 0;
@@ -304,6 +380,8 @@ export class CatalogsAdminComponent implements OnInit {
     this.benefitPageIndex = 0;
     this.documentTypePageIndex = 0;
     this.statePageIndex = 0;
+    this.municipalityPageIndex = 0;
+    this.neighborhoodPageIndex = 0;
     this.cancelGenderForm();
     this.cancelCurrencyForm();
     this.cancelCareerForm();
@@ -311,7 +389,28 @@ export class CatalogsAdminComponent implements OnInit {
     this.cancelBenefitForm();
     this.cancelDocumentTypeForm();
     this.cancelStateForm();
+    this.cancelMunicipalityForm();
+    this.cancelNeighborhoodForm();
+    this.loadStateOptions();
     this.loadCountryCatalogs();
+  }
+
+  onGeoStateChange(stateId: number): void {
+    this.selectedStateId = stateId;
+    this.selectedMunicipalityId = null;
+    this.municipalityPageIndex = 0;
+    this.neighborhoodPageIndex = 0;
+    this.cancelMunicipalityForm();
+    this.cancelNeighborhoodForm();
+    this.loadMunicipalityOptions();
+    this.loadMunicipalities();
+  }
+
+  onMunicipalityChange(municipalityId: number): void {
+    this.selectedMunicipalityId = municipalityId;
+    this.neighborhoodPageIndex = 0;
+    this.cancelNeighborhoodForm();
+    this.loadNeighborhoods();
   }
 
   loadGenders(): void {
@@ -1062,6 +1161,166 @@ export class CatalogsAdminComponent implements OnInit {
       error: () => {
         this.savingState = false;
         this.snack.open('No se pudo guardar la entidad federativa', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  loadMunicipalities(): void {
+    if (this.selectedStateId == null) return;
+    this.loadingMunicipalities = true;
+    this.geographyService
+      .listMunicipalitiesPage(this.selectedStateId, this.municipalityPageIndex, this.municipalityPageSize)
+      .subscribe({
+        next: (res) => {
+          this.municipalities = res.items;
+          this.municipalityTotal = res.total;
+          this.loadingMunicipalities = false;
+        },
+        error: () => {
+          this.loadingMunicipalities = false;
+          this.snack.open('No se pudieron cargar los municipios', 'Cerrar', { duration: 4000 });
+        },
+      });
+  }
+
+  loadNeighborhoods(): void {
+    if (this.selectedMunicipalityId == null) return;
+    this.loadingNeighborhoods = true;
+    this.geographyService
+      .listNeighborhoodsPage(this.selectedMunicipalityId, this.neighborhoodPageIndex, this.neighborhoodPageSize)
+      .subscribe({
+        next: (res) => {
+          this.neighborhoods = res.items;
+          this.neighborhoodTotal = res.total;
+          this.loadingNeighborhoods = false;
+        },
+        error: () => {
+          this.loadingNeighborhoods = false;
+          this.snack.open('No se pudieron cargar las colonias', 'Cerrar', { duration: 4000 });
+        },
+      });
+  }
+
+  onMunicipalityPage(e: PageEvent): void {
+    this.municipalityPageIndex = e.pageIndex;
+    this.municipalityPageSize = e.pageSize;
+    this.loadMunicipalities();
+  }
+
+  onNeighborhoodPage(e: PageEvent): void {
+    this.neighborhoodPageIndex = e.pageIndex;
+    this.neighborhoodPageSize = e.pageSize;
+    this.loadNeighborhoods();
+  }
+
+  openCreateMunicipality(): void {
+    this.editingMunicipalityId = null;
+    this.showMunicipalityForm = true;
+    this.municipalityForm.reset({ stateId: this.selectedStateId, code: '', name: '', isActive: true });
+  }
+
+  openEditMunicipality(row: CatalogMunicipality): void {
+    this.editingMunicipalityId = row.id;
+    this.showMunicipalityForm = true;
+    this.municipalityForm.patchValue({
+      stateId: row.stateId,
+      code: row.code ?? '',
+      name: row.name,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelMunicipalityForm(): void {
+    this.showMunicipalityForm = false;
+    this.editingMunicipalityId = null;
+  }
+
+  saveMunicipality(): void {
+    if (this.municipalityForm.invalid) {
+      this.municipalityForm.markAllAsTouched();
+      return;
+    }
+    const value = this.municipalityForm.getRawValue();
+    const payload = {
+      stateId: value.stateId!,
+      code: value.code,
+      name: value.name,
+      isActive: value.isActive,
+    };
+    this.savingMunicipality = true;
+    const request$ =
+      this.editingMunicipalityId != null
+        ? this.geographyService.updateMunicipality(this.editingMunicipalityId, payload)
+        : this.geographyService.createMunicipality(payload);
+    request$.subscribe({
+      next: () => {
+        this.savingMunicipality = false;
+        this.cancelMunicipalityForm();
+        this.loadMunicipalities();
+        this.loadMunicipalityOptions();
+        this.snack.open('Municipio guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingMunicipality = false;
+        this.snack.open('No se pudo guardar el municipio', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  openCreateNeighborhood(): void {
+    this.editingNeighborhoodId = null;
+    this.showNeighborhoodForm = true;
+    this.neighborhoodForm.reset({
+      municipalityId: this.selectedMunicipalityId,
+      name: '',
+      postalCode: '',
+      isActive: true,
+    });
+  }
+
+  openEditNeighborhood(row: CatalogNeighborhood): void {
+    this.editingNeighborhoodId = row.id;
+    this.showNeighborhoodForm = true;
+    this.neighborhoodForm.patchValue({
+      municipalityId: row.municipalityId,
+      name: row.name,
+      postalCode: row.postalCode,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelNeighborhoodForm(): void {
+    this.showNeighborhoodForm = false;
+    this.editingNeighborhoodId = null;
+  }
+
+  saveNeighborhood(): void {
+    if (this.neighborhoodForm.invalid) {
+      this.neighborhoodForm.markAllAsTouched();
+      return;
+    }
+    const value = this.neighborhoodForm.getRawValue();
+    const payload = {
+      municipalityId: value.municipalityId!,
+      name: value.name,
+      postalCode: value.postalCode,
+      isActive: value.isActive,
+    };
+    this.savingNeighborhood = true;
+    const request$ =
+      this.editingNeighborhoodId != null
+        ? this.geographyService.updateNeighborhood(this.editingNeighborhoodId, payload)
+        : this.geographyService.createNeighborhood(payload);
+    request$.subscribe({
+      next: () => {
+        this.savingNeighborhood = false;
+        this.cancelNeighborhoodForm();
+        this.loadNeighborhoods();
+        this.snack.open('Colonia guardada', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingNeighborhood = false;
+        this.snack.open('No se pudo guardar la colonia', 'Cerrar', { duration: 4000 });
       },
     });
   }

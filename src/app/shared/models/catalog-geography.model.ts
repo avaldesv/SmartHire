@@ -49,6 +49,24 @@ export interface CreateStateRequest {
 
 export type UpdateStateRequest = CreateStateRequest;
 
+export interface CreateMunicipalityRequest {
+  stateId: number;
+  code: string;
+  name: string;
+  isActive?: boolean;
+}
+
+export type UpdateMunicipalityRequest = CreateMunicipalityRequest;
+
+export interface CreateNeighborhoodRequest {
+  municipalityId: number;
+  name: string;
+  postalCode: string;
+  isActive?: boolean;
+}
+
+export type UpdateNeighborhoodRequest = CreateNeighborhoodRequest;
+
 export interface CatalogMunicipality {
   id: number;
   stateId: number;
