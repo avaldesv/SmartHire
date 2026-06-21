@@ -12,6 +12,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDialog } from '@angular/material/dialog';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
@@ -20,6 +21,14 @@ import { KpiCardComponent } from '../../../shared/components/kpi-card/kpi-card.c
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import { PositionListItem } from '../../../shared/models/position.model';
+import {
+  CandidatePoolDialogComponent,
+  CandidatePoolDialogData,
+} from '../../candidates/dialogs/candidate-pool-dialog/candidate-pool-dialog.component';
+import {
+  PositionApplicationsDialogComponent,
+  PositionApplicationsDialogData,
+} from '../../candidates/dialogs/position-applications-dialog/position-applications-dialog.component';
 
 @Component({
   selector: 'sh-dashboard',
@@ -50,6 +59,7 @@ export class DashboardComponent implements OnInit {
   private readonly geographyService = inject(CatalogGeographyService);
   private readonly snack = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
+  private readonly dialog = inject(MatDialog);
 
   readonly user = this.auth.currentUser;
   loading = true;
@@ -246,5 +256,39 @@ export class DashboardComponent implements OnInit {
         this.snack.open('No se pudo rechazar la solicitud', 'Cerrar', { duration: 4000 });
       },
     });
+  }
+
+  openPoolDialog(row: PositionListItem): void {
+    const ref = this.dialog.open<CandidatePoolDialogComponent, CandidatePoolDialogData>(
+      CandidatePoolDialogComponent,
+      {
+        width: '760px',
+        maxWidth: '95vw',
+        data: { positionId: row.id, requisitionNo: row.requisitionNo },
+      },
+    );
+    ref.afterClosed().subscribe((result) => {
+      if (result?.created) {
+        this.loadKpis();
+        this.snack.open(`${result.created} candidato(s) postulado(s) a ${row.requisitionNo}`, 'Cerrar', {
+          duration: 4000,
+        });
+      }
+    });
+  }
+
+  openApplicationsDialog(row: PositionListItem): void {
+    this.dialog.open<PositionApplicationsDialogComponent, PositionApplicationsDialogData>(
+      PositionApplicationsDialogComponent,
+      {
+        width: '720px',
+        maxWidth: '95vw',
+        data: {
+          positionId: row.id,
+          requisitionNo: row.requisitionNo,
+          positionName: row.name,
+        },
+      },
+    );
   }
 }
