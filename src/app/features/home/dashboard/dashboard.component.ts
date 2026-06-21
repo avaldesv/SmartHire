@@ -5,7 +5,6 @@ import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
@@ -14,10 +13,10 @@ import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
-import { RequisitionService } from '../../../mock/services/requisition.service';
+import { PositionService } from '../../../core/services/position.service';
 import { KpiCardComponent } from '../../../shared/components/kpi-card/kpi-card.component';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
-import { Requisition } from '../../../shared/models';
+import { PositionListItem } from '../../../shared/models/position.model';
 
 @Component({
   selector: 'sh-dashboard',
@@ -29,7 +28,6 @@ import { Requisition } from '../../../shared/models';
     MatTableModule,
     MatPaginatorModule,
     MatFormFieldModule,
-    MatInputModule,
     MatSelectModule,
     MatButtonModule,
     MatIconModule,
@@ -44,58 +42,38 @@ import { Requisition } from '../../../shared/models';
 })
 export class DashboardComponent implements OnInit {
   private readonly auth = inject(AuthService);
-  private readonly reqService = inject(RequisitionService);
+  private readonly positionService = inject(PositionService);
   private readonly snack = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
 
   readonly user = this.auth.currentUser;
   loading = true;
   total = 0;
-  pageSize = 5;
+  pageSize = 10;
   pageIndex = 0;
-  data: Requisition[] = [];
-  clients: string[] = [];
+  data: PositionListItem[] = [];
 
   kpis = { totalPositions: 0, preselected: 0, interested: 0 };
 
-  readonly statusOptions = ['Todos', 'Abierta', 'En Proceso', 'En Revisión', 'Cerrada', 'Selección', 'Análisis'];
+  readonly statusOptions = ['Todos', 'DRAFT'];
 
   readonly displayedColumns = [
     'requisitionNo',
     'name',
-    'ot',
-    'createdAt',
-    'positionsCount',
-    'applicants',
-    'preselected',
-    'firstDay',
-    'recruiter',
-    'type',
-    'category',
-    'brand',
     'client',
-    'clientKey',
-    'unit',
-    'city',
-    'state',
     'status',
-    'country',
+    'recruiter',
+    'createdAt',
     'actions',
   ];
 
   readonly filters = this.fb.nonNullable.group({
-    search: [''],
     status: ['Todos'],
-    client: ['Todos'],
-    dateFrom: [''],
-    dateTo: [''],
   });
 
   ngOnInit(): void {
-    this.reqService.getKpis().subscribe((k) => (this.kpis = k));
-    this.reqService.getClients().subscribe((c) => (this.clients = ['Todos', ...c]));
     this.loadData();
-    this.filters.valueChanges.pipe(debounceTime(300), distinctUntilChanged()).subscribe(() => {
+    this.filters.valueChanges.pipe(debounceTime(200), distinctUntilChanged()).subscribe(() => {
       this.pageIndex = 0;
       this.loadData();
     });
@@ -103,19 +81,20 @@ export class DashboardComponent implements OnInit {
 
   loadData(): void {
     this.loading = true;
-    const f = this.filters.getRawValue();
-    this.reqService
-      .list({
-        search: f.search || undefined,
-        status: f.status !== 'Todos' ? f.status : undefined,
-        client: f.client !== 'Todos' ? f.client : undefined,
-        page: this.pageIndex + 1,
-        pageSize: this.pageSize,
-      })
-      .subscribe((res) => {
-        this.data = res.items;
-        this.total = res.total;
-        this.loading = false;
+    const status = this.filters.controls.status.value;
+    this.positionService
+      .list(this.pageIndex, this.pageSize, status !== 'Todos' ? status : null)
+      .subscribe({
+        next: (res) => {
+          this.data = res.items;
+          this.total = res.total;
+          this.kpis = { ...this.kpis, totalPositions: res.total };
+          this.loading = false;
+        },
+        error: () => {
+          this.loading = false;
+          this.snack.open('No se pudieron cargar las solicitudes', 'Cerrar', { duration: 4000 });
+        },
       });
   }
 
@@ -126,15 +105,7 @@ export class DashboardComponent implements OnInit {
   }
 
   clearFilters(): void {
-    this.filters.reset({ search: '', status: 'Todos', client: 'Todos', dateFrom: '', dateTo: '' });
+    this.filters.reset({ status: 'Todos' });
     this.snack.open('Filtros limpiados', 'Cerrar', { duration: 2500 });
-  }
-
-  newRequisition(): void {
-    this.snack.open('Redirigiendo a nueva requisición…', 'Cerrar', { duration: 2000 });
-  }
-
-  rowAction(action: string, row: Requisition): void {
-    this.snack.open(`${action}: ${row.requisitionNo}`, 'Cerrar', { duration: 2500 });
   }
 }
