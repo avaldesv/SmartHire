@@ -12,18 +12,24 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CatalogCareerService } from '../../../core/services/catalog-career.service';
+import { CatalogBenefitService } from '../../../core/services/catalog-benefit.service';
 import { CatalogCurrencyService } from '../../../core/services/catalog-currency.service';
+import { CatalogDocumentTypeService } from '../../../core/services/catalog-document-type.service';
 import { CatalogGenderService } from '../../../core/services/catalog-gender.service';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { CatalogKinshipService } from '../../../core/services/catalog-kinship.service';
 import { CatalogLanguageService } from '../../../core/services/catalog-language.service';
+import { CatalogShiftService } from '../../../core/services/catalog-shift.service';
 import { SettingsService } from '../../../mock/services/settings.service';
 import { CatalogCareer } from '../../../shared/models/catalog-career.model';
+import { CatalogBenefit } from '../../../shared/models/catalog-benefit.model';
 import { CatalogCurrency } from '../../../shared/models/catalog-currency.model';
+import { CatalogDocumentType } from '../../../shared/models/catalog-document-type.model';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import { CatalogGender } from '../../../shared/models/catalog-gender.model';
 import { CatalogKinship } from '../../../shared/models/catalog-kinship.model';
 import { CatalogLanguage } from '../../../shared/models/catalog-language.model';
+import { CatalogShift } from '../../../shared/models/catalog-shift.model';
 import { CatalogItem } from '../../../shared/models';
 
 @Component({
@@ -53,6 +59,9 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly currencyService = inject(CatalogCurrencyService);
   private readonly careerService = inject(CatalogCareerService);
   private readonly languageService = inject(CatalogLanguageService);
+  private readonly shiftService = inject(CatalogShiftService);
+  private readonly benefitService = inject(CatalogBenefitService);
+  private readonly documentTypeService = inject(CatalogDocumentTypeService);
   private readonly geographyService = inject(CatalogGeographyService);
   private readonly snack = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
@@ -109,12 +118,42 @@ export class CatalogsAdminComponent implements OnInit {
   editingLanguageId: number | null = null;
   showLanguageForm = false;
 
+  shifts: CatalogShift[] = [];
+  shiftTotal = 0;
+  shiftPageIndex = 0;
+  shiftPageSize = 10;
+  loadingShifts = false;
+  savingShift = false;
+  editingShiftId: number | null = null;
+  showShiftForm = false;
+
+  benefits: CatalogBenefit[] = [];
+  benefitTotal = 0;
+  benefitPageIndex = 0;
+  benefitPageSize = 10;
+  loadingBenefits = false;
+  savingBenefit = false;
+  editingBenefitId: number | null = null;
+  showBenefitForm = false;
+
+  documentTypes: CatalogDocumentType[] = [];
+  documentTypeTotal = 0;
+  documentTypePageIndex = 0;
+  documentTypePageSize = 10;
+  loadingDocumentTypes = false;
+  savingDocumentType = false;
+  editingDocumentTypeId: number | null = null;
+  showDocumentTypeForm = false;
+
   readonly mockColumns = ['key1', 'key2', 'name', 'description', 'active'];
   readonly genderColumns = ['code', 'name', 'value', 'active', 'actions'];
   readonly kinshipColumns = ['code', 'name', 'active', 'actions'];
   readonly currencyColumns = ['code', 'name', 'symbol', 'denomination', 'active', 'actions'];
   readonly careerColumns = ['code', 'name', 'active', 'actions'];
   readonly languageColumns = ['code', 'name', 'active', 'actions'];
+  readonly shiftColumns = ['code', 'name', 'active', 'actions'];
+  readonly benefitColumns = ['code', 'name', 'active', 'actions'];
+  readonly documentTypeColumns = ['code', 'name', 'documentType', 'validatesWithAi', 'active', 'actions'];
 
   private readonly apiCatalogCategories = new Set(['Carrera']);
 
@@ -154,6 +193,29 @@ export class CatalogsAdminComponent implements OnInit {
     isActive: [true],
   });
 
+  readonly shiftForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    isActive: [true],
+  });
+
+  readonly benefitForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    isActive: [true],
+  });
+
+  readonly documentTypeForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    documentType: ['', Validators.required],
+    validatesWithAi: [false],
+    isActive: [true],
+  });
+
   ngOnInit(): void {
     this.settings.getCatalogs().subscribe((items) => {
       this.allCatalogs = items;
@@ -185,6 +247,9 @@ export class CatalogsAdminComponent implements OnInit {
     this.loadGenders();
     this.loadCurrencies();
     this.loadCareers();
+    this.loadShifts();
+    this.loadBenefits();
+    this.loadDocumentTypes();
   }
 
   onCountryChange(countryId: number): void {
@@ -192,9 +257,15 @@ export class CatalogsAdminComponent implements OnInit {
     this.genderPageIndex = 0;
     this.currencyPageIndex = 0;
     this.careerPageIndex = 0;
+    this.shiftPageIndex = 0;
+    this.benefitPageIndex = 0;
+    this.documentTypePageIndex = 0;
     this.cancelGenderForm();
     this.cancelCurrencyForm();
     this.cancelCareerForm();
+    this.cancelShiftForm();
+    this.cancelBenefitForm();
+    this.cancelDocumentTypeForm();
     this.loadCountryCatalogs();
   }
 
@@ -304,6 +375,72 @@ export class CatalogsAdminComponent implements OnInit {
     this.languagePageIndex = e.pageIndex;
     this.languagePageSize = e.pageSize;
     this.loadLanguages();
+  }
+
+  loadShifts(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingShifts = true;
+    this.shiftService.list(this.selectedCountryId, this.shiftPageIndex, this.shiftPageSize).subscribe({
+      next: (res) => {
+        this.shifts = res.items;
+        this.shiftTotal = res.total;
+        this.loadingShifts = false;
+      },
+      error: () => {
+        this.loadingShifts = false;
+        this.snack.open('No se pudieron cargar los turnos', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  loadBenefits(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingBenefits = true;
+    this.benefitService.list(this.selectedCountryId, this.benefitPageIndex, this.benefitPageSize).subscribe({
+      next: (res) => {
+        this.benefits = res.items;
+        this.benefitTotal = res.total;
+        this.loadingBenefits = false;
+      },
+      error: () => {
+        this.loadingBenefits = false;
+        this.snack.open('No se pudieron cargar las prestaciones', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  loadDocumentTypes(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingDocumentTypes = true;
+    this.documentTypeService.list(this.selectedCountryId, this.documentTypePageIndex, this.documentTypePageSize).subscribe({
+      next: (res) => {
+        this.documentTypes = res.items;
+        this.documentTypeTotal = res.total;
+        this.loadingDocumentTypes = false;
+      },
+      error: () => {
+        this.loadingDocumentTypes = false;
+        this.snack.open('No se pudieron cargar los tipos de documento', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  onShiftPage(e: PageEvent): void {
+    this.shiftPageIndex = e.pageIndex;
+    this.shiftPageSize = e.pageSize;
+    this.loadShifts();
+  }
+
+  onBenefitPage(e: PageEvent): void {
+    this.benefitPageIndex = e.pageIndex;
+    this.benefitPageSize = e.pageSize;
+    this.loadBenefits();
+  }
+
+  onDocumentTypePage(e: PageEvent): void {
+    this.documentTypePageIndex = e.pageIndex;
+    this.documentTypePageSize = e.pageSize;
+    this.loadDocumentTypes();
   }
 
   openCreateGender(): void {
@@ -558,6 +695,176 @@ export class CatalogsAdminComponent implements OnInit {
       error: () => {
         this.savingLanguage = false;
         this.snack.open('No se pudo guardar el idioma', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  openCreateShift(): void {
+    this.editingShiftId = null;
+    this.showShiftForm = true;
+    this.shiftForm.reset({ countryId: this.selectedCountryId, code: '', name: '', isActive: true });
+  }
+
+  openEditShift(row: CatalogShift): void {
+    this.editingShiftId = row.id;
+    this.showShiftForm = true;
+    this.shiftForm.patchValue({
+      countryId: row.countryId,
+      code: row.code,
+      name: row.name,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelShiftForm(): void {
+    this.showShiftForm = false;
+    this.editingShiftId = null;
+  }
+
+  saveShift(): void {
+    if (this.shiftForm.invalid) {
+      this.shiftForm.markAllAsTouched();
+      return;
+    }
+    const value = this.shiftForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      isActive: value.isActive,
+    };
+    this.savingShift = true;
+    const request$ =
+      this.editingShiftId != null
+        ? this.shiftService.update(this.editingShiftId, payload)
+        : this.shiftService.create(payload);
+    request$.subscribe({
+      next: () => {
+        this.savingShift = false;
+        this.cancelShiftForm();
+        this.loadShifts();
+        this.snack.open('Turno guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingShift = false;
+        this.snack.open('No se pudo guardar el turno', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  openCreateBenefit(): void {
+    this.editingBenefitId = null;
+    this.showBenefitForm = true;
+    this.benefitForm.reset({ countryId: this.selectedCountryId, code: '', name: '', isActive: true });
+  }
+
+  openEditBenefit(row: CatalogBenefit): void {
+    this.editingBenefitId = row.id;
+    this.showBenefitForm = true;
+    this.benefitForm.patchValue({
+      countryId: row.countryId,
+      code: row.code,
+      name: row.name,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelBenefitForm(): void {
+    this.showBenefitForm = false;
+    this.editingBenefitId = null;
+  }
+
+  saveBenefit(): void {
+    if (this.benefitForm.invalid) {
+      this.benefitForm.markAllAsTouched();
+      return;
+    }
+    const value = this.benefitForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      isActive: value.isActive,
+    };
+    this.savingBenefit = true;
+    const request$ =
+      this.editingBenefitId != null
+        ? this.benefitService.update(this.editingBenefitId, payload)
+        : this.benefitService.create(payload);
+    request$.subscribe({
+      next: () => {
+        this.savingBenefit = false;
+        this.cancelBenefitForm();
+        this.loadBenefits();
+        this.snack.open('Prestación guardada', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingBenefit = false;
+        this.snack.open('No se pudo guardar la prestación', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  openCreateDocumentType(): void {
+    this.editingDocumentTypeId = null;
+    this.showDocumentTypeForm = true;
+    this.documentTypeForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      documentType: '',
+      validatesWithAi: false,
+      isActive: true,
+    });
+  }
+
+  openEditDocumentType(row: CatalogDocumentType): void {
+    this.editingDocumentTypeId = row.id;
+    this.showDocumentTypeForm = true;
+    this.documentTypeForm.patchValue({
+      countryId: row.countryId,
+      code: row.code,
+      name: row.name,
+      documentType: row.documentType,
+      validatesWithAi: row.validatesWithAi,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelDocumentTypeForm(): void {
+    this.showDocumentTypeForm = false;
+    this.editingDocumentTypeId = null;
+  }
+
+  saveDocumentType(): void {
+    if (this.documentTypeForm.invalid) {
+      this.documentTypeForm.markAllAsTouched();
+      return;
+    }
+    const value = this.documentTypeForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      documentType: value.documentType,
+      validatesWithAi: value.validatesWithAi,
+      isActive: value.isActive,
+    };
+    this.savingDocumentType = true;
+    const request$ =
+      this.editingDocumentTypeId != null
+        ? this.documentTypeService.update(this.editingDocumentTypeId, payload)
+        : this.documentTypeService.create(payload);
+    request$.subscribe({
+      next: () => {
+        this.savingDocumentType = false;
+        this.cancelDocumentTypeForm();
+        this.loadDocumentTypes();
+        this.snack.open('Tipo de documento guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingDocumentType = false;
+        this.snack.open('No se pudo guardar el tipo de documento', 'Cerrar', { duration: 4000 });
       },
     });
   }
