@@ -1,16 +1,84 @@
 <h3>Grupos de usuarios</h3>
+
+<div class="toolbar">
+  <button mat-flat-button color="primary" type="button" (click)="openCreate()">
+    <mat-icon>add</mat-icon> Nuevo grupo
+  </button>
+</div>
+
+@if (showForm) {
+  <div class="sh-card form-card">
+    <h4>{{ editingRoleId ? 'Editar grupo' : 'Nuevo grupo' }}</h4>
+    <form [formGroup]="roleForm" class="group-form" (ngSubmit)="save()">
+      <mat-form-field appearance="outline">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="name" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Descripción</mat-label>
+        <input matInput formControlName="description" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Permisos de módulo</mat-label>
+        <mat-select formControlName="modulePermissionIds" multiple>
+          @for (permission of permissionOptions; track permission.id) {
+            <mat-option [value]="permission.id">{{ permission.name }} ({{ permission.authority }})</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+      <div class="form-actions">
+        <button mat-button type="button" (click)="cancelForm()">Cancelar</button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="saving">
+          {{ saving ? 'Guardando...' : 'Guardar' }}
+        </button>
+      </div>
+    </form>
+  </div>
+}
+
 @if (loading) {
   <div class="loading-wrap"><mat-spinner diameter="36" /></div>
 } @else {
   <div class="sh-card sh-table-wrap">
     <table mat-table [dataSource]="data">
-      <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Grupo</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
-      <ng-container matColumnDef="description"><th mat-header-cell *matHeaderCellDef>Descripción</th><td mat-cell *matCellDef="let row">{{ row.description }}</td></ng-container>
-      <ng-container matColumnDef="members"><th mat-header-cell *matHeaderCellDef>Miembros</th><td mat-cell *matCellDef="let row">{{ row.members }}</td></ng-container>
-      <ng-container matColumnDef="modules"><th mat-header-cell *matHeaderCellDef>Módulos</th><td mat-cell *matCellDef="let row">@for (m of row.modules; track m) { <mat-chip>{{ m }}</mat-chip> }</td></ng-container>
-      <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.active ? 'Sí' : 'No' }}</td></ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Grupo</th>
+        <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>Descripción</th>
+        <td mat-cell *matCellDef="let row">{{ row.description || '—' }}</td>
+      </ng-container>
+      <ng-container matColumnDef="permissions">
+        <th mat-header-cell *matHeaderCellDef>Permisos</th>
+        <td mat-cell *matCellDef="let row">
+          @for (name of permissionNames(row); track name) {
+            <mat-chip>{{ name }}</mat-chip>
+          } @empty {
+            —
+          }
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="active">
+        <th mat-header-cell *matHeaderCellDef>Activo</th>
+        <td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-stroked-button type="button" (click)="openEdit(row)">Editar</button>
+        </td>
+      </ng-container>
       <tr mat-header-row *matHeaderRowDef="columns"></tr>
       <tr mat-row *matRowDef="let row; columns: columns"></tr>
     </table>
+    <mat-paginator
+      [length]="total"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      [pageSizeOptions]="[10, 25, 50]"
+      (page)="onPage($event)"
+    />
   </div>
 }

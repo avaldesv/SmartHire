@@ -74,9 +74,9 @@ export class UsersAdminComponent implements OnInit {
   }
 
   private loadRoles(): void {
-    this.roleService.list().subscribe({
-      next: (roles) => {
-        this.roleOptions = roles.filter((r) => r.isActive);
+    this.roleService.list(0, 200).subscribe({
+      next: (res) => {
+        this.roleOptions = res.items.filter((r) => r.isActive);
       },
       error: () => this.snack.open('No se pudieron cargar los roles', 'Cerrar', { duration: 4000 }),
     });
