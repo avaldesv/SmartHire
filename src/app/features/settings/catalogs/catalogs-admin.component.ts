@@ -14,7 +14,11 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { CatalogCareerService } from '../../../core/services/catalog-career.service';
 import { CatalogBenefitService } from '../../../core/services/catalog-benefit.service';
 import { CatalogBrandService } from '../../../core/services/catalog-brand.service';
+import { CatalogClientCompanyService } from '../../../core/services/catalog-client-company.service';
 import { CatalogContractTypeService } from '../../../core/services/catalog-contract-type.service';
+import { CatalogEducationLevelService } from '../../../core/services/catalog-education-level.service';
+import { CatalogLanguageLevelService } from '../../../core/services/catalog-language-level.service';
+import { CatalogRequisitionTypeService } from '../../../core/services/catalog-requisition-type.service';
 import { CatalogCoverageTypeService } from '../../../core/services/catalog-coverage-type.service';
 import { CatalogCurrencyService } from '../../../core/services/catalog-currency.service';
 import { CatalogDocumentTypeService } from '../../../core/services/catalog-document-type.service';
@@ -27,7 +31,11 @@ import { SettingsService } from '../../../mock/services/settings.service';
 import { CatalogCareer } from '../../../shared/models/catalog-career.model';
 import { CatalogBenefit } from '../../../shared/models/catalog-benefit.model';
 import { CatalogBrand } from '../../../shared/models/catalog-brand.model';
+import { CatalogClientCompany } from '../../../shared/models/catalog-client-company.model';
 import { CatalogContractType } from '../../../shared/models/catalog-contract-type.model';
+import { CatalogEducationLevel } from '../../../shared/models/catalog-education-level.model';
+import { CatalogLanguageLevel } from '../../../shared/models/catalog-language-level.model';
+import { CatalogRequisitionType } from '../../../shared/models/catalog-requisition-type.model';
 import { CatalogCoverageType } from '../../../shared/models/catalog-coverage-type.model';
 import { CatalogCurrency } from '../../../shared/models/catalog-currency.model';
 import { CatalogDocumentType } from '../../../shared/models/catalog-document-type.model';
@@ -68,6 +76,10 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly shiftService = inject(CatalogShiftService);
   private readonly benefitService = inject(CatalogBenefitService);
   private readonly brandService = inject(CatalogBrandService);
+  private readonly educationLevelService = inject(CatalogEducationLevelService);
+  private readonly languageLevelService = inject(CatalogLanguageLevelService);
+  private readonly requisitionTypeService = inject(CatalogRequisitionTypeService);
+  private readonly clientCompanyService = inject(CatalogClientCompanyService);
   private readonly contractTypeService = inject(CatalogContractTypeService);
   private readonly coverageTypeService = inject(CatalogCoverageTypeService);
   private readonly documentTypeService = inject(CatalogDocumentTypeService);
@@ -185,6 +197,42 @@ export class CatalogsAdminComponent implements OnInit {
   editingCoverageTypeId: number | null = null;
   showCoverageTypeForm = false;
 
+  educationLevels: CatalogEducationLevel[] = [];
+  educationLevelTotal = 0;
+  educationLevelPageIndex = 0;
+  educationLevelPageSize = 10;
+  loadingEducationLevels = false;
+  savingEducationLevel = false;
+  editingEducationLevelId: number | null = null;
+  showEducationLevelForm = false;
+
+  languageLevels: CatalogLanguageLevel[] = [];
+  languageLevelTotal = 0;
+  languageLevelPageIndex = 0;
+  languageLevelPageSize = 10;
+  loadingLanguageLevels = false;
+  savingLanguageLevel = false;
+  editingLanguageLevelId: number | null = null;
+  showLanguageLevelForm = false;
+
+  requisitionTypes: CatalogRequisitionType[] = [];
+  requisitionTypeTotal = 0;
+  requisitionTypePageIndex = 0;
+  requisitionTypePageSize = 10;
+  loadingRequisitionTypes = false;
+  savingRequisitionType = false;
+  editingRequisitionTypeId: number | null = null;
+  showRequisitionTypeForm = false;
+
+  clientCompanies: CatalogClientCompany[] = [];
+  clientCompanyTotal = 0;
+  clientCompanyPageIndex = 0;
+  clientCompanyPageSize = 10;
+  loadingClientCompanies = false;
+  savingClientCompany = false;
+  editingClientCompanyId: number | null = null;
+  showClientCompanyForm = false;
+
   countryRecords: CatalogCountry[] = [];
   countryRecordTotal = 0;
   countryPageIndex = 0;
@@ -233,6 +281,10 @@ export class CatalogsAdminComponent implements OnInit {
   readonly brandColumns = ['code', 'name', 'active', 'actions'];
   readonly contractTypeColumns = ['code', 'name', 'description', 'active', 'actions'];
   readonly coverageTypeColumns = ['code', 'name', 'description', 'active', 'actions'];
+  readonly educationLevelColumns = ['code', 'name', 'description', 'requiresCareer', 'active', 'actions'];
+  readonly languageLevelColumns = ['code', 'name', 'appliesToCareer', 'active', 'actions'];
+  readonly requisitionTypeColumns = ['code', 'name', 'description', 'active', 'actions'];
+  readonly clientCompanyColumns = ['code', 'name', 'tradeName', 'taxId', 'r3Interface', 'active', 'actions'];
   readonly countryColumns = ['code', 'secondaryCode', 'name', 'active', 'actions'];
   readonly stateColumns = ['code', 'name', 'shortDescription', 'active', 'actions'];
   readonly municipalityColumns = ['code', 'name', 'active', 'actions'];
@@ -319,6 +371,42 @@ export class CatalogsAdminComponent implements OnInit {
     code: ['', Validators.required],
     name: ['', Validators.required],
     description: [''],
+    isActive: [true],
+  });
+
+  readonly educationLevelForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
+    requiresCareer: [false],
+    isActive: [true],
+  });
+
+  readonly languageLevelForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    appliesToCareer: [false],
+    isActive: [true],
+  });
+
+  readonly requisitionTypeForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
+    isActive: [true],
+  });
+
+  readonly clientCompanyForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
+    tradeName: [''],
+    taxId: [''],
+    r3Interface: [false],
     isActive: [true],
   });
 
@@ -431,6 +519,10 @@ export class CatalogsAdminComponent implements OnInit {
     this.loadBrands();
     this.loadContractTypes();
     this.loadCoverageTypes();
+    this.loadEducationLevels();
+    this.loadLanguageLevels();
+    this.loadRequisitionTypes();
+    this.loadClientCompanies();
     this.loadStates();
   }
 
@@ -447,6 +539,10 @@ export class CatalogsAdminComponent implements OnInit {
     this.brandPageIndex = 0;
     this.contractTypePageIndex = 0;
     this.coverageTypePageIndex = 0;
+    this.educationLevelPageIndex = 0;
+    this.languageLevelPageIndex = 0;
+    this.requisitionTypePageIndex = 0;
+    this.clientCompanyPageIndex = 0;
     this.statePageIndex = 0;
     this.municipalityPageIndex = 0;
     this.neighborhoodPageIndex = 0;
@@ -459,6 +555,10 @@ export class CatalogsAdminComponent implements OnInit {
     this.cancelBrandForm();
     this.cancelContractTypeForm();
     this.cancelCoverageTypeForm();
+    this.cancelEducationLevelForm();
+    this.cancelLanguageLevelForm();
+    this.cancelRequisitionTypeForm();
+    this.cancelClientCompanyForm();
     this.cancelStateForm();
     this.cancelMunicipalityForm();
     this.cancelNeighborhoodForm();
@@ -722,6 +822,102 @@ export class CatalogsAdminComponent implements OnInit {
     this.coverageTypePageIndex = e.pageIndex;
     this.coverageTypePageSize = e.pageSize;
     this.loadCoverageTypes();
+  }
+
+  loadEducationLevels(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingEducationLevels = true;
+    this.educationLevelService
+      .list(this.selectedCountryId, this.educationLevelPageIndex, this.educationLevelPageSize)
+      .subscribe({
+        next: (res) => {
+          this.educationLevels = res.items;
+          this.educationLevelTotal = res.total;
+          this.loadingEducationLevels = false;
+        },
+        error: () => {
+          this.loadingEducationLevels = false;
+          this.snack.open('No se pudieron cargar los niveles de educación', 'Cerrar', { duration: 4000 });
+        },
+      });
+  }
+
+  loadLanguageLevels(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingLanguageLevels = true;
+    this.languageLevelService
+      .list(this.selectedCountryId, this.languageLevelPageIndex, this.languageLevelPageSize)
+      .subscribe({
+        next: (res) => {
+          this.languageLevels = res.items;
+          this.languageLevelTotal = res.total;
+          this.loadingLanguageLevels = false;
+        },
+        error: () => {
+          this.loadingLanguageLevels = false;
+          this.snack.open('No se pudieron cargar los niveles de idioma', 'Cerrar', { duration: 4000 });
+        },
+      });
+  }
+
+  loadRequisitionTypes(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingRequisitionTypes = true;
+    this.requisitionTypeService
+      .list(this.selectedCountryId, this.requisitionTypePageIndex, this.requisitionTypePageSize)
+      .subscribe({
+        next: (res) => {
+          this.requisitionTypes = res.items;
+          this.requisitionTypeTotal = res.total;
+          this.loadingRequisitionTypes = false;
+        },
+        error: () => {
+          this.loadingRequisitionTypes = false;
+          this.snack.open('No se pudieron cargar los tipos de requisición', 'Cerrar', { duration: 4000 });
+        },
+      });
+  }
+
+  loadClientCompanies(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingClientCompanies = true;
+    this.clientCompanyService
+      .list(this.selectedCountryId, this.clientCompanyPageIndex, this.clientCompanyPageSize)
+      .subscribe({
+        next: (res) => {
+          this.clientCompanies = res.items;
+          this.clientCompanyTotal = res.total;
+          this.loadingClientCompanies = false;
+        },
+        error: () => {
+          this.loadingClientCompanies = false;
+          this.snack.open('No se pudieron cargar las empresas cliente', 'Cerrar', { duration: 4000 });
+        },
+      });
+  }
+
+  onEducationLevelPage(e: PageEvent): void {
+    this.educationLevelPageIndex = e.pageIndex;
+    this.educationLevelPageSize = e.pageSize;
+    this.loadEducationLevels();
+  }
+
+  onLanguageLevelPage(e: PageEvent): void {
+    this.languageLevelPageIndex = e.pageIndex;
+    this.languageLevelPageSize = e.pageSize;
+    this.loadLanguageLevels();
+  }
+
+  onRequisitionTypePage(e: PageEvent): void {
+    this.requisitionTypePageIndex = e.pageIndex;
+    this.requisitionTypePageSize = e.pageSize;
+    this.loadRequisitionTypes();
+  }
+
+  onClientCompanyPage(e: PageEvent): void {
+    this.clientCompanyPageIndex = e.pageIndex;
+    this.clientCompanyPageSize = e.pageSize;
+    this.loadClientCompanies();
   }
 
   openCreateGender(): void {
@@ -1321,6 +1517,262 @@ export class CatalogsAdminComponent implements OnInit {
       error: () => {
         this.savingCoverageType = false;
         this.snack.open('No se pudo guardar el tipo de cobertura', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  openCreateEducationLevel(): void {
+    this.editingEducationLevelId = null;
+    this.showEducationLevelForm = true;
+    this.educationLevelForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      description: '',
+      requiresCareer: false,
+      isActive: true,
+    });
+  }
+
+  openEditEducationLevel(row: CatalogEducationLevel): void {
+    this.editingEducationLevelId = row.id;
+    this.showEducationLevelForm = true;
+    this.educationLevelForm.patchValue({
+      countryId: row.countryId,
+      code: row.code,
+      name: row.name,
+      description: row.description ?? '',
+      requiresCareer: row.requiresCareer,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelEducationLevelForm(): void {
+    this.showEducationLevelForm = false;
+    this.editingEducationLevelId = null;
+  }
+
+  saveEducationLevel(): void {
+    if (this.educationLevelForm.invalid) {
+      this.educationLevelForm.markAllAsTouched();
+      return;
+    }
+    const value = this.educationLevelForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      description: value.description || undefined,
+      requiresCareer: value.requiresCareer,
+      isActive: value.isActive,
+    };
+    this.savingEducationLevel = true;
+    const request$ =
+      this.editingEducationLevelId != null
+        ? this.educationLevelService.update(this.editingEducationLevelId, payload)
+        : this.educationLevelService.create(payload);
+    request$.subscribe({
+      next: () => {
+        this.savingEducationLevel = false;
+        this.cancelEducationLevelForm();
+        this.loadEducationLevels();
+        this.snack.open('Nivel de educación guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingEducationLevel = false;
+        this.snack.open('No se pudo guardar el nivel de educación', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  openCreateLanguageLevel(): void {
+    this.editingLanguageLevelId = null;
+    this.showLanguageLevelForm = true;
+    this.languageLevelForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      appliesToCareer: false,
+      isActive: true,
+    });
+  }
+
+  openEditLanguageLevel(row: CatalogLanguageLevel): void {
+    this.editingLanguageLevelId = row.id;
+    this.showLanguageLevelForm = true;
+    this.languageLevelForm.patchValue({
+      countryId: row.countryId,
+      code: row.code,
+      name: row.name,
+      appliesToCareer: row.appliesToCareer,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelLanguageLevelForm(): void {
+    this.showLanguageLevelForm = false;
+    this.editingLanguageLevelId = null;
+  }
+
+  saveLanguageLevel(): void {
+    if (this.languageLevelForm.invalid) {
+      this.languageLevelForm.markAllAsTouched();
+      return;
+    }
+    const value = this.languageLevelForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      appliesToCareer: value.appliesToCareer,
+      isActive: value.isActive,
+    };
+    this.savingLanguageLevel = true;
+    const request$ =
+      this.editingLanguageLevelId != null
+        ? this.languageLevelService.update(this.editingLanguageLevelId, payload)
+        : this.languageLevelService.create(payload);
+    request$.subscribe({
+      next: () => {
+        this.savingLanguageLevel = false;
+        this.cancelLanguageLevelForm();
+        this.loadLanguageLevels();
+        this.snack.open('Nivel de idioma guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingLanguageLevel = false;
+        this.snack.open('No se pudo guardar el nivel de idioma', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  openCreateRequisitionType(): void {
+    this.editingRequisitionTypeId = null;
+    this.showRequisitionTypeForm = true;
+    this.requisitionTypeForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      description: '',
+      isActive: true,
+    });
+  }
+
+  openEditRequisitionType(row: CatalogRequisitionType): void {
+    this.editingRequisitionTypeId = row.id;
+    this.showRequisitionTypeForm = true;
+    this.requisitionTypeForm.patchValue({
+      countryId: row.countryId,
+      code: row.code,
+      name: row.name,
+      description: row.description ?? '',
+      isActive: row.isActive,
+    });
+  }
+
+  cancelRequisitionTypeForm(): void {
+    this.showRequisitionTypeForm = false;
+    this.editingRequisitionTypeId = null;
+  }
+
+  saveRequisitionType(): void {
+    if (this.requisitionTypeForm.invalid) {
+      this.requisitionTypeForm.markAllAsTouched();
+      return;
+    }
+    const value = this.requisitionTypeForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      description: value.description || undefined,
+      isActive: value.isActive,
+    };
+    this.savingRequisitionType = true;
+    const request$ =
+      this.editingRequisitionTypeId != null
+        ? this.requisitionTypeService.update(this.editingRequisitionTypeId, payload)
+        : this.requisitionTypeService.create(payload);
+    request$.subscribe({
+      next: () => {
+        this.savingRequisitionType = false;
+        this.cancelRequisitionTypeForm();
+        this.loadRequisitionTypes();
+        this.snack.open('Tipo de requisición guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingRequisitionType = false;
+        this.snack.open('No se pudo guardar el tipo de requisición', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  openCreateClientCompany(): void {
+    this.editingClientCompanyId = null;
+    this.showClientCompanyForm = true;
+    this.clientCompanyForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      description: '',
+      tradeName: '',
+      taxId: '',
+      r3Interface: false,
+      isActive: true,
+    });
+  }
+
+  openEditClientCompany(row: CatalogClientCompany): void {
+    this.editingClientCompanyId = row.id;
+    this.showClientCompanyForm = true;
+    this.clientCompanyForm.patchValue({
+      countryId: row.countryId,
+      code: row.code,
+      name: row.name,
+      description: row.description ?? '',
+      tradeName: row.tradeName ?? '',
+      taxId: row.taxId ?? '',
+      r3Interface: row.r3Interface,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelClientCompanyForm(): void {
+    this.showClientCompanyForm = false;
+    this.editingClientCompanyId = null;
+  }
+
+  saveClientCompany(): void {
+    if (this.clientCompanyForm.invalid) {
+      this.clientCompanyForm.markAllAsTouched();
+      return;
+    }
+    const value = this.clientCompanyForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      description: value.description || undefined,
+      tradeName: value.tradeName || undefined,
+      taxId: value.taxId || undefined,
+      r3Interface: value.r3Interface,
+      isActive: value.isActive,
+    };
+    this.savingClientCompany = true;
+    const request$ =
+      this.editingClientCompanyId != null
+        ? this.clientCompanyService.update(this.editingClientCompanyId, payload)
+        : this.clientCompanyService.create(payload);
+    request$.subscribe({
+      next: () => {
+        this.savingClientCompany = false;
+        this.cancelClientCompanyForm();
+        this.loadClientCompanies();
+        this.snack.open('Empresa cliente guardada', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingClientCompany = false;
+        this.snack.open('No se pudo guardar la empresa cliente', 'Cerrar', { duration: 4000 });
       },
     });
   }
