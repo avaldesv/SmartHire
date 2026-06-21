@@ -406,6 +406,151 @@
     </div>
   </mat-tab>
 
+  <mat-tab label="Marcas">
+    <div class="tab-content">
+      <div class="toolbar">
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>País</mat-label>
+          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+            @for (country of countries; track country.id) {
+              <mat-option [value]="country.id">{{ country.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="button" (click)="openCreateBrand()">
+          <mat-icon>add</mat-icon> Nueva marca
+        </button>
+      </div>
+      @if (showBrandForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingBrandId ? 'Editar marca' : 'Nueva marca' }}</h4>
+          <form [formGroup]="brandForm" class="gender-form" (ngSubmit)="saveBrand()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelBrandForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingBrand">{{ savingBrand ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingBrands) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="brands">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditBrand(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="brandColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: brandColumns"></tr>
+          </table>
+          <mat-paginator [length]="brandTotal" [pageSize]="brandPageSize" [pageIndex]="brandPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onBrandPage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Tipos de contrato">
+    <div class="tab-content">
+      <div class="toolbar">
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>País</mat-label>
+          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+            @for (country of countries; track country.id) {
+              <mat-option [value]="country.id">{{ country.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="button" (click)="openCreateContractType()">
+          <mat-icon>add</mat-icon> Nuevo tipo de contrato
+        </button>
+      </div>
+      @if (showContractTypeForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingContractTypeId ? 'Editar tipo de contrato' : 'Nuevo tipo de contrato' }}</h4>
+          <form [formGroup]="contractTypeForm" class="gender-form" (ngSubmit)="saveContractType()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelContractTypeForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingContractType">{{ savingContractType ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingContractTypes) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="contractTypes">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="description"><th mat-header-cell *matHeaderCellDef>Descripción</th><td mat-cell *matCellDef="let row">{{ row.description || '—' }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditContractType(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="contractTypeColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: contractTypeColumns"></tr>
+          </table>
+          <mat-paginator [length]="contractTypeTotal" [pageSize]="contractTypePageSize" [pageIndex]="contractTypePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onContractTypePage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Tipos de cobertura">
+    <div class="tab-content">
+      <div class="toolbar">
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>País</mat-label>
+          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+            @for (country of countries; track country.id) {
+              <mat-option [value]="country.id">{{ country.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="button" (click)="openCreateCoverageType()">
+          <mat-icon>add</mat-icon> Nuevo tipo de cobertura
+        </button>
+      </div>
+      @if (showCoverageTypeForm) {
+        <div class="sh-card form-card">
+          <h4>{{ editingCoverageTypeId ? 'Editar tipo de cobertura' : 'Nuevo tipo de cobertura' }}</h4>
+          <form [formGroup]="coverageTypeForm" class="gender-form" (ngSubmit)="saveCoverageType()">
+            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
+            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+            <div class="form-actions">
+              <button mat-button type="button" (click)="cancelCoverageTypeForm()">Cancelar</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="savingCoverageType">{{ savingCoverageType ? 'Guardando...' : 'Guardar' }}</button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (loadingCoverageTypes) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="coverageTypes">
+            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
+            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
+            <ng-container matColumnDef="description"><th mat-header-cell *matHeaderCellDef>Descripción</th><td mat-cell *matCellDef="let row">{{ row.description || '—' }}</td></ng-container>
+            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditCoverageType(row)">Editar</button></td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="coverageTypeColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: coverageTypeColumns"></tr>
+          </table>
+          <mat-paginator [length]="coverageTypeTotal" [pageSize]="coverageTypePageSize" [pageIndex]="coverageTypePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCoverageTypePage($event)" />
+        </div>
+      }
+    </div>
+  </mat-tab>
+
   <mat-tab label="Países">
     <div class="tab-content">
       <div class="toolbar">
