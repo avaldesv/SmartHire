@@ -152,4 +152,19 @@ export class PositionsListComponent implements OnInit {
       },
     });
   }
+
+  cancelPosition(row: PositionListItem): void {
+    if (!confirm(`¿Cancelar la requisición ${row.requisitionNo}? Esta acción no se puede deshacer.`)) {
+      return;
+    }
+    this.positionService.delete(row.id).subscribe({
+      next: () => {
+        this.load();
+        this.snack.open('Requisición cancelada', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.snack.open('No se pudo cancelar la requisición', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
 }
