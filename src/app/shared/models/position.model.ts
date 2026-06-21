@@ -73,6 +73,7 @@ export type UpdatePositionRequest = CreatePositionRequest;
 export type UpdatePositionResponse = CreatePositionResponse;
 export type DuplicatePositionResponse = CreatePositionResponse;
 export type RequestPositionCancellationResponse = CreatePositionResponse;
+export type RejectPositionCancellationResponse = CreatePositionResponse;
 
 export type PositionListResponse = ApiPageResponse<PositionListItem>;
 
