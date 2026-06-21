@@ -16,3 +16,8 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
   gap: 8px;
   justify-content: flex-end;
 }
+.actions-cell {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
