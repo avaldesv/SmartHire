@@ -23,6 +23,11 @@
     </div>
 
     <form [formGroup]="filters" class="sh-filters">
+      <mat-form-field appearance="outline" class="filter-search">
+        <mat-label>Buscar requisición</mat-label>
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput formControlName="search" placeholder="REQ, puesto, cliente, OT…" />
+      </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Estado</mat-label>
         <mat-select formControlName="status">

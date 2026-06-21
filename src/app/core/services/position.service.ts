@@ -17,8 +17,19 @@ export class PositionService {
   private readonly http = inject(HttpClient);
   private readonly api = inject(ApiClientService);
 
-  list(page = 0, size = 20, status?: string | null): Observable<{ items: PositionListItem[]; total: number }> {
-    const body = { status: status ?? null, filters: [], ordersBy: ['createAt:desc'] as string[] };
+  list(
+    page = 0,
+    size = 20,
+    status?: string | null,
+    search?: string,
+  ): Observable<{ items: PositionListItem[]; total: number }> {
+    const term = search?.trim();
+    const body = {
+      status: status ?? null,
+      search: term || null,
+      filters: [],
+      ordersBy: ['createAt:desc'] as string[],
+    };
     return this.http
       .post<PositionListResponse>(this.api.apiUrl('/api/v1/positions/list'), body, {
         headers: this.api.buildHeaders(page, size),
