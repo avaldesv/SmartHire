@@ -25,11 +25,11 @@ export class ShellComponent {
 
   readonly navItems: NavItem[] = [
     { label: 'Inicio', path: '/home', icon: 'home' },
-    { label: 'Posiciones', path: '/positions', icon: 'work' },
+/*     { label: 'Posiciones', path: '/positions', icon: 'work' },
     { label: 'Candidatos', path: '/candidates', icon: 'people' },
     { label: 'Cuestionarios', path: '/questionnaires', icon: 'quiz' },
     { label: 'Seguimiento', path: '/tracking', icon: 'timeline' },
-    { label: 'Reportes', path: '/reports', icon: 'bar_chart' },
+    { label: 'Reportes', path: '/reports', icon: 'bar_chart' }, */
     { label: 'Configuraciones', path: '/settings', icon: 'settings' },
   ];
 
