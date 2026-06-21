@@ -11,6 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatMenuModule } from '@angular/material/menu';
 import { debounceTime } from 'rxjs';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { PositionService } from '../../../core/services/position.service';
@@ -35,6 +36,7 @@ import { PositionListItem } from '../../../shared/models/position.model';
     MatIconModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatMenuModule,
     PageHeaderComponent,
     StatusBadgeComponent,
   ],
@@ -137,5 +139,17 @@ export class PositionsListComponent implements OnInit {
   clearFilters(): void {
     this.filters.reset({ search: '', status: 'Todos', countryId: 0, recruiter: '', dateFrom: '', dateTo: '' });
     this.snack.open('Filtros limpiados', 'Cerrar', { duration: 2500 });
+  }
+
+  duplicatePosition(row: PositionListItem): void {
+    this.positionService.duplicate(row.id).subscribe({
+      next: (res) => {
+        this.load();
+        this.snack.open(`Posición duplicada: REQ-${res.id}`, 'Cerrar', { duration: 4000 });
+      },
+      error: () => {
+        this.snack.open('No se pudo duplicar la posición', 'Cerrar', { duration: 4000 });
+      },
+    });
   }
 }

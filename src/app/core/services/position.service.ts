@@ -4,6 +4,7 @@ import { Observable, map } from 'rxjs';
 import {
   CreatePositionRequest,
   CreatePositionResponse,
+  DuplicatePositionResponse,
   PositionDetail,
   PositionDashboardKpis,
   PositionListItem,
@@ -83,5 +84,13 @@ export class PositionService {
     return this.http.put<UpdatePositionResponse>(this.api.apiUrl(`/api/v1/positions/${id}`), request, {
       headers: this.api.buildHeaders(),
     });
+  }
+
+  duplicate(id: number): Observable<DuplicatePositionResponse> {
+    return this.http.post<DuplicatePositionResponse>(
+      this.api.apiUrl(`/api/v1/positions/${id}/duplicate`),
+      {},
+      { headers: this.api.buildHeaders() },
+    );
   }
 }
