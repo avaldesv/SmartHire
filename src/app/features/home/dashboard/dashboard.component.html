@@ -142,8 +142,14 @@
                 <button mat-menu-item [routerLink]="['/positions', row.id, 'edit']">
                   <mat-icon>edit</mat-icon> Editar
                 </button>
-                <button mat-menu-item [routerLink]="['/selection', row.id, 'ai']">
+                <button mat-menu-item [routerLink]="['/selection', row.id, 'preselection']">
                   <mat-icon>psychology</mat-icon> Ir a selección
+                </button>
+                <button mat-menu-item (click)="openPoolDialog(row)">
+                  <mat-icon>person_add</mat-icon> Postular candidatos
+                </button>
+                <button mat-menu-item (click)="openApplicationsDialog(row)">
+                  <mat-icon>groups</mat-icon> Ver postulados
                 </button>
                 <button mat-menu-item (click)="duplicatePosition(row)">
                   <mat-icon>content_copy</mat-icon> Duplicar

@@ -1,0 +1,22 @@
+.dialog-subtitle {
+  margin: -0.5rem 0 1rem;
+  color: var(--sh-text-muted, #64748b);
+  font-size: 0.875rem;
+}
+
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.empty-msg {
+  padding: 1.5rem 0;
+  color: var(--sh-text-muted, #64748b);
+  text-align: center;
+}
+
+mat-dialog-content {
+  min-width: min(680px, 90vw);
+  max-height: 70vh;
+}
