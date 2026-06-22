@@ -7,8 +7,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CandidateApplicationApiService } from '../../../core/services/candidate-application-api.service';
+import { PermissionService } from '../../../core/services/permission.service';
 import {
   CandidatePoolDialogComponent,
   CandidatePoolDialogData,
@@ -19,6 +22,11 @@ import {
 } from '../../candidates/dialogs/position-applications-dialog/position-applications-dialog.component';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
 import { PreselectionCandidate } from '../../../shared/models';
+import {
+  PRESELECTION_ROW_ACTIONS,
+  PreselectionRowAction,
+  PreselectionRowActionId,
+} from './preselection-row-actions.config';
 
 @Component({
   selector: 'sh-preselection',
@@ -31,6 +39,8 @@ import { PreselectionCandidate } from '../../../shared/models';
     MatCheckboxModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
+    MatMenuModule,
+    MatDividerModule,
     StatusBadgeComponent,
   ],
   templateUrl: './preselection.component.html',
@@ -41,8 +51,10 @@ export class PreselectionComponent implements OnInit {
   private readonly applicationApi = inject(CandidateApplicationApiService);
   private readonly dialog = inject(MatDialog);
   private readonly snack = inject(MatSnackBar);
+  private readonly permission = inject(PermissionService);
 
   readonly positionId = +this.route.parent!.snapshot.paramMap.get('positionId')!;
+  readonly rowActionCatalog = PRESELECTION_ROW_ACTIONS;
   loading = true;
   bulkLoading = false;
   data: PreselectionCandidate[] = [];
@@ -204,5 +216,32 @@ export class PreselectionComponent implements OnInit {
 
   action(name: string): void {
     this.snack.open(`${name}: ${this.selectedCount} candidato(s)`, 'Cerrar', { duration: 2500 });
+  }
+
+  visibleRowActions(): PreselectionRowAction[] {
+    return this.rowActionCatalog.filter((action) => this.permission.hasAnyPermission(action.permissions));
+  }
+
+  onRowAction(actionId: PreselectionRowActionId, row: PreselectionCandidate): void {
+    const action = this.rowActionCatalog.find((a) => a.id === actionId);
+    if (!action) {
+      return;
+    }
+    if (actionId === 'deselectRow') {
+      this.deselectSingleRow(row);
+      return;
+    }
+    const name = `${row.firstName} ${row.lastName}`.trim();
+    this.snack.open(`${action.label} — ${name}: pendiente de integración API`, 'Cerrar', { duration: 3500 });
+  }
+
+  private deselectSingleRow(row: PreselectionCandidate): void {
+    this.runBulk(
+      this.applicationApi.deselect({
+        positionId: this.positionId,
+        applicationIds: [row.applicationId],
+      }),
+      'Candidato deseleccionado',
+    );
   }
 }
