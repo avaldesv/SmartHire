@@ -15,6 +15,7 @@ export interface CandidateApplicationListItem {
   candidateEmail: string | null;
   candidatePhone: string | null;
   createdAt: string;
+  interviewScheduled?: boolean | null;
 }
 
 export interface ListCandidateApplicationsRequest {

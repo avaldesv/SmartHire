@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
@@ -41,6 +41,7 @@ import {
     MatProgressSpinnerModule,
     MatMenuModule,
     MatDividerModule,
+    RouterLink,
     StatusBadgeComponent,
   ],
   templateUrl: './preselection.component.html',
@@ -48,6 +49,7 @@ import {
 })
 export class PreselectionComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly applicationApi = inject(CandidateApplicationApiService);
   private readonly dialog = inject(MatDialog);
   private readonly snack = inject(MatSnackBar);
@@ -96,7 +98,7 @@ export class PreselectionComponent implements OnInit {
           createdAt: app.createdAt,
           compatibility: app.compatibilityPercent ?? 0,
           stage: app.status,
-          interviewScheduled: false,
+          interviewScheduled: app.interviewScheduled ?? false,
           documentsComplete: false,
           selected: app.isSelected ?? false,
           smartSent: false,
@@ -231,6 +233,10 @@ export class PreselectionComponent implements OnInit {
       this.deselectSingleRow(row);
       return;
     }
+    if (actionId === 'viewProfile' || actionId === 'downloadCv') {
+      this.openCandidateProfile(row);
+      return;
+    }
     const name = `${row.firstName} ${row.lastName}`.trim();
     this.snack.open(`${action.label} — ${name}: pendiente de integración API`, 'Cerrar', { duration: 3500 });
   }
@@ -243,5 +249,11 @@ export class PreselectionComponent implements OnInit {
       }),
       'Candidato deseleccionado',
     );
+  }
+
+  openCandidateProfile(row: PreselectionCandidate): void {
+    void this.router.navigate(['/candidates', row.id], {
+      queryParams: { from: 'preselection', positionId: this.positionId },
+    });
   }
 }
