@@ -1,1 +1,10 @@
 .loading-wrap { display: flex; justify-content: center; padding: 48px; }
+.empty-msg { padding: 24px; margin: 0; color: var(--sh-text-muted, #666); }
+.toolbar-divider {
+  display: inline-block;
+  width: 1px;
+  height: 24px;
+  margin: 0 8px;
+  background: rgba(0, 0, 0, 0.12);
+  vertical-align: middle;
+}

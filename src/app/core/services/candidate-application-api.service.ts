@@ -2,11 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import {
+  BulkCandidateApplicationsRequest,
+  BulkCandidateApplicationsResponse,
   CandidateApplicationListItem,
   CandidateApplicationListResponse,
   CreateCandidateApplicationRequest,
   CreateCandidateApplicationResponse,
   ListCandidateApplicationsRequest,
+  ReleaseAllCandidateApplicationsRequest,
 } from '../../shared/models/candidate-application.model';
 import { ApiClientService } from './api-client.service';
 
@@ -42,6 +45,30 @@ export class CandidateApplicationApiService {
   create(request: CreateCandidateApplicationRequest): Observable<CreateCandidateApplicationResponse> {
     return this.http.post<CreateCandidateApplicationResponse>(
       this.api.apiUrl('/api/v1/candidate-applications'),
+      request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  select(request: BulkCandidateApplicationsRequest): Observable<BulkCandidateApplicationsResponse> {
+    return this.http.post<BulkCandidateApplicationsResponse>(
+      this.api.apiUrl('/api/v1/candidate-applications/select'),
+      request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  deselect(request: BulkCandidateApplicationsRequest): Observable<BulkCandidateApplicationsResponse> {
+    return this.http.post<BulkCandidateApplicationsResponse>(
+      this.api.apiUrl('/api/v1/candidate-applications/deselect'),
+      request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  releaseAll(request: ReleaseAllCandidateApplicationsRequest): Observable<BulkCandidateApplicationsResponse> {
+    return this.http.post<BulkCandidateApplicationsResponse>(
+      this.api.apiUrl('/api/v1/candidate-applications/release-all'),
       request,
       { headers: this.api.buildHeaders() },
     );
