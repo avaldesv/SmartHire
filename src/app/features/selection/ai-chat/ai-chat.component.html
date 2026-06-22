@@ -17,17 +17,29 @@
       <mat-form-field appearance="outline"><mat-label>Candidatos</mat-label><input matInput type="number" formControlName="count" /></mat-form-field>
       <mat-form-field appearance="outline"><mat-label>Años exp.</mat-label><input matInput type="number" formControlName="years" /></mat-form-field>
       <mat-form-field appearance="outline" class="prompt-field"><mat-label>Instrucción</mat-label><input matInput formControlName="prompt" /></mat-form-field>
-      <button mat-flat-button color="primary" type="submit" [disabled]="loading"><mat-icon>search</mat-icon> Buscar</button>
+      <button mat-flat-button color="primary" type="submit" [disabled]="loading || submitting"><mat-icon>search</mat-icon> Buscar</button>
     </form>
   </div>
 
   @if (results.length) {
+    <div class="results-header">
+      <h4>Ranking IA</h4>
+      <div class="results-actions">
+        <button mat-stroked-button type="button" (click)="toggleAll(true)">Seleccionar todos</button>
+        <button mat-flat-button color="accent" type="button" [disabled]="submitting" (click)="addSelectedToPreselection()">
+          Agregar a preselección
+        </button>
+      </div>
+    </div>
     <div class="results">
-      @for (r of results; track r.candidateId) {
+      @for (r of results; track r.resultId) {
         <mat-card class="result-card">
           <mat-card-header>
-            <mat-card-title>{{ r.name }}</mat-card-title>
-            <mat-card-subtitle>{{ r.compatibility }}% compatibilidad</mat-card-subtitle>
+            <mat-checkbox [(ngModel)]="r.selected" [ngModelOptions]="{ standalone: true }" />
+            <div>
+              <mat-card-title>{{ r.name }}</mat-card-title>
+              <mat-card-subtitle>{{ r.compatibility }}% compatibilidad</mat-card-subtitle>
+            </div>
           </mat-card-header>
           <mat-card-content>
             <p>{{ r.email }} · {{ r.phone }}</p>
