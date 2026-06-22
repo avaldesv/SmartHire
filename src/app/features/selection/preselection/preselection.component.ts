@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -16,12 +17,22 @@ import {
   PositionApplicationsDialogComponent,
   PositionApplicationsDialogData,
 } from '../../candidates/dialogs/position-applications-dialog/position-applications-dialog.component';
+import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
 import { PreselectionCandidate } from '../../../shared/models';
 
 @Component({
   selector: 'sh-preselection',
   standalone: true,
-  imports: [MatTableModule, MatButtonModule, MatIconModule, MatCheckboxModule, MatSnackBarModule, MatProgressSpinnerModule],
+  imports: [
+    MatTableModule,
+    MatPaginatorModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCheckboxModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule,
+    StatusBadgeComponent,
+  ],
   templateUrl: './preselection.component.html',
   styleUrl: './preselection.component.scss',
 })
@@ -33,8 +44,12 @@ export class PreselectionComponent implements OnInit {
 
   readonly positionId = +this.route.parent!.snapshot.paramMap.get('positionId')!;
   loading = true;
+  bulkLoading = false;
   data: PreselectionCandidate[] = [];
   selectedCount = 0;
+  total = 0;
+  pageIndex = 0;
+  pageSize = 10;
 
   readonly columns = ['select', 'name', 'compatibility', 'stage', 'documentsComplete', 'interviewScheduled', 'actions'];
 
@@ -42,11 +57,20 @@ export class PreselectionComponent implements OnInit {
     this.loadApplications();
   }
 
+  get allSelected(): boolean {
+    return this.data.length > 0 && this.data.every((c) => c.selected);
+  }
+
+  get someSelected(): boolean {
+    return this.data.some((c) => c.selected) && !this.allSelected;
+  }
+
   loadApplications(): void {
     this.loading = true;
-    this.applicationApi.list(0, 100, { positionId: this.positionId }).subscribe({
+    this.applicationApi.list(this.pageIndex, this.pageSize, { positionId: this.positionId }).subscribe({
       next: (res) => {
         this.data = res.items.map((app) => ({
+          applicationId: app.id,
           id: app.candidateId,
           firstName: app.candidateFirstName ?? '',
           lastName: app.candidateLastName ?? '',
@@ -65,6 +89,7 @@ export class PreselectionComponent implements OnInit {
           selected: app.isSelected ?? false,
           smartSent: false,
         }));
+        this.total = res.total;
         this.loading = false;
         this.updateSelected();
       },
@@ -73,6 +98,12 @@ export class PreselectionComponent implements OnInit {
         this.snack.open('No se pudieron cargar los candidatos postulados', 'Cerrar', { duration: 4000 });
       },
     });
+  }
+
+  onPage(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.loadApplications();
   }
 
   openPoolDialog(): void {
@@ -108,13 +139,67 @@ export class PreselectionComponent implements OnInit {
     this.updateSelected();
   }
 
-  toggleRow(row: PreselectionCandidate): void {
-    row.selected = !row.selected;
+  setRowSelected(row: PreselectionCandidate, checked: boolean): void {
+    row.selected = checked;
     this.updateSelected();
   }
 
   updateSelected(): void {
     this.selectedCount = this.data.filter((c) => c.selected).length;
+  }
+
+  selectedApplicationIds(): number[] {
+    return this.data.filter((c) => c.selected).map((c) => c.applicationId);
+  }
+
+  bulkSelect(): void {
+    const applicationIds = this.selectedApplicationIds();
+    if (applicationIds.length === 0) {
+      return;
+    }
+    this.runBulk(
+      this.applicationApi.select({ positionId: this.positionId, applicationIds }),
+      'Candidatos seleccionados',
+    );
+  }
+
+  bulkDeselect(): void {
+    const applicationIds = this.selectedApplicationIds();
+    if (applicationIds.length === 0) {
+      return;
+    }
+    this.runBulk(
+      this.applicationApi.deselect({ positionId: this.positionId, applicationIds }),
+      'Selección liberada',
+    );
+  }
+
+  releaseAll(): void {
+    if (!confirm('¿Liberar todas las postulaciones de esta posición? Se marcarán como RELEASED.')) {
+      return;
+    }
+    this.runBulk(
+      this.applicationApi.releaseAll({ positionId: this.positionId }),
+      'Todas las postulaciones liberadas',
+    );
+  }
+
+  private runBulk(
+    request$: ReturnType<CandidateApplicationApiService['select']>,
+    successMessage: string,
+  ): void {
+    this.bulkLoading = true;
+    request$.subscribe({
+      next: (res) => {
+        this.bulkLoading = false;
+        this.snack.open(`${successMessage} (${res.updatedCount})`, 'Cerrar', { duration: 3500 });
+        this.loadApplications();
+      },
+      error: () => {
+        this.bulkLoading = false;
+        this.snack.open('No se pudo completar la acción masiva', 'Cerrar', { duration: 4000 });
+      },
+    });
   }
 
   action(name: string): void {

@@ -42,3 +42,17 @@ export interface CreateCandidateApplicationResponse {
 }
 
 export type CandidateApplicationListResponse = ApiPageResponse<CandidateApplicationListItem>;
+
+export interface BulkCandidateApplicationsRequest {
+  positionId: number;
+  applicationIds: number[];
+}
+
+export interface ReleaseAllCandidateApplicationsRequest {
+  positionId: number;
+}
+
+export interface BulkCandidateApplicationsResponse {
+  positionId: number;
+  updatedCount: number;
+}

@@ -69,6 +69,7 @@ export const MOCK_CANDIDATES: Candidate[] = [
 
 export const MOCK_PRESELECTION: PreselectionCandidate[] = MOCK_CANDIDATES.slice(0, 8).map((c, i) => ({
   ...c,
+  applicationId: 1000 + i,
   compatibility: 92 - i * 4,
   stage: ['Screening', 'Entrevista', 'Evaluación', 'Documentos'][i % 4],
   interviewScheduled: i % 2 === 0,

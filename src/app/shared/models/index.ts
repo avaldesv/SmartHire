@@ -77,6 +77,7 @@ export interface Candidate {
 }
 
 export interface PreselectionCandidate extends Candidate {
+  applicationId: number;
   compatibility: number;
   stage: string;
   interviewScheduled: boolean;
