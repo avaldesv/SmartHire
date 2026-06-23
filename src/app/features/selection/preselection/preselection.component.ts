@@ -21,6 +21,10 @@ import {
   PositionApplicationsDialogComponent,
   PositionApplicationsDialogData,
 } from '../../candidates/dialogs/position-applications-dialog/position-applications-dialog.component';
+import {
+  ApplicationAuditLogDialogComponent,
+  ApplicationAuditLogDialogData,
+} from '../dialogs/application-audit-log-dialog/application-audit-log-dialog.component';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
 import { PreselectionCandidate } from '../../../shared/models';
 import {
@@ -254,6 +258,10 @@ export class PreselectionComponent implements OnInit {
       this.validateApplicationStudies(row);
       return;
     }
+    if (actionId === 'auditLog') {
+      this.openAuditLogDialog(row);
+      return;
+    }
     const name = `${row.firstName} ${row.lastName}`.trim();
     this.snack.open(`${action.label} — ${name}: pendiente de integración API`, 'Cerrar', { duration: 3500 });
   }
@@ -272,6 +280,22 @@ export class PreselectionComponent implements OnInit {
     void this.router.navigate(['/candidates', row.id], {
       queryParams: { from: 'preselection', positionId: this.positionId },
     });
+  }
+
+  openAuditLogDialog(row: PreselectionCandidate): void {
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    this.dialog.open<ApplicationAuditLogDialogComponent, ApplicationAuditLogDialogData>(
+      ApplicationAuditLogDialogComponent,
+      {
+        width: '800px',
+        maxWidth: '95vw',
+        data: {
+          applicationId: row.applicationId,
+          candidateName: name,
+          positionId: this.positionId,
+        },
+      },
+    );
   }
 
   downloadCandidateCv(row: PreselectionCandidate): void {

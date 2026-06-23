@@ -1,0 +1,63 @@
+.audit-content {
+  min-width: min(720px, 92vw);
+  max-height: 70vh;
+}
+
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.table-wrap {
+  margin-bottom: 1.5rem;
+}
+
+.audit-table {
+  width: 100%;
+}
+
+.message-cell {
+  max-width: 280px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.empty-msg {
+  margin: 1rem 0;
+  color: var(--sh-text-muted, #666);
+  font-size: 0.9rem;
+}
+
+.add-form h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.form-row .grow {
+  flex: 1;
+  min-width: 200px;
+}
+
+.full {
+  width: 100%;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+h2 mat-dialog-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
