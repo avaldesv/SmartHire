@@ -1,23 +1,36 @@
 <div class="sh-page">
-  <sh-page-header title="Seguimiento" subtitle="Pipeline kanban de candidatos por etapa" />
+  <sh-page-header
+    title="Seguimiento"
+    subtitle="Pipeline kanban de candidatos por etapa (datos API — hasta 200 postulaciones)"
+  />
 
   @if (loading) {
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else if (loadError) {
+    <mat-card><mat-card-content>No fue posible cargar el kanban.</mat-card-content></mat-card>
+  } @else if (!columns.length) {
+    <mat-card><mat-card-content>Sin postulaciones en el tenant.</mat-card-content></mat-card>
   } @else {
+    <p class="summary">Total cargado: {{ totalApplications }} postulación(es)</p>
     <div class="kanban">
-      @for (stage of stages; track stage.id) {
+      @for (col of columns; track col.status) {
         <mat-card class="kanban-column">
           <mat-card-header>
-            <div class="column-dot" [style.background]="stage.color"></div>
-            <mat-card-title>{{ stage.name }}</mat-card-title>
-            <span class="count">{{ stage.candidatesCount }}</span>
+            <div class="column-dot" [style.background]="col.color"></div>
+            <mat-card-title>{{ col.label }}</mat-card-title>
+            <span class="count">{{ col.cards.length }}</span>
           </mat-card-header>
           <mat-card-content>
-            @for (i of [1,2,3]; track i) {
+            @for (card of col.cards; track card.applicationId) {
               <div class="kanban-card">
-                <strong>Candidato {{ i }}</strong>
-                <small>REQ-2025-{{ 800 + stage.order * 10 + i }}</small>
+                <strong>{{ card.candidateName }}</strong>
+                <small>Posición #{{ card.positionId }}</small>
+                @if (card.compatibility != null) {
+                  <small class="compat">{{ card.compatibility }}% compat.</small>
+                }
               </div>
+            } @empty {
+              <p class="empty-col">Sin candidatos</p>
             }
           </mat-card-content>
         </mat-card>
