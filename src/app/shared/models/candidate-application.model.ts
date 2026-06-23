@@ -89,3 +89,19 @@ export interface GenerateContractResponse {
   message: string;
   processedAt: string;
 }
+
+export interface SendQuestionnaireInviteRequest {
+  questionnaireId?: number | null;
+}
+
+export interface SendQuestionnaireInviteResponse {
+  applicationId: number;
+  candidateId: number;
+  positionId: number;
+  questionnaireId: number | null;
+  status: string;
+  invitationLink: string;
+  candidateEmail: string | null;
+  message: string;
+  sentAt: string;
+}
