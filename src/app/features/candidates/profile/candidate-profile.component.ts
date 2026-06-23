@@ -36,8 +36,14 @@ export class CandidateProfileComponent implements OnInit {
 
   loading = true;
   candidate: CandidateDetail | null = null;
+  backToPreselectionLink: string[] | null = null;
 
   ngOnInit(): void {
+    const from = this.route.snapshot.queryParamMap.get('from');
+    const positionId = this.route.snapshot.queryParamMap.get('positionId');
+    if (from === 'preselection' && positionId) {
+      this.backToPreselectionLink = ['/selection', positionId, 'preselection'];
+    }
     const id = +this.route.snapshot.paramMap.get('id')!;
     this.candidateService.getById(id).subscribe({
       next: (c) => {

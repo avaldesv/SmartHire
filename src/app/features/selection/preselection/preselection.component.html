@@ -45,7 +45,11 @@
         </ng-container>
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef>Candidato</th>
-          <td mat-cell *matCellDef="let row">{{ row.firstName }} {{ row.lastName }}</td>
+          <td mat-cell *matCellDef="let row">
+            <a [routerLink]="['/candidates', row.id]" [queryParams]="{ from: 'preselection', positionId: positionId }" class="candidate-link">
+              {{ row.firstName }} {{ row.lastName }}
+            </a>
+          </td>
         </ng-container>
         <ng-container matColumnDef="compatibility">
           <th mat-header-cell *matHeaderCellDef>Compat.</th>

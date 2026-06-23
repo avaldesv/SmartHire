@@ -8,3 +8,11 @@
   background: rgba(0, 0, 0, 0.12);
   vertical-align: middle;
 }
+.candidate-link {
+  color: var(--sh-primary, #0d9488);
+  font-weight: 500;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}

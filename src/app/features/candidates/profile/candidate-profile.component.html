@@ -3,6 +3,9 @@
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else if (candidate) {
     <sh-page-header [title]="candidate.firstName + ' ' + candidate.lastName" subtitle="Perfil completo del candidato">
+      @if (backToPreselectionLink) {
+        <button mat-stroked-button [routerLink]="backToPreselectionLink"><mat-icon>arrow_back</mat-icon> Volver a preselección</button>
+      }
       <button mat-stroked-button [routerLink]="['/candidates', candidate.id, 'edit']"><mat-icon>edit</mat-icon> Editar</button>
       <button mat-flat-button color="primary" [routerLink]="['/candidates', candidate.id, 'beneficiary']"><mat-icon>family_restroom</mat-icon> Beneficiarios</button>
     </sh-page-header>
