@@ -69,3 +69,23 @@ export interface ValidateCandidateApplicationFlagsResponse {
   studiesValidated: boolean;
   documentsSaved: boolean;
 }
+
+export interface SendCandidateToSmartResponse {
+  applicationId: number;
+  candidateId: number;
+  positionId: number;
+  status: string;
+  externalReference: string;
+  message: string;
+  processedAt: string;
+}
+
+export interface GenerateContractResponse {
+  applicationId: number;
+  candidateId: number;
+  positionId: number;
+  status: string;
+  contractReference: string;
+  message: string;
+  processedAt: string;
+}
