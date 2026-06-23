@@ -1,19 +1,31 @@
 import { Injectable, inject } from '@angular/core';
-import { AuthService } from './auth.service';
+import { AuthService } from '../services/auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class PermissionService {
   private readonly auth = inject(AuthService);
 
-  /** User has at least one of the required permission strings. Empty list = allowed. */
-  hasAnyPermission(required: readonly string[]): boolean {
-    if (required.length === 0) {
-      return true;
-    }
+  hasAuthority(authority: string): boolean {
+    const normalized = authority.toUpperCase();
     const user = this.auth.currentUser();
-    if (!user?.permissions?.length) {
+    if (!user) {
       return false;
     }
-    return required.some((p) => user.permissions.includes(p));
+    if (user.roles.includes('ADMIN')) {
+      return true;
+    }
+    return user.authorities.includes(normalized);
+  }
+
+  hasAny(authorities: readonly string[]): boolean {
+    return authorities.some((authority) => this.hasAuthority(authority));
+  }
+
+  hasAnyPermission(authorities: readonly string[]): boolean {
+    return this.hasAny(authorities);
+  }
+
+  hasAll(authorities: readonly string[]): boolean {
+    return authorities.every((authority) => this.hasAuthority(authority));
   }
 }
