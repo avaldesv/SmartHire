@@ -13,6 +13,8 @@ import {
   ValidateCandidateApplicationFlagsResponse,
   SendCandidateToSmartResponse,
   GenerateContractResponse,
+  SendQuestionnaireInviteRequest,
+  SendQuestionnaireInviteResponse,
 } from '../../shared/models/candidate-application.model';
 import { ApiClientService } from './api-client.service';
 
@@ -105,6 +107,17 @@ export class CandidateApplicationApiService {
     return this.http.post<GenerateContractResponse>(
       this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/generate-contract`),
       {},
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  sendQuestionnaireInvite(
+    applicationId: number,
+    request: SendQuestionnaireInviteRequest = {},
+  ): Observable<SendQuestionnaireInviteResponse> {
+    return this.http.post<SendQuestionnaireInviteResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/questionnaire-invite`),
+      { questionnaireId: request.questionnaireId ?? null },
       { headers: this.api.buildHeaders() },
     );
   }

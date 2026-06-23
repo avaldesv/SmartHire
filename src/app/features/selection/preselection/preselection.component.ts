@@ -270,6 +270,10 @@ export class PreselectionComponent implements OnInit {
       this.generateCandidateContract(row);
       return;
     }
+    if (actionId === 'notifyQuestionnaire') {
+      this.notifyCandidateQuestionnaire(row);
+      return;
+    }
     const name = `${row.firstName} ${row.lastName}`.trim();
     this.snack.open(`${action.label} — ${name}: pendiente de integración API`, 'Cerrar', { duration: 3500 });
   }
@@ -388,6 +392,25 @@ export class PreselectionComponent implements OnInit {
       },
       error: () => {
         this.snack.open('No se pudo generar el contrato', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  private notifyCandidateQuestionnaire(row: PreselectionCandidate): void {
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    this.applicationApi.sendQuestionnaireInvite(row.applicationId).subscribe({
+      next: (res) => {
+        const ref = this.snack.open(
+          `Cuestionario (stub) enviado a ${res.candidateEmail ?? name}`,
+          'Abrir link',
+          { duration: 8000 },
+        );
+        ref.onAction().subscribe(() => {
+          window.open(res.invitationLink, '_blank', 'noopener,noreferrer');
+        });
+      },
+      error: () => {
+        this.snack.open('No se pudo enviar la invitación al cuestionario', 'Cerrar', { duration: 4000 });
       },
     });
   }
