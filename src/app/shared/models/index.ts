@@ -4,9 +4,9 @@ export interface AuthUser {
   firstName: string;
   lastName: string;
   initials: string;
-  role: 'RECRUITER' | 'COORDINATOR' | 'ADMIN';
+  roles: string[];
+  authorities: string[];
   branch: string;
-  permissions: string[];
 }
 
 export interface PaginatedResult<T> {

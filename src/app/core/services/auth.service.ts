@@ -7,22 +7,29 @@ import { msalScopes } from '../auth/msal.config';
 import { AuthUser } from '../../shared/models';
 import { ApiClientService } from './api-client.service';
 
-const MOCK_USER: AuthUser = {
-  id: '1',
-  email: 'gquintana@empresa.com',
-  firstName: 'Gerardo',
-  lastName: 'Quintana',
-  initials: 'GQ',
-  role: 'RECRUITER',
-  branch: 'CDMX Centro',
-  permissions: ['home:read', 'positions:write', 'candidates:write', 'reports:read', 'settings:admin'],
-};
-
 interface LoginApiResponse {
   accessToken: string;
   expiresIn?: number;
   refreshToken?: string;
   refreshExpiresIn?: number;
+  userId?: number;
+  username?: string;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  roles?: string[];
+  authorities?: string[];
+}
+
+interface AuthMeApiResponse {
+  userId: number;
+  username: string;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  companyId: number;
+  roles: string[];
+  authorities: string[];
 }
 
 @Injectable({ providedIn: 'root' })
@@ -50,7 +57,7 @@ export class AuthService {
       )
       .pipe(
         tap((res) => this.persistSession(username, res)),
-        map(() => this.buildUserFromUsername(username)),
+        map(() => this.currentUser()!),
       );
   }
 
@@ -68,10 +75,10 @@ export class AuthService {
       )
       .pipe(
         tap((res) => {
-          const email = this.resolveSsoEmail();
+          const email = this.resolveSsoEmail(res);
           this.persistSession(email, res);
         }),
-        map(() => this.buildUserFromUsername(this.resolveSsoEmail())),
+        map(() => this.currentUser()!),
       );
   }
 
@@ -92,7 +99,7 @@ export class AuthService {
       .pipe(
         tap((res) => {
           const userRaw = sessionStorage.getItem('sh_user');
-          const email = userRaw ? (JSON.parse(userRaw) as AuthUser).email : MOCK_USER.email;
+          const email = userRaw ? (JSON.parse(userRaw) as AuthUser).email : 'user@empresa.com';
           this.persistSession(email, res);
         }),
         catchError((err) => {
@@ -104,6 +111,26 @@ export class AuthService {
         }),
       );
     return this.refreshInFlight.pipe(map(() => true));
+  }
+
+  loadCurrentUserProfile(): Observable<AuthUser> {
+    return this.http.get<AuthMeApiResponse>(this.api.apiUrl('/api/v1/auth/me')).pipe(
+      tap((profile) => {
+        const existing = this.currentUser();
+        const user = this.buildUser({
+          userId: profile.userId,
+          username: profile.username,
+          email: profile.email ?? existing?.email ?? profile.username,
+          firstName: profile.firstName,
+          lastName: profile.lastName,
+          roles: profile.roles,
+          authorities: profile.authorities,
+        });
+        this.currentUser.set(user);
+        sessionStorage.setItem('sh_user', JSON.stringify(user));
+      }),
+      map(() => this.currentUser()!),
+    );
   }
 
   ssoLogin(): void {
@@ -161,6 +188,7 @@ export class AuthService {
     if (raw && token) {
       this.currentUser.set(JSON.parse(raw));
       this.scheduleSilentRefresh();
+      this.loadCurrentUserProfile().subscribe({ error: () => undefined });
       return true;
     }
     return false;
@@ -175,7 +203,15 @@ export class AuthService {
   }
 
   private persistSession(usernameOrEmail: string, response: LoginApiResponse): void {
-    const user = this.buildUserFromUsername(usernameOrEmail);
+    const user = this.buildUser({
+      userId: response.userId,
+      username: response.username ?? usernameOrEmail,
+      email: response.email ?? usernameOrEmail,
+      firstName: response.firstName,
+      lastName: response.lastName,
+      roles: response.roles,
+      authorities: response.authorities,
+    });
     this.currentUser.set(user);
     sessionStorage.setItem('sh_token', response.accessToken);
     sessionStorage.setItem('sh_user', JSON.stringify(user));
@@ -214,17 +250,40 @@ export class AuthService {
     }
   }
 
-  private buildUserFromUsername(usernameOrEmail: string): AuthUser {
-    const email = usernameOrEmail.includes('@') ? usernameOrEmail : `${usernameOrEmail}@empresa.com`;
-    return { ...MOCK_USER, email };
+  private buildUser(input: {
+    userId?: number;
+    username?: string;
+    email: string;
+    firstName?: string;
+    lastName?: string;
+    roles?: string[];
+    authorities?: string[];
+  }): AuthUser {
+    const email = input.email.includes('@') ? input.email : `${input.email}@empresa.com`;
+    const firstName = input.firstName?.trim() || 'Usuario';
+    const lastName = input.lastName?.trim() || 'SmartHire';
+    const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+    return {
+      id: String(input.userId ?? email),
+      email,
+      firstName,
+      lastName,
+      initials,
+      roles: (input.roles ?? []).map((role) => role.toUpperCase()),
+      authorities: (input.authorities ?? []).map((authority) => authority.toUpperCase()),
+      branch: 'CDMX Centro',
+    };
   }
 
-  private resolveSsoEmail(): string {
+  private resolveSsoEmail(response?: LoginApiResponse): string {
+    if (response?.email) {
+      return response.email;
+    }
     const account = this.msal?.instance.getAllAccounts()[0];
     const claimEmail = account?.username ?? account?.idTokenClaims?.['preferred_username'];
     if (typeof claimEmail === 'string' && claimEmail.includes('@')) {
       return claimEmail;
     }
-    return MOCK_USER.email;
+    return 'user@empresa.com';
   }
 }

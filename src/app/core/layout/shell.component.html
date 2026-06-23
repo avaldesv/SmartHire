@@ -28,7 +28,7 @@
 </header>
 
 <nav class="main-nav">
-  @for (item of navItems; track item.path) {
+  @for (item of navItems(); track item.path) {
     <a [routerLink]="item.path" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: item.path === '/home' }">
       <mat-icon>{{ item.icon }}</mat-icon>
       {{ item.label }}
