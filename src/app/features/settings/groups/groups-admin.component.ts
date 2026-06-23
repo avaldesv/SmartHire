@@ -62,6 +62,23 @@ export class GroupsAdminComponent implements OnInit {
 
   readonly columns = ['name', 'description', 'permissions', 'active', 'actions'];
 
+  /** Permissions grouped by moduleName for the role form multi-select. */
+  get permissionGroups(): { moduleName: string; permissions: SecurityModulePermission[] }[] {
+    const grouped = new Map<string, SecurityModulePermission[]>();
+    for (const permission of this.permissionOptions) {
+      const moduleName = permission.moduleName?.trim() || permission.module?.trim() || 'Otros';
+      const list = grouped.get(moduleName) ?? [];
+      list.push(permission);
+      grouped.set(moduleName, list);
+    }
+    return Array.from(grouped.entries())
+      .sort(([a], [b]) => a.localeCompare(b, 'es'))
+      .map(([moduleName, permissions]) => ({
+        moduleName,
+        permissions: [...permissions].sort((a, b) => a.name.localeCompare(b.name, 'es')),
+      }));
+  }
+
   ngOnInit(): void {
     this.loadPermissions();
     this.load();
