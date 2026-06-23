@@ -1,3 +1,5 @@
+import { AppPermissions } from '../../../core/auth/app-permissions';
+
 export type PreselectionRowActionId =
   | 'viewProfile'
   | 'downloadCv'
@@ -16,7 +18,7 @@ export interface PreselectionRowAction {
   id: PreselectionRowActionId;
   label: string;
   icon: string;
-  /** At least one permission required to show the action (RF-013 L4 RBAC shell). */
+  /** At least one authority required to show the action (RF-013 L4 RBAC). */
   permissions: readonly string[];
   dividerBefore?: boolean;
 }
@@ -27,76 +29,76 @@ export const PRESELECTION_ROW_ACTIONS: readonly PreselectionRowAction[] = [
     id: 'viewProfile',
     label: 'Ver perfil',
     icon: 'person',
-    permissions: ['candidates:read'],
+    permissions: [AppPermissions.CANDIDATE_READ],
   },
   {
     id: 'downloadCv',
     label: 'Descargar CV',
     icon: 'download',
-    permissions: ['candidates:read'],
+    permissions: [AppPermissions.CANDIDATE_READ],
   },
   {
     id: 'modifyCompatibility',
     label: 'Modificar compatibilidad',
     icon: 'tune',
-    permissions: ['candidates:write'],
+    permissions: [AppPermissions.SELECTION_EDIT],
     dividerBefore: true,
   },
   {
     id: 'scheduleInterview',
     label: 'Solicitar cita entrevista',
     icon: 'event',
-    permissions: ['candidates:write'],
+    permissions: [AppPermissions.SELECTION_EDIT],
   },
   {
     id: 'viewDocuments',
     label: 'Ver documentos',
     icon: 'folder_open',
-    permissions: ['candidates:read'],
+    permissions: [AppPermissions.CANDIDATE_READ],
   },
   {
     id: 'validateInfo',
     label: 'Validar información',
     icon: 'fact_check',
-    permissions: ['candidates:write'],
+    permissions: [AppPermissions.SELECTION_EDIT],
     dividerBefore: true,
   },
   {
     id: 'validateStudies',
     label: 'Validar estudios',
     icon: 'school',
-    permissions: ['candidates:write'],
+    permissions: [AppPermissions.SELECTION_EDIT],
   },
   {
     id: 'auditLog',
     label: 'Bitácora',
     icon: 'history',
-    permissions: ['candidates:read', 'settings:admin'],
+    permissions: [AppPermissions.SELECTION_READ],
   },
   {
     id: 'sendSmart',
     label: 'Enviar a SMART',
     icon: 'send',
-    permissions: ['candidates:write', 'positions:write'],
+    permissions: [AppPermissions.SELECTION_EDIT],
     dividerBefore: true,
   },
   {
     id: 'generateContract',
     label: 'Generar contrato',
     icon: 'description',
-    permissions: ['candidates:write', 'positions:write'],
+    permissions: [AppPermissions.SELECTION_EDIT],
   },
   {
     id: 'notifyQuestionnaire',
     label: 'Notificar cuestionario',
     icon: 'mail',
-    permissions: ['candidates:write'],
+    permissions: [AppPermissions.SELECTION_EDIT],
   },
   {
     id: 'deselectRow',
     label: 'Deseleccionar',
     icon: 'person_remove',
-    permissions: ['candidates:write'],
+    permissions: [AppPermissions.SELECTION_EDIT],
     dividerBefore: true,
   },
 ];
