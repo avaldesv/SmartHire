@@ -51,6 +51,13 @@ export const routes: Routes = [
           import('./features/candidates/beneficiary-wizard/beneficiary-wizard.component').then((m) => m.BeneficiaryWizardComponent),
       },
       {
+        path: 'candidates/:id/emergency-contact',
+        loadComponent: () =>
+          import('./features/candidates/emergency-contact/emergency-contact-admin.component').then(
+            (m) => m.EmergencyContactAdminComponent,
+          ),
+      },
+      {
         path: 'candidates/:id',
         loadComponent: () => import('./features/candidates/profile/candidate-profile.component').then((m) => m.CandidateProfileComponent),
       },
