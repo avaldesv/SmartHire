@@ -28,7 +28,6 @@ import { CatalogGeographyService } from '../../../core/services/catalog-geograph
 import { CatalogKinshipService } from '../../../core/services/catalog-kinship.service';
 import { CatalogLanguageService } from '../../../core/services/catalog-language.service';
 import { CatalogShiftService } from '../../../core/services/catalog-shift.service';
-import { SettingsService } from '../../../mock/services/settings.service';
 import { CatalogCareer } from '../../../shared/models/catalog-career.model';
 import { CatalogBenefit } from '../../../shared/models/catalog-benefit.model';
 import { CatalogBrand } from '../../../shared/models/catalog-brand.model';
@@ -46,7 +45,6 @@ import { CatalogGender } from '../../../shared/models/catalog-gender.model';
 import { CatalogKinship } from '../../../shared/models/catalog-kinship.model';
 import { CatalogLanguage } from '../../../shared/models/catalog-language.model';
 import { CatalogShift } from '../../../shared/models/catalog-shift.model';
-import { CatalogItem } from '../../../shared/models';
 
 @Component({
   selector: 'sh-catalogs-admin',
@@ -69,7 +67,6 @@ import { CatalogItem } from '../../../shared/models';
   styleUrl: './catalogs-admin.component.scss',
 })
 export class CatalogsAdminComponent implements OnInit {
-  private readonly settings = inject(SettingsService);
   private readonly genderService = inject(CatalogGenderService);
   private readonly kinshipService = inject(CatalogKinshipService);
   private readonly companyService = inject(CatalogCompanyService);
@@ -89,10 +86,6 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly geographyService = inject(CatalogGeographyService);
   private readonly snack = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
-
-  loadingMock = true;
-  allCatalogs: CatalogItem[] = [];
-  mockCategories: string[] = [];
 
   countries: CatalogCountry[] = [];
   selectedCountryId: number | null = null;
@@ -281,7 +274,6 @@ export class CatalogsAdminComponent implements OnInit {
   editingNeighborhoodId: number | null = null;
   showNeighborhoodForm = false;
 
-  readonly mockColumns = ['key1', 'key2', 'name', 'description', 'active'];
   readonly genderColumns = ['code', 'name', 'value', 'active', 'actions'];
   readonly kinshipColumns = ['code', 'name', 'active', 'actions'];
   readonly companyColumns = ['code', 'name', 'active', 'actions'];
@@ -302,8 +294,6 @@ export class CatalogsAdminComponent implements OnInit {
   readonly stateColumns = ['code', 'name', 'shortDescription', 'active', 'actions'];
   readonly municipalityColumns = ['code', 'name', 'active', 'actions'];
   readonly neighborhoodColumns = ['name', 'postalCode', 'active', 'actions'];
-
-  private readonly apiCatalogCategories = new Set(['Carrera', 'País', 'Entidad Federativa']);
 
   readonly genderForm = this.fb.nonNullable.group({
     countryId: [null as number | null, Validators.required],
@@ -459,13 +449,6 @@ export class CatalogsAdminComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.settings.getCatalogs().subscribe((items) => {
-      this.allCatalogs = items;
-      this.mockCategories = [...new Set(items.map((c) => c.category))].filter(
-        (cat) => !this.apiCatalogCategories.has(cat),
-      );
-      this.loadingMock = false;
-    });
     this.loadKinships();
     this.loadCompanies();
     this.loadLanguages();
@@ -523,10 +506,6 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => this.snack.open('No se pudieron cargar municipios para el selector', 'Cerrar', { duration: 4000 }),
     });
-  }
-
-  getByCategory(cat: string): CatalogItem[] {
-    return this.allCatalogs.filter((c) => c.category === cat);
   }
 
   private loadCountryCatalogs(): void {
