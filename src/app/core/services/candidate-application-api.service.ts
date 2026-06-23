@@ -9,6 +9,8 @@ import {
   CreateCandidateApplicationRequest,
   CreateCandidateApplicationResponse,
   ListCandidateApplicationsRequest,
+  PatchCandidateApplicationRequest,
+  PatchCandidateApplicationResponse,
   ReleaseAllCandidateApplicationsRequest,
   ValidateCandidateApplicationFlagsResponse,
   SendCandidateToSmartResponse,
@@ -74,6 +76,17 @@ export class CandidateApplicationApiService {
   releaseAll(request: ReleaseAllCandidateApplicationsRequest): Observable<BulkCandidateApplicationsResponse> {
     return this.http.post<BulkCandidateApplicationsResponse>(
       this.api.apiUrl('/api/v1/candidate-applications/release-all'),
+      request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  patchApplication(
+    applicationId: number,
+    request: PatchCandidateApplicationRequest,
+  ): Observable<PatchCandidateApplicationResponse> {
+    return this.http.patch<PatchCandidateApplicationResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}`),
       request,
       { headers: this.api.buildHeaders() },
     );
