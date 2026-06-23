@@ -101,7 +101,10 @@ export class PreselectionComponent implements OnInit {
           compatibility: app.compatibilityPercent ?? 0,
           stage: app.status,
           interviewScheduled: app.interviewScheduled ?? false,
-          documentsComplete: false,
+          infoValidated: app.infoValidated ?? false,
+          studiesValidated: app.studiesValidated ?? false,
+          documentsSaved: app.documentsSaved ?? false,
+          documentsComplete: app.documentsSaved ?? false,
           selected: app.isSelected ?? false,
           smartSent: false,
         }));
@@ -243,6 +246,14 @@ export class PreselectionComponent implements OnInit {
       this.downloadCandidateCv(row);
       return;
     }
+    if (actionId === 'validateInfo') {
+      this.validateApplicationInfo(row);
+      return;
+    }
+    if (actionId === 'validateStudies') {
+      this.validateApplicationStudies(row);
+      return;
+    }
     const name = `${row.firstName} ${row.lastName}`.trim();
     this.snack.open(`${action.label} — ${name}: pendiente de integración API`, 'Cerrar', { duration: 3500 });
   }
@@ -273,5 +284,61 @@ export class PreselectionComponent implements OnInit {
         this.snack.open('No se pudo obtener la URL de descarga del CV', 'Cerrar', { duration: 4000 });
       },
     });
+  }
+
+  formatDocumentsStatus(row: PreselectionCandidate): string {
+    if (row.documentsSaved) {
+      return 'Completo';
+    }
+    const parts: string[] = [];
+    parts.push(row.infoValidated ? 'Info ✓' : 'Info pendiente');
+    parts.push(row.studiesValidated ? 'Estudios ✓' : 'Estudios pendiente');
+    return parts.join(' · ');
+  }
+
+  private validateApplicationInfo(row: PreselectionCandidate): void {
+    if (row.infoValidated) {
+      this.snack.open('La información ya está validada', 'Cerrar', { duration: 3000 });
+      return;
+    }
+    this.applicationApi.validateInfo(row.applicationId).subscribe({
+      next: (res) => {
+        this.applyValidationFlags(row, res);
+        this.snack.open('Información validada', 'Cerrar', { duration: 3500 });
+      },
+      error: () => {
+        this.snack.open('No se pudo validar la información', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  private validateApplicationStudies(row: PreselectionCandidate): void {
+    if (row.studiesValidated) {
+      this.snack.open('Los estudios ya están validados', 'Cerrar', { duration: 3000 });
+      return;
+    }
+    this.applicationApi.validateStudies(row.applicationId).subscribe({
+      next: (res) => {
+        this.applyValidationFlags(row, res);
+        this.snack.open('Estudios validados', 'Cerrar', { duration: 3500 });
+      },
+      error: () => {
+        this.snack.open('No se pudieron validar los estudios', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  private applyValidationFlags(
+    row: PreselectionCandidate,
+    flags: {
+      infoValidated: boolean;
+      studiesValidated: boolean;
+      documentsSaved: boolean;
+    },
+  ): void {
+    row.infoValidated = flags.infoValidated;
+    row.studiesValidated = flags.studiesValidated;
+    row.documentsSaved = flags.documentsSaved;
+    row.documentsComplete = flags.documentsSaved;
   }
 }

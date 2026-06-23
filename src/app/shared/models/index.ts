@@ -81,6 +81,9 @@ export interface PreselectionCandidate extends Candidate {
   compatibility: number;
   stage: string;
   interviewScheduled: boolean;
+  infoValidated: boolean;
+  studiesValidated: boolean;
+  documentsSaved: boolean;
   documentsComplete: boolean;
   selected: boolean;
   smartSent: boolean;
