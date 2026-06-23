@@ -25,7 +25,13 @@ import {
   ApplicationAuditLogDialogComponent,
   ApplicationAuditLogDialogData,
 } from '../dialogs/application-audit-log-dialog/application-audit-log-dialog.component';
+import {
+  PreselectionCompatibilityDialogComponent,
+  PreselectionCompatibilityDialogData,
+} from '../dialogs/preselection-compatibility-dialog/preselection-compatibility-dialog.component';
+import { QuestionnaireApiService } from '../../../core/services/questionnaire-api.service';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
+import { filter, switchMap } from 'rxjs';
 import { PreselectionCandidate } from '../../../shared/models';
 import {
   PRESELECTION_ROW_ACTIONS,
@@ -57,6 +63,7 @@ export class PreselectionComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly applicationApi = inject(CandidateApplicationApiService);
   private readonly candidateApi = inject(CandidateApiService);
+  private readonly questionnaireApi = inject(QuestionnaireApiService);
   private readonly dialog = inject(MatDialog);
   private readonly snack = inject(MatSnackBar);
   private readonly permission = inject(PermissionService);
@@ -250,6 +257,18 @@ export class PreselectionComponent implements OnInit {
       this.downloadCandidateCv(row);
       return;
     }
+    if (actionId === 'modifyCompatibility') {
+      this.openCompatibilityDialog(row);
+      return;
+    }
+    if (actionId === 'scheduleInterview') {
+      this.toggleInterviewSchedule(row);
+      return;
+    }
+    if (actionId === 'viewDocuments') {
+      this.openCandidateDocuments(row);
+      return;
+    }
     if (actionId === 'validateInfo') {
       this.validateApplicationInfo(row);
       return;
@@ -291,6 +310,55 @@ export class PreselectionComponent implements OnInit {
   openCandidateProfile(row: PreselectionCandidate): void {
     void this.router.navigate(['/candidates', row.id], {
       queryParams: { from: 'preselection', positionId: this.positionId },
+    });
+  }
+
+  private openCandidateDocuments(row: PreselectionCandidate): void {
+    void this.router.navigate(['/candidates', row.id], {
+      queryParams: { from: 'preselection', positionId: this.positionId, section: 'documents' },
+    });
+  }
+
+  private openCompatibilityDialog(row: PreselectionCandidate): void {
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    const dialogRef = this.dialog.open<
+      PreselectionCompatibilityDialogComponent,
+      PreselectionCompatibilityDialogData,
+      number | undefined
+    >(PreselectionCompatibilityDialogComponent, {
+      width: '400px',
+      data: { candidateName: name, currentCompatibility: row.compatibility },
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(filter((value): value is number => value != null))
+      .subscribe((compatibilityPercent) => {
+        this.applicationApi.patchApplication(row.applicationId, { compatibilityPercent }).subscribe({
+          next: (res) => {
+            row.compatibility = res.compatibilityPercent ?? compatibilityPercent;
+            this.snack.open('Compatibilidad actualizada', 'Cerrar', { duration: 3500 });
+          },
+          error: () => {
+            this.snack.open('No se pudo actualizar la compatibilidad', 'Cerrar', { duration: 4000 });
+          },
+        });
+      });
+  }
+
+  private toggleInterviewSchedule(row: PreselectionCandidate): void {
+    const schedule = !row.interviewScheduled;
+    this.applicationApi.patchApplication(row.applicationId, { interviewScheduled: schedule }).subscribe({
+      next: (res) => {
+        row.interviewScheduled = res.interviewScheduled;
+        this.snack.open(
+          res.interviewScheduled ? 'Cita de entrevista solicitada' : 'Cita de entrevista cancelada',
+          'Cerrar',
+          { duration: 3500 },
+        );
+      },
+      error: () => {
+        this.snack.open('No se pudo actualizar la cita de entrevista', 'Cerrar', { duration: 4000 });
+      },
     });
   }
 
@@ -398,21 +466,29 @@ export class PreselectionComponent implements OnInit {
 
   private notifyCandidateQuestionnaire(row: PreselectionCandidate): void {
     const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
-    this.applicationApi.sendQuestionnaireInvite(row.applicationId).subscribe({
-      next: (res) => {
-        const ref = this.snack.open(
-          `Cuestionario (stub) enviado a ${res.candidateEmail ?? name}`,
-          'Abrir link',
-          { duration: 8000 },
-        );
-        ref.onAction().subscribe(() => {
-          window.open(res.invitationLink, '_blank', 'noopener,noreferrer');
-        });
-      },
-      error: () => {
-        this.snack.open('No se pudo enviar la invitación al cuestionario', 'Cerrar', { duration: 4000 });
-      },
-    });
+    this.questionnaireApi
+      .getPositionAssignment(this.positionId)
+      .pipe(
+        switchMap((assignment) =>
+          this.applicationApi.sendQuestionnaireInvite(row.applicationId, {
+            questionnaireId: assignment.persisted ? assignment.questionnaireFormId : null,
+          }),
+        ),
+      )
+      .subscribe({
+        next: (res) => {
+          const label = res.questionnaireId
+            ? `Cuestionario #${res.questionnaireId} (stub) enviado a ${res.candidateEmail ?? name}`
+            : `Invitación (stub) enviada sin formulario asignado a ${res.candidateEmail ?? name}`;
+          const ref = this.snack.open(label, 'Abrir link', { duration: 8000 });
+          ref.onAction().subscribe(() => {
+            window.open(res.invitationLink, '_blank', 'noopener,noreferrer');
+          });
+        },
+        error: () => {
+          this.snack.open('No se pudo enviar la invitación al cuestionario', 'Cerrar', { duration: 4000 });
+        },
+      });
   }
 
   private applyValidationFlags(

@@ -90,6 +90,20 @@ export interface GenerateContractResponse {
   processedAt: string;
 }
 
+export interface PatchCandidateApplicationRequest {
+  compatibilityPercent?: number | null;
+  interviewScheduled?: boolean | null;
+}
+
+export interface PatchCandidateApplicationResponse {
+  id: number;
+  candidateId: number;
+  positionId: number;
+  compatibilityPercent: number | null;
+  interviewScheduled: boolean;
+  interviewId: string | null;
+}
+
 export interface SendQuestionnaireInviteRequest {
   questionnaireId?: number | null;
 }

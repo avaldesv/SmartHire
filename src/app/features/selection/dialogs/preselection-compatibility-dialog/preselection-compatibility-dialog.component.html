@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Modificar compatibilidad</h2>
+<mat-dialog-content>
+  <p class="candidate-name">{{ data.candidateName }}</p>
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Compatibilidad (%)</mat-label>
+      <input matInput type="number" min="0" max="100" formControlName="compatibilityPercent" />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button type="button" (click)="cancel()">Cancelar</button>
+  <button mat-flat-button color="primary" type="button" (click)="save()">Guardar</button>
+</mat-dialog-actions>

@@ -21,7 +21,7 @@ export interface PreselectionRowAction {
   dividerBefore?: boolean;
 }
 
-/** Row menu actions aligned with RF-013 backlog (L5–L16 wire real handlers later). */
+/** Row menu actions for RF-013 preselection (L4–L16). */
 export const PRESELECTION_ROW_ACTIONS: readonly PreselectionRowAction[] = [
   {
     id: 'viewProfile',
