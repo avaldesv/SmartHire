@@ -11,6 +11,8 @@ import {
   ListCandidateApplicationsRequest,
   ReleaseAllCandidateApplicationsRequest,
   ValidateCandidateApplicationFlagsResponse,
+  SendCandidateToSmartResponse,
+  GenerateContractResponse,
 } from '../../shared/models/candidate-application.model';
 import { ApiClientService } from './api-client.service';
 
@@ -86,6 +88,22 @@ export class CandidateApplicationApiService {
   validateStudies(applicationId: number): Observable<ValidateCandidateApplicationFlagsResponse> {
     return this.http.post<ValidateCandidateApplicationFlagsResponse>(
       this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/validate-studies`),
+      {},
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  sendToSmart(applicationId: number): Observable<SendCandidateToSmartResponse> {
+    return this.http.post<SendCandidateToSmartResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/send-to-smart`),
+      {},
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  generateContract(applicationId: number): Observable<GenerateContractResponse> {
+    return this.http.post<GenerateContractResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/generate-contract`),
       {},
       { headers: this.api.buildHeaders() },
     );

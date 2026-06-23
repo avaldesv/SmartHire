@@ -262,6 +262,14 @@ export class PreselectionComponent implements OnInit {
       this.openAuditLogDialog(row);
       return;
     }
+    if (actionId === 'sendSmart') {
+      this.sendCandidateToSmart(row);
+      return;
+    }
+    if (actionId === 'generateContract') {
+      this.generateCandidateContract(row);
+      return;
+    }
     const name = `${row.firstName} ${row.lastName}`.trim();
     this.snack.open(`${action.label} — ${name}: pendiente de integración API`, 'Cerrar', { duration: 3500 });
   }
@@ -348,6 +356,38 @@ export class PreselectionComponent implements OnInit {
       },
       error: () => {
         this.snack.open('No se pudieron validar los estudios', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  private sendCandidateToSmart(row: PreselectionCandidate): void {
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    this.applicationApi.sendToSmart(row.applicationId).subscribe({
+      next: (res) => {
+        this.snack.open(
+          `SMART (stub): ${name} — ref. ${res.externalReference}`,
+          'Cerrar',
+          { duration: 5000 },
+        );
+      },
+      error: () => {
+        this.snack.open('No se pudo enviar a SMART', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  private generateCandidateContract(row: PreselectionCandidate): void {
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    this.applicationApi.generateContract(row.applicationId).subscribe({
+      next: (res) => {
+        this.snack.open(
+          `Contrato (stub): ${name} — ref. ${res.contractReference}`,
+          'Cerrar',
+          { duration: 5000 },
+        );
+      },
+      error: () => {
+        this.snack.open('No se pudo generar el contrato', 'Cerrar', { duration: 4000 });
       },
     });
   }
