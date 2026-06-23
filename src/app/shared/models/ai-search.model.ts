@@ -42,3 +42,17 @@ export interface AiSearchResultView {
   evidence: string;
   selected: boolean;
 }
+
+export interface PositionAiPromptConfig {
+  positionId: number;
+  mandatory: string;
+  optional: string;
+  desirable: string;
+  persisted: boolean;
+}
+
+export interface UpsertPositionAiPromptConfigRequest {
+  mandatory: string;
+  optional?: string | null;
+  desirable?: string | null;
+}
