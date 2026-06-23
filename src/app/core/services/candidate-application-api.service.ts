@@ -10,6 +10,7 @@ import {
   CreateCandidateApplicationResponse,
   ListCandidateApplicationsRequest,
   ReleaseAllCandidateApplicationsRequest,
+  ValidateCandidateApplicationFlagsResponse,
 } from '../../shared/models/candidate-application.model';
 import { ApiClientService } from './api-client.service';
 
@@ -70,6 +71,22 @@ export class CandidateApplicationApiService {
     return this.http.post<BulkCandidateApplicationsResponse>(
       this.api.apiUrl('/api/v1/candidate-applications/release-all'),
       request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  validateInfo(applicationId: number): Observable<ValidateCandidateApplicationFlagsResponse> {
+    return this.http.post<ValidateCandidateApplicationFlagsResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/validate-info`),
+      {},
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  validateStudies(applicationId: number): Observable<ValidateCandidateApplicationFlagsResponse> {
+    return this.http.post<ValidateCandidateApplicationFlagsResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/validate-studies`),
+      {},
       { headers: this.api.buildHeaders() },
     );
   }

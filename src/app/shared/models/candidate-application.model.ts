@@ -16,6 +16,9 @@ export interface CandidateApplicationListItem {
   candidatePhone: string | null;
   createdAt: string;
   interviewScheduled?: boolean | null;
+  infoValidated?: boolean | null;
+  studiesValidated?: boolean | null;
+  documentsSaved?: boolean | null;
 }
 
 export interface ListCandidateApplicationsRequest {
@@ -56,4 +59,13 @@ export interface ReleaseAllCandidateApplicationsRequest {
 export interface BulkCandidateApplicationsResponse {
   positionId: number;
   updatedCount: number;
+}
+
+export interface ValidateCandidateApplicationFlagsResponse {
+  id: number;
+  candidateId: number;
+  positionId: number;
+  infoValidated: boolean;
+  studiesValidated: boolean;
+  documentsSaved: boolean;
 }
