@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import {
   CandidateDetail,
+  CandidateCvDownloadUrlResponse,
   CandidateListItem,
   CandidateListResponse,
   CreateCandidateRequest,
@@ -51,6 +52,13 @@ export class CandidateApiService {
     return this.http.get<CandidateDetail>(this.api.apiUrl(`/api/v1/candidates/${id}`), {
       headers: this.api.buildHeaders(),
     });
+  }
+
+  getCvDownloadUrl(candidateId: number): Observable<CandidateCvDownloadUrlResponse> {
+    return this.http.get<CandidateCvDownloadUrlResponse>(
+      this.api.apiUrl(`/api/v1/candidates/${candidateId}/cv/download-url`),
+      { headers: this.api.buildHeaders() },
+    );
   }
 
   create(request: CreateCandidateRequest): Observable<CreateCandidateResponse> {

@@ -63,3 +63,10 @@ export type UpdateCandidateRequest = CreateCandidateRequest & { isActive: boolea
 export type UpdateCandidateResponse = CreateCandidateResponse;
 
 export type CandidateListResponse = ApiPageResponse<CandidateListItem>;
+
+export interface CandidateCvDownloadUrlResponse {
+  candidateId: number;
+  fileName: string;
+  contentType: string;
+  downloadUrl: string;
+}
