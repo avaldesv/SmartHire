@@ -1,3 +1,10 @@
 h3 { margin: 0 0 16px; font-size: 1.1rem; }
 code { font-size: 12px; background: #f1f5f9; padding: 2px 6px; border-radius: 4px; }
 .loading-wrap { display: flex; justify-content: center; padding: 48px; }
+.toolbar { margin-bottom: 16px; }
+.form-card { margin-bottom: 16px; padding: 16px; }
+.form-card h4 { margin: 0 0 12px; font-size: 1rem; }
+.template-form { display: flex; flex-direction: column; gap: 8px; max-width: 640px; }
+.message-field { width: 100%; }
+.message-cell { max-width: 320px; white-space: pre-wrap; }
+.form-actions { display: flex; gap: 8px; margin-top: 8px; }
