@@ -11,6 +11,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CandidateApplicationApiService } from '../../../core/services/candidate-application-api.service';
+import { CandidateApiService } from '../../../core/services/candidate-api.service';
 import { PermissionService } from '../../../core/services/permission.service';
 import {
   CandidatePoolDialogComponent,
@@ -51,6 +52,7 @@ export class PreselectionComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly applicationApi = inject(CandidateApplicationApiService);
+  private readonly candidateApi = inject(CandidateApiService);
   private readonly dialog = inject(MatDialog);
   private readonly snack = inject(MatSnackBar);
   private readonly permission = inject(PermissionService);
@@ -233,8 +235,12 @@ export class PreselectionComponent implements OnInit {
       this.deselectSingleRow(row);
       return;
     }
-    if (actionId === 'viewProfile' || actionId === 'downloadCv') {
+    if (actionId === 'viewProfile') {
       this.openCandidateProfile(row);
+      return;
+    }
+    if (actionId === 'downloadCv') {
+      this.downloadCandidateCv(row);
       return;
     }
     const name = `${row.firstName} ${row.lastName}`.trim();
@@ -254,6 +260,18 @@ export class PreselectionComponent implements OnInit {
   openCandidateProfile(row: PreselectionCandidate): void {
     void this.router.navigate(['/candidates', row.id], {
       queryParams: { from: 'preselection', positionId: this.positionId },
+    });
+  }
+
+  downloadCandidateCv(row: PreselectionCandidate): void {
+    this.candidateApi.getCvDownloadUrl(row.id).subscribe({
+      next: (res) => {
+        window.open(res.downloadUrl, '_blank', 'noopener,noreferrer');
+        this.snack.open(`CV: ${res.fileName}`, 'Cerrar', { duration: 3500 });
+      },
+      error: () => {
+        this.snack.open('No se pudo obtener la URL de descarga del CV', 'Cerrar', { duration: 4000 });
+      },
     });
   }
 }
