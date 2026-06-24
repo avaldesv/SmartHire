@@ -1,3 +1,4 @@
+import { TenantDataScope } from './tenant-data-scope.model';
 import { ApiPageResponse } from './catalog-position.model';
 
 export interface CatalogClientCompany {
@@ -10,6 +11,7 @@ export interface CatalogClientCompany {
   taxId?: string;
   r3Interface: boolean;
   isActive: boolean;
+  companyId?: number | null;
 }
 
 export interface CreateClientCompanyRequest {
@@ -21,6 +23,7 @@ export interface CreateClientCompanyRequest {
   taxId?: string;
   r3Interface?: boolean;
   isActive?: boolean;
+  scope?: TenantDataScope;
 }
 
 export type UpdateClientCompanyRequest = CreateClientCompanyRequest;

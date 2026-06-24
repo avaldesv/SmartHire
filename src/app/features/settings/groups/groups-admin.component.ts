@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, effect, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -8,14 +8,19 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { PermissionService } from '../../../core/services/permission.service';
 import { SecurityModulePermissionService } from '../../../core/services/security-module-permission.service';
 import { SecurityRoleService } from '../../../core/services/security-role.service';
+import { TenantContextService } from '../../../core/services/tenant-context.service';
+import { ScopeBadgeComponent } from '../../../shared/components/scope-badge/scope-badge.component';
 import { SecurityModulePermission } from '../../../shared/models/security-module-permission.model';
 import { SecurityRole } from '../../../shared/models/security-role.model';
-import { TenantContextService } from '../../../core/services/tenant-context.service';
+import { TenantDataScope } from '../../../shared/models/tenant-data-scope.model';
+import { canEditScopedRecord } from '../../../shared/utils/tenant-scope.util';
 
 @Component({
   selector: 'sh-groups-admin',
@@ -33,6 +38,8 @@ import { TenantContextService } from '../../../core/services/tenant-context.serv
     MatCheckboxModule,
     MatSelectModule,
     MatSnackBarModule,
+    MatRadioModule,
+    ScopeBadgeComponent,
   ],
   templateUrl: './groups-admin.component.html',
   styleUrl: './groups-admin.component.scss',
@@ -41,8 +48,12 @@ export class GroupsAdminComponent implements OnInit {
   private readonly roleService = inject(SecurityRoleService);
   private readonly permissionService = inject(SecurityModulePermissionService);
   private readonly tenantContext = inject(TenantContextService);
+  private readonly appPermissions = inject(PermissionService);
   private readonly snack = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
+  private tenantReloadReady = false;
+
+  readonly isGlobalAdmin = computed(() => this.appPermissions.isGlobalAdmin());
 
   loading = true;
   saving = false;
@@ -61,7 +72,23 @@ export class GroupsAdminComponent implements OnInit {
     modulePermissionIds: [[] as number[]],
   });
 
-  readonly columns = ['name', 'description', 'permissions', 'active', 'actions'];
+  readonly createScopeForm = this.fb.nonNullable.group({
+    scope: ['TENANT' as TenantDataScope],
+  });
+
+  readonly columns = ['name', 'description', 'scope', 'permissions', 'active', 'actions'];
+
+  constructor() {
+    effect(() => {
+      this.tenantContext.activeCompanyId();
+      if (!this.tenantReloadReady) {
+        return;
+      }
+      this.cancelForm();
+      this.pageIndex = 0;
+      this.load();
+    });
+  }
 
   /** Permissions grouped by moduleName for the role form multi-select. */
   get permissionGroups(): { moduleName: string; permissions: SecurityModulePermission[] }[] {
@@ -81,8 +108,13 @@ export class GroupsAdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.tenantReloadReady = true;
     this.loadPermissions();
     this.load();
+  }
+
+  canEditRecord(companyId?: number | null): boolean {
+    return canEditScopedRecord(companyId, this.isGlobalAdmin());
   }
 
   private loadPermissions(): void {
@@ -124,10 +156,14 @@ export class GroupsAdminComponent implements OnInit {
   openCreate(): void {
     this.editingRoleId = null;
     this.showForm = true;
+    this.createScopeForm.controls.scope.setValue('TENANT');
     this.roleForm.reset({ name: '', description: '', isActive: true, modulePermissionIds: [] });
   }
 
   openEdit(row: SecurityRole): void {
+    if (!this.canEditRecord(row.companyId)) {
+      return;
+    }
     this.editingRoleId = row.id;
     this.showForm = true;
     this.roleService.getById(row.id).subscribe({
@@ -185,7 +221,7 @@ export class GroupsAdminComponent implements OnInit {
         name: value.name,
         description: value.description || undefined,
         isActive: value.isActive,
-        companyId: this.tenantContext.getCompanyId(),
+        scope: this.isGlobalAdmin() ? this.createScopeForm.controls.scope.value : 'TENANT',
         modulePermissionIds: value.modulePermissionIds,
       })
       .subscribe({

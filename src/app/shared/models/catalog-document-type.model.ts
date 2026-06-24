@@ -1,3 +1,4 @@
+import { TenantDataScope } from './tenant-data-scope.model';
 import { ApiPageResponse } from './catalog-position.model';
 
 export interface CatalogDocumentType {
@@ -8,6 +9,7 @@ export interface CatalogDocumentType {
   documentType: string;
   validatesWithAi: boolean;
   isActive: boolean;
+  companyId?: number | null;
 }
 
 export interface CreateDocumentTypeRequest {
@@ -17,6 +19,7 @@ export interface CreateDocumentTypeRequest {
   documentType: string;
   validatesWithAi?: boolean;
   isActive?: boolean;
+  scope?: TenantDataScope;
 }
 
 export type UpdateDocumentTypeRequest = CreateDocumentTypeRequest;

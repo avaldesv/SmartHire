@@ -1,3 +1,4 @@
+import { TenantDataScope } from './tenant-data-scope.model';
 import { ApiPageResponse } from './catalog-position.model';
 
 export interface CatalogLanguageLevel {
@@ -7,6 +8,7 @@ export interface CatalogLanguageLevel {
   name: string;
   appliesToCareer: boolean;
   isActive: boolean;
+  companyId?: number | null;
 }
 
 export interface CreateLanguageLevelRequest {
@@ -15,6 +17,7 @@ export interface CreateLanguageLevelRequest {
   name: string;
   appliesToCareer?: boolean;
   isActive?: boolean;
+  scope?: TenantDataScope;
 }
 
 export type UpdateLanguageLevelRequest = CreateLanguageLevelRequest;
