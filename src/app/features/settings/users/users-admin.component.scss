@@ -17,8 +17,7 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
   justify-content: flex-end;
 }
 .actions-cell {
-  display: flex;
-  gap: 0;
-  flex-wrap: nowrap;
   white-space: nowrap;
+  text-align: right;
+  overflow: visible;
 }

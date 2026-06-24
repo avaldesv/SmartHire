@@ -76,12 +76,29 @@ import { MatIconModule } from '@angular/material/icon';
   styles: `
     :host {
       display: inline-flex;
+      vertical-align: middle;
     }
 
     .table-row-actions {
       display: inline-flex;
       align-items: center;
-      gap: 0;
+      gap: 2px;
+    }
+
+    .table-row-actions mat-icon {
+      font-family: 'Material Icons';
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      overflow: visible;
+    }
+
+    .table-row-actions .mat-mdc-icon-button {
+      --mdc-icon-button-state-layer-size: 36px;
+      width: 36px;
+      height: 36px;
+      padding: 0;
     }
 
     .disabled-link {
