@@ -50,6 +50,8 @@ import { CatalogCompanyDepartmentService } from '../../../core/services/catalog-
 import { CatalogCompanyDepartment } from '../../../shared/models/catalog-company-department.model';
 import { CatalogBranchService } from '../../../core/services/catalog-branch.service';
 import { CatalogBranch } from '../../../shared/models/catalog-branch.model';
+import { SecurityRecruiterGroupService } from '../../../core/services/security-recruiter-group.service';
+import { SecurityRecruiterGroup } from '../../../shared/models/security-recruiter-group.model';
 import { CatalogJobPortalService } from '../../../core/services/catalog-job-portal.service';
 import { CatalogJobPortal } from '../../../shared/models/catalog-job-portal.model';
 import { QuestionnaireCategoryService } from '../../../core/services/questionnaire-category.service';
@@ -152,6 +154,7 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly requisitionTypeService = inject(CatalogRequisitionTypeService);
   private readonly clientCompanyService = inject(CatalogClientCompanyService);
   private readonly clientService = inject(CatalogClientService);
+  private readonly recruiterGroupService = inject(SecurityRecruiterGroupService);
   private readonly jobPortalService = inject(CatalogJobPortalService);
   private readonly questionnaireCategoryService = inject(QuestionnaireCategoryService);
   private readonly contractTypeService = inject(CatalogContractTypeService);
@@ -295,6 +298,9 @@ export class CatalogsAdminComponent implements OnInit {
     this.loadDisabilityTypes();
     this.loadBusinessUnits();
     this.loadPositionTypes();
+        break;
+      case 'recruiterGroup':
+        this.loadRecruiterGroups();
         break;
       case 'jobPortal':
         this.loadJobPortals();
@@ -554,6 +560,15 @@ export class CatalogsAdminComponent implements OnInit {
   editingBranchId: number | null = null;
   showBranchForm = false;
 
+  recruiterGroups: SecurityRecruiterGroup[] = [];
+  recruiterGroupTotal = 0;
+  recruiterGroupPageIndex = 0;
+  recruiterGroupPageSize = 10;
+  loadingRecruiterGroups = false;
+  savingRecruiterGroup = false;
+  editingRecruiterGroupId: number | null = null;
+  showRecruiterGroupForm = false;
+
   jobPortals: CatalogJobPortal[] = [];
   jobPortalTotal = 0;
   jobPortalPageIndex = 0;
@@ -766,6 +781,18 @@ export class CatalogsAdminComponent implements OnInit {
   readonly companyAreaColumns = ['name', 'description', 'active', 'scope', 'actions'];
   readonly companyDepartmentColumns = ['name', 'description', 'active', 'scope', 'actions'];
   readonly branchColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
+  readonly recruiterGroupColumns = ['code', 'description', 'legacyManpowerId', 'coreAts', 'coreAppian', 'active', 'scope', 'actions'];
+
+  readonly recruiterGroupForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    description: ['', Validators.required],
+    legacyManpowerId: [null as number | null, Validators.required],
+    coreAts: [''],
+    coreAppian: ['', Validators.required],
+    isActive: [true],
+  });
+
   readonly jobPortalColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
 
   readonly jobPortalForm = this.fb.nonNullable.group({
@@ -1238,6 +1265,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.loadBusinessUnits();
     this.loadPositionTypes();
     this.loadQuestionnaireCategorys();
+    this.loadRecruiterGroups();
     this.loadJobPortals();
     this.loadBranchs();
     this.loadClientCompanies();
@@ -1275,6 +1303,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.positionTypePageIndex = 0;
     this.questionnaireCategoryPageIndex = 0;
     this.jobPortalPageIndex = 0;
+    this.recruiterGroupPageIndex = 0;
     this.branchPageIndex = 0;
     this.clientCompanyPageIndex = 0;
     this.statePageIndex = 0;
@@ -1308,6 +1337,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.cancelBusinessUnitForm();
     this.cancelPositionTypeForm();
     this.cancelQuestionnaireCategoryForm();
+    this.cancelRecruiterGroupForm();
     this.cancelJobPortalForm();
     this.cancelBranchForm();
     this.cancelStateForm();
@@ -2029,6 +2059,97 @@ export class CatalogsAdminComponent implements OnInit {
     if (this.isPanelVisible('companyDepartment')) this.loadCompanyDepartments();
   }
 
+
+
+  loadRecruiterGroups(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingRecruiterGroups = true;
+    this.recruiterGroupService.list(this.selectedCountryId, this.recruiterGroupPageIndex, this.recruiterGroupPageSize).subscribe({
+      next: (res) => {
+        this.recruiterGroups = res.items;
+        this.recruiterGroupTotal = res.total;
+        this.loadingRecruiterGroups = false;
+      },
+      error: () => {
+        this.loadingRecruiterGroups = false;
+        this.snack.open('No se pudieron cargar grupos reclutadores', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  onRecruiterGroupPage(e: PageEvent): void {
+    this.recruiterGroupPageIndex = e.pageIndex;
+    this.recruiterGroupPageSize = e.pageSize;
+    this.loadRecruiterGroups();
+  }
+
+  openCreateRecruiterGroup(): void {
+    this.resetCreateScope();
+    this.editingRecruiterGroupId = null;
+    this.showRecruiterGroupForm = true;
+    this.recruiterGroupForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      description: '',
+      legacyManpowerId: null,
+      coreAts: '',
+      coreAppian: '',
+      isActive: true,
+    });
+  }
+
+  openEditRecruiterGroup(row: SecurityRecruiterGroup): void {
+    this.editingRecruiterGroupId = row.id;
+    this.showRecruiterGroupForm = true;
+    this.recruiterGroupForm.patchValue({
+      countryId: row.countryId ?? this.selectedCountryId,
+      code: row.code,
+      description: row.description,
+      legacyManpowerId: row.legacyManpowerId,
+      coreAts: row.coreAts ?? '',
+      coreAppian: row.coreAppian,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelRecruiterGroupForm(): void {
+    this.showRecruiterGroupForm = false;
+    this.editingRecruiterGroupId = null;
+  }
+
+  saveRecruiterGroup(): void {
+    if (this.recruiterGroupForm.invalid) {
+      this.recruiterGroupForm.markAllAsTouched();
+      return;
+    }
+    const value = this.recruiterGroupForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      description: value.description,
+      legacyManpowerId: value.legacyManpowerId!,
+      coreAts: value.coreAts || undefined,
+      coreAppian: value.coreAppian,
+      isActive: value.isActive,
+    };
+    this.savingRecruiterGroup = true;
+    const request$ =
+      this.editingRecruiterGroupId != null
+        ? this.recruiterGroupService.update(this.editingRecruiterGroupId, payload)
+        : this.recruiterGroupService.create(this.withCreateScope(payload));
+    request$.subscribe({
+      next: () => {
+        this.savingRecruiterGroup = false;
+        this.cancelRecruiterGroupForm();
+        this.loadRecruiterGroups();
+        this.snack.open('Grupo guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingRecruiterGroup = false;
+        this.snack.open('No se pudo guardar el grupo', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
 
   loadJobPortals(): void {
     if (this.selectedCountryId == null) return;

@@ -50,7 +50,8 @@ export type CatalogPanelKey =
   | 'branch'
   | 'questionnaireCategory'
   | 'messages'
-  | 'jobPortal';
+  | 'jobPortal'
+  | 'recruiterGroup';
 
 export interface CatalogRegistryEntry {
   id: string;
@@ -85,6 +86,7 @@ export const CATALOG_CATEGORIES: CatalogCategoryDefinition[] = [
       { id: 'municipality', label: 'Delegación municipio', panelKey: 'municipality', implemented: true },
       { id: 'neighborhood', label: 'Colonia', panelKey: 'neighborhood', implemented: true },
       { id: 'client', label: 'Cliente', panelKey: 'client', implemented: true },
+      { id: 'recruiterGroup', label: 'Grupo reclutadores', panelKey: 'recruiterGroup', implemented: true },
     ],
   },
   {
