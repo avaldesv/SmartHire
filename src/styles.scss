@@ -44,11 +44,18 @@ a:hover { text-decoration: underline; }
 .mat-mdc-table { width: 100%; }
 .mat-column-select { width: 48px; }
 .mat-column-actions {
-  width: 1%;
+  width: auto;
+  min-width: 88px;
   white-space: nowrap;
   padding-top: 4px;
   padding-bottom: 4px;
   text-align: right;
+  overflow: visible;
+}
+
+.mat-mdc-cell.mat-column-actions,
+.mat-mdc-header-cell.mat-column-actions {
+  overflow: visible;
 }
 
 .status-badge {
