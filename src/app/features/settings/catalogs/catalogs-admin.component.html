@@ -1,6 +1,35 @@
 <h3>Catálogos</h3>
-<mat-tab-group>
-  <mat-tab label="Géneros">
+<mat-tab-group [selectedIndex]="categoryTabIndex" (selectedIndexChange)="onCategoryTabChange($event)">
+  @for (category of categories; track category.id) {
+    <mat-tab [label]="category.label">
+      <div class="category-shell">
+        <mat-form-field appearance="outline" class="catalog-select">
+          <mat-label>Catálogos</mat-label>
+          <mat-select
+            [value]="selectedCatalogIdByCategory[category.id]"
+            (selectionChange)="onCatalogSelect(category.id, $event.value)"
+          >
+            @for (entry of category.catalogs; track entry.id) {
+              <mat-option [value]="entry.id">{{ entry.label }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-tab>
+  }
+</mat-tab-group>
+
+@if (!isActiveCatalogImplemented()) {
+  <div class="sh-card pending-catalog">
+    <mat-icon>info</mat-icon>
+    <p>
+      Catálogo pendiente de implementación. Ver plan
+      <code>docs/technical/CATALOG-REFACTOR-PLAN-v1.md</code> y issues AVV-380+.
+    </p>
+  </div>
+} @else {
+  <div class="catalog-panels">
+@if (isPanelVisible("gender")) {
     <div class="tab-content">
       <div class="toolbar">
         <mat-form-field appearance="outline" class="country-field">
@@ -99,9 +128,9 @@
         </div>
       }
     </div>
-  </mat-tab>
+  }
 
-  <mat-tab label="Parentesco">
+  @if (isPanelVisible("kinship")) {
     <div class="tab-content">
       <div class="toolbar">
         <button mat-flat-button color="primary" type="button" (click)="openCreateKinship()">
@@ -154,10 +183,10 @@
         </div>
       }
     </div>
-  </mat-tab>
+  }
 
   @if (isGlobalAdmin()) {
-  <mat-tab label="Compañías">
+  @if (isPanelVisible("company")) {
     <div class="tab-content">
       <div class="toolbar">
         <button mat-flat-button color="primary" type="button" (click)="openCreateCompany()">
@@ -210,10 +239,10 @@
         </div>
       }
     </div>
-  </mat-tab>
+  }
   }
 
-  <mat-tab label="Monedas">
+  @if (isPanelVisible("currency")) {
     <div class="tab-content">
       <div class="toolbar">
         <mat-form-field appearance="outline" class="country-field">
@@ -278,9 +307,9 @@
         </div>
       }
     </div>
-  </mat-tab>
+  }
 
-  <mat-tab label="Carreras">
+  @if (isPanelVisible("career")) {
     <div class="tab-content">
       <div class="toolbar">
         <mat-form-field appearance="outline" class="country-field">
@@ -341,9 +370,9 @@
         </div>
       }
     </div>
-  </mat-tab>
+  }
 
-  <mat-tab label="Idiomas">
+  @if (isPanelVisible("language")) {
     <div class="tab-content">
       <div class="toolbar">
         <button mat-flat-button color="primary" type="button" (click)="openCreateLanguage()">
@@ -396,9 +425,9 @@
         </div>
       }
     </div>
-  </mat-tab>
+  }
 
-  <mat-tab label="Turnos">
+  @if (isPanelVisible("shift")) {
     <div class="tab-content">
       <div class="toolbar">
         <mat-form-field appearance="outline" class="country-field">
@@ -459,9 +488,9 @@
         </div>
       }
     </div>
-  </mat-tab>
+  }
 
-  <mat-tab label="Prestaciones">
+  @if (isPanelVisible("benefit")) {
     <div class="tab-content">
       <div class="toolbar">
         <mat-form-field appearance="outline" class="country-field">
@@ -522,9 +551,9 @@
         </div>
       }
     </div>
-  </mat-tab>
+  }
 
-  <mat-tab label="Tipos de documento">
+  @if (isPanelVisible("documentType")) {
     <div class="tab-content">
       <div class="toolbar">
         <mat-form-field appearance="outline" class="country-field">
@@ -589,9 +618,9 @@
         </div>
       }
     </div>
-  </mat-tab>
+  }
 
-  <mat-tab label="Marcas">
+  @if (isPanelVisible("brand")) {
     <div class="tab-content">
       <div class="toolbar">
         <mat-form-field appearance="outline" class="country-field">
@@ -652,9 +681,9 @@
         </div>
       }
     </div>
-  </mat-tab>
+  }
 
-  <mat-tab label="Tipos de contrato">
+  @if (isPanelVisible("contractType")) {
     <div class="tab-content">
       <div class="toolbar">
         <mat-form-field appearance="outline" class="country-field">
@@ -717,9 +746,9 @@
         </div>
       }
     </div>
-  </mat-tab>
+  }
 
-  <mat-tab label="Tipos de cobertura">
+  @if (isPanelVisible("coverageType")) {
     <div class="tab-content">
       <div class="toolbar">
         <mat-form-field appearance="outline" class="country-field">
@@ -782,9 +811,9 @@
         </div>
       }
     </div>
-  </mat-tab>
+  }
 
-  <mat-tab label="Niveles de educación">
+  @if (isPanelVisible("educationLevel")) {
     <div class="tab-content">
       <div class="toolbar">
         <mat-form-field appearance="outline" class="country-field">
@@ -849,9 +878,9 @@
         </div>
       }
     </div>
-  </mat-tab>
+  }
 
-  <mat-tab label="Niveles de idioma">
+  @if (isPanelVisible("languageLevel")) {
     <div class="tab-content">
       <div class="toolbar">
         <mat-form-field appearance="outline" class="country-field">
@@ -914,9 +943,9 @@
         </div>
       }
     </div>
-  </mat-tab>
+  }
 
-  <mat-tab label="Tipos de requisición">
+  @if (isPanelVisible("requisitionType")) {
     <div class="tab-content">
       <div class="toolbar">
         <mat-form-field appearance="outline" class="country-field">
@@ -979,9 +1008,9 @@
         </div>
       }
     </div>
-  </mat-tab>
+  }
 
-  <mat-tab label="Empresas cliente">
+  @if (isPanelVisible("clientCompany")) {
     <div class="tab-content">
       <div class="toolbar">
         <mat-form-field appearance="outline" class="country-field">
@@ -1049,9 +1078,9 @@
         </div>
       }
     </div>
-  </mat-tab>
+  }
 
-  <mat-tab label="Países">
+  @if (isPanelVisible("country")) {
     <div class="tab-content">
       <div class="toolbar">
         <button mat-flat-button color="primary" type="button" (click)="openCreateCountry()">
@@ -1106,9 +1135,9 @@
         </div>
       }
     </div>
-  </mat-tab>
+  }
 
-  <mat-tab label="Entidades federativas">
+  @if (isPanelVisible("state")) {
     <div class="tab-content">
       <div class="toolbar">
         <mat-form-field appearance="outline" class="country-field">
@@ -1171,9 +1200,9 @@
         </div>
       }
     </div>
-  </mat-tab>
+  }
 
-  <mat-tab label="Municipios">
+  @if (isPanelVisible("municipality")) {
     <div class="tab-content">
       <div class="toolbar">
         <mat-form-field appearance="outline" class="country-field">
@@ -1242,9 +1271,9 @@
         </div>
       }
     </div>
-  </mat-tab>
+  }
 
-  <mat-tab label="Colonias">
+  @if (isPanelVisible("neighborhood")) {
     <div class="tab-content">
       <div class="toolbar">
         <mat-form-field appearance="outline" class="country-field">
@@ -1321,5 +1350,6 @@
         </div>
       }
     </div>
-  </mat-tab>
-</mat-tab-group>
+  }
+  </div>
+}
