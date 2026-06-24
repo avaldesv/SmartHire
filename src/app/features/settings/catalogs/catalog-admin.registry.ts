@@ -49,7 +49,8 @@ export type CatalogPanelKey =
   | 'companyDepartment'
   | 'branch'
   | 'questionnaireCategory'
-  | 'messages';
+  | 'messages'
+  | 'jobPortal';
 
 export interface CatalogRegistryEntry {
   id: string;
@@ -113,7 +114,7 @@ export const CATALOG_CATEGORIES: CatalogCategoryDefinition[] = [
   {
     id: 'portal',
     label: 'Portal',
-    catalogs: [{ id: 'jobPortal', label: 'Portales de publicación', implemented: false }],
+    catalogs: [{ id: 'jobPortal', label: 'Portales de publicación', panelKey: 'jobPortal', implemented: true }],
   },
   {
     id: 'datosMp',

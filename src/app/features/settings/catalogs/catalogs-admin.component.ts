@@ -50,6 +50,8 @@ import { CatalogCompanyDepartmentService } from '../../../core/services/catalog-
 import { CatalogCompanyDepartment } from '../../../shared/models/catalog-company-department.model';
 import { CatalogBranchService } from '../../../core/services/catalog-branch.service';
 import { CatalogBranch } from '../../../shared/models/catalog-branch.model';
+import { CatalogJobPortalService } from '../../../core/services/catalog-job-portal.service';
+import { CatalogJobPortal } from '../../../shared/models/catalog-job-portal.model';
 import { QuestionnaireCategoryService } from '../../../core/services/questionnaire-category.service';
 import { QuestionnaireCategory } from '../../../shared/models/questionnaire-category.model';
 import { CatalogContractTypeService } from '../../../core/services/catalog-contract-type.service';
@@ -150,6 +152,7 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly requisitionTypeService = inject(CatalogRequisitionTypeService);
   private readonly clientCompanyService = inject(CatalogClientCompanyService);
   private readonly clientService = inject(CatalogClientService);
+  private readonly jobPortalService = inject(CatalogJobPortalService);
   private readonly questionnaireCategoryService = inject(QuestionnaireCategoryService);
   private readonly contractTypeService = inject(CatalogContractTypeService);
   private readonly companyAreaService = inject(CatalogCompanyAreaService);
@@ -292,6 +295,9 @@ export class CatalogsAdminComponent implements OnInit {
     this.loadDisabilityTypes();
     this.loadBusinessUnits();
     this.loadPositionTypes();
+        break;
+      case 'jobPortal':
+        this.loadJobPortals();
         break;
       case 'questionnaireCategory':
         this.loadQuestionnaireCategorys();
@@ -548,6 +554,15 @@ export class CatalogsAdminComponent implements OnInit {
   editingBranchId: number | null = null;
   showBranchForm = false;
 
+  jobPortals: CatalogJobPortal[] = [];
+  jobPortalTotal = 0;
+  jobPortalPageIndex = 0;
+  jobPortalPageSize = 10;
+  loadingJobPortals = false;
+  savingJobPortal = false;
+  editingJobPortalId: number | null = null;
+  showJobPortalForm = false;
+
   questionnaireCategories: QuestionnaireCategory[] = [];
   questionnaireCategoryTotal = 0;
   questionnaireCategoryPageIndex = 0;
@@ -751,6 +766,16 @@ export class CatalogsAdminComponent implements OnInit {
   readonly companyAreaColumns = ['name', 'description', 'active', 'scope', 'actions'];
   readonly companyDepartmentColumns = ['name', 'description', 'active', 'scope', 'actions'];
   readonly branchColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
+  readonly jobPortalColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
+
+  readonly jobPortalForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
+    isActive: [true],
+  });
+
   readonly questionnaireCategoryColumns = ['code', 'name', 'description', 'active', 'actions'];
 
   readonly questionnaireCategoryForm = this.fb.nonNullable.group({
@@ -1213,6 +1238,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.loadBusinessUnits();
     this.loadPositionTypes();
     this.loadQuestionnaireCategorys();
+    this.loadJobPortals();
     this.loadBranchs();
     this.loadClientCompanies();
     this.loadStates();
@@ -1248,6 +1274,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.businessUnitPageIndex = 0;
     this.positionTypePageIndex = 0;
     this.questionnaireCategoryPageIndex = 0;
+    this.jobPortalPageIndex = 0;
     this.branchPageIndex = 0;
     this.clientCompanyPageIndex = 0;
     this.statePageIndex = 0;
@@ -1281,6 +1308,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.cancelBusinessUnitForm();
     this.cancelPositionTypeForm();
     this.cancelQuestionnaireCategoryForm();
+    this.cancelJobPortalForm();
     this.cancelBranchForm();
     this.cancelStateForm();
     this.cancelMunicipalityForm();
@@ -1999,6 +2027,91 @@ export class CatalogsAdminComponent implements OnInit {
     this.companyDepartmentPageIndex = 0;
     if (this.isPanelVisible('companyArea')) this.loadCompanyAreas();
     if (this.isPanelVisible('companyDepartment')) this.loadCompanyDepartments();
+  }
+
+
+  loadJobPortals(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingJobPortals = true;
+    this.jobPortalService.list(this.selectedCountryId, this.jobPortalPageIndex, this.jobPortalPageSize).subscribe({
+      next: (res) => {
+        this.jobPortals = res.items;
+        this.jobPortalTotal = res.total;
+        this.loadingJobPortals = false;
+      },
+      error: () => {
+        this.loadingJobPortals = false;
+        this.snack.open('No se pudieron cargar portales', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  onJobPortalPage(e: PageEvent): void {
+    this.jobPortalPageIndex = e.pageIndex;
+    this.jobPortalPageSize = e.pageSize;
+    this.loadJobPortals();
+  }
+
+  openCreateJobPortal(): void {
+    this.resetCreateScope();
+    this.editingJobPortalId = null;
+    this.showJobPortalForm = true;
+    this.jobPortalForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      description: '',
+      isActive: true,
+    });
+  }
+
+  openEditJobPortal(row: CatalogJobPortal): void {
+    this.editingJobPortalId = row.id;
+    this.showJobPortalForm = true;
+    this.jobPortalForm.patchValue({
+      countryId: row.countryId ?? this.selectedCountryId,
+      code: row.code,
+      name: row.name,
+      description: row.description ?? '',
+      isActive: row.isActive,
+    });
+  }
+
+  cancelJobPortalForm(): void {
+    this.showJobPortalForm = false;
+    this.editingJobPortalId = null;
+  }
+
+  saveJobPortal(): void {
+    if (this.jobPortalForm.invalid) {
+      this.jobPortalForm.markAllAsTouched();
+      return;
+    }
+    const value = this.jobPortalForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      description: value.description || undefined,
+      isActive: value.isActive,
+    };
+    this.savingJobPortal = true;
+    const request$ =
+      this.editingJobPortalId != null
+        ? this.jobPortalService.update(this.editingJobPortalId, payload)
+        : this.jobPortalService.create(this.withCreateScope(payload));
+    request$.subscribe({
+      next: () => {
+        this.savingJobPortal = false;
+        this.cancelJobPortalForm();
+        this.loadJobPortals();
+        this.snack.open('Portal guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingJobPortal = false;
+        this.snack.open('No se pudo guardar el portal', 'Cerrar', { duration: 4000 });
+      },
+    });
   }
 
   loadQuestionnaireCategorys(): void {
