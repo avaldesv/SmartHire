@@ -34,4 +34,10 @@ export class CatalogCharacteristicService {
       headers: this.api.buildHeaders(),
     });
   }
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(this.api.apiUrl(`/api/v1/characteristics/${id}`), {
+      headers: this.api.buildHeaders(),
+    });
+  }
+
 }

@@ -404,6 +404,7 @@ export class CatalogsAdminComponent implements OnInit {
   municipalityOptions: CatalogMunicipality[] = [];
   selectedMunicipalityId: number | null = null;
 
+  deletingCatalogId: number | null = null;
   genders: CatalogGender[] = [];
   genderTotal = 0;
   genderPageIndex = 0;
@@ -4763,5 +4764,452 @@ export class CatalogsAdminComponent implements OnInit {
         this.snack.open('No se pudo guardar la colonia', 'Cerrar', { duration: 4000 });
       },
     });
+  }
+
+  private deleteCatalogRow(
+    row: { id: number },
+    label: string | null | undefined,
+    deleteCall: import('rxjs').Observable<unknown>,
+    reload: () => void,
+    editingId: number | null,
+    cancelForm: () => void,
+  ): void {
+    const display = label?.trim() || `ID ${row.id}`;
+    if (!confirm(`¿Eliminar "${display}"? Esta acción no se puede deshacer.`)) {
+      return;
+    }
+    this.deletingCatalogId = row.id;
+    deleteCall.subscribe({
+      next: () => {
+        this.deletingCatalogId = null;
+        if (editingId === row.id) {
+          cancelForm();
+        }
+        reload();
+        this.snack.open('Registro eliminado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.deletingCatalogId = null;
+        this.snack.open('No se pudo eliminar el registro', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  deleteGender(row: CatalogGender): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.genderService.delete(row.id),
+      () => this.loadGenders(),
+      this.editingGenderId,
+      () => this.cancelGenderForm(),
+    );
+  }
+
+  deleteKinship(row: CatalogKinship): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.kinshipService.delete(row.id),
+      () => this.loadKinships(),
+      this.editingKinshipId,
+      () => this.cancelKinshipForm(),
+    );
+  }
+
+  deleteCompany(row: CatalogCompany): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.companyService.delete(row.id),
+      () => this.loadCompanies(),
+      this.editingCompanyId,
+      () => this.cancelCompanyForm(),
+    );
+  }
+
+  deleteCurrency(row: CatalogCurrency): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.currencyService.delete(row.id),
+      () => this.loadCurrencies(),
+      this.editingCurrencyId,
+      () => this.cancelCurrencyForm(),
+    );
+  }
+
+  deleteCareer(row: CatalogCareer): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.careerService.delete(row.id),
+      () => this.loadCareers(),
+      this.editingCareerId,
+      () => this.cancelCareerForm(),
+    );
+  }
+
+  deleteLanguage(row: CatalogLanguage): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.languageService.delete(row.id),
+      () => this.loadLanguages(),
+      this.editingLanguageId,
+      () => this.cancelLanguageForm(),
+    );
+  }
+
+  deleteShift(row: CatalogShift): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.shiftService.delete(row.id),
+      () => this.loadShifts(),
+      this.editingShiftId,
+      () => this.cancelShiftForm(),
+    );
+  }
+
+  deleteBenefit(row: CatalogBenefit): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.benefitService.delete(row.id),
+      () => this.loadBenefits(),
+      this.editingBenefitId,
+      () => this.cancelBenefitForm(),
+    );
+  }
+
+  deleteDocumentType(row: CatalogDocumentType): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.documentTypeService.delete(row.id),
+      () => this.loadDocumentTypes(),
+      this.editingDocumentTypeId,
+      () => this.cancelDocumentTypeForm(),
+    );
+  }
+
+  deleteBrand(row: CatalogBrand): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.brandService.delete(row.id),
+      () => this.loadBrands(),
+      this.editingBrandId,
+      () => this.cancelBrandForm(),
+    );
+  }
+
+  deleteContractType(row: CatalogContractType): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.contractTypeService.delete(row.id),
+      () => this.loadContractTypes(),
+      this.editingContractTypeId,
+      () => this.cancelContractTypeForm(),
+    );
+  }
+
+  deleteCoverageType(row: CatalogCoverageType): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.coverageTypeService.delete(row.id),
+      () => this.loadCoverageTypes(),
+      this.editingCoverageTypeId,
+      () => this.cancelCoverageTypeForm(),
+    );
+  }
+
+  deleteEducationLevel(row: CatalogEducationLevel): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.educationLevelService.delete(row.id),
+      () => this.loadEducationLevels(),
+      this.editingEducationLevelId,
+      () => this.cancelEducationLevelForm(),
+    );
+  }
+
+  deleteLanguageLevel(row: CatalogLanguageLevel): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.languageLevelService.delete(row.id),
+      () => this.loadLanguageLevels(),
+      this.editingLanguageLevelId,
+      () => this.cancelLanguageLevelForm(),
+    );
+  }
+
+  deleteRequisitionType(row: CatalogRequisitionType): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.requisitionTypeService.delete(row.id),
+      () => this.loadRequisitionTypes(),
+      this.editingRequisitionTypeId,
+      () => this.cancelRequisitionTypeForm(),
+    );
+  }
+
+  deleteCompanyArea(row: CatalogCompanyArea): void {
+    this.deleteCatalogRow(
+      row,
+      row.name,
+      this.companyAreaService.delete(row.id),
+      () => this.loadCompanyAreas(),
+      this.editingCompanyAreaId,
+      () => this.cancelCompanyAreaForm(),
+    );
+  }
+
+  deleteCompanyDepartment(row: CatalogCompanyDepartment): void {
+    this.deleteCatalogRow(
+      row,
+      row.name,
+      this.companyDepartmentService.delete(row.id),
+      () => this.loadCompanyDepartments(),
+      this.editingCompanyDepartmentId,
+      () => this.cancelCompanyDepartmentForm(),
+    );
+  }
+
+  deleteBranch(row: CatalogBranch): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.branchService.delete(row.id),
+      () => this.loadBranchs(),
+      this.editingBranchId,
+      () => this.cancelBranchForm(),
+    );
+  }
+
+  deleteJobPortal(row: CatalogJobPortal): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.jobPortalService.delete(row.id),
+      () => this.loadJobPortals(),
+      this.editingJobPortalId,
+      () => this.cancelJobPortalForm(),
+    );
+  }
+
+  deleteCoverageCategory(row: CatalogCoverageCategory): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.coverageCategoryService.delete(row.id),
+      () => this.loadCoverageCategorys(),
+      this.editingCoverageCategoryId,
+      () => this.cancelCoverageCategoryForm(),
+    );
+  }
+
+  deleteCharacteristic(row: CatalogCharacteristic): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.characteristicService.delete(row.id),
+      () => this.loadCharacteristics(),
+      this.editingCharacteristicId,
+      () => this.cancelCharacteristicForm(),
+    );
+  }
+
+  deleteCategory(row: CatalogCategory): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.categoryService.delete(row.id),
+      () => this.loadCategorys(),
+      this.editingCategoryId,
+      () => this.cancelCategoryForm(),
+    );
+  }
+
+  deleteMaritalStatus(row: CatalogMaritalStatus): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.maritalStatusService.delete(row.id),
+      () => this.loadMaritalStatuss(),
+      this.editingMaritalStatusId,
+      () => this.cancelMaritalStatusForm(),
+    );
+  }
+
+  deleteExperienceLevel(row: CatalogExperienceLevel): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.experienceLevelService.delete(row.id),
+      () => this.loadExperienceLevels(),
+      this.editingExperienceLevelId,
+      () => this.cancelExperienceLevelForm(),
+    );
+  }
+
+  deleteTool(row: CatalogTool): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.toolService.delete(row.id),
+      () => this.loadTools(),
+      this.editingToolId,
+      () => this.cancelToolForm(),
+    );
+  }
+
+  deleteWorkSchedule(row: CatalogWorkSchedule): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.workScheduleService.delete(row.id),
+      () => this.loadWorkSchedules(),
+      this.editingWorkScheduleId,
+      () => this.cancelWorkScheduleForm(),
+    );
+  }
+
+  deleteWorkplace(row: CatalogWorkplace): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.workplaceService.delete(row.id),
+      () => this.loadWorkplaces(),
+      this.editingWorkplaceId,
+      () => this.cancelWorkplaceForm(),
+    );
+  }
+
+  deleteRequirement(row: CatalogRequirement): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.requirementService.delete(row.id),
+      () => this.loadRequirements(),
+      this.editingRequirementId,
+      () => this.cancelRequirementForm(),
+    );
+  }
+
+  deleteResponsibilityLevel(row: CatalogResponsibilityLevel): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.responsibilityLevelService.delete(row.id),
+      () => this.loadResponsibilityLevels(),
+      this.editingResponsibilityLevelId,
+      () => this.cancelResponsibilityLevelForm(),
+    );
+  }
+
+  deleteDisabilityType(row: CatalogDisabilityType): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.disabilityTypeService.delete(row.id),
+      () => this.loadDisabilityTypes(),
+      this.editingDisabilityTypeId,
+      () => this.cancelDisabilityTypeForm(),
+    );
+  }
+
+  deleteBusinessUnit(row: CatalogBusinessUnit): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.businessUnitService.delete(row.id),
+      () => this.loadBusinessUnits(),
+      this.editingBusinessUnitId,
+      () => this.cancelBusinessUnitForm(),
+    );
+  }
+
+  deletePositionType(row: CatalogPositionType): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.positionTypeService.delete(row.id),
+      () => this.loadPositionTypes(),
+      this.editingPositionTypeId,
+      () => this.cancelPositionTypeForm(),
+    );
+  }
+
+  deleteClient(row: CatalogClient): void {
+    this.deleteCatalogRow(
+      row,
+      row.tradeName || row.legalName || row.code,
+      this.clientService.delete(row.id),
+      () => this.loadClients(),
+      this.editingClientId,
+      () => this.cancelClientForm(),
+    );
+  }
+
+  deleteClientCompany(row: CatalogClientCompany): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.clientCompanyService.delete(row.id),
+      () => this.loadClientCompanies(),
+      this.editingClientCompanyId,
+      () => this.cancelClientCompanyForm(),
+    );
+  }
+
+  deleteCountry(row: CatalogCountry): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.geographyService.deleteCountry(row.id),
+      () => this.loadCountryRecords(),
+      this.editingCountryId,
+      () => this.cancelCountryForm(),
+    );
+  }
+
+  deleteState(row: CatalogState): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.geographyService.deleteState(row.id),
+      () => this.loadStates(),
+      this.editingStateId,
+      () => this.cancelStateForm(),
+    );
+  }
+
+  deleteMunicipality(row: CatalogMunicipality): void {
+    this.deleteCatalogRow(
+      row,
+      row.name,
+      this.geographyService.deleteMunicipality(row.id),
+      () => this.loadMunicipalities(),
+      this.editingMunicipalityId,
+      () => this.cancelMunicipalityForm(),
+    );
+  }
+
+  deleteNeighborhood(row: CatalogNeighborhood): void {
+    this.deleteCatalogRow(
+      row,
+      row.name,
+      this.geographyService.deleteNeighborhood(row.id),
+      () => this.loadNeighborhoods(),
+      this.editingNeighborhoodId,
+      () => this.cancelNeighborhoodForm(),
+    );
   }
 }
