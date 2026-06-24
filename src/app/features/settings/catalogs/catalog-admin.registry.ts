@@ -44,7 +44,10 @@ export type CatalogPanelKey =
   | 'responsibilityLevel'
   | 'disabilityType'
   | 'businessUnit'
-  | 'positionType';
+  | 'positionType'
+  | 'companyArea'
+  | 'companyDepartment'
+  | 'branch';
 
 export interface CatalogRegistryEntry {
   id: string;
@@ -100,6 +103,9 @@ export const CATALOG_CATEGORIES: CatalogCategoryDefinition[] = [
     catalogs: [
       { id: 'company', label: 'Empresas', panelKey: 'company', implemented: true },
       { id: 'clientCompany', label: 'Empresas cliente', panelKey: 'clientCompany', implemented: true },
+      { id: 'companyArea', label: 'Áreas', panelKey: 'companyArea', implemented: true },
+      { id: 'companyDepartment', label: 'Departamentos', panelKey: 'companyDepartment', implemented: true },
+      { id: 'branch', label: 'Sucursales', panelKey: 'branch', implemented: true },
     ],
   },
   {

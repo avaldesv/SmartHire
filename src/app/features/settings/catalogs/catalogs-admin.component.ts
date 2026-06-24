@@ -44,6 +44,12 @@ import { CatalogBusinessUnitService } from '../../../core/services/catalog-busin
 import { CatalogBusinessUnit } from '../../../shared/models/catalog-business-unit.model';
 import { CatalogPositionTypeService } from '../../../core/services/catalog-position-type.service';
 import { CatalogPositionType } from '../../../shared/models/catalog-position-type.model';
+import { CatalogCompanyAreaService } from '../../../core/services/catalog-company-area.service';
+import { CatalogCompanyArea } from '../../../shared/models/catalog-company-area.model';
+import { CatalogCompanyDepartmentService } from '../../../core/services/catalog-company-department.service';
+import { CatalogCompanyDepartment } from '../../../shared/models/catalog-company-department.model';
+import { CatalogBranchService } from '../../../core/services/catalog-branch.service';
+import { CatalogBranch } from '../../../shared/models/catalog-branch.model';
 import { CatalogContractTypeService } from '../../../core/services/catalog-contract-type.service';
 import { CatalogEducationLevelService } from '../../../core/services/catalog-education-level.service';
 import { CatalogLanguageLevelService } from '../../../core/services/catalog-language-level.service';
@@ -141,6 +147,9 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly clientCompanyService = inject(CatalogClientCompanyService);
   private readonly clientService = inject(CatalogClientService);
   private readonly contractTypeService = inject(CatalogContractTypeService);
+  private readonly companyAreaService = inject(CatalogCompanyAreaService);
+  private readonly companyDepartmentService = inject(CatalogCompanyDepartmentService);
+  private readonly branchService = inject(CatalogBranchService);
   private readonly coverageCategoryService = inject(CatalogCoverageCategoryService);
   private readonly characteristicService = inject(CatalogCharacteristicService);
   private readonly categoryService = inject(CatalogCategoryService);
@@ -281,6 +290,18 @@ export class CatalogsAdminComponent implements OnInit {
         break;
       case 'clientCompany':
         this.loadClientCompanies();
+        break;
+      case 'companyArea':
+        this.ensureCompaniesLoaded();
+        this.loadCompanyAreas();
+        break;
+      case 'companyDepartment':
+        this.ensureCompaniesLoaded();
+        this.loadCompanyDepartments();
+        break;
+      case 'branch':
+        this.ensureCompaniesLoaded();
+        this.loadBranchs();
         break;
       case 'client':
         this.loadClients();
@@ -493,6 +514,32 @@ export class CatalogsAdminComponent implements OnInit {
   editingPositionTypeId: number | null = null;
   showPositionTypeForm = false;
 
+  selectedCatalogCompanyId: number | null = null;
+  companyAreas: CatalogCompanyArea[] = [];
+  companyAreaTotal = 0;
+  companyAreaPageIndex = 0;
+  companyAreaPageSize = 10;
+  loadingCompanyAreas = false;
+  savingCompanyArea = false;
+  editingCompanyAreaId: number | null = null;
+  showCompanyAreaForm = false;
+  companyDepartments: CatalogCompanyDepartment[] = [];
+  companyDepartmentTotal = 0;
+  companyDepartmentPageIndex = 0;
+  companyDepartmentPageSize = 10;
+  loadingCompanyDepartments = false;
+  savingCompanyDepartment = false;
+  editingCompanyDepartmentId: number | null = null;
+  showCompanyDepartmentForm = false;
+  branches: CatalogBranch[] = [];
+  branchTotal = 0;
+  branchPageIndex = 0;
+  branchPageSize = 10;
+  loadingBranches = false;
+  savingBranch = false;
+  editingBranchId: number | null = null;
+  showBranchForm = false;
+
   companies: CatalogCompany[] = [];
   companyTotal = 0;
   companyPageIndex = 0;
@@ -684,6 +731,9 @@ export class CatalogsAdminComponent implements OnInit {
   readonly educationLevelColumns = ['code', 'name', 'description', 'requiresCareer', 'active', 'scope', 'actions'];
   readonly languageLevelColumns = ['code', 'name', 'appliesToCareer', 'active', 'scope', 'actions'];
   readonly requisitionTypeColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
+  readonly companyAreaColumns = ['name', 'description', 'active', 'scope', 'actions'];
+  readonly companyDepartmentColumns = ['name', 'description', 'active', 'scope', 'actions'];
+  readonly branchColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
   readonly clientCompanyColumns = ['code', 'name', 'tradeName', 'taxId', 'r3Interface', 'active', 'scope', 'actions'];
   readonly countryColumns = ['code', 'secondaryCode', 'name', 'description', 'manpowerId', 'region', 'active', 'scope', 'actions'];
   readonly stateColumns = ['code', 'name', 'shortDescription', 'active', 'scope', 'actions'];
@@ -933,6 +983,29 @@ export class CatalogsAdminComponent implements OnInit {
     isActive: [true],
   });
 
+  readonly companyAreaForm = this.fb.nonNullable.group({
+    catalogCompanyId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
+    name: ['', Validators.required],
+    description: [''],
+    isActive: [true],
+  });
+  readonly companyDepartmentForm = this.fb.nonNullable.group({
+    catalogCompanyId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
+    name: ['', Validators.required],
+    description: [''],
+    isActive: [true],
+  });
+  readonly branchForm = this.fb.nonNullable.group({
+    catalogCompanyId: [null as number | null],
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
+    isActive: [true],
+  });
+
   readonly clientCompanyForm = this.fb.nonNullable.group({
     countryId: [null as number | null, Validators.required],
     code: ['', Validators.required],
@@ -1112,6 +1185,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.loadDisabilityTypes();
     this.loadBusinessUnits();
     this.loadPositionTypes();
+    this.loadBranches();
     this.loadClientCompanies();
     this.loadStates();
   }
@@ -1145,6 +1219,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.disabilityTypePageIndex = 0;
     this.businessUnitPageIndex = 0;
     this.positionTypePageIndex = 0;
+    this.branchPageIndex = 0;
     this.clientCompanyPageIndex = 0;
     this.statePageIndex = 0;
     this.municipalityPageIndex = 0;
@@ -1176,6 +1251,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.cancelDisabilityTypeForm();
     this.cancelBusinessUnitForm();
     this.cancelPositionTypeForm();
+    this.cancelBranchForm();
     this.cancelStateForm();
     this.cancelMunicipalityForm();
     this.cancelNeighborhoodForm();
@@ -1809,6 +1885,90 @@ export class CatalogsAdminComponent implements OnInit {
           this.snack.open('No se pudieron cargar los tipos de requisición', 'Cerrar', { duration: 4000 });
         },
       });
+  }
+
+  loadCompanyAreas(): void {
+    if (this.selectedCatalogCompanyId == null) return;
+    this.loadingCompanyAreas = true;
+    this.companyAreaService.list(this.selectedCatalogCompanyId!, this.companyAreaPageIndex, this.companyAreaPageSize).subscribe({
+      next: (res) => {
+        this.companyAreas = res.items;
+        this.companyAreaTotal = res.total;
+        this.loadingCompanyAreas = false;
+      },
+      error: () => {
+        this.loadingCompanyAreas = false;
+        this.snack.open('No se pudieron cargar áreas', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  onCompanyAreaPage(e: PageEvent): void {
+    this.companyAreaPageIndex = e.pageIndex;
+    this.companyAreaPageSize = e.pageSize;
+    this.loadCompanyAreas();
+  }
+  loadCompanyDepartments(): void {
+    if (this.selectedCatalogCompanyId == null) return;
+    this.loadingCompanyDepartments = true;
+    this.companyDepartmentService.list(this.selectedCatalogCompanyId!, this.companyDepartmentPageIndex, this.companyDepartmentPageSize).subscribe({
+      next: (res) => {
+        this.companyDepartments = res.items;
+        this.companyDepartmentTotal = res.total;
+        this.loadingCompanyDepartments = false;
+      },
+      error: () => {
+        this.loadingCompanyDepartments = false;
+        this.snack.open('No se pudieron cargar departamentos', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  onCompanyDepartmentPage(e: PageEvent): void {
+    this.companyDepartmentPageIndex = e.pageIndex;
+    this.companyDepartmentPageSize = e.pageSize;
+    this.loadCompanyDepartments();
+  }
+  loadBranchs(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingBranches = true;
+    this.branchService.list(this.selectedCountryId!, this.branchPageIndex, this.branchPageSize).subscribe({
+      next: (res) => {
+        this.branches = res.items;
+        this.branchTotal = res.total;
+        this.loadingBranches = false;
+      },
+      error: () => {
+        this.loadingBranches = false;
+        this.snack.open('No se pudieron cargar sucursales', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  onBranchPage(e: PageEvent): void {
+    this.branchPageIndex = e.pageIndex;
+    this.branchPageSize = e.pageSize;
+    this.loadBranchs();
+  }
+
+  ensureCompaniesLoaded(): void {
+    if (this.companies.length > 0) return;
+    this.companyService.list(0, 200).subscribe({
+      next: (res) => {
+        this.companies = res.items;
+        if (this.selectedCatalogCompanyId == null && res.items.length > 0) {
+          this.selectedCatalogCompanyId = res.items[0].id;
+        }
+      },
+    });
+  }
+
+  onCatalogCompanyChange(companyId: number): void {
+    this.selectedCatalogCompanyId = companyId;
+    this.companyAreaPageIndex = 0;
+    this.companyDepartmentPageIndex = 0;
+    if (this.isPanelVisible('companyArea')) this.loadCompanyAreas();
+    if (this.isPanelVisible('companyDepartment')) this.loadCompanyDepartments();
   }
 
   loadClientCompanies(): void {
@@ -3649,6 +3809,193 @@ export class CatalogsAdminComponent implements OnInit {
       error: () => {
         this.savingRequisitionType = false;
         this.snack.open('No se pudo guardar el tipo de requisición', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  openCreateCompanyArea(): void {
+    this.resetCreateScope();
+    this.editingCompanyAreaId = null;
+    this.showCompanyAreaForm = true;
+    this.companyAreaForm.reset({
+      catalogCompanyId: this.selectedCatalogCompanyId,
+      countryId: this.selectedCountryId,
+      name: '',
+      description: '',
+      isActive: true,
+    });
+  }
+
+  openEditCompanyArea(row: CatalogCompanyArea): void {
+    this.editingCompanyAreaId = row.id;
+    this.showCompanyAreaForm = true;
+    this.companyAreaForm.patchValue({
+      catalogCompanyId: row.catalogCompanyId ?? this.selectedCatalogCompanyId,
+      countryId: row.countryId ?? this.selectedCountryId,
+      name: row.name,
+      description: row.description ?? '',
+      isActive: row.isActive,
+    });
+  }
+
+  cancelCompanyAreaForm(): void {
+    this.showCompanyAreaForm = false;
+    this.editingCompanyAreaId = null;
+  }
+
+  saveCompanyArea(): void {
+    if (this.companyAreaForm.invalid) {
+      this.companyAreaForm.markAllAsTouched();
+      return;
+    }
+    const value = this.companyAreaForm.getRawValue();
+    const payload = {
+      catalogCompanyId: value.catalogCompanyId!,
+      countryId: value.countryId ?? undefined,
+      name: value.name,
+      description: value.description || undefined,
+      isActive: value.isActive,
+    };
+    this.savingCompanyArea = true;
+    const request$ =
+      this.editingCompanyAreaId != null
+        ? this.companyAreaService.update(this.editingCompanyAreaId, payload)
+        : this.companyAreaService.create(this.withCreateScope(payload));
+    request$.subscribe({
+      next: () => {
+        this.savingCompanyArea = false;
+        this.cancelCompanyAreaForm();
+        this.loadCompanyAreas();
+        this.snack.open('Áreas guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingCompanyArea = false;
+        this.snack.open('No se pudo guardar áreas', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+  openCreateCompanyDepartment(): void {
+    this.resetCreateScope();
+    this.editingCompanyDepartmentId = null;
+    this.showCompanyDepartmentForm = true;
+    this.companyDepartmentForm.reset({
+      catalogCompanyId: this.selectedCatalogCompanyId,
+      countryId: this.selectedCountryId,
+      name: '',
+      description: '',
+      isActive: true,
+    });
+  }
+
+  openEditCompanyDepartment(row: CatalogCompanyDepartment): void {
+    this.editingCompanyDepartmentId = row.id;
+    this.showCompanyDepartmentForm = true;
+    this.companyDepartmentForm.patchValue({
+      catalogCompanyId: row.catalogCompanyId ?? this.selectedCatalogCompanyId,
+      countryId: row.countryId ?? this.selectedCountryId,
+      name: row.name,
+      description: row.description ?? '',
+      isActive: row.isActive,
+    });
+  }
+
+  cancelCompanyDepartmentForm(): void {
+    this.showCompanyDepartmentForm = false;
+    this.editingCompanyDepartmentId = null;
+  }
+
+  saveCompanyDepartment(): void {
+    if (this.companyDepartmentForm.invalid) {
+      this.companyDepartmentForm.markAllAsTouched();
+      return;
+    }
+    const value = this.companyDepartmentForm.getRawValue();
+    const payload = {
+      catalogCompanyId: value.catalogCompanyId!,
+      countryId: value.countryId ?? undefined,
+      name: value.name,
+      description: value.description || undefined,
+      isActive: value.isActive,
+    };
+    this.savingCompanyDepartment = true;
+    const request$ =
+      this.editingCompanyDepartmentId != null
+        ? this.companyDepartmentService.update(this.editingCompanyDepartmentId, payload)
+        : this.companyDepartmentService.create(this.withCreateScope(payload));
+    request$.subscribe({
+      next: () => {
+        this.savingCompanyDepartment = false;
+        this.cancelCompanyDepartmentForm();
+        this.loadCompanyDepartments();
+        this.snack.open('Departamentos guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingCompanyDepartment = false;
+        this.snack.open('No se pudo guardar departamentos', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+  openCreateBranch(): void {
+    this.resetCreateScope();
+    this.editingBranchId = null;
+    this.showBranchForm = true;
+    this.branchForm.reset({
+      catalogCompanyId: null,
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      description: '',
+      isActive: true,
+    });
+  }
+
+  openEditBranch(row: CatalogBranch): void {
+    this.editingBranchId = row.id;
+    this.showBranchForm = true;
+    this.branchForm.patchValue({
+      catalogCompanyId: row.catalogCompanyId ?? null,
+      countryId: row.countryId ?? this.selectedCountryId,
+      code: row.code ?? '',
+      name: row.name,
+      description: row.description ?? '',
+      isActive: row.isActive,
+    });
+  }
+
+  cancelBranchForm(): void {
+    this.showBranchForm = false;
+    this.editingBranchId = null;
+  }
+
+  saveBranch(): void {
+    if (this.branchForm.invalid) {
+      this.branchForm.markAllAsTouched();
+      return;
+    }
+    const value = this.branchForm.getRawValue();
+    const payload = {
+      catalogCompanyId: value.catalogCompanyId ?? undefined,
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      description: value.description || undefined,
+      isActive: value.isActive,
+    };
+    this.savingBranch = true;
+    const request$ =
+      this.editingBranchId != null
+        ? this.branchService.update(this.editingBranchId, payload)
+        : this.branchService.create(this.withCreateScope(payload));
+    request$.subscribe({
+      next: () => {
+        this.savingBranch = false;
+        this.cancelBranchForm();
+        this.loadBranchs();
+        this.snack.open('Sucursales guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingBranch = false;
+        this.snack.open('No se pudo guardar sucursales', 'Cerrar', { duration: 4000 });
       },
     });
   }
