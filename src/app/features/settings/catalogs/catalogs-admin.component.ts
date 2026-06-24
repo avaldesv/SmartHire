@@ -51,6 +51,12 @@ import { TenantContextService } from '../../../core/services/tenant-context.serv
 import { ScopeBadgeComponent } from '../../../shared/components/scope-badge/scope-badge.component';
 import { TenantDataScope } from '../../../shared/models/tenant-data-scope.model';
 import { canEditScopedRecord } from '../../../shared/utils/tenant-scope.util';
+import {
+  CATALOG_CATEGORIES,
+  CatalogCategoryId,
+  CatalogPanelKey,
+  getCategoryById,
+} from './catalog-admin.registry';
 
 @Component({
   selector: 'sh-catalogs-admin',
@@ -79,6 +85,18 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly tenantContext = inject(TenantContextService);
   private tenantReloadReady = false;
   readonly isGlobalAdmin = computed(() => this.permissions.isGlobalAdmin());
+
+  readonly categories = CATALOG_CATEGORIES;
+  categoryTabIndex = 0;
+  selectedCatalogIdByCategory: Record<CatalogCategoryId, string> = {
+    generales: 'gender',
+    cuestionario: 'questionnaireCategory',
+    notificaciones: 'messages',
+    empresas: 'company',
+    portal: 'jobPortal',
+    datosMp: 'mpCountry',
+    smarthireOps: 'kinship',
+  };
 
   private readonly genderService = inject(CatalogGenderService);
   private readonly kinshipService = inject(CatalogKinshipService);
@@ -117,6 +135,114 @@ export class CatalogsAdminComponent implements OnInit {
 
   canEditRecord(companyId?: number | null): boolean {
     return canEditScopedRecord(companyId, this.isGlobalAdmin());
+  }
+
+  get activeCategoryId(): CatalogCategoryId {
+    return this.categories[this.categoryTabIndex]?.id ?? 'generales';
+  }
+
+  get activePanel(): CatalogPanelKey | null {
+    const catalogId = this.selectedCatalogIdByCategory[this.activeCategoryId];
+    const entry = getCategoryById(this.activeCategoryId).catalogs.find((c) => c.id === catalogId);
+    return entry?.panelKey ?? null;
+  }
+
+  isPanelVisible(panel: CatalogPanelKey): boolean {
+    return this.activePanel === panel;
+  }
+
+  isCatalogImplemented(categoryId: CatalogCategoryId, catalogId: string): boolean {
+    return getCategoryById(categoryId).catalogs.find((c) => c.id === catalogId)?.implemented ?? false;
+  }
+
+  isActiveCatalogImplemented(): boolean {
+    return this.isCatalogImplemented(this.activeCategoryId, this.selectedCatalogIdByCategory[this.activeCategoryId]);
+  }
+
+  onCategoryTabChange(index: number): void {
+    this.categoryTabIndex = index;
+    this.cancelAllForms();
+    this.loadActiveCatalogData();
+  }
+
+  onCatalogSelect(categoryId: CatalogCategoryId, catalogId: string): void {
+    this.selectedCatalogIdByCategory[categoryId] = catalogId;
+    if (categoryId === this.activeCategoryId) {
+      this.cancelAllForms();
+      this.loadActiveCatalogData();
+    }
+  }
+
+  private loadActiveCatalogData(): void {
+    const panel = this.activePanel;
+    if (!panel) {
+      return;
+    }
+    switch (panel) {
+      case 'gender':
+        this.loadGenders();
+        break;
+      case 'kinship':
+        this.loadKinships();
+        break;
+      case 'company':
+        this.loadCompanies();
+        break;
+      case 'currency':
+        this.loadCurrencies();
+        break;
+      case 'career':
+        this.loadCareers();
+        break;
+      case 'language':
+        this.loadLanguages();
+        break;
+      case 'shift':
+        this.loadShifts();
+        break;
+      case 'benefit':
+        this.loadBenefits();
+        break;
+      case 'documentType':
+        this.loadDocumentTypes();
+        break;
+      case 'brand':
+        this.loadBrands();
+        break;
+      case 'contractType':
+        this.loadContractTypes();
+        break;
+      case 'coverageType':
+        this.loadCoverageTypes();
+        break;
+      case 'educationLevel':
+        this.loadEducationLevels();
+        break;
+      case 'languageLevel':
+        this.loadLanguageLevels();
+        break;
+      case 'requisitionType':
+        this.loadRequisitionTypes();
+        break;
+      case 'clientCompany':
+        this.loadClientCompanies();
+        break;
+      case 'country':
+        this.loadCountryRecords();
+        this.reloadCountryDropdown();
+        break;
+      case 'state':
+        this.loadStates();
+        break;
+      case 'municipality':
+        this.loadMunicipalities();
+        break;
+      case 'neighborhood':
+        this.loadNeighborhoods();
+        break;
+      default:
+        break;
+    }
   }
 
   private createScope(): TenantDataScope {
