@@ -97,7 +97,9 @@ import {
   CATALOG_CATEGORIES,
   CatalogCategoryId,
   CatalogPanelKey,
+  ensureValidCatalogSelection,
   getCategoryById,
+  resolveVisibleCategories,
 } from './catalog-admin.registry';
 
 @Component({
@@ -131,12 +133,13 @@ export class CatalogsAdminComponent implements OnInit {
   readonly isGlobalAdmin = computed(() => this.permissions.isGlobalAdmin());
 
   readonly categories = CATALOG_CATEGORIES;
+  readonly visibleCategories = computed(() => resolveVisibleCategories(this.isGlobalAdmin()));
   categoryTabIndex = 0;
   selectedCatalogIdByCategory: Record<CatalogCategoryId, string> = {
     generales: 'gender',
     cuestionario: 'questionnaireCategory',
     notificaciones: 'messages',
-    empresas: 'company',
+    empresas: 'clientCompany',
     portal: 'jobPortal',
     datosMp: 'mpCountry',
     smarthireOps: 'kinship',
@@ -189,12 +192,29 @@ export class CatalogsAdminComponent implements OnInit {
   constructor() {
     effect(() => {
       this.tenantContext.activeCompanyId();
+      this.isGlobalAdmin();
       if (!this.tenantReloadReady) {
         return;
       }
+      this.normalizeCatalogSelections();
       this.cancelAllForms();
       this.reloadAllCatalogData();
     });
+  }
+
+  private normalizeCatalogSelections(): void {
+    const isGlobalAdmin = this.isGlobalAdmin();
+    for (const category of CATALOG_CATEGORIES) {
+      this.selectedCatalogIdByCategory[category.id] = ensureValidCatalogSelection(
+        category.id,
+        this.selectedCatalogIdByCategory[category.id],
+        isGlobalAdmin,
+      );
+    }
+    const visible = this.visibleCategories();
+    if (this.categoryTabIndex >= visible.length) {
+      this.categoryTabIndex = 0;
+    }
   }
 
   canEditRecord(companyId?: number | null): boolean {
@@ -202,12 +222,14 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   get activeCategoryId(): CatalogCategoryId {
-    return this.categories[this.categoryTabIndex]?.id ?? 'generales';
+    return this.visibleCategories()[this.categoryTabIndex]?.id ?? 'generales';
   }
 
   get activePanel(): CatalogPanelKey | null {
     const catalogId = this.selectedCatalogIdByCategory[this.activeCategoryId];
-    const entry = getCategoryById(this.activeCategoryId).catalogs.find((c) => c.id === catalogId);
+    const entry = this.visibleCategories()
+      .find((category) => category.id === this.activeCategoryId)
+      ?.catalogs.find((catalog) => catalog.id === catalogId);
     return entry?.panelKey ?? null;
   }
 
@@ -216,7 +238,9 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   isCatalogImplemented(categoryId: CatalogCategoryId, catalogId: string): boolean {
-    return getCategoryById(categoryId).catalogs.find((c) => c.id === catalogId)?.implemented ?? false;
+    const category =
+      this.visibleCategories().find((item) => item.id === categoryId) ?? getCategoryById(categoryId);
+    return category.catalogs.find((catalog) => catalog.id === catalogId)?.implemented ?? false;
   }
 
   isActiveCatalogImplemented(): boolean {

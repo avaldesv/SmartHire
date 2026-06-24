@@ -58,6 +58,8 @@ export interface CatalogRegistryEntry {
   label: string;
   panelKey?: CatalogPanelKey;
   implemented: boolean;
+  /** When true, only GLOBAL_ADMIN users see this entry in the catalog selector. */
+  globalAdminOnly?: boolean;
 }
 
 export interface CatalogCategoryDefinition {
@@ -123,7 +125,6 @@ const CATALOG_CATEGORIES_RAW: CatalogCategoryDefinition[] = [
     id: 'empresas',
     label: 'Empresas',
     catalogs: [
-      { id: 'company', label: 'Empresas', panelKey: 'company', implemented: true },
       { id: 'clientCompany', label: 'Empresas cliente', panelKey: 'clientCompany', implemented: true },
       { id: 'companyArea', label: 'Áreas', panelKey: 'companyArea', implemented: true },
       { id: 'companyDepartment', label: 'Departamentos', panelKey: 'companyDepartment', implemented: true },
@@ -147,6 +148,13 @@ const CATALOG_CATEGORIES_RAW: CatalogCategoryDefinition[] = [
     id: 'smarthireOps',
     label: 'SmartHire / Operación',
     catalogs: [
+      {
+        id: 'company',
+        label: 'Empresas',
+        panelKey: 'company',
+        implemented: true,
+        globalAdminOnly: true,
+      },
       { id: 'kinship', label: 'Parentesco', panelKey: 'kinship', implemented: true },
       { id: 'brand', label: 'Marca', panelKey: 'brand', implemented: true },
       { id: 'documentType', label: 'Tipo documento', panelKey: 'documentType', implemented: true },
@@ -162,4 +170,46 @@ export const CATALOG_CATEGORIES: CatalogCategoryDefinition[] = CATALOG_CATEGORIE
 
 export function getCategoryById(id: CatalogCategoryId): CatalogCategoryDefinition {
   return CATALOG_CATEGORIES.find((c) => c.id === id) ?? CATALOG_CATEGORIES[0];
+}
+
+export function isCatalogEntryVisible(entry: CatalogRegistryEntry, isGlobalAdmin: boolean): boolean {
+  if (entry.globalAdminOnly && !isGlobalAdmin) {
+    return false;
+  }
+  return true;
+}
+
+export function resolveVisibleCategories(isGlobalAdmin: boolean): CatalogCategoryDefinition[] {
+  return CATALOG_CATEGORIES.map((category) => ({
+    ...category,
+    catalogs: category.catalogs.filter((entry) => isCatalogEntryVisible(entry, isGlobalAdmin)),
+  })).filter((category) => category.catalogs.length > 0);
+}
+
+const CATEGORY_DEFAULT_CATALOG: Partial<Record<CatalogCategoryId, string>> = {
+  empresas: 'clientCompany',
+  smarthireOps: 'kinship',
+};
+
+export function resolveDefaultCatalogId(category: CatalogCategoryDefinition, isGlobalAdmin: boolean): string {
+  const preferredId = CATEGORY_DEFAULT_CATALOG[category.id];
+  const visible = category.catalogs.filter((entry) => isCatalogEntryVisible(entry, isGlobalAdmin));
+  if (preferredId && visible.some((entry) => entry.id === preferredId)) {
+    return preferredId;
+  }
+  const preferred = visible.find((entry) => entry.implemented) ?? visible[0];
+  return preferred?.id ?? category.catalogs[0]?.id ?? '';
+}
+
+export function ensureValidCatalogSelection(
+  categoryId: CatalogCategoryId,
+  catalogId: string,
+  isGlobalAdmin: boolean,
+): string {
+  const category = getCategoryById(categoryId);
+  const visible = category.catalogs.filter((entry) => isCatalogEntryVisible(entry, isGlobalAdmin));
+  if (visible.some((entry) => entry.id === catalogId)) {
+    return catalogId;
+  }
+  return resolveDefaultCatalogId(category, isGlobalAdmin);
 }
