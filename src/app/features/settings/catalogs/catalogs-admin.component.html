@@ -1,6 +1,6 @@
 <h3>Catálogos</h3>
 <mat-tab-group [selectedIndex]="categoryTabIndex" (selectedIndexChange)="onCategoryTabChange($event)">
-  @for (category of categories; track category.id) {
+  @for (category of visibleCategories(); track category.id) {
     <mat-tab [label]="category.label">
       <div class="category-shell">
         <mat-form-field appearance="outline" class="catalog-select">
