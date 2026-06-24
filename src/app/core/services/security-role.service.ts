@@ -52,6 +52,12 @@ export class SecurityRoleService {
     });
   }
 
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(this.api.apiUrl(`/api/v1/roles/${id}`), {
+      headers: this.roleHeaders(),
+    });
+  }
+
   assignModulePermissions(roleId: number, modulePermissionIds: number[]): Observable<void> {
     return this.http.post<void>(
       this.api.apiUrl(`/api/v1/roles/${roleId}/module-permissions`),

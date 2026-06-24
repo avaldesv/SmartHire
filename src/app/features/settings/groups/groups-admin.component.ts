@@ -65,6 +65,7 @@ export class GroupsAdminComponent implements OnInit {
   pageIndex = 0;
   pageSize = 10;
   editingRoleId: number | null = null;
+  deletingRoleId: number | null = null;
   showForm = false;
 
   readonly roleForm = this.fb.nonNullable.group({
@@ -117,6 +118,13 @@ export class GroupsAdminComponent implements OnInit {
 
   canEditRecord(companyId?: number | null): boolean {
     return canEditScopedRecord(companyId, this.isGlobalAdmin());
+  }
+
+  canDeleteRole(role: SecurityRole): boolean {
+    if (!this.canEditRecord(role.companyId)) {
+      return false;
+    }
+    return role.name?.trim().toUpperCase() !== 'GLOBAL_ADMIN';
   }
 
   private loadPermissions(): void {
@@ -242,5 +250,29 @@ export class GroupsAdminComponent implements OnInit {
   private onSaveError(): void {
     this.saving = false;
     this.snack.open('No se pudo guardar el grupo', 'Cerrar', { duration: 4000 });
+  }
+
+  deleteRole(row: SecurityRole): void {
+    if (!this.canDeleteRole(row)) {
+      return;
+    }
+    if (!confirm(`¿Eliminar el grupo "${row.name}"? Esta acción no se puede deshacer.`)) {
+      return;
+    }
+    this.deletingRoleId = row.id;
+    this.roleService.delete(row.id).subscribe({
+      next: () => {
+        this.deletingRoleId = null;
+        if (this.editingRoleId === row.id) {
+          this.cancelForm();
+        }
+        this.load();
+        this.snack.open('Grupo eliminado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.deletingRoleId = null;
+        this.snack.open('No se pudo eliminar el grupo', 'Cerrar', { duration: 4000 });
+      },
+    });
   }
 }
