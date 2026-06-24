@@ -60,9 +60,7 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let row">
-          <button mat-icon-button type="button" aria-label="Editar" (click)="openEdit(row)">
-            <mat-icon>edit</mat-icon>
-          </button>
+          <sh-catalog-list-actions (editClick)="openEdit(row)" />
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="columns"></tr>
