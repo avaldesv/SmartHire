@@ -124,6 +124,7 @@
     </div>
   </mat-tab>
 
+  @if (isGlobalAdmin()) {
   <mat-tab label="Compañías">
     <div class="tab-content">
       <div class="toolbar">
@@ -162,6 +163,7 @@
       }
     </div>
   </mat-tab>
+  }
 
   <mat-tab label="Monedas">
     <div class="tab-content">

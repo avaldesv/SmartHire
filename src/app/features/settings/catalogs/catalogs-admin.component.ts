@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -45,6 +45,7 @@ import { CatalogGender } from '../../../shared/models/catalog-gender.model';
 import { CatalogKinship } from '../../../shared/models/catalog-kinship.model';
 import { CatalogLanguage } from '../../../shared/models/catalog-language.model';
 import { CatalogShift } from '../../../shared/models/catalog-shift.model';
+import { PermissionService } from '../../../core/services/permission.service';
 
 @Component({
   selector: 'sh-catalogs-admin',
@@ -67,6 +68,9 @@ import { CatalogShift } from '../../../shared/models/catalog-shift.model';
   styleUrl: './catalogs-admin.component.scss',
 })
 export class CatalogsAdminComponent implements OnInit {
+  private readonly permissions = inject(PermissionService);
+  readonly isGlobalAdmin = computed(() => this.permissions.isGlobalAdmin());
+
   private readonly genderService = inject(CatalogGenderService);
   private readonly kinshipService = inject(CatalogKinshipService);
   private readonly companyService = inject(CatalogCompanyService);

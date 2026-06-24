@@ -6,6 +6,7 @@ import { environment } from '../../../environments/environment';
 import { msalScopes } from '../auth/msal.config';
 import { AuthUser } from '../../shared/models';
 import { ApiClientService } from './api-client.service';
+import { TenantContextService } from './tenant-context.service';
 
 interface LoginApiResponse {
   accessToken: string;
@@ -19,6 +20,7 @@ interface LoginApiResponse {
   lastName?: string;
   roles?: string[];
   authorities?: string[];
+  globalAdmin?: boolean;
 }
 
 interface AuthMeApiResponse {
@@ -28,6 +30,7 @@ interface AuthMeApiResponse {
   firstName?: string;
   lastName?: string;
   companyId: number;
+  globalAdmin: boolean;
   roles: string[];
   authorities: string[];
 }
@@ -36,6 +39,7 @@ interface AuthMeApiResponse {
 export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly api = inject(ApiClientService);
+  private readonly tenantContext = inject(TenantContextService);
   private readonly msal = inject(MsalService, { optional: true });
 
   readonly currentUser = signal<AuthUser | null>(null);
@@ -52,7 +56,7 @@ export class AuthService {
     return this.http
       .post<LoginApiResponse>(
         this.api.apiUrl('/api/v1/auth/login'),
-        { companyId: environment.companyId, username, password },
+        { companyId: this.tenantContext.getCompanyId(), username, password },
         { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) },
       )
       .pipe(
@@ -65,7 +69,7 @@ export class AuthService {
     return this.http
       .post<LoginApiResponse>(
         this.api.apiUrl('/api/v1/auth/sso/exchange'),
-        { companyId: environment.companyId },
+        { companyId: this.tenantContext.getCompanyId() },
         {
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
@@ -93,7 +97,7 @@ export class AuthService {
     this.refreshInFlight = this.http
       .post<LoginApiResponse>(
         this.api.apiUrl('/api/v1/auth/refresh'),
-        { companyId: environment.companyId, refreshToken },
+        { companyId: this.tenantContext.getCompanyId(), refreshToken },
         { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) },
       )
       .pipe(
@@ -125,7 +129,10 @@ export class AuthService {
           lastName: profile.lastName,
           roles: profile.roles,
           authorities: profile.authorities,
+          globalAdmin: profile.globalAdmin,
+          companyId: profile.companyId,
         });
+        this.tenantContext.setCompanyId(profile.companyId);
         this.currentUser.set(user);
         sessionStorage.setItem('sh_user', JSON.stringify(user));
       }),
@@ -146,7 +153,7 @@ export class AuthService {
       refreshToken != null
         ? this.http.post<{ success: boolean }>(
             this.api.apiUrl('/api/v1/auth/logout'),
-            { companyId: environment.companyId, refreshToken },
+            { companyId: this.tenantContext.getCompanyId(), refreshToken },
             { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) },
           )
         : of({ success: true });
@@ -176,6 +183,7 @@ export class AuthService {
   private clearLocalSession(): void {
     this.clearRefreshTimer();
     this.currentUser.set(null);
+    this.tenantContext.clear();
     sessionStorage.removeItem('sh_token');
     sessionStorage.removeItem('sh_refresh_token');
     sessionStorage.removeItem('sh_token_expires_at');
@@ -186,7 +194,9 @@ export class AuthService {
     const raw = sessionStorage.getItem('sh_user');
     const token = sessionStorage.getItem('sh_token');
     if (raw && token) {
-      this.currentUser.set(JSON.parse(raw));
+      const user = JSON.parse(raw) as AuthUser;
+      this.currentUser.set(user);
+      this.tenantContext.initialize(user.companyId);
       this.scheduleSilentRefresh();
       this.loadCurrentUserProfile().subscribe({ error: () => undefined });
       return true;
@@ -203,6 +213,7 @@ export class AuthService {
   }
 
   private persistSession(usernameOrEmail: string, response: LoginApiResponse): void {
+    const loginCompanyId = this.tenantContext.getCompanyId();
     const user = this.buildUser({
       userId: response.userId,
       username: response.username ?? usernameOrEmail,
@@ -211,7 +222,10 @@ export class AuthService {
       lastName: response.lastName,
       roles: response.roles,
       authorities: response.authorities,
+      globalAdmin: response.globalAdmin,
+      companyId: loginCompanyId,
     });
+    this.tenantContext.initialize(loginCompanyId);
     this.currentUser.set(user);
     sessionStorage.setItem('sh_token', response.accessToken);
     sessionStorage.setItem('sh_user', JSON.stringify(user));
@@ -258,6 +272,8 @@ export class AuthService {
     lastName?: string;
     roles?: string[];
     authorities?: string[];
+    globalAdmin?: boolean;
+    companyId?: number;
   }): AuthUser {
     const email = input.email.includes('@') ? input.email : `${input.email}@empresa.com`;
     const firstName = input.firstName?.trim() || 'Usuario';
@@ -272,6 +288,8 @@ export class AuthService {
       roles: (input.roles ?? []).map((role) => role.toUpperCase()),
       authorities: (input.authorities ?? []).map((authority) => authority.toUpperCase()),
       branch: 'CDMX Centro',
+      globalAdmin: input.globalAdmin === true,
+      companyId: input.companyId,
     };
   }
 

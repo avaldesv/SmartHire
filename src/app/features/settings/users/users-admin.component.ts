@@ -15,7 +15,7 @@ import { SecurityRoleService } from '../../../core/services/security-role.servic
 import { SecurityUserService } from '../../../core/services/security-user.service';
 import { SecurityRole } from '../../../shared/models/security-role.model';
 import { SecurityUser } from '../../../shared/models/security-user.model';
-import { environment } from '../../../../environments/environment';
+import { TenantContextService } from '../../../core/services/tenant-context.service';
 
 @Component({
   selector: 'sh-users-admin',
@@ -39,6 +39,7 @@ import { environment } from '../../../../environments/environment';
 export class UsersAdminComponent implements OnInit {
   private readonly userService = inject(SecurityUserService);
   private readonly roleService = inject(SecurityRoleService);
+  private readonly tenantContext = inject(TenantContextService);
   private readonly snack = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
 
@@ -205,7 +206,7 @@ export class UsersAdminComponent implements OnInit {
         name: value.name,
         lastName: value.lastName,
         phone: value.phone || undefined,
-        companyId: environment.companyId,
+        companyId: this.tenantContext.getCompanyId(),
         isActive: value.isActive,
         roleIds: value.roleIds,
       })
