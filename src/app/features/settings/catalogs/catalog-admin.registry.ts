@@ -24,6 +24,7 @@ export type CatalogPanelKey =
   | 'municipality'
   | 'neighborhood'
   | 'company'
+  | 'client'
   | 'clientCompany'
   | 'kinship'
   | 'brand'
@@ -64,6 +65,7 @@ export const CATALOG_CATEGORIES: CatalogCategoryDefinition[] = [
       { id: 'state', label: 'Entidad federativa', panelKey: 'state', implemented: true },
       { id: 'municipality', label: 'Delegación municipio', panelKey: 'municipality', implemented: true },
       { id: 'neighborhood', label: 'Colonia', panelKey: 'neighborhood', implemented: true },
+      { id: 'client', label: 'Cliente', panelKey: 'client', implemented: true },
     ],
   },
   {
