@@ -47,7 +47,8 @@ export type CatalogPanelKey =
   | 'positionType'
   | 'companyArea'
   | 'companyDepartment'
-  | 'branch';
+  | 'branch'
+  | 'questionnaireCategory';
 
 export interface CatalogRegistryEntry {
   id: string;
@@ -88,7 +89,7 @@ export const CATALOG_CATEGORIES: CatalogCategoryDefinition[] = [
     id: 'cuestionario',
     label: 'Cuestionario',
     catalogs: [
-      { id: 'questionnaireCategory', label: 'Categoría cuestionario', implemented: false },
+      { id: 'questionnaireCategory', label: 'Categoría cuestionario', panelKey: 'questionnaireCategory', implemented: true },
       { id: 'questionnaireQuestion', label: 'Pregunta', implemented: false },
     ],
   },

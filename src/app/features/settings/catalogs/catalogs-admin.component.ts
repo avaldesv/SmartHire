@@ -50,6 +50,8 @@ import { CatalogCompanyDepartmentService } from '../../../core/services/catalog-
 import { CatalogCompanyDepartment } from '../../../shared/models/catalog-company-department.model';
 import { CatalogBranchService } from '../../../core/services/catalog-branch.service';
 import { CatalogBranch } from '../../../shared/models/catalog-branch.model';
+import { QuestionnaireCategoryService } from '../../../core/services/questionnaire-category.service';
+import { QuestionnaireCategory } from '../../../shared/models/questionnaire-category.model';
 import { CatalogContractTypeService } from '../../../core/services/catalog-contract-type.service';
 import { CatalogEducationLevelService } from '../../../core/services/catalog-education-level.service';
 import { CatalogLanguageLevelService } from '../../../core/services/catalog-language-level.service';
@@ -146,6 +148,7 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly requisitionTypeService = inject(CatalogRequisitionTypeService);
   private readonly clientCompanyService = inject(CatalogClientCompanyService);
   private readonly clientService = inject(CatalogClientService);
+  private readonly questionnaireCategoryService = inject(QuestionnaireCategoryService);
   private readonly contractTypeService = inject(CatalogContractTypeService);
   private readonly companyAreaService = inject(CatalogCompanyAreaService);
   private readonly companyDepartmentService = inject(CatalogCompanyDepartmentService);
@@ -287,6 +290,9 @@ export class CatalogsAdminComponent implements OnInit {
     this.loadDisabilityTypes();
     this.loadBusinessUnits();
     this.loadPositionTypes();
+        break;
+      case 'questionnaireCategory':
+        this.loadQuestionnaireCategorys();
         break;
       case 'clientCompany':
         this.loadClientCompanies();
@@ -540,6 +546,15 @@ export class CatalogsAdminComponent implements OnInit {
   editingBranchId: number | null = null;
   showBranchForm = false;
 
+  questionnaireCategories: QuestionnaireCategory[] = [];
+  questionnaireCategoryTotal = 0;
+  questionnaireCategoryPageIndex = 0;
+  questionnaireCategoryPageSize = 10;
+  loadingQuestionnaireCategories = false;
+  savingQuestionnaireCategory = false;
+  editingQuestionnaireCategoryId: number | null = null;
+  showQuestionnaireCategoryForm = false;
+
   companies: CatalogCompany[] = [];
   companyTotal = 0;
   companyPageIndex = 0;
@@ -734,6 +749,16 @@ export class CatalogsAdminComponent implements OnInit {
   readonly companyAreaColumns = ['name', 'description', 'active', 'scope', 'actions'];
   readonly companyDepartmentColumns = ['name', 'description', 'active', 'scope', 'actions'];
   readonly branchColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
+  readonly questionnaireCategoryColumns = ['code', 'name', 'description', 'active', 'actions'];
+
+  readonly questionnaireCategoryForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
+    isActive: [true],
+  });
+
   readonly clientCompanyColumns = ['code', 'name', 'tradeName', 'taxId', 'r3Interface', 'active', 'scope', 'actions'];
   readonly countryColumns = ['code', 'secondaryCode', 'name', 'description', 'manpowerId', 'region', 'active', 'scope', 'actions'];
   readonly stateColumns = ['code', 'name', 'shortDescription', 'active', 'scope', 'actions'];
@@ -1185,7 +1210,8 @@ export class CatalogsAdminComponent implements OnInit {
     this.loadDisabilityTypes();
     this.loadBusinessUnits();
     this.loadPositionTypes();
-    this.loadBranches();
+    this.loadQuestionnaireCategorys();
+    this.loadBranchs();
     this.loadClientCompanies();
     this.loadStates();
   }
@@ -1219,6 +1245,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.disabilityTypePageIndex = 0;
     this.businessUnitPageIndex = 0;
     this.positionTypePageIndex = 0;
+    this.questionnaireCategoryPageIndex = 0;
     this.branchPageIndex = 0;
     this.clientCompanyPageIndex = 0;
     this.statePageIndex = 0;
@@ -1251,6 +1278,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.cancelDisabilityTypeForm();
     this.cancelBusinessUnitForm();
     this.cancelPositionTypeForm();
+    this.cancelQuestionnaireCategoryForm();
     this.cancelBranchForm();
     this.cancelStateForm();
     this.cancelMunicipalityForm();
@@ -1969,6 +1997,89 @@ export class CatalogsAdminComponent implements OnInit {
     this.companyDepartmentPageIndex = 0;
     if (this.isPanelVisible('companyArea')) this.loadCompanyAreas();
     if (this.isPanelVisible('companyDepartment')) this.loadCompanyDepartments();
+  }
+
+  loadQuestionnaireCategorys(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingQuestionnaireCategories = true;
+    this.questionnaireCategoryService.list(this.selectedCountryId, this.questionnaireCategoryPageIndex, this.questionnaireCategoryPageSize).subscribe({
+      next: (res) => {
+        this.questionnaireCategories = res.items;
+        this.questionnaireCategoryTotal = res.total;
+        this.loadingQuestionnaireCategories = false;
+      },
+      error: () => {
+        this.loadingQuestionnaireCategories = false;
+        this.snack.open('No se pudieron cargar categorías de cuestionario', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  onQuestionnaireCategoryPage(e: PageEvent): void {
+    this.questionnaireCategoryPageIndex = e.pageIndex;
+    this.questionnaireCategoryPageSize = e.pageSize;
+    this.loadQuestionnaireCategorys();
+  }
+
+  openCreateQuestionnaireCategory(): void {
+    this.questionnaireCategoryForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      description: '',
+      isActive: true,
+    });
+    this.editingQuestionnaireCategoryId = null;
+    this.showQuestionnaireCategoryForm = true;
+  }
+
+  openEditQuestionnaireCategory(row: QuestionnaireCategory): void {
+    this.editingQuestionnaireCategoryId = row.id;
+    this.showQuestionnaireCategoryForm = true;
+    this.questionnaireCategoryForm.patchValue({
+      countryId: row.countryId ?? this.selectedCountryId,
+      code: row.code,
+      name: row.name,
+      description: row.description ?? '',
+      isActive: row.isActive,
+    });
+  }
+
+  cancelQuestionnaireCategoryForm(): void {
+    this.showQuestionnaireCategoryForm = false;
+    this.editingQuestionnaireCategoryId = null;
+  }
+
+  saveQuestionnaireCategory(): void {
+    if (this.questionnaireCategoryForm.invalid) {
+      this.questionnaireCategoryForm.markAllAsTouched();
+      return;
+    }
+    const value = this.questionnaireCategoryForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      description: value.description || undefined,
+      isActive: value.isActive,
+    };
+    this.savingQuestionnaireCategory = true;
+    const request$ =
+      this.editingQuestionnaireCategoryId != null
+        ? this.questionnaireCategoryService.update(this.editingQuestionnaireCategoryId, payload)
+        : this.questionnaireCategoryService.create(payload);
+    request$.subscribe({
+      next: () => {
+        this.savingQuestionnaireCategory = false;
+        this.cancelQuestionnaireCategoryForm();
+        this.loadQuestionnaireCategorys();
+        this.snack.open('Categoría guardada', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingQuestionnaireCategory = false;
+        this.snack.open('No se pudo guardar la categoría', 'Cerrar', { duration: 4000 });
+      },
+    });
   }
 
   loadClientCompanies(): void {
