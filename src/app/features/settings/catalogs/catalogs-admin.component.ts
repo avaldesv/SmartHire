@@ -86,6 +86,7 @@ import { CatalogLanguage } from '../../../shared/models/catalog-language.model';
 import { CatalogShift } from '../../../shared/models/catalog-shift.model';
 import { PermissionService } from '../../../core/services/permission.service';
 import { TenantContextService } from '../../../core/services/tenant-context.service';
+import { NotificationsAdminComponent } from '../notifications/notifications-admin.component';
 import { ScopeBadgeComponent } from '../../../shared/components/scope-badge/scope-badge.component';
 import { TenantDataScope } from '../../../shared/models/tenant-data-scope.model';
 import { canEditScopedRecord } from '../../../shared/utils/tenant-scope.util';
@@ -114,6 +115,7 @@ import {
     MatSnackBarModule,
     MatRadioModule,
     ScopeBadgeComponent,
+    NotificationsAdminComponent,
   ],
   templateUrl: './catalogs-admin.component.html',
   styleUrl: './catalogs-admin.component.scss',

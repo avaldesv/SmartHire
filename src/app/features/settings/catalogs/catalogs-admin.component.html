@@ -1255,6 +1255,13 @@
     </div>
   }
 
+
+  @if (isPanelVisible("messages")) {
+    <div class="tab-content">
+      <sh-notifications-admin />
+    </div>
+  }
+
   @if (isPanelVisible("questionnaireCategory")) {
     <div class="tab-content">
       <div class="toolbar">
