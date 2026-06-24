@@ -1,46 +1,21 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 
+/** @deprecated Use sh-table-row-actions directly. Kept for catalog admin imports. */
 @Component({
   selector: 'sh-catalog-list-actions',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule],
+  imports: [TableRowActionsComponent],
   template: `
-    <div class="catalog-list-actions">
-      <button
-        mat-icon-button
-        type="button"
-        aria-label="Editar"
-        [disabled]="editDisabled"
-        (click)="editClick.emit()"
-      >
-        <mat-icon>edit</mat-icon>
-      </button>
-      @if (showDelete) {
-        <button
-          mat-icon-button
-          color="warn"
-          type="button"
-          [attr.aria-label]="deleteLabel"
-          [disabled]="deleteDisabled"
-          (click)="deleteClick.emit()"
-        >
-          <mat-icon>delete</mat-icon>
-        </button>
-      }
-    </div>
-  `,
-  styles: `
-    :host {
-      display: inline-flex;
-    }
-
-    .catalog-list-actions {
-      display: inline-flex;
-      align-items: center;
-      gap: 0;
-    }
+    <sh-table-row-actions
+      [showEdit]="true"
+      [showDelete]="showDelete"
+      [editDisabled]="editDisabled"
+      [deleteDisabled]="deleteDisabled"
+      [deleteLabel]="deleteLabel"
+      (editClick)="editClick.emit()"
+      (deleteClick)="deleteClick.emit()"
+    />
   `,
 })
 export class CatalogListActionsComponent {

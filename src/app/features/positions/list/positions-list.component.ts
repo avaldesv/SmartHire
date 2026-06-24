@@ -19,6 +19,7 @@ import { PageHeaderComponent } from '../../../shared/components/page-header/page
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import { PositionListItem } from '../../../shared/models/position.model';
+import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 
 @Component({
   selector: 'sh-positions-list',
@@ -39,6 +40,7 @@ import { PositionListItem } from '../../../shared/models/position.model';
     MatMenuModule,
     PageHeaderComponent,
     StatusBadgeComponent,
+    TableRowActionsComponent,
   ],
   templateUrl: './positions-list.component.html',
   styleUrl: './positions-list.component.scss',

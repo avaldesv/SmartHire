@@ -6,11 +6,12 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CatalogPipelineStageService } from '../../../core/services/catalog-pipeline-stage.service';
 import { CatalogPipelineStage } from '../../../shared/models/catalog-pipeline-stage.model';
+import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 
 @Component({
   selector: 'sh-pipeline-stages',
   standalone: true,
-  imports: [MatTableModule, MatButtonModule, MatIconModule, MatSnackBarModule, MatProgressSpinnerModule],
+  imports: [MatTableModule, MatButtonModule, MatIconModule, MatSnackBarModule, MatProgressSpinnerModule, TableRowActionsComponent],
   templateUrl: './pipeline-stages.component.html',
   styleUrl: './pipeline-stages.component.scss',
 })

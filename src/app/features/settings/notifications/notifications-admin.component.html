@@ -60,7 +60,7 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let row">
-          <sh-catalog-list-actions (editClick)="openEdit(row)" />
+          <sh-table-row-actions (editClick)="openEdit(row)" />
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="columns"></tr>
