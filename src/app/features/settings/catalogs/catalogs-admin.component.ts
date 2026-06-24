@@ -2154,6 +2154,17 @@ export class CatalogsAdminComponent implements OnInit {
     });
   }
 
+  deleteRecruiterGroup(row: SecurityRecruiterGroup): void {
+    this.deleteCatalogRow(
+      row,
+      row.description || row.code,
+      this.recruiterGroupService.delete(row.id),
+      () => this.loadRecruiterGroups(),
+      this.editingRecruiterGroupId,
+      () => this.cancelRecruiterGroupForm(),
+    );
+  }
+
   loadJobPortals(): void {
     if (this.selectedCountryId == null) return;
     this.loadingJobPortals = true;
@@ -2319,6 +2330,17 @@ export class CatalogsAdminComponent implements OnInit {
         this.snack.open('No se pudo guardar la categoría', 'Cerrar', { duration: 4000 });
       },
     });
+  }
+
+  deleteQuestionnaireCategory(row: QuestionnaireCategory): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.questionnaireCategoryService.delete(row.id),
+      () => this.loadQuestionnaireCategorys(),
+      this.editingQuestionnaireCategoryId,
+      () => this.cancelQuestionnaireCategoryForm(),
+    );
   }
 
   loadClientCompanies(): void {
