@@ -15,7 +15,7 @@ import { SecurityModulePermissionService } from '../../../core/services/security
 import { SecurityRoleService } from '../../../core/services/security-role.service';
 import { SecurityModulePermission } from '../../../shared/models/security-module-permission.model';
 import { SecurityRole } from '../../../shared/models/security-role.model';
-import { environment } from '../../../../environments/environment';
+import { TenantContextService } from '../../../core/services/tenant-context.service';
 
 @Component({
   selector: 'sh-groups-admin',
@@ -40,6 +40,7 @@ import { environment } from '../../../../environments/environment';
 export class GroupsAdminComponent implements OnInit {
   private readonly roleService = inject(SecurityRoleService);
   private readonly permissionService = inject(SecurityModulePermissionService);
+  private readonly tenantContext = inject(TenantContextService);
   private readonly snack = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
 
@@ -184,7 +185,7 @@ export class GroupsAdminComponent implements OnInit {
         name: value.name,
         description: value.description || undefined,
         isActive: value.isActive,
-        companyId: environment.companyId,
+        companyId: this.tenantContext.getCompanyId(),
         modulePermissionIds: value.modulePermissionIds,
       })
       .subscribe({

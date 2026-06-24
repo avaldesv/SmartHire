@@ -7,6 +7,8 @@ export interface AuthUser {
   roles: string[];
   authorities: string[];
   branch: string;
+  globalAdmin?: boolean;
+  companyId?: number;
 }
 
 export interface PaginatedResult<T> {
