@@ -460,7 +460,7 @@ export class CatalogsAdminComponent implements OnInit {
   readonly languageLevelColumns = ['code', 'name', 'appliesToCareer', 'active', 'scope', 'actions'];
   readonly requisitionTypeColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
   readonly clientCompanyColumns = ['code', 'name', 'tradeName', 'taxId', 'r3Interface', 'active', 'scope', 'actions'];
-  readonly countryColumns = ['code', 'secondaryCode', 'name', 'active', 'scope', 'actions'];
+  readonly countryColumns = ['code', 'secondaryCode', 'name', 'description', 'manpowerId', 'region', 'active', 'scope', 'actions'];
   readonly stateColumns = ['code', 'name', 'shortDescription', 'active', 'scope', 'actions'];
   readonly municipalityColumns = ['code', 'name', 'active', 'scope', 'actions'];
   readonly neighborhoodColumns = ['name', 'postalCode', 'active', 'scope', 'actions'];
@@ -593,6 +593,12 @@ export class CatalogsAdminComponent implements OnInit {
     code: ['', Validators.required],
     secondaryCode: [''],
     name: ['', Validators.required],
+    description: ['', Validators.required],
+    currencyId: [null as number | null],
+    languageId: [null as number | null],
+    manpowerId: [null as number | null, Validators.required],
+    region: ['', Validators.required],
+    jobPortalUrl: [''],
     isActive: [true],
   });
 
@@ -2105,7 +2111,18 @@ export class CatalogsAdminComponent implements OnInit {
     this.resetCreateScope();
     this.editingCountryId = null;
     this.showCountryForm = true;
-    this.countryForm.reset({ code: '', secondaryCode: '', name: '', isActive: true });
+    this.countryForm.reset({
+      code: '',
+      secondaryCode: '',
+      name: '',
+      description: '',
+      currencyId: null,
+      languageId: null,
+      manpowerId: null,
+      region: '',
+      jobPortalUrl: '',
+      isActive: true,
+    });
   }
 
   openEditCountry(row: CatalogCountry): void {
@@ -2115,6 +2132,12 @@ export class CatalogsAdminComponent implements OnInit {
       code: row.code,
       secondaryCode: row.secondaryCode ?? '',
       name: row.name,
+      description: row.description ?? '',
+      currencyId: row.currencyId ?? null,
+      languageId: row.languageId ?? null,
+      manpowerId: row.manpowerId ?? null,
+      region: row.region ?? '',
+      jobPortalUrl: row.jobPortalUrl ?? '',
       isActive: row.isActive,
     });
   }
@@ -2130,11 +2153,23 @@ export class CatalogsAdminComponent implements OnInit {
       return;
     }
     const value = this.countryForm.getRawValue();
+    const payload = {
+      code: value.code,
+      secondaryCode: value.secondaryCode || undefined,
+      name: value.name,
+      description: value.description,
+      currencyId: value.currencyId ?? undefined,
+      languageId: value.languageId ?? undefined,
+      manpowerId: value.manpowerId!,
+      region: value.region,
+      jobPortalUrl: value.jobPortalUrl || undefined,
+      isActive: value.isActive,
+    };
     this.savingCountry = true;
     const request$ =
       this.editingCountryId != null
-        ? this.geographyService.updateCountry(this.editingCountryId, value)
-        : this.geographyService.createCountry(this.withCreateScope(value));
+        ? this.geographyService.updateCountry(this.editingCountryId, payload)
+        : this.geographyService.createCountry(this.withCreateScope(payload));
     request$.subscribe({
       next: () => {
         this.savingCountry = false;

@@ -21,6 +21,12 @@ export interface CatalogCountry {
   code: string;
   secondaryCode?: string;
   name: string;
+  description?: string;
+  currencyId?: number | null;
+  languageId?: number | null;
+  manpowerId?: number | null;
+  region?: string;
+  jobPortalUrl?: string;
   isActive: boolean;
   companyId?: number | null;
 }
@@ -29,6 +35,12 @@ export interface CreateCountryRequest {
   code: string;
   secondaryCode?: string;
   name: string;
+  description?: string;
+  currencyId?: number | null;
+  languageId?: number | null;
+  manpowerId?: number | null;
+  region?: string;
+  jobPortalUrl?: string;
   isActive?: boolean;
   scope?: TenantDataScope;
 }
