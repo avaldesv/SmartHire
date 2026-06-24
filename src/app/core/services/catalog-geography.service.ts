@@ -163,4 +163,28 @@ export class CatalogGeographyService {
       })
       .pipe(map((res) => res.data ?? []));
   }
+
+  deleteCountry(id: number): Observable<void> {
+    return this.http.delete<void>(this.api.apiUrl(`/api/v1/countries/${id}`), {
+      headers: this.api.buildHeaders(),
+    });
+  }
+
+  deleteState(id: number): Observable<void> {
+    return this.http.delete<void>(this.api.apiUrl(`/api/v1/states/${id}`), {
+      headers: this.api.buildHeaders(),
+    });
+  }
+
+  deleteMunicipality(id: number): Observable<void> {
+    return this.http.delete<void>(this.api.apiUrl(`/api/v1/municipalities/${id}`), {
+      headers: this.api.buildHeaders(),
+    });
+  }
+
+  deleteNeighborhood(id: number): Observable<void> {
+    return this.http.delete<void>(this.api.apiUrl(`/api/v1/neighborhoods/${id}`), {
+      headers: this.api.buildHeaders(),
+    });
+  }
 }

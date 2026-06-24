@@ -39,4 +39,10 @@ export class CatalogEducationLevelService {
       headers: this.api.buildHeaders(),
     });
   }
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(this.api.apiUrl(`/api/v1/education-levels/${id}`), {
+      headers: this.api.buildHeaders(),
+    });
+  }
+
 }

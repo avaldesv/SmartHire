@@ -34,4 +34,10 @@ export class CatalogBusinessUnitService {
       headers: this.api.buildHeaders(),
     });
   }
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(this.api.apiUrl(`/api/v1/business-units/${id}`), {
+      headers: this.api.buildHeaders(),
+    });
+  }
+
 }

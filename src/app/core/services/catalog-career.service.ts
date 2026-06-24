@@ -39,4 +39,10 @@ export class CatalogCareerService {
       headers: this.api.buildHeaders(),
     });
   }
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(this.api.apiUrl(`/api/v1/careers/${id}`), {
+      headers: this.api.buildHeaders(),
+    });
+  }
+
 }
