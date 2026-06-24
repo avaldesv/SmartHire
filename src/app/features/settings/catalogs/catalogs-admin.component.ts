@@ -18,6 +18,32 @@ import { CatalogBrandService } from '../../../core/services/catalog-brand.servic
 import { CatalogClientCompanyService } from '../../../core/services/catalog-client-company.service';
 import { CatalogClientService } from '../../../core/services/catalog-client.service';
 import { CatalogCompanyService } from '../../../core/services/catalog-company.service';
+import { CatalogCoverageCategoryService } from '../../../core/services/catalog-coverage-category.service';
+import { CatalogCoverageCategory } from '../../../shared/models/catalog-coverage-category.model';
+import { CatalogCharacteristicService } from '../../../core/services/catalog-characteristic.service';
+import { CatalogCharacteristic } from '../../../shared/models/catalog-characteristic.model';
+import { CatalogCategoryService } from '../../../core/services/catalog-category.service';
+import { CatalogCategory } from '../../../shared/models/catalog-category.model';
+import { CatalogMaritalStatusService } from '../../../core/services/catalog-marital-status.service';
+import { CatalogMaritalStatus } from '../../../shared/models/catalog-marital-status.model';
+import { CatalogExperienceLevelService } from '../../../core/services/catalog-experience-level.service';
+import { CatalogExperienceLevel } from '../../../shared/models/catalog-experience-level.model';
+import { CatalogToolService } from '../../../core/services/catalog-tool.service';
+import { CatalogTool } from '../../../shared/models/catalog-tool.model';
+import { CatalogWorkScheduleService } from '../../../core/services/catalog-work-schedule.service';
+import { CatalogWorkSchedule } from '../../../shared/models/catalog-work-schedule.model';
+import { CatalogWorkplaceService } from '../../../core/services/catalog-workplace.service';
+import { CatalogWorkplace } from '../../../shared/models/catalog-workplace.model';
+import { CatalogRequirementService } from '../../../core/services/catalog-requirement.service';
+import { CatalogRequirement } from '../../../shared/models/catalog-requirement.model';
+import { CatalogResponsibilityLevelService } from '../../../core/services/catalog-responsibility-level.service';
+import { CatalogResponsibilityLevel } from '../../../shared/models/catalog-responsibility-level.model';
+import { CatalogDisabilityTypeService } from '../../../core/services/catalog-disability-type.service';
+import { CatalogDisabilityType } from '../../../shared/models/catalog-disability-type.model';
+import { CatalogBusinessUnitService } from '../../../core/services/catalog-business-unit.service';
+import { CatalogBusinessUnit } from '../../../shared/models/catalog-business-unit.model';
+import { CatalogPositionTypeService } from '../../../core/services/catalog-position-type.service';
+import { CatalogPositionType } from '../../../shared/models/catalog-position-type.model';
 import { CatalogContractTypeService } from '../../../core/services/catalog-contract-type.service';
 import { CatalogEducationLevelService } from '../../../core/services/catalog-education-level.service';
 import { CatalogLanguageLevelService } from '../../../core/services/catalog-language-level.service';
@@ -115,6 +141,19 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly clientCompanyService = inject(CatalogClientCompanyService);
   private readonly clientService = inject(CatalogClientService);
   private readonly contractTypeService = inject(CatalogContractTypeService);
+  private readonly coverageCategoryService = inject(CatalogCoverageCategoryService);
+  private readonly characteristicService = inject(CatalogCharacteristicService);
+  private readonly categoryService = inject(CatalogCategoryService);
+  private readonly maritalStatusService = inject(CatalogMaritalStatusService);
+  private readonly experienceLevelService = inject(CatalogExperienceLevelService);
+  private readonly toolService = inject(CatalogToolService);
+  private readonly workScheduleService = inject(CatalogWorkScheduleService);
+  private readonly workplaceService = inject(CatalogWorkplaceService);
+  private readonly requirementService = inject(CatalogRequirementService);
+  private readonly responsibilityLevelService = inject(CatalogResponsibilityLevelService);
+  private readonly disabilityTypeService = inject(CatalogDisabilityTypeService);
+  private readonly businessUnitService = inject(CatalogBusinessUnitService);
+  private readonly positionTypeService = inject(CatalogPositionTypeService);
   private readonly coverageTypeService = inject(CatalogCoverageTypeService);
   private readonly documentTypeService = inject(CatalogDocumentTypeService);
   private readonly geographyService = inject(CatalogGeographyService);
@@ -226,12 +265,64 @@ export class CatalogsAdminComponent implements OnInit {
         break;
       case 'requisitionType':
         this.loadRequisitionTypes();
+    this.loadCoverageCategorys();
+    this.loadCharacteristics();
+    this.loadCategorys();
+    this.loadMaritalStatuss();
+    this.loadExperienceLevels();
+    this.loadTools();
+    this.loadWorkSchedules();
+    this.loadWorkplaces();
+    this.loadRequirements();
+    this.loadResponsibilityLevels();
+    this.loadDisabilityTypes();
+    this.loadBusinessUnits();
+    this.loadPositionTypes();
         break;
       case 'clientCompany':
         this.loadClientCompanies();
         break;
       case 'client':
         this.loadClients();
+        break;
+      case 'coverageCategory':
+        this.loadCoverageCategorys();
+        break;
+      case 'characteristic':
+        this.loadCharacteristics();
+        break;
+      case 'category':
+        this.loadCategorys();
+        break;
+      case 'maritalStatus':
+        this.loadMaritalStatuss();
+        break;
+      case 'experienceLevel':
+        this.loadExperienceLevels();
+        break;
+      case 'tool':
+        this.loadTools();
+        break;
+      case 'workSchedule':
+        this.loadWorkSchedules();
+        break;
+      case 'workplace':
+        this.loadWorkplaces();
+        break;
+      case 'requirement':
+        this.loadRequirements();
+        break;
+      case 'responsibilityLevel':
+        this.loadResponsibilityLevels();
+        break;
+      case 'disabilityType':
+        this.loadDisabilityTypes();
+        break;
+      case 'businessUnit':
+        this.loadBusinessUnits();
+        break;
+      case 'positionType':
+        this.loadPositionTypes();
         break;
       case 'country':
         this.loadCountryRecords();
@@ -296,6 +387,111 @@ export class CatalogsAdminComponent implements OnInit {
   savingClient = false;
   editingClientId: number | null = null;
   showClientForm = false;
+
+  coverageCategories: CatalogCoverageCategory[] = [];
+  coverageCategoryTotal = 0;
+  coverageCategoryPageIndex = 0;
+  coverageCategoryPageSize = 10;
+  loadingCoverageCategories = false;
+  savingCoverageCategory = false;
+  editingCoverageCategoryId: number | null = null;
+  showCoverageCategoryForm = false;
+  characteristics: CatalogCharacteristic[] = [];
+  characteristicTotal = 0;
+  characteristicPageIndex = 0;
+  characteristicPageSize = 10;
+  loadingCharacteristics = false;
+  savingCharacteristic = false;
+  editingCharacteristicId: number | null = null;
+  showCharacteristicForm = false;
+  catalogCategories: CatalogCategory[] = [];
+  categoryTotal = 0;
+  categoryPageIndex = 0;
+  categoryPageSize = 10;
+  loadingCategories = false;
+  savingCategory = false;
+  editingCategoryId: number | null = null;
+  showCategoryForm = false;
+  maritalStatuses: CatalogMaritalStatus[] = [];
+  maritalStatusTotal = 0;
+  maritalStatusPageIndex = 0;
+  maritalStatusPageSize = 10;
+  loadingMaritalStatuses = false;
+  savingMaritalStatus = false;
+  editingMaritalStatusId: number | null = null;
+  showMaritalStatusForm = false;
+  experienceLevels: CatalogExperienceLevel[] = [];
+  experienceLevelTotal = 0;
+  experienceLevelPageIndex = 0;
+  experienceLevelPageSize = 10;
+  loadingExperienceLevels = false;
+  savingExperienceLevel = false;
+  editingExperienceLevelId: number | null = null;
+  showExperienceLevelForm = false;
+  tools: CatalogTool[] = [];
+  toolTotal = 0;
+  toolPageIndex = 0;
+  toolPageSize = 10;
+  loadingTools = false;
+  savingTool = false;
+  editingToolId: number | null = null;
+  showToolForm = false;
+  workSchedules: CatalogWorkSchedule[] = [];
+  workScheduleTotal = 0;
+  workSchedulePageIndex = 0;
+  workSchedulePageSize = 10;
+  loadingWorkSchedules = false;
+  savingWorkSchedule = false;
+  editingWorkScheduleId: number | null = null;
+  showWorkScheduleForm = false;
+  workplaces: CatalogWorkplace[] = [];
+  workplaceTotal = 0;
+  workplacePageIndex = 0;
+  workplacePageSize = 10;
+  loadingWorkplaces = false;
+  savingWorkplace = false;
+  editingWorkplaceId: number | null = null;
+  showWorkplaceForm = false;
+  requirements: CatalogRequirement[] = [];
+  requirementTotal = 0;
+  requirementPageIndex = 0;
+  requirementPageSize = 10;
+  loadingRequirements = false;
+  savingRequirement = false;
+  editingRequirementId: number | null = null;
+  showRequirementForm = false;
+  responsibilityLevels: CatalogResponsibilityLevel[] = [];
+  responsibilityLevelTotal = 0;
+  responsibilityLevelPageIndex = 0;
+  responsibilityLevelPageSize = 10;
+  loadingResponsibilityLevels = false;
+  savingResponsibilityLevel = false;
+  editingResponsibilityLevelId: number | null = null;
+  showResponsibilityLevelForm = false;
+  disabilityTypes: CatalogDisabilityType[] = [];
+  disabilityTypeTotal = 0;
+  disabilityTypePageIndex = 0;
+  disabilityTypePageSize = 10;
+  loadingDisabilityTypes = false;
+  savingDisabilityType = false;
+  editingDisabilityTypeId: number | null = null;
+  showDisabilityTypeForm = false;
+  businessUnits: CatalogBusinessUnit[] = [];
+  businessUnitTotal = 0;
+  businessUnitPageIndex = 0;
+  businessUnitPageSize = 10;
+  loadingBusinessUnits = false;
+  savingBusinessUnit = false;
+  editingBusinessUnitId: number | null = null;
+  showBusinessUnitForm = false;
+  positionTypes: CatalogPositionType[] = [];
+  positionTypeTotal = 0;
+  positionTypePageIndex = 0;
+  positionTypePageSize = 10;
+  loadingPositionTypes = false;
+  savingPositionType = false;
+  editingPositionTypeId: number | null = null;
+  showPositionTypeForm = false;
 
   companies: CatalogCompany[] = [];
   companyTotal = 0;
@@ -461,6 +657,19 @@ export class CatalogsAdminComponent implements OnInit {
 
   readonly genderColumns = ['code', 'name', 'value', 'active', 'scope', 'actions'];
   readonly kinshipColumns = ['code', 'name', 'active', 'scope', 'actions'];
+  readonly coverageCategoryColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
+  readonly characteristicColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
+  readonly categoryColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
+  readonly maritalStatusColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
+  readonly experienceLevelColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
+  readonly toolColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
+  readonly workScheduleColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
+  readonly workplaceColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
+  readonly requirementColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
+  readonly responsibilityLevelColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
+  readonly disabilityTypeColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
+  readonly businessUnitColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
+  readonly positionTypeColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
   readonly clientColumns = ['code', 'tradeName', 'legalName', 'companyArea', 'contactName', 'active', 'scope', 'actions'];
   readonly companyColumns = ['code', 'name', 'tradeName', 'taxId', 'active', 'scope', 'actions'];
   readonly currencyColumns = ['code', 'name', 'symbol', 'denomination', 'active', 'scope', 'actions'];
@@ -510,6 +719,111 @@ export class CatalogsAdminComponent implements OnInit {
     bannerUrl: [''],
     r3Interface: [false],
     wsSignature: [false],
+    isActive: [true],
+  });
+
+  readonly coverageCategoryForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
+    legacyManpowerId: [null as number | null],
+    isActive: [true],
+  });
+  readonly characteristicForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
+    legacyManpowerId: [null as number | null],
+    isActive: [true],
+  });
+  readonly categoryForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
+    legacyManpowerId: [null as number | null],
+    isActive: [true],
+  });
+  readonly maritalStatusForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
+    legacyManpowerId: [null as number | null],
+    isActive: [true],
+  });
+  readonly experienceLevelForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
+    legacyManpowerId: [null as number | null],
+    isActive: [true],
+  });
+  readonly toolForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
+    legacyManpowerId: [null as number | null],
+    isActive: [true],
+  });
+  readonly workScheduleForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
+    legacyManpowerId: [null as number | null],
+    isActive: [true],
+  });
+  readonly workplaceForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
+    legacyManpowerId: [null as number | null],
+    isActive: [true],
+  });
+  readonly requirementForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
+    legacyManpowerId: [null as number | null],
+    isActive: [true],
+  });
+  readonly responsibilityLevelForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
+    legacyManpowerId: [null as number | null],
+    isActive: [true],
+  });
+  readonly disabilityTypeForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
+    legacyManpowerId: [null as number | null],
+    isActive: [true],
+  });
+  readonly businessUnitForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
+    legacyManpowerId: [null as number | null],
+    isActive: [true],
+  });
+  readonly positionTypeForm = this.fb.nonNullable.group({
+    countryId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
+    legacyManpowerId: [null as number | null],
     isActive: [true],
   });
 
@@ -692,6 +1006,19 @@ export class CatalogsAdminComponent implements OnInit {
     this.cancelRequisitionTypeForm();
     this.cancelClientCompanyForm();
     this.cancelClientForm();
+    this.cancelCoverageCategoryForm();
+    this.cancelCharacteristicForm();
+    this.cancelCategoryForm();
+    this.cancelMaritalStatusForm();
+    this.cancelExperienceLevelForm();
+    this.cancelToolForm();
+    this.cancelWorkScheduleForm();
+    this.cancelWorkplaceForm();
+    this.cancelRequirementForm();
+    this.cancelResponsibilityLevelForm();
+    this.cancelDisabilityTypeForm();
+    this.cancelBusinessUnitForm();
+    this.cancelPositionTypeForm();
     this.cancelCountryForm();
     this.cancelStateForm();
     this.cancelMunicipalityForm();
@@ -772,6 +1099,19 @@ export class CatalogsAdminComponent implements OnInit {
     this.loadEducationLevels();
     this.loadLanguageLevels();
     this.loadRequisitionTypes();
+    this.loadCoverageCategorys();
+    this.loadCharacteristics();
+    this.loadCategorys();
+    this.loadMaritalStatuss();
+    this.loadExperienceLevels();
+    this.loadTools();
+    this.loadWorkSchedules();
+    this.loadWorkplaces();
+    this.loadRequirements();
+    this.loadResponsibilityLevels();
+    this.loadDisabilityTypes();
+    this.loadBusinessUnits();
+    this.loadPositionTypes();
     this.loadClientCompanies();
     this.loadStates();
   }
@@ -792,6 +1132,19 @@ export class CatalogsAdminComponent implements OnInit {
     this.educationLevelPageIndex = 0;
     this.languageLevelPageIndex = 0;
     this.requisitionTypePageIndex = 0;
+    this.coverageCategoryPageIndex = 0;
+    this.characteristicPageIndex = 0;
+    this.categoryPageIndex = 0;
+    this.maritalStatusPageIndex = 0;
+    this.experienceLevelPageIndex = 0;
+    this.toolPageIndex = 0;
+    this.workSchedulePageIndex = 0;
+    this.workplacePageIndex = 0;
+    this.requirementPageIndex = 0;
+    this.responsibilityLevelPageIndex = 0;
+    this.disabilityTypePageIndex = 0;
+    this.businessUnitPageIndex = 0;
+    this.positionTypePageIndex = 0;
     this.clientCompanyPageIndex = 0;
     this.statePageIndex = 0;
     this.municipalityPageIndex = 0;
@@ -810,6 +1163,19 @@ export class CatalogsAdminComponent implements OnInit {
     this.cancelRequisitionTypeForm();
     this.cancelClientCompanyForm();
     this.cancelClientForm();
+    this.cancelCoverageCategoryForm();
+    this.cancelCharacteristicForm();
+    this.cancelCategoryForm();
+    this.cancelMaritalStatusForm();
+    this.cancelExperienceLevelForm();
+    this.cancelToolForm();
+    this.cancelWorkScheduleForm();
+    this.cancelWorkplaceForm();
+    this.cancelRequirementForm();
+    this.cancelResponsibilityLevelForm();
+    this.cancelDisabilityTypeForm();
+    this.cancelBusinessUnitForm();
+    this.cancelPositionTypeForm();
     this.cancelStateForm();
     this.cancelMunicipalityForm();
     this.cancelNeighborhoodForm();
@@ -892,6 +1258,280 @@ export class CatalogsAdminComponent implements OnInit {
     this.kinshipPageIndex = e.pageIndex;
     this.kinshipPageSize = e.pageSize;
     this.loadKinships();
+  }
+
+  loadCoverageCategorys(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingCoverageCategories = true;
+    this.coverageCategoryService.list(this.selectedCountryId, this.coverageCategoryPageIndex, this.coverageCategoryPageSize).subscribe({
+      next: (res) => {
+        this.coverageCategories = res.items;
+        this.coverageCategoryTotal = res.total;
+        this.loadingCoverageCategories = false;
+      },
+      error: () => {
+        this.loadingCoverageCategories = false;
+        this.snack.open('No se pudieron cargar c categoría cubrimiento', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  onCoverageCategoryPage(e: PageEvent): void {
+    this.coverageCategoryPageIndex = e.pageIndex;
+    this.coverageCategoryPageSize = e.pageSize;
+    this.loadCoverageCategorys();
+  }
+  loadCharacteristics(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingCharacteristics = true;
+    this.characteristicService.list(this.selectedCountryId, this.characteristicPageIndex, this.characteristicPageSize).subscribe({
+      next: (res) => {
+        this.characteristics = res.items;
+        this.characteristicTotal = res.total;
+        this.loadingCharacteristics = false;
+      },
+      error: () => {
+        this.loadingCharacteristics = false;
+        this.snack.open('No se pudieron cargar características', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  onCharacteristicPage(e: PageEvent): void {
+    this.characteristicPageIndex = e.pageIndex;
+    this.characteristicPageSize = e.pageSize;
+    this.loadCharacteristics();
+  }
+  loadCategorys(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingCategories = true;
+    this.categoryService.list(this.selectedCountryId, this.categoryPageIndex, this.categoryPageSize).subscribe({
+      next: (res) => {
+        this.catalogCategories = res.items;
+        this.categoryTotal = res.total;
+        this.loadingCategories = false;
+      },
+      error: () => {
+        this.loadingCategories = false;
+        this.snack.open('No se pudieron cargar categoría', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  onCategoryPage(e: PageEvent): void {
+    this.categoryPageIndex = e.pageIndex;
+    this.categoryPageSize = e.pageSize;
+    this.loadCategorys();
+  }
+  loadMaritalStatuss(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingMaritalStatuses = true;
+    this.maritalStatusService.list(this.selectedCountryId, this.maritalStatusPageIndex, this.maritalStatusPageSize).subscribe({
+      next: (res) => {
+        this.maritalStatuses = res.items;
+        this.maritalStatusTotal = res.total;
+        this.loadingMaritalStatuses = false;
+      },
+      error: () => {
+        this.loadingMaritalStatuses = false;
+        this.snack.open('No se pudieron cargar estado civil', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  onMaritalStatusPage(e: PageEvent): void {
+    this.maritalStatusPageIndex = e.pageIndex;
+    this.maritalStatusPageSize = e.pageSize;
+    this.loadMaritalStatuss();
+  }
+  loadExperienceLevels(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingExperienceLevels = true;
+    this.experienceLevelService.list(this.selectedCountryId, this.experienceLevelPageIndex, this.experienceLevelPageSize).subscribe({
+      next: (res) => {
+        this.experienceLevels = res.items;
+        this.experienceLevelTotal = res.total;
+        this.loadingExperienceLevels = false;
+      },
+      error: () => {
+        this.loadingExperienceLevels = false;
+        this.snack.open('No se pudieron cargar experiencia', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  onExperienceLevelPage(e: PageEvent): void {
+    this.experienceLevelPageIndex = e.pageIndex;
+    this.experienceLevelPageSize = e.pageSize;
+    this.loadExperienceLevels();
+  }
+  loadTools(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingTools = true;
+    this.toolService.list(this.selectedCountryId, this.toolPageIndex, this.toolPageSize).subscribe({
+      next: (res) => {
+        this.tools = res.items;
+        this.toolTotal = res.total;
+        this.loadingTools = false;
+      },
+      error: () => {
+        this.loadingTools = false;
+        this.snack.open('No se pudieron cargar herramienta', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  onToolPage(e: PageEvent): void {
+    this.toolPageIndex = e.pageIndex;
+    this.toolPageSize = e.pageSize;
+    this.loadTools();
+  }
+  loadWorkSchedules(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingWorkSchedules = true;
+    this.workScheduleService.list(this.selectedCountryId, this.workSchedulePageIndex, this.workSchedulePageSize).subscribe({
+      next: (res) => {
+        this.workSchedules = res.items;
+        this.workScheduleTotal = res.total;
+        this.loadingWorkSchedules = false;
+      },
+      error: () => {
+        this.loadingWorkSchedules = false;
+        this.snack.open('No se pudieron cargar horario trabajo', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  onWorkSchedulePage(e: PageEvent): void {
+    this.workSchedulePageIndex = e.pageIndex;
+    this.workSchedulePageSize = e.pageSize;
+    this.loadWorkSchedules();
+  }
+  loadWorkplaces(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingWorkplaces = true;
+    this.workplaceService.list(this.selectedCountryId, this.workplacePageIndex, this.workplacePageSize).subscribe({
+      next: (res) => {
+        this.workplaces = res.items;
+        this.workplaceTotal = res.total;
+        this.loadingWorkplaces = false;
+      },
+      error: () => {
+        this.loadingWorkplaces = false;
+        this.snack.open('No se pudieron cargar lugar trabajo', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  onWorkplacePage(e: PageEvent): void {
+    this.workplacePageIndex = e.pageIndex;
+    this.workplacePageSize = e.pageSize;
+    this.loadWorkplaces();
+  }
+  loadRequirements(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingRequirements = true;
+    this.requirementService.list(this.selectedCountryId, this.requirementPageIndex, this.requirementPageSize).subscribe({
+      next: (res) => {
+        this.requirements = res.items;
+        this.requirementTotal = res.total;
+        this.loadingRequirements = false;
+      },
+      error: () => {
+        this.loadingRequirements = false;
+        this.snack.open('No se pudieron cargar requisitos', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  onRequirementPage(e: PageEvent): void {
+    this.requirementPageIndex = e.pageIndex;
+    this.requirementPageSize = e.pageSize;
+    this.loadRequirements();
+  }
+  loadResponsibilityLevels(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingResponsibilityLevels = true;
+    this.responsibilityLevelService.list(this.selectedCountryId, this.responsibilityLevelPageIndex, this.responsibilityLevelPageSize).subscribe({
+      next: (res) => {
+        this.responsibilityLevels = res.items;
+        this.responsibilityLevelTotal = res.total;
+        this.loadingResponsibilityLevels = false;
+      },
+      error: () => {
+        this.loadingResponsibilityLevels = false;
+        this.snack.open('No se pudieron cargar responsabilidad', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  onResponsibilityLevelPage(e: PageEvent): void {
+    this.responsibilityLevelPageIndex = e.pageIndex;
+    this.responsibilityLevelPageSize = e.pageSize;
+    this.loadResponsibilityLevels();
+  }
+  loadDisabilityTypes(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingDisabilityTypes = true;
+    this.disabilityTypeService.list(this.selectedCountryId, this.disabilityTypePageIndex, this.disabilityTypePageSize).subscribe({
+      next: (res) => {
+        this.disabilityTypes = res.items;
+        this.disabilityTypeTotal = res.total;
+        this.loadingDisabilityTypes = false;
+      },
+      error: () => {
+        this.loadingDisabilityTypes = false;
+        this.snack.open('No se pudieron cargar tipo discapacidad', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  onDisabilityTypePage(e: PageEvent): void {
+    this.disabilityTypePageIndex = e.pageIndex;
+    this.disabilityTypePageSize = e.pageSize;
+    this.loadDisabilityTypes();
+  }
+  loadBusinessUnits(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingBusinessUnits = true;
+    this.businessUnitService.list(this.selectedCountryId, this.businessUnitPageIndex, this.businessUnitPageSize).subscribe({
+      next: (res) => {
+        this.businessUnits = res.items;
+        this.businessUnitTotal = res.total;
+        this.loadingBusinessUnits = false;
+      },
+      error: () => {
+        this.loadingBusinessUnits = false;
+        this.snack.open('No se pudieron cargar unidad de negocio', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  onBusinessUnitPage(e: PageEvent): void {
+    this.businessUnitPageIndex = e.pageIndex;
+    this.businessUnitPageSize = e.pageSize;
+    this.loadBusinessUnits();
+  }
+  loadPositionTypes(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingPositionTypes = true;
+    this.positionTypeService.list(this.selectedCountryId, this.positionTypePageIndex, this.positionTypePageSize).subscribe({
+      next: (res) => {
+        this.positionTypes = res.items;
+        this.positionTypeTotal = res.total;
+        this.loadingPositionTypes = false;
+      },
+      error: () => {
+        this.loadingPositionTypes = false;
+        this.snack.open('No se pudieron cargar puesto', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  onPositionTypePage(e: PageEvent): void {
+    this.positionTypePageIndex = e.pageIndex;
+    this.positionTypePageSize = e.pageSize;
+    this.loadPositionTypes();
   }
 
   loadClients(): void {
@@ -1205,6 +1845,19 @@ export class CatalogsAdminComponent implements OnInit {
     this.requisitionTypePageIndex = e.pageIndex;
     this.requisitionTypePageSize = e.pageSize;
     this.loadRequisitionTypes();
+    this.loadCoverageCategorys();
+    this.loadCharacteristics();
+    this.loadCategorys();
+    this.loadMaritalStatuss();
+    this.loadExperienceLevels();
+    this.loadTools();
+    this.loadWorkSchedules();
+    this.loadWorkplaces();
+    this.loadRequirements();
+    this.loadResponsibilityLevels();
+    this.loadDisabilityTypes();
+    this.loadBusinessUnits();
+    this.loadPositionTypes();
   }
 
   onClientCompanyPage(e: PageEvent): void {
@@ -1308,6 +1961,839 @@ export class CatalogsAdminComponent implements OnInit {
       error: () => {
         this.savingKinship = false;
         this.snack.open('No se pudo guardar el parentesco', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  openCreateCoverageCategory(): void {
+    this.resetCreateScope();
+    this.editingCoverageCategoryId = null;
+    this.showCoverageCategoryForm = true;
+    this.coverageCategoryForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      description: '',
+      legacyManpowerId: null,
+      isActive: true,
+    });
+  }
+
+  openEditCoverageCategory(row: CatalogCoverageCategory): void {
+    this.editingCoverageCategoryId = row.id;
+    this.showCoverageCategoryForm = true;
+    this.coverageCategoryForm.patchValue({
+      countryId: row.countryId ?? this.selectedCountryId,
+      code: row.code,
+      name: row.name,
+      description: row.description ?? '',
+      legacyManpowerId: row.legacyManpowerId ?? null,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelCoverageCategoryForm(): void {
+    this.showCoverageCategoryForm = false;
+    this.editingCoverageCategoryId = null;
+  }
+
+  saveCoverageCategory(): void {
+    if (this.coverageCategoryForm.invalid) {
+      this.coverageCategoryForm.markAllAsTouched();
+      return;
+    }
+    const value = this.coverageCategoryForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      description: value.description || undefined,
+      legacyManpowerId: value.legacyManpowerId ?? undefined,
+      isActive: value.isActive,
+    };
+    this.savingCoverageCategory = true;
+    const request$ =
+      this.editingCoverageCategoryId != null
+        ? this.coverageCategoryService.update(this.editingCoverageCategoryId, payload)
+        : this.coverageCategoryService.create(this.withCreateScope(payload));
+    request$.subscribe({
+      next: () => {
+        this.savingCoverageCategory = false;
+        this.cancelCoverageCategoryForm();
+        this.loadCoverageCategorys();
+        this.snack.open('C Categoría cubrimiento guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingCoverageCategory = false;
+        this.snack.open('No se pudo guardar c categoría cubrimiento', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+  openCreateCharacteristic(): void {
+    this.resetCreateScope();
+    this.editingCharacteristicId = null;
+    this.showCharacteristicForm = true;
+    this.characteristicForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      description: '',
+      legacyManpowerId: null,
+      isActive: true,
+    });
+  }
+
+  openEditCharacteristic(row: CatalogCharacteristic): void {
+    this.editingCharacteristicId = row.id;
+    this.showCharacteristicForm = true;
+    this.characteristicForm.patchValue({
+      countryId: row.countryId ?? this.selectedCountryId,
+      code: row.code,
+      name: row.name,
+      description: row.description ?? '',
+      legacyManpowerId: row.legacyManpowerId ?? null,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelCharacteristicForm(): void {
+    this.showCharacteristicForm = false;
+    this.editingCharacteristicId = null;
+  }
+
+  saveCharacteristic(): void {
+    if (this.characteristicForm.invalid) {
+      this.characteristicForm.markAllAsTouched();
+      return;
+    }
+    const value = this.characteristicForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      description: value.description || undefined,
+      legacyManpowerId: value.legacyManpowerId ?? undefined,
+      isActive: value.isActive,
+    };
+    this.savingCharacteristic = true;
+    const request$ =
+      this.editingCharacteristicId != null
+        ? this.characteristicService.update(this.editingCharacteristicId, payload)
+        : this.characteristicService.create(this.withCreateScope(payload));
+    request$.subscribe({
+      next: () => {
+        this.savingCharacteristic = false;
+        this.cancelCharacteristicForm();
+        this.loadCharacteristics();
+        this.snack.open('Características guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingCharacteristic = false;
+        this.snack.open('No se pudo guardar características', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+  openCreateCategory(): void {
+    this.resetCreateScope();
+    this.editingCategoryId = null;
+    this.showCategoryForm = true;
+    this.categoryForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      description: '',
+      legacyManpowerId: null,
+      isActive: true,
+    });
+  }
+
+  openEditCategory(row: CatalogCategory): void {
+    this.editingCategoryId = row.id;
+    this.showCategoryForm = true;
+    this.categoryForm.patchValue({
+      countryId: row.countryId ?? this.selectedCountryId,
+      code: row.code,
+      name: row.name,
+      description: row.description ?? '',
+      legacyManpowerId: row.legacyManpowerId ?? null,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelCategoryForm(): void {
+    this.showCategoryForm = false;
+    this.editingCategoryId = null;
+  }
+
+  saveCategory(): void {
+    if (this.categoryForm.invalid) {
+      this.categoryForm.markAllAsTouched();
+      return;
+    }
+    const value = this.categoryForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      description: value.description || undefined,
+      legacyManpowerId: value.legacyManpowerId ?? undefined,
+      isActive: value.isActive,
+    };
+    this.savingCategory = true;
+    const request$ =
+      this.editingCategoryId != null
+        ? this.categoryService.update(this.editingCategoryId, payload)
+        : this.categoryService.create(this.withCreateScope(payload));
+    request$.subscribe({
+      next: () => {
+        this.savingCategory = false;
+        this.cancelCategoryForm();
+        this.loadCategorys();
+        this.snack.open('Categoría guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingCategory = false;
+        this.snack.open('No se pudo guardar categoría', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+  openCreateMaritalStatus(): void {
+    this.resetCreateScope();
+    this.editingMaritalStatusId = null;
+    this.showMaritalStatusForm = true;
+    this.maritalStatusForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      description: '',
+      legacyManpowerId: null,
+      isActive: true,
+    });
+  }
+
+  openEditMaritalStatus(row: CatalogMaritalStatus): void {
+    this.editingMaritalStatusId = row.id;
+    this.showMaritalStatusForm = true;
+    this.maritalStatusForm.patchValue({
+      countryId: row.countryId ?? this.selectedCountryId,
+      code: row.code,
+      name: row.name,
+      description: row.description ?? '',
+      legacyManpowerId: row.legacyManpowerId ?? null,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelMaritalStatusForm(): void {
+    this.showMaritalStatusForm = false;
+    this.editingMaritalStatusId = null;
+  }
+
+  saveMaritalStatus(): void {
+    if (this.maritalStatusForm.invalid) {
+      this.maritalStatusForm.markAllAsTouched();
+      return;
+    }
+    const value = this.maritalStatusForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      description: value.description || undefined,
+      legacyManpowerId: value.legacyManpowerId ?? undefined,
+      isActive: value.isActive,
+    };
+    this.savingMaritalStatus = true;
+    const request$ =
+      this.editingMaritalStatusId != null
+        ? this.maritalStatusService.update(this.editingMaritalStatusId, payload)
+        : this.maritalStatusService.create(this.withCreateScope(payload));
+    request$.subscribe({
+      next: () => {
+        this.savingMaritalStatus = false;
+        this.cancelMaritalStatusForm();
+        this.loadMaritalStatuss();
+        this.snack.open('Estado civil guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingMaritalStatus = false;
+        this.snack.open('No se pudo guardar estado civil', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+  openCreateExperienceLevel(): void {
+    this.resetCreateScope();
+    this.editingExperienceLevelId = null;
+    this.showExperienceLevelForm = true;
+    this.experienceLevelForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      description: '',
+      legacyManpowerId: null,
+      isActive: true,
+    });
+  }
+
+  openEditExperienceLevel(row: CatalogExperienceLevel): void {
+    this.editingExperienceLevelId = row.id;
+    this.showExperienceLevelForm = true;
+    this.experienceLevelForm.patchValue({
+      countryId: row.countryId ?? this.selectedCountryId,
+      code: row.code,
+      name: row.name,
+      description: row.description ?? '',
+      legacyManpowerId: row.legacyManpowerId ?? null,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelExperienceLevelForm(): void {
+    this.showExperienceLevelForm = false;
+    this.editingExperienceLevelId = null;
+  }
+
+  saveExperienceLevel(): void {
+    if (this.experienceLevelForm.invalid) {
+      this.experienceLevelForm.markAllAsTouched();
+      return;
+    }
+    const value = this.experienceLevelForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      description: value.description || undefined,
+      legacyManpowerId: value.legacyManpowerId ?? undefined,
+      isActive: value.isActive,
+    };
+    this.savingExperienceLevel = true;
+    const request$ =
+      this.editingExperienceLevelId != null
+        ? this.experienceLevelService.update(this.editingExperienceLevelId, payload)
+        : this.experienceLevelService.create(this.withCreateScope(payload));
+    request$.subscribe({
+      next: () => {
+        this.savingExperienceLevel = false;
+        this.cancelExperienceLevelForm();
+        this.loadExperienceLevels();
+        this.snack.open('Experiencia guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingExperienceLevel = false;
+        this.snack.open('No se pudo guardar experiencia', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+  openCreateTool(): void {
+    this.resetCreateScope();
+    this.editingToolId = null;
+    this.showToolForm = true;
+    this.toolForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      description: '',
+      legacyManpowerId: null,
+      isActive: true,
+    });
+  }
+
+  openEditTool(row: CatalogTool): void {
+    this.editingToolId = row.id;
+    this.showToolForm = true;
+    this.toolForm.patchValue({
+      countryId: row.countryId ?? this.selectedCountryId,
+      code: row.code,
+      name: row.name,
+      description: row.description ?? '',
+      legacyManpowerId: row.legacyManpowerId ?? null,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelToolForm(): void {
+    this.showToolForm = false;
+    this.editingToolId = null;
+  }
+
+  saveTool(): void {
+    if (this.toolForm.invalid) {
+      this.toolForm.markAllAsTouched();
+      return;
+    }
+    const value = this.toolForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      description: value.description || undefined,
+      legacyManpowerId: value.legacyManpowerId ?? undefined,
+      isActive: value.isActive,
+    };
+    this.savingTool = true;
+    const request$ =
+      this.editingToolId != null
+        ? this.toolService.update(this.editingToolId, payload)
+        : this.toolService.create(this.withCreateScope(payload));
+    request$.subscribe({
+      next: () => {
+        this.savingTool = false;
+        this.cancelToolForm();
+        this.loadTools();
+        this.snack.open('Herramienta guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingTool = false;
+        this.snack.open('No se pudo guardar herramienta', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+  openCreateWorkSchedule(): void {
+    this.resetCreateScope();
+    this.editingWorkScheduleId = null;
+    this.showWorkScheduleForm = true;
+    this.workScheduleForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      description: '',
+      legacyManpowerId: null,
+      isActive: true,
+    });
+  }
+
+  openEditWorkSchedule(row: CatalogWorkSchedule): void {
+    this.editingWorkScheduleId = row.id;
+    this.showWorkScheduleForm = true;
+    this.workScheduleForm.patchValue({
+      countryId: row.countryId ?? this.selectedCountryId,
+      code: row.code,
+      name: row.name,
+      description: row.description ?? '',
+      legacyManpowerId: row.legacyManpowerId ?? null,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelWorkScheduleForm(): void {
+    this.showWorkScheduleForm = false;
+    this.editingWorkScheduleId = null;
+  }
+
+  saveWorkSchedule(): void {
+    if (this.workScheduleForm.invalid) {
+      this.workScheduleForm.markAllAsTouched();
+      return;
+    }
+    const value = this.workScheduleForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      description: value.description || undefined,
+      legacyManpowerId: value.legacyManpowerId ?? undefined,
+      isActive: value.isActive,
+    };
+    this.savingWorkSchedule = true;
+    const request$ =
+      this.editingWorkScheduleId != null
+        ? this.workScheduleService.update(this.editingWorkScheduleId, payload)
+        : this.workScheduleService.create(this.withCreateScope(payload));
+    request$.subscribe({
+      next: () => {
+        this.savingWorkSchedule = false;
+        this.cancelWorkScheduleForm();
+        this.loadWorkSchedules();
+        this.snack.open('Horario trabajo guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingWorkSchedule = false;
+        this.snack.open('No se pudo guardar horario trabajo', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+  openCreateWorkplace(): void {
+    this.resetCreateScope();
+    this.editingWorkplaceId = null;
+    this.showWorkplaceForm = true;
+    this.workplaceForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      description: '',
+      legacyManpowerId: null,
+      isActive: true,
+    });
+  }
+
+  openEditWorkplace(row: CatalogWorkplace): void {
+    this.editingWorkplaceId = row.id;
+    this.showWorkplaceForm = true;
+    this.workplaceForm.patchValue({
+      countryId: row.countryId ?? this.selectedCountryId,
+      code: row.code,
+      name: row.name,
+      description: row.description ?? '',
+      legacyManpowerId: row.legacyManpowerId ?? null,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelWorkplaceForm(): void {
+    this.showWorkplaceForm = false;
+    this.editingWorkplaceId = null;
+  }
+
+  saveWorkplace(): void {
+    if (this.workplaceForm.invalid) {
+      this.workplaceForm.markAllAsTouched();
+      return;
+    }
+    const value = this.workplaceForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      description: value.description || undefined,
+      legacyManpowerId: value.legacyManpowerId ?? undefined,
+      isActive: value.isActive,
+    };
+    this.savingWorkplace = true;
+    const request$ =
+      this.editingWorkplaceId != null
+        ? this.workplaceService.update(this.editingWorkplaceId, payload)
+        : this.workplaceService.create(this.withCreateScope(payload));
+    request$.subscribe({
+      next: () => {
+        this.savingWorkplace = false;
+        this.cancelWorkplaceForm();
+        this.loadWorkplaces();
+        this.snack.open('Lugar trabajo guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingWorkplace = false;
+        this.snack.open('No se pudo guardar lugar trabajo', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+  openCreateRequirement(): void {
+    this.resetCreateScope();
+    this.editingRequirementId = null;
+    this.showRequirementForm = true;
+    this.requirementForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      description: '',
+      legacyManpowerId: null,
+      isActive: true,
+    });
+  }
+
+  openEditRequirement(row: CatalogRequirement): void {
+    this.editingRequirementId = row.id;
+    this.showRequirementForm = true;
+    this.requirementForm.patchValue({
+      countryId: row.countryId ?? this.selectedCountryId,
+      code: row.code,
+      name: row.name,
+      description: row.description ?? '',
+      legacyManpowerId: row.legacyManpowerId ?? null,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelRequirementForm(): void {
+    this.showRequirementForm = false;
+    this.editingRequirementId = null;
+  }
+
+  saveRequirement(): void {
+    if (this.requirementForm.invalid) {
+      this.requirementForm.markAllAsTouched();
+      return;
+    }
+    const value = this.requirementForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      description: value.description || undefined,
+      legacyManpowerId: value.legacyManpowerId ?? undefined,
+      isActive: value.isActive,
+    };
+    this.savingRequirement = true;
+    const request$ =
+      this.editingRequirementId != null
+        ? this.requirementService.update(this.editingRequirementId, payload)
+        : this.requirementService.create(this.withCreateScope(payload));
+    request$.subscribe({
+      next: () => {
+        this.savingRequirement = false;
+        this.cancelRequirementForm();
+        this.loadRequirements();
+        this.snack.open('Requisitos guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingRequirement = false;
+        this.snack.open('No se pudo guardar requisitos', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+  openCreateResponsibilityLevel(): void {
+    this.resetCreateScope();
+    this.editingResponsibilityLevelId = null;
+    this.showResponsibilityLevelForm = true;
+    this.responsibilityLevelForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      description: '',
+      legacyManpowerId: null,
+      isActive: true,
+    });
+  }
+
+  openEditResponsibilityLevel(row: CatalogResponsibilityLevel): void {
+    this.editingResponsibilityLevelId = row.id;
+    this.showResponsibilityLevelForm = true;
+    this.responsibilityLevelForm.patchValue({
+      countryId: row.countryId ?? this.selectedCountryId,
+      code: row.code,
+      name: row.name,
+      description: row.description ?? '',
+      legacyManpowerId: row.legacyManpowerId ?? null,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelResponsibilityLevelForm(): void {
+    this.showResponsibilityLevelForm = false;
+    this.editingResponsibilityLevelId = null;
+  }
+
+  saveResponsibilityLevel(): void {
+    if (this.responsibilityLevelForm.invalid) {
+      this.responsibilityLevelForm.markAllAsTouched();
+      return;
+    }
+    const value = this.responsibilityLevelForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      description: value.description || undefined,
+      legacyManpowerId: value.legacyManpowerId ?? undefined,
+      isActive: value.isActive,
+    };
+    this.savingResponsibilityLevel = true;
+    const request$ =
+      this.editingResponsibilityLevelId != null
+        ? this.responsibilityLevelService.update(this.editingResponsibilityLevelId, payload)
+        : this.responsibilityLevelService.create(this.withCreateScope(payload));
+    request$.subscribe({
+      next: () => {
+        this.savingResponsibilityLevel = false;
+        this.cancelResponsibilityLevelForm();
+        this.loadResponsibilityLevels();
+        this.snack.open('Responsabilidad guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingResponsibilityLevel = false;
+        this.snack.open('No se pudo guardar responsabilidad', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+  openCreateDisabilityType(): void {
+    this.resetCreateScope();
+    this.editingDisabilityTypeId = null;
+    this.showDisabilityTypeForm = true;
+    this.disabilityTypeForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      description: '',
+      legacyManpowerId: null,
+      isActive: true,
+    });
+  }
+
+  openEditDisabilityType(row: CatalogDisabilityType): void {
+    this.editingDisabilityTypeId = row.id;
+    this.showDisabilityTypeForm = true;
+    this.disabilityTypeForm.patchValue({
+      countryId: row.countryId ?? this.selectedCountryId,
+      code: row.code,
+      name: row.name,
+      description: row.description ?? '',
+      legacyManpowerId: row.legacyManpowerId ?? null,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelDisabilityTypeForm(): void {
+    this.showDisabilityTypeForm = false;
+    this.editingDisabilityTypeId = null;
+  }
+
+  saveDisabilityType(): void {
+    if (this.disabilityTypeForm.invalid) {
+      this.disabilityTypeForm.markAllAsTouched();
+      return;
+    }
+    const value = this.disabilityTypeForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      description: value.description || undefined,
+      legacyManpowerId: value.legacyManpowerId ?? undefined,
+      isActive: value.isActive,
+    };
+    this.savingDisabilityType = true;
+    const request$ =
+      this.editingDisabilityTypeId != null
+        ? this.disabilityTypeService.update(this.editingDisabilityTypeId, payload)
+        : this.disabilityTypeService.create(this.withCreateScope(payload));
+    request$.subscribe({
+      next: () => {
+        this.savingDisabilityType = false;
+        this.cancelDisabilityTypeForm();
+        this.loadDisabilityTypes();
+        this.snack.open('Tipo discapacidad guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingDisabilityType = false;
+        this.snack.open('No se pudo guardar tipo discapacidad', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+  openCreateBusinessUnit(): void {
+    this.resetCreateScope();
+    this.editingBusinessUnitId = null;
+    this.showBusinessUnitForm = true;
+    this.businessUnitForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      description: '',
+      legacyManpowerId: null,
+      isActive: true,
+    });
+  }
+
+  openEditBusinessUnit(row: CatalogBusinessUnit): void {
+    this.editingBusinessUnitId = row.id;
+    this.showBusinessUnitForm = true;
+    this.businessUnitForm.patchValue({
+      countryId: row.countryId ?? this.selectedCountryId,
+      code: row.code,
+      name: row.name,
+      description: row.description ?? '',
+      legacyManpowerId: row.legacyManpowerId ?? null,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelBusinessUnitForm(): void {
+    this.showBusinessUnitForm = false;
+    this.editingBusinessUnitId = null;
+  }
+
+  saveBusinessUnit(): void {
+    if (this.businessUnitForm.invalid) {
+      this.businessUnitForm.markAllAsTouched();
+      return;
+    }
+    const value = this.businessUnitForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      description: value.description || undefined,
+      legacyManpowerId: value.legacyManpowerId ?? undefined,
+      isActive: value.isActive,
+    };
+    this.savingBusinessUnit = true;
+    const request$ =
+      this.editingBusinessUnitId != null
+        ? this.businessUnitService.update(this.editingBusinessUnitId, payload)
+        : this.businessUnitService.create(this.withCreateScope(payload));
+    request$.subscribe({
+      next: () => {
+        this.savingBusinessUnit = false;
+        this.cancelBusinessUnitForm();
+        this.loadBusinessUnits();
+        this.snack.open('Unidad de negocio guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingBusinessUnit = false;
+        this.snack.open('No se pudo guardar unidad de negocio', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+  openCreatePositionType(): void {
+    this.resetCreateScope();
+    this.editingPositionTypeId = null;
+    this.showPositionTypeForm = true;
+    this.positionTypeForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      description: '',
+      legacyManpowerId: null,
+      isActive: true,
+    });
+  }
+
+  openEditPositionType(row: CatalogPositionType): void {
+    this.editingPositionTypeId = row.id;
+    this.showPositionTypeForm = true;
+    this.positionTypeForm.patchValue({
+      countryId: row.countryId ?? this.selectedCountryId,
+      code: row.code,
+      name: row.name,
+      description: row.description ?? '',
+      legacyManpowerId: row.legacyManpowerId ?? null,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelPositionTypeForm(): void {
+    this.showPositionTypeForm = false;
+    this.editingPositionTypeId = null;
+  }
+
+  savePositionType(): void {
+    if (this.positionTypeForm.invalid) {
+      this.positionTypeForm.markAllAsTouched();
+      return;
+    }
+    const value = this.positionTypeForm.getRawValue();
+    const payload = {
+      countryId: value.countryId!,
+      code: value.code,
+      name: value.name,
+      description: value.description || undefined,
+      legacyManpowerId: value.legacyManpowerId ?? undefined,
+      isActive: value.isActive,
+    };
+    this.savingPositionType = true;
+    const request$ =
+      this.editingPositionTypeId != null
+        ? this.positionTypeService.update(this.editingPositionTypeId, payload)
+        : this.positionTypeService.create(this.withCreateScope(payload));
+    request$.subscribe({
+      next: () => {
+        this.savingPositionType = false;
+        this.cancelPositionTypeForm();
+        this.loadPositionTypes();
+        this.snack.open('Puesto guardado', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingPositionType = false;
+        this.snack.open('No se pudo guardar puesto', 'Cerrar', { duration: 4000 });
       },
     });
   }
@@ -2145,6 +3631,19 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingRequisitionType = false;
         this.cancelRequisitionTypeForm();
         this.loadRequisitionTypes();
+    this.loadCoverageCategorys();
+    this.loadCharacteristics();
+    this.loadCategorys();
+    this.loadMaritalStatuss();
+    this.loadExperienceLevels();
+    this.loadTools();
+    this.loadWorkSchedules();
+    this.loadWorkplaces();
+    this.loadRequirements();
+    this.loadResponsibilityLevels();
+    this.loadDisabilityTypes();
+    this.loadBusinessUnits();
+    this.loadPositionTypes();
         this.snack.open('Tipo de requisición guardado', 'Cerrar', { duration: 3000 });
       },
       error: () => {

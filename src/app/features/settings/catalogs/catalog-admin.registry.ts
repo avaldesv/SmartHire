@@ -31,7 +31,20 @@ export type CatalogPanelKey =
   | 'documentType'
   | 'requisitionType'
   | 'mpCountry'
-  | 'mpCoverageType';
+  | 'mpCoverageType'
+  | 'coverageCategory'
+  | 'characteristic'
+  | 'category'
+  | 'maritalStatus'
+  | 'experienceLevel'
+  | 'tool'
+  | 'workSchedule'
+  | 'workplace'
+  | 'requirement'
+  | 'responsibilityLevel'
+  | 'disabilityType'
+  | 'businessUnit'
+  | 'positionType';
 
 export interface CatalogRegistryEntry {
   id: string;
