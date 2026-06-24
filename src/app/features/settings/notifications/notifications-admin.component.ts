@@ -46,6 +46,7 @@ export class NotificationsAdminComponent implements OnInit {
   loading = true;
   saving = false;
   savingId: number | null = null;
+  deletingId: number | null = null;
   showForm = false;
   editingId: number | null = null;
   data: NotificationTemplateItem[] = [];
@@ -172,5 +173,26 @@ export class NotificationsAdminComponent implements OnInit {
           this.snack.open('No se pudo actualizar la plantilla', 'Cerrar', { duration: 3500 });
         },
       });
+  }
+
+  deleteTemplate(row: NotificationTemplateItem): void {
+    if (!confirm(`¿Eliminar la plantilla "${row.action}"? Esta acción no se puede deshacer.`)) {
+      return;
+    }
+    this.deletingId = row.id;
+    this.notificationApi.delete(row.id).subscribe({
+      next: () => {
+        this.deletingId = null;
+        if (this.editingId === row.id) {
+          this.cancelForm();
+        }
+        this.snack.open('Plantilla eliminada', 'Cerrar', { duration: 3000 });
+        this.load();
+      },
+      error: () => {
+        this.deletingId = null;
+        this.snack.open('No se pudo eliminar la plantilla', 'Cerrar', { duration: 3500 });
+      },
+    });
   }
 }
