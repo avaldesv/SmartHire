@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, effect, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
@@ -46,6 +47,10 @@ import { CatalogKinship } from '../../../shared/models/catalog-kinship.model';
 import { CatalogLanguage } from '../../../shared/models/catalog-language.model';
 import { CatalogShift } from '../../../shared/models/catalog-shift.model';
 import { PermissionService } from '../../../core/services/permission.service';
+import { TenantContextService } from '../../../core/services/tenant-context.service';
+import { ScopeBadgeComponent } from '../../../shared/components/scope-badge/scope-badge.component';
+import { TenantDataScope } from '../../../shared/models/tenant-data-scope.model';
+import { canEditScopedRecord } from '../../../shared/utils/tenant-scope.util';
 
 @Component({
   selector: 'sh-catalogs-admin',
@@ -63,12 +68,16 @@ import { PermissionService } from '../../../core/services/permission.service';
     MatCheckboxModule,
     MatSelectModule,
     MatSnackBarModule,
+    MatRadioModule,
+    ScopeBadgeComponent,
   ],
   templateUrl: './catalogs-admin.component.html',
   styleUrl: './catalogs-admin.component.scss',
 })
 export class CatalogsAdminComponent implements OnInit {
   private readonly permissions = inject(PermissionService);
+  private readonly tenantContext = inject(TenantContextService);
+  private tenantReloadReady = false;
   readonly isGlobalAdmin = computed(() => this.permissions.isGlobalAdmin());
 
   private readonly genderService = inject(CatalogGenderService);
@@ -90,6 +99,37 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly geographyService = inject(CatalogGeographyService);
   private readonly snack = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
+
+  readonly createScopeForm = this.fb.nonNullable.group({
+    scope: ['TENANT' as TenantDataScope],
+  });
+
+  constructor() {
+    effect(() => {
+      this.tenantContext.activeCompanyId();
+      if (!this.tenantReloadReady) {
+        return;
+      }
+      this.cancelAllForms();
+      this.reloadAllCatalogData();
+    });
+  }
+
+  canEditRecord(companyId?: number | null): boolean {
+    return canEditScopedRecord(companyId, this.isGlobalAdmin());
+  }
+
+  private createScope(): TenantDataScope {
+    return this.isGlobalAdmin() ? this.createScopeForm.controls.scope.value : 'TENANT';
+  }
+
+  private resetCreateScope(): void {
+    this.createScopeForm.controls.scope.setValue('TENANT');
+  }
+
+  private withCreateScope<T extends object>(payload: T): T & { scope: TenantDataScope } {
+    return { ...payload, scope: this.createScope() };
+  }
 
   countries: CatalogCountry[] = [];
   selectedCountryId: number | null = null;
@@ -278,26 +318,26 @@ export class CatalogsAdminComponent implements OnInit {
   editingNeighborhoodId: number | null = null;
   showNeighborhoodForm = false;
 
-  readonly genderColumns = ['code', 'name', 'value', 'active', 'actions'];
-  readonly kinshipColumns = ['code', 'name', 'active', 'actions'];
-  readonly companyColumns = ['code', 'name', 'active', 'actions'];
-  readonly currencyColumns = ['code', 'name', 'symbol', 'denomination', 'active', 'actions'];
-  readonly careerColumns = ['code', 'name', 'active', 'actions'];
-  readonly languageColumns = ['code', 'name', 'active', 'actions'];
-  readonly shiftColumns = ['code', 'name', 'active', 'actions'];
-  readonly benefitColumns = ['code', 'name', 'active', 'actions'];
-  readonly documentTypeColumns = ['code', 'name', 'documentType', 'validatesWithAi', 'active', 'actions'];
-  readonly brandColumns = ['code', 'name', 'active', 'actions'];
-  readonly contractTypeColumns = ['code', 'name', 'description', 'active', 'actions'];
-  readonly coverageTypeColumns = ['code', 'name', 'description', 'active', 'actions'];
-  readonly educationLevelColumns = ['code', 'name', 'description', 'requiresCareer', 'active', 'actions'];
-  readonly languageLevelColumns = ['code', 'name', 'appliesToCareer', 'active', 'actions'];
-  readonly requisitionTypeColumns = ['code', 'name', 'description', 'active', 'actions'];
-  readonly clientCompanyColumns = ['code', 'name', 'tradeName', 'taxId', 'r3Interface', 'active', 'actions'];
-  readonly countryColumns = ['code', 'secondaryCode', 'name', 'active', 'actions'];
-  readonly stateColumns = ['code', 'name', 'shortDescription', 'active', 'actions'];
-  readonly municipalityColumns = ['code', 'name', 'active', 'actions'];
-  readonly neighborhoodColumns = ['name', 'postalCode', 'active', 'actions'];
+  readonly genderColumns = ['code', 'name', 'value', 'active', 'scope', 'actions'];
+  readonly kinshipColumns = ['code', 'name', 'active', 'scope', 'actions'];
+  readonly companyColumns = ['code', 'name', 'active', 'scope', 'actions'];
+  readonly currencyColumns = ['code', 'name', 'symbol', 'denomination', 'active', 'scope', 'actions'];
+  readonly careerColumns = ['code', 'name', 'active', 'scope', 'actions'];
+  readonly languageColumns = ['code', 'name', 'active', 'scope', 'actions'];
+  readonly shiftColumns = ['code', 'name', 'active', 'scope', 'actions'];
+  readonly benefitColumns = ['code', 'name', 'active', 'scope', 'actions'];
+  readonly documentTypeColumns = ['code', 'name', 'documentType', 'validatesWithAi', 'active', 'scope', 'actions'];
+  readonly brandColumns = ['code', 'name', 'active', 'scope', 'actions'];
+  readonly contractTypeColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
+  readonly coverageTypeColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
+  readonly educationLevelColumns = ['code', 'name', 'description', 'requiresCareer', 'active', 'scope', 'actions'];
+  readonly languageLevelColumns = ['code', 'name', 'appliesToCareer', 'active', 'scope', 'actions'];
+  readonly requisitionTypeColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
+  readonly clientCompanyColumns = ['code', 'name', 'tradeName', 'taxId', 'r3Interface', 'active', 'scope', 'actions'];
+  readonly countryColumns = ['code', 'secondaryCode', 'name', 'active', 'scope', 'actions'];
+  readonly stateColumns = ['code', 'name', 'shortDescription', 'active', 'scope', 'actions'];
+  readonly municipalityColumns = ['code', 'name', 'active', 'scope', 'actions'];
+  readonly neighborhoodColumns = ['name', 'postalCode', 'active', 'scope', 'actions'];
 
   readonly genderForm = this.fb.nonNullable.group({
     countryId: [null as number | null, Validators.required],
@@ -452,7 +492,40 @@ export class CatalogsAdminComponent implements OnInit {
     isActive: [true],
   });
 
+
+  private reloadAllCatalogData(): void {
+    this.loadKinships();
+    this.loadCompanies();
+    this.loadLanguages();
+    this.loadCountryRecords();
+    this.reloadCountryDropdown();
+  }
+
+  private cancelAllForms(): void {
+    this.cancelGenderForm();
+    this.cancelKinshipForm();
+    this.cancelCompanyForm();
+    this.cancelCurrencyForm();
+    this.cancelCareerForm();
+    this.cancelLanguageForm();
+    this.cancelShiftForm();
+    this.cancelBenefitForm();
+    this.cancelBrandForm();
+    this.cancelDocumentTypeForm();
+    this.cancelContractTypeForm();
+    this.cancelCoverageTypeForm();
+    this.cancelEducationLevelForm();
+    this.cancelLanguageLevelForm();
+    this.cancelRequisitionTypeForm();
+    this.cancelClientCompanyForm();
+    this.cancelCountryForm();
+    this.cancelStateForm();
+    this.cancelMunicipalityForm();
+    this.cancelNeighborhoodForm();
+  }
+
   ngOnInit(): void {
+    this.tenantReloadReady = true;
     this.loadKinships();
     this.loadCompanies();
     this.loadLanguages();
@@ -945,6 +1018,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   openCreateGender(): void {
+    this.resetCreateScope();
     this.editingGenderId = null;
     this.showGenderForm = true;
     this.genderForm.reset({ countryId: this.selectedCountryId, code: '', name: '', value: '', isActive: true });
@@ -984,7 +1058,7 @@ export class CatalogsAdminComponent implements OnInit {
     const request$ =
       this.editingGenderId != null
         ? this.genderService.update(this.editingGenderId, payload)
-        : this.genderService.create(payload);
+        : this.genderService.create(this.withCreateScope(payload));
     request$.subscribe({
       next: () => {
         this.savingGender = false;
@@ -1000,6 +1074,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   openCreateKinship(): void {
+    this.resetCreateScope();
     this.editingKinshipId = null;
     this.showKinshipForm = true;
     this.kinshipForm.reset({ code: '', name: '', isActive: true });
@@ -1026,7 +1101,7 @@ export class CatalogsAdminComponent implements OnInit {
     const request$ =
       this.editingKinshipId != null
         ? this.kinshipService.update(this.editingKinshipId, value)
-        : this.kinshipService.create(value);
+        : this.kinshipService.create(this.withCreateScope(value));
     request$.subscribe({
       next: () => {
         this.savingKinship = false;
@@ -1042,6 +1117,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   openCreateCompany(): void {
+    this.resetCreateScope();
     this.editingCompanyId = null;
     this.showCompanyForm = true;
     this.companyForm.reset({ code: '', name: '', isActive: true });
@@ -1084,6 +1160,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   openCreateCurrency(): void {
+    this.resetCreateScope();
     this.editingCurrencyId = null;
     this.showCurrencyForm = true;
     this.currencyForm.reset({
@@ -1132,7 +1209,7 @@ export class CatalogsAdminComponent implements OnInit {
     const request$ =
       this.editingCurrencyId != null
         ? this.currencyService.update(this.editingCurrencyId, payload)
-        : this.currencyService.create(payload);
+        : this.currencyService.create(this.withCreateScope(payload));
     request$.subscribe({
       next: () => {
         this.savingCurrency = false;
@@ -1148,6 +1225,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   openCreateCareer(): void {
+    this.resetCreateScope();
     this.editingCareerId = null;
     this.showCareerForm = true;
     this.careerForm.reset({ countryId: this.selectedCountryId, code: '', name: '', isActive: true });
@@ -1185,7 +1263,7 @@ export class CatalogsAdminComponent implements OnInit {
     const request$ =
       this.editingCareerId != null
         ? this.careerService.update(this.editingCareerId, payload)
-        : this.careerService.create(payload);
+        : this.careerService.create(this.withCreateScope(payload));
     request$.subscribe({
       next: () => {
         this.savingCareer = false;
@@ -1201,6 +1279,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   openCreateLanguage(): void {
+    this.resetCreateScope();
     this.editingLanguageId = null;
     this.showLanguageForm = true;
     this.languageForm.reset({ code: '', name: '', isActive: true });
@@ -1227,7 +1306,7 @@ export class CatalogsAdminComponent implements OnInit {
     const request$ =
       this.editingLanguageId != null
         ? this.languageService.update(this.editingLanguageId, value)
-        : this.languageService.create(value);
+        : this.languageService.create(this.withCreateScope(value));
     request$.subscribe({
       next: () => {
         this.savingLanguage = false;
@@ -1243,6 +1322,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   openCreateShift(): void {
+    this.resetCreateScope();
     this.editingShiftId = null;
     this.showShiftForm = true;
     this.shiftForm.reset({ countryId: this.selectedCountryId, code: '', name: '', isActive: true });
@@ -1280,7 +1360,7 @@ export class CatalogsAdminComponent implements OnInit {
     const request$ =
       this.editingShiftId != null
         ? this.shiftService.update(this.editingShiftId, payload)
-        : this.shiftService.create(payload);
+        : this.shiftService.create(this.withCreateScope(payload));
     request$.subscribe({
       next: () => {
         this.savingShift = false;
@@ -1296,6 +1376,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   openCreateBenefit(): void {
+    this.resetCreateScope();
     this.editingBenefitId = null;
     this.showBenefitForm = true;
     this.benefitForm.reset({ countryId: this.selectedCountryId, code: '', name: '', isActive: true });
@@ -1333,7 +1414,7 @@ export class CatalogsAdminComponent implements OnInit {
     const request$ =
       this.editingBenefitId != null
         ? this.benefitService.update(this.editingBenefitId, payload)
-        : this.benefitService.create(payload);
+        : this.benefitService.create(this.withCreateScope(payload));
     request$.subscribe({
       next: () => {
         this.savingBenefit = false;
@@ -1349,6 +1430,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   openCreateDocumentType(): void {
+    this.resetCreateScope();
     this.editingDocumentTypeId = null;
     this.showDocumentTypeForm = true;
     this.documentTypeForm.reset({
@@ -1397,7 +1479,7 @@ export class CatalogsAdminComponent implements OnInit {
     const request$ =
       this.editingDocumentTypeId != null
         ? this.documentTypeService.update(this.editingDocumentTypeId, payload)
-        : this.documentTypeService.create(payload);
+        : this.documentTypeService.create(this.withCreateScope(payload));
     request$.subscribe({
       next: () => {
         this.savingDocumentType = false;
@@ -1413,6 +1495,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   openCreateBrand(): void {
+    this.resetCreateScope();
     this.editingBrandId = null;
     this.showBrandForm = true;
     this.brandForm.reset({ countryId: this.selectedCountryId, code: '', name: '', isActive: true });
@@ -1450,7 +1533,7 @@ export class CatalogsAdminComponent implements OnInit {
     const request$ =
       this.editingBrandId != null
         ? this.brandService.update(this.editingBrandId, payload)
-        : this.brandService.create(payload);
+        : this.brandService.create(this.withCreateScope(payload));
     request$.subscribe({
       next: () => {
         this.savingBrand = false;
@@ -1466,6 +1549,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   openCreateContractType(): void {
+    this.resetCreateScope();
     this.editingContractTypeId = null;
     this.showContractTypeForm = true;
     this.contractTypeForm.reset({
@@ -1511,7 +1595,7 @@ export class CatalogsAdminComponent implements OnInit {
     const request$ =
       this.editingContractTypeId != null
         ? this.contractTypeService.update(this.editingContractTypeId, payload)
-        : this.contractTypeService.create(payload);
+        : this.contractTypeService.create(this.withCreateScope(payload));
     request$.subscribe({
       next: () => {
         this.savingContractType = false;
@@ -1527,6 +1611,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   openCreateCoverageType(): void {
+    this.resetCreateScope();
     this.editingCoverageTypeId = null;
     this.showCoverageTypeForm = true;
     this.coverageTypeForm.reset({
@@ -1572,7 +1657,7 @@ export class CatalogsAdminComponent implements OnInit {
     const request$ =
       this.editingCoverageTypeId != null
         ? this.coverageTypeService.update(this.editingCoverageTypeId, payload)
-        : this.coverageTypeService.create(payload);
+        : this.coverageTypeService.create(this.withCreateScope(payload));
     request$.subscribe({
       next: () => {
         this.savingCoverageType = false;
@@ -1588,6 +1673,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   openCreateEducationLevel(): void {
+    this.resetCreateScope();
     this.editingEducationLevelId = null;
     this.showEducationLevelForm = true;
     this.educationLevelForm.reset({
@@ -1636,7 +1722,7 @@ export class CatalogsAdminComponent implements OnInit {
     const request$ =
       this.editingEducationLevelId != null
         ? this.educationLevelService.update(this.editingEducationLevelId, payload)
-        : this.educationLevelService.create(payload);
+        : this.educationLevelService.create(this.withCreateScope(payload));
     request$.subscribe({
       next: () => {
         this.savingEducationLevel = false;
@@ -1652,6 +1738,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   openCreateLanguageLevel(): void {
+    this.resetCreateScope();
     this.editingLanguageLevelId = null;
     this.showLanguageLevelForm = true;
     this.languageLevelForm.reset({
@@ -1697,7 +1784,7 @@ export class CatalogsAdminComponent implements OnInit {
     const request$ =
       this.editingLanguageLevelId != null
         ? this.languageLevelService.update(this.editingLanguageLevelId, payload)
-        : this.languageLevelService.create(payload);
+        : this.languageLevelService.create(this.withCreateScope(payload));
     request$.subscribe({
       next: () => {
         this.savingLanguageLevel = false;
@@ -1713,6 +1800,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   openCreateRequisitionType(): void {
+    this.resetCreateScope();
     this.editingRequisitionTypeId = null;
     this.showRequisitionTypeForm = true;
     this.requisitionTypeForm.reset({
@@ -1758,7 +1846,7 @@ export class CatalogsAdminComponent implements OnInit {
     const request$ =
       this.editingRequisitionTypeId != null
         ? this.requisitionTypeService.update(this.editingRequisitionTypeId, payload)
-        : this.requisitionTypeService.create(payload);
+        : this.requisitionTypeService.create(this.withCreateScope(payload));
     request$.subscribe({
       next: () => {
         this.savingRequisitionType = false;
@@ -1774,6 +1862,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   openCreateClientCompany(): void {
+    this.resetCreateScope();
     this.editingClientCompanyId = null;
     this.showClientCompanyForm = true;
     this.clientCompanyForm.reset({
@@ -1828,7 +1917,7 @@ export class CatalogsAdminComponent implements OnInit {
     const request$ =
       this.editingClientCompanyId != null
         ? this.clientCompanyService.update(this.editingClientCompanyId, payload)
-        : this.clientCompanyService.create(payload);
+        : this.clientCompanyService.create(this.withCreateScope(payload));
     request$.subscribe({
       next: () => {
         this.savingClientCompany = false;
@@ -1887,6 +1976,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   openCreateCountry(): void {
+    this.resetCreateScope();
     this.editingCountryId = null;
     this.showCountryForm = true;
     this.countryForm.reset({ code: '', secondaryCode: '', name: '', isActive: true });
@@ -1918,7 +2008,7 @@ export class CatalogsAdminComponent implements OnInit {
     const request$ =
       this.editingCountryId != null
         ? this.geographyService.updateCountry(this.editingCountryId, value)
-        : this.geographyService.createCountry(value);
+        : this.geographyService.createCountry(this.withCreateScope(value));
     request$.subscribe({
       next: () => {
         this.savingCountry = false;
@@ -1935,6 +2025,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   openCreateState(): void {
+    this.resetCreateScope();
     this.editingStateId = null;
     this.showStateForm = true;
     this.stateForm.reset({
@@ -1980,7 +2071,7 @@ export class CatalogsAdminComponent implements OnInit {
     const request$ =
       this.editingStateId != null
         ? this.geographyService.updateState(this.editingStateId, payload)
-        : this.geographyService.createState(payload);
+        : this.geographyService.createState(this.withCreateScope(payload));
     request$.subscribe({
       next: () => {
         this.savingState = false;
@@ -2044,6 +2135,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   openCreateMunicipality(): void {
+    this.resetCreateScope();
     this.editingMunicipalityId = null;
     this.showMunicipalityForm = true;
     this.municipalityForm.reset({ stateId: this.selectedStateId, code: '', name: '', isActive: true });
@@ -2081,7 +2173,7 @@ export class CatalogsAdminComponent implements OnInit {
     const request$ =
       this.editingMunicipalityId != null
         ? this.geographyService.updateMunicipality(this.editingMunicipalityId, payload)
-        : this.geographyService.createMunicipality(payload);
+        : this.geographyService.createMunicipality(this.withCreateScope(payload));
     request$.subscribe({
       next: () => {
         this.savingMunicipality = false;
@@ -2098,6 +2190,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   openCreateNeighborhood(): void {
+    this.resetCreateScope();
     this.editingNeighborhoodId = null;
     this.showNeighborhoodForm = true;
     this.neighborhoodForm.reset({
@@ -2140,7 +2233,7 @@ export class CatalogsAdminComponent implements OnInit {
     const request$ =
       this.editingNeighborhoodId != null
         ? this.geographyService.updateNeighborhood(this.editingNeighborhoodId, payload)
-        : this.geographyService.createNeighborhood(payload);
+        : this.geographyService.createNeighborhood(this.withCreateScope(payload));
     request$.subscribe({
       next: () => {
         this.savingNeighborhood = false;

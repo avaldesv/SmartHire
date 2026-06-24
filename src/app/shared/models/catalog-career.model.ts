@@ -1,3 +1,4 @@
+import { TenantDataScope } from './tenant-data-scope.model';
 import { ApiPageResponse } from './catalog-position.model';
 
 export interface CatalogCareer {
@@ -6,6 +7,7 @@ export interface CatalogCareer {
   code: string;
   name: string;
   isActive: boolean;
+  companyId?: number | null;
 }
 
 export interface CreateCareerRequest {
@@ -13,6 +15,7 @@ export interface CreateCareerRequest {
   code: string;
   name: string;
   isActive?: boolean;
+  scope?: TenantDataScope;
 }
 
 export type UpdateCareerRequest = CreateCareerRequest;

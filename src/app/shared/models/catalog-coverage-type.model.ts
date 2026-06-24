@@ -1,3 +1,4 @@
+import { TenantDataScope } from './tenant-data-scope.model';
 import { ApiPageResponse } from './catalog-position.model';
 
 export interface CatalogCoverageType {
@@ -7,6 +8,7 @@ export interface CatalogCoverageType {
   name: string;
   description?: string;
   isActive: boolean;
+  companyId?: number | null;
 }
 
 export interface CreateCoverageTypeRequest {
@@ -15,6 +17,7 @@ export interface CreateCoverageTypeRequest {
   name: string;
   description?: string;
   isActive?: boolean;
+  scope?: TenantDataScope;
 }
 
 export type UpdateCoverageTypeRequest = CreateCoverageTypeRequest;

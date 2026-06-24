@@ -1,3 +1,4 @@
+import { TenantDataScope } from './tenant-data-scope.model';
 import { ApiPageResponse } from './catalog-position.model';
 
 export interface CatalogBenefit {
@@ -6,6 +7,7 @@ export interface CatalogBenefit {
   code: string;
   name: string;
   isActive: boolean;
+  companyId?: number | null;
 }
 
 export interface CreateBenefitRequest {
@@ -13,6 +15,7 @@ export interface CreateBenefitRequest {
   code: string;
   name: string;
   isActive?: boolean;
+  scope?: TenantDataScope;
 }
 
 export type UpdateBenefitRequest = CreateBenefitRequest;

@@ -19,6 +19,16 @@
       @if (showGenderForm) {
         <div class="sh-card form-card">
           <h4>{{ editingGenderId ? 'Editar género' : 'Nuevo género' }}</h4>
+            @if (isGlobalAdmin() && !editingGenderId) {
+              <div class="scope-selector" [formGroup]="createScopeForm">
+                <span class="scope-label">Ámbito del registro:</span>
+                <mat-radio-group formControlName="scope">
+                  <mat-radio-button value="TENANT">Tenant actual</mat-radio-button>
+                  <mat-radio-button value="GLOBAL">Global</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            }
+
           <form [formGroup]="genderForm" class="gender-form" (ngSubmit)="saveGender()">
             <mat-form-field appearance="outline">
               <mat-label>Clave</mat-label>
@@ -64,10 +74,16 @@
               <th mat-header-cell *matHeaderCellDef>Activo</th>
               <td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td>
             </ng-container>
-            <ng-container matColumnDef="actions">
+                        <ng-container matColumnDef="scope">
+              <th mat-header-cell *matHeaderCellDef>Ámbito</th>
+              <td mat-cell *matCellDef="let row">
+                <sh-scope-badge [companyId]="row.companyId" />
+              </td>
+            </ng-container>
+<ng-container matColumnDef="actions">
               <th mat-header-cell *matHeaderCellDef></th>
               <td mat-cell *matCellDef="let row">
-                <button mat-stroked-button type="button" (click)="openEditGender(row)">Editar</button>
+                <button mat-stroked-button type="button" (click)="openEditGender(row)" [disabled]="!canEditRecord(row.companyId)">Editar</button>
               </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="genderColumns"></tr>
@@ -95,6 +111,16 @@
       @if (showKinshipForm) {
         <div class="sh-card form-card">
           <h4>{{ editingKinshipId ? 'Editar parentesco' : 'Nuevo parentesco' }}</h4>
+            @if (isGlobalAdmin() && !editingKinshipId) {
+              <div class="scope-selector" [formGroup]="createScopeForm">
+                <span class="scope-label">Ámbito del registro:</span>
+                <mat-radio-group formControlName="scope">
+                  <mat-radio-button value="TENANT">Tenant actual</mat-radio-button>
+                  <mat-radio-button value="GLOBAL">Global</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            }
+
           <form [formGroup]="kinshipForm" class="gender-form" (ngSubmit)="saveKinship()">
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
@@ -114,7 +140,13 @@
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
-            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditKinship(row)">Editar</button></td></ng-container>
+                        <ng-container matColumnDef="scope">
+              <th mat-header-cell *matHeaderCellDef>Ámbito</th>
+              <td mat-cell *matCellDef="let row">
+                <sh-scope-badge [companyId]="row.companyId" />
+              </td>
+            </ng-container>
+<ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditKinship(row)" [disabled]="!canEditRecord(row.companyId)">Editar</button></td></ng-container>
             <tr mat-header-row *matHeaderRowDef="kinshipColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: kinshipColumns"></tr>
           </table>
@@ -135,6 +167,16 @@
       @if (showCompanyForm) {
         <div class="sh-card form-card">
           <h4>{{ editingCompanyId ? 'Editar compañía' : 'Nueva compañía' }}</h4>
+            @if (isGlobalAdmin() && !editingCompanyId) {
+              <div class="scope-selector" [formGroup]="createScopeForm">
+                <span class="scope-label">Ámbito del registro:</span>
+                <mat-radio-group formControlName="scope">
+                  <mat-radio-button value="TENANT">Tenant actual</mat-radio-button>
+                  <mat-radio-button value="GLOBAL">Global</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            }
+
           <form [formGroup]="companyForm" class="gender-form" (ngSubmit)="saveCompany()">
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
@@ -154,7 +196,13 @@
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
-            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditCompany(row)">Editar</button></td></ng-container>
+                        <ng-container matColumnDef="scope">
+              <th mat-header-cell *matHeaderCellDef>Ámbito</th>
+              <td mat-cell *matCellDef="let row">
+                <sh-scope-badge [companyId]="row.companyId" />
+              </td>
+            </ng-container>
+<ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditCompany(row)" [disabled]="!canEditRecord(row.companyId)">Editar</button></td></ng-container>
             <tr mat-header-row *matHeaderRowDef="companyColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: companyColumns"></tr>
           </table>
@@ -183,6 +231,16 @@
       @if (showCurrencyForm) {
         <div class="sh-card form-card">
           <h4>{{ editingCurrencyId ? 'Editar moneda' : 'Nueva moneda' }}</h4>
+            @if (isGlobalAdmin() && !editingCurrencyId) {
+              <div class="scope-selector" [formGroup]="createScopeForm">
+                <span class="scope-label">Ámbito del registro:</span>
+                <mat-radio-group formControlName="scope">
+                  <mat-radio-button value="TENANT">Tenant actual</mat-radio-button>
+                  <mat-radio-button value="GLOBAL">Global</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            }
+
           <form [formGroup]="currencyForm" class="gender-form" (ngSubmit)="saveCurrency()">
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
@@ -206,7 +264,13 @@
             <ng-container matColumnDef="symbol"><th mat-header-cell *matHeaderCellDef>Símbolo</th><td mat-cell *matCellDef="let row">{{ row.symbol || '—' }}</td></ng-container>
             <ng-container matColumnDef="denomination"><th mat-header-cell *matHeaderCellDef>Denominación</th><td mat-cell *matCellDef="let row">{{ row.denomination || '—' }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
-            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditCurrency(row)">Editar</button></td></ng-container>
+                        <ng-container matColumnDef="scope">
+              <th mat-header-cell *matHeaderCellDef>Ámbito</th>
+              <td mat-cell *matCellDef="let row">
+                <sh-scope-badge [companyId]="row.companyId" />
+              </td>
+            </ng-container>
+<ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditCurrency(row)" [disabled]="!canEditRecord(row.companyId)">Editar</button></td></ng-container>
             <tr mat-header-row *matHeaderRowDef="currencyColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: currencyColumns"></tr>
           </table>
@@ -234,6 +298,16 @@
       @if (showCareerForm) {
         <div class="sh-card form-card">
           <h4>{{ editingCareerId ? 'Editar carrera' : 'Nueva carrera' }}</h4>
+            @if (isGlobalAdmin() && !editingCareerId) {
+              <div class="scope-selector" [formGroup]="createScopeForm">
+                <span class="scope-label">Ámbito del registro:</span>
+                <mat-radio-group formControlName="scope">
+                  <mat-radio-button value="TENANT">Tenant actual</mat-radio-button>
+                  <mat-radio-button value="GLOBAL">Global</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            }
+
           <form [formGroup]="careerForm" class="gender-form" (ngSubmit)="saveCareer()">
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
@@ -253,7 +327,13 @@
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
-            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditCareer(row)">Editar</button></td></ng-container>
+                        <ng-container matColumnDef="scope">
+              <th mat-header-cell *matHeaderCellDef>Ámbito</th>
+              <td mat-cell *matCellDef="let row">
+                <sh-scope-badge [companyId]="row.companyId" />
+              </td>
+            </ng-container>
+<ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditCareer(row)" [disabled]="!canEditRecord(row.companyId)">Editar</button></td></ng-container>
             <tr mat-header-row *matHeaderRowDef="careerColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: careerColumns"></tr>
           </table>
@@ -273,6 +353,16 @@
       @if (showLanguageForm) {
         <div class="sh-card form-card">
           <h4>{{ editingLanguageId ? 'Editar idioma' : 'Nuevo idioma' }}</h4>
+            @if (isGlobalAdmin() && !editingLanguageId) {
+              <div class="scope-selector" [formGroup]="createScopeForm">
+                <span class="scope-label">Ámbito del registro:</span>
+                <mat-radio-group formControlName="scope">
+                  <mat-radio-button value="TENANT">Tenant actual</mat-radio-button>
+                  <mat-radio-button value="GLOBAL">Global</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            }
+
           <form [formGroup]="languageForm" class="gender-form" (ngSubmit)="saveLanguage()">
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
@@ -292,7 +382,13 @@
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
-            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditLanguage(row)">Editar</button></td></ng-container>
+                        <ng-container matColumnDef="scope">
+              <th mat-header-cell *matHeaderCellDef>Ámbito</th>
+              <td mat-cell *matCellDef="let row">
+                <sh-scope-badge [companyId]="row.companyId" />
+              </td>
+            </ng-container>
+<ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditLanguage(row)" [disabled]="!canEditRecord(row.companyId)">Editar</button></td></ng-container>
             <tr mat-header-row *matHeaderRowDef="languageColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: languageColumns"></tr>
           </table>
@@ -320,6 +416,16 @@
       @if (showShiftForm) {
         <div class="sh-card form-card">
           <h4>{{ editingShiftId ? 'Editar turno' : 'Nuevo turno' }}</h4>
+            @if (isGlobalAdmin() && !editingShiftId) {
+              <div class="scope-selector" [formGroup]="createScopeForm">
+                <span class="scope-label">Ámbito del registro:</span>
+                <mat-radio-group formControlName="scope">
+                  <mat-radio-button value="TENANT">Tenant actual</mat-radio-button>
+                  <mat-radio-button value="GLOBAL">Global</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            }
+
           <form [formGroup]="shiftForm" class="gender-form" (ngSubmit)="saveShift()">
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
@@ -339,7 +445,13 @@
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
-            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditShift(row)">Editar</button></td></ng-container>
+                        <ng-container matColumnDef="scope">
+              <th mat-header-cell *matHeaderCellDef>Ámbito</th>
+              <td mat-cell *matCellDef="let row">
+                <sh-scope-badge [companyId]="row.companyId" />
+              </td>
+            </ng-container>
+<ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditShift(row)" [disabled]="!canEditRecord(row.companyId)">Editar</button></td></ng-container>
             <tr mat-header-row *matHeaderRowDef="shiftColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: shiftColumns"></tr>
           </table>
@@ -367,6 +479,16 @@
       @if (showBenefitForm) {
         <div class="sh-card form-card">
           <h4>{{ editingBenefitId ? 'Editar prestación' : 'Nueva prestación' }}</h4>
+            @if (isGlobalAdmin() && !editingBenefitId) {
+              <div class="scope-selector" [formGroup]="createScopeForm">
+                <span class="scope-label">Ámbito del registro:</span>
+                <mat-radio-group formControlName="scope">
+                  <mat-radio-button value="TENANT">Tenant actual</mat-radio-button>
+                  <mat-radio-button value="GLOBAL">Global</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            }
+
           <form [formGroup]="benefitForm" class="gender-form" (ngSubmit)="saveBenefit()">
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
@@ -386,7 +508,13 @@
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
-            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditBenefit(row)">Editar</button></td></ng-container>
+                        <ng-container matColumnDef="scope">
+              <th mat-header-cell *matHeaderCellDef>Ámbito</th>
+              <td mat-cell *matCellDef="let row">
+                <sh-scope-badge [companyId]="row.companyId" />
+              </td>
+            </ng-container>
+<ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditBenefit(row)" [disabled]="!canEditRecord(row.companyId)">Editar</button></td></ng-container>
             <tr mat-header-row *matHeaderRowDef="benefitColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: benefitColumns"></tr>
           </table>
@@ -414,6 +542,16 @@
       @if (showDocumentTypeForm) {
         <div class="sh-card form-card">
           <h4>{{ editingDocumentTypeId ? 'Editar tipo de documento' : 'Nuevo tipo de documento' }}</h4>
+            @if (isGlobalAdmin() && !editingDocumentTypeId) {
+              <div class="scope-selector" [formGroup]="createScopeForm">
+                <span class="scope-label">Ámbito del registro:</span>
+                <mat-radio-group formControlName="scope">
+                  <mat-radio-button value="TENANT">Tenant actual</mat-radio-button>
+                  <mat-radio-button value="GLOBAL">Global</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            }
+
           <form [formGroup]="documentTypeForm" class="gender-form" (ngSubmit)="saveDocumentType()">
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
@@ -437,7 +575,13 @@
             <ng-container matColumnDef="documentType"><th mat-header-cell *matHeaderCellDef>Tipo</th><td mat-cell *matCellDef="let row">{{ row.documentType || '—' }}</td></ng-container>
             <ng-container matColumnDef="validatesWithAi"><th mat-header-cell *matHeaderCellDef>IA</th><td mat-cell *matCellDef="let row">{{ row.validatesWithAi ? 'Sí' : 'No' }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
-            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditDocumentType(row)">Editar</button></td></ng-container>
+                        <ng-container matColumnDef="scope">
+              <th mat-header-cell *matHeaderCellDef>Ámbito</th>
+              <td mat-cell *matCellDef="let row">
+                <sh-scope-badge [companyId]="row.companyId" />
+              </td>
+            </ng-container>
+<ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditDocumentType(row)" [disabled]="!canEditRecord(row.companyId)">Editar</button></td></ng-container>
             <tr mat-header-row *matHeaderRowDef="documentTypeColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: documentTypeColumns"></tr>
           </table>
@@ -465,6 +609,16 @@
       @if (showBrandForm) {
         <div class="sh-card form-card">
           <h4>{{ editingBrandId ? 'Editar marca' : 'Nueva marca' }}</h4>
+            @if (isGlobalAdmin() && !editingBrandId) {
+              <div class="scope-selector" [formGroup]="createScopeForm">
+                <span class="scope-label">Ámbito del registro:</span>
+                <mat-radio-group formControlName="scope">
+                  <mat-radio-button value="TENANT">Tenant actual</mat-radio-button>
+                  <mat-radio-button value="GLOBAL">Global</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            }
+
           <form [formGroup]="brandForm" class="gender-form" (ngSubmit)="saveBrand()">
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
@@ -484,7 +638,13 @@
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
-            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditBrand(row)">Editar</button></td></ng-container>
+                        <ng-container matColumnDef="scope">
+              <th mat-header-cell *matHeaderCellDef>Ámbito</th>
+              <td mat-cell *matCellDef="let row">
+                <sh-scope-badge [companyId]="row.companyId" />
+              </td>
+            </ng-container>
+<ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditBrand(row)" [disabled]="!canEditRecord(row.companyId)">Editar</button></td></ng-container>
             <tr mat-header-row *matHeaderRowDef="brandColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: brandColumns"></tr>
           </table>
@@ -512,6 +672,16 @@
       @if (showContractTypeForm) {
         <div class="sh-card form-card">
           <h4>{{ editingContractTypeId ? 'Editar tipo de contrato' : 'Nuevo tipo de contrato' }}</h4>
+            @if (isGlobalAdmin() && !editingContractTypeId) {
+              <div class="scope-selector" [formGroup]="createScopeForm">
+                <span class="scope-label">Ámbito del registro:</span>
+                <mat-radio-group formControlName="scope">
+                  <mat-radio-button value="TENANT">Tenant actual</mat-radio-button>
+                  <mat-radio-button value="GLOBAL">Global</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            }
+
           <form [formGroup]="contractTypeForm" class="gender-form" (ngSubmit)="saveContractType()">
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
@@ -533,7 +703,13 @@
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
             <ng-container matColumnDef="description"><th mat-header-cell *matHeaderCellDef>Descripción</th><td mat-cell *matCellDef="let row">{{ row.description || '—' }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
-            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditContractType(row)">Editar</button></td></ng-container>
+                        <ng-container matColumnDef="scope">
+              <th mat-header-cell *matHeaderCellDef>Ámbito</th>
+              <td mat-cell *matCellDef="let row">
+                <sh-scope-badge [companyId]="row.companyId" />
+              </td>
+            </ng-container>
+<ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditContractType(row)" [disabled]="!canEditRecord(row.companyId)">Editar</button></td></ng-container>
             <tr mat-header-row *matHeaderRowDef="contractTypeColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: contractTypeColumns"></tr>
           </table>
@@ -561,6 +737,16 @@
       @if (showCoverageTypeForm) {
         <div class="sh-card form-card">
           <h4>{{ editingCoverageTypeId ? 'Editar tipo de cobertura' : 'Nuevo tipo de cobertura' }}</h4>
+            @if (isGlobalAdmin() && !editingCoverageTypeId) {
+              <div class="scope-selector" [formGroup]="createScopeForm">
+                <span class="scope-label">Ámbito del registro:</span>
+                <mat-radio-group formControlName="scope">
+                  <mat-radio-button value="TENANT">Tenant actual</mat-radio-button>
+                  <mat-radio-button value="GLOBAL">Global</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            }
+
           <form [formGroup]="coverageTypeForm" class="gender-form" (ngSubmit)="saveCoverageType()">
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
@@ -582,7 +768,13 @@
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
             <ng-container matColumnDef="description"><th mat-header-cell *matHeaderCellDef>Descripción</th><td mat-cell *matCellDef="let row">{{ row.description || '—' }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
-            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditCoverageType(row)">Editar</button></td></ng-container>
+                        <ng-container matColumnDef="scope">
+              <th mat-header-cell *matHeaderCellDef>Ámbito</th>
+              <td mat-cell *matCellDef="let row">
+                <sh-scope-badge [companyId]="row.companyId" />
+              </td>
+            </ng-container>
+<ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditCoverageType(row)" [disabled]="!canEditRecord(row.companyId)">Editar</button></td></ng-container>
             <tr mat-header-row *matHeaderRowDef="coverageTypeColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: coverageTypeColumns"></tr>
           </table>
@@ -610,6 +802,16 @@
       @if (showEducationLevelForm) {
         <div class="sh-card form-card">
           <h4>{{ editingEducationLevelId ? 'Editar nivel de educación' : 'Nuevo nivel de educación' }}</h4>
+            @if (isGlobalAdmin() && !editingEducationLevelId) {
+              <div class="scope-selector" [formGroup]="createScopeForm">
+                <span class="scope-label">Ámbito del registro:</span>
+                <mat-radio-group formControlName="scope">
+                  <mat-radio-button value="TENANT">Tenant actual</mat-radio-button>
+                  <mat-radio-button value="GLOBAL">Global</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            }
+
           <form [formGroup]="educationLevelForm" class="gender-form" (ngSubmit)="saveEducationLevel()">
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
@@ -633,7 +835,13 @@
             <ng-container matColumnDef="description"><th mat-header-cell *matHeaderCellDef>Descripción</th><td mat-cell *matCellDef="let row">{{ row.description || '—' }}</td></ng-container>
             <ng-container matColumnDef="requiresCareer"><th mat-header-cell *matHeaderCellDef>Requiere carrera</th><td mat-cell *matCellDef="let row">{{ row.requiresCareer ? 'Sí' : 'No' }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
-            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditEducationLevel(row)">Editar</button></td></ng-container>
+                        <ng-container matColumnDef="scope">
+              <th mat-header-cell *matHeaderCellDef>Ámbito</th>
+              <td mat-cell *matCellDef="let row">
+                <sh-scope-badge [companyId]="row.companyId" />
+              </td>
+            </ng-container>
+<ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditEducationLevel(row)" [disabled]="!canEditRecord(row.companyId)">Editar</button></td></ng-container>
             <tr mat-header-row *matHeaderRowDef="educationLevelColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: educationLevelColumns"></tr>
           </table>
@@ -661,6 +869,16 @@
       @if (showLanguageLevelForm) {
         <div class="sh-card form-card">
           <h4>{{ editingLanguageLevelId ? 'Editar nivel de idioma' : 'Nuevo nivel de idioma' }}</h4>
+            @if (isGlobalAdmin() && !editingLanguageLevelId) {
+              <div class="scope-selector" [formGroup]="createScopeForm">
+                <span class="scope-label">Ámbito del registro:</span>
+                <mat-radio-group formControlName="scope">
+                  <mat-radio-button value="TENANT">Tenant actual</mat-radio-button>
+                  <mat-radio-button value="GLOBAL">Global</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            }
+
           <form [formGroup]="languageLevelForm" class="gender-form" (ngSubmit)="saveLanguageLevel()">
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
@@ -682,7 +900,13 @@
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
             <ng-container matColumnDef="appliesToCareer"><th mat-header-cell *matHeaderCellDef>Aplica a carrera</th><td mat-cell *matCellDef="let row">{{ row.appliesToCareer ? 'Sí' : 'No' }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
-            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditLanguageLevel(row)">Editar</button></td></ng-container>
+                        <ng-container matColumnDef="scope">
+              <th mat-header-cell *matHeaderCellDef>Ámbito</th>
+              <td mat-cell *matCellDef="let row">
+                <sh-scope-badge [companyId]="row.companyId" />
+              </td>
+            </ng-container>
+<ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditLanguageLevel(row)" [disabled]="!canEditRecord(row.companyId)">Editar</button></td></ng-container>
             <tr mat-header-row *matHeaderRowDef="languageLevelColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: languageLevelColumns"></tr>
           </table>
@@ -710,6 +934,16 @@
       @if (showRequisitionTypeForm) {
         <div class="sh-card form-card">
           <h4>{{ editingRequisitionTypeId ? 'Editar tipo de requisición' : 'Nuevo tipo de requisición' }}</h4>
+            @if (isGlobalAdmin() && !editingRequisitionTypeId) {
+              <div class="scope-selector" [formGroup]="createScopeForm">
+                <span class="scope-label">Ámbito del registro:</span>
+                <mat-radio-group formControlName="scope">
+                  <mat-radio-button value="TENANT">Tenant actual</mat-radio-button>
+                  <mat-radio-button value="GLOBAL">Global</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            }
+
           <form [formGroup]="requisitionTypeForm" class="gender-form" (ngSubmit)="saveRequisitionType()">
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
@@ -731,7 +965,13 @@
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
             <ng-container matColumnDef="description"><th mat-header-cell *matHeaderCellDef>Descripción</th><td mat-cell *matCellDef="let row">{{ row.description || '—' }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
-            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditRequisitionType(row)">Editar</button></td></ng-container>
+                        <ng-container matColumnDef="scope">
+              <th mat-header-cell *matHeaderCellDef>Ámbito</th>
+              <td mat-cell *matCellDef="let row">
+                <sh-scope-badge [companyId]="row.companyId" />
+              </td>
+            </ng-container>
+<ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditRequisitionType(row)" [disabled]="!canEditRecord(row.companyId)">Editar</button></td></ng-container>
             <tr mat-header-row *matHeaderRowDef="requisitionTypeColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: requisitionTypeColumns"></tr>
           </table>
@@ -759,6 +999,16 @@
       @if (showClientCompanyForm) {
         <div class="sh-card form-card">
           <h4>{{ editingClientCompanyId ? 'Editar empresa cliente' : 'Nueva empresa cliente' }}</h4>
+            @if (isGlobalAdmin() && !editingClientCompanyId) {
+              <div class="scope-selector" [formGroup]="createScopeForm">
+                <span class="scope-label">Ámbito del registro:</span>
+                <mat-radio-group formControlName="scope">
+                  <mat-radio-button value="TENANT">Tenant actual</mat-radio-button>
+                  <mat-radio-button value="GLOBAL">Global</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            }
+
           <form [formGroup]="clientCompanyForm" class="gender-form" (ngSubmit)="saveClientCompany()">
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
@@ -785,7 +1035,13 @@
             <ng-container matColumnDef="taxId"><th mat-header-cell *matHeaderCellDef>RFC / Tax ID</th><td mat-cell *matCellDef="let row">{{ row.taxId || '—' }}</td></ng-container>
             <ng-container matColumnDef="r3Interface"><th mat-header-cell *matHeaderCellDef>Interfaz R3</th><td mat-cell *matCellDef="let row">{{ row.r3Interface ? 'Sí' : 'No' }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
-            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditClientCompany(row)">Editar</button></td></ng-container>
+                        <ng-container matColumnDef="scope">
+              <th mat-header-cell *matHeaderCellDef>Ámbito</th>
+              <td mat-cell *matCellDef="let row">
+                <sh-scope-badge [companyId]="row.companyId" />
+              </td>
+            </ng-container>
+<ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditClientCompany(row)" [disabled]="!canEditRecord(row.companyId)">Editar</button></td></ng-container>
             <tr mat-header-row *matHeaderRowDef="clientCompanyColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: clientCompanyColumns"></tr>
           </table>
@@ -805,6 +1061,16 @@
       @if (showCountryForm) {
         <div class="sh-card form-card">
           <h4>{{ editingCountryId ? 'Editar país' : 'Nuevo país' }}</h4>
+            @if (isGlobalAdmin() && !editingCountryId) {
+              <div class="scope-selector" [formGroup]="createScopeForm">
+                <span class="scope-label">Ámbito del registro:</span>
+                <mat-radio-group formControlName="scope">
+                  <mat-radio-button value="TENANT">Tenant actual</mat-radio-button>
+                  <mat-radio-button value="GLOBAL">Global</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            }
+
           <form [formGroup]="countryForm" class="gender-form" (ngSubmit)="saveCountry()">
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave 2</mat-label><input matInput formControlName="secondaryCode" /></mat-form-field>
@@ -826,7 +1092,13 @@
             <ng-container matColumnDef="secondaryCode"><th mat-header-cell *matHeaderCellDef>Clave 2</th><td mat-cell *matCellDef="let row">{{ row.secondaryCode || '—' }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
-            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditCountry(row)">Editar</button></td></ng-container>
+                        <ng-container matColumnDef="scope">
+              <th mat-header-cell *matHeaderCellDef>Ámbito</th>
+              <td mat-cell *matCellDef="let row">
+                <sh-scope-badge [companyId]="row.companyId" />
+              </td>
+            </ng-container>
+<ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditCountry(row)" [disabled]="!canEditRecord(row.companyId)">Editar</button></td></ng-container>
             <tr mat-header-row *matHeaderRowDef="countryColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: countryColumns"></tr>
           </table>
@@ -854,6 +1126,16 @@
       @if (showStateForm) {
         <div class="sh-card form-card">
           <h4>{{ editingStateId ? 'Editar entidad' : 'Nueva entidad federativa' }}</h4>
+            @if (isGlobalAdmin() && !editingStateId) {
+              <div class="scope-selector" [formGroup]="createScopeForm">
+                <span class="scope-label">Ámbito del registro:</span>
+                <mat-radio-group formControlName="scope">
+                  <mat-radio-button value="TENANT">Tenant actual</mat-radio-button>
+                  <mat-radio-button value="GLOBAL">Global</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            }
+
           <form [formGroup]="stateForm" class="gender-form" (ngSubmit)="saveState()">
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
@@ -875,7 +1157,13 @@
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
             <ng-container matColumnDef="shortDescription"><th mat-header-cell *matHeaderCellDef>Descripción</th><td mat-cell *matCellDef="let row">{{ row.shortDescription || '—' }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
-            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditState(row)">Editar</button></td></ng-container>
+                        <ng-container matColumnDef="scope">
+              <th mat-header-cell *matHeaderCellDef>Ámbito</th>
+              <td mat-cell *matCellDef="let row">
+                <sh-scope-badge [companyId]="row.companyId" />
+              </td>
+            </ng-container>
+<ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditState(row)" [disabled]="!canEditRecord(row.companyId)">Editar</button></td></ng-container>
             <tr mat-header-row *matHeaderRowDef="stateColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: stateColumns"></tr>
           </table>
@@ -911,6 +1199,16 @@
       @if (showMunicipalityForm) {
         <div class="sh-card form-card">
           <h4>{{ editingMunicipalityId ? 'Editar municipio' : 'Nuevo municipio' }}</h4>
+            @if (isGlobalAdmin() && !editingMunicipalityId) {
+              <div class="scope-selector" [formGroup]="createScopeForm">
+                <span class="scope-label">Ámbito del registro:</span>
+                <mat-radio-group formControlName="scope">
+                  <mat-radio-button value="TENANT">Tenant actual</mat-radio-button>
+                  <mat-radio-button value="GLOBAL">Global</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            }
+
           <form [formGroup]="municipalityForm" class="gender-form" (ngSubmit)="saveMunicipality()">
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
@@ -930,7 +1228,13 @@
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code || '—' }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
-            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditMunicipality(row)">Editar</button></td></ng-container>
+                        <ng-container matColumnDef="scope">
+              <th mat-header-cell *matHeaderCellDef>Ámbito</th>
+              <td mat-cell *matCellDef="let row">
+                <sh-scope-badge [companyId]="row.companyId" />
+              </td>
+            </ng-container>
+<ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditMunicipality(row)" [disabled]="!canEditRecord(row.companyId)">Editar</button></td></ng-container>
             <tr mat-header-row *matHeaderRowDef="municipalityColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: municipalityColumns"></tr>
           </table>
@@ -974,6 +1278,16 @@
       @if (showNeighborhoodForm) {
         <div class="sh-card form-card">
           <h4>{{ editingNeighborhoodId ? 'Editar colonia' : 'Nueva colonia' }}</h4>
+            @if (isGlobalAdmin() && !editingNeighborhoodId) {
+              <div class="scope-selector" [formGroup]="createScopeForm">
+                <span class="scope-label">Ámbito del registro:</span>
+                <mat-radio-group formControlName="scope">
+                  <mat-radio-button value="TENANT">Tenant actual</mat-radio-button>
+                  <mat-radio-button value="GLOBAL">Global</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            }
+
           <form [formGroup]="neighborhoodForm" class="gender-form" (ngSubmit)="saveNeighborhood()">
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Código postal</mat-label><input matInput formControlName="postalCode" maxlength="5" /></mat-form-field>
@@ -993,7 +1307,13 @@
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
             <ng-container matColumnDef="postalCode"><th mat-header-cell *matHeaderCellDef>CP</th><td mat-cell *matCellDef="let row">{{ row.postalCode }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
-            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditNeighborhood(row)">Editar</button></td></ng-container>
+                        <ng-container matColumnDef="scope">
+              <th mat-header-cell *matHeaderCellDef>Ámbito</th>
+              <td mat-cell *matCellDef="let row">
+                <sh-scope-badge [companyId]="row.companyId" />
+              </td>
+            </ng-container>
+<ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" (click)="openEditNeighborhood(row)" [disabled]="!canEditRecord(row.companyId)">Editar</button></td></ng-container>
             <tr mat-header-row *matHeaderRowDef="neighborhoodColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: neighborhoodColumns"></tr>
           </table>

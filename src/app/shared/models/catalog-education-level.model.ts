@@ -1,3 +1,4 @@
+import { TenantDataScope } from './tenant-data-scope.model';
 import { ApiPageResponse } from './catalog-position.model';
 
 export interface CatalogEducationLevel {
@@ -8,6 +9,7 @@ export interface CatalogEducationLevel {
   description?: string;
   requiresCareer: boolean;
   isActive: boolean;
+  companyId?: number | null;
 }
 
 export interface CreateEducationLevelRequest {
@@ -17,6 +19,7 @@ export interface CreateEducationLevelRequest {
   description?: string;
   requiresCareer?: boolean;
   isActive?: boolean;
+  scope?: TenantDataScope;
 }
 
 export type UpdateEducationLevelRequest = CreateEducationLevelRequest;

@@ -121,6 +121,12 @@ export class AuthService {
     return this.http.get<AuthMeApiResponse>(this.api.apiUrl('/api/v1/auth/me')).pipe(
       tap((profile) => {
         const existing = this.currentUser();
+        if (!profile.globalAdmin) {
+          this.tenantContext.setCompanyId(profile.companyId);
+        }
+        const activeCompanyId = profile.globalAdmin
+          ? this.tenantContext.getCompanyId()
+          : profile.companyId;
         const user = this.buildUser({
           userId: profile.userId,
           username: profile.username,
@@ -130,9 +136,8 @@ export class AuthService {
           roles: profile.roles,
           authorities: profile.authorities,
           globalAdmin: profile.globalAdmin,
-          companyId: profile.companyId,
+          companyId: activeCompanyId,
         });
-        this.tenantContext.setCompanyId(profile.companyId);
         this.currentUser.set(user);
         sessionStorage.setItem('sh_user', JSON.stringify(user));
       }),

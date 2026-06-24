@@ -1,3 +1,4 @@
+import { TenantDataScope } from './tenant-data-scope.model';
 import { ApiPageResponse } from './catalog-position.model';
 
 export interface CatalogShift {
@@ -6,6 +7,7 @@ export interface CatalogShift {
   code: string;
   name: string;
   isActive: boolean;
+  companyId?: number | null;
 }
 
 export interface CreateShiftRequest {
@@ -13,6 +15,7 @@ export interface CreateShiftRequest {
   code: string;
   name: string;
   isActive?: boolean;
+  scope?: TenantDataScope;
 }
 
 export type UpdateShiftRequest = CreateShiftRequest;

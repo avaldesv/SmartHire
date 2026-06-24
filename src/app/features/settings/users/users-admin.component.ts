@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -42,6 +42,7 @@ export class UsersAdminComponent implements OnInit {
   private readonly tenantContext = inject(TenantContextService);
   private readonly snack = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
+  private tenantReloadReady = false;
 
   loading = true;
   saving = false;
@@ -68,7 +69,21 @@ export class UsersAdminComponent implements OnInit {
 
   readonly columns = ['username', 'name', 'lastName', 'email', 'roles', 'active', 'actions'];
 
+  constructor() {
+    effect(() => {
+      this.tenantContext.activeCompanyId();
+      if (!this.tenantReloadReady) {
+        return;
+      }
+      this.cancelForm();
+      this.pageIndex = 0;
+      this.loadRoles();
+      this.load();
+    });
+  }
+
   ngOnInit(): void {
+    this.tenantReloadReady = true;
     this.loadRoles();
     this.load();
     this.searchForm.controls.search.valueChanges.pipe(debounceTime(300)).subscribe(() => {
