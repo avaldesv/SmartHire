@@ -43,7 +43,13 @@ a:hover { text-decoration: underline; }
 
 .mat-mdc-table { width: 100%; }
 .mat-column-select { width: 48px; }
-.mat-column-actions { width: 56px; text-align: right; }
+.mat-column-actions {
+  width: 1%;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  text-align: right;
+}
 
 .status-badge {
   display: inline-block;

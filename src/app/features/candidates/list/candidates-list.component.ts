@@ -14,6 +14,7 @@ import { debounceTime } from 'rxjs';
 import { CandidateApiService } from '../../../core/services/candidate-api.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { CandidateListItem } from '../../../shared/models/candidate.model';
+import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 
 @Component({
   selector: 'sh-candidates-list',
@@ -31,6 +32,7 @@ import { CandidateListItem } from '../../../shared/models/candidate.model';
     MatSnackBarModule,
     MatProgressSpinnerModule,
     PageHeaderComponent,
+    TableRowActionsComponent,
   ],
   templateUrl: './candidates-list.component.html',
   styleUrl: './candidates-list.component.scss',

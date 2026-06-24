@@ -16,6 +16,7 @@ import { SecurityUserService } from '../../../core/services/security-user.servic
 import { SecurityRole } from '../../../shared/models/security-role.model';
 import { SecurityUser } from '../../../shared/models/security-user.model';
 import { TenantContextService } from '../../../core/services/tenant-context.service';
+import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 
 @Component({
   selector: 'sh-users-admin',
@@ -32,6 +33,7 @@ import { TenantContextService } from '../../../core/services/tenant-context.serv
     MatCheckboxModule,
     MatSelectModule,
     MatSnackBarModule,
+    TableRowActionsComponent,
   ],
   templateUrl: './users-admin.component.html',
   styleUrl: './users-admin.component.scss',

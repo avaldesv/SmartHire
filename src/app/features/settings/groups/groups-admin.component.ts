@@ -21,6 +21,7 @@ import { SecurityModulePermission } from '../../../shared/models/security-module
 import { SecurityRole } from '../../../shared/models/security-role.model';
 import { TenantDataScope } from '../../../shared/models/tenant-data-scope.model';
 import { canEditScopedRecord } from '../../../shared/utils/tenant-scope.util';
+import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 
 @Component({
   selector: 'sh-groups-admin',
@@ -40,6 +41,7 @@ import { canEditScopedRecord } from '../../../shared/utils/tenant-scope.util';
     MatSnackBarModule,
     MatRadioModule,
     ScopeBadgeComponent,
+    TableRowActionsComponent,
   ],
   templateUrl: './groups-admin.component.html',
   styleUrl: './groups-admin.component.scss',

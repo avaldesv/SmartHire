@@ -28,10 +28,13 @@
         <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
         <ng-container matColumnDef="createdAt"><th mat-header-cell *matHeaderCellDef>Alta</th><td mat-cell *matCellDef="let row">{{ row.createdAt | date:'dd/MM/yyyy' }}</td></ng-container>
         <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef>Acciones</th>
+          <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let row">
-            <button mat-icon-button [routerLink]="['/candidates', row.id]" aria-label="Ver perfil"><mat-icon>visibility</mat-icon></button>
-            <button mat-icon-button [routerLink]="['/candidates', row.id, 'edit']" aria-label="Editar"><mat-icon>edit</mat-icon></button>
+            <sh-table-row-actions
+              [showView]="true"
+              [viewRouterLink]="['/candidates', row.id]"
+              [editRouterLink]="['/candidates', row.id, 'edit']"
+            />
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="columns"></tr>
