@@ -21,6 +21,7 @@ interface LoginApiResponse {
   roles?: string[];
   authorities?: string[];
   globalAdmin?: boolean;
+  companyId?: number;
 }
 
 interface AuthMeApiResponse {
@@ -56,7 +57,7 @@ export class AuthService {
     return this.http
       .post<LoginApiResponse>(
         this.api.apiUrl('/api/v1/auth/login'),
-        { companyId: this.tenantContext.getCompanyId(), username, password },
+        { username, password },
         { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) },
       )
       .pipe(
@@ -218,7 +219,7 @@ export class AuthService {
   }
 
   private persistSession(usernameOrEmail: string, response: LoginApiResponse): void {
-    const loginCompanyId = this.tenantContext.getCompanyId();
+    const sessionCompanyId = response.companyId ?? this.tenantContext.getCompanyId();
     const user = this.buildUser({
       userId: response.userId,
       username: response.username ?? usernameOrEmail,
@@ -228,9 +229,9 @@ export class AuthService {
       roles: response.roles,
       authorities: response.authorities,
       globalAdmin: response.globalAdmin,
-      companyId: loginCompanyId,
+      companyId: sessionCompanyId,
     });
-    this.tenantContext.initialize(loginCompanyId);
+    this.tenantContext.initialize(sessionCompanyId);
     this.currentUser.set(user);
     sessionStorage.setItem('sh_token', response.accessToken);
     sessionStorage.setItem('sh_user', JSON.stringify(user));
