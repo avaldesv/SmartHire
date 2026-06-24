@@ -66,7 +66,11 @@ export interface CatalogCategoryDefinition {
   catalogs: CatalogRegistryEntry[];
 }
 
-export const CATALOG_CATEGORIES: CatalogCategoryDefinition[] = [
+function sortCatalogsByLabel(catalogs: CatalogRegistryEntry[]): CatalogRegistryEntry[] {
+  return [...catalogs].sort((a, b) => a.label.localeCompare(b.label, 'es', { sensitivity: 'base' }));
+}
+
+const CATALOG_CATEGORIES_RAW: CatalogCategoryDefinition[] = [
   {
     id: 'generales',
     label: 'Generales',
@@ -150,6 +154,11 @@ export const CATALOG_CATEGORIES: CatalogCategoryDefinition[] = [
     ],
   },
 ];
+
+export const CATALOG_CATEGORIES: CatalogCategoryDefinition[] = CATALOG_CATEGORIES_RAW.map((category) => ({
+  ...category,
+  catalogs: sortCatalogsByLabel(category.catalogs),
+}));
 
 export function getCategoryById(id: CatalogCategoryId): CatalogCategoryDefinition {
   return CATALOG_CATEGORIES.find((c) => c.id === id) ?? CATALOG_CATEGORIES[0];
