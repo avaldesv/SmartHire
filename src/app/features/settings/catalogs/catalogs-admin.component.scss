@@ -33,3 +33,10 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
 }
 .gender-form { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; align-items: center; }
 .form-actions { grid-column: 1 / -1; display: flex; gap: 8px; justify-content: flex-end; }
+
+:host ::ng-deep .mat-column-actions {
+  width: 1%;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}

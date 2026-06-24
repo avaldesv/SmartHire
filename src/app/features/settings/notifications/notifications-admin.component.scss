@@ -8,3 +8,10 @@ code { font-size: 12px; background: #f1f5f9; padding: 2px 6px; border-radius: 4p
 .message-field { width: 100%; }
 .message-cell { max-width: 320px; white-space: pre-wrap; }
 .form-actions { display: flex; gap: 8px; margin-top: 8px; }
+
+:host ::ng-deep .mat-column-actions {
+  width: 1%;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
