@@ -12,7 +12,7 @@ export interface CatalogRequisitionType {
 }
 
 export interface CreateRequisitionTypeRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   description?: string;

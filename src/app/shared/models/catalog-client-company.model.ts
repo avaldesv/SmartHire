@@ -15,7 +15,7 @@ export interface CatalogClientCompany {
 }
 
 export interface CreateClientCompanyRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   description?: string;

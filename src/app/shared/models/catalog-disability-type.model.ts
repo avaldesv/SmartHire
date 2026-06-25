@@ -13,7 +13,7 @@ export interface CatalogDisabilityType {
 }
 
 export interface CreateDisabilityTypeRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   description?: string;

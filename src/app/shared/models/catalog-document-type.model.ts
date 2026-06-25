@@ -13,7 +13,7 @@ export interface CatalogDocumentType {
 }
 
 export interface CreateDocumentTypeRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   documentType: string;

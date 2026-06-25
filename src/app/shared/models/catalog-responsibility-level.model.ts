@@ -13,7 +13,7 @@ export interface CatalogResponsibilityLevel {
 }
 
 export interface CreateResponsibilityLevelRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   description?: string;

@@ -13,7 +13,7 @@ export interface CatalogExperienceLevel {
 }
 
 export interface CreateExperienceLevelRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   description?: string;

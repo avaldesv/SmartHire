@@ -13,7 +13,7 @@ export interface CatalogCoverageCategory {
 }
 
 export interface CreateCoverageCategoryRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   description?: string;

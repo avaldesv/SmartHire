@@ -13,7 +13,7 @@ export interface CatalogMaritalStatus {
 }
 
 export interface CreateMaritalStatusRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   description?: string;

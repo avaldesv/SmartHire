@@ -13,7 +13,7 @@ export interface CatalogCharacteristic {
 }
 
 export interface CreateCharacteristicRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   description?: string;

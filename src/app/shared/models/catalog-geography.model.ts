@@ -58,7 +58,7 @@ export interface CatalogState {
 }
 
 export interface CreateStateRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   shortDescription?: string;

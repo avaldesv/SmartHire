@@ -60,6 +60,15 @@
 
           <form [formGroup]="genderForm" class="gender-form" (ngSubmit)="saveGender()">
             <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
               <mat-label>Clave</mat-label>
               <input matInput formControlName="code" />
             </mat-form-field>
@@ -215,6 +224,7 @@
             <mat-form-field appearance="outline">
               <mat-label>País</mat-label>
               <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
                 @for (country of countries; track country.id) {
                   <mat-option [value]="country.id">{{ country.name }}</mat-option>
                 }
@@ -292,6 +302,15 @@
             }
 
           <form [formGroup]="currencyForm" class="gender-form" (ngSubmit)="saveCurrency()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Símbolo</mat-label><input matInput formControlName="symbol" /></mat-form-field>
@@ -359,6 +378,15 @@
             }
 
           <form [formGroup]="careerForm" class="gender-form" (ngSubmit)="saveCareer()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
@@ -414,6 +442,15 @@
             }
 
           <form [formGroup]="languageForm" class="gender-form" (ngSubmit)="saveLanguage()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
@@ -477,6 +514,15 @@
             }
 
           <form [formGroup]="shiftForm" class="gender-form" (ngSubmit)="saveShift()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
@@ -540,6 +586,15 @@
             }
 
           <form [formGroup]="benefitForm" class="gender-form" (ngSubmit)="saveBenefit()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
@@ -603,6 +658,15 @@
             }
 
           <form [formGroup]="documentTypeForm" class="gender-form" (ngSubmit)="saveDocumentType()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Tipo documento</mat-label><input matInput formControlName="documentType" /></mat-form-field>
@@ -670,6 +734,15 @@
             }
 
           <form [formGroup]="brandForm" class="gender-form" (ngSubmit)="saveBrand()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
@@ -733,6 +806,15 @@
             }
 
           <form [formGroup]="contractTypeForm" class="gender-form" (ngSubmit)="saveContractType()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
@@ -798,6 +880,15 @@
             }
 
           <form [formGroup]="coverageTypeForm" class="gender-form" (ngSubmit)="saveCoverageType()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
@@ -863,6 +954,15 @@
             }
 
           <form [formGroup]="educationLevelForm" class="gender-form" (ngSubmit)="saveEducationLevel()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
@@ -930,6 +1030,15 @@
             }
 
           <form [formGroup]="languageLevelForm" class="gender-form" (ngSubmit)="saveLanguageLevel()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-checkbox formControlName="appliesToCareer">Aplica a carrera</mat-checkbox>
@@ -995,6 +1104,15 @@
             }
 
           <form [formGroup]="requisitionTypeForm" class="gender-form" (ngSubmit)="saveRequisitionType()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
@@ -1281,6 +1399,15 @@
         <div class="sh-card form-card">
           <h4>{{ editingQuestionnaireCategoryId ? 'Editar categoría' : 'Nueva categoría' }}</h4>
           <form [formGroup]="questionnaireCategoryForm" class="gender-form" (ngSubmit)="saveQuestionnaireCategory()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
@@ -1340,6 +1467,15 @@
             </div>
           }
           <form [formGroup]="recruiterGroupForm" class="gender-form" (ngSubmit)="saveRecruiterGroup()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Id MP</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
@@ -1406,6 +1542,15 @@
             </div>
           }
           <form [formGroup]="jobPortalForm" class="gender-form" (ngSubmit)="saveJobPortal()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
@@ -1826,6 +1971,15 @@
               </div>
             }
           <form [formGroup]="coverageCategoryForm" class="gender-form" (ngSubmit)="saveCoverageCategory()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
@@ -1890,6 +2044,15 @@
               </div>
             }
           <form [formGroup]="characteristicForm" class="gender-form" (ngSubmit)="saveCharacteristic()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
@@ -1954,6 +2117,15 @@
               </div>
             }
           <form [formGroup]="categoryForm" class="gender-form" (ngSubmit)="saveCategory()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
@@ -2017,6 +2189,15 @@
               </div>
             }
           <form [formGroup]="maritalStatusForm" class="gender-form" (ngSubmit)="saveMaritalStatus()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
@@ -2081,6 +2262,15 @@
               </div>
             }
           <form [formGroup]="experienceLevelForm" class="gender-form" (ngSubmit)="saveExperienceLevel()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
@@ -2145,6 +2335,15 @@
               </div>
             }
           <form [formGroup]="toolForm" class="gender-form" (ngSubmit)="saveTool()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
@@ -2209,6 +2408,15 @@
               </div>
             }
           <form [formGroup]="workScheduleForm" class="gender-form" (ngSubmit)="saveWorkSchedule()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
@@ -2273,6 +2481,15 @@
               </div>
             }
           <form [formGroup]="workplaceForm" class="gender-form" (ngSubmit)="saveWorkplace()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
@@ -2337,6 +2554,15 @@
               </div>
             }
           <form [formGroup]="requirementForm" class="gender-form" (ngSubmit)="saveRequirement()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
@@ -2401,6 +2627,15 @@
               </div>
             }
           <form [formGroup]="responsibilityLevelForm" class="gender-form" (ngSubmit)="saveResponsibilityLevel()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
@@ -2465,6 +2700,15 @@
               </div>
             }
           <form [formGroup]="disabilityTypeForm" class="gender-form" (ngSubmit)="saveDisabilityType()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
@@ -2529,6 +2773,15 @@
               </div>
             }
           <form [formGroup]="businessUnitForm" class="gender-form" (ngSubmit)="saveBusinessUnit()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
@@ -2593,6 +2846,15 @@
               </div>
             }
           <form [formGroup]="positionTypeForm" class="gender-form" (ngSubmit)="savePositionType()">
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <mat-select formControlName="countryId">
+                <mat-option [value]="null">Todos los países</mat-option>
+                @for (country of countries; track country.id) {
+                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>

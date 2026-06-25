@@ -12,7 +12,7 @@ export interface CatalogJobPortal {
 }
 
 export interface CreateJobPortalRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   description?: string;

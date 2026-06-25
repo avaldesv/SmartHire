@@ -14,7 +14,7 @@ export interface CatalogBranch {
 
 export interface CreateBranchRequest {
   catalogCompanyId?: number | null;
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   description?: string;

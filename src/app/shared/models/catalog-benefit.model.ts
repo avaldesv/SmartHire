@@ -11,7 +11,7 @@ export interface CatalogBenefit {
 }
 
 export interface CreateBenefitRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   isActive?: boolean;

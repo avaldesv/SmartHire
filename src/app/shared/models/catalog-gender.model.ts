@@ -12,7 +12,7 @@ export interface CatalogGender {
 }
 
 export interface CreateGenderRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   value?: string;

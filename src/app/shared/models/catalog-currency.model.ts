@@ -13,7 +13,7 @@ export interface CatalogCurrency {
 }
 
 export interface CreateCurrencyRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   symbol?: string;
