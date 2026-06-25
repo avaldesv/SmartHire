@@ -7,7 +7,22 @@ export interface SecurityUserRole {
   isActive: boolean;
 }
 
-export interface SecurityUser {
+export interface SecurityUserProfile {
+  countryId?: number | null;
+  phoneCountryCode?: string | null;
+  supervisorId?: number | null;
+  supervisorLabel?: string | null;
+  branchId?: number | null;
+  companyAreaId?: number | null;
+  companyDepartmentId?: number | null;
+  address?: string | null;
+  legacyR3Username?: string | null;
+  legacyAppianProfile?: string | null;
+  manpowerPosition?: string | null;
+  clientCompanyIds?: number[];
+}
+
+export interface SecurityUser extends SecurityUserProfile {
   id: number;
   username: string;
   email: string;
@@ -17,10 +32,11 @@ export interface SecurityUser {
   photo?: string;
   companyId: number;
   isActive: boolean;
+  globalAdmin?: boolean;
   roles: SecurityUserRole[];
 }
 
-export interface CreateSecurityUserRequest {
+export interface CreateSecurityUserRequest extends SecurityUserProfile {
   username: string;
   email: string;
   password: string;
@@ -32,7 +48,7 @@ export interface CreateSecurityUserRequest {
   roleIds?: number[];
 }
 
-export interface UpdateSecurityUserRequest {
+export interface UpdateSecurityUserRequest extends SecurityUserProfile {
   email: string;
   name: string;
   lastName: string;
@@ -42,3 +58,8 @@ export interface UpdateSecurityUserRequest {
 }
 
 export type SecurityUserListResponse = ApiPageResponse<SecurityUser>;
+
+export interface SupervisorOption {
+  id: number;
+  label: string;
+}

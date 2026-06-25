@@ -10,6 +10,9 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
   gap: 12px;
   align-items: center;
 }
+.phone-code { max-width: 120px; }
+.phone-number { min-width: 180px; }
+.full-width { grid-column: 1 / -1; }
 .form-actions {
   grid-column: 1 / -1;
   display: flex;

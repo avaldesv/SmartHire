@@ -38,11 +38,93 @@
         <mat-label>Apellidos</mat-label>
         <input matInput formControlName="lastName" />
       </mat-form-field>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" class="phone-code">
+        <mat-label>Cód. tel.</mat-label>
+        <input matInput formControlName="phoneCountryCode" placeholder="+52" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="phone-number">
         <mat-label>Teléfono</mat-label>
         <input matInput formControlName="phone" />
       </mat-form-field>
       <mat-form-field appearance="outline">
+        <mat-label>País</mat-label>
+        <mat-select formControlName="countryId">
+          <mat-option [value]="null">—</mat-option>
+          @for (country of countryOptions; track country.id) {
+            <mat-option [value]="country.id">{{ country.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Supervisor</mat-label>
+        <input matInput formControlName="supervisorSearch" [matAutocomplete]="supervisorAuto" />
+        @if (userForm.controls.supervisorId.value) {
+          <button matSuffix mat-icon-button type="button" aria-label="Quitar supervisor" (click)="clearSupervisor()">
+            <mat-icon>close</mat-icon>
+          </button>
+        }
+        <mat-autocomplete
+          #supervisorAuto="matAutocomplete"
+          [displayWith]="displaySupervisorFn"
+          (optionSelected)="onSupervisorSelected($event.option.value)"
+        >
+          @for (opt of supervisorOptions; track opt.id) {
+            <mat-option [value]="opt">{{ opt.label }}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Sucursal</mat-label>
+        <mat-select formControlName="branchId" [disabled]="!userForm.controls.countryId.value">
+          <mat-option [value]="null">—</mat-option>
+          @for (branch of branchOptions; track branch.id) {
+            <mat-option [value]="branch.id">{{ branch.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Área</mat-label>
+        <mat-select formControlName="companyAreaId">
+          <mat-option [value]="null">—</mat-option>
+          @for (area of areaOptions; track area.id) {
+            <mat-option [value]="area.id">{{ area.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Departamento</mat-label>
+        <mat-select formControlName="companyDepartmentId">
+          <mat-option [value]="null">—</mat-option>
+          @for (dept of departmentOptions; track dept.id) {
+            <mat-option [value]="dept.id">{{ dept.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Marcas (empresas cliente)</mat-label>
+        <mat-select formControlName="clientCompanyIds" multiple [disabled]="!userForm.controls.countryId.value">
+          @for (brand of clientCompanyOptions; track brand.id) {
+            <mat-option [value]="brand.id">{{ brand.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Usuario R3</mat-label>
+        <input matInput formControlName="legacyR3Username" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Perfil Appian</mat-label>
+        <input matInput formControlName="legacyAppianProfile" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Puesto Manpower</mat-label>
+        <input matInput formControlName="manpowerPosition" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Dirección</mat-label>
+        <textarea matInput rows="2" formControlName="address"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
         <mat-label>Roles</mat-label>
         <mat-select formControlName="roleIds" multiple>
           @for (role of roleOptions; track role.id) {
