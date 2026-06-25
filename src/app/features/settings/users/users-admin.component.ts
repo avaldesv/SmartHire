@@ -144,12 +144,28 @@ export class UsersAdminComponent implements OnInit {
         debounceTime(300),
         distinctUntilChanged(),
         switchMap((term) => {
+          const selectedOption = this.parseSupervisorOption(term);
+          if (selectedOption) {
+            this.userForm.patchValue(
+              { supervisorId: selectedOption.id, supervisorSearch: selectedOption.label },
+              { emitEvent: false },
+            );
+            this.supervisorOptions = [selectedOption];
+            return of([selectedOption]);
+          }
+
           const trimmed = typeof term === 'string' ? term.trim() : '';
           if (!trimmed) {
             this.userForm.patchValue({ supervisorId: null }, { emitEvent: false });
             return of([] as SupervisorOption[]);
           }
-          if (this.userForm.controls.supervisorId.value != null) {
+
+          const supervisorId = this.userForm.controls.supervisorId.value;
+          if (supervisorId != null) {
+            const current = this.supervisorOptions.find((o) => o.id === supervisorId);
+            if (current?.label.trim() === trimmed) {
+              return of([current]);
+            }
             this.userForm.patchValue({ supervisorId: null }, { emitEvent: false });
           }
           return this.searchSupervisors(trimmed);
@@ -161,7 +177,7 @@ export class UsersAdminComponent implements OnInit {
   }
 
   onSupervisorFocus(): void {
-    const trimmed = this.userForm.controls.supervisorSearch.value?.trim() ?? '';
+    const trimmed = this.supervisorSearchText(this.userForm.controls.supervisorSearch.value);
     if (trimmed.length > 0) {
       return;
     }
@@ -239,6 +255,22 @@ export class UsersAdminComponent implements OnInit {
       return '';
     }
     return typeof option === 'string' ? option : option.label;
+  }
+
+  private parseSupervisorOption(term: unknown): SupervisorOption | null {
+    if (term == null || typeof term !== 'object' || !('id' in term) || !('label' in term)) {
+      return null;
+    }
+    const raw = term as SupervisorOption;
+    return typeof raw.id === 'number' && typeof raw.label === 'string' ? raw : null;
+  }
+
+  private supervisorSearchText(value: unknown): string {
+    const option = this.parseSupervisorOption(value);
+    if (option) {
+      return option.label.trim();
+    }
+    return typeof value === 'string' ? value.trim() : '';
   }
 
   readonly displaySupervisorFn = (option: SupervisorOption | string | null): string =>
@@ -329,6 +361,9 @@ export class UsersAdminComponent implements OnInit {
     if (user.countryId) {
       this.loadBranchesAndClientCompanies(user.countryId);
     }
+    if (user.supervisorId != null && user.supervisorLabel) {
+      this.supervisorOptions = [{ id: user.supervisorId, label: user.supervisorLabel }];
+    }
   }
 
   cancelForm(): void {
@@ -343,10 +378,12 @@ export class UsersAdminComponent implements OnInit {
       return;
     }
     const value = this.userForm.getRawValue();
+    const supervisorId =
+      value.supervisorId ?? this.parseSupervisorOption(value.supervisorSearch)?.id ?? undefined;
     const profilePayload = {
       countryId: value.countryId ?? undefined,
       phoneCountryCode: value.phoneCountryCode || undefined,
-      supervisorId: value.supervisorId ?? undefined,
+      supervisorId,
       branchId: value.branchId ?? undefined,
       companyAreaId: value.companyAreaId ?? undefined,
       companyDepartmentId: value.companyDepartmentId ?? undefined,
