@@ -1,37 +1,87 @@
 <div class="sh-page">
-  <sh-page-header title="Registro de beneficiario" subtitle="Asistente de 3 pasos para beneficiarios del candidato" />
+  <sh-page-header
+    [title]="isEdit ? 'Editar beneficiario' : 'Registro de beneficiario'"
+    subtitle="Asistente de 3 pasos para beneficiarios del candidato"
+  />
 
-  <div class="sh-card">
-    <mat-stepper linear>
-      <mat-step [stepControl]="step1" label="Datos personales">
-        <form [formGroup]="step1" class="form-grid">
-          <mat-form-field appearance="outline"><mat-label>Tipo</mat-label><mat-select formControlName="type"><mat-option value="Primario">Primario</mat-option><mat-option value="Contingente">Contingente</mat-option></mat-select></mat-form-field>
-          <mat-form-field appearance="outline"><mat-label>Parentesco</mat-label><input matInput formControlName="relationship" /></mat-form-field>
-          <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="firstName" /></mat-form-field>
-          <mat-form-field appearance="outline"><mat-label>Apellidos</mat-label><input matInput formControlName="lastName" /></mat-form-field>
-          <div class="step-actions span-2"><button mat-button matStepperNext>Siguiente</button></div>
-        </form>
-      </mat-step>
-      <mat-step [stepControl]="step2" label="Porcentaje y edad">
-        <form [formGroup]="step2" class="form-grid">
-          <mat-form-field appearance="outline"><mat-label>Edad</mat-label><input matInput type="number" formControlName="age" /></mat-form-field>
-          <mat-form-field appearance="outline"><mat-label>Porcentaje</mat-label><input matInput type="number" formControlName="percent" /></mat-form-field>
-          <mat-form-field appearance="outline"><mat-label>País</mat-label><input matInput formControlName="country" /></mat-form-field>
-          <mat-checkbox formControlName="irrevocable">Beneficiario irrevocable</mat-checkbox>
-          <div class="step-actions span-2"><button mat-button matStepperPrevious>Atrás</button><button mat-button matStepperNext>Siguiente</button></div>
-        </form>
-      </mat-step>
-      <mat-step [stepControl]="step3" label="Contacto">
-        <form [formGroup]="step3" class="form-grid">
-          <mat-form-field appearance="outline"><mat-label>Teléfono</mat-label><input matInput formControlName="phone" /></mat-form-field>
-          <mat-form-field appearance="outline"><mat-label>Correo</mat-label><input matInput type="email" formControlName="email" /></mat-form-field>
-          <div class="step-actions span-2"><button mat-button matStepperPrevious>Atrás</button></div>
-        </form>
-      </mat-step>
-    </mat-stepper>
-    <div class="bottom-actions">
-      <button mat-stroked-button type="button" (click)="cancel()">Cancelar</button>
-      <button mat-flat-button color="primary" type="button" (click)="save()">Guardar beneficiario</button>
+  @if (loading) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else {
+    <div class="sh-card">
+      <mat-stepper linear>
+        <mat-step [stepControl]="step1" label="Datos personales">
+          <form [formGroup]="step1" class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>Tipo</mat-label>
+              <mat-select formControlName="type">
+                <mat-option value="Primario">Primario</mat-option>
+                <mat-option value="Contingente">Contingente</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Parentesco</mat-label>
+              <mat-select formControlName="kinshipId">
+                @for (kinship of kinships; track kinship.id) {
+                  <mat-option [value]="kinship.id">{{ kinship.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Nombre</mat-label>
+              <input matInput formControlName="firstName" />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Apellidos</mat-label>
+              <input matInput formControlName="lastName" />
+            </mat-form-field>
+            <div class="step-actions span-2"><button mat-button matStepperNext type="button">Siguiente</button></div>
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="step2" label="Porcentaje y edad">
+          <form [formGroup]="step2" class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>Edad</mat-label>
+              <input matInput type="number" formControlName="age" />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Porcentaje</mat-label>
+              <input matInput type="number" formControlName="percent" />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>País</mat-label>
+              <input matInput formControlName="country" />
+            </mat-form-field>
+            <mat-checkbox formControlName="irrevocable">Beneficiario irrevocable</mat-checkbox>
+            <div class="step-actions span-2">
+              <button mat-button matStepperPrevious type="button">Atrás</button>
+              <button mat-button matStepperNext type="button">Siguiente</button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="step3" label="Contacto">
+          <form [formGroup]="step3" class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>Teléfono</mat-label>
+              <input matInput formControlName="phone" />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Correo</mat-label>
+              <input matInput type="email" formControlName="email" />
+            </mat-form-field>
+            <div class="step-actions span-2"><button mat-button matStepperPrevious type="button">Atrás</button></div>
+          </form>
+        </mat-step>
+      </mat-stepper>
+      <div class="bottom-actions">
+        <button mat-stroked-button type="button" (click)="cancel()" [disabled]="saving">Cancelar</button>
+        <button mat-flat-button color="primary" type="button" (click)="save()" [disabled]="saving">
+          @if (saving) {
+            Guardando…
+          } @else {
+            {{ isEdit ? 'Actualizar beneficiario' : 'Guardar beneficiario' }}
+          }
+        </button>
+      </div>
     </div>
-  </div>
+  }
 </div>

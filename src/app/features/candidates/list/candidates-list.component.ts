@@ -11,9 +11,10 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { debounceTime } from 'rxjs';
-import { CandidateService } from '../../../mock/services/candidate.service';
+import { CandidateApiService } from '../../../core/services/candidate-api.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
-import { Candidate } from '../../../shared/models';
+import { CandidateListItem } from '../../../shared/models/candidate.model';
+import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 
 @Component({
   selector: 'sh-candidates-list',
@@ -31,17 +32,18 @@ import { Candidate } from '../../../shared/models';
     MatSnackBarModule,
     MatProgressSpinnerModule,
     PageHeaderComponent,
+    TableRowActionsComponent,
   ],
   templateUrl: './candidates-list.component.html',
   styleUrl: './candidates-list.component.scss',
 })
 export class CandidatesListComponent implements OnInit {
-  private readonly candidateService = inject(CandidateService);
+  private readonly candidateService = inject(CandidateApiService);
   private readonly snack = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
 
   loading = true;
-  data: Candidate[] = [];
+  data: CandidateListItem[] = [];
   total = 0;
   pageIndex = 0;
   pageSize = 10;
@@ -59,22 +61,22 @@ export class CandidatesListComponent implements OnInit {
 
   load(): void {
     this.loading = true;
-    this.candidateService
-      .list({ search: this.searchForm.controls.search.value || undefined, page: this.pageIndex + 1, pageSize: this.pageSize })
-      .subscribe((res) => {
+    this.candidateService.list(this.pageIndex, this.pageSize, this.searchForm.controls.search.value).subscribe({
+      next: (res) => {
         this.data = res.items;
         this.total = res.total;
         this.loading = false;
-      });
+      },
+      error: () => {
+        this.loading = false;
+        this.snack.open('No se pudieron cargar los candidatos', 'Cerrar', { duration: 4000 });
+      },
+    });
   }
 
   onPage(e: PageEvent): void {
     this.pageIndex = e.pageIndex;
     this.pageSize = e.pageSize;
     this.load();
-  }
-
-  deleteCandidate(c: Candidate): void {
-    this.snack.open(`Candidato ${c.firstName} ${c.lastName} eliminado (simulado)`, 'Cerrar', { duration: 3000 });
   }
 }

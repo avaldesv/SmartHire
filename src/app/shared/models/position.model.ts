@@ -50,6 +50,16 @@ export interface PositionListItem {
   status: string;
   recruiter: string | null;
   createdAt: string;
+  ot?: string | null;
+  clientKey?: string | null;
+  positionsCount?: number | null;
+  city?: string | null;
+  startDate?: string | null;
+  brand?: string | null;
+  country?: string | null;
+  state?: string | null;
+  requisitionType?: string | null;
+  coverageType?: string | null;
 }
 
 export interface PositionDetail extends CreatePositionRequest {
@@ -61,5 +71,14 @@ export interface PositionDetail extends CreatePositionRequest {
 
 export type UpdatePositionRequest = CreatePositionRequest;
 export type UpdatePositionResponse = CreatePositionResponse;
+export type DuplicatePositionResponse = CreatePositionResponse;
+export type RequestPositionCancellationResponse = CreatePositionResponse;
+export type RejectPositionCancellationResponse = CreatePositionResponse;
 
 export type PositionListResponse = ApiPageResponse<PositionListItem>;
+
+export interface PositionDashboardKpis {
+  totalPositions: number;
+  preselectedCandidates: number;
+  interestedCandidates: number;
+}

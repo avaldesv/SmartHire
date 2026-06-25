@@ -1,22 +1,197 @@
 <h3>Usuarios</h3>
-<form [formGroup]="searchForm" class="sh-filters">
-  <mat-form-field appearance="outline"><mat-label>Buscar usuario</mat-label><input matInput formControlName="search" /></mat-form-field>
-</form>
+
+<div class="toolbar">
+  <form [formGroup]="searchForm" class="sh-filters">
+    <mat-form-field appearance="outline">
+      <mat-label>Buscar usuario</mat-label>
+      <input matInput formControlName="search" />
+    </mat-form-field>
+  </form>
+  <button mat-flat-button color="primary" type="button" (click)="openCreate()">
+    <mat-icon>add</mat-icon> Nuevo usuario
+  </button>
+</div>
+
+@if (showForm) {
+  <div class="sh-card form-card">
+    <h4>{{ editingUserId ? 'Editar usuario' : 'Nuevo usuario' }}</h4>
+    <form [formGroup]="userForm" class="user-form" (ngSubmit)="save()">
+      <mat-form-field appearance="outline">
+        <mat-label>Usuario</mat-label>
+        <input matInput formControlName="username" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Correo</mat-label>
+        <input matInput type="email" formControlName="email" />
+      </mat-form-field>
+      @if (!editingUserId) {
+        <mat-form-field appearance="outline">
+          <mat-label>Contraseña</mat-label>
+          <input matInput type="password" formControlName="password" />
+        </mat-form-field>
+      }
+      <mat-form-field appearance="outline">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="name" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Apellidos</mat-label>
+        <input matInput formControlName="lastName" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="phone-code">
+        <mat-label>Cód. tel.</mat-label>
+        <input matInput formControlName="phoneCountryCode" placeholder="+52" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="phone-number">
+        <mat-label>Teléfono</mat-label>
+        <input matInput formControlName="phone" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>País</mat-label>
+        <mat-select formControlName="countryId">
+          <mat-option [value]="null">—</mat-option>
+          @for (country of countryOptions; track country.id) {
+            <mat-option [value]="country.id">{{ country.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Supervisor</mat-label>
+        <input matInput formControlName="supervisorSearch" [matAutocomplete]="supervisorAuto" (focus)="onSupervisorFocus()" />
+        @if (userForm.controls.supervisorId.value) {
+          <button matSuffix mat-icon-button type="button" aria-label="Quitar supervisor" (click)="clearSupervisor()">
+            <mat-icon>close</mat-icon>
+          </button>
+        }
+        <mat-autocomplete
+          #supervisorAuto="matAutocomplete"
+          [displayWith]="displaySupervisorFn"
+          (optionSelected)="onSupervisorSelected($event.option.value)"
+        >
+          @for (opt of supervisorOptions; track opt.id) {
+            <mat-option [value]="opt">{{ opt.label }}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Sucursal</mat-label>
+        <mat-select formControlName="branchId" [disabled]="!userForm.controls.countryId.value">
+          <mat-option [value]="null">—</mat-option>
+          @for (branch of branchOptions; track branch.id) {
+            <mat-option [value]="branch.id">{{ branch.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Área</mat-label>
+        <mat-select formControlName="companyAreaId">
+          <mat-option [value]="null">—</mat-option>
+          @for (area of areaOptions; track area.id) {
+            <mat-option [value]="area.id">{{ area.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Departamento</mat-label>
+        <mat-select formControlName="companyDepartmentId">
+          <mat-option [value]="null">—</mat-option>
+          @for (dept of departmentOptions; track dept.id) {
+            <mat-option [value]="dept.id">{{ dept.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Marcas (empresas cliente)</mat-label>
+        <mat-select formControlName="clientCompanyIds" multiple [disabled]="!userForm.controls.countryId.value">
+          @for (brand of clientCompanyOptions; track brand.id) {
+            <mat-option [value]="brand.id">{{ brand.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Usuario R3</mat-label>
+        <input matInput formControlName="legacyR3Username" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Perfil Appian</mat-label>
+        <input matInput formControlName="legacyAppianProfile" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Puesto Manpower</mat-label>
+        <input matInput formControlName="manpowerPosition" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Dirección</mat-label>
+        <textarea matInput rows="2" formControlName="address"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Roles</mat-label>
+        <mat-select formControlName="roleIds" multiple>
+          @for (role of roleOptions; track role.id) {
+            <mat-option [value]="role.id">{{ role.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+      <div class="form-actions">
+        <button mat-button type="button" (click)="cancelForm()">Cancelar</button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="saving">
+          {{ saving ? 'Guardando...' : 'Guardar' }}
+        </button>
+      </div>
+    </form>
+  </div>
+}
+
 @if (loading) {
   <div class="loading-wrap"><mat-spinner diameter="36" /></div>
 } @else {
   <div class="sh-card sh-table-wrap">
     <table mat-table [dataSource]="data">
-      <ng-container matColumnDef="username"><th mat-header-cell *matHeaderCellDef>Usuario</th><td mat-cell *matCellDef="let row">{{ row.username }}</td></ng-container>
-      <ng-container matColumnDef="firstName"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.firstName }}</td></ng-container>
-      <ng-container matColumnDef="lastName"><th mat-header-cell *matHeaderCellDef>Apellidos</th><td mat-cell *matCellDef="let row">{{ row.lastName }}</td></ng-container>
-      <ng-container matColumnDef="email"><th mat-header-cell *matHeaderCellDef>Correo</th><td mat-cell *matCellDef="let row">{{ row.email }}</td></ng-container>
-      <ng-container matColumnDef="profile"><th mat-header-cell *matHeaderCellDef>Perfil</th><td mat-cell *matCellDef="let row">{{ row.profile }}</td></ng-container>
-      <ng-container matColumnDef="branch"><th mat-header-cell *matHeaderCellDef>Sucursal</th><td mat-cell *matCellDef="let row">{{ row.branch }}</td></ng-container>
-      <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.active ? 'Sí' : 'No' }}</td></ng-container>
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef>Usuario</th>
+        <td mat-cell *matCellDef="let row">{{ row.username }}</td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+        <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="lastName">
+        <th mat-header-cell *matHeaderCellDef>Apellidos</th>
+        <td mat-cell *matCellDef="let row">{{ row.lastName }}</td>
+      </ng-container>
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Correo</th>
+        <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+      </ng-container>
+      <ng-container matColumnDef="roles">
+        <th mat-header-cell *matHeaderCellDef>Roles</th>
+        <td mat-cell *matCellDef="let row">{{ roleNames(row) }}</td>
+      </ng-container>
+      <ng-container matColumnDef="active">
+        <th mat-header-cell *matHeaderCellDef>Activo</th>
+        <td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row" class="actions-cell">
+          <sh-table-row-actions
+            (editClick)="openEdit(row)"
+            [showDelete]="true"
+            [deleteDisabled]="deletingId === row.id"
+            (deleteClick)="deleteUser(row)"
+          />
+        </td>
+      </ng-container>
       <tr mat-header-row *matHeaderRowDef="columns"></tr>
       <tr mat-row *matRowDef="let row; columns: columns"></tr>
     </table>
-    <mat-paginator [length]="total" [pageSize]="pageSize" [pageIndex]="pageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onPage($event)" />
+    <mat-paginator
+      [length]="total"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      [pageSizeOptions]="[10, 25, 50]"
+      (page)="onPage($event)"
+    />
   </div>
 }

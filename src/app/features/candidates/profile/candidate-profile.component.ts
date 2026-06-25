@@ -6,9 +6,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { CandidateService } from '../../../mock/services/candidate.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { CandidateApiService } from '../../../core/services/candidate-api.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
-import { Candidate } from '../../../shared/models';
+import { CandidateDetail } from '../../../shared/models/candidate.model';
 
 @Component({
   selector: 'sh-candidate-profile',
@@ -22,6 +23,7 @@ import { Candidate } from '../../../shared/models';
     MatIconModule,
     MatChipsModule,
     MatProgressSpinnerModule,
+    MatSnackBarModule,
     PageHeaderComponent,
   ],
   templateUrl: './candidate-profile.component.html',
@@ -29,16 +31,29 @@ import { Candidate } from '../../../shared/models';
 })
 export class CandidateProfileComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
-  private readonly candidateService = inject(CandidateService);
+  private readonly candidateService = inject(CandidateApiService);
+  private readonly snack = inject(MatSnackBar);
 
   loading = true;
-  candidate: Candidate | null = null;
+  candidate: CandidateDetail | null = null;
+  backToPreselectionLink: string[] | null = null;
 
   ngOnInit(): void {
+    const from = this.route.snapshot.queryParamMap.get('from');
+    const positionId = this.route.snapshot.queryParamMap.get('positionId');
+    if (from === 'preselection' && positionId) {
+      this.backToPreselectionLink = ['/selection', positionId, 'preselection'];
+    }
     const id = +this.route.snapshot.paramMap.get('id')!;
-    this.candidateService.getById(id).subscribe((c) => {
-      this.candidate = c ?? null;
-      this.loading = false;
+    this.candidateService.getById(id).subscribe({
+      next: (c) => {
+        this.candidate = c;
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+        this.snack.open('No se pudo cargar el candidato', 'Cerrar', { duration: 4000 });
+      },
     });
   }
 }

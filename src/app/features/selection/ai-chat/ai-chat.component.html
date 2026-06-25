@@ -1,6 +1,30 @@
 <div class="ai-chat">
   <div class="chat-panel sh-card">
     <h3>Perfil gestión con IA</h3>
+
+    @if (loadingCriteria) {
+      <div class="loading"><mat-spinner diameter="24" /></div>
+    } @else {
+      <form [formGroup]="criteriaForm" class="criteria-form">
+        <h4>Criterios de búsqueda</h4>
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Obligatorio</mat-label>
+          <textarea matInput rows="2" formControlName="mandatory"></textarea>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Opcional</mat-label>
+          <textarea matInput rows="2" formControlName="optional"></textarea>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Deseable</mat-label>
+          <textarea matInput rows="2" formControlName="desirable"></textarea>
+        </mat-form-field>
+        <button mat-stroked-button type="button" [disabled]="savingCriteria" (click)="saveCriteria()">
+          @if (savingCriteria) { <mat-spinner diameter="18" /> } @else { Guardar criterios }
+        </button>
+      </form>
+    }
+
     <div class="messages">
       @for (msg of messages; track $index) {
         <div class="message" [class.user]="msg.role === 'user'" [class.ai]="msg.role === 'ai'">
@@ -16,18 +40,31 @@
     <form [formGroup]="searchForm" (ngSubmit)="search()" class="search-form">
       <mat-form-field appearance="outline"><mat-label>Candidatos</mat-label><input matInput type="number" formControlName="count" /></mat-form-field>
       <mat-form-field appearance="outline"><mat-label>Años exp.</mat-label><input matInput type="number" formControlName="years" /></mat-form-field>
-      <mat-form-field appearance="outline" class="prompt-field"><mat-label>Instrucción</mat-label><input matInput formControlName="prompt" /></mat-form-field>
-      <button mat-flat-button color="primary" type="submit" [disabled]="loading"><mat-icon>search</mat-icon> Buscar</button>
+      <button mat-flat-button color="primary" type="submit" [disabled]="loading || submitting || loadingCriteria">
+        <mat-icon>search</mat-icon> Buscar
+      </button>
     </form>
   </div>
 
   @if (results.length) {
+    <div class="results-header">
+      <h4>Ranking IA</h4>
+      <div class="results-actions">
+        <button mat-stroked-button type="button" (click)="toggleAll(true)">Seleccionar todos</button>
+        <button mat-flat-button color="accent" type="button" [disabled]="submitting" (click)="addSelectedToPreselection()">
+          Agregar a preselección
+        </button>
+      </div>
+    </div>
     <div class="results">
-      @for (r of results; track r.candidateId) {
+      @for (r of results; track r.resultId) {
         <mat-card class="result-card">
           <mat-card-header>
-            <mat-card-title>{{ r.name }}</mat-card-title>
-            <mat-card-subtitle>{{ r.compatibility }}% compatibilidad</mat-card-subtitle>
+            <mat-checkbox [(ngModel)]="r.selected" [ngModelOptions]="{ standalone: true }" />
+            <div>
+              <mat-card-title>{{ r.name }}</mat-card-title>
+              <mat-card-subtitle>{{ r.compatibility }}% compatibilidad</mat-card-subtitle>
+            </div>
           </mat-card-header>
           <mat-card-content>
             <p>{{ r.email }} · {{ r.phone }}</p>

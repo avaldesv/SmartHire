@@ -4,9 +4,11 @@ export interface AuthUser {
   firstName: string;
   lastName: string;
   initials: string;
-  role: 'RECRUITER' | 'COORDINATOR' | 'ADMIN';
+  roles: string[];
+  authorities: string[];
   branch: string;
-  permissions: string[];
+  globalAdmin?: boolean;
+  companyId?: number;
 }
 
 export interface PaginatedResult<T> {
@@ -77,9 +79,13 @@ export interface Candidate {
 }
 
 export interface PreselectionCandidate extends Candidate {
+  applicationId: number;
   compatibility: number;
   stage: string;
   interviewScheduled: boolean;
+  infoValidated: boolean;
+  studiesValidated: boolean;
+  documentsSaved: boolean;
   documentsComplete: boolean;
   selected: boolean;
   smartSent: boolean;

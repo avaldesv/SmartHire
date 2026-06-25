@@ -1,3 +1,4 @@
+import { TenantDataScope } from './tenant-data-scope.model';
 import { ApiPageResponse } from './catalog-position.model';
 
 export interface CatalogCurrency {
@@ -8,15 +9,17 @@ export interface CatalogCurrency {
   symbol?: string;
   denomination?: string;
   isActive: boolean;
+  companyId?: number | null;
 }
 
 export interface CreateCurrencyRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   symbol?: string;
   denomination?: string;
   isActive?: boolean;
+  scope?: TenantDataScope;
 }
 
 export type UpdateCurrencyRequest = CreateCurrencyRequest;

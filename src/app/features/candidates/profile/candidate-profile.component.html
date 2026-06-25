@@ -3,8 +3,12 @@
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else if (candidate) {
     <sh-page-header [title]="candidate.firstName + ' ' + candidate.lastName" subtitle="Perfil completo del candidato">
+      @if (backToPreselectionLink) {
+        <button mat-stroked-button [routerLink]="backToPreselectionLink"><mat-icon>arrow_back</mat-icon> Volver a preselección</button>
+      }
       <button mat-stroked-button [routerLink]="['/candidates', candidate.id, 'edit']"><mat-icon>edit</mat-icon> Editar</button>
       <button mat-flat-button color="primary" [routerLink]="['/candidates', candidate.id, 'beneficiary']"><mat-icon>family_restroom</mat-icon> Beneficiarios</button>
+      <button mat-stroked-button [routerLink]="['/candidates', candidate.id, 'emergency-contact']"><mat-icon>contact_emergency</mat-icon> Contactos emergencia</button>
     </sh-page-header>
 
     <div class="profile-grid">
@@ -15,19 +19,12 @@
             <div><dt>ID</dt><dd>{{ candidate.id }}</dd></div>
             <div><dt>Correo</dt><dd>{{ candidate.email }}</dd></div>
             <div><dt>Teléfono</dt><dd>{{ candidate.phone }}</dd></div>
-            <div><dt>Género</dt><dd>{{ candidate.gender || '—' }}</dd></div>
+            <div><dt>Género</dt><dd>—</dd></div>
             <div><dt>Origen</dt><dd>{{ candidate.source }}</dd></div>
             <div><dt>Alta</dt><dd>{{ candidate.createdAt | date:'dd/MM/yyyy' }}</dd></div>
             <div><dt>Experiencia</dt><dd>{{ candidate.experienceYears ?? 0 }} años</dd></div>
             <div><dt>Salario deseado</dt><dd>{{ candidate.desiredSalary ? (candidate.desiredSalary | currency:'MXN':'symbol-narrow':'1.0-0') : '—' }}</dd></div>
           </dl>
-          @if (candidate.specialties?.length) {
-            <div class="chips">
-              @for (s of candidate.specialties; track s) {
-                <mat-chip>{{ s }}</mat-chip>
-              }
-            </div>
-          }
         </mat-card-content>
       </mat-card>
 
@@ -56,7 +53,7 @@
             <div><dt>País</dt><dd>{{ candidate.country }}</dd></div>
             <div><dt>Estado</dt><dd>{{ candidate.state }}</dd></div>
             <div><dt>Ciudad</dt><dd>{{ candidate.city }}</dd></div>
-            <div><dt>Estatus</dt><dd>{{ candidate.active ? 'Activo' : 'Inactivo' }}</dd></div>
+            <div><dt>Estatus</dt><dd>{{ candidate.isActive ? 'Activo' : 'Inactivo' }}</dd></div>
           </dl>
         </mat-card-content>
       </mat-card>

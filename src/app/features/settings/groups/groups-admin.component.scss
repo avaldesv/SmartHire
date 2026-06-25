@@ -1,2 +1,29 @@
 h3 { margin: 0 0 16px; font-size: 1.1rem; }
 .loading-wrap { display: flex; justify-content: center; padding: 48px; }
+.toolbar { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+.form-card { margin-bottom: 16px; padding: 16px; }
+.form-card h4 { margin: 0 0 12px; }
+.scope-selector {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.scope-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #334155;
+}
+.group-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+  align-items: center;
+}
+.form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}

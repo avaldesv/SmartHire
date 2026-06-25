@@ -1,17 +1,25 @@
 @if (loading) {
   <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+} @else if (loadError) {
+  <mat-card class="placeholder-card">
+    <mat-card-content>
+      <p>No fue posible cargar el análisis para la posición #{{ positionId }}.</p>
+    </mat-card-content>
+  </mat-card>
 } @else {
   <div class="sh-grid-3">
-    <sh-kpi-card label="Candidatos en análisis" [value]="stats.total" icon="groups" iconBg="#2563eb" />
+    <sh-kpi-card label="Postulaciones" [value]="stats.total" icon="groups" iconBg="#2563eb" />
     <sh-kpi-card label="Compatibilidad promedio" [value]="stats.avgCompatibility + '%'" icon="percent" iconBg="#0d9488" />
-    <sh-kpi-card label="Con entrevista" [value]="stats.interviewed" icon="event" iconBg="#8b5cf6" />
+    <sh-kpi-card label="Preseleccionados" [value]="stats.selected" icon="check_circle" iconBg="#8b5cf6" />
+    <sh-kpi-card label="Con entrevista" [value]="stats.interviewed" icon="event" iconBg="#f97316" />
+    <sh-kpi-card label="Contratados" [value]="stats.hired" icon="badge" iconBg="#16a34a" />
   </div>
 
   <mat-card class="placeholder-card">
     <mat-card-header><mat-card-title>Análisis detallado</mat-card-title></mat-card-header>
     <mat-card-content>
-      <p>Vista de análisis comparativo y métricas de funnel para la posición #{{ positionId }}.</p>
-      <p class="hint">Contratados en pipeline: <strong>{{ stats.hired }}</strong></p>
+      <p>Métricas calculadas desde <code>POST /api/v1/candidate-applications/list</code> filtrado por posición #{{ positionId }}.</p>
+      <p class="hint">Datos en tiempo real del tenant (hasta 500 postulaciones para promedios).</p>
     </mat-card-content>
   </mat-card>
 }

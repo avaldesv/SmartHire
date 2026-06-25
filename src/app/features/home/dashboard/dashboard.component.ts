@@ -12,12 +12,23 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDialog } from '@angular/material/dialog';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
-import { RequisitionService } from '../../../mock/services/requisition.service';
+import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
+import { PositionService } from '../../../core/services/position.service';
 import { KpiCardComponent } from '../../../shared/components/kpi-card/kpi-card.component';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
-import { Requisition } from '../../../shared/models';
+import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
+import { PositionListItem } from '../../../shared/models/position.model';
+import {
+  CandidatePoolDialogComponent,
+  CandidatePoolDialogData,
+} from '../../candidates/dialogs/candidate-pool-dialog/candidate-pool-dialog.component';
+import {
+  PositionApplicationsDialogComponent,
+  PositionApplicationsDialogData,
+} from '../../candidates/dialogs/position-applications-dialog/position-applications-dialog.component';
 
 @Component({
   selector: 'sh-dashboard',
@@ -44,56 +55,60 @@ import { Requisition } from '../../../shared/models';
 })
 export class DashboardComponent implements OnInit {
   private readonly auth = inject(AuthService);
-  private readonly reqService = inject(RequisitionService);
+  private readonly positionService = inject(PositionService);
+  private readonly geographyService = inject(CatalogGeographyService);
   private readonly snack = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
+  private readonly dialog = inject(MatDialog);
 
   readonly user = this.auth.currentUser;
   loading = true;
   total = 0;
-  pageSize = 5;
+  pageSize = 10;
   pageIndex = 0;
-  data: Requisition[] = [];
-  clients: string[] = [];
+  data: PositionListItem[] = [];
+  countryOptions: CatalogCountry[] = [];
 
   kpis = { totalPositions: 0, preselected: 0, interested: 0 };
 
-  readonly statusOptions = ['Todos', 'Abierta', 'En Proceso', 'En Revisión', 'Cerrada', 'Selección', 'Análisis'];
+  readonly statusOptions = ['Todos', 'DRAFT', 'PENDING_CANCELLATION'];
 
   readonly displayedColumns = [
     'requisitionNo',
     'name',
     'ot',
-    'createdAt',
-    'positionsCount',
-    'applicants',
-    'preselected',
-    'firstDay',
-    'recruiter',
-    'type',
-    'category',
-    'brand',
     'client',
     'clientKey',
-    'unit',
+    'positionsCount',
     'city',
     'state',
-    'status',
+    'brand',
+    'type',
+    'category',
     'country',
+    'startDate',
+    'status',
+    'recruiter',
+    'createdAt',
     'actions',
   ];
 
   readonly filters = this.fb.nonNullable.group({
     search: [''],
     status: ['Todos'],
-    client: ['Todos'],
+    countryId: [0],
+    recruiter: [''],
     dateFrom: [''],
     dateTo: [''],
   });
 
   ngOnInit(): void {
-    this.reqService.getKpis().subscribe((k) => (this.kpis = k));
-    this.reqService.getClients().subscribe((c) => (this.clients = ['Todos', ...c]));
+    this.geographyService.listCountries(0, 200).subscribe({
+      next: (countries) => {
+        this.countryOptions = countries.filter((c) => c.isActive);
+      },
+    });
+    this.loadKpis();
     this.loadData();
     this.filters.valueChanges.pipe(debounceTime(300), distinctUntilChanged()).subscribe(() => {
       this.pageIndex = 0;
@@ -101,21 +116,50 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  loadKpis(): void {
+    this.positionService.getDashboardKpis().subscribe({
+      next: (res) => {
+        this.kpis = {
+          totalPositions: res.totalPositions,
+          preselected: res.preselectedCandidates,
+          interested: res.interestedCandidates,
+        };
+      },
+      error: () => {
+        this.snack.open('No se pudieron cargar los KPIs', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
   loadData(): void {
     this.loading = true;
-    const f = this.filters.getRawValue();
-    this.reqService
-      .list({
-        search: f.search || undefined,
-        status: f.status !== 'Todos' ? f.status : undefined,
-        client: f.client !== 'Todos' ? f.client : undefined,
-        page: this.pageIndex + 1,
-        pageSize: this.pageSize,
-      })
-      .subscribe((res) => {
-        this.data = res.items;
-        this.total = res.total;
-        this.loading = false;
+    const status = this.filters.controls.status.value;
+    const search = this.filters.controls.search.value;
+    const dateFrom = this.filters.controls.dateFrom.value || null;
+    const dateTo = this.filters.controls.dateTo.value || null;
+    const countryId = this.filters.controls.countryId.value;
+    const recruiter = this.filters.controls.recruiter.value;
+    this.positionService
+      .list(
+        this.pageIndex,
+        this.pageSize,
+        status !== 'Todos' ? status : null,
+        search,
+        dateFrom,
+        dateTo,
+        countryId > 0 ? countryId : null,
+        recruiter,
+      )
+      .subscribe({
+        next: (res) => {
+          this.data = res.items;
+          this.total = res.total;
+          this.loading = false;
+        },
+        error: () => {
+          this.loading = false;
+          this.snack.open('No se pudieron cargar las solicitudes', 'Cerrar', { duration: 4000 });
+        },
       });
   }
 
@@ -126,15 +170,125 @@ export class DashboardComponent implements OnInit {
   }
 
   clearFilters(): void {
-    this.filters.reset({ search: '', status: 'Todos', client: 'Todos', dateFrom: '', dateTo: '' });
+    this.filters.reset({ search: '', status: 'Todos', countryId: 0, recruiter: '', dateFrom: '', dateTo: '' });
     this.snack.open('Filtros limpiados', 'Cerrar', { duration: 2500 });
   }
 
-  newRequisition(): void {
-    this.snack.open('Redirigiendo a nueva requisición…', 'Cerrar', { duration: 2000 });
+  duplicatePosition(row: PositionListItem): void {
+    this.positionService.duplicate(row.id).subscribe({
+      next: (res) => {
+        this.loadKpis();
+        this.loadData();
+        this.snack.open(`Posición duplicada: REQ-${res.id}`, 'Cerrar', { duration: 4000 });
+      },
+      error: () => {
+        this.snack.open('No se pudo duplicar la posición', 'Cerrar', { duration: 4000 });
+      },
+    });
   }
 
-  rowAction(action: string, row: Requisition): void {
-    this.snack.open(`${action}: ${row.requisitionNo}`, 'Cerrar', { duration: 2500 });
+  cancelPosition(row: PositionListItem): void {
+    if (!confirm(`¿Cancelar directamente la requisición ${row.requisitionNo}? Esta acción no se puede deshacer.`)) {
+      return;
+    }
+    this.positionService.delete(row.id).subscribe({
+      next: () => {
+        this.loadKpis();
+        this.loadData();
+        this.snack.open('Requisición cancelada', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.snack.open('No se pudo cancelar la requisición', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  requestCancellation(row: PositionListItem): void {
+    if (row.status !== 'DRAFT') {
+      return;
+    }
+    if (!confirm(`¿Solicitar cancelación de ${row.requisitionNo}? Quedará pendiente de aprobación.`)) {
+      return;
+    }
+    this.positionService.requestCancellation(row.id).subscribe({
+      next: () => {
+        this.loadData();
+        this.snack.open('Solicitud de cancelación enviada', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.snack.open('No se pudo solicitar la cancelación', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  approveCancellation(row: PositionListItem): void {
+    if (row.status !== 'PENDING_CANCELLATION') {
+      return;
+    }
+    if (!confirm(`¿Aprobar cancelación de ${row.requisitionNo}? La requisición será eliminada.`)) {
+      return;
+    }
+    this.positionService.approveCancellation(row.id).subscribe({
+      next: () => {
+        this.loadKpis();
+        this.loadData();
+        this.snack.open('Cancelación aprobada', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.snack.open('No se pudo aprobar la cancelación', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  rejectCancellation(row: PositionListItem): void {
+    if (row.status !== 'PENDING_CANCELLATION') {
+      return;
+    }
+    if (!confirm(`¿Rechazar solicitud de cancelación de ${row.requisitionNo}? Volverá a borrador.`)) {
+      return;
+    }
+    this.positionService.rejectCancellation(row.id).subscribe({
+      next: () => {
+        this.loadData();
+        this.snack.open('Solicitud de cancelación rechazada', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.snack.open('No se pudo rechazar la solicitud', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  openPoolDialog(row: PositionListItem): void {
+    const ref = this.dialog.open<CandidatePoolDialogComponent, CandidatePoolDialogData>(
+      CandidatePoolDialogComponent,
+      {
+        width: '760px',
+        maxWidth: '95vw',
+        data: { positionId: row.id, requisitionNo: row.requisitionNo },
+      },
+    );
+    ref.afterClosed().subscribe((result) => {
+      if (result?.created) {
+        this.loadKpis();
+        this.snack.open(`${result.created} candidato(s) postulado(s) a ${row.requisitionNo}`, 'Cerrar', {
+          duration: 4000,
+        });
+      }
+    });
+  }
+
+  openApplicationsDialog(row: PositionListItem): void {
+    this.dialog.open<PositionApplicationsDialogComponent, PositionApplicationsDialogData>(
+      PositionApplicationsDialogComponent,
+      {
+        width: '720px',
+        maxWidth: '95vw',
+        data: {
+          positionId: row.id,
+          requisitionNo: row.requisitionNo,
+          positionName: row.name,
+        },
+      },
+    );
   }
 }

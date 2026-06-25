@@ -4,6 +4,16 @@
     <span class="logo-text">Smart Hire</span>
   </div>
   <div class="header-actions">
+    @if (isGlobalAdmin()) {
+      <mat-form-field class="tenant-select" appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Tenant</mat-label>
+        <mat-select [value]="activeCompanyId()" (selectionChange)="onTenantChange($event.value)">
+          @for (company of tenantOptions(); track company.id) {
+            <mat-option [value]="company.id">{{ company.name }} ({{ company.code }})</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    }
     <button mat-icon-button matBadge="3" matBadgeColor="primary" aria-label="Notificaciones">
       <mat-icon>notifications</mat-icon>
     </button>
@@ -28,7 +38,7 @@
 </header>
 
 <nav class="main-nav">
-  @for (item of navItems; track item.path) {
+  @for (item of navItems(); track item.path) {
     <a [routerLink]="item.path" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: item.path === '/home' }">
       <mat-icon>{{ item.icon }}</mat-icon>
       {{ item.label }}

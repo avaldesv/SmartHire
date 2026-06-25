@@ -4,7 +4,11 @@ import { Observable, map } from 'rxjs';
 import {
   CreatePositionRequest,
   CreatePositionResponse,
+  DuplicatePositionResponse,
+  RequestPositionCancellationResponse,
+  RejectPositionCancellationResponse,
   PositionDetail,
+  PositionDashboardKpis,
   PositionListItem,
   PositionListResponse,
   UpdatePositionRequest,
@@ -17,8 +21,28 @@ export class PositionService {
   private readonly http = inject(HttpClient);
   private readonly api = inject(ApiClientService);
 
-  list(page = 0, size = 20, status?: string | null): Observable<{ items: PositionListItem[]; total: number }> {
-    const body = { status: status ?? null, filters: [], ordersBy: ['createAt:desc'] as string[] };
+  list(
+    page = 0,
+    size = 20,
+    status?: string | null,
+    search?: string,
+    createdFrom?: string | null,
+    createdTo?: string | null,
+    countryId?: number | null,
+    recruiter?: string | null,
+  ): Observable<{ items: PositionListItem[]; total: number }> {
+    const term = search?.trim();
+    const recruiterTerm = recruiter?.trim();
+    const body = {
+      status: status ?? null,
+      search: term || null,
+      createdFrom: createdFrom || null,
+      createdTo: createdTo || null,
+      countryId: countryId ?? null,
+      recruiter: recruiterTerm || null,
+      filters: [],
+      ordersBy: ['createAt:desc'] as string[],
+    };
     return this.http
       .post<PositionListResponse>(this.api.apiUrl('/api/v1/positions/list'), body, {
         headers: this.api.buildHeaders(page, size),
@@ -28,11 +52,22 @@ export class PositionService {
           items: (res.data ?? []).map((item) => ({
             ...item,
             recruiter: item.recruiter ?? '—',
+            brand: item.brand ?? '—',
+            country: item.country ?? '—',
+            state: item.state ?? '—',
+            requisitionType: item.requisitionType ?? '—',
+            coverageType: item.coverageType ?? '—',
             createdAt: item.createdAt,
           })),
           total: res.pagination?.total ?? 0,
         })),
       );
+  }
+
+  getDashboardKpis(): Observable<PositionDashboardKpis> {
+    return this.http.get<PositionDashboardKpis>(this.api.apiUrl('/api/v1/positions/dashboard-kpis'), {
+      headers: this.api.buildHeaders(),
+    });
   }
 
   getById(id: number): Observable<PositionDetail> {
@@ -51,5 +86,43 @@ export class PositionService {
     return this.http.put<UpdatePositionResponse>(this.api.apiUrl(`/api/v1/positions/${id}`), request, {
       headers: this.api.buildHeaders(),
     });
+  }
+
+  duplicate(id: number): Observable<DuplicatePositionResponse> {
+    return this.http.post<DuplicatePositionResponse>(
+      this.api.apiUrl(`/api/v1/positions/${id}/duplicate`),
+      {},
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(this.api.apiUrl(`/api/v1/positions/${id}`), {
+      headers: this.api.buildHeaders(),
+    });
+  }
+
+  requestCancellation(id: number): Observable<RequestPositionCancellationResponse> {
+    return this.http.post<RequestPositionCancellationResponse>(
+      this.api.apiUrl(`/api/v1/positions/${id}/request-cancellation`),
+      {},
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  approveCancellation(id: number): Observable<void> {
+    return this.http.post<void>(
+      this.api.apiUrl(`/api/v1/positions/${id}/approve-cancellation`),
+      {},
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  rejectCancellation(id: number): Observable<RejectPositionCancellationResponse> {
+    return this.http.post<RejectPositionCancellationResponse>(
+      this.api.apiUrl(`/api/v1/positions/${id}/reject-cancellation`),
+      {},
+      { headers: this.api.buildHeaders() },
+    );
   }
 }
