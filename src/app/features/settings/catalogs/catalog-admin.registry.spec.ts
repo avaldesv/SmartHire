@@ -22,6 +22,14 @@ describe('catalog-admin.registry', () => {
         expect(empresas?.catalogs.some((entry) => entry.id === 'company')).toBeFalse();
       }
     });
+
+    it('moves Colonia to SmartHire/Ops and removes duplicate Tipo cubrimiento from Generales', () => {
+      const generales = resolveVisibleCategories(true).find((category) => category.id === 'generales');
+      const smarthireOps = resolveVisibleCategories(true).find((category) => category.id === 'smarthireOps');
+      expect(generales?.catalogs.some((entry) => entry.id === 'neighborhood')).toBeFalse();
+      expect(generales?.catalogs.some((entry) => entry.id === 'coverageType')).toBeFalse();
+      expect(smarthireOps?.catalogs.some((entry) => entry.id === 'neighborhood')).toBeTrue();
+    });
   });
 
   describe('ensureValidCatalogSelection', () => {
