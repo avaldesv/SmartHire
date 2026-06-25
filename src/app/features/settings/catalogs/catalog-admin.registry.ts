@@ -49,6 +49,7 @@ export type CatalogPanelKey =
   | 'companyDepartment'
   | 'branch'
   | 'questionnaireCategory'
+  | 'questionnaireQuestion'
   | 'messages'
   | 'jobPortal'
   | 'recruiterGroup';
@@ -113,7 +114,7 @@ const CATALOG_CATEGORIES_RAW: CatalogCategoryDefinition[] = [
     label: 'Cuestionario',
     catalogs: [
       { id: 'questionnaireCategory', label: 'Categoría cuestionario', panelKey: 'questionnaireCategory', implemented: true },
-      { id: 'questionnaireQuestion', label: 'Pregunta', implemented: false },
+      { id: 'questionnaireQuestion', label: 'Pregunta', panelKey: 'questionnaireQuestion', implemented: true },
     ],
   },
   {
