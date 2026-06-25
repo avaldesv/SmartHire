@@ -13,7 +13,7 @@ export interface CatalogWorkplace {
 }
 
 export interface CreateWorkplaceRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   description?: string;

@@ -13,7 +13,7 @@ export interface CatalogWorkSchedule {
 }
 
 export interface CreateWorkScheduleRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   description?: string;

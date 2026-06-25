@@ -13,7 +13,7 @@ export interface CatalogRequirement {
 }
 
 export interface CreateRequirementRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   description?: string;

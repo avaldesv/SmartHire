@@ -14,7 +14,7 @@ export interface SecurityRecruiterGroup {
 }
 
 export interface CreateRecruiterGroupRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   description: string;
   legacyManpowerId: number;

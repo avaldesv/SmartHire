@@ -13,7 +13,7 @@ export interface CatalogTool {
 }
 
 export interface CreateToolRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   description?: string;

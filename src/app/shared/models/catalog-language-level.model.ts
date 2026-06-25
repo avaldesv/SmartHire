@@ -12,7 +12,7 @@ export interface CatalogLanguageLevel {
 }
 
 export interface CreateLanguageLevelRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   appliesToCareer?: boolean;

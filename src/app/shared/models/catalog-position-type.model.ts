@@ -13,7 +13,7 @@ export interface CatalogPositionType {
 }
 
 export interface CreatePositionTypeRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   description?: string;

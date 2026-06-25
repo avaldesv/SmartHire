@@ -11,7 +11,7 @@ export interface CatalogShift {
 }
 
 export interface CreateShiftRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   isActive?: boolean;

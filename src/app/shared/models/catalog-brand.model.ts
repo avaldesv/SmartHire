@@ -11,7 +11,7 @@ export interface CatalogBrand {
 }
 
 export interface CreateBrandRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   isActive?: boolean;

@@ -12,7 +12,7 @@ export interface CatalogGeneralCategory {
 }
 
 export interface CreateGeneralCategoryRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   description?: string;

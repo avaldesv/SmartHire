@@ -811,7 +811,7 @@ export class CatalogsAdminComponent implements OnInit {
   readonly recruiterGroupColumns = ['code', 'description', 'legacyManpowerId', 'coreAts', 'coreAppian', 'active', 'scope', 'actions'];
 
   readonly recruiterGroupForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     description: ['', Validators.required],
     legacyManpowerId: [null as number | null, Validators.required],
@@ -823,7 +823,7 @@ export class CatalogsAdminComponent implements OnInit {
   readonly jobPortalColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
 
   readonly jobPortalForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     description: [''],
@@ -833,7 +833,7 @@ export class CatalogsAdminComponent implements OnInit {
   readonly questionnaireCategoryColumns = ['code', 'name', 'description', 'active', 'actions'];
 
   readonly questionnaireCategoryForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     description: [''],
@@ -847,7 +847,7 @@ export class CatalogsAdminComponent implements OnInit {
   readonly neighborhoodColumns = ['name', 'postalCode', 'active', 'scope', 'actions'];
 
   readonly genderForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     value: [''],
@@ -879,7 +879,7 @@ export class CatalogsAdminComponent implements OnInit {
   });
 
   readonly coverageCategoryForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     description: [''],
@@ -887,7 +887,7 @@ export class CatalogsAdminComponent implements OnInit {
     isActive: [true],
   });
   readonly characteristicForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     description: [''],
@@ -895,14 +895,14 @@ export class CatalogsAdminComponent implements OnInit {
     isActive: [true],
   });
   readonly categoryForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     description: [''],
     isActive: [true],
   });
   readonly maritalStatusForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     description: [''],
@@ -910,7 +910,7 @@ export class CatalogsAdminComponent implements OnInit {
     isActive: [true],
   });
   readonly experienceLevelForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     description: [''],
@@ -918,7 +918,7 @@ export class CatalogsAdminComponent implements OnInit {
     isActive: [true],
   });
   readonly toolForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     description: [''],
@@ -926,7 +926,7 @@ export class CatalogsAdminComponent implements OnInit {
     isActive: [true],
   });
   readonly workScheduleForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     description: [''],
@@ -934,7 +934,7 @@ export class CatalogsAdminComponent implements OnInit {
     isActive: [true],
   });
   readonly workplaceForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     description: [''],
@@ -942,7 +942,7 @@ export class CatalogsAdminComponent implements OnInit {
     isActive: [true],
   });
   readonly requirementForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     description: [''],
@@ -950,7 +950,7 @@ export class CatalogsAdminComponent implements OnInit {
     isActive: [true],
   });
   readonly responsibilityLevelForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     description: [''],
@@ -958,7 +958,7 @@ export class CatalogsAdminComponent implements OnInit {
     isActive: [true],
   });
   readonly disabilityTypeForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     description: [''],
@@ -966,7 +966,7 @@ export class CatalogsAdminComponent implements OnInit {
     isActive: [true],
   });
   readonly businessUnitForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     description: [''],
@@ -974,7 +974,7 @@ export class CatalogsAdminComponent implements OnInit {
     isActive: [true],
   });
   readonly positionTypeForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     description: [''],
@@ -996,7 +996,7 @@ export class CatalogsAdminComponent implements OnInit {
   });
 
   readonly currencyForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     symbol: [''],
@@ -1005,7 +1005,7 @@ export class CatalogsAdminComponent implements OnInit {
   });
 
   readonly careerForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     isActive: [true],
@@ -1018,21 +1018,21 @@ export class CatalogsAdminComponent implements OnInit {
   });
 
   readonly shiftForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     isActive: [true],
   });
 
   readonly benefitForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     isActive: [true],
   });
 
   readonly documentTypeForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     documentType: ['', Validators.required],
@@ -1041,14 +1041,14 @@ export class CatalogsAdminComponent implements OnInit {
   });
 
   readonly brandForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     isActive: [true],
   });
 
   readonly contractTypeForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     description: [''],
@@ -1056,7 +1056,7 @@ export class CatalogsAdminComponent implements OnInit {
   });
 
   readonly coverageTypeForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     description: [''],
@@ -1064,7 +1064,7 @@ export class CatalogsAdminComponent implements OnInit {
   });
 
   readonly educationLevelForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     description: [''],
@@ -1073,7 +1073,7 @@ export class CatalogsAdminComponent implements OnInit {
   });
 
   readonly languageLevelForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     appliesToCareer: [false],
@@ -1081,7 +1081,7 @@ export class CatalogsAdminComponent implements OnInit {
   });
 
   readonly requisitionTypeForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
+    countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
     description: [''],
@@ -2150,7 +2150,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.recruiterGroupForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       description: value.description,
       legacyManpowerId: value.legacyManpowerId!,
@@ -2247,7 +2247,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.jobPortalForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       description: value.description || undefined,
@@ -2330,7 +2330,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.questionnaireCategoryForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       description: value.description || undefined,
@@ -2452,7 +2452,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.genderForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       value: value.value || undefined,
@@ -2559,7 +2559,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.coverageCategoryForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       description: value.description || undefined,
@@ -2623,7 +2623,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.characteristicForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       description: value.description || undefined,
@@ -2685,7 +2685,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.categoryForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       description: value.description || undefined,
@@ -2748,7 +2748,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.maritalStatusForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       description: value.description || undefined,
@@ -2812,7 +2812,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.experienceLevelForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       description: value.description || undefined,
@@ -2876,7 +2876,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.toolForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       description: value.description || undefined,
@@ -2940,7 +2940,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.workScheduleForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       description: value.description || undefined,
@@ -3004,7 +3004,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.workplaceForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       description: value.description || undefined,
@@ -3068,7 +3068,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.requirementForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       description: value.description || undefined,
@@ -3132,7 +3132,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.responsibilityLevelForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       description: value.description || undefined,
@@ -3196,7 +3196,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.disabilityTypeForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       description: value.description || undefined,
@@ -3260,7 +3260,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.businessUnitForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       description: value.description || undefined,
@@ -3324,7 +3324,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.positionTypeForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       description: value.description || undefined,
@@ -3529,7 +3529,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.currencyForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       symbol: value.symbol || undefined,
@@ -3585,7 +3585,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.careerForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       isActive: value.isActive,
@@ -3682,7 +3682,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.shiftForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       isActive: value.isActive,
@@ -3736,7 +3736,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.benefitForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       isActive: value.isActive,
@@ -3799,7 +3799,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.documentTypeForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       documentType: value.documentType,
@@ -3855,7 +3855,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.brandForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       isActive: value.isActive,
@@ -3916,7 +3916,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.contractTypeForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       description: value.description || undefined,
@@ -3978,7 +3978,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.coverageTypeForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       description: value.description || undefined,
@@ -4042,7 +4042,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.educationLevelForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       description: value.description || undefined,
@@ -4105,7 +4105,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.languageLevelForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       appliesToCareer: value.appliesToCareer,
@@ -4167,7 +4167,7 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.requisitionTypeForm.getRawValue();
     const payload = {
-      countryId: value.countryId!,
+      countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
       description: value.description || undefined,

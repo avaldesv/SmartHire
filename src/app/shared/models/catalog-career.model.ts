@@ -11,7 +11,7 @@ export interface CatalogCareer {
 }
 
 export interface CreateCareerRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   isActive?: boolean;

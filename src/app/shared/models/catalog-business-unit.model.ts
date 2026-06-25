@@ -13,7 +13,7 @@ export interface CatalogBusinessUnit {
 }
 
 export interface CreateBusinessUnitRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   description?: string;

@@ -13,7 +13,7 @@ export interface CatalogEducationLevel {
 }
 
 export interface CreateEducationLevelRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   description?: string;
