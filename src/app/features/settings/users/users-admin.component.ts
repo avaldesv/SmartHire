@@ -11,7 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap, catchError, map } from 'rxjs';
 import { of } from 'rxjs';
 import { CatalogBranchService } from '../../../core/services/catalog-branch.service';
 import { CatalogClientCompanyService } from '../../../core/services/catalog-client-company.service';
@@ -144,24 +144,41 @@ export class UsersAdminComponent implements OnInit {
         debounceTime(300),
         distinctUntilChanged(),
         switchMap((term) => {
-          const trimmed = term?.trim() ?? '';
-          if (trimmed.length < 2) {
+          const trimmed = typeof term === 'string' ? term.trim() : '';
+          if (!trimmed) {
+            this.userForm.patchValue({ supervisorId: null }, { emitEvent: false });
             return of([] as SupervisorOption[]);
           }
-          return this.userService.list(0, 20, trimmed).pipe(
-            switchMap((res) =>
-              of(
-                res.items
-                  .filter((u) => u.id !== this.editingUserId)
-                  .map((u) => ({ id: u.id, label: this.buildUserLabel(u) })),
-              ),
-            ),
-          );
+          if (this.userForm.controls.supervisorId.value != null) {
+            this.userForm.patchValue({ supervisorId: null }, { emitEvent: false });
+          }
+          return this.searchSupervisors(trimmed);
         }),
       )
       .subscribe((options) => {
         this.supervisorOptions = options;
       });
+  }
+
+  onSupervisorFocus(): void {
+    const trimmed = this.userForm.controls.supervisorSearch.value?.trim() ?? '';
+    if (trimmed.length > 0) {
+      return;
+    }
+    this.searchSupervisors('').subscribe((options) => {
+      this.supervisorOptions = options;
+    });
+  }
+
+  private searchSupervisors(term: string) {
+    return this.userService.list(0, 20, term || undefined).pipe(
+      map((res) =>
+        res.items
+          .filter((u) => u.id !== this.editingUserId)
+          .map((u) => ({ id: u.id, label: this.buildUserLabel(u) })),
+      ),
+      catchError(() => of([] as SupervisorOption[])),
+    );
   }
 
   private loadCatalogData(): void {
@@ -228,7 +245,11 @@ export class UsersAdminComponent implements OnInit {
     this.displaySupervisor(option);
 
   onSupervisorSelected(option: SupervisorOption): void {
-    this.userForm.patchValue({ supervisorId: option.id, supervisorSearch: option.label });
+    this.userForm.patchValue(
+      { supervisorId: option.id, supervisorSearch: option.label },
+      { emitEvent: false },
+    );
+    this.supervisorOptions = [option];
   }
 
   clearSupervisor(): void {
