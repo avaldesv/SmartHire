@@ -23,7 +23,9 @@ import { CatalogCoverageCategory } from '../../../shared/models/catalog-coverage
 import { CatalogCharacteristicService } from '../../../core/services/catalog-characteristic.service';
 import { CatalogCharacteristic } from '../../../shared/models/catalog-characteristic.model';
 import { CatalogCategoryService } from '../../../core/services/catalog-category.service';
+import { CatalogGeneralCategoryService } from '../../../core/services/catalog-general-category.service';
 import { CatalogCategory } from '../../../shared/models/catalog-category.model';
+import { CatalogGeneralCategory } from '../../../shared/models/catalog-general-category.model';
 import { CatalogMaritalStatusService } from '../../../core/services/catalog-marital-status.service';
 import { CatalogMaritalStatus } from '../../../shared/models/catalog-marital-status.model';
 import { CatalogExperienceLevelService } from '../../../core/services/catalog-experience-level.service';
@@ -54,8 +56,6 @@ import { SecurityRecruiterGroupService } from '../../../core/services/security-r
 import { SecurityRecruiterGroup } from '../../../shared/models/security-recruiter-group.model';
 import { CatalogJobPortalService } from '../../../core/services/catalog-job-portal.service';
 import { CatalogJobPortal } from '../../../shared/models/catalog-job-portal.model';
-import { QuestionnaireCategoryService } from '../../../core/services/questionnaire-category.service';
-import { QuestionnaireCategory } from '../../../shared/models/questionnaire-category.model';
 import { CatalogContractTypeService } from '../../../core/services/catalog-contract-type.service';
 import { CatalogEducationLevelService } from '../../../core/services/catalog-education-level.service';
 import { CatalogLanguageLevelService } from '../../../core/services/catalog-language-level.service';
@@ -161,14 +161,14 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly clientService = inject(CatalogClientService);
   private readonly recruiterGroupService = inject(SecurityRecruiterGroupService);
   private readonly jobPortalService = inject(CatalogJobPortalService);
-  private readonly questionnaireCategoryService = inject(QuestionnaireCategoryService);
   private readonly contractTypeService = inject(CatalogContractTypeService);
   private readonly companyAreaService = inject(CatalogCompanyAreaService);
   private readonly companyDepartmentService = inject(CatalogCompanyDepartmentService);
   private readonly branchService = inject(CatalogBranchService);
   private readonly coverageCategoryService = inject(CatalogCoverageCategoryService);
   private readonly characteristicService = inject(CatalogCharacteristicService);
-  private readonly categoryService = inject(CatalogCategoryService);
+  private readonly generalCategoryService = inject(CatalogGeneralCategoryService);
+  private readonly catalogCategoryService = inject(CatalogCategoryService);
   private readonly maritalStatusService = inject(CatalogMaritalStatusService);
   private readonly experienceLevelService = inject(CatalogExperienceLevelService);
   private readonly toolService = inject(CatalogToolService);
@@ -472,7 +472,7 @@ export class CatalogsAdminComponent implements OnInit {
   savingCharacteristic = false;
   editingCharacteristicId: number | null = null;
   showCharacteristicForm = false;
-  catalogCategories: CatalogCategory[] = [];
+  catalogCategories: CatalogGeneralCategory[] = [];
   categoryTotal = 0;
   categoryPageIndex = 0;
   categoryPageSize = 10;
@@ -605,7 +605,7 @@ export class CatalogsAdminComponent implements OnInit {
   editingJobPortalId: number | null = null;
   showJobPortalForm = false;
 
-  questionnaireCategories: QuestionnaireCategory[] = [];
+  questionnaireCategories: CatalogCategory[] = [];
   questionnaireCategoryTotal = 0;
   questionnaireCategoryPageIndex = 0;
   questionnaireCategoryPageSize = 10;
@@ -899,7 +899,6 @@ export class CatalogsAdminComponent implements OnInit {
     code: ['', Validators.required],
     name: ['', Validators.required],
     description: [''],
-    legacyManpowerId: [null as number | null],
     isActive: [true],
   });
   readonly maritalStatusForm = this.fb.nonNullable.group({
@@ -1496,7 +1495,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadCategorys(): void {
     if (this.selectedCountryId == null) return;
     this.loadingCategories = true;
-    this.categoryService.list(this.selectedCountryId, this.categoryPageIndex, this.categoryPageSize).subscribe({
+    this.generalCategoryService.list(this.selectedCountryId, this.categoryPageIndex, this.categoryPageSize).subscribe({
       next: (res) => {
         this.catalogCategories = res.items;
         this.categoryTotal = res.total;
@@ -2276,7 +2275,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadQuestionnaireCategorys(): void {
     if (this.selectedCountryId == null) return;
     this.loadingQuestionnaireCategories = true;
-    this.questionnaireCategoryService.list(this.selectedCountryId, this.questionnaireCategoryPageIndex, this.questionnaireCategoryPageSize).subscribe({
+    this.catalogCategoryService.list(this.selectedCountryId, this.questionnaireCategoryPageIndex, this.questionnaireCategoryPageSize).subscribe({
       next: (res) => {
         this.questionnaireCategories = res.items;
         this.questionnaireCategoryTotal = res.total;
@@ -2307,7 +2306,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.showQuestionnaireCategoryForm = true;
   }
 
-  openEditQuestionnaireCategory(row: QuestionnaireCategory): void {
+  openEditQuestionnaireCategory(row: CatalogCategory): void {
     this.editingQuestionnaireCategoryId = row.id;
     this.showQuestionnaireCategoryForm = true;
     this.questionnaireCategoryForm.patchValue({
@@ -2340,8 +2339,8 @@ export class CatalogsAdminComponent implements OnInit {
     this.savingQuestionnaireCategory = true;
     const request$ =
       this.editingQuestionnaireCategoryId != null
-        ? this.questionnaireCategoryService.update(this.editingQuestionnaireCategoryId, payload)
-        : this.questionnaireCategoryService.create(payload);
+        ? this.catalogCategoryService.update(this.editingQuestionnaireCategoryId, payload)
+        : this.catalogCategoryService.create(payload);
     request$.subscribe({
       next: () => {
         this.savingQuestionnaireCategory = false;
@@ -2356,11 +2355,11 @@ export class CatalogsAdminComponent implements OnInit {
     });
   }
 
-  deleteQuestionnaireCategory(row: QuestionnaireCategory): void {
+  deleteQuestionnaireCategory(row: CatalogCategory): void {
     this.deleteCatalogRow(
       row,
       row.name || row.code,
-      this.questionnaireCategoryService.delete(row.id),
+      this.catalogCategoryService.delete(row.id),
       () => this.loadQuestionnaireCategorys(),
       this.editingQuestionnaireCategoryId,
       () => this.cancelQuestionnaireCategoryForm(),
@@ -2658,12 +2657,11 @@ export class CatalogsAdminComponent implements OnInit {
       code: '',
       name: '',
       description: '',
-      legacyManpowerId: null,
       isActive: true,
     });
   }
 
-  openEditCategory(row: CatalogCategory): void {
+  openEditCategory(row: CatalogGeneralCategory): void {
     this.editingCategoryId = row.id;
     this.showCategoryForm = true;
     this.categoryForm.patchValue({
@@ -2671,7 +2669,6 @@ export class CatalogsAdminComponent implements OnInit {
       code: row.code,
       name: row.name,
       description: row.description ?? '',
-      legacyManpowerId: row.legacyManpowerId ?? null,
       isActive: row.isActive,
     });
   }
@@ -2692,14 +2689,13 @@ export class CatalogsAdminComponent implements OnInit {
       code: value.code,
       name: value.name,
       description: value.description || undefined,
-      legacyManpowerId: value.legacyManpowerId ?? undefined,
       isActive: value.isActive,
     };
     this.savingCategory = true;
     const request$ =
       this.editingCategoryId != null
-        ? this.categoryService.update(this.editingCategoryId, payload)
-        : this.categoryService.create(this.withCreateScope(payload));
+        ? this.generalCategoryService.update(this.editingCategoryId, payload)
+        : this.generalCategoryService.create(this.withCreateScope(payload));
     request$.subscribe({
       next: () => {
         this.savingCategory = false;
@@ -5072,11 +5068,11 @@ export class CatalogsAdminComponent implements OnInit {
     );
   }
 
-  deleteCategory(row: CatalogCategory): void {
+  deleteCategory(row: CatalogGeneralCategory): void {
     this.deleteCatalogRow(
       row,
       row.name || row.code,
-      this.categoryService.delete(row.id),
+      this.generalCategoryService.delete(row.id),
       () => this.loadCategorys(),
       this.editingCategoryId,
       () => this.cancelCategoryForm(),
