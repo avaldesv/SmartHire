@@ -57,7 +57,7 @@
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Supervisor</mat-label>
-        <input matInput formControlName="supervisorSearch" [matAutocomplete]="supervisorAuto" />
+        <input matInput formControlName="supervisorSearch" [matAutocomplete]="supervisorAuto" (focus)="onSupervisorFocus()" />
         @if (userForm.controls.supervisorId.value) {
           <button matSuffix mat-icon-button type="button" aria-label="Quitar supervisor" (click)="clearSupervisor()">
             <mat-icon>close</mat-icon>
