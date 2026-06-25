@@ -22,11 +22,11 @@ interface NavItem {
 
 const ALL_NAV_ITEMS: NavItem[] = [
   { label: 'Inicio', path: '/home', icon: 'home', authority: AppPermissions.HOME_READ },
-  { label: 'Posiciones', path: '/positions', icon: 'work', authority: AppPermissions.REQUISITION_READ },
+  /*{ label: 'Posiciones', path: '/positions', icon: 'work', authority: AppPermissions.REQUISITION_READ },
   { label: 'Candidatos', path: '/candidates', icon: 'people', authority: AppPermissions.CANDIDATE_READ },
   { label: 'Cuestionarios', path: '/questionnaires', icon: 'quiz', authority: AppPermissions.QUESTIONNAIRE_READ },
   { label: 'Seguimiento', path: '/tracking', icon: 'timeline', authority: AppPermissions.TRACKING_READ },
-  { label: 'Reportes', path: '/reports', icon: 'bar_chart', authority: AppPermissions.REPORT_READ },
+  { label: 'Reportes', path: '/reports', icon: 'bar_chart', authority: AppPermissions.REPORT_READ },*/
   { label: 'Configuraciones', path: '/settings', icon: 'settings', authority: AppPermissions.SETTINGS_USERS_READ },
 ];
 
