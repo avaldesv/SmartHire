@@ -56,6 +56,8 @@ import { SecurityRecruiterGroupService } from '../../../core/services/security-r
 import { SecurityRecruiterGroup } from '../../../shared/models/security-recruiter-group.model';
 import { CatalogJobPortalService } from '../../../core/services/catalog-job-portal.service';
 import { CatalogJobPortal } from '../../../shared/models/catalog-job-portal.model';
+import { QuestionnaireQuestionService } from '../../../core/services/questionnaire-question.service';
+import { QuestionnaireQuestion } from '../../../shared/models/questionnaire-question.model';
 import { CatalogContractTypeService } from '../../../core/services/catalog-contract-type.service';
 import { CatalogEducationLevelService } from '../../../core/services/catalog-education-level.service';
 import { CatalogLanguageLevelService } from '../../../core/services/catalog-language-level.service';
@@ -169,6 +171,7 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly characteristicService = inject(CatalogCharacteristicService);
   private readonly generalCategoryService = inject(CatalogGeneralCategoryService);
   private readonly catalogCategoryService = inject(CatalogCategoryService);
+  private readonly questionnaireQuestionService = inject(QuestionnaireQuestionService);
   private readonly maritalStatusService = inject(CatalogMaritalStatusService);
   private readonly experienceLevelService = inject(CatalogExperienceLevelService);
   private readonly toolService = inject(CatalogToolService);
@@ -333,6 +336,10 @@ export class CatalogsAdminComponent implements OnInit {
         break;
       case 'questionnaireCategory':
         this.loadQuestionnaireCategorys();
+        break;
+      case 'questionnaireQuestion':
+        this.loadQuestionnaireCategoryOptions();
+        this.loadQuestionnaireQuestions();
         break;
       case 'clientCompany':
         this.loadClientCompanies();
@@ -614,6 +621,17 @@ export class CatalogsAdminComponent implements OnInit {
   editingQuestionnaireCategoryId: number | null = null;
   showQuestionnaireCategoryForm = false;
 
+  questionnaireQuestions: QuestionnaireQuestion[] = [];
+  questionnaireQuestionTotal = 0;
+  questionnaireQuestionPageIndex = 0;
+  questionnaireQuestionPageSize = 10;
+  loadingQuestionnaireQuestions = false;
+  savingQuestionnaireQuestion = false;
+  editingQuestionnaireQuestionId: number | null = null;
+  showQuestionnaireQuestionForm = false;
+  questionnaireCategoryOptions: CatalogCategory[] = [];
+  loadingQuestionnaireCategoryOptions = false;
+
   companies: CatalogCompany[] = [];
   companyTotal = 0;
   companyPageIndex = 0;
@@ -836,6 +854,16 @@ export class CatalogsAdminComponent implements OnInit {
     countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
+    description: [''],
+    isActive: [true],
+  });
+
+  readonly questionnaireQuestionColumns = ['category', 'questionType', 'questionText', 'description', 'active', 'actions'];
+
+  readonly questionnaireQuestionForm = this.fb.nonNullable.group({
+    categoryId: [null as number | null, Validators.required],
+    questionType: [''],
+    questionText: ['', Validators.required],
     description: [''],
     isActive: [true],
   });
@@ -1291,6 +1319,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.loadBusinessUnits();
     this.loadPositionTypes();
     this.loadQuestionnaireCategorys();
+    this.loadQuestionnaireQuestions();
     this.loadRecruiterGroups();
     this.loadJobPortals();
     this.loadBranchs();
@@ -1328,6 +1357,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.businessUnitPageIndex = 0;
     this.positionTypePageIndex = 0;
     this.questionnaireCategoryPageIndex = 0;
+    this.questionnaireQuestionPageIndex = 0;
     this.jobPortalPageIndex = 0;
     this.recruiterGroupPageIndex = 0;
     this.branchPageIndex = 0;
@@ -1363,6 +1393,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.cancelBusinessUnitForm();
     this.cancelPositionTypeForm();
     this.cancelQuestionnaireCategoryForm();
+    this.cancelQuestionnaireQuestionForm();
     this.cancelRecruiterGroupForm();
     this.cancelJobPortalForm();
     this.cancelBranchForm();
@@ -2363,6 +2394,134 @@ export class CatalogsAdminComponent implements OnInit {
       () => this.loadQuestionnaireCategorys(),
       this.editingQuestionnaireCategoryId,
       () => this.cancelQuestionnaireCategoryForm(),
+    );
+  }
+
+  loadQuestionnaireCategoryOptions(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingQuestionnaireCategoryOptions = true;
+    this.catalogCategoryService.list(this.selectedCountryId, 0, 500).subscribe({
+      next: (res) => {
+        this.questionnaireCategoryOptions = res.items;
+        this.loadingQuestionnaireCategoryOptions = false;
+      },
+      error: () => {
+        this.loadingQuestionnaireCategoryOptions = false;
+        this.snack.open('No se pudieron cargar categorías para el formulario', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  loadQuestionnaireQuestions(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingQuestionnaireQuestions = true;
+    this.questionnaireQuestionService
+      .list(this.selectedCountryId, this.questionnaireQuestionPageIndex, this.questionnaireQuestionPageSize)
+      .subscribe({
+        next: (res) => {
+          this.questionnaireQuestions = res.items;
+          this.questionnaireQuestionTotal = res.total;
+          this.loadingQuestionnaireQuestions = false;
+        },
+        error: () => {
+          this.loadingQuestionnaireQuestions = false;
+          this.snack.open('No se pudieron cargar las preguntas', 'Cerrar', { duration: 4000 });
+        },
+      });
+  }
+
+  onQuestionnaireQuestionPage(e: PageEvent): void {
+    this.questionnaireQuestionPageIndex = e.pageIndex;
+    this.questionnaireQuestionPageSize = e.pageSize;
+    this.loadQuestionnaireQuestions();
+  }
+
+  openCreateQuestionnaireQuestion(): void {
+    if (this.selectedCountryId == null) return;
+    this.editingQuestionnaireQuestionId = null;
+    this.showQuestionnaireQuestionForm = true;
+    this.catalogCategoryService.list(this.selectedCountryId, 0, 500).subscribe({
+      next: (res) => {
+        this.questionnaireCategoryOptions = res.items;
+        this.questionnaireQuestionForm.reset({
+          categoryId: res.items[0]?.id ?? null,
+          questionType: '',
+          questionText: '',
+          description: '',
+          isActive: true,
+        });
+      },
+      error: () => this.snack.open('No se pudieron cargar categorías para el formulario', 'Cerrar', { duration: 4000 }),
+    });
+  }
+
+  openEditQuestionnaireQuestion(row: QuestionnaireQuestion): void {
+    if (this.selectedCountryId == null) return;
+    this.editingQuestionnaireQuestionId = row.id;
+    this.showQuestionnaireQuestionForm = true;
+    this.catalogCategoryService.list(this.selectedCountryId, 0, 500).subscribe({
+      next: (res) => {
+        this.questionnaireCategoryOptions = res.items;
+        this.questionnaireQuestionForm.patchValue({
+          categoryId: row.categoryId,
+          questionType: row.questionType ?? '',
+          questionText: row.questionText,
+          description: row.description ?? '',
+          isActive: row.active,
+        });
+      },
+      error: () => this.snack.open('No se pudieron cargar categorías para el formulario', 'Cerrar', { duration: 4000 }),
+    });
+  }
+
+  cancelQuestionnaireQuestionForm(): void {
+    this.showQuestionnaireQuestionForm = false;
+    this.editingQuestionnaireQuestionId = null;
+  }
+
+  saveQuestionnaireQuestion(): void {
+    if (this.questionnaireQuestionForm.invalid) {
+      this.questionnaireQuestionForm.markAllAsTouched();
+      return;
+    }
+    const value = this.questionnaireQuestionForm.getRawValue();
+    if (value.categoryId == null) {
+      return;
+    }
+    const payload = {
+      categoryId: value.categoryId,
+      questionType: value.questionType || undefined,
+      questionText: value.questionText,
+      description: value.description || undefined,
+      isActive: value.isActive,
+    };
+    this.savingQuestionnaireQuestion = true;
+    const request$ =
+      this.editingQuestionnaireQuestionId != null
+        ? this.questionnaireQuestionService.update(this.editingQuestionnaireQuestionId, payload)
+        : this.questionnaireQuestionService.create(payload);
+    request$.subscribe({
+      next: () => {
+        this.savingQuestionnaireQuestion = false;
+        this.cancelQuestionnaireQuestionForm();
+        this.loadQuestionnaireQuestions();
+        this.snack.open('Pregunta guardada', 'Cerrar', { duration: 3000 });
+      },
+      error: () => {
+        this.savingQuestionnaireQuestion = false;
+        this.snack.open('No se pudo guardar la pregunta', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  deleteQuestionnaireQuestion(row: QuestionnaireQuestion): void {
+    this.deleteCatalogRow(
+      row,
+      row.questionText,
+      this.questionnaireQuestionService.delete(row.id),
+      () => this.loadQuestionnaireQuestions(),
+      this.editingQuestionnaireQuestionId,
+      () => this.cancelQuestionnaireQuestionForm(),
     );
   }
 
