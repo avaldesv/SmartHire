@@ -15,7 +15,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { CatalogCareerService } from '../../../core/services/catalog-career.service';
 import { CatalogBenefitService } from '../../../core/services/catalog-benefit.service';
 import { CatalogBrandService } from '../../../core/services/catalog-brand.service';
-import { CatalogClientCompanyService } from '../../../core/services/catalog-client-company.service';
 import { CatalogClientService } from '../../../core/services/catalog-client.service';
 import { CatalogCompanyService } from '../../../core/services/catalog-company.service';
 import { CatalogCoverageCategoryService } from '../../../core/services/catalog-coverage-category.service';
@@ -73,7 +72,6 @@ import { CatalogShiftService } from '../../../core/services/catalog-shift.servic
 import { CatalogCareer } from '../../../shared/models/catalog-career.model';
 import { CatalogBenefit } from '../../../shared/models/catalog-benefit.model';
 import { CatalogBrand } from '../../../shared/models/catalog-brand.model';
-import { CatalogClientCompany } from '../../../shared/models/catalog-client-company.model';
 import { CatalogClient } from '../../../shared/models/catalog-client.model';
 import { CatalogCompany } from '../../../shared/models/catalog-company.model';
 import { CatalogContractType } from '../../../shared/models/catalog-contract-type.model';
@@ -141,7 +139,7 @@ export class CatalogsAdminComponent implements OnInit {
     generales: 'gender',
     cuestionario: 'questionnaireCategory',
     notificaciones: 'messages',
-    empresas: 'clientCompany',
+    empresas: 'companyArea',
     portal: 'jobPortal',
     datosMp: 'mpCountry',
     smarthireOps: 'kinship',
@@ -159,7 +157,6 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly educationLevelService = inject(CatalogEducationLevelService);
   private readonly languageLevelService = inject(CatalogLanguageLevelService);
   private readonly requisitionTypeService = inject(CatalogRequisitionTypeService);
-  private readonly clientCompanyService = inject(CatalogClientCompanyService);
   private readonly clientService = inject(CatalogClientService);
   private readonly recruiterGroupService = inject(SecurityRecruiterGroupService);
   private readonly jobPortalService = inject(CatalogJobPortalService);
@@ -340,9 +337,6 @@ export class CatalogsAdminComponent implements OnInit {
       case 'questionnaireQuestion':
         this.loadQuestionnaireCategoryOptions();
         this.loadQuestionnaireQuestions();
-        break;
-      case 'clientCompany':
-        this.loadClientCompanies();
         break;
       case 'companyArea':
         this.ensureCompaniesLoaded();
@@ -749,15 +743,6 @@ export class CatalogsAdminComponent implements OnInit {
   editingRequisitionTypeId: number | null = null;
   showRequisitionTypeForm = false;
 
-  clientCompanies: CatalogClientCompany[] = [];
-  clientCompanyTotal = 0;
-  clientCompanyPageIndex = 0;
-  clientCompanyPageSize = 10;
-  loadingClientCompanies = false;
-  savingClientCompany = false;
-  editingClientCompanyId: number | null = null;
-  showClientCompanyForm = false;
-
   countryRecords: CatalogCountry[] = [];
   countryRecordTotal = 0;
   countryPageIndex = 0;
@@ -810,7 +795,7 @@ export class CatalogsAdminComponent implements OnInit {
   readonly businessUnitColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
   readonly positionTypeColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
   readonly clientColumns = ['code', 'tradeName', 'legalName', 'companyArea', 'contactName', 'active', 'scope', 'actions'];
-  readonly companyColumns = ['code', 'name', 'tradeName', 'taxId', 'active', 'scope', 'actions'];
+  readonly companyColumns = ['code', 'name', 'tradeName', 'taxId', 'country', 'active', 'actions'];
   readonly currencyColumns = ['code', 'name', 'symbol', 'denomination', 'active', 'scope', 'actions'];
   readonly careerColumns = ['code', 'name', 'active', 'scope', 'actions'];
   readonly languageColumns = ['code', 'name', 'active', 'scope', 'actions'];
@@ -868,7 +853,6 @@ export class CatalogsAdminComponent implements OnInit {
     isActive: [true],
   });
 
-  readonly clientCompanyColumns = ['code', 'name', 'tradeName', 'taxId', 'r3Interface', 'active', 'scope', 'actions'];
   readonly countryColumns = ['code', 'secondaryCode', 'name', 'description', 'manpowerId', 'region', 'active', 'scope', 'actions'];
   readonly stateColumns = ['code', 'name', 'shortDescription', 'active', 'scope', 'actions'];
   readonly municipalityColumns = ['code', 'name', 'active', 'scope', 'actions'];
@@ -894,7 +878,10 @@ export class CatalogsAdminComponent implements OnInit {
     description: [''],
     tradeName: [''],
     taxId: [''],
-    countryId: [null as number | null],
+    countryId: [null as number | null, Validators.required],
+    billingMessage: [''],
+    atsCode: [null as number | null],
+    noPurchaseOrder: [false],
     street: [''],
     neighborhood: [''],
     municipality: [''],
@@ -1139,17 +1126,6 @@ export class CatalogsAdminComponent implements OnInit {
     isActive: [true],
   });
 
-  readonly clientCompanyForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
-    code: ['', Validators.required],
-    name: ['', Validators.required],
-    description: [''],
-    tradeName: [''],
-    taxId: [''],
-    r3Interface: [false],
-    isActive: [true],
-  });
-
   readonly countryForm = this.fb.nonNullable.group({
     code: ['', Validators.required],
     secondaryCode: [''],
@@ -1210,7 +1186,6 @@ export class CatalogsAdminComponent implements OnInit {
     this.cancelEducationLevelForm();
     this.cancelLanguageLevelForm();
     this.cancelRequisitionTypeForm();
-    this.cancelClientCompanyForm();
     this.cancelClientForm();
     this.cancelCoverageCategoryForm();
     this.cancelCharacteristicForm();
@@ -1323,7 +1298,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.loadRecruiterGroups();
     this.loadJobPortals();
     this.loadBranchs();
-    this.loadClientCompanies();
+    this.loadCompanies();
     this.loadStates();
   }
 
@@ -1361,7 +1336,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.jobPortalPageIndex = 0;
     this.recruiterGroupPageIndex = 0;
     this.branchPageIndex = 0;
-    this.clientCompanyPageIndex = 0;
+    this.companyPageIndex = 0;
     this.statePageIndex = 0;
     this.municipalityPageIndex = 0;
     this.neighborhoodPageIndex = 0;
@@ -1377,7 +1352,6 @@ export class CatalogsAdminComponent implements OnInit {
     this.cancelEducationLevelForm();
     this.cancelLanguageLevelForm();
     this.cancelRequisitionTypeForm();
-    this.cancelClientCompanyForm();
     this.cancelClientForm();
     this.cancelCoverageCategoryForm();
     this.cancelCharacteristicForm();
@@ -1397,6 +1371,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.cancelRecruiterGroupForm();
     this.cancelJobPortalForm();
     this.cancelBranchForm();
+    this.cancelCompanyForm();
     this.cancelStateForm();
     this.cancelMunicipalityForm();
     this.cancelNeighborhoodForm();
@@ -1778,7 +1753,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   loadCompanies(): void {
     this.loadingCompanies = true;
-    this.companyService.list(this.companyPageIndex, this.companyPageSize).subscribe({
+    this.companyService.list(this.companyPageIndex, this.companyPageSize, this.selectedCountryId ?? undefined).subscribe({
       next: (res) => {
         this.companies = res.items;
         this.companyTotal = res.total;
@@ -1795,6 +1770,13 @@ export class CatalogsAdminComponent implements OnInit {
     this.companyPageIndex = e.pageIndex;
     this.companyPageSize = e.pageSize;
     this.loadCompanies();
+  }
+
+  countryName(countryId: number | null | undefined): string {
+    if (countryId == null) {
+      return '—';
+    }
+    return this.countries.find((country) => country.id === countryId)?.name ?? String(countryId);
   }
 
   onCurrencyPage(e: PageEvent): void {
@@ -2525,24 +2507,6 @@ export class CatalogsAdminComponent implements OnInit {
     );
   }
 
-  loadClientCompanies(): void {
-    if (this.selectedCountryId == null) return;
-    this.loadingClientCompanies = true;
-    this.clientCompanyService
-      .list(this.selectedCountryId, this.clientCompanyPageIndex, this.clientCompanyPageSize)
-      .subscribe({
-        next: (res) => {
-          this.clientCompanies = res.items;
-          this.clientCompanyTotal = res.total;
-          this.loadingClientCompanies = false;
-        },
-        error: () => {
-          this.loadingClientCompanies = false;
-          this.snack.open('No se pudieron cargar las empresas cliente', 'Cerrar', { duration: 4000 });
-        },
-      });
-  }
-
   onEducationLevelPage(e: PageEvent): void {
     this.educationLevelPageIndex = e.pageIndex;
     this.educationLevelPageSize = e.pageSize;
@@ -2572,12 +2536,6 @@ export class CatalogsAdminComponent implements OnInit {
     this.loadDisabilityTypes();
     this.loadBusinessUnits();
     this.loadPositionTypes();
-  }
-
-  onClientCompanyPage(e: PageEvent): void {
-    this.clientCompanyPageIndex = e.pageIndex;
-    this.clientCompanyPageSize = e.pageSize;
-    this.loadClientCompanies();
   }
 
   openCreateGender(): void {
@@ -3575,7 +3533,6 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   openCreateCompany(): void {
-    this.resetCreateScope();
     this.editingCompanyId = null;
     this.showCompanyForm = true;
     this.companyForm.reset({
@@ -3584,7 +3541,10 @@ export class CatalogsAdminComponent implements OnInit {
       description: '',
       tradeName: '',
       taxId: '',
-      countryId: null,
+      countryId: this.selectedCountryId,
+      billingMessage: '',
+      atsCode: null,
+      noPurchaseOrder: false,
       street: '',
       neighborhood: '',
       municipality: '',
@@ -3606,7 +3566,10 @@ export class CatalogsAdminComponent implements OnInit {
       description: row.description ?? '',
       tradeName: row.tradeName ?? '',
       taxId: row.taxId ?? '',
-      countryId: row.countryId ?? null,
+      countryId: row.countryId,
+      billingMessage: row.billingMessage ?? '',
+      atsCode: row.atsCode ?? null,
+      noPurchaseOrder: row.noPurchaseOrder ?? false,
       street: row.street ?? '',
       neighborhood: row.neighborhood ?? '',
       municipality: row.municipality ?? '',
@@ -3630,11 +3593,17 @@ export class CatalogsAdminComponent implements OnInit {
       return;
     }
     const value = this.companyForm.getRawValue();
+    const payload = {
+      ...value,
+      countryId: value.countryId!,
+      atsCode: value.atsCode ?? undefined,
+      billingMessage: value.billingMessage || undefined,
+    };
     this.savingCompany = true;
     const request$ =
       this.editingCompanyId != null
-        ? this.companyService.update(this.editingCompanyId, value)
-        : this.companyService.create(value);
+        ? this.companyService.update(this.editingCompanyId, payload)
+        : this.companyService.create(payload);
     request$.subscribe({
       next: () => {
         this.savingCompany = false;
@@ -4551,77 +4520,6 @@ export class CatalogsAdminComponent implements OnInit {
     });
   }
 
-  openCreateClientCompany(): void {
-    this.resetCreateScope();
-    this.editingClientCompanyId = null;
-    this.showClientCompanyForm = true;
-    this.clientCompanyForm.reset({
-      countryId: this.selectedCountryId,
-      code: '',
-      name: '',
-      description: '',
-      tradeName: '',
-      taxId: '',
-      r3Interface: false,
-      isActive: true,
-    });
-  }
-
-  openEditClientCompany(row: CatalogClientCompany): void {
-    this.editingClientCompanyId = row.id;
-    this.showClientCompanyForm = true;
-    this.clientCompanyForm.patchValue({
-      countryId: row.countryId,
-      code: row.code,
-      name: row.name,
-      description: row.description ?? '',
-      tradeName: row.tradeName ?? '',
-      taxId: row.taxId ?? '',
-      r3Interface: row.r3Interface,
-      isActive: row.isActive,
-    });
-  }
-
-  cancelClientCompanyForm(): void {
-    this.showClientCompanyForm = false;
-    this.editingClientCompanyId = null;
-  }
-
-  saveClientCompany(): void {
-    if (this.clientCompanyForm.invalid) {
-      this.clientCompanyForm.markAllAsTouched();
-      return;
-    }
-    const value = this.clientCompanyForm.getRawValue();
-    const payload = {
-      countryId: value.countryId!,
-      code: value.code,
-      name: value.name,
-      description: value.description || undefined,
-      tradeName: value.tradeName || undefined,
-      taxId: value.taxId || undefined,
-      r3Interface: value.r3Interface,
-      isActive: value.isActive,
-    };
-    this.savingClientCompany = true;
-    const request$ =
-      this.editingClientCompanyId != null
-        ? this.clientCompanyService.update(this.editingClientCompanyId, payload)
-        : this.clientCompanyService.create(this.withCreateScope(payload));
-    request$.subscribe({
-      next: () => {
-        this.savingClientCompany = false;
-        this.cancelClientCompanyForm();
-        this.loadClientCompanies();
-        this.snack.open('Empresa cliente guardada', 'Cerrar', { duration: 3000 });
-      },
-      error: () => {
-        this.savingClientCompany = false;
-        this.snack.open('No se pudo guardar la empresa cliente', 'Cerrar', { duration: 4000 });
-      },
-    });
-  }
-
   loadCountryRecords(): void {
     this.loadingCountryRecords = true;
     this.geographyService.listCountriesPage(this.countryPageIndex, this.countryPageSize).subscribe({
@@ -5356,17 +5254,6 @@ export class CatalogsAdminComponent implements OnInit {
       () => this.loadClients(),
       this.editingClientId,
       () => this.cancelClientForm(),
-    );
-  }
-
-  deleteClientCompany(row: CatalogClientCompany): void {
-    this.deleteCatalogRow(
-      row,
-      row.name || row.code,
-      this.clientCompanyService.delete(row.id),
-      () => this.loadClientCompanies(),
-      this.editingClientCompanyId,
-      () => this.cancelClientCompanyForm(),
     );
   }
 

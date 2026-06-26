@@ -1,4 +1,3 @@
-import { TenantDataScope } from './tenant-data-scope.model';
 import { ApiPageResponse } from './catalog-position.model';
 
 export interface CatalogCompany {
@@ -8,7 +7,11 @@ export interface CatalogCompany {
   description?: string | null;
   tradeName?: string | null;
   taxId?: string | null;
-  countryId?: number | null;
+  countryId: number;
+  billingMessage?: string | null;
+  atsCode?: number | null;
+  noPurchaseOrder?: boolean;
+  legacyId?: number | null;
   street?: string | null;
   neighborhood?: string | null;
   municipality?: string | null;
@@ -18,7 +21,6 @@ export interface CatalogCompany {
   r3Interface?: boolean;
   wsSignature?: boolean;
   isActive: boolean;
-  companyId?: number | null;
 }
 
 export interface CreateCompanyRequest {
@@ -27,7 +29,10 @@ export interface CreateCompanyRequest {
   description?: string;
   tradeName?: string;
   taxId?: string;
-  countryId?: number | null;
+  countryId: number;
+  billingMessage?: string;
+  atsCode?: number | null;
+  noPurchaseOrder?: boolean;
   street?: string;
   neighborhood?: string;
   municipality?: string;
@@ -37,8 +42,7 @@ export interface CreateCompanyRequest {
   r3Interface?: boolean;
   wsSignature?: boolean;
   isActive?: boolean;
-  scope?: TenantDataScope;
 }
 
-export type UpdateCompanyRequest = Omit<CreateCompanyRequest, 'scope'>;
+export type UpdateCompanyRequest = CreateCompanyRequest;
 export type CompanyListResponse = ApiPageResponse<CatalogCompany>;

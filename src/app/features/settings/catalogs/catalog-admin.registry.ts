@@ -25,7 +25,6 @@ export type CatalogPanelKey =
   | 'neighborhood'
   | 'company'
   | 'client'
-  | 'clientCompany'
   | 'kinship'
   | 'brand'
   | 'documentType'
@@ -124,7 +123,13 @@ const CATALOG_CATEGORIES_RAW: CatalogCategoryDefinition[] = [
     id: 'empresas',
     label: 'Empresas',
     catalogs: [
-      { id: 'clientCompany', label: 'Empresas cliente', panelKey: 'clientCompany', implemented: true },
+      {
+        id: 'company',
+        label: 'Empresas',
+        panelKey: 'company',
+        implemented: true,
+        globalAdminOnly: true,
+      },
       { id: 'companyArea', label: 'Áreas', panelKey: 'companyArea', implemented: true },
       { id: 'companyDepartment', label: 'Departamentos', panelKey: 'companyDepartment', implemented: true },
       { id: 'branch', label: 'Sucursales', panelKey: 'branch', implemented: true },
@@ -147,13 +152,6 @@ const CATALOG_CATEGORIES_RAW: CatalogCategoryDefinition[] = [
     id: 'smarthireOps',
     label: 'SmartHire / Operación',
     catalogs: [
-      {
-        id: 'company',
-        label: 'Empresas',
-        panelKey: 'company',
-        implemented: true,
-        globalAdminOnly: true,
-      },
       { id: 'kinship', label: 'Parentesco', panelKey: 'kinship', implemented: true },
       { id: 'brand', label: 'Marca', panelKey: 'brand', implemented: true },
       { id: 'documentType', label: 'Tipo documento', panelKey: 'documentType', implemented: true },
@@ -187,7 +185,7 @@ export function resolveVisibleCategories(isGlobalAdmin: boolean): CatalogCategor
 }
 
 const CATEGORY_DEFAULT_CATALOG: Partial<Record<CatalogCategoryId, string>> = {
-  empresas: 'clientCompany',
+  empresas: 'companyArea',
   smarthireOps: 'kinship',
 };
 
