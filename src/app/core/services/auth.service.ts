@@ -44,9 +44,11 @@ export class AuthService {
   private readonly msal = inject(MsalService, { optional: true });
 
   readonly currentUser = signal<AuthUser | null>(null);
+  readonly sessionVerified = signal(false);
 
   private refreshTimerId: ReturnType<typeof setTimeout> | null = null;
   private refreshInFlight: Observable<LoginApiResponse> | null = null;
+  private sessionValidationStarted = false;
 
   isSsoEnabled(): boolean {
     const azure = environment.azure;
@@ -141,8 +143,18 @@ export class AuthService {
         });
         this.currentUser.set(user);
         sessionStorage.setItem('sh_user', JSON.stringify(user));
+        this.sessionVerified.set(true);
+        if (window.location.pathname.startsWith('/login')) {
+          window.location.href = '/home';
+        }
       }),
       map(() => this.currentUser()!),
+      catchError((err) => {
+        if (err.status === 401 || err.status === 403) {
+          this.handleInvalidSession();
+        }
+        return throwError(() => err);
+      }),
     );
   }
 
@@ -189,6 +201,8 @@ export class AuthService {
   private clearLocalSession(): void {
     this.clearRefreshTimer();
     this.currentUser.set(null);
+    this.sessionVerified.set(false);
+    this.sessionValidationStarted = false;
     this.tenantContext.clear();
     sessionStorage.removeItem('sh_token');
     sessionStorage.removeItem('sh_refresh_token');
@@ -196,18 +210,43 @@ export class AuthService {
     sessionStorage.removeItem('sh_user');
   }
 
-  restoreSession(): boolean {
+  validateStoredSession(): void {
+    if (this.sessionValidationStarted || this.sessionVerified()) {
+      return;
+    }
     const raw = sessionStorage.getItem('sh_user');
     const token = sessionStorage.getItem('sh_token');
-    if (raw && token) {
-      const user = JSON.parse(raw) as AuthUser;
-      this.currentUser.set(user);
-      this.tenantContext.initialize(user.companyId);
-      this.scheduleSilentRefresh();
-      this.loadCurrentUserProfile().subscribe({ error: () => undefined });
-      return true;
+    if (!raw || !token) {
+      return;
     }
-    return false;
+    if (this.isTokenExpired()) {
+      this.handleInvalidSession();
+      return;
+    }
+    this.sessionValidationStarted = true;
+    const user = JSON.parse(raw) as AuthUser;
+    this.currentUser.set(user);
+    this.tenantContext.initialize(user.companyId);
+    this.scheduleSilentRefresh();
+    this.loadCurrentUserProfile().subscribe({
+      error: () => undefined,
+    });
+  }
+
+  restoreSession(): boolean {
+    if (!this.isAuthenticated()) {
+      return false;
+    }
+    if (this.isTokenExpired()) {
+      this.handleInvalidSession();
+      return false;
+    }
+    this.validateStoredSession();
+    return true;
+  }
+
+  isSessionVerified(): boolean {
+    return this.sessionVerified();
   }
 
   isAuthenticated(): boolean {
@@ -233,6 +272,7 @@ export class AuthService {
     });
     this.tenantContext.initialize(sessionCompanyId);
     this.currentUser.set(user);
+    this.sessionVerified.set(true);
     sessionStorage.setItem('sh_token', response.accessToken);
     sessionStorage.setItem('sh_user', JSON.stringify(user));
     if (response.refreshToken) {
@@ -267,6 +307,18 @@ export class AuthService {
     if (this.refreshTimerId != null) {
       clearTimeout(this.refreshTimerId);
       this.refreshTimerId = null;
+    }
+  }
+
+  private isTokenExpired(): boolean {
+    const expiresAt = Number(sessionStorage.getItem('sh_token_expires_at') ?? 0);
+    return expiresAt > 0 && Date.now() >= expiresAt;
+  }
+
+  private handleInvalidSession(): void {
+    this.clearLocalSession();
+    if (!window.location.pathname.startsWith('/login')) {
+      window.location.href = '/login';
     }
   }
 

@@ -5,7 +5,7 @@ import { AuthService } from '../services/auth.service';
 export const authGuard: CanActivateFn = () => {
   const auth = inject(AuthService);
   const router = inject(Router);
-  if (auth.restoreSession() || auth.isAuthenticated()) {
+  if (auth.restoreSession()) {
     return true;
   }
   return router.createUrlTree(['/login']);
@@ -14,7 +14,8 @@ export const authGuard: CanActivateFn = () => {
 export const guestGuard: CanActivateFn = () => {
   const auth = inject(AuthService);
   const router = inject(Router);
-  if (auth.isAuthenticated()) {
+  auth.validateStoredSession();
+  if (auth.isSessionVerified()) {
     return router.createUrlTree(['/home']);
   }
   return true;

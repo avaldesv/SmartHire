@@ -30,7 +30,8 @@ export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(authedReq).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status !== 401 || isAuthEndpoint) {
+      const isAuthFailure = error.status === 401 || error.status === 403;
+      if (!isAuthFailure || isAuthEndpoint) {
         return throwError(() => error);
       }
       return auth.refreshSession().pipe(
