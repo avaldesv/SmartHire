@@ -194,27 +194,24 @@
     </div>
   }
 
-  @if (isGlobalAdmin()) {
   @if (isPanelVisible("company")) {
     <div class="tab-content">
       <div class="toolbar">
+        <mat-form-field appearance="outline" class="country-field">
+          <mat-label>País</mat-label>
+          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+            @for (country of countries; track country.id) {
+              <mat-option [value]="country.id">{{ country.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateCompany()">
-          <mat-icon>add</mat-icon> Nueva compañía
+          <mat-icon>add</mat-icon> Nueva empresa
         </button>
       </div>
       @if (showCompanyForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingCompanyId ? 'Editar compañía' : 'Nueva compañía' }}</h4>
-            @if (isGlobalAdmin() && !editingCompanyId) {
-              <div class="scope-selector" [formGroup]="createScopeForm">
-                <span class="scope-label">Ámbito del registro:</span>
-                <mat-radio-group formControlName="scope">
-                  <mat-radio-button value="TENANT">Tenant actual</mat-radio-button>
-                  <mat-radio-button value="GLOBAL">Global</mat-radio-button>
-                </mat-radio-group>
-              </div>
-            }
-
+          <h4>{{ editingCompanyId ? 'Editar empresa' : 'Nueva empresa' }}</h4>
           <form [formGroup]="companyForm" class="gender-form" (ngSubmit)="saveCompany()">
             <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
@@ -224,18 +221,20 @@
             <mat-form-field appearance="outline">
               <mat-label>País</mat-label>
               <mat-select formControlName="countryId">
-                <mat-option [value]="null">Todos los países</mat-option>
                 @for (country of countries; track country.id) {
                   <mat-option [value]="country.id">{{ country.name }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Mensaje facturación</mat-label><input matInput formControlName="billingMessage" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Código ATS</mat-label><input matInput type="number" formControlName="atsCode" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Calle</mat-label><input matInput formControlName="street" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Colonia</mat-label><input matInput formControlName="neighborhood" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Municipio</mat-label><input matInput formControlName="municipality" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Estado</mat-label><input matInput formControlName="stateName" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>URL logo</mat-label><input matInput formControlName="logoUrl" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>URL banner</mat-label><input matInput formControlName="bannerUrl" /></mat-form-field>
+            <mat-checkbox formControlName="noPurchaseOrder">Sin orden de compra</mat-checkbox>
             <mat-checkbox formControlName="r3Interface">Interfaz R3</mat-checkbox>
             <mat-checkbox formControlName="wsSignature">Firma WS</mat-checkbox>
             <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
@@ -255,14 +254,9 @@
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
             <ng-container matColumnDef="tradeName"><th mat-header-cell *matHeaderCellDef>Nombre comercial</th><td mat-cell *matCellDef="let row">{{ row.tradeName }}</td></ng-container>
             <ng-container matColumnDef="taxId"><th mat-header-cell *matHeaderCellDef>RFC</th><td mat-cell *matCellDef="let row">{{ row.taxId }}</td></ng-container>
+            <ng-container matColumnDef="country"><th mat-header-cell *matHeaderCellDef>País</th><td mat-cell *matCellDef="let row">{{ countryName(row.countryId) }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
-                        <ng-container matColumnDef="scope">
-              <th mat-header-cell *matHeaderCellDef>Ámbito</th>
-              <td mat-cell *matCellDef="let row">
-                <sh-scope-badge [companyId]="row.companyId" />
-              </td>
-            </ng-container>
-<ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><sh-catalog-list-actions [showDelete]="true" (editClick)="openEditCompany(row)" (deleteClick)="deleteCompany(row)" [editDisabled]="!canEditRecord(row.companyId)" [deleteDisabled]="!canEditRecord(row.companyId) || deletingCatalogId === row.id" /></td></ng-container>
+            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><sh-catalog-list-actions [showDelete]="true" (editClick)="openEditCompany(row)" (deleteClick)="deleteCompany(row)" [deleteDisabled]="deletingCatalogId === row.id" /></td></ng-container>
             <tr mat-header-row *matHeaderRowDef="companyColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: companyColumns"></tr>
           </table>
@@ -270,7 +264,6 @@
         </div>
       }
     </div>
-  }
   }
 
   @if (isPanelVisible("currency")) {
@@ -1643,76 +1636,6 @@
       }
     </div>
   }
-  @if (isPanelVisible("clientCompany")) {
-    <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label>País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateClientCompany()">
-          <mat-icon>add</mat-icon> Nueva empresa cliente
-        </button>
-      </div>
-      @if (showClientCompanyForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingClientCompanyId ? 'Editar empresa cliente' : 'Nueva empresa cliente' }}</h4>
-            @if (isGlobalAdmin() && !editingClientCompanyId) {
-              <div class="scope-selector" [formGroup]="createScopeForm">
-                <span class="scope-label">Ámbito del registro:</span>
-                <mat-radio-group formControlName="scope">
-                  <mat-radio-button value="TENANT">Tenant actual</mat-radio-button>
-                  <mat-radio-button value="GLOBAL">Global</mat-radio-button>
-                </mat-radio-group>
-              </div>
-            }
-
-          <form [formGroup]="clientCompanyForm" class="gender-form" (ngSubmit)="saveClientCompany()">
-            <mat-form-field appearance="outline"><mat-label>Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Nombre comercial</mat-label><input matInput formControlName="tradeName" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>RFC / Tax ID</mat-label><input matInput formControlName="taxId" /></mat-form-field>
-            <mat-checkbox formControlName="r3Interface">Interfaz R3</mat-checkbox>
-            <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelClientCompanyForm()">Cancelar</button>
-              <button mat-flat-button color="primary" type="submit" [disabled]="savingClientCompany">{{ savingClientCompany ? 'Guardando...' : 'Guardar' }}</button>
-            </div>
-          </form>
-        </div>
-      }
-      @if (loadingClientCompanies) {
-        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
-      } @else {
-        <div class="sh-card sh-table-wrap">
-          <table mat-table [dataSource]="clientCompanies">
-            <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
-            <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
-            <ng-container matColumnDef="tradeName"><th mat-header-cell *matHeaderCellDef>Nombre comercial</th><td mat-cell *matCellDef="let row">{{ row.tradeName || '—' }}</td></ng-container>
-            <ng-container matColumnDef="taxId"><th mat-header-cell *matHeaderCellDef>RFC / Tax ID</th><td mat-cell *matCellDef="let row">{{ row.taxId || '—' }}</td></ng-container>
-            <ng-container matColumnDef="r3Interface"><th mat-header-cell *matHeaderCellDef>Interfaz R3</th><td mat-cell *matCellDef="let row">{{ row.r3Interface ? 'Sí' : 'No' }}</td></ng-container>
-            <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
-                        <ng-container matColumnDef="scope">
-              <th mat-header-cell *matHeaderCellDef>Ámbito</th>
-              <td mat-cell *matCellDef="let row">
-                <sh-scope-badge [companyId]="row.companyId" />
-              </td>
-            </ng-container>
-<ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><sh-catalog-list-actions [showDelete]="true" (editClick)="openEditClientCompany(row)" (deleteClick)="deleteClientCompany(row)" [editDisabled]="!canEditRecord(row.companyId)" [deleteDisabled]="!canEditRecord(row.companyId) || deletingCatalogId === row.id" /></td></ng-container>
-            <tr mat-header-row *matHeaderRowDef="clientCompanyColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: clientCompanyColumns"></tr>
-          </table>
-          <mat-paginator [length]="clientCompanyTotal" [pageSize]="clientCompanyPageSize" [pageIndex]="clientCompanyPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onClientCompanyPage($event)" />
-        </div>
-      }
-    </div>
-  }
-
   @if (isPanelVisible("country")) {
     <div class="tab-content">
       <div class="toolbar">

@@ -100,14 +100,6 @@
           }
         </mat-select>
       </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Marcas (empresas cliente)</mat-label>
-        <mat-select formControlName="clientCompanyIds" multiple [disabled]="!userForm.controls.countryId.value">
-          @for (brand of clientCompanyOptions; track brand.id) {
-            <mat-option [value]="brand.id">{{ brand.name }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Usuario R3</mat-label>
         <input matInput formControlName="legacyR3Username" />

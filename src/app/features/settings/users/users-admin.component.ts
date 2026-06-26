@@ -14,7 +14,6 @@ import { MatTableModule } from '@angular/material/table';
 import { debounceTime, distinctUntilChanged, switchMap, catchError, map } from 'rxjs';
 import { of } from 'rxjs';
 import { CatalogBranchService } from '../../../core/services/catalog-branch.service';
-import { CatalogClientCompanyService } from '../../../core/services/catalog-client-company.service';
 import { CatalogCompanyAreaService } from '../../../core/services/catalog-company-area.service';
 import { CatalogCompanyDepartmentService } from '../../../core/services/catalog-company-department.service';
 import { CatalogCompanyService } from '../../../core/services/catalog-company.service';
@@ -27,7 +26,6 @@ import {
   SupervisorOption,
 } from '../../../shared/models/security-user.model';
 import { CatalogBranch } from '../../../shared/models/catalog-branch.model';
-import { CatalogClientCompany } from '../../../shared/models/catalog-client-company.model';
 import { CatalogCompanyArea } from '../../../shared/models/catalog-company-area.model';
 import { CatalogCompanyDepartment } from '../../../shared/models/catalog-company-department.model';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
@@ -62,7 +60,6 @@ export class UsersAdminComponent implements OnInit {
   private readonly branchService = inject(CatalogBranchService);
   private readonly areaService = inject(CatalogCompanyAreaService);
   private readonly departmentService = inject(CatalogCompanyDepartmentService);
-  private readonly clientCompanyService = inject(CatalogClientCompanyService);
   private readonly catalogCompanyService = inject(CatalogCompanyService);
   private readonly tenantContext = inject(TenantContextService);
   private readonly snack = inject(MatSnackBar);
@@ -78,7 +75,6 @@ export class UsersAdminComponent implements OnInit {
   branchOptions: CatalogBranch[] = [];
   areaOptions: CatalogCompanyArea[] = [];
   departmentOptions: CatalogCompanyDepartment[] = [];
-  clientCompanyOptions: CatalogClientCompany[] = [];
   supervisorOptions: SupervisorOption[] = [];
   catalogCompanyId: number | null = null;
   total = 0;
@@ -102,7 +98,6 @@ export class UsersAdminComponent implements OnInit {
     branchId: [null as number | null],
     companyAreaId: [null as number | null],
     companyDepartmentId: [null as number | null],
-    clientCompanyIds: [[] as number[]],
     address: [''],
     legacyR3Username: [''],
     legacyAppianProfile: [''],
@@ -305,7 +300,6 @@ export class UsersAdminComponent implements OnInit {
       branchId: null,
       companyAreaId: null,
       companyDepartmentId: null,
-      clientCompanyIds: [],
       address: '',
       legacyR3Username: '',
       legacyAppianProfile: '',
@@ -314,7 +308,6 @@ export class UsersAdminComponent implements OnInit {
       roleIds: [],
     });
     this.branchOptions = [];
-    this.clientCompanyOptions = [];
     this.userForm.controls.username.enable();
     this.userForm.controls.password.setValidators([Validators.required]);
     this.userForm.controls.password.updateValueAndValidity();
@@ -348,7 +341,6 @@ export class UsersAdminComponent implements OnInit {
         branchId: user.branchId ?? null,
         companyAreaId: user.companyAreaId ?? null,
         companyDepartmentId: user.companyDepartmentId ?? null,
-        clientCompanyIds: user.clientCompanyIds ?? [],
         address: user.address ?? '',
         legacyR3Username: user.legacyR3Username ?? '',
         legacyAppianProfile: user.legacyAppianProfile ?? '',
@@ -359,7 +351,7 @@ export class UsersAdminComponent implements OnInit {
       { emitEvent: false },
     );
     if (user.countryId) {
-      this.loadBranchesAndClientCompanies(user.countryId);
+      this.loadBranches(user.countryId);
     }
     if (user.supervisorId != null && user.supervisorLabel) {
       this.supervisorOptions = [{ id: user.supervisorId, label: user.supervisorLabel }];
@@ -387,7 +379,6 @@ export class UsersAdminComponent implements OnInit {
       branchId: value.branchId ?? undefined,
       companyAreaId: value.companyAreaId ?? undefined,
       companyDepartmentId: value.companyDepartmentId ?? undefined,
-      clientCompanyIds: value.clientCompanyIds?.length ? value.clientCompanyIds : undefined,
       address: value.address || undefined,
       legacyR3Username: value.legacyR3Username || undefined,
       legacyAppianProfile: value.legacyAppianProfile || undefined,
@@ -471,24 +462,18 @@ export class UsersAdminComponent implements OnInit {
     if (country?.secondaryCode && !this.userForm.controls.phoneCountryCode.value) {
       this.userForm.patchValue({ phoneCountryCode: country.secondaryCode });
     }
-    this.userForm.patchValue({ branchId: null, clientCompanyIds: [] });
+    this.userForm.patchValue({ branchId: null });
     if (countryId) {
-      this.loadBranchesAndClientCompanies(countryId);
+      this.loadBranches(countryId);
     } else {
       this.branchOptions = [];
-      this.clientCompanyOptions = [];
     }
   }
 
-  private loadBranchesAndClientCompanies(countryId: number): void {
+  private loadBranches(countryId: number): void {
     this.branchService.list(countryId, 0, 300).subscribe({
       next: (res) => {
         this.branchOptions = res.items.filter((b) => b.isActive !== false);
-      },
-    });
-    this.clientCompanyService.list(countryId, 0, 300).subscribe({
-      next: (res) => {
-        this.clientCompanyOptions = res.items.filter((c) => c.isActive !== false);
       },
     });
   }
