@@ -177,7 +177,7 @@ export const routes: Routes = [
             data: { authorities: [AppPermissions.SETTINGS_CATALOGS_READ] },
             loadComponent: () => import('./features/settings/catalogs/catalogs-admin.component').then((m) => m.CatalogsAdminComponent),
           },
-          {
+ /*          {
             path: 'notifications',
             canActivate: [permissionGuard],
             data: { authorities: [AppPermissions.SETTINGS_NOTIFICATIONS_READ] },
@@ -189,7 +189,7 @@ export const routes: Routes = [
             canActivate: [permissionGuard],
             data: { authorities: [AppPermissions.SETTINGS_SYSTEM_READ] },
             loadComponent: () => import('./features/settings/documents/documents-config.component').then((m) => m.DocumentsConfigComponent),
-          },
+          }, 
           {
             path: 'prompts',
             canActivate: [permissionGuard],
@@ -207,19 +207,19 @@ export const routes: Routes = [
             canActivate: [permissionGuard],
             data: { authorities: [AppPermissions.SETTINGS_SYSTEM_READ] },
             loadComponent: () => import('./features/settings/interviews/interviews-config.component').then((m) => m.InterviewsConfigComponent),
-          },
+          },*/
           {
             path: 'pipeline-stages',
             canActivate: [permissionGuard],
             data: { authorities: [AppPermissions.SETTINGS_SYSTEM_READ] },
             loadComponent: () => import('./features/settings/pipeline-stages/pipeline-stages.component').then((m) => m.PipelineStagesComponent),
           },
-          {
+       /*    {
             path: 'system',
             canActivate: [permissionGuard],
             data: { authorities: [AppPermissions.SETTINGS_SYSTEM_READ] },
             loadComponent: () => import('./features/settings/system/system-config.component').then((m) => m.SystemConfigComponent),
-          },
+          }, */
           {
             path: 'audit',
             canActivate: [permissionGuard],

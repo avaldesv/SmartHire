@@ -13,13 +13,13 @@ const ALL_SETTINGS_NAV: SettingsNavItem[] = [
   { label: 'Usuarios', path: 'users', authority: AppPermissions.SETTINGS_USERS_READ },
   { label: 'Grupos', path: 'groups', authority: AppPermissions.SETTINGS_GROUPS_READ },
   { label: 'Catálogos', path: 'catalogs', authority: AppPermissions.SETTINGS_CATALOGS_READ },
-  { label: 'Notificaciones', path: 'notifications', authority: AppPermissions.SETTINGS_NOTIFICATIONS_READ },
+ /*  { label: 'Notificaciones', path: 'notifications', authority: AppPermissions.SETTINGS_NOTIFICATIONS_READ },
   { label: 'Documentos', path: 'documents', authority: AppPermissions.SETTINGS_SYSTEM_READ },
   { label: 'Prompts IA', path: 'prompts', authority: AppPermissions.SETTINGS_SYSTEM_READ },
   { label: 'CVs', path: 'cvs', authority: AppPermissions.SETTINGS_SYSTEM_READ },
-  { label: 'Entrevistas', path: 'interviews', authority: AppPermissions.SETTINGS_SYSTEM_READ },
+  { label: 'Entrevistas', path: 'interviews', authority: AppPermissions.SETTINGS_SYSTEM_READ }, */
   { label: 'Etapas', path: 'pipeline-stages', authority: AppPermissions.SETTINGS_SYSTEM_READ },
-  { label: 'Sistema', path: 'system', authority: AppPermissions.SETTINGS_SYSTEM_READ },
+/*   { label: 'Sistema', path: 'system', authority: AppPermissions.SETTINGS_SYSTEM_READ }, */
   { label: 'Bitácoras', path: 'audit', authority: AppPermissions.SETTINGS_SYSTEM_READ },
 ];
 
