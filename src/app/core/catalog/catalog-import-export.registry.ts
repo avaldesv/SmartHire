@@ -33,6 +33,21 @@ export const CATALOG_CSV_PANELS: Partial<Record<CatalogPanelKey, CatalogCsvPanel
   brand: { catalogKey: 'brands', label: 'Marca', usesCountryFilter: true },
   requisitionType: { catalogKey: 'requisition-types', label: 'Tipo requisición', usesCountryFilter: true },
   jobPortal: { catalogKey: 'job-portals', label: 'Portales de publicación', usesCountryFilter: true },
+  language: { catalogKey: 'languages', label: 'Idioma', usesCountryFilter: false },
+  kinship: { catalogKey: 'kinships', label: 'Parentesco', usesCountryFilter: false },
+  client: { catalogKey: 'clients', label: 'Cliente', usesCountryFilter: true },
+  documentType: { catalogKey: 'document-types', label: 'Tipo documento', usesCountryFilter: true },
+  country: { catalogKey: 'countries', label: 'País', usesCountryFilter: false },
+  state: { catalogKey: 'states', label: 'Entidad federativa', usesCountryFilter: true },
+  municipality: { catalogKey: 'municipalities', label: 'Delegación municipio', usesCountryFilter: false },
+  neighborhood: { catalogKey: 'neighborhoods', label: 'Colonia', usesCountryFilter: false },
+  companyArea: { catalogKey: 'company-areas', label: 'Áreas', usesCountryFilter: false },
+  companyDepartment: { catalogKey: 'company-departments', label: 'Departamentos', usesCountryFilter: false },
+  branch: { catalogKey: 'branches', label: 'Sucursales', usesCountryFilter: false },
+  questionnaireCategory: { catalogKey: 'general-categories', label: 'Categoría cuestionario', usesCountryFilter: true },
+  questionnaireQuestion: { catalogKey: 'questionnaire-questions', label: 'Pregunta', usesCountryFilter: false },
+  messages: { catalogKey: 'notification-templates', label: 'Mensajes', usesCountryFilter: false },
+  recruiterGroup: { catalogKey: 'recruiter-groups', label: 'Grupo reclutadores', usesCountryFilter: true },
 };
 
 export function supportsCatalogCsvImportExport(panelKey: CatalogPanelKey): boolean {
