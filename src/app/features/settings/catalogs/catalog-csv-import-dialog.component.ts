@@ -35,12 +35,34 @@ export class CatalogCsvImportDialogComponent {
   importResult: CatalogCsvImportResponse | null = null;
   errorMessage = '';
 
+  get isValidated(): boolean {
+    return this.validation?.structureValid === true;
+  }
+
+  get isImportDone(): boolean {
+    return this.importResult !== null;
+  }
+
+  get showValidateAction(): boolean {
+    return !!this.selectedFile && !this.isImportDone && !this.isValidated;
+  }
+
+  get showImportAction(): boolean {
+    return this.isValidated && !this.isImportDone;
+  }
+
+  get isBusy(): boolean {
+    return this.validating || this.importing;
+  }
+
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.selectedFile = input.files?.[0] ?? null;
     this.validation = null;
     this.importResult = null;
     this.errorMessage = '';
+    this.validating = false;
+    this.importing = false;
   }
 
   downloadTemplate(): void {
