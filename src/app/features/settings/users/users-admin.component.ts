@@ -16,8 +16,10 @@ import { of } from 'rxjs';
 import { CatalogBranchService } from '../../../core/services/catalog-branch.service';
 import { CatalogCompanyAreaService } from '../../../core/services/catalog-company-area.service';
 import { CatalogCompanyDepartmentService } from '../../../core/services/catalog-company-department.service';
-import { CatalogCompanyService } from '../../../core/services/catalog-company.service';
-import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
+import {
+  CountryDialCodeOption,
+  ReferenceDataService,
+} from '../../../core/services/reference-data.service';
 import { SecurityRoleService } from '../../../core/services/security-role.service';
 import { SecurityUserService } from '../../../core/services/security-user.service';
 import { SecurityRole } from '../../../shared/models/security-role.model';
@@ -28,7 +30,6 @@ import {
 import { CatalogBranch } from '../../../shared/models/catalog-branch.model';
 import { CatalogCompanyArea } from '../../../shared/models/catalog-company-area.model';
 import { CatalogCompanyDepartment } from '../../../shared/models/catalog-company-department.model';
-import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import { TenantContextService } from '../../../core/services/tenant-context.service';
 import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 
@@ -56,11 +57,10 @@ import { TableRowActionsComponent } from '../../../shared/components/table-row-a
 export class UsersAdminComponent implements OnInit {
   private readonly userService = inject(SecurityUserService);
   private readonly roleService = inject(SecurityRoleService);
-  private readonly geographyService = inject(CatalogGeographyService);
+  private readonly referenceDataService = inject(ReferenceDataService);
   private readonly branchService = inject(CatalogBranchService);
   private readonly areaService = inject(CatalogCompanyAreaService);
   private readonly departmentService = inject(CatalogCompanyDepartmentService);
-  private readonly catalogCompanyService = inject(CatalogCompanyService);
   private readonly tenantContext = inject(TenantContextService);
   private readonly snack = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
@@ -71,12 +71,13 @@ export class UsersAdminComponent implements OnInit {
   deletingId: number | null = null;
   data: SecurityUser[] = [];
   roleOptions: SecurityRole[] = [];
-  countryOptions: CatalogCountry[] = [];
+  dialCodeOptions: CountryDialCodeOption[] = [];
   branchOptions: CatalogBranch[] = [];
   areaOptions: CatalogCompanyArea[] = [];
   departmentOptions: CatalogCompanyDepartment[] = [];
   supervisorOptions: SupervisorOption[] = [];
-  catalogCompanyId: number | null = null;
+  tenantCountryId: number | null = null;
+  tenantCountryName: string | null = null;
   total = 0;
   pageIndex = 0;
   pageSize = 10;
@@ -92,7 +93,6 @@ export class UsersAdminComponent implements OnInit {
     lastName: ['', Validators.required],
     phoneCountryCode: [''],
     phone: [''],
-    countryId: [null as number | null],
     supervisorId: [null as number | null],
     supervisorSearch: [''],
     branchId: [null as number | null],
@@ -130,9 +130,6 @@ export class UsersAdminComponent implements OnInit {
     this.searchForm.controls.search.valueChanges.pipe(debounceTime(300)).subscribe(() => {
       this.pageIndex = 0;
       this.load();
-    });
-    this.userForm.controls.countryId.valueChanges.subscribe((countryId) => {
-      this.onCountryChanged(countryId);
     });
     this.userForm.controls.supervisorSearch.valueChanges
       .pipe(
@@ -193,18 +190,26 @@ export class UsersAdminComponent implements OnInit {
   }
 
   private loadCatalogData(): void {
-    this.geographyService.listCountries(0, 300).subscribe({
-      next: (countries) => {
-        this.countryOptions = countries.filter((c) => c.isActive !== false);
-      },
-      error: () => this.snack.open('No se pudieron cargar los países', 'Cerrar', { duration: 4000 }),
-    });
-    this.catalogCompanyService.list(0, 50).subscribe({
-      next: (res) => {
-        const active = res.items.filter((c) => c.isActive !== false);
-        this.catalogCompanyId = active[0]?.id ?? null;
+    this.referenceDataService.getUserTenantContext().subscribe({
+      next: (ctx) => {
+        this.tenantCountryId = ctx.countryId;
+        this.tenantCountryName = ctx.countryName;
+        this.loadDialCodes(ctx.countryId);
+        this.loadBranches(ctx.countryId);
         this.loadAreaAndDepartmentOptions();
       },
+      error: () =>
+        this.snack.open('No se pudo cargar el contexto del tenant', 'Cerrar', { duration: 4000 }),
+    });
+  }
+
+  private loadDialCodes(preferredCountryId: number | null): void {
+    this.referenceDataService.listCountryDialCodes(preferredCountryId).subscribe({
+      next: (options) => {
+        this.dialCodeOptions = options;
+      },
+      error: () =>
+        this.snack.open('No se pudieron cargar los códigos telefónicos', 'Cerrar', { duration: 4000 }),
     });
   }
 
@@ -252,6 +257,10 @@ export class UsersAdminComponent implements OnInit {
     return typeof option === 'string' ? option : option.label;
   }
 
+  dialCodeLabel(option: CountryDialCodeOption): string {
+    return `${option.dialCode} — ${option.countryName}`;
+  }
+
   private parseSupervisorOption(term: unknown): SupervisorOption | null {
     if (term == null || typeof term !== 'object' || !('id' in term) || !('label' in term)) {
       return null;
@@ -286,15 +295,15 @@ export class UsersAdminComponent implements OnInit {
   openCreate(): void {
     this.editingUserId = null;
     this.showForm = true;
+    const defaultDialCode = this.defaultTenantDialCode();
     this.userForm.reset({
       username: '',
       email: '',
       password: '',
       name: '',
       lastName: '',
-      phoneCountryCode: '',
+      phoneCountryCode: defaultDialCode,
       phone: '',
-      countryId: null,
       supervisorId: null,
       supervisorSearch: '',
       branchId: null,
@@ -307,7 +316,6 @@ export class UsersAdminComponent implements OnInit {
       isActive: true,
       roleIds: [],
     });
-    this.branchOptions = [];
     this.userForm.controls.username.enable();
     this.userForm.controls.password.setValidators([Validators.required]);
     this.userForm.controls.password.updateValueAndValidity();
@@ -335,7 +343,6 @@ export class UsersAdminComponent implements OnInit {
         lastName: user.lastName,
         phoneCountryCode: user.phoneCountryCode ?? '',
         phone: user.phone ?? '',
-        countryId: user.countryId ?? null,
         supervisorId: user.supervisorId ?? null,
         supervisorSearch: user.supervisorLabel ?? '',
         branchId: user.branchId ?? null,
@@ -350,9 +357,6 @@ export class UsersAdminComponent implements OnInit {
       },
       { emitEvent: false },
     );
-    if (user.countryId) {
-      this.loadBranches(user.countryId);
-    }
     if (user.supervisorId != null && user.supervisorLabel) {
       this.supervisorOptions = [{ id: user.supervisorId, label: user.supervisorLabel }];
     }
@@ -373,7 +377,6 @@ export class UsersAdminComponent implements OnInit {
     const supervisorId =
       value.supervisorId ?? this.parseSupervisorOption(value.supervisorSearch)?.id ?? undefined;
     const profilePayload = {
-      countryId: value.countryId ?? undefined,
       phoneCountryCode: value.phoneCountryCode || undefined,
       supervisorId,
       branchId: value.branchId ?? undefined,
@@ -457,20 +460,18 @@ export class UsersAdminComponent implements OnInit {
     });
   }
 
-  private onCountryChanged(countryId: number | null): void {
-    const country = this.countryOptions.find((c) => c.id === countryId);
-    if (country?.secondaryCode && !this.userForm.controls.phoneCountryCode.value) {
-      this.userForm.patchValue({ phoneCountryCode: country.secondaryCode });
+  private defaultTenantDialCode(): string {
+    if (this.tenantCountryId == null) {
+      return '';
     }
-    this.userForm.patchValue({ branchId: null });
-    if (countryId) {
-      this.loadBranches(countryId);
-    } else {
-      this.branchOptions = [];
-    }
+    return this.dialCodeOptions.find((o) => o.countryId === this.tenantCountryId)?.dialCode ?? '';
   }
 
-  private loadBranches(countryId: number): void {
+  private loadBranches(countryId: number | null): void {
+    if (countryId == null) {
+      this.branchOptions = [];
+      return;
+    }
     this.branchService.list(countryId, 0, 300).subscribe({
       next: (res) => {
         this.branchOptions = res.items.filter((b) => b.isActive !== false);
@@ -479,17 +480,18 @@ export class UsersAdminComponent implements OnInit {
   }
 
   private loadAreaAndDepartmentOptions(): void {
-    if (!this.catalogCompanyId) {
+    const companyId = this.tenantContext.getCompanyId();
+    if (!companyId) {
       this.areaOptions = [];
       this.departmentOptions = [];
       return;
     }
-    this.areaService.list(this.catalogCompanyId, 0, 300).subscribe({
+    this.areaService.list(companyId, 0, 300).subscribe({
       next: (res) => {
         this.areaOptions = res.items.filter((a) => a.isActive !== false);
       },
     });
-    this.departmentService.list(this.catalogCompanyId, 0, 300).subscribe({
+    this.departmentService.list(companyId, 0, 300).subscribe({
       next: (res) => {
         this.departmentOptions = res.items.filter((d) => d.isActive !== false);
       },
