@@ -97,10 +97,9 @@
         <div class="sh-card sh-table-wrap">
           <div class="table-header-bar">
             <sh-catalog-table-import-export-actions
-              catalogKey="genders"
-              catalogLabel="Género"
+              panelKey="gender"
               [countryId]="selectedCountryId"
-              (importComplete)="loadGenders()"
+              (importComplete)="reloadCatalogAfterImport('gender')"
             />
           </div>
           <table mat-table [dataSource]="genders">
@@ -330,10 +329,9 @@
         <div class="sh-card sh-table-wrap">
           <div class="table-header-bar">
             <sh-catalog-table-import-export-actions
-              catalogKey="currencies"
-              catalogLabel="Moneda"
+              panelKey="currency"
               [countryId]="selectedCountryId"
-              (importComplete)="loadCurrencies()"
+              (importComplete)="reloadCatalogAfterImport('currency')"
             />
           </div>
           <table mat-table [dataSource]="currencies">
@@ -410,6 +408,13 @@
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
+          <div class="table-header-bar">
+            <sh-catalog-table-import-export-actions
+              panelKey="career"
+              [countryId]="selectedCountryId"
+              (importComplete)="reloadCatalogAfterImport('career')"
+            />
+          </div>
           <table mat-table [dataSource]="careers">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
@@ -548,10 +553,9 @@
         <div class="sh-card sh-table-wrap">
           <div class="table-header-bar">
             <sh-catalog-table-import-export-actions
-              catalogKey="shifts"
-              catalogLabel="Turno"
+              panelKey="shift"
               [countryId]="selectedCountryId"
-              (importComplete)="loadShifts()"
+              (importComplete)="reloadCatalogAfterImport('shift')"
             />
           </div>
           <table mat-table [dataSource]="shifts">
@@ -628,10 +632,9 @@
         <div class="sh-card sh-table-wrap">
           <div class="table-header-bar">
             <sh-catalog-table-import-export-actions
-              catalogKey="benefits"
-              catalogLabel="Prestación"
+              panelKey="benefit"
               [countryId]="selectedCountryId"
-              (importComplete)="loadBenefits()"
+              (importComplete)="reloadCatalogAfterImport('benefit')"
             />
           </div>
           <table mat-table [dataSource]="benefits">
@@ -782,6 +785,13 @@
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
+          <div class="table-header-bar">
+            <sh-catalog-table-import-export-actions
+              panelKey="brand"
+              [countryId]="selectedCountryId"
+              (importComplete)="reloadCatalogAfterImport('brand')"
+            />
+          </div>
           <table mat-table [dataSource]="brands">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
@@ -857,10 +867,9 @@
         <div class="sh-card sh-table-wrap">
           <div class="table-header-bar">
             <sh-catalog-table-import-export-actions
-              catalogKey="contract-types"
-              catalogLabel="Tipo contratación"
+              panelKey="contractType"
               [countryId]="selectedCountryId"
-              (importComplete)="loadContractTypes()"
+              (importComplete)="reloadCatalogAfterImport('contractType')"
             />
           </div>
           <table mat-table [dataSource]="contractTypes">
@@ -937,6 +946,13 @@
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
+          <div class="table-header-bar">
+            <sh-catalog-table-import-export-actions
+              panelKey="coverageType"
+              [countryId]="selectedCountryId"
+              (importComplete)="reloadCatalogAfterImport('coverageType')"
+            />
+          </div>
           <table mat-table [dataSource]="coverageTypes">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
@@ -1012,6 +1028,13 @@
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
+          <div class="table-header-bar">
+            <sh-catalog-table-import-export-actions
+              panelKey="educationLevel"
+              [countryId]="selectedCountryId"
+              (importComplete)="reloadCatalogAfterImport('educationLevel')"
+            />
+          </div>
           <table mat-table [dataSource]="educationLevels">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
@@ -1087,6 +1110,13 @@
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
+          <div class="table-header-bar">
+            <sh-catalog-table-import-export-actions
+              panelKey="languageLevel"
+              [countryId]="selectedCountryId"
+              (importComplete)="reloadCatalogAfterImport('languageLevel')"
+            />
+          </div>
           <table mat-table [dataSource]="languageLevels">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
@@ -1161,6 +1191,13 @@
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
+          <div class="table-header-bar">
+            <sh-catalog-table-import-export-actions
+              panelKey="requisitionType"
+              [countryId]="selectedCountryId"
+              (importComplete)="reloadCatalogAfterImport('requisitionType')"
+            />
+          </div>
           <table mat-table [dataSource]="requisitionTypes">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
@@ -1658,6 +1695,13 @@
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
+          <div class="table-header-bar">
+            <sh-catalog-table-import-export-actions
+              panelKey="jobPortal"
+              [countryId]="selectedCountryId"
+              (importComplete)="reloadCatalogAfterImport('jobPortal')"
+            />
+          </div>
           <table mat-table [dataSource]="jobPortals">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
@@ -2018,6 +2062,13 @@
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
+          <div class="table-header-bar">
+            <sh-catalog-table-import-export-actions
+              panelKey="coverageCategory"
+              [countryId]="selectedCountryId"
+              (importComplete)="reloadCatalogAfterImport('coverageCategory')"
+            />
+          </div>
           <table mat-table [dataSource]="coverageCategories">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
@@ -2091,6 +2142,13 @@
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
+          <div class="table-header-bar">
+            <sh-catalog-table-import-export-actions
+              panelKey="characteristic"
+              [countryId]="selectedCountryId"
+              (importComplete)="reloadCatalogAfterImport('characteristic')"
+            />
+          </div>
           <table mat-table [dataSource]="characteristics">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
@@ -2163,6 +2221,13 @@
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
+          <div class="table-header-bar">
+            <sh-catalog-table-import-export-actions
+              panelKey="category"
+              [countryId]="selectedCountryId"
+              (importComplete)="reloadCatalogAfterImport('category')"
+            />
+          </div>
           <table mat-table [dataSource]="catalogCategories">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
@@ -2236,6 +2301,13 @@
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
+          <div class="table-header-bar">
+            <sh-catalog-table-import-export-actions
+              panelKey="maritalStatus"
+              [countryId]="selectedCountryId"
+              (importComplete)="reloadCatalogAfterImport('maritalStatus')"
+            />
+          </div>
           <table mat-table [dataSource]="maritalStatuses">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
@@ -2309,6 +2381,13 @@
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
+          <div class="table-header-bar">
+            <sh-catalog-table-import-export-actions
+              panelKey="experienceLevel"
+              [countryId]="selectedCountryId"
+              (importComplete)="reloadCatalogAfterImport('experienceLevel')"
+            />
+          </div>
           <table mat-table [dataSource]="experienceLevels">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
@@ -2382,6 +2461,13 @@
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
+          <div class="table-header-bar">
+            <sh-catalog-table-import-export-actions
+              panelKey="tool"
+              [countryId]="selectedCountryId"
+              (importComplete)="reloadCatalogAfterImport('tool')"
+            />
+          </div>
           <table mat-table [dataSource]="tools">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
@@ -2455,6 +2541,13 @@
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
+          <div class="table-header-bar">
+            <sh-catalog-table-import-export-actions
+              panelKey="workSchedule"
+              [countryId]="selectedCountryId"
+              (importComplete)="reloadCatalogAfterImport('workSchedule')"
+            />
+          </div>
           <table mat-table [dataSource]="workSchedules">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
@@ -2528,6 +2621,13 @@
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
+          <div class="table-header-bar">
+            <sh-catalog-table-import-export-actions
+              panelKey="workplace"
+              [countryId]="selectedCountryId"
+              (importComplete)="reloadCatalogAfterImport('workplace')"
+            />
+          </div>
           <table mat-table [dataSource]="workplaces">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
@@ -2601,6 +2701,13 @@
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
+          <div class="table-header-bar">
+            <sh-catalog-table-import-export-actions
+              panelKey="requirement"
+              [countryId]="selectedCountryId"
+              (importComplete)="reloadCatalogAfterImport('requirement')"
+            />
+          </div>
           <table mat-table [dataSource]="requirements">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
@@ -2674,6 +2781,13 @@
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
+          <div class="table-header-bar">
+            <sh-catalog-table-import-export-actions
+              panelKey="responsibilityLevel"
+              [countryId]="selectedCountryId"
+              (importComplete)="reloadCatalogAfterImport('responsibilityLevel')"
+            />
+          </div>
           <table mat-table [dataSource]="responsibilityLevels">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
@@ -2747,6 +2861,13 @@
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
+          <div class="table-header-bar">
+            <sh-catalog-table-import-export-actions
+              panelKey="disabilityType"
+              [countryId]="selectedCountryId"
+              (importComplete)="reloadCatalogAfterImport('disabilityType')"
+            />
+          </div>
           <table mat-table [dataSource]="disabilityTypes">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
@@ -2820,6 +2941,13 @@
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
+          <div class="table-header-bar">
+            <sh-catalog-table-import-export-actions
+              panelKey="businessUnit"
+              [countryId]="selectedCountryId"
+              (importComplete)="reloadCatalogAfterImport('businessUnit')"
+            />
+          </div>
           <table mat-table [dataSource]="businessUnits">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
@@ -2893,6 +3021,13 @@
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
+          <div class="table-header-bar">
+            <sh-catalog-table-import-export-actions
+              panelKey="positionType"
+              [countryId]="selectedCountryId"
+              (importComplete)="reloadCatalogAfterImport('positionType')"
+            />
+          </div>
           <table mat-table [dataSource]="positionTypes">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>

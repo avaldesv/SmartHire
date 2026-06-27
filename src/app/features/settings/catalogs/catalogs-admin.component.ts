@@ -223,6 +223,86 @@ export class CatalogsAdminComponent implements OnInit {
     return canEditScopedRecord(companyId, this.isGlobalAdmin());
   }
 
+  reloadCatalogAfterImport(panel: CatalogPanelKey): void {
+    switch (panel) {
+      case 'gender':
+        this.loadGenders();
+        break;
+      case 'career':
+        this.loadCareers();
+        break;
+      case 'currency':
+        this.loadCurrencies();
+        break;
+      case 'shift':
+        this.loadShifts();
+        break;
+      case 'benefit':
+        this.loadBenefits();
+        break;
+      case 'contractType':
+        this.loadContractTypes();
+        break;
+      case 'educationLevel':
+        this.loadEducationLevels();
+        break;
+      case 'languageLevel':
+        this.loadLanguageLevels();
+        break;
+      case 'coverageType':
+        this.loadCoverageTypes();
+        break;
+      case 'coverageCategory':
+        this.loadCoverageCategorys();
+        break;
+      case 'characteristic':
+        this.loadCharacteristics();
+        break;
+      case 'category':
+        this.loadCategorys();
+        break;
+      case 'maritalStatus':
+        this.loadMaritalStatuss();
+        break;
+      case 'experienceLevel':
+        this.loadExperienceLevels();
+        break;
+      case 'tool':
+        this.loadTools();
+        break;
+      case 'workSchedule':
+        this.loadWorkSchedules();
+        break;
+      case 'workplace':
+        this.loadWorkplaces();
+        break;
+      case 'requirement':
+        this.loadRequirements();
+        break;
+      case 'responsibilityLevel':
+        this.loadResponsibilityLevels();
+        break;
+      case 'disabilityType':
+        this.loadDisabilityTypes();
+        break;
+      case 'businessUnit':
+        this.loadBusinessUnits();
+        break;
+      case 'positionType':
+        this.loadPositionTypes();
+        break;
+      case 'brand':
+        this.loadBrands();
+        break;
+      case 'requisitionType':
+        this.loadRequisitionTypes();
+        break;
+      case 'jobPortal':
+        this.loadJobPortals();
+        break;
+    }
+  }
+
   get activeCategoryId(): CatalogCategoryId {
     return this.visibleCategories()[this.categoryTabIndex]?.id ?? 'generales';
   }
