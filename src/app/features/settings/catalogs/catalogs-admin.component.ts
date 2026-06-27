@@ -91,6 +91,7 @@ import { TenantContextService } from '../../../core/services/tenant-context.serv
 import { NotificationsAdminComponent } from '../notifications/notifications-admin.component';
 import { ScopeBadgeComponent } from '../../../shared/components/scope-badge/scope-badge.component';
 import { CatalogListActionsComponent } from './catalog-list-actions.component';
+import { CatalogTableImportExportActionsComponent } from './catalog-table-import-export-actions.component';
 import { TenantDataScope } from '../../../shared/models/tenant-data-scope.model';
 import { canEditScopedRecord } from '../../../shared/utils/tenant-scope.util';
 import {
@@ -122,6 +123,7 @@ import {
     ScopeBadgeComponent,
     NotificationsAdminComponent,
     CatalogListActionsComponent,
+    CatalogTableImportExportActionsComponent,
   ],
   templateUrl: './catalogs-admin.component.html',
   styleUrl: './catalogs-admin.component.scss',
