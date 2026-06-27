@@ -6,10 +6,15 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AppPermissions } from '../../../core/auth/app-permissions';
 import {
+  getCatalogCsvPanelConfig,
+  supportsCatalogCsvImportExport,
+} from '../../../core/catalog/catalog-import-export.registry';
+import {
   CatalogImportExportService,
   downloadBlob,
 } from '../../../core/services/catalog-import-export.service';
 import { PermissionService } from '../../../core/services/permission.service';
+import { CatalogPanelKey } from './catalog-admin.registry';
 import {
   CatalogCsvImportDialogComponent,
   CatalogCsvImportDialogData,
@@ -48,8 +53,7 @@ import {
   `,
 })
 export class CatalogTableImportExportActionsComponent {
-  @Input({ required: true }) catalogKey!: string;
-  @Input({ required: true }) catalogLabel!: string;
+  @Input({ required: true }) panelKey!: CatalogPanelKey;
   @Input() countryId: number | null = null;
   @Output() importComplete = new EventEmitter<void>();
 
@@ -60,28 +64,43 @@ export class CatalogTableImportExportActionsComponent {
 
   exporting = false;
 
+  private config() {
+    return getCatalogCsvPanelConfig(this.panelKey);
+  }
+
   canExport(): boolean {
-    return this.permissions.hasAll([
-      AppPermissions.SETTINGS_CATALOGS_READ,
-      AppPermissions.SETTINGS_CATALOGS_EXPORT,
-    ]);
+    return (
+      supportsCatalogCsvImportExport(this.panelKey) &&
+      this.permissions.hasAll([
+        AppPermissions.SETTINGS_CATALOGS_READ,
+        AppPermissions.SETTINGS_CATALOGS_EXPORT,
+      ])
+    );
   }
 
   canImport(): boolean {
-    return this.permissions.hasAll([
-      AppPermissions.SETTINGS_CATALOGS_READ,
-      AppPermissions.SETTINGS_CATALOGS_EDIT,
-      AppPermissions.SETTINGS_CATALOGS_EXPORT,
-      AppPermissions.SETTINGS_CATALOGS_CREATE,
-      AppPermissions.SETTINGS_CATALOGS_IMPORT,
-    ]);
+    return (
+      supportsCatalogCsvImportExport(this.panelKey) &&
+      this.permissions.hasAll([
+        AppPermissions.SETTINGS_CATALOGS_READ,
+        AppPermissions.SETTINGS_CATALOGS_EDIT,
+        AppPermissions.SETTINGS_CATALOGS_EXPORT,
+        AppPermissions.SETTINGS_CATALOGS_CREATE,
+        AppPermissions.SETTINGS_CATALOGS_IMPORT,
+      ])
+    );
   }
 
   exportData(): void {
+    const cfg = this.config();
+    if (!cfg) {
+      return;
+    }
     this.exporting = true;
-    this.catalogImportExport.exportCatalog(this.catalogKey, this.countryId).subscribe({
+    const exportCountryId = cfg.usesCountryFilter ? this.countryId : null;
+    this.catalogImportExport.exportCatalog(cfg.catalogKey, exportCountryId).subscribe({
       next: (blob) => {
-        downloadBlob(blob, `${this.catalogKey}-export.csv`);
+        downloadBlob(blob, `${cfg.catalogKey}-export.csv`);
         this.exporting = false;
       },
       error: () => {
@@ -92,9 +111,13 @@ export class CatalogTableImportExportActionsComponent {
   }
 
   openImportDialog(): void {
+    const cfg = this.config();
+    if (!cfg) {
+      return;
+    }
     const data: CatalogCsvImportDialogData = {
-      catalogKey: this.catalogKey,
-      catalogLabel: this.catalogLabel,
+      catalogKey: cfg.catalogKey,
+      catalogLabel: cfg.label,
     };
     this.dialog
       .open(CatalogCsvImportDialogComponent, {
