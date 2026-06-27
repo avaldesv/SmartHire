@@ -14,6 +14,7 @@ import { MatTableModule } from '@angular/material/table';
 import { NotificationTemplateApiService } from '../../../core/services/notification-template-api.service';
 import { NotificationTemplateItem } from '../../../shared/models/notification-template.model';
 import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
+import { CatalogTableImportExportActionsComponent } from '../catalogs/catalog-table-import-export-actions.component';
 
 const CHANNEL_OPTIONS = ['Correo', 'WhatsApp'] as const;
 
@@ -34,6 +35,7 @@ const CHANNEL_OPTIONS = ['Correo', 'WhatsApp'] as const;
     MatSelectModule,
     MatCheckboxModule,
     TableRowActionsComponent,
+    CatalogTableImportExportActionsComponent,
   ],
   templateUrl: './notifications-admin.component.html',
   styleUrl: './notifications-admin.component.scss',

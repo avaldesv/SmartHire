@@ -300,6 +300,49 @@ export class CatalogsAdminComponent implements OnInit {
       case 'jobPortal':
         this.loadJobPortals();
         break;
+      case 'language':
+        this.loadLanguages();
+        break;
+      case 'kinship':
+        this.loadKinships();
+        break;
+      case 'client':
+        this.loadClients();
+        break;
+      case 'documentType':
+        this.loadDocumentTypes();
+        break;
+      case 'country':
+        this.loadCountryRecords();
+        this.reloadCountryDropdown();
+        break;
+      case 'state':
+        this.loadStates();
+        break;
+      case 'municipality':
+        this.loadMunicipalities();
+        break;
+      case 'neighborhood':
+        this.loadNeighborhoods();
+        break;
+      case 'companyArea':
+        this.loadCompanyAreas();
+        break;
+      case 'companyDepartment':
+        this.loadCompanyDepartments();
+        break;
+      case 'branch':
+        this.loadBranchs();
+        break;
+      case 'questionnaireCategory':
+        this.loadQuestionnaireCategorys();
+        break;
+      case 'questionnaireQuestion':
+        this.loadQuestionnaireQuestions();
+        break;
+      case 'recruiterGroup':
+        this.loadRecruiterGroups();
+        break;
     }
   }
 
