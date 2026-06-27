@@ -1,0 +1,69 @@
+<h2 mat-dialog-title>Importar {{ data.catalogLabel }}</h2>
+
+<mat-dialog-content>
+  <p class="hint">Descargue la plantilla, complete los datos y suba el archivo CSV.</p>
+
+  <div class="actions-row">
+    <button mat-stroked-button type="button" (click)="downloadTemplate()">
+      <mat-icon>download</mat-icon>
+      Descargar plantilla
+    </button>
+  </div>
+
+  <div class="file-row">
+    <input type="file" accept=".csv,text/csv" (change)="onFileSelected($event)" />
+    @if (selectedFile) {
+      <span class="file-name">{{ selectedFile.name }}</span>
+    }
+  </div>
+
+  @if (validation) {
+    <div class="validation-result" [class.valid]="validation.structureValid" [class.invalid]="!validation.structureValid">
+      @if (validation.structureValid) {
+        <p>Estructura válida. Filas detectadas: {{ validation.totalRows }}.</p>
+      } @else {
+        <p>{{ validation.structureErrors.join(' ') }}</p>
+      }
+    </div>
+  }
+
+  @if (importResult) {
+    <div class="import-result">
+      <p>Creados: {{ importResult.created }} · Actualizados: {{ importResult.updated }} · Fallidos: {{ importResult.failed }}</p>
+      @if (importResult.failed > 0 && importResult.errorReportCsvBase64) {
+        <button mat-button type="button" (click)="downloadErrorReport()">
+          <mat-icon>download</mat-icon>
+          Descargar reporte de errores
+        </button>
+      }
+    </div>
+  }
+
+  @if (errorMessage) {
+    <p class="error">{{ errorMessage }}</p>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="close()">Cerrar</button>
+  <button mat-stroked-button type="button" [disabled]="!selectedFile || validating" (click)="validateStructure()">
+    @if (validating) {
+      <mat-spinner diameter="18" />
+    } @else {
+      Validar
+    }
+  </button>
+  <button
+    mat-flat-button
+    color="primary"
+    type="button"
+    [disabled]="!validation?.structureValid || importing"
+    (click)="importCsv()"
+  >
+    @if (importing) {
+      <mat-spinner diameter="18" />
+    } @else {
+      Importar
+    }
+  </button>
+</mat-dialog-actions>
