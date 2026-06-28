@@ -15,7 +15,7 @@ export class NotificationTemplateApiService {
   private readonly api = inject(ApiClientService);
 
   list(page = 0, size = 50): Observable<{ items: NotificationTemplateItem[]; total: number }> {
-    const body = { isActive: null, filters: [], ordersBy: ['action:asc'] as string[] };
+    const body = { isActive: null, filters: [], ordersBy: ['actionCode:asc'] as string[] };
     return this.http
       .post<NotificationTemplateListResponse>(this.api.apiUrl('/api/v1/notification-templates/list'), body, {
         headers: this.api.buildHeaders(page, size),
