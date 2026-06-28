@@ -394,6 +394,74 @@
         <source>Valida con IA</source>
         <target>Valida con IA</target>
       </trans-unit>
+      <trans-unit id="catalogImport.title" datatype="html">
+        <source>Importar </source>
+        <target>Importar </target>
+      </trans-unit>
+      <trans-unit id="catalogImport.hint" datatype="html">
+        <source>Descargue la plantilla, complete los datos y suba el archivo CSV.</source>
+        <target>Descargue la plantilla, complete los datos y suba el archivo CSV.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.downloadTemplate" datatype="html">
+        <source>Descargar plantilla</source>
+        <target>Descargar plantilla</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.downloadErrors" datatype="html">
+        <source>Descargar reporte de errores</source>
+        <target>Descargar reporte de errores</target>
+      </trans-unit>
+      <trans-unit id="common.close" datatype="html">
+        <source>Cerrar</source>
+        <target>Cerrar</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.validate" datatype="html">
+        <source>Validar</source>
+        <target>Validar</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.import" datatype="html">
+        <source>Importar</source>
+        <target>Importar</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.exportTooltip" datatype="html">
+        <source>Exportar CSV</source>
+        <target>Exportar CSV</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.importTooltip" datatype="html">
+        <source>Importar CSV</source>
+        <target>Importar CSV</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.errors.templateDownload" datatype="html">
+        <source>No se pudo descargar la plantilla.</source>
+        <target>No se pudo descargar la plantilla.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.errors.selectFile" datatype="html">
+        <source>Seleccione un archivo CSV.</source>
+        <target>Seleccione un archivo CSV.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.errors.validate" datatype="html">
+        <source>No se pudo validar el archivo.</source>
+        <target>No se pudo validar el archivo.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.errors.import" datatype="html">
+        <source>No se pudo importar el archivo.</source>
+        <target>No se pudo importar el archivo.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.errors.export" datatype="html">
+        <source>No se pudo exportar el catálogo</source>
+        <target>No se pudo exportar el catálogo</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.success.importComplete" datatype="html">
+        <source>Importación completada</source>
+        <target>Importación completada</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.structureValid" datatype="html">
+        <source>Estructura válida. Filas detectadas: </source>
+        <target>Estructura válida. Filas detectadas: </target>
+      </trans-unit>
+      <trans-unit id="catalogImport.resultSummary" datatype="html">
+        <source>Creados: </source>
+        <target>Creados: </target>
+      </trans-unit>
       <trans-unit id="catalogs.gender.newButton" datatype="html">
         <source>Nuevo género</source>
         <target>Nuevo género</target>
@@ -1006,9 +1074,185 @@
         <source>Bitácoras</source>
         <target>Bitácoras</target>
       </trans-unit>
-      <trans-unit id="common.close" datatype="html">
-        <source>Cerrar</source>
-        <target>Cerrar</target>
+      <trans-unit id="notifications.pageTitle" datatype="html">
+        <source>Notificaciones</source>
+        <target>Notificaciones</target>
+      </trans-unit>
+      <trans-unit id="notifications.newButton" datatype="html">
+        <source>Nueva plantilla</source>
+        <target>Nueva plantilla</target>
+      </trans-unit>
+      <trans-unit id="notifications.editTitle" datatype="html">
+        <source>Editar plantilla</source>
+        <target>Editar plantilla</target>
+      </trans-unit>
+      <trans-unit id="notifications.newTitle" datatype="html">
+        <source>Nueva plantilla</source>
+        <target>Nueva plantilla</target>
+      </trans-unit>
+      <trans-unit id="notifications.field.systemAction" datatype="html">
+        <source>Acción del sistema</source>
+        <target>Acción del sistema</target>
+      </trans-unit>
+      <trans-unit id="notifications.field.channels" datatype="html">
+        <source>Canales</source>
+        <target>Canales</target>
+      </trans-unit>
+      <trans-unit id="notifications.field.externalTemplateId" datatype="html">
+        <source>ID plantilla externa</source>
+        <target>ID plantilla externa</target>
+      </trans-unit>
+      <trans-unit id="notifications.field.message" datatype="html">
+        <source>Mensaje</source>
+        <target>Mensaje</target>
+      </trans-unit>
+      <trans-unit id="notifications.field.active" datatype="html">
+        <source>Activa</source>
+        <target>Activa</target>
+      </trans-unit>
+      <trans-unit id="notifications.column.action" datatype="html">
+        <source>Acción</source>
+        <target>Acción</target>
+      </trans-unit>
+      <trans-unit id="notifications.column.channels" datatype="html">
+        <source>Canales</source>
+        <target>Canales</target>
+      </trans-unit>
+      <trans-unit id="notifications.column.template" datatype="html">
+        <source>Plantilla</source>
+        <target>Plantilla</target>
+      </trans-unit>
+      <trans-unit id="notifications.column.message" datatype="html">
+        <source>Mensaje</source>
+        <target>Mensaje</target>
+      </trans-unit>
+      <trans-unit id="notifications.column.active" datatype="html">
+        <source>Activo</source>
+        <target>Activo</target>
+      </trans-unit>
+      <trans-unit id="notifications.errors.load" datatype="html">
+        <source>No se pudieron cargar las plantillas de notificación</source>
+        <target>No se pudieron cargar las plantillas de notificación</target>
+      </trans-unit>
+      <trans-unit id="notifications.errors.channelsRequired" datatype="html">
+        <source>Selecciona al menos un canal</source>
+        <target>Selecciona al menos un canal</target>
+      </trans-unit>
+      <trans-unit id="notifications.success.saved" datatype="html">
+        <source>Plantilla guardada</source>
+        <target>Plantilla guardada</target>
+      </trans-unit>
+      <trans-unit id="notifications.errors.save" datatype="html">
+        <source>No se pudo guardar la plantilla</source>
+        <target>No se pudo guardar la plantilla</target>
+      </trans-unit>
+      <trans-unit id="notifications.errors.update" datatype="html">
+        <source>No se pudo actualizar la plantilla</source>
+        <target>No se pudo actualizar la plantilla</target>
+      </trans-unit>
+      <trans-unit id="notifications.success.deleted" datatype="html">
+        <source>Plantilla eliminada</source>
+        <target>Plantilla eliminada</target>
+      </trans-unit>
+      <trans-unit id="notifications.errors.delete" datatype="html">
+        <source>No se pudo eliminar la plantilla</source>
+        <target>No se pudo eliminar la plantilla</target>
+      </trans-unit>
+      <trans-unit id="notifications.state.active" datatype="html">
+        <source>activada</source>
+        <target>activada</target>
+      </trans-unit>
+      <trans-unit id="notifications.state.inactive" datatype="html">
+        <source>desactivada</source>
+        <target>desactivada</target>
+      </trans-unit>
+      <trans-unit id="notifications.success.toggled" datatype="html">
+        <source>Notificación </source>
+        <target>Notificación </target>
+      </trans-unit>
+      <trans-unit id="notifications.confirm.delete" datatype="html">
+        <source>¿Eliminar la plantilla "</source>
+        <target>¿Eliminar la plantilla "</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.pageTitle" datatype="html">
+        <source>Etapas del pipeline</source>
+        <target>Etapas del pipeline</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.newButton" datatype="html">
+        <source>Nueva etapa</source>
+        <target>Nueva etapa</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.editTitle" datatype="html">
+        <source>Editar etapa</source>
+        <target>Editar etapa</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.newTitle" datatype="html">
+        <source>Nueva etapa</source>
+        <target>Nueva etapa</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.country" datatype="html">
+        <source>País</source>
+        <target>País</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.code" datatype="html">
+        <source>Clave</source>
+        <target>Clave</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.field.stage" datatype="html">
+        <source>Etapa</source>
+        <target>Etapa</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.field.order" datatype="html">
+        <source>Orden</source>
+        <target>Orden</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.field.color" datatype="html">
+        <source>Color</source>
+        <target>Color</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.column.order" datatype="html">
+        <source>Orden</source>
+        <target>Orden</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.column.reorder" datatype="html">
+        <source>Reordenar</source>
+        <target>Reordenar</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.moveUp" datatype="html">
+        <source>Subir</source>
+        <target>Subir</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.moveDown" datatype="html">
+        <source>Bajar</source>
+        <target>Bajar</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.errors.load" datatype="html">
+        <source>No se pudieron cargar las etapas del pipeline</source>
+        <target>No se pudieron cargar las etapas del pipeline</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.success.saved" datatype="html">
+        <source>Etapa guardada</source>
+        <target>Etapa guardada</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.errors.save" datatype="html">
+        <source>No se pudo guardar la etapa</source>
+        <target>No se pudo guardar la etapa</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.success.deleted" datatype="html">
+        <source>Etapa eliminada</source>
+        <target>Etapa eliminada</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.errors.delete" datatype="html">
+        <source>No se pudo eliminar la etapa</source>
+        <target>No se pudo eliminar la etapa</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.errors.reorder" datatype="html">
+        <source>No se pudo reordenar las etapas</source>
+        <target>No se pudo reordenar las etapas</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.confirm.delete" datatype="html">
+        <source>¿Eliminar la etapa "</source>
+        <target>¿Eliminar la etapa "</target>
       </trans-unit>
       <trans-unit id="users.errors.tenantContext" datatype="html">
         <source>No se pudo cargar el contexto del tenant</source>
@@ -1178,17 +1422,9 @@
         <source> Catálogo pendiente de implementación. Ver plan </source>
         <target> Catálogo pendiente de implementación. Ver plan </target>
       </trans-unit>
-      <trans-unit id="catalogs.field.country" datatype="html">
-        <source>País</source>
-        <target>País</target>
-      </trans-unit>
       <trans-unit id="catalogs.field.allCountries" datatype="html">
         <source>Todos los países</source>
         <target>Todos los países</target>
-      </trans-unit>
-      <trans-unit id="catalogs.field.code" datatype="html">
-        <source>Clave</source>
-        <target>Clave</target>
       </trans-unit>
       <trans-unit id="catalogs.field.manpowerIdShort" datatype="html">
         <source>Id MP</source>
@@ -1221,6 +1457,10 @@
       <trans-unit id="nav.settings.title" datatype="html">
         <source>Configuraciones</source>
         <target>Configuraciones</target>
+      </trans-unit>
+      <trans-unit id="notifications.field.messageHint" datatype="html">
+        <source>Variables: </source>
+        <target>Variables: </target>
       </trans-unit>
       <trans-unit id="users.search" datatype="html">
         <source>Buscar usuario</source>

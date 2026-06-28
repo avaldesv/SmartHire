@@ -394,6 +394,74 @@
         <source>Valida con IA</source>
         <target>AI validation</target>
       </trans-unit>
+      <trans-unit id="catalogImport.title" datatype="html">
+        <source>Importar </source>
+        <target>Import </target>
+      </trans-unit>
+      <trans-unit id="catalogImport.hint" datatype="html">
+        <source>Descargue la plantilla, complete los datos y suba el archivo CSV.</source>
+        <target>Download the template, fill in the data, and upload the CSV file.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.downloadTemplate" datatype="html">
+        <source>Descargar plantilla</source>
+        <target>Download template</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.downloadErrors" datatype="html">
+        <source>Descargar reporte de errores</source>
+        <target>Download error report</target>
+      </trans-unit>
+      <trans-unit id="common.close" datatype="html">
+        <source>Cerrar</source>
+        <target>Close</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.validate" datatype="html">
+        <source>Validar</source>
+        <target>Validate</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.import" datatype="html">
+        <source>Importar</source>
+        <target>Import</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.exportTooltip" datatype="html">
+        <source>Exportar CSV</source>
+        <target>Export CSV</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.importTooltip" datatype="html">
+        <source>Importar CSV</source>
+        <target>Import CSV</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.errors.templateDownload" datatype="html">
+        <source>No se pudo descargar la plantilla.</source>
+        <target>Could not download template.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.errors.selectFile" datatype="html">
+        <source>Seleccione un archivo CSV.</source>
+        <target>Select a CSV file.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.errors.validate" datatype="html">
+        <source>No se pudo validar el archivo.</source>
+        <target>Could not validate file.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.errors.import" datatype="html">
+        <source>No se pudo importar el archivo.</source>
+        <target>Could not import file.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.errors.export" datatype="html">
+        <source>No se pudo exportar el catálogo</source>
+        <target>Could not export catalog</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.success.importComplete" datatype="html">
+        <source>Importación completada</source>
+        <target>Import completed</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.structureValid" datatype="html">
+        <source>Estructura válida. Filas detectadas: </source>
+        <target>Valid structure. Rows detected: </target>
+      </trans-unit>
+      <trans-unit id="catalogImport.resultSummary" datatype="html">
+        <source>Creados: </source>
+        <target>Creados: </target>
+      </trans-unit>
       <trans-unit id="catalogs.gender.newButton" datatype="html">
         <source>Nuevo género</source>
         <target>New gender</target>
@@ -1006,9 +1074,185 @@
         <source>Bitácoras</source>
         <target>Audit logs</target>
       </trans-unit>
-      <trans-unit id="common.close" datatype="html">
-        <source>Cerrar</source>
-        <target>Close</target>
+      <trans-unit id="notifications.pageTitle" datatype="html">
+        <source>Notificaciones</source>
+        <target>Notifications</target>
+      </trans-unit>
+      <trans-unit id="notifications.newButton" datatype="html">
+        <source>Nueva plantilla</source>
+        <target>New template</target>
+      </trans-unit>
+      <trans-unit id="notifications.editTitle" datatype="html">
+        <source>Editar plantilla</source>
+        <target>Edit template</target>
+      </trans-unit>
+      <trans-unit id="notifications.newTitle" datatype="html">
+        <source>Nueva plantilla</source>
+        <target>New template</target>
+      </trans-unit>
+      <trans-unit id="notifications.field.systemAction" datatype="html">
+        <source>Acción del sistema</source>
+        <target>System action</target>
+      </trans-unit>
+      <trans-unit id="notifications.field.channels" datatype="html">
+        <source>Canales</source>
+        <target>Channels</target>
+      </trans-unit>
+      <trans-unit id="notifications.field.externalTemplateId" datatype="html">
+        <source>ID plantilla externa</source>
+        <target>External template ID</target>
+      </trans-unit>
+      <trans-unit id="notifications.field.message" datatype="html">
+        <source>Mensaje</source>
+        <target>Message</target>
+      </trans-unit>
+      <trans-unit id="notifications.field.active" datatype="html">
+        <source>Activa</source>
+        <target>Active</target>
+      </trans-unit>
+      <trans-unit id="notifications.column.action" datatype="html">
+        <source>Acción</source>
+        <target>Action</target>
+      </trans-unit>
+      <trans-unit id="notifications.column.channels" datatype="html">
+        <source>Canales</source>
+        <target>Channels</target>
+      </trans-unit>
+      <trans-unit id="notifications.column.template" datatype="html">
+        <source>Plantilla</source>
+        <target>Template</target>
+      </trans-unit>
+      <trans-unit id="notifications.column.message" datatype="html">
+        <source>Mensaje</source>
+        <target>Message</target>
+      </trans-unit>
+      <trans-unit id="notifications.column.active" datatype="html">
+        <source>Activo</source>
+        <target>Active</target>
+      </trans-unit>
+      <trans-unit id="notifications.errors.load" datatype="html">
+        <source>No se pudieron cargar las plantillas de notificación</source>
+        <target>Could not load notification templates</target>
+      </trans-unit>
+      <trans-unit id="notifications.errors.channelsRequired" datatype="html">
+        <source>Selecciona al menos un canal</source>
+        <target>Select at least one channel</target>
+      </trans-unit>
+      <trans-unit id="notifications.success.saved" datatype="html">
+        <source>Plantilla guardada</source>
+        <target>Template saved</target>
+      </trans-unit>
+      <trans-unit id="notifications.errors.save" datatype="html">
+        <source>No se pudo guardar la plantilla</source>
+        <target>Could not save template</target>
+      </trans-unit>
+      <trans-unit id="notifications.errors.update" datatype="html">
+        <source>No se pudo actualizar la plantilla</source>
+        <target>Could not update template</target>
+      </trans-unit>
+      <trans-unit id="notifications.success.deleted" datatype="html">
+        <source>Plantilla eliminada</source>
+        <target>Template deleted</target>
+      </trans-unit>
+      <trans-unit id="notifications.errors.delete" datatype="html">
+        <source>No se pudo eliminar la plantilla</source>
+        <target>Could not delete template</target>
+      </trans-unit>
+      <trans-unit id="notifications.state.active" datatype="html">
+        <source>activada</source>
+        <target>activated</target>
+      </trans-unit>
+      <trans-unit id="notifications.state.inactive" datatype="html">
+        <source>desactivada</source>
+        <target>deactivated</target>
+      </trans-unit>
+      <trans-unit id="notifications.success.toggled" datatype="html">
+        <source>Notificación </source>
+        <target>Notificación </target>
+      </trans-unit>
+      <trans-unit id="notifications.confirm.delete" datatype="html">
+        <source>¿Eliminar la plantilla "</source>
+        <target>Delete template "</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.pageTitle" datatype="html">
+        <source>Etapas del pipeline</source>
+        <target>Pipeline stages</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.newButton" datatype="html">
+        <source>Nueva etapa</source>
+        <target>New stage</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.editTitle" datatype="html">
+        <source>Editar etapa</source>
+        <target>Edit stage</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.newTitle" datatype="html">
+        <source>Nueva etapa</source>
+        <target>New stage</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.country" datatype="html">
+        <source>País</source>
+        <target>Country</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.code" datatype="html">
+        <source>Clave</source>
+        <target>Code</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.field.stage" datatype="html">
+        <source>Etapa</source>
+        <target>Stage</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.field.order" datatype="html">
+        <source>Orden</source>
+        <target>Order</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.field.color" datatype="html">
+        <source>Color</source>
+        <target>Color</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.column.order" datatype="html">
+        <source>Orden</source>
+        <target>Order</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.column.reorder" datatype="html">
+        <source>Reordenar</source>
+        <target>Reorder</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.moveUp" datatype="html">
+        <source>Subir</source>
+        <target>Move up</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.moveDown" datatype="html">
+        <source>Bajar</source>
+        <target>Move down</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.errors.load" datatype="html">
+        <source>No se pudieron cargar las etapas del pipeline</source>
+        <target>Could not load pipeline stages</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.success.saved" datatype="html">
+        <source>Etapa guardada</source>
+        <target>Stage saved</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.errors.save" datatype="html">
+        <source>No se pudo guardar la etapa</source>
+        <target>Could not save stage</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.success.deleted" datatype="html">
+        <source>Etapa eliminada</source>
+        <target>Stage deleted</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.errors.delete" datatype="html">
+        <source>No se pudo eliminar la etapa</source>
+        <target>Could not delete stage</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.errors.reorder" datatype="html">
+        <source>No se pudo reordenar las etapas</source>
+        <target>Could not reorder stages</target>
+      </trans-unit>
+      <trans-unit id="pipelineStages.confirm.delete" datatype="html">
+        <source>¿Eliminar la etapa "</source>
+        <target>Delete stage "</target>
       </trans-unit>
       <trans-unit id="users.errors.tenantContext" datatype="html">
         <source>No se pudo cargar el contexto del tenant</source>
@@ -1178,17 +1422,9 @@
         <source> Catálogo pendiente de implementación. Ver plan </source>
         <target> Catálogo pendiente de implementación. Ver plan </target>
       </trans-unit>
-      <trans-unit id="catalogs.field.country" datatype="html">
-        <source>País</source>
-        <target>Country</target>
-      </trans-unit>
       <trans-unit id="catalogs.field.allCountries" datatype="html">
         <source>Todos los países</source>
         <target>All countries</target>
-      </trans-unit>
-      <trans-unit id="catalogs.field.code" datatype="html">
-        <source>Clave</source>
-        <target>Code</target>
       </trans-unit>
       <trans-unit id="catalogs.field.manpowerIdShort" datatype="html">
         <source>Id MP</source>
@@ -1221,6 +1457,10 @@
       <trans-unit id="nav.settings.title" datatype="html">
         <source>Configuraciones</source>
         <target>Settings</target>
+      </trans-unit>
+      <trans-unit id="notifications.field.messageHint" datatype="html">
+        <source>Variables: </source>
+        <target>Variables: </target>
       </trans-unit>
       <trans-unit id="users.search" datatype="html">
         <source>Buscar usuario</source>

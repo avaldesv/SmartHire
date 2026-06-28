@@ -18,6 +18,41 @@ import { CatalogPipelineStage } from '../../../shared/models/catalog-pipeline-st
 import { TenantDataScope } from '../../../shared/models/tenant-data-scope.model';
 import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 import { canEditScopedRecord } from '../../../shared/utils/tenant-scope.util';
+import {
+  PIPELINE_STAGES_CANCEL,
+  PIPELINE_STAGES_COLUMN_COLOR,
+  PIPELINE_STAGES_COLUMN_ORDER,
+  PIPELINE_STAGES_COLUMN_REORDER,
+  PIPELINE_STAGES_COLUMN_STAGE,
+  PIPELINE_STAGES_DELETE_ERROR,
+  PIPELINE_STAGES_DELETE_SUCCESS,
+  PIPELINE_STAGES_EDIT_TITLE,
+  PIPELINE_STAGES_FIELD_ACTIVE,
+  PIPELINE_STAGES_FIELD_CODE,
+  PIPELINE_STAGES_FIELD_COLOR,
+  PIPELINE_STAGES_FIELD_COUNTRY,
+  PIPELINE_STAGES_FIELD_DESCRIPTION,
+  PIPELINE_STAGES_FIELD_ORDER,
+  PIPELINE_STAGES_FIELD_STAGE,
+  PIPELINE_STAGES_LOAD_ERROR,
+  PIPELINE_STAGES_MOVE_DOWN,
+  PIPELINE_STAGES_MOVE_UP,
+  PIPELINE_STAGES_NEW_BUTTON,
+  PIPELINE_STAGES_NEW_TITLE,
+  PIPELINE_STAGES_NO,
+  PIPELINE_STAGES_PAGE_TITLE,
+  PIPELINE_STAGES_RECORD_SCOPE,
+  PIPELINE_STAGES_REORDER_ERROR,
+  PIPELINE_STAGES_SAVE,
+  PIPELINE_STAGES_SAVE_ERROR,
+  PIPELINE_STAGES_SAVE_SUCCESS,
+  PIPELINE_STAGES_SAVING,
+  PIPELINE_STAGES_SCOPE_GLOBAL,
+  PIPELINE_STAGES_SCOPE_TENANT,
+  PIPELINE_STAGES_SNACK_CLOSE,
+  PIPELINE_STAGES_YES,
+  pipelineStagesDeleteConfirm,
+} from '../../../core/i18n/pipeline-stages-labels';
 
 @Component({
   selector: 'sh-pipeline-stages',
@@ -47,6 +82,32 @@ export class PipelineStagesComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
 
   readonly isGlobalAdmin = computed(() => this.permissions.isGlobalAdmin());
+
+  readonly pageTitle = PIPELINE_STAGES_PAGE_TITLE;
+  readonly newButton = PIPELINE_STAGES_NEW_BUTTON;
+  readonly editTitle = PIPELINE_STAGES_EDIT_TITLE;
+  readonly newTitle = PIPELINE_STAGES_NEW_TITLE;
+  readonly recordScope = PIPELINE_STAGES_RECORD_SCOPE;
+  readonly scopeTenant = PIPELINE_STAGES_SCOPE_TENANT;
+  readonly scopeGlobal = PIPELINE_STAGES_SCOPE_GLOBAL;
+  readonly fieldCountry = PIPELINE_STAGES_FIELD_COUNTRY;
+  readonly fieldCode = PIPELINE_STAGES_FIELD_CODE;
+  readonly fieldStage = PIPELINE_STAGES_FIELD_STAGE;
+  readonly fieldDescription = PIPELINE_STAGES_FIELD_DESCRIPTION;
+  readonly fieldOrder = PIPELINE_STAGES_FIELD_ORDER;
+  readonly fieldColor = PIPELINE_STAGES_FIELD_COLOR;
+  readonly fieldActive = PIPELINE_STAGES_FIELD_ACTIVE;
+  readonly columnOrder = PIPELINE_STAGES_COLUMN_ORDER;
+  readonly columnStage = PIPELINE_STAGES_COLUMN_STAGE;
+  readonly columnColor = PIPELINE_STAGES_COLUMN_COLOR;
+  readonly columnReorder = PIPELINE_STAGES_COLUMN_REORDER;
+  readonly moveUpLabel = PIPELINE_STAGES_MOVE_UP;
+  readonly moveDownLabel = PIPELINE_STAGES_MOVE_DOWN;
+  readonly cancelLabel = PIPELINE_STAGES_CANCEL;
+  readonly savingLabel = PIPELINE_STAGES_SAVING;
+  readonly saveLabel = PIPELINE_STAGES_SAVE;
+  readonly yesLabel = PIPELINE_STAGES_YES;
+  readonly noLabel = PIPELINE_STAGES_NO;
 
   loading = true;
   saving = false;
@@ -94,7 +155,7 @@ export class PipelineStagesComponent implements OnInit {
       },
       error: () => {
         this.loading = false;
-        this.snack.open('No se pudieron cargar las etapas del pipeline', 'Cerrar', { duration: 4000 });
+        this.snack.open(PIPELINE_STAGES_LOAD_ERROR, PIPELINE_STAGES_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -168,30 +229,30 @@ export class PipelineStagesComponent implements OnInit {
         this.saving = false;
         this.showForm = false;
         this.editingStageId = null;
-        this.snack.open('Etapa guardada', 'Cerrar', { duration: 3000 });
+        this.snack.open(PIPELINE_STAGES_SAVE_SUCCESS, PIPELINE_STAGES_SNACK_CLOSE, { duration: 3000 });
         this.load();
       },
       error: () => {
         this.saving = false;
-        this.snack.open('No se pudo guardar la etapa', 'Cerrar', { duration: 4000 });
+        this.snack.open(PIPELINE_STAGES_SAVE_ERROR, PIPELINE_STAGES_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
 
   deleteStage(stage: CatalogPipelineStage): void {
-    if (!confirm(`¿Eliminar la etapa "${stage.name}"?`)) {
+    if (!confirm(pipelineStagesDeleteConfirm(stage.name))) {
       return;
     }
     this.deletingId = stage.id;
     this.pipelineStageService.delete(stage.id).subscribe({
       next: () => {
         this.deletingId = null;
-        this.snack.open('Etapa eliminada', 'Cerrar', { duration: 3000 });
+        this.snack.open(PIPELINE_STAGES_DELETE_SUCCESS, PIPELINE_STAGES_SNACK_CLOSE, { duration: 3000 });
         this.load();
       },
       error: () => {
         this.deletingId = null;
-        this.snack.open('No se pudo eliminar la etapa', 'Cerrar', { duration: 4000 });
+        this.snack.open(PIPELINE_STAGES_DELETE_ERROR, PIPELINE_STAGES_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -217,7 +278,7 @@ export class PipelineStagesComponent implements OnInit {
       },
       error: () => {
         this.reordering = false;
-        this.snack.open('No se pudo reordenar las etapas', 'Cerrar', { duration: 4000 });
+        this.snack.open(PIPELINE_STAGES_REORDER_ERROR, PIPELINE_STAGES_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }

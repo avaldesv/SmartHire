@@ -1,12 +1,12 @@
-<h2 mat-dialog-title>Importar {{ data.catalogLabel }}</h2>
+<h2 mat-dialog-title>{{ importTitle }}</h2>
 
 <mat-dialog-content>
-  <p class="hint">Descargue la plantilla, complete los datos y suba el archivo CSV.</p>
+  <p class="hint">{{ hint }}</p>
 
   <div class="actions-row">
     <button mat-stroked-button type="button" [disabled]="isImportDone || isBusy" (click)="downloadTemplate()">
       <mat-icon>download</mat-icon>
-      Descargar plantilla
+      {{ downloadTemplateLabel }}
     </button>
   </div>
 
@@ -25,7 +25,7 @@
   @if (validation) {
     <div class="validation-result" [class.valid]="validation.structureValid" [class.invalid]="!validation.structureValid">
       @if (validation.structureValid) {
-        <p>Estructura válida. Filas detectadas: {{ validation.totalRows }}.</p>
+        <p>{{ structureValidMessage(validation.totalRows) }}</p>
       } @else {
         <p>{{ validation.structureErrors.join(' ') }}</p>
       }
@@ -34,11 +34,11 @@
 
   @if (importResult) {
     <div class="import-result">
-      <p>Creados: {{ importResult.created }} · Actualizados: {{ importResult.updated }} · Fallidos: {{ importResult.failed }}</p>
+      <p>{{ resultSummary(importResult.created, importResult.updated, importResult.failed) }}</p>
       @if (importResult.failed > 0 && importResult.errorReportCsvBase64) {
         <button mat-button type="button" (click)="downloadErrorReport()">
           <mat-icon>download</mat-icon>
-          Descargar reporte de errores
+          {{ downloadErrorsLabel }}
         </button>
       }
     </div>
@@ -51,14 +51,14 @@
 
 <mat-dialog-actions align="end">
   @if (!isImportDone) {
-    <button mat-button type="button" [disabled]="isBusy" (click)="close()">Cerrar</button>
+    <button mat-button type="button" [disabled]="isBusy" (click)="close()">{{ closeLabel }}</button>
   }
   @if (showValidateAction) {
     <button mat-stroked-button type="button" [disabled]="isBusy" (click)="validateStructure()">
       @if (validating) {
         <mat-spinner diameter="18" />
       } @else {
-        Validar
+        {{ validateLabel }}
       }
     </button>
   }
@@ -67,11 +67,11 @@
       @if (importing) {
         <mat-spinner diameter="18" />
       } @else {
-        Importar
+        {{ importLabel }}
       }
     </button>
   }
   @if (isImportDone) {
-    <button mat-flat-button color="primary" type="button" (click)="close()">Cerrar</button>
+    <button mat-flat-button color="primary" type="button" (click)="close()">{{ closeLabel }}</button>
   }
 </mat-dialog-actions>

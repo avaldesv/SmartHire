@@ -19,6 +19,13 @@ import {
   CatalogCsvImportDialogComponent,
   CatalogCsvImportDialogData,
 } from './catalog-csv-import-dialog.component';
+import {
+  CATALOG_IMPORT_COMPLETE,
+  CATALOG_IMPORT_EXPORT_ERROR,
+  CATALOG_IMPORT_EXPORT_TOOLTIP,
+  CATALOG_IMPORT_IMPORT_TOOLTIP,
+  CATALOG_IMPORT_SNACK_CLOSE,
+} from '../../../core/i18n/catalog-import-labels';
 
 @Component({
   selector: 'sh-catalog-table-import-export-actions',
@@ -30,7 +37,7 @@ import {
         <button
           mat-icon-button
           type="button"
-          matTooltip="Exportar CSV"
+          [matTooltip]="exportTooltip"
           [disabled]="exporting"
           (click)="exportData()"
         >
@@ -38,7 +45,7 @@ import {
         </button>
       }
       @if (canImport()) {
-        <button mat-icon-button type="button" matTooltip="Importar CSV" (click)="openImportDialog()">
+        <button mat-icon-button type="button" [matTooltip]="importTooltip" (click)="openImportDialog()">
           <mat-icon>upload</mat-icon>
         </button>
       }
@@ -63,6 +70,8 @@ export class CatalogTableImportExportActionsComponent {
   private readonly snackBar = inject(MatSnackBar);
 
   exporting = false;
+  readonly exportTooltip = CATALOG_IMPORT_EXPORT_TOOLTIP;
+  readonly importTooltip = CATALOG_IMPORT_IMPORT_TOOLTIP;
 
   private config() {
     return getCatalogCsvPanelConfig(this.panelKey);
@@ -105,7 +114,7 @@ export class CatalogTableImportExportActionsComponent {
       },
       error: () => {
         this.exporting = false;
-        this.snackBar.open('No se pudo exportar el catálogo', 'Cerrar', { duration: 4000 });
+        this.snackBar.open(CATALOG_IMPORT_EXPORT_ERROR, CATALOG_IMPORT_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -127,7 +136,7 @@ export class CatalogTableImportExportActionsComponent {
       .afterClosed()
       .subscribe((imported) => {
         if (imported) {
-          this.snackBar.open('Importación completada', 'Cerrar', { duration: 3000 });
+          this.snackBar.open(CATALOG_IMPORT_COMPLETE, CATALOG_IMPORT_SNACK_CLOSE, { duration: 3000 });
           this.importComplete.emit();
         }
       });
