@@ -13,6 +13,19 @@ export const X_LANGUAGE_HEADER = 'X-Language';
 
 const LEGACY_LOCALE_PREFIXES = ['es-ES', 'en-US'] as const;
 
+/** Build bundles use CLDR base codes (es/en); portal/API keep regional codes (es-ES/en-US). */
+const LOCALE_EQUIVALENCE_GROUPS: readonly (readonly string[])[] = [
+  ['es', 'es-ES'],
+  ['en', 'en-US'],
+];
+
+function localesEquivalent(a: string, b: string): boolean {
+  if (a === b) {
+    return true;
+  }
+  return LOCALE_EQUIVALENCE_GROUPS.some((group) => group.includes(a) && group.includes(b));
+}
+
 @Injectable({ providedIn: 'root' })
 export class LocaleService {
   private readonly document = inject(DOCUMENT);
@@ -66,7 +79,7 @@ export class LocaleService {
 
   needsLocaleReload(locale?: string | null): boolean {
     const preferred = locale?.trim() || DEFAULT_LOGIN_LOCALE;
-    if (this.getBuildLocale() === preferred) {
+    if (localesEquivalent(this.getBuildLocale(), preferred)) {
       sessionStorage.removeItem(LOCALE_RELOAD_GUARD_KEY);
       return false;
     }

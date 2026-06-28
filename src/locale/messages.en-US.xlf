@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file source-language="es-MX" target-language="en-US" datatype="plaintext" original="ng2.template">
+  <file source-language="es-MX" target-language="en" datatype="plaintext" original="ng2.template">
     <body>
       <trans-unit id="audit.pageTitle" datatype="html">
         <source>Bitácoras de auditoría</source>
@@ -1538,6 +1538,10 @@
         <source>Mensaje</source>
         <target>Message</target>
       </trans-unit>
+      <trans-unit id="notifications.showMore" datatype="html">
+        <source>mostrar más</source>
+        <target>show more</target>
+      </trans-unit>
       <trans-unit id="notifications.column.active" datatype="html">
         <source>Activo</source>
         <target>Active</target>
@@ -1746,37 +1750,85 @@
         <source>Prompts IA</source>
         <target>AI Prompts</target>
       </trans-unit>
-      <trans-unit id="prompts.field.preselection" datatype="html">
-        <source>Prompt de preselección</source>
-        <target>Preselection prompt</target>
+      <trans-unit id="prompts.field.clave" datatype="html">
+        <source>Clave</source>
+        <target>Code</target>
       </trans-unit>
-      <trans-unit id="prompts.field.analysis" datatype="html">
-        <source>Prompt de análisis</source>
-        <target>Analysis prompt</target>
+      <trans-unit id="prompts.field.promptText" datatype="html">
+        <source>Texto del prompt</source>
+        <target>Prompt text</target>
       </trans-unit>
-      <trans-unit id="prompts.field.interview" datatype="html">
-        <source>Prompt de entrevista</source>
-        <target>Interview prompt</target>
+      <trans-unit id="prompts.field.description" datatype="html">
+        <source>Descripción</source>
+        <target>Description</target>
       </trans-unit>
-      <trans-unit id="prompts.default.preselection" datatype="html">
-        <source>Evalúa candidatos según requisitos obligatorios y deseables de la posición.</source>
-        <target>Evaluate candidates against mandatory and desirable position requirements.</target>
+      <trans-unit id="prompts.newButton" datatype="html">
+        <source>Nuevo prompt</source>
+        <target>New prompt</target>
       </trans-unit>
-      <trans-unit id="prompts.default.analysis" datatype="html">
-        <source>Genera un análisis comparativo de los candidatos preseleccionados.</source>
-        <target>Generate a comparative analysis of preselected candidates.</target>
+      <trans-unit id="prompts.editTitle" datatype="html">
+        <source>Editar prompt</source>
+        <target>Edit prompt</target>
       </trans-unit>
-      <trans-unit id="prompts.default.interview" datatype="html">
-        <source>Sugiere preguntas de entrevista basadas en el perfil.</source>
-        <target>Suggest interview questions based on the profile.</target>
+      <trans-unit id="prompts.newTitle" datatype="html">
+        <source>Nuevo prompt</source>
+        <target>New prompt</target>
       </trans-unit>
-      <trans-unit id="prompts.saveButton" datatype="html">
-        <source>Guardar prompts</source>
-        <target>Save prompts</target>
+      <trans-unit id="prompts.col.clave" datatype="html">
+        <source>Clave</source>
+        <target>Code</target>
+      </trans-unit>
+      <trans-unit id="prompts.col.prompt" datatype="html">
+        <source>Prompt</source>
+        <target>Prompt</target>
+      </trans-unit>
+      <trans-unit id="prompts.col.scope" datatype="html">
+        <source>Ámbito</source>
+        <target>Scope</target>
+      </trans-unit>
+      <trans-unit id="prompts.empty" datatype="html">
+        <source>No hay prompts configurados</source>
+        <target>No prompts configured</target>
+      </trans-unit>
+      <trans-unit id="prompts.errors.list" datatype="html">
+        <source>No se pudieron cargar los prompts</source>
+        <target>Could not load prompts</target>
+      </trans-unit>
+      <trans-unit id="prompts.errors.save" datatype="html">
+        <source>No se pudo guardar el prompt</source>
+        <target>Could not save prompt</target>
+      </trans-unit>
+      <trans-unit id="prompts.errors.delete" datatype="html">
+        <source>No se pudo eliminar el prompt</source>
+        <target>Could not delete prompt</target>
+      </trans-unit>
+      <trans-unit id="prompts.errors.update" datatype="html">
+        <source>No se pudo actualizar el prompt</source>
+        <target>Could not update prompt</target>
       </trans-unit>
       <trans-unit id="prompts.success.saved" datatype="html">
-        <source>Prompts IA actualizados</source>
-        <target>AI prompts updated</target>
+        <source>Prompt guardado</source>
+        <target>Prompt saved</target>
+      </trans-unit>
+      <trans-unit id="prompts.success.deleted" datatype="html">
+        <source>Prompt eliminado</source>
+        <target>Prompt deleted</target>
+      </trans-unit>
+      <trans-unit id="prompts.claveReadonlyHint" datatype="html">
+        <source>La clave no se puede modificar después de crear el registro</source>
+        <target>Key cannot be changed after the record is created</target>
+      </trans-unit>
+      <trans-unit id="prompts.showMore" datatype="html">
+        <source>mostrar más</source>
+        <target>show more</target>
+      </trans-unit>
+      <trans-unit id="prompts.cancel" datatype="html">
+        <source>Cancelar</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="prompts.deleteConfirm" datatype="html">
+        <source>¿Eliminar el prompt "<x id="clave" equiv-text="clave" />"? Esta acción no se puede deshacer.</source>
+        <target>Delete prompt "<x id="clave" equiv-text="clave" />"? This action cannot be undone.</target>
       </trans-unit>
       <trans-unit id="cvs.pageTitle" datatype="html">
         <source>Configuración de CVs</source>

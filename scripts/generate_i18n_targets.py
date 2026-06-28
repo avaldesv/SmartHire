@@ -344,12 +344,20 @@ EN_BY_SOURCE: dict[str, str] = {
     "Comprobante de domicilio": "Proof of address",
     "Días para entrega": "Days to submit",
     "Configuración de documentos guardada": "Documents configuration saved",
-    # Prompts
-    "Prompt de preselección": "Preselection prompt",
-    "Prompt de análisis": "Analysis prompt",
-    "Prompt de entrevista": "Interview prompt",
-    "Guardar prompts": "Save prompts",
-    "Prompts IA actualizados": "AI prompts updated",
+    # Prompts (AVV-438)
+    "Texto del prompt": "Prompt text",
+    "Nuevo prompt": "New prompt",
+    "Editar prompt": "Edit prompt",
+    "Prompt": "Prompt",
+    "No hay prompts configurados": "No prompts configured",
+    "No se pudieron cargar los prompts": "Could not load prompts",
+    "No se pudo guardar el prompt": "Could not save prompt",
+    "No se pudo eliminar el prompt": "Could not delete prompt",
+    "No se pudo actualizar el prompt": "Could not update prompt",
+    "Prompt guardado": "Prompt saved",
+    "Prompt eliminado": "Prompt deleted",
+    "La clave no se puede modificar después de crear el registro": "Key cannot be changed after the record is created",
+    "mostrar más": "show more",
     # CVs
     "Configuración de CVs": "CV configuration",
     "Formato aceptado": "Accepted format",
@@ -446,16 +454,6 @@ EN_BY_SOURCE: dict[str, str] = {
     # Notifications placeholders & channels
     "ASIGNACION, CANCELACION, POSTULADO...": "ASSIGNMENT, CANCELLATION, APPLIED...",
     "WhatsApp / SendGrid template ID": "WhatsApp / SendGrid template ID",
-    # Prompts defaults
-    "Evalúa candidatos según requisitos obligatorios y deseables de la posición.": (
-        "Evaluate candidates against mandatory and desirable position requirements."
-    ),
-    "Genera un análisis comparativo de los candidatos preseleccionados.": (
-        "Generate a comparative analysis of preselected candidates."
-    ),
-    "Sugiere preguntas de entrevista basadas en el perfil.": (
-        "Suggest interview questions based on the profile."
-    ),
     # Positions list (phase 2)
     "Gestión de requisiciones y posiciones abiertas": "Open requisition and position management",
     "Nueva posición": "New position",
@@ -561,6 +559,10 @@ def translate_en(source: str) -> str:
         )
     if source.startswith("¿Eliminar la etapa \""):
         return source.replace("¿Eliminar la etapa", "Delete stage")
+    if source.startswith("¿Eliminar el prompt"):
+        return source.replace("¿Eliminar el prompt", "Delete prompt").replace(
+            "Esta acción no se puede deshacer.", "This action cannot be undone."
+        )
     return source
 
 
@@ -575,7 +577,7 @@ def clone_source_content(parent: ET.Element, source_el: ET.Element, *, translate
             placeholder.tail = fn(child.tail)
 
 
-def build(locale: str, target_lang: str) -> None:
+def build(file_locale: str, target_lang: str) -> None:
     tree = ET.parse(SRC)
     file_el = tree.getroot().find("x:file", NS)
     body = file_el.find("x:body", NS)
@@ -602,10 +604,10 @@ def build(locale: str, target_lang: str) -> None:
         clone_source_content(new_source, source_el, translate=False)
 
         new_target = ET.SubElement(new_unit, "target")
-        clone_source_content(new_target, source_el, translate=locale == "en-US")
+        clone_source_content(new_target, source_el, translate=target_lang.startswith("en"))
 
     ET.indent(out, space="  ")
-    path = ROOT / f"src/locale/messages.{locale}.xlf"
+    path = ROOT / f"src/locale/messages.{file_locale}.xlf"
     path.write_text(
         '<?xml version="1.0" encoding="UTF-8" ?>\n' + ET.tostring(out, encoding="unicode") + "\n",
         encoding="utf-8",
@@ -614,5 +616,5 @@ def build(locale: str, target_lang: str) -> None:
 
 
 if __name__ == "__main__":
-    build("es-ES", "es-ES")
-    build("en-US", "en-US")
+    build("es-ES", "es")
+    build("en-US", "en")

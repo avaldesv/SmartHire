@@ -10,17 +10,6 @@ export const DOCUMENTS_FIELD_PROOF_OF_ADDRESS = $localize`:@@documents.field.pro
 export const DOCUMENTS_FIELD_DEADLINE_DAYS = $localize`:@@documents.field.deadlineDays:Días para entrega`;
 export const DOCUMENTS_SAVE_SUCCESS = $localize`:@@documents.success.saved:Configuración de documentos guardada`;
 
-// Prompts
-export const PROMPTS_PAGE_TITLE = $localize`:@@prompts.pageTitle:Prompts IA`;
-export const PROMPTS_FIELD_PRESELECTION = $localize`:@@prompts.field.preselection:Prompt de preselección`;
-export const PROMPTS_FIELD_ANALYSIS = $localize`:@@prompts.field.analysis:Prompt de análisis`;
-export const PROMPTS_FIELD_INTERVIEW = $localize`:@@prompts.field.interview:Prompt de entrevista`;
-export const PROMPTS_DEFAULT_PRESELECTION = $localize`:@@prompts.default.preselection:Evalúa candidatos según requisitos obligatorios y deseables de la posición.`;
-export const PROMPTS_DEFAULT_ANALYSIS = $localize`:@@prompts.default.analysis:Genera un análisis comparativo de los candidatos preseleccionados.`;
-export const PROMPTS_DEFAULT_INTERVIEW = $localize`:@@prompts.default.interview:Sugiere preguntas de entrevista basadas en el perfil.`;
-export const PROMPTS_SAVE_BUTTON = $localize`:@@prompts.saveButton:Guardar prompts`;
-export const PROMPTS_SAVE_SUCCESS = $localize`:@@prompts.success.saved:Prompts IA actualizados`;
-
 // CVs
 export const CVS_PAGE_TITLE = $localize`:@@cvs.pageTitle:Configuración de CVs`;
 export const CVS_FIELD_FORMAT = $localize`:@@cvs.field.format:Formato aceptado`;
