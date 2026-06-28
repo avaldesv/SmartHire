@@ -281,6 +281,57 @@ EN_BY_SOURCE: dict[str, str] = {
     "Permisos de módulo": "Module permissions",
     "Grupo": "Group",
     "Permisos": "Permissions",
+    # Notifications module
+    "Nueva plantilla": "New template",
+    "Editar plantilla": "Edit template",
+    "Acción del sistema": "System action",
+    "Canales": "Channels",
+    "ID plantilla externa": "External template ID",
+    "Mensaje": "Message",
+    "Activa": "Active",
+    "Acción": "Action",
+    "Plantilla": "Template",
+    "No se pudieron cargar las plantillas de notificación": "Could not load notification templates",
+    "Selecciona al menos un canal": "Select at least one channel",
+    "Plantilla guardada": "Template saved",
+    "No se pudo guardar la plantilla": "Could not save template",
+    "No se pudo actualizar la plantilla": "Could not update template",
+    "Plantilla eliminada": "Template deleted",
+    "No se pudo eliminar la plantilla": "Could not delete template",
+    "activada": "activated",
+    "desactivada": "deactivated",
+    # Catalog CSV import/export
+    "Descargue la plantilla, complete los datos y suba el archivo CSV.": (
+        "Download the template, fill in the data, and upload the CSV file."
+    ),
+    "Descargar plantilla": "Download template",
+    "Descargar reporte de errores": "Download error report",
+    "Validar": "Validate",
+    "Importar": "Import",
+    "Exportar CSV": "Export CSV",
+    "Importar CSV": "Import CSV",
+    "No se pudo descargar la plantilla.": "Could not download template.",
+    "Seleccione un archivo CSV.": "Select a CSV file.",
+    "No se pudo validar el archivo.": "Could not validate file.",
+    "No se pudo importar el archivo.": "Could not import file.",
+    "No se pudo exportar el catálogo": "Could not export catalog",
+    "Importación completada": "Import completed",
+    # Pipeline stages module
+    "Etapas del pipeline": "Pipeline stages",
+    "Nueva etapa": "New stage",
+    "Editar etapa": "Edit stage",
+    "Etapa": "Stage",
+    "Orden": "Order",
+    "Color": "Color",
+    "Reordenar": "Reorder",
+    "Subir": "Move up",
+    "Bajar": "Move down",
+    "No se pudieron cargar las etapas del pipeline": "Could not load pipeline stages",
+    "Etapa guardada": "Stage saved",
+    "No se pudo guardar la etapa": "Could not save stage",
+    "Etapa eliminada": "Stage deleted",
+    "No se pudo eliminar la etapa": "Could not delete stage",
+    "No se pudo reordenar las etapas": "Could not reorder stages",
 }
 
 
@@ -290,6 +341,30 @@ def translate_en(source: str) -> str:
     if "Eliminar el usuario" in source:
         return source.replace("¿Eliminar el usuario", "Delete user").replace(
             "Esta acción no se puede deshacer.", "This action cannot be undone."
+        )
+    if "Eliminar la plantilla" in source:
+        return source.replace("¿Eliminar la plantilla", "Delete template").replace(
+            "Esta acción no se puede deshacer.", "This action cannot be undone."
+        )
+    if "Eliminar la etapa" in source:
+        return source.replace("¿Eliminar la etapa", "Delete stage")
+    if source.startswith("Importar "):
+        return "Import " + source[len("Importar ") :]
+    if "Estructura válida. Filas detectadas:" in source:
+        return source.replace("Estructura válida. Filas detectadas:", "Valid structure. Rows detected:").replace(
+            "Filas detectadas:", "Rows detected:"
+        )
+    if "Creados:" in source and "Actualizados:" in source:
+        return (
+            source.replace("Creados:", "Created:")
+            .replace("Actualizados:", "Updated:")
+            .replace("Fallidos:", "Failed:")
+        )
+    if "Notificación " in source and ("activada" in source or "desactivada" in source):
+        return (
+            source.replace("Notificación ", "Notification ")
+            .replace("activada", "activated")
+            .replace("desactivada", "deactivated")
         )
     return source
 

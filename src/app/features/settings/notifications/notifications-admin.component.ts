@@ -15,6 +15,35 @@ import { NotificationTemplateApiService } from '../../../core/services/notificat
 import { NotificationTemplateItem } from '../../../shared/models/notification-template.model';
 import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 import { CatalogTableImportExportActionsComponent } from '../catalogs/catalog-table-import-export-actions.component';
+import {
+  NOTIFICATIONS_CANCEL,
+  NOTIFICATIONS_CHANNELS_REQUIRED,
+  NOTIFICATIONS_COLUMN_ACTION,
+  NOTIFICATIONS_COLUMN_ACTIVE,
+  NOTIFICATIONS_COLUMN_CHANNELS,
+  NOTIFICATIONS_COLUMN_MESSAGE,
+  NOTIFICATIONS_COLUMN_TEMPLATE,
+  NOTIFICATIONS_DELETE_ERROR,
+  NOTIFICATIONS_DELETE_SUCCESS,
+  NOTIFICATIONS_EDIT_TITLE,
+  NOTIFICATIONS_FIELD_ACTIVE,
+  NOTIFICATIONS_FIELD_CHANNELS,
+  NOTIFICATIONS_FIELD_EXTERNAL_TEMPLATE_ID,
+  NOTIFICATIONS_FIELD_MESSAGE,
+  NOTIFICATIONS_FIELD_SYSTEM_ACTION,
+  NOTIFICATIONS_LOAD_ERROR,
+  NOTIFICATIONS_NEW_BUTTON,
+  NOTIFICATIONS_NEW_TITLE,
+  NOTIFICATIONS_PAGE_TITLE,
+  NOTIFICATIONS_SAVE,
+  NOTIFICATIONS_SAVE_ERROR,
+  NOTIFICATIONS_SAVE_SUCCESS,
+  NOTIFICATIONS_SAVING,
+  NOTIFICATIONS_SNACK_CLOSE,
+  NOTIFICATIONS_UPDATE_ERROR,
+  notificationsDeleteConfirm,
+  notificationsToggleMessage,
+} from '../../../core/i18n/notifications-labels';
 
 const CHANNEL_OPTIONS = ['Correo', 'WhatsApp'] as const;
 
@@ -55,6 +84,24 @@ export class NotificationsAdminComponent implements OnInit {
   readonly columns = ['action', 'channels', 'templateId', 'message', 'active', 'actions'];
   readonly channelOptions = [...CHANNEL_OPTIONS];
 
+  readonly pageTitle = NOTIFICATIONS_PAGE_TITLE;
+  readonly newButton = NOTIFICATIONS_NEW_BUTTON;
+  readonly editTitle = NOTIFICATIONS_EDIT_TITLE;
+  readonly newTitle = NOTIFICATIONS_NEW_TITLE;
+  readonly fieldSystemAction = NOTIFICATIONS_FIELD_SYSTEM_ACTION;
+  readonly fieldChannels = NOTIFICATIONS_FIELD_CHANNELS;
+  readonly fieldExternalTemplateId = NOTIFICATIONS_FIELD_EXTERNAL_TEMPLATE_ID;
+  readonly fieldMessage = NOTIFICATIONS_FIELD_MESSAGE;
+  readonly fieldActive = NOTIFICATIONS_FIELD_ACTIVE;
+  readonly columnAction = NOTIFICATIONS_COLUMN_ACTION;
+  readonly columnChannels = NOTIFICATIONS_COLUMN_CHANNELS;
+  readonly columnTemplate = NOTIFICATIONS_COLUMN_TEMPLATE;
+  readonly columnMessage = NOTIFICATIONS_COLUMN_MESSAGE;
+  readonly columnActive = NOTIFICATIONS_COLUMN_ACTIVE;
+  readonly cancelLabel = NOTIFICATIONS_CANCEL;
+  readonly savingLabel = NOTIFICATIONS_SAVING;
+  readonly saveLabel = NOTIFICATIONS_SAVE;
+
   readonly templateForm = this.fb.nonNullable.group({
     action: ['', Validators.required],
     channels: [[] as string[], Validators.required],
@@ -76,7 +123,7 @@ export class NotificationsAdminComponent implements OnInit {
       },
       error: () => {
         this.loading = false;
-        this.snack.open('No se pudieron cargar las plantillas de notificación', 'Cerrar', { duration: 3500 });
+        this.snack.open(NOTIFICATIONS_LOAD_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
       },
     });
   }
@@ -117,7 +164,7 @@ export class NotificationsAdminComponent implements OnInit {
     }
     const value = this.templateForm.getRawValue();
     if (!value.channels.length) {
-      this.snack.open('Selecciona al menos un canal', 'Cerrar', { duration: 3000 });
+      this.snack.open(NOTIFICATIONS_CHANNELS_REQUIRED, NOTIFICATIONS_SNACK_CLOSE, { duration: 3000 });
       return;
     }
 
@@ -139,12 +186,12 @@ export class NotificationsAdminComponent implements OnInit {
         this.saving = false;
         this.showForm = false;
         this.editingId = null;
-        this.snack.open('Plantilla guardada', 'Cerrar', { duration: 2500 });
+        this.snack.open(NOTIFICATIONS_SAVE_SUCCESS, NOTIFICATIONS_SNACK_CLOSE, { duration: 2500 });
         this.load();
       },
       error: () => {
         this.saving = false;
-        this.snack.open('No se pudo guardar la plantilla', 'Cerrar', { duration: 3500 });
+        this.snack.open(NOTIFICATIONS_SAVE_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
       },
     });
   }
@@ -165,20 +212,20 @@ export class NotificationsAdminComponent implements OnInit {
         next: (updated) => {
           Object.assign(row, updated);
           this.savingId = null;
-          this.snack.open(`Notificación ${row.action} ${row.active ? 'activada' : 'desactivada'}`, 'Cerrar', {
+          this.snack.open(notificationsToggleMessage(row.action, row.active), NOTIFICATIONS_SNACK_CLOSE, {
             duration: 2500,
           });
         },
         error: () => {
           row.active = previous;
           this.savingId = null;
-          this.snack.open('No se pudo actualizar la plantilla', 'Cerrar', { duration: 3500 });
+          this.snack.open(NOTIFICATIONS_UPDATE_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
         },
       });
   }
 
   deleteTemplate(row: NotificationTemplateItem): void {
-    if (!confirm(`¿Eliminar la plantilla "${row.action}"? Esta acción no se puede deshacer.`)) {
+    if (!confirm(notificationsDeleteConfirm(row.action))) {
       return;
     }
     this.deletingId = row.id;
@@ -188,12 +235,12 @@ export class NotificationsAdminComponent implements OnInit {
         if (this.editingId === row.id) {
           this.cancelForm();
         }
-        this.snack.open('Plantilla eliminada', 'Cerrar', { duration: 3000 });
+        this.snack.open(NOTIFICATIONS_DELETE_SUCCESS, NOTIFICATIONS_SNACK_CLOSE, { duration: 3000 });
         this.load();
       },
       error: () => {
         this.deletingId = null;
-        this.snack.open('No se pudo eliminar la plantilla', 'Cerrar', { duration: 3500 });
+        this.snack.open(NOTIFICATIONS_DELETE_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
       },
     });
   }

@@ -1,22 +1,22 @@
-<h3>Notificaciones</h3>
+<h3>{{ pageTitle }}</h3>
 
 <div class="toolbar">
   <button mat-flat-button color="primary" type="button" (click)="openCreate()">
-    <mat-icon>add</mat-icon> Nueva plantilla
+    <mat-icon>add</mat-icon> {{ newButton }}
   </button>
 </div>
 
 @if (showForm) {
   <div class="sh-card form-card">
-    <h4>{{ editingId ? 'Editar plantilla' : 'Nueva plantilla' }}</h4>
+    <h4>{{ editingId ? editTitle : newTitle }}</h4>
     <form [formGroup]="templateForm" class="template-form" (ngSubmit)="saveForm()">
       <mat-form-field appearance="outline">
-        <mat-label>Acción del sistema</mat-label>
+        <mat-label>{{ fieldSystemAction }}</mat-label>
         <input matInput formControlName="action" placeholder="ASIGNACION, CANCELACION, POSTULADO..." />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Canales</mat-label>
+        <mat-label>{{ fieldChannels }}</mat-label>
         <mat-select formControlName="channels" multiple>
           @for (ch of channelOptions; track ch) {
             <mat-option [value]="ch">{{ ch }}</mat-option>
@@ -25,22 +25,22 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>ID plantilla externa</mat-label>
+        <mat-label>{{ fieldExternalTemplateId }}</mat-label>
         <input matInput formControlName="templateId" placeholder="WhatsApp / SendGrid template ID" />
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="message-field">
-        <mat-label>Mensaje</mat-label>
+        <mat-label>{{ fieldMessage }}</mat-label>
         <textarea matInput rows="4" formControlName="message"></textarea>
-        <mat-hint>Variables: {{ '{{' }}req{{ '}}' }}, {{ '{{' }}puesto{{ '}}' }}, {{ '{{' }}cliente{{ '}}' }}, {{ '{{' }}usuarioSolicita{{ '}}' }}</mat-hint>
+        <mat-hint i18n="@@notifications.field.messageHint">Variables: {{ '{' }}{{ '{' }}req{{ '}' }}{{ '}' }}, {{ '{' }}{{ '{' }}puesto{{ '}' }}{{ '}' }}, {{ '{' }}{{ '{' }}cliente{{ '}' }}{{ '}' }}, {{ '{' }}{{ '{' }}usuarioSolicita{{ '}' }}{{ '}' }}</mat-hint>
       </mat-form-field>
 
-      <mat-checkbox formControlName="isActive">Activa</mat-checkbox>
+      <mat-checkbox formControlName="isActive">{{ fieldActive }}</mat-checkbox>
 
       <div class="form-actions">
-        <button mat-button type="button" (click)="cancelForm()" [disabled]="saving">Cancelar</button>
+        <button mat-button type="button" (click)="cancelForm()" [disabled]="saving">{{ cancelLabel }}</button>
         <button mat-flat-button color="primary" type="submit" [disabled]="saving">
-          {{ saving ? 'Guardando...' : 'Guardar' }}
+          {{ saving ? savingLabel : saveLabel }}
         </button>
       </div>
     </form>
@@ -58,11 +58,11 @@
       />
     </div>
     <table mat-table [dataSource]="data">
-      <ng-container matColumnDef="action"><th mat-header-cell *matHeaderCellDef>Acción</th><td mat-cell *matCellDef="let row">{{ row.action }}</td></ng-container>
-      <ng-container matColumnDef="channels"><th mat-header-cell *matHeaderCellDef>Canales</th><td mat-cell *matCellDef="let row">@for (ch of row.channels; track ch) { <mat-chip>{{ ch }}</mat-chip> }</td></ng-container>
-      <ng-container matColumnDef="templateId"><th mat-header-cell *matHeaderCellDef>Plantilla</th><td mat-cell *matCellDef="let row"><code>{{ row.templateId || '—' }}</code></td></ng-container>
-      <ng-container matColumnDef="message"><th mat-header-cell *matHeaderCellDef>Mensaje</th><td mat-cell *matCellDef="let row" class="message-cell">{{ row.message }}</td></ng-container>
-      <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row"><mat-slide-toggle [checked]="row.active" [disabled]="savingId === row.id" (change)="toggle(row, $event.checked)" /></td></ng-container>
+      <ng-container matColumnDef="action"><th mat-header-cell *matHeaderCellDef>{{ columnAction }}</th><td mat-cell *matCellDef="let row">{{ row.action }}</td></ng-container>
+      <ng-container matColumnDef="channels"><th mat-header-cell *matHeaderCellDef>{{ columnChannels }}</th><td mat-cell *matCellDef="let row">@for (ch of row.channels; track ch) { <mat-chip>{{ ch }}</mat-chip> }</td></ng-container>
+      <ng-container matColumnDef="templateId"><th mat-header-cell *matHeaderCellDef>{{ columnTemplate }}</th><td mat-cell *matCellDef="let row"><code>{{ row.templateId || '—' }}</code></td></ng-container>
+      <ng-container matColumnDef="message"><th mat-header-cell *matHeaderCellDef>{{ columnMessage }}</th><td mat-cell *matCellDef="let row" class="message-cell">{{ row.message }}</td></ng-container>
+      <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>{{ columnActive }}</th><td mat-cell *matCellDef="let row"><mat-slide-toggle [checked]="row.active" [disabled]="savingId === row.id" (change)="toggle(row, $event.checked)" /></td></ng-container>
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let row">

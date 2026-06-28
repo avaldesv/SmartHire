@@ -10,6 +10,21 @@ import {
   downloadBase64Csv,
   downloadBlob,
 } from '../../../core/services/catalog-import-export.service';
+import {
+  CATALOG_IMPORT_CLOSE,
+  CATALOG_IMPORT_DOWNLOAD_ERRORS,
+  CATALOG_IMPORT_DOWNLOAD_TEMPLATE,
+  CATALOG_IMPORT_HINT,
+  CATALOG_IMPORT_IMPORT,
+  CATALOG_IMPORT_IMPORT_ERROR,
+  CATALOG_IMPORT_SELECT_FILE,
+  CATALOG_IMPORT_TEMPLATE_ERROR,
+  CATALOG_IMPORT_VALIDATE,
+  CATALOG_IMPORT_VALIDATE_ERROR,
+  catalogImportResultSummary,
+  catalogImportStructureValid,
+  catalogImportTitle,
+} from '../../../core/i18n/catalog-import-labels';
 
 export interface CatalogCsvImportDialogData {
   catalogKey: string;
@@ -34,6 +49,16 @@ export class CatalogCsvImportDialogComponent {
   validation: CatalogCsvStructureValidationResponse | null = null;
   importResult: CatalogCsvImportResponse | null = null;
   errorMessage = '';
+
+  readonly importTitle = catalogImportTitle(this.data.catalogLabel);
+  readonly hint = CATALOG_IMPORT_HINT;
+  readonly downloadTemplateLabel = CATALOG_IMPORT_DOWNLOAD_TEMPLATE;
+  readonly downloadErrorsLabel = CATALOG_IMPORT_DOWNLOAD_ERRORS;
+  readonly closeLabel = CATALOG_IMPORT_CLOSE;
+  readonly validateLabel = CATALOG_IMPORT_VALIDATE;
+  readonly importLabel = CATALOG_IMPORT_IMPORT;
+  readonly structureValidMessage = catalogImportStructureValid;
+  readonly resultSummary = catalogImportResultSummary;
 
   get isValidated(): boolean {
     return this.validation?.structureValid === true;
@@ -69,14 +94,14 @@ export class CatalogCsvImportDialogComponent {
     this.catalogImportExport.downloadTemplate(this.data.catalogKey).subscribe({
       next: (blob) => downloadBlob(blob, `${this.data.catalogKey}-template.csv`),
       error: () => {
-        this.errorMessage = 'No se pudo descargar la plantilla.';
+        this.errorMessage = CATALOG_IMPORT_TEMPLATE_ERROR;
       },
     });
   }
 
   validateStructure(): void {
     if (!this.selectedFile) {
-      this.errorMessage = 'Seleccione un archivo CSV.';
+      this.errorMessage = CATALOG_IMPORT_SELECT_FILE;
       return;
     }
     this.validating = true;
@@ -91,7 +116,7 @@ export class CatalogCsvImportDialogComponent {
       },
       error: () => {
         this.validating = false;
-        this.errorMessage = 'No se pudo validar el archivo.';
+        this.errorMessage = CATALOG_IMPORT_VALIDATE_ERROR;
       },
     });
   }
@@ -109,7 +134,7 @@ export class CatalogCsvImportDialogComponent {
       },
       error: () => {
         this.importing = false;
-        this.errorMessage = 'No se pudo importar el archivo.';
+        this.errorMessage = CATALOG_IMPORT_IMPORT_ERROR;
       },
     });
   }
