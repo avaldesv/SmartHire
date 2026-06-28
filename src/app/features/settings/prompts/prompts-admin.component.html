@@ -1,0 +1,125 @@
+<h3>{{ pageTitle }}</h3>
+
+@if (canCreate()) {
+  <div class="toolbar">
+    <button mat-flat-button color="primary" type="button" (click)="openCreate()">
+      <mat-icon>add</mat-icon> {{ newButton }}
+    </button>
+  </div>
+}
+
+@if (showForm) {
+  <div class="sh-card form-card">
+    <h4>{{ editingId ? editTitle : newTitle }}</h4>
+    @if (isGlobalAdmin() && !editingId) {
+      <div class="scope-selector" [formGroup]="createScopeForm">
+        <span class="scope-label">{{ recordScope }}</span>
+        <mat-radio-group formControlName="scope">
+          <mat-radio-button value="TENANT">{{ scopeTenant }}</mat-radio-button>
+          <mat-radio-button value="GLOBAL">{{ scopeGlobal }}</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    }
+    <form [formGroup]="promptForm" class="prompt-form" (ngSubmit)="saveForm()">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ fieldClave }}</mat-label>
+        <input matInput formControlName="clave" />
+        @if (editingId) {
+          <mat-hint>{{ claveReadonlyHint }}</mat-hint>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="prompt-field">
+        <mat-label>{{ fieldPromptText }}</mat-label>
+        <textarea matInput rows="6" formControlName="promptText"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ fieldDescription }}</mat-label>
+        <input matInput formControlName="description" />
+      </mat-form-field>
+
+      <mat-checkbox formControlName="isActive">{{ fieldActive }}</mat-checkbox>
+
+      <div class="form-actions">
+        <button mat-button type="button" (click)="cancelForm()" [disabled]="saving">{{ cancelLabel }}</button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="saving">
+          {{ saving ? savingLabel : saveLabel }}
+        </button>
+      </div>
+    </form>
+  </div>
+}
+
+@if (loading) {
+  <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+} @else {
+  <div class="sh-card sh-table-wrap">
+    <div class="table-header-bar">
+      <sh-prompts-import-export-actions (importComplete)="load()" />
+    </div>
+    @if (!data.length) {
+      <p class="empty-state">{{ emptyLabel }}</p>
+    } @else {
+      <table mat-table [dataSource]="data">
+        <ng-container matColumnDef="clave">
+          <th mat-header-cell *matHeaderCellDef>{{ columnClave }}</th>
+          <td mat-cell *matCellDef="let row"><code>{{ row.clave }}</code></td>
+        </ng-container>
+        <ng-container matColumnDef="promptText">
+          <th mat-header-cell *matHeaderCellDef>{{ columnPrompt }}</th>
+          <td mat-cell *matCellDef="let row" class="prompt-cell">
+            @if (isPromptExpanded(row.id) || !isPromptTruncated(row.promptText)) {
+              <span class="prompt-full">{{ row.promptText }}</span>
+            } @else {
+              <span class="prompt-preview">{{ promptPreview(row.promptText) }}</span
+              ><button type="button" class="show-more-btn" (click)="expandPrompt(row.id)">[{{ showMoreLabel }}]</button>
+            }
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef>{{ fieldDescription }}</th>
+          <td mat-cell *matCellDef="let row">{{ row.description || '—' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="scope">
+          <th mat-header-cell *matHeaderCellDef>{{ columnScope }}</th>
+          <td mat-cell *matCellDef="let row">
+            <sh-scope-badge [companyId]="row.companyId" />
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="active">
+          <th mat-header-cell *matHeaderCellDef>{{ fieldActive }}</th>
+          <td mat-cell *matCellDef="let row">
+            <mat-slide-toggle
+              [checked]="row.isActive"
+              [disabled]="!canEditRecord(row.companyId) || savingId === row.id"
+              (change)="toggle(row, $event.checked)"
+            />
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let row">
+            <sh-table-row-actions
+              [showEdit]="canEdit()"
+              [editDisabled]="!canEditRecord(row.companyId)"
+              (editClick)="openEdit(row)"
+              [showDelete]="canDelete()"
+              [deleteDisabled]="!canDeleteRecord(row) || deletingId === row.id || savingId === row.id"
+              (deleteClick)="deletePrompt(row)"
+            />
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns"></tr>
+      </table>
+    }
+    <mat-paginator
+      [length]="total"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      [pageSizeOptions]="[10, 25, 50]"
+      (page)="onPage($event)"
+    />
+  </div>
+}

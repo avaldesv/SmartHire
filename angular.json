@@ -19,13 +19,13 @@
           "baseHref": "/"
         },
         "locales": {
-          "es-ES": {
+          "es": {
             "translation": "src/locale/messages.es-ES.xlf",
-            "baseHref": "/"
+            "subPath": "es-ES"
           },
-          "en-US": {
+          "en": {
             "translation": "src/locale/messages.en-US.xlf",
-            "baseHref": "/"
+            "subPath": "en-US"
           }
         }
       },
@@ -59,7 +59,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
+                  "maximumWarning": "750kB",
                   "maximumError": "1MB"
                 },
                 {
@@ -82,13 +82,13 @@
               "sourceMap": true
             },
             "es-ES": {
-              "localize": ["es-ES"],
+              "localize": ["es"],
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
             },
             "en-US": {
-              "localize": ["en-US"],
+              "localize": ["en"],
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true

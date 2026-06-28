@@ -87,7 +87,7 @@ export const SETTINGS_NAV_ITEMS: SettingsNavItem[] = [
   {
     label: $localize`:@@nav.settings.prompts:Prompts IA`,
     path: 'prompts',
-    authority: AppPermissions.SETTINGS_SYSTEM_READ,
+    authority: AppPermissions.SETTINGS_PROMPTS_READ,
   },
   {
     label: $localize`:@@nav.settings.cvs:CVs`,
