@@ -153,8 +153,10 @@ export class AuthService {
         sessionStorage.setItem('sh_user', JSON.stringify(user));
         this.localeService.resolveFromAuth(profile.locale, profile.portalLanguageId);
         this.sessionVerified.set(true);
-        if (window.location.pathname.startsWith('/login')) {
-          window.location.href = '/home';
+        if (this.isLoginPath(window.location.pathname)) {
+          window.location.href = this.localeService.appPath('/home');
+        } else {
+          this.localeService.ensureLocaleBundle(profile.locale);
         }
       }),
       map(() => this.currentUser()!),
@@ -364,6 +366,10 @@ export class AuthService {
       portalLanguageCode: input.portalLanguageCode,
       locale: input.locale,
     };
+  }
+
+  private isLoginPath(pathname: string): boolean {
+    return pathname === '/login' || pathname.endsWith('/login');
   }
 
   private resolveSsoEmail(response?: LoginApiResponse): string {
