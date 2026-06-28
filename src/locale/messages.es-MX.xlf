@@ -1,0 +1,669 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="es-MX" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="auth.login.failed" datatype="html">
+        <source>No se pudo iniciar sesión. Intente de nuevo.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/auth-labels.ts</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="auth.login.ssoFailed" datatype="html">
+        <source>No se pudo completar el inicio de sesión con SSO. Intente de nuevo o use usuario y contraseña.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/auth-labels.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.main.home" datatype="html">
+        <source>Inicio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.main.positions" datatype="html">
+        <source>Posiciones</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.main.candidates" datatype="html">
+        <source>Candidatos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.main.questionnaires" datatype="html">
+        <source>Cuestionarios</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.main.tracking" datatype="html">
+        <source>Seguimiento</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.main.reports" datatype="html">
+        <source>Reportes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.main.settings" datatype="html">
+        <source>Configuraciones</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.settings.users" datatype="html">
+        <source>Usuarios</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+          <context context-type="linenumber">63</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">1,4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.settings.groups" datatype="html">
+        <source>Grupos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.settings.catalogs" datatype="html">
+        <source>Catálogos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.settings.notifications" datatype="html">
+        <source>Notificaciones</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+          <context context-type="linenumber">78</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.settings.documents" datatype="html">
+        <source>Documentos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+          <context context-type="linenumber">83</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.settings.prompts" datatype="html">
+        <source>Prompts IA</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+          <context context-type="linenumber">88</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.settings.cvs" datatype="html">
+        <source>CVs</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+          <context context-type="linenumber">93</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.settings.interviews" datatype="html">
+        <source>Entrevistas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+          <context context-type="linenumber">98</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.settings.pipelineStages" datatype="html">
+        <source>Etapas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+          <context context-type="linenumber">103</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.settings.system" datatype="html">
+        <source>Sistema</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+          <context context-type="linenumber">108</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.settings.audit" datatype="html">
+        <source>Bitácoras</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+          <context context-type="linenumber">113</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="common.close" datatype="html">
+        <source>Cerrar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+          <context context-type="linenumber">119</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="common.cancel" datatype="html">
+        <source>Cancelar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+          <context context-type="linenumber">120</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">132,133</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.errors.tenantContext" datatype="html">
+        <source>No se pudo cargar el contexto del tenant</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.errors.dialCodes" datatype="html">
+        <source>No se pudieron cargar los códigos telefónicos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.errors.roles" datatype="html">
+        <source>No se pudieron cargar los roles</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.errors.list" datatype="html">
+        <source>No se pudieron cargar los usuarios</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.errors.save" datatype="html">
+        <source>No se pudo guardar el usuario</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.errors.delete" datatype="html">
+        <source>No se pudo eliminar el usuario</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.success.saved" datatype="html">
+        <source>Usuario guardado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.success.deleted" datatype="html">
+        <source>Usuario eliminado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.confirm.delete" datatype="html">
+        <source>¿Eliminar el usuario &quot;<x id="PH" equiv-text="label"/>&quot;? Esta acción no se puede deshacer.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="common.yes" datatype="html">
+        <source>Sí</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="common.no" datatype="html">
+        <source>No</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.form.saving" datatype="html">
+        <source>Guardando...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.form.save" datatype="html">
+        <source>Guardar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="app.brand" datatype="html">
+        <source>Smart Hire</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/layout/shell.component.html</context>
+          <context context-type="linenumber">4,6</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login/login.component.html</context>
+          <context context-type="linenumber">6,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="shell.notifications" datatype="html">
+        <source>Notificaciones</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/layout/shell.component.html</context>
+          <context context-type="linenumber">17,18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="shell.help" datatype="html">
+        <source>Ayuda</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/layout/shell.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="shell.language" datatype="html">
+        <source>Idioma</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/layout/shell.component.html</context>
+          <context context-type="linenumber">35,36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="shell.logout" datatype="html">
+        <source>Cerrar sesión</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/layout/shell.component.html</context>
+          <context context-type="linenumber">50,52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_USER_NOT_FOUND" datatype="html">
+        <source>Usuario no encontrado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/services/api-error-translation.service.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_COUNTRY_NOT_FOUND" datatype="html">
+        <source>País no encontrado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/services/api-error-translation.service.ts</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_WRONG_TENANT" datatype="html">
+        <source>No puede acceder a esta compañía</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/services/api-error-translation.service.ts</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_WRONG_TENANT_ACCESS" datatype="html">
+        <source>No tiene permiso para acceder a este tenant</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/services/api-error-translation.service.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_NOT_FOUND" datatype="html">
+        <source>Compañía no encontrada</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/services/api-error-translation.service.ts</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.PORTAL_LANGUAGE_NOT_FOUND" datatype="html">
+        <source>Idioma no encontrado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/services/api-error-translation.service.ts</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.USER_NOT_AUTHENTICATED" datatype="html">
+        <source>Debe iniciar sesión</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/services/api-error-translation.service.ts</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.USERNAME_ALREADY_EXISTS" datatype="html">
+        <source>El nombre de usuario ya existe</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/services/api-error-translation.service.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.EMAIL_ALREADY_EXISTS" datatype="html">
+        <source>El correo ya está registrado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/services/api-error-translation.service.ts</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.SUPERVISOR_NOT_FOUND" datatype="html">
+        <source>Supervisor no encontrado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/services/api-error-translation.service.ts</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.SUPERVISOR_TENANT_MISMATCH" datatype="html">
+        <source>El supervisor no pertenece al tenant</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/services/api-error-translation.service.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.SUPERVISOR_SELF_REFERENCE" datatype="html">
+        <source>Un usuario no puede ser su propio supervisor</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/services/api-error-translation.service.ts</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.CATALOG_NOT_FOUND" datatype="html">
+        <source>Catálogo no encontrado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/services/api-error-translation.service.ts</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.CATALOG_TENANT_MISMATCH" datatype="html">
+        <source>El catálogo no pertenece al tenant</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/services/api-error-translation.service.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.BRANCH_COUNTRY_MISMATCH" datatype="html">
+        <source>La sucursal no corresponde al país del tenant</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/services/api-error-translation.service.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.UNAUTHORIZED" datatype="html">
+        <source>No autorizado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/services/api-error-translation.service.ts</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.generic" datatype="html">
+        <source>Ocurrió un error. Intente de nuevo.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/services/api-error-translation.service.ts</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="auth.login.subtitle" datatype="html">
+        <source>Portal de Reclutamiento</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login/login.component.html</context>
+          <context context-type="linenumber">7,11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="auth.login.username" datatype="html">
+        <source>Usuario</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login/login.component.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="auth.login.usernameRequired" datatype="html">
+        <source>El usuario es obligatorio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login/login.component.html</context>
+          <context context-type="linenumber">16,18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="auth.login.password" datatype="html">
+        <source>Contraseña</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login/login.component.html</context>
+          <context context-type="linenumber">21,22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="auth.login.passwordRequired" datatype="html">
+        <source>La contraseña es obligatoria</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login/login.component.html</context>
+          <context context-type="linenumber">24,26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="auth.login.submit" datatype="html">
+        <source>Iniciar sesión</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login/login.component.html</context>
+          <context context-type="linenumber">36,38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="auth.login.or" datatype="html">
+        <source>o</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login/login.component.html</context>
+          <context context-type="linenumber">40,42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="auth.login.sso" datatype="html">
+        <source>Iniciar sesión con SSO corporativo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login/login.component.html</context>
+          <context context-type="linenumber">44,46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.settings.title" datatype="html">
+        <source>Configuraciones</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/layout/settings-layout.component.html</context>
+          <context context-type="linenumber">2,3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.search" datatype="html">
+        <source>Buscar usuario</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">6,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.new" datatype="html">
+        <source>Nuevo usuario</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">12,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.form.username" datatype="html">
+        <source>Usuario</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">21,22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.form.email" datatype="html">
+        <source>Correo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">25,26</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">159,160</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.form.password" datatype="html">
+        <source>Contraseña</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">30,31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.form.firstName" datatype="html">
+        <source>Nombre</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">35,36</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">151,152</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.form.lastName" datatype="html">
+        <source>Apellidos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">39,40</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">155,156</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.form.phoneCode" datatype="html">
+        <source>Cód. tel.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">43,44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.form.phone" datatype="html">
+        <source>Teléfono</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">52,53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.form.tenantCountry" datatype="html">
+        <source>País (tenant)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">57,58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.form.supervisor" datatype="html">
+        <source>Supervisor</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">62,63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.form.clearSupervisor" datatype="html">
+        <source>Quitar supervisor</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">65,66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.form.branch" datatype="html">
+        <source>Sucursal</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">80,81</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.form.area" datatype="html">
+        <source>Área</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">89,90</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.form.department" datatype="html">
+        <source>Departamento</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">98,99</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.form.legacyR3" datatype="html">
+        <source>Usuario R3</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">107,108</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.form.legacyAppian" datatype="html">
+        <source>Perfil Appian</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">111,112</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.form.manpowerPosition" datatype="html">
+        <source>Puesto Manpower</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">115,116</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.form.address" datatype="html">
+        <source>Dirección</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">119,120</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.form.roles" datatype="html">
+        <source>Roles</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">123,124</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">163,164</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.form.active" datatype="html">
+        <source>Activo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">130,131</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">167,168</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.table.username" datatype="html">
+        <source>Usuario</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
+          <context context-type="linenumber">147,148</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.form.createTitle" datatype="html">
+        <source>Nuevo usuario</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.ts</context>
+          <context context-type="linenumber">87</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.form.editTitle" datatype="html">
+        <source>Editar usuario</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.ts</context>
+          <context context-type="linenumber">88</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

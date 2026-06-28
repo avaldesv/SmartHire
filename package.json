@@ -9,6 +9,7 @@
     "start:en-US": "ng serve --configuration=development,en-US",
     "build": "ng build",
     "build:i18n": "ng build --configuration=production",
+    "extract-i18n": "ng extract-i18n",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

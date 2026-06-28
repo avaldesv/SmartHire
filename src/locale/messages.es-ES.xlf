@@ -1,6 +1,367 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="es-MX" target-language="es-ES" datatype="plaintext" original="ng2.template">
-    <body></body>
+    <body>
+      <trans-unit id="auth.login.failed" datatype="html">
+        <source>No se pudo iniciar sesión. Intente de nuevo.</source>
+        <target>No se pudo iniciar sesión. Intente de nuevo.</target>
+      </trans-unit>
+      <trans-unit id="auth.login.ssoFailed" datatype="html">
+        <source>No se pudo completar el inicio de sesión con SSO. Intente de nuevo o use usuario y contraseña.</source>
+        <target>No se pudo completar el inicio de sesión con SSO. Intente de nuevo o use usuario y contraseña.</target>
+      </trans-unit>
+      <trans-unit id="nav.main.home" datatype="html">
+        <source>Inicio</source>
+        <target>Inicio</target>
+      </trans-unit>
+      <trans-unit id="nav.main.positions" datatype="html">
+        <source>Posiciones</source>
+        <target>Posiciones</target>
+      </trans-unit>
+      <trans-unit id="nav.main.candidates" datatype="html">
+        <source>Candidatos</source>
+        <target>Candidatos</target>
+      </trans-unit>
+      <trans-unit id="nav.main.questionnaires" datatype="html">
+        <source>Cuestionarios</source>
+        <target>Cuestionarios</target>
+      </trans-unit>
+      <trans-unit id="nav.main.tracking" datatype="html">
+        <source>Seguimiento</source>
+        <target>Seguimiento</target>
+      </trans-unit>
+      <trans-unit id="nav.main.reports" datatype="html">
+        <source>Reportes</source>
+        <target>Reportes</target>
+      </trans-unit>
+      <trans-unit id="nav.main.settings" datatype="html">
+        <source>Configuraciones</source>
+        <target>Configuraciones</target>
+      </trans-unit>
+      <trans-unit id="nav.settings.users" datatype="html">
+        <source>Usuarios</source>
+        <target>Usuarios</target>
+      </trans-unit>
+      <trans-unit id="nav.settings.groups" datatype="html">
+        <source>Grupos</source>
+        <target>Grupos</target>
+      </trans-unit>
+      <trans-unit id="nav.settings.catalogs" datatype="html">
+        <source>Catálogos</source>
+        <target>Catálogos</target>
+      </trans-unit>
+      <trans-unit id="nav.settings.notifications" datatype="html">
+        <source>Notificaciones</source>
+        <target>Notificaciones</target>
+      </trans-unit>
+      <trans-unit id="nav.settings.documents" datatype="html">
+        <source>Documentos</source>
+        <target>Documentos</target>
+      </trans-unit>
+      <trans-unit id="nav.settings.prompts" datatype="html">
+        <source>Prompts IA</source>
+        <target>Prompts IA</target>
+      </trans-unit>
+      <trans-unit id="nav.settings.cvs" datatype="html">
+        <source>CVs</source>
+        <target>CVs</target>
+      </trans-unit>
+      <trans-unit id="nav.settings.interviews" datatype="html">
+        <source>Entrevistas</source>
+        <target>Entrevistas</target>
+      </trans-unit>
+      <trans-unit id="nav.settings.pipelineStages" datatype="html">
+        <source>Etapas</source>
+        <target>Etapas</target>
+      </trans-unit>
+      <trans-unit id="nav.settings.system" datatype="html">
+        <source>Sistema</source>
+        <target>Sistema</target>
+      </trans-unit>
+      <trans-unit id="nav.settings.audit" datatype="html">
+        <source>Bitácoras</source>
+        <target>Bitácoras</target>
+      </trans-unit>
+      <trans-unit id="common.close" datatype="html">
+        <source>Cerrar</source>
+        <target>Cerrar</target>
+      </trans-unit>
+      <trans-unit id="common.cancel" datatype="html">
+        <source>Cancelar</source>
+        <target>Cancelar</target>
+      </trans-unit>
+      <trans-unit id="users.errors.tenantContext" datatype="html">
+        <source>No se pudo cargar el contexto del tenant</source>
+        <target>No se pudo cargar el contexto del tenant</target>
+      </trans-unit>
+      <trans-unit id="users.errors.dialCodes" datatype="html">
+        <source>No se pudieron cargar los códigos telefónicos</source>
+        <target>No se pudieron cargar los códigos telefónicos</target>
+      </trans-unit>
+      <trans-unit id="users.errors.roles" datatype="html">
+        <source>No se pudieron cargar los roles</source>
+        <target>No se pudieron cargar los roles</target>
+      </trans-unit>
+      <trans-unit id="users.errors.list" datatype="html">
+        <source>No se pudieron cargar los usuarios</source>
+        <target>No se pudieron cargar los usuarios</target>
+      </trans-unit>
+      <trans-unit id="users.errors.save" datatype="html">
+        <source>No se pudo guardar el usuario</source>
+        <target>No se pudo guardar el usuario</target>
+      </trans-unit>
+      <trans-unit id="users.errors.delete" datatype="html">
+        <source>No se pudo eliminar el usuario</source>
+        <target>No se pudo eliminar el usuario</target>
+      </trans-unit>
+      <trans-unit id="users.success.saved" datatype="html">
+        <source>Usuario guardado</source>
+        <target>Usuario guardado</target>
+      </trans-unit>
+      <trans-unit id="users.success.deleted" datatype="html">
+        <source>Usuario eliminado</source>
+        <target>Usuario eliminado</target>
+      </trans-unit>
+      <trans-unit id="users.confirm.delete" datatype="html">
+        <source>¿Eliminar el usuario "</source>
+        <target>¿Eliminar el usuario "</target>
+      </trans-unit>
+      <trans-unit id="common.yes" datatype="html">
+        <source>Sí</source>
+        <target>Sí</target>
+      </trans-unit>
+      <trans-unit id="common.no" datatype="html">
+        <source>No</source>
+        <target>No</target>
+      </trans-unit>
+      <trans-unit id="users.form.saving" datatype="html">
+        <source>Guardando...</source>
+        <target>Guardando...</target>
+      </trans-unit>
+      <trans-unit id="users.form.save" datatype="html">
+        <source>Guardar</source>
+        <target>Guardar</target>
+      </trans-unit>
+      <trans-unit id="app.brand" datatype="html">
+        <source>Smart Hire</source>
+        <target>Smart Hire</target>
+      </trans-unit>
+      <trans-unit id="shell.notifications" datatype="html">
+        <source>Notificaciones</source>
+        <target>Notificaciones</target>
+      </trans-unit>
+      <trans-unit id="shell.help" datatype="html">
+        <source>Ayuda</source>
+        <target>Ayuda</target>
+      </trans-unit>
+      <trans-unit id="shell.language" datatype="html">
+        <source>Idioma</source>
+        <target>Idioma</target>
+      </trans-unit>
+      <trans-unit id="shell.logout" datatype="html">
+        <source>Cerrar sesión</source>
+        <target>Cerrar sesión</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_USER_NOT_FOUND" datatype="html">
+        <source>Usuario no encontrado</source>
+        <target>Usuario no encontrado</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_COUNTRY_NOT_FOUND" datatype="html">
+        <source>País no encontrado</source>
+        <target>País no encontrado</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_WRONG_TENANT" datatype="html">
+        <source>No puede acceder a esta compañía</source>
+        <target>No puede acceder a esta compañía</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_WRONG_TENANT_ACCESS" datatype="html">
+        <source>No tiene permiso para acceder a este tenant</source>
+        <target>No tiene permiso para acceder a este tenant</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_NOT_FOUND" datatype="html">
+        <source>Compañía no encontrada</source>
+        <target>Compañía no encontrada</target>
+      </trans-unit>
+      <trans-unit id="errors.PORTAL_LANGUAGE_NOT_FOUND" datatype="html">
+        <source>Idioma no encontrado</source>
+        <target>Idioma no encontrado</target>
+      </trans-unit>
+      <trans-unit id="errors.USER_NOT_AUTHENTICATED" datatype="html">
+        <source>Debe iniciar sesión</source>
+        <target>Debe iniciar sesión</target>
+      </trans-unit>
+      <trans-unit id="errors.USERNAME_ALREADY_EXISTS" datatype="html">
+        <source>El nombre de usuario ya existe</source>
+        <target>El nombre de usuario ya existe</target>
+      </trans-unit>
+      <trans-unit id="errors.EMAIL_ALREADY_EXISTS" datatype="html">
+        <source>El correo ya está registrado</source>
+        <target>El correo ya está registrado</target>
+      </trans-unit>
+      <trans-unit id="errors.SUPERVISOR_NOT_FOUND" datatype="html">
+        <source>Supervisor no encontrado</source>
+        <target>Supervisor no encontrado</target>
+      </trans-unit>
+      <trans-unit id="errors.SUPERVISOR_TENANT_MISMATCH" datatype="html">
+        <source>El supervisor no pertenece al tenant</source>
+        <target>El supervisor no pertenece al tenant</target>
+      </trans-unit>
+      <trans-unit id="errors.SUPERVISOR_SELF_REFERENCE" datatype="html">
+        <source>Un usuario no puede ser su propio supervisor</source>
+        <target>Un usuario no puede ser su propio supervisor</target>
+      </trans-unit>
+      <trans-unit id="errors.CATALOG_NOT_FOUND" datatype="html">
+        <source>Catálogo no encontrado</source>
+        <target>Catálogo no encontrado</target>
+      </trans-unit>
+      <trans-unit id="errors.CATALOG_TENANT_MISMATCH" datatype="html">
+        <source>El catálogo no pertenece al tenant</source>
+        <target>El catálogo no pertenece al tenant</target>
+      </trans-unit>
+      <trans-unit id="errors.BRANCH_COUNTRY_MISMATCH" datatype="html">
+        <source>La sucursal no corresponde al país del tenant</source>
+        <target>La sucursal no corresponde al país del tenant</target>
+      </trans-unit>
+      <trans-unit id="errors.UNAUTHORIZED" datatype="html">
+        <source>No autorizado</source>
+        <target>No autorizado</target>
+      </trans-unit>
+      <trans-unit id="errors.generic" datatype="html">
+        <source>Ocurrió un error. Intente de nuevo.</source>
+        <target>Ocurrió un error. Intente de nuevo.</target>
+      </trans-unit>
+      <trans-unit id="auth.login.subtitle" datatype="html">
+        <source>Portal de Reclutamiento</source>
+        <target>Portal de Reclutamiento</target>
+      </trans-unit>
+      <trans-unit id="auth.login.username" datatype="html">
+        <source>Usuario</source>
+        <target>Usuario</target>
+      </trans-unit>
+      <trans-unit id="auth.login.usernameRequired" datatype="html">
+        <source>El usuario es obligatorio</source>
+        <target>El usuario es obligatorio</target>
+      </trans-unit>
+      <trans-unit id="auth.login.password" datatype="html">
+        <source>Contraseña</source>
+        <target>Contraseña</target>
+      </trans-unit>
+      <trans-unit id="auth.login.passwordRequired" datatype="html">
+        <source>La contraseña es obligatoria</source>
+        <target>La contraseña es obligatoria</target>
+      </trans-unit>
+      <trans-unit id="auth.login.submit" datatype="html">
+        <source>Iniciar sesión</source>
+        <target>Iniciar sesión</target>
+      </trans-unit>
+      <trans-unit id="auth.login.or" datatype="html">
+        <source>o</source>
+        <target>o</target>
+      </trans-unit>
+      <trans-unit id="auth.login.sso" datatype="html">
+        <source>Iniciar sesión con SSO corporativo</source>
+        <target>Iniciar sesión con SSO corporativo</target>
+      </trans-unit>
+      <trans-unit id="nav.settings.title" datatype="html">
+        <source>Configuraciones</source>
+        <target>Configuraciones</target>
+      </trans-unit>
+      <trans-unit id="users.search" datatype="html">
+        <source>Buscar usuario</source>
+        <target>Buscar usuario</target>
+      </trans-unit>
+      <trans-unit id="users.new" datatype="html">
+        <source>Nuevo usuario</source>
+        <target>Nuevo usuario</target>
+      </trans-unit>
+      <trans-unit id="users.form.username" datatype="html">
+        <source>Usuario</source>
+        <target>Usuario</target>
+      </trans-unit>
+      <trans-unit id="users.form.email" datatype="html">
+        <source>Correo</source>
+        <target>Correo</target>
+      </trans-unit>
+      <trans-unit id="users.form.password" datatype="html">
+        <source>Contraseña</source>
+        <target>Contraseña</target>
+      </trans-unit>
+      <trans-unit id="users.form.firstName" datatype="html">
+        <source>Nombre</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit id="users.form.lastName" datatype="html">
+        <source>Apellidos</source>
+        <target>Apellidos</target>
+      </trans-unit>
+      <trans-unit id="users.form.phoneCode" datatype="html">
+        <source>Cód. tel.</source>
+        <target>Cód. tel.</target>
+      </trans-unit>
+      <trans-unit id="users.form.phone" datatype="html">
+        <source>Teléfono</source>
+        <target>Teléfono</target>
+      </trans-unit>
+      <trans-unit id="users.form.tenantCountry" datatype="html">
+        <source>País (tenant)</source>
+        <target>País (tenant)</target>
+      </trans-unit>
+      <trans-unit id="users.form.supervisor" datatype="html">
+        <source>Supervisor</source>
+        <target>Supervisor</target>
+      </trans-unit>
+      <trans-unit id="users.form.clearSupervisor" datatype="html">
+        <source>Quitar supervisor</source>
+        <target>Quitar supervisor</target>
+      </trans-unit>
+      <trans-unit id="users.form.branch" datatype="html">
+        <source>Sucursal</source>
+        <target>Sucursal</target>
+      </trans-unit>
+      <trans-unit id="users.form.area" datatype="html">
+        <source>Área</source>
+        <target>Área</target>
+      </trans-unit>
+      <trans-unit id="users.form.department" datatype="html">
+        <source>Departamento</source>
+        <target>Departamento</target>
+      </trans-unit>
+      <trans-unit id="users.form.legacyR3" datatype="html">
+        <source>Usuario R3</source>
+        <target>Usuario R3</target>
+      </trans-unit>
+      <trans-unit id="users.form.legacyAppian" datatype="html">
+        <source>Perfil Appian</source>
+        <target>Perfil Appian</target>
+      </trans-unit>
+      <trans-unit id="users.form.manpowerPosition" datatype="html">
+        <source>Puesto Manpower</source>
+        <target>Puesto Manpower</target>
+      </trans-unit>
+      <trans-unit id="users.form.address" datatype="html">
+        <source>Dirección</source>
+        <target>Dirección</target>
+      </trans-unit>
+      <trans-unit id="users.form.roles" datatype="html">
+        <source>Roles</source>
+        <target>Roles</target>
+      </trans-unit>
+      <trans-unit id="users.form.active" datatype="html">
+        <source>Activo</source>
+        <target>Activo</target>
+      </trans-unit>
+      <trans-unit id="users.table.username" datatype="html">
+        <source>Usuario</source>
+        <target>Usuario</target>
+      </trans-unit>
+      <trans-unit id="users.form.createTitle" datatype="html">
+        <source>Nuevo usuario</source>
+        <target>Nuevo usuario</target>
+      </trans-unit>
+      <trans-unit id="users.form.editTitle" datatype="html">
+        <source>Editar usuario</source>
+        <target>Editar usuario</target>
+      </trans-unit>
+    </body>
   </file>
 </xliff>

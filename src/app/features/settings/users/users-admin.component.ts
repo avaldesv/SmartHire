@@ -31,6 +31,23 @@ import { CatalogBranch } from '../../../shared/models/catalog-branch.model';
 import { CatalogCompanyArea } from '../../../shared/models/catalog-company-area.model';
 import { CatalogCompanyDepartment } from '../../../shared/models/catalog-company-department.model';
 import { TenantContextService } from '../../../core/services/tenant-context.service';
+import { ApiErrorTranslationService } from '../../../core/services/api-error-translation.service';
+import { SNACK_CLOSE_ACTION } from '../../../core/i18n/nav-labels';
+import {
+  USERS_DELETE_ERROR,
+  USERS_DELETE_SUCCESS,
+  USERS_DIAL_CODES_ERROR,
+  USERS_LIST_ERROR,
+  USERS_NO,
+  USERS_ROLES_ERROR,
+  USERS_SAVE,
+  USERS_SAVE_ERROR,
+  USERS_SAVE_SUCCESS,
+  USERS_SAVING,
+  USERS_TENANT_CONTEXT_ERROR,
+  USERS_YES,
+  usersDeleteConfirm,
+} from '../../../core/i18n/users-labels';
 import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 
 @Component({
@@ -63,8 +80,16 @@ export class UsersAdminComponent implements OnInit {
   private readonly departmentService = inject(CatalogCompanyDepartmentService);
   private readonly tenantContext = inject(TenantContextService);
   private readonly snack = inject(MatSnackBar);
+  private readonly apiErrors = inject(ApiErrorTranslationService);
   private readonly fb = inject(FormBuilder);
   private tenantReloadReady = false;
+
+  readonly createTitle = $localize`:@@users.form.createTitle:Nuevo usuario`;
+  readonly editTitle = $localize`:@@users.form.editTitle:Editar usuario`;
+  readonly saveLabel = USERS_SAVE;
+  readonly savingLabel = USERS_SAVING;
+  readonly yesLabel = USERS_YES;
+  readonly noLabel = USERS_NO;
 
   loading = true;
   saving = false;
@@ -199,7 +224,7 @@ export class UsersAdminComponent implements OnInit {
         this.loadAreaAndDepartmentOptions();
       },
       error: () =>
-        this.snack.open('No se pudo cargar el contexto del tenant', 'Cerrar', { duration: 4000 }),
+        this.snack.open(USERS_TENANT_CONTEXT_ERROR, SNACK_CLOSE_ACTION, { duration: 4000 }),
     });
   }
 
@@ -209,7 +234,7 @@ export class UsersAdminComponent implements OnInit {
         this.dialCodeOptions = options;
       },
       error: () =>
-        this.snack.open('No se pudieron cargar los códigos telefónicos', 'Cerrar', { duration: 4000 }),
+        this.snack.open(USERS_DIAL_CODES_ERROR, SNACK_CLOSE_ACTION, { duration: 4000 }),
     });
   }
 
@@ -220,7 +245,7 @@ export class UsersAdminComponent implements OnInit {
           .filter((r) => r.isActive !== false)
           .sort((a, b) => a.name.localeCompare(b.name, 'es'));
       },
-      error: () => this.snack.open('No se pudieron cargar los roles', 'Cerrar', { duration: 4000 }),
+      error: () => this.snack.open(USERS_ROLES_ERROR, SNACK_CLOSE_ACTION, { duration: 4000 }),
     });
   }
 
@@ -233,9 +258,11 @@ export class UsersAdminComponent implements OnInit {
         this.total = res.total;
         this.loading = false;
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open('No se pudieron cargar los usuarios', 'Cerrar', { duration: 4000 });
+        this.snack.open(this.apiErrors.translate(err) || USERS_LIST_ERROR, SNACK_CLOSE_ACTION, {
+          duration: 4000,
+        });
       },
     });
   }
@@ -402,7 +429,7 @@ export class UsersAdminComponent implements OnInit {
         })
         .subscribe({
           next: () => this.onSaveSuccess(),
-          error: () => this.onSaveError(),
+          error: (err) => this.onSaveError(err),
         });
       return;
     }
@@ -422,7 +449,7 @@ export class UsersAdminComponent implements OnInit {
       })
       .subscribe({
         next: () => this.onSaveSuccess(),
-        error: () => this.onSaveError(),
+        error: (err) => this.onSaveError(err),
       });
   }
 
@@ -430,17 +457,19 @@ export class UsersAdminComponent implements OnInit {
     this.saving = false;
     this.cancelForm();
     this.load();
-    this.snack.open('Usuario guardado', 'Cerrar', { duration: 3000 });
+    this.snack.open(USERS_SAVE_SUCCESS, SNACK_CLOSE_ACTION, { duration: 3000 });
   }
 
-  private onSaveError(): void {
+  private onSaveError(err?: unknown): void {
     this.saving = false;
-    this.snack.open('No se pudo guardar el usuario', 'Cerrar', { duration: 4000 });
+    this.snack.open(this.apiErrors.translate(err) || USERS_SAVE_ERROR, SNACK_CLOSE_ACTION, {
+      duration: 4000,
+    });
   }
 
   deleteUser(row: SecurityUser): void {
     const label = row.username || row.email;
-    if (!confirm(`¿Eliminar el usuario "${label}"? Esta acción no se puede deshacer.`)) {
+    if (!confirm(usersDeleteConfirm(label))) {
       return;
     }
     this.deletingId = row.id;
@@ -451,11 +480,13 @@ export class UsersAdminComponent implements OnInit {
           this.cancelForm();
         }
         this.load();
-        this.snack.open('Usuario eliminado', 'Cerrar', { duration: 3000 });
+        this.snack.open(USERS_DELETE_SUCCESS, SNACK_CLOSE_ACTION, { duration: 3000 });
       },
-      error: () => {
+      error: (err) => {
         this.deletingId = null;
-        this.snack.open('No se pudo eliminar el usuario', 'Cerrar', { duration: 4000 });
+        this.snack.open(this.apiErrors.translate(err) || USERS_DELETE_ERROR, SNACK_CLOSE_ACTION, {
+          duration: 4000,
+        });
       },
     });
   }
