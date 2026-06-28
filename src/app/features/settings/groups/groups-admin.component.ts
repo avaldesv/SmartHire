@@ -22,6 +22,27 @@ import { SecurityRole } from '../../../shared/models/security-role.model';
 import { TenantDataScope } from '../../../shared/models/tenant-data-scope.model';
 import { canEditScopedRecord } from '../../../shared/utils/tenant-scope.util';
 import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
+import {
+  GROUPS_CANCEL,
+  GROUPS_COLUMN_GROUP,
+  GROUPS_COLUMN_PERMISSIONS,
+  GROUPS_EDIT_TITLE,
+  GROUPS_FIELD_ACTIVE,
+  GROUPS_FIELD_DESCRIPTION,
+  GROUPS_FIELD_MODULE_PERMISSIONS,
+  GROUPS_FIELD_NAME,
+  GROUPS_FIELD_SCOPE,
+  GROUPS_NEW_BUTTON,
+  GROUPS_NEW_TITLE,
+  GROUPS_NO,
+  GROUPS_PAGE_TITLE,
+  GROUPS_RECORD_SCOPE,
+  GROUPS_SAVE,
+  GROUPS_SAVING,
+  GROUPS_SCOPE_GLOBAL,
+  GROUPS_SCOPE_TENANT,
+  GROUPS_YES,
+} from '../../../core/i18n/groups-labels';
 
 @Component({
   selector: 'sh-groups-admin',
@@ -56,6 +77,26 @@ export class GroupsAdminComponent implements OnInit {
   private tenantReloadReady = false;
 
   readonly isGlobalAdmin = computed(() => this.appPermissions.isGlobalAdmin());
+
+  readonly groupsPageTitle = GROUPS_PAGE_TITLE;
+  readonly groupsNewButton = GROUPS_NEW_BUTTON;
+  readonly groupsEditTitle = GROUPS_EDIT_TITLE;
+  readonly groupsNewTitle = GROUPS_NEW_TITLE;
+  readonly groupsRecordScope = GROUPS_RECORD_SCOPE;
+  readonly groupsScopeTenant = GROUPS_SCOPE_TENANT;
+  readonly groupsScopeGlobal = GROUPS_SCOPE_GLOBAL;
+  readonly groupsFieldName = GROUPS_FIELD_NAME;
+  readonly groupsFieldDescription = GROUPS_FIELD_DESCRIPTION;
+  readonly groupsFieldModulePermissions = GROUPS_FIELD_MODULE_PERMISSIONS;
+  readonly groupsFieldActive = GROUPS_FIELD_ACTIVE;
+  readonly groupsFieldScope = GROUPS_FIELD_SCOPE;
+  readonly groupsColumnGroup = GROUPS_COLUMN_GROUP;
+  readonly groupsColumnPermissions = GROUPS_COLUMN_PERMISSIONS;
+  readonly groupsCancel = GROUPS_CANCEL;
+  readonly groupsSaving = GROUPS_SAVING;
+  readonly groupsSave = GROUPS_SAVE;
+  readonly groupsYes = GROUPS_YES;
+  readonly groupsNo = GROUPS_NO;
 
   loading = true;
   saving = false;

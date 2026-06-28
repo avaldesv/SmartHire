@@ -298,6 +298,102 @@
         <source>Contacto</source>
         <target>Contact</target>
       </trans-unit>
+      <trans-unit id="catalogs.column.defaultPortalLanguage" datatype="html">
+        <source>Idioma portal</source>
+        <target>Portal language</target>
+      </trans-unit>
+      <trans-unit id="catalogs.column.position" datatype="html">
+        <source>Puesto</source>
+        <target>Position</target>
+      </trans-unit>
+      <trans-unit id="catalogs.column.phone" datatype="html">
+        <source>Teléfono</source>
+        <target>Phone</target>
+      </trans-unit>
+      <trans-unit id="catalogs.column.email" datatype="html">
+        <source>Correo</source>
+        <target>Email</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.defaultPortalLanguage" datatype="html">
+        <source>Idioma default del portal</source>
+        <target>Default portal language</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.billingMessage" datatype="html">
+        <source>Mensaje facturación</source>
+        <target>Billing message</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.atsCode" datatype="html">
+        <source>Código ATS</source>
+        <target>ATS code</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.street" datatype="html">
+        <source>Calle</source>
+        <target>Street</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.neighborhood" datatype="html">
+        <source>Colonia</source>
+        <target>Neighborhood</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.municipality" datatype="html">
+        <source>Municipio</source>
+        <target>Municipality</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.state" datatype="html">
+        <source>Estado</source>
+        <target>State</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.logoUrl" datatype="html">
+        <source>URL logo</source>
+        <target>Logo URL</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.bannerUrl" datatype="html">
+        <source>URL banner</source>
+        <target>Banner URL</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.noPurchaseOrder" datatype="html">
+        <source>Sin orden de compra</source>
+        <target>No purchase order</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.r3Interface" datatype="html">
+        <source>Interfaz R3</source>
+        <target>R3 interface</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.wsSignature" datatype="html">
+        <source>Firma WS</source>
+        <target>WS signature</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.documentType" datatype="html">
+        <source>Tipo documento</source>
+        <target>Document type</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.company" datatype="html">
+        <source>Empresa</source>
+        <target>Company</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.companyOptional" datatype="html">
+        <source>Empresa (opcional)</source>
+        <target>Company (optional)</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.shortDescription" datatype="html">
+        <source>Descripción corta</source>
+        <target>Short description</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.federalState" datatype="html">
+        <source>Entidad federativa</source>
+        <target>State</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.postalCode" datatype="html">
+        <source>Código postal</source>
+        <target>Postal code</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.manpowerIdLabel" datatype="html">
+        <source>ID Manpower</source>
+        <target>Manpower ID</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.validatesWithAi" datatype="html">
+        <source>Valida con IA</source>
+        <target>AI validation</target>
+      </trans-unit>
       <trans-unit id="catalogs.gender.newButton" datatype="html">
         <source>Nuevo género</source>
         <target>New gender</target>
@@ -778,6 +874,66 @@
         <source>Nuevo cliente</source>
         <target>New client</target>
       </trans-unit>
+      <trans-unit id="groups.pageTitle" datatype="html">
+        <source>Grupos de usuarios</source>
+        <target>User groups</target>
+      </trans-unit>
+      <trans-unit id="groups.newButton" datatype="html">
+        <source>Nuevo grupo</source>
+        <target>New group</target>
+      </trans-unit>
+      <trans-unit id="groups.editTitle" datatype="html">
+        <source>Editar grupo</source>
+        <target>Edit group</target>
+      </trans-unit>
+      <trans-unit id="groups.newTitle" datatype="html">
+        <source>Nuevo grupo</source>
+        <target>New group</target>
+      </trans-unit>
+      <trans-unit id="groups.column.group" datatype="html">
+        <source>Grupo</source>
+        <target>Group</target>
+      </trans-unit>
+      <trans-unit id="groups.column.permissions" datatype="html">
+        <source>Permisos</source>
+        <target>Permissions</target>
+      </trans-unit>
+      <trans-unit id="groups.field.modulePermissions" datatype="html">
+        <source>Permisos de módulo</source>
+        <target>Module permissions</target>
+      </trans-unit>
+      <trans-unit id="catalogs.common.recordScope" datatype="html">
+        <source>Ámbito del registro:</source>
+        <target>Record scope:</target>
+      </trans-unit>
+      <trans-unit id="catalogs.common.scopeTenant" datatype="html">
+        <source>Tenant actual</source>
+        <target>Current tenant</target>
+      </trans-unit>
+      <trans-unit id="catalogs.common.scopeGlobal" datatype="html">
+        <source>Global</source>
+        <target>Global</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.name" datatype="html">
+        <source>Nombre</source>
+        <target>First name</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.description" datatype="html">
+        <source>Descripción</source>
+        <target>Description</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.active" datatype="html">
+        <source>Activo</source>
+        <target>Active</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.scope" datatype="html">
+        <source>Ámbito</source>
+        <target>Scope</target>
+      </trans-unit>
+      <trans-unit id="common.cancel" datatype="html">
+        <source>Cancelar</source>
+        <target>Cancel</target>
+      </trans-unit>
       <trans-unit id="nav.main.home" datatype="html">
         <source>Inicio</source>
         <target>Home</target>
@@ -853,10 +1009,6 @@
       <trans-unit id="common.close" datatype="html">
         <source>Cerrar</source>
         <target>Close</target>
-      </trans-unit>
-      <trans-unit id="common.cancel" datatype="html">
-        <source>Cancelar</source>
-        <target>Cancel</target>
       </trans-unit>
       <trans-unit id="users.errors.tenantContext" datatype="html">
         <source>No se pudo cargar el contexto del tenant</source>
@@ -1030,18 +1182,6 @@
         <source>País</source>
         <target>Country</target>
       </trans-unit>
-      <trans-unit id="catalogs.common.recordScope" datatype="html">
-        <source>Ámbito del registro:</source>
-        <target>Record scope:</target>
-      </trans-unit>
-      <trans-unit id="catalogs.common.scopeTenant" datatype="html">
-        <source>Tenant actual</source>
-        <target>Current tenant</target>
-      </trans-unit>
-      <trans-unit id="catalogs.common.scopeGlobal" datatype="html">
-        <source>Global</source>
-        <target>Global</target>
-      </trans-unit>
       <trans-unit id="catalogs.field.allCountries" datatype="html">
         <source>Todos los países</source>
         <target>All countries</target>
@@ -1049,22 +1189,6 @@
       <trans-unit id="catalogs.field.code" datatype="html">
         <source>Clave</source>
         <target>Code</target>
-      </trans-unit>
-      <trans-unit id="catalogs.field.name" datatype="html">
-        <source>Nombre</source>
-        <target>First name</target>
-      </trans-unit>
-      <trans-unit id="catalogs.field.active" datatype="html">
-        <source>Activo</source>
-        <target>Active</target>
-      </trans-unit>
-      <trans-unit id="catalogs.field.scope" datatype="html">
-        <source>Ámbito</source>
-        <target>Scope</target>
-      </trans-unit>
-      <trans-unit id="catalogs.field.description" datatype="html">
-        <source>Descripción</source>
-        <target>Description</target>
       </trans-unit>
       <trans-unit id="catalogs.field.manpowerIdShort" datatype="html">
         <source>Id MP</source>

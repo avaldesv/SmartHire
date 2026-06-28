@@ -255,6 +255,32 @@ EN_BY_SOURCE: dict[str, str] = {
     "Razón social": "Legal name",
     "Empresa / área": "Company / area",
     "Contacto": "Contact",
+    # Catalog form fields + company grid
+    "Idioma portal": "Portal language",
+    "Idioma default del portal": "Default portal language",
+    "Mensaje facturación": "Billing message",
+    "Código ATS": "ATS code",
+    "Calle": "Street",
+    "Municipio": "Municipality",
+    "Estado": "State",
+    "URL logo": "Logo URL",
+    "URL banner": "Banner URL",
+    "Sin orden de compra": "No purchase order",
+    "Interfaz R3": "R3 interface",
+    "Firma WS": "WS signature",
+    "Empresa (opcional)": "Company (optional)",
+    "Empresa": "Company",
+    "Descripción corta": "Short description",
+    "Código postal": "Postal code",
+    "ID Manpower": "Manpower ID",
+    "Valida con IA": "AI validation",
+    "Teléfono": "Phone",
+    "Correo": "Email",
+    # Groups module
+    "Grupos de usuarios": "User groups",
+    "Permisos de módulo": "Module permissions",
+    "Grupo": "Group",
+    "Permisos": "Permissions",
 }
 
 

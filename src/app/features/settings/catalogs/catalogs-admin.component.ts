@@ -112,8 +112,12 @@ import {
   CATALOG_COLUMN_CONTACT,
   CATALOG_COLUMN_CORE_APPIAN,
   CATALOG_COLUMN_CORE_ATS,
+  CATALOG_COLUMN_DEFAULT_PORTAL_LANGUAGE,
   CATALOG_COLUMN_DENOMINATION,
+  CATALOG_COLUMN_EMAIL,
   CATALOG_COLUMN_LEGAL_NAME,
+  CATALOG_COLUMN_PHONE,
+  CATALOG_COLUMN_POSITION,
   CATALOG_COLUMN_POSTAL_CODE,
   CATALOG_COLUMN_QUESTION,
   CATALOG_COLUMN_REQUIRES_CAREER,
@@ -121,9 +125,30 @@ import {
   CATALOG_COLUMN_TAX_ID,
   CATALOG_COLUMN_TRADE_NAME,
   CATALOG_COLUMN_TYPE,
+  CATALOG_FIELD_ATS_CODE,
+  CATALOG_FIELD_BILLING_MESSAGE,
+  CATALOG_FIELD_COMPANY,
+  CATALOG_FIELD_COMPANY_OPTIONAL,
+  CATALOG_FIELD_DEFAULT_PORTAL_LANGUAGE,
+  CATALOG_FIELD_DOCUMENT_TYPE,
+  CATALOG_FIELD_BANNER_URL,
+  CATALOG_FIELD_FEDERAL_STATE,
+  CATALOG_FIELD_LOGO_URL,
+  CATALOG_FIELD_MANPOWER_ID,
+  CATALOG_FIELD_MUNICIPALITY,
+  CATALOG_FIELD_NEIGHBORHOOD,
+  CATALOG_FIELD_NO_PURCHASE_ORDER,
+  CATALOG_FIELD_POSTAL_CODE,
+  CATALOG_FIELD_R3_INTERFACE,
+  CATALOG_FIELD_SHORT_DESCRIPTION,
+  CATALOG_FIELD_STATE,
+  CATALOG_FIELD_STREET,
+  CATALOG_FIELD_VALIDATES_AI,
+  CATALOG_FIELD_WS_SIGNATURE,
   CATALOGS_NO,
   CATALOGS_SAVE,
   CATALOGS_SAVING,
+  CATALOGS_VALUE,
   CATALOGS_YES,
 } from '../../../core/i18n/catalog-i18n-labels';
 import { catalogPanelUi } from '../../../core/i18n/catalog-panel-ui-labels';
@@ -180,6 +205,31 @@ export class CatalogsAdminComponent implements OnInit {
   readonly colLegalName = CATALOG_COLUMN_LEGAL_NAME;
   readonly colCompanyArea = CATALOG_COLUMN_COMPANY_AREA;
   readonly colContact = CATALOG_COLUMN_CONTACT;
+  readonly colDefaultPortalLanguage = CATALOG_COLUMN_DEFAULT_PORTAL_LANGUAGE;
+  readonly colPosition = CATALOG_COLUMN_POSITION;
+  readonly colPhone = CATALOG_COLUMN_PHONE;
+  readonly colEmail = CATALOG_COLUMN_EMAIL;
+  readonly catalogsValue = CATALOGS_VALUE;
+  readonly fieldDefaultPortalLanguage = CATALOG_FIELD_DEFAULT_PORTAL_LANGUAGE;
+  readonly fieldBillingMessage = CATALOG_FIELD_BILLING_MESSAGE;
+  readonly fieldAtsCode = CATALOG_FIELD_ATS_CODE;
+  readonly fieldStreet = CATALOG_FIELD_STREET;
+  readonly fieldNeighborhood = CATALOG_FIELD_NEIGHBORHOOD;
+  readonly fieldMunicipality = CATALOG_FIELD_MUNICIPALITY;
+  readonly fieldState = CATALOG_FIELD_STATE;
+  readonly fieldLogoUrl = CATALOG_FIELD_LOGO_URL;
+  readonly fieldBannerUrl = CATALOG_FIELD_BANNER_URL;
+  readonly fieldNoPurchaseOrder = CATALOG_FIELD_NO_PURCHASE_ORDER;
+  readonly fieldR3Interface = CATALOG_FIELD_R3_INTERFACE;
+  readonly fieldWsSignature = CATALOG_FIELD_WS_SIGNATURE;
+  readonly fieldDocumentType = CATALOG_FIELD_DOCUMENT_TYPE;
+  readonly fieldCompany = CATALOG_FIELD_COMPANY;
+  readonly fieldCompanyOptional = CATALOG_FIELD_COMPANY_OPTIONAL;
+  readonly fieldShortDescription = CATALOG_FIELD_SHORT_DESCRIPTION;
+  readonly fieldFederalState = CATALOG_FIELD_FEDERAL_STATE;
+  readonly fieldPostalCode = CATALOG_FIELD_POSTAL_CODE;
+  readonly fieldManpowerId = CATALOG_FIELD_MANPOWER_ID;
+  readonly fieldValidatesWithAi = CATALOG_FIELD_VALIDATES_AI;
 
   readonly categories = CATALOG_CATEGORIES;
   readonly visibleCategories = computed(() => resolveVisibleCategories(this.isGlobalAdmin()));
@@ -970,7 +1020,7 @@ export class CatalogsAdminComponent implements OnInit {
   readonly businessUnitColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
   readonly positionTypeColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
   readonly clientColumns = ['code', 'tradeName', 'legalName', 'companyArea', 'contactName', 'active', 'scope', 'actions'];
-  readonly companyColumns = ['code', 'name', 'tradeName', 'taxId', 'country', 'active', 'actions'];
+  readonly companyColumns = ['code', 'name', 'tradeName', 'taxId', 'country', 'defaultPortalLanguage', 'active', 'actions'];
   readonly currencyColumns = ['code', 'name', 'symbol', 'denomination', 'active', 'scope', 'actions'];
   readonly careerColumns = ['code', 'name', 'active', 'scope', 'actions'];
   readonly languageColumns = ['code', 'name', 'active', 'scope', 'actions'];
