@@ -1,7 +1,7 @@
 <header class="top-header">
   <div class="brand">
     <div class="logo-mark">SH</div>
-    <span class="logo-text">Smart Hire</span>
+    <span class="logo-text" i18n="@@app.brand">Smart Hire</span>
   </div>
   <div class="header-actions">
     @if (isGlobalAdmin()) {
@@ -14,10 +14,10 @@
         </mat-select>
       </mat-form-field>
     }
-    <button mat-icon-button matBadge="3" matBadgeColor="primary" aria-label="Notificaciones">
+    <button mat-icon-button matBadge="3" matBadgeColor="primary" i18n-aria-label="@@shell.notifications" aria-label="Notificaciones">
       <mat-icon>notifications</mat-icon>
     </button>
-    <button mat-icon-button aria-label="Ayuda">
+    <button mat-icon-button i18n-aria-label="@@shell.help" aria-label="Ayuda">
       <mat-icon>help_outline</mat-icon>
     </button>
     <button mat-button [matMenuTriggerFor]="userMenu" class="user-btn">
@@ -32,7 +32,7 @@
       @if (portalLanguages().length > 0) {
         <div class="menu-language">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
-            <mat-label>Idioma</mat-label>
+            <mat-label i18n="@@shell.language">Idioma</mat-label>
             <mat-select
               [value]="activePortalLanguageId() ?? user()?.portalLanguageId"
               [disabled]="languageChanging()"
@@ -47,7 +47,7 @@
       }
       <button mat-menu-item (click)="logout()">
         <mat-icon>logout</mat-icon>
-        Cerrar sesión
+        <span i18n="@@shell.logout">Cerrar sesión</span>
       </button>
     </mat-menu>
   </div>

@@ -15,23 +15,7 @@ import { CatalogCompanyService } from '../services/catalog-company.service';
 import { CatalogCompany } from '../../shared/models/catalog-company.model';
 import { PortalLanguage } from '../../shared/models/portal-language.model';
 import { AppPermissions } from '../auth/app-permissions';
-
-interface NavItem {
-  label: string;
-  path: string;
-  icon: string;
-  authority: string;
-}
-
-const ALL_NAV_ITEMS: NavItem[] = [
-  { label: 'Inicio', path: '/home', icon: 'home', authority: AppPermissions.HOME_READ },
-  { label: 'Posiciones', path: '/positions', icon: 'work', authority: AppPermissions.REQUISITION_READ },
-  { label: 'Candidatos', path: '/candidates', icon: 'people', authority: AppPermissions.CANDIDATE_READ },
-  { label: 'Cuestionarios', path: '/questionnaires', icon: 'quiz', authority: AppPermissions.QUESTIONNAIRE_READ },
-  { label: 'Seguimiento', path: '/tracking', icon: 'timeline', authority: AppPermissions.TRACKING_READ },
-  { label: 'Reportes', path: '/reports', icon: 'bar_chart', authority: AppPermissions.REPORT_READ },
-  { label: 'Configuraciones', path: '/settings', icon: 'settings', authority: AppPermissions.SETTINGS_USERS_READ },
-];
+import { MAIN_NAV_ITEMS } from '../i18n/nav-labels';
 
 @Component({
   selector: 'sh-shell',
@@ -68,7 +52,7 @@ export class ShellComponent implements OnInit {
   readonly languageChanging = signal(false);
 
   readonly navItems = computed(() =>
-    ALL_NAV_ITEMS.filter((item) => {
+    MAIN_NAV_ITEMS.filter((item) => {
       if (item.path === '/settings') {
         return this.permissions.canAccessSettings();
       }
