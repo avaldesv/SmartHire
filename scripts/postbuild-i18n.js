@@ -11,6 +11,25 @@ const ROOT = path.join(__dirname, '..', 'dist', 'smarthire-recruiter-portal', 'b
 const DEFAULT_LOCALE = 'es-MX';
 const LOCALES = ['es-MX', 'es-ES', 'en-US'];
 
+function escapeRegex(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function fixBaseHref(indexPath, locale) {
+  if (!fs.existsSync(indexPath)) {
+    return false;
+  }
+  const html = fs.readFileSync(indexPath, 'utf8');
+  const legacyBase = `/${locale}/`;
+  const pattern = new RegExp(`<base href=["']${escapeRegex(legacyBase)}["']>`, 'g');
+  const fixed = html.replace(pattern, '<base href="/">');
+  if (fixed !== html) {
+    fs.writeFileSync(indexPath, fixed, 'utf8');
+    return true;
+  }
+  return false;
+}
+
 function copyDir(src, dest) {
   fs.mkdirSync(dest, { recursive: true });
   for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
@@ -31,7 +50,6 @@ if (!fs.existsSync(ROOT)) {
 
 const defaultDir = path.join(ROOT, DEFAULT_LOCALE);
 if (!fs.existsSync(defaultDir)) {
-  // Single-locale or non-i18n build — nothing to do
   console.log('postbuild-i18n: no locale subfolders, skipping');
   process.exit(0);
 }
@@ -44,20 +62,13 @@ for (const locale of LOCALES) {
   }
   if (locale === DEFAULT_LOCALE) {
     copyDir(localeDir, ROOT);
-    const rootIndex = path.join(ROOT, 'index.html');
-    if (fs.existsSync(rootIndex)) {
-      const html = fs.readFileSync(rootIndex, 'utf8');
-      const fixed = html
-        .replace(/<base href="\/es-MX\/">/, '<base href="/">')
-        .replace(/<base href='\/es-MX\/'>/, "<base href='/'>");
-      fs.writeFileSync(rootIndex, fixed, 'utf8');
-    }
+    fixBaseHref(path.join(ROOT, 'index.html'), DEFAULT_LOCALE);
     console.log(`postbuild-i18n: copied ${DEFAULT_LOCALE} to browser root (base href -> /)`);
+  } else if (fixBaseHref(path.join(localeDir, 'index.html'), locale)) {
+    console.log(`postbuild-i18n: fixed base href for ${locale} -> /`);
   }
 }
 
-// SPA fallback for hosts that ignore npm start and serve dist/ as static files only.
-// Multi-locale UI requires npm start → scripts/start.js → serve-spa.js (cookie routing).
 const redirects = '/*    /index.html   200\n';
 fs.writeFileSync(path.join(ROOT, '_redirects'), redirects, 'utf8');
 

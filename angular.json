@@ -14,10 +14,19 @@
       "sourceRoot": "src",
       "prefix": "app",
       "i18n": {
-        "sourceLocale": "es-MX",
+        "sourceLocale": {
+          "code": "es-MX",
+          "baseHref": "/"
+        },
         "locales": {
-          "es-ES": "src/locale/messages.es-ES.xlf",
-          "en-US": "src/locale/messages.en-US.xlf"
+          "es-ES": {
+            "translation": "src/locale/messages.es-ES.xlf",
+            "baseHref": "/"
+          },
+          "en-US": {
+            "translation": "src/locale/messages.en-US.xlf",
+            "baseHref": "/"
+          }
         }
       },
       "architect": {
