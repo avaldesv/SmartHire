@@ -230,6 +230,10 @@
         <source>Guardar</source>
         <target>Guardar</target>
       </trans-unit>
+      <trans-unit id="catalogs.field.value" datatype="html">
+        <source>Valor</source>
+        <target>Valor</target>
+      </trans-unit>
       <trans-unit id="nav.main.home" datatype="html">
         <source>Inicio</source>
         <target>Inicio</target>
@@ -474,21 +478,13 @@
         <source>Iniciar sesión con SSO corporativo</source>
         <target>Iniciar sesión con SSO corporativo</target>
       </trans-unit>
+      <trans-unit id="catalogs.pending.message" datatype="html">
+        <source> Catálogo pendiente de implementación. Ver plan </source>
+        <target> Catálogo pendiente de implementación. Ver plan </target>
+      </trans-unit>
       <trans-unit id="catalogs.field.country" datatype="html">
         <source>País</source>
         <target>País</target>
-      </trans-unit>
-      <trans-unit id="catalogs.coverageType.newButton" datatype="html">
-        <source>Nuevo tipo de cobertura</source>
-        <target>Nuevo tipo de cobertura</target>
-      </trans-unit>
-      <trans-unit id="catalogs.coverageType.editTitle" datatype="html">
-        <source>Editar tipo de cobertura</source>
-        <target>Editar tipo de cobertura</target>
-      </trans-unit>
-      <trans-unit id="catalogs.coverageType.newTitle" datatype="html">
-        <source>Nuevo tipo de cobertura</source>
-        <target>Nuevo tipo de cobertura</target>
       </trans-unit>
       <trans-unit id="catalogs.common.recordScope" datatype="html">
         <source>Ámbito del registro:</source>
@@ -514,10 +510,6 @@
         <source>Nombre</source>
         <target>Nombre</target>
       </trans-unit>
-      <trans-unit id="catalogs.field.description" datatype="html">
-        <source>Descripción</source>
-        <target>Descripción</target>
-      </trans-unit>
       <trans-unit id="catalogs.field.active" datatype="html">
         <source>Activo</source>
         <target>Activo</target>
@@ -525,6 +517,22 @@
       <trans-unit id="catalogs.field.scope" datatype="html">
         <source>Ámbito</source>
         <target>Ámbito</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.description" datatype="html">
+        <source>Descripción</source>
+        <target>Descripción</target>
+      </trans-unit>
+      <trans-unit id="catalogs.coverageType.newButton" datatype="html">
+        <source>Nuevo tipo de cobertura</source>
+        <target>Nuevo tipo de cobertura</target>
+      </trans-unit>
+      <trans-unit id="catalogs.coverageType.editTitle" datatype="html">
+        <source>Editar tipo de cobertura</source>
+        <target>Editar tipo de cobertura</target>
+      </trans-unit>
+      <trans-unit id="catalogs.coverageType.newTitle" datatype="html">
+        <source>Nuevo tipo de cobertura</source>
+        <target>Nuevo tipo de cobertura</target>
       </trans-unit>
       <trans-unit id="catalogs.country.newButton" datatype="html">
         <source>Nuevo país</source>

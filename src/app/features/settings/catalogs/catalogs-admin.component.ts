@@ -104,7 +104,7 @@ import {
   getCategoryById,
   resolveVisibleCategories,
 } from './catalog-admin.registry';
-import { CATALOGS_NO, CATALOGS_YES } from '../../../core/i18n/catalog-i18n-labels';
+import { CATALOGS_NO, CATALOGS_SAVE, CATALOGS_SAVING, CATALOGS_YES } from '../../../core/i18n/catalog-i18n-labels';
 
 @Component({
   selector: 'sh-catalogs-admin',
@@ -139,6 +139,8 @@ export class CatalogsAdminComponent implements OnInit {
 
   readonly catalogsYes = CATALOGS_YES;
   readonly catalogsNo = CATALOGS_NO;
+  readonly catalogsSaving = CATALOGS_SAVING;
+  readonly catalogsSave = CATALOGS_SAVE;
 
   readonly categories = CATALOG_CATEGORIES;
   readonly visibleCategories = computed(() => resolveVisibleCategories(this.isGlobalAdmin()));

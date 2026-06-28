@@ -68,3 +68,4 @@ export const CATALOGS_YES = $localize`:@@common.yes:Sí`;
 export const CATALOGS_NO = $localize`:@@common.no:No`;
 export const CATALOGS_SAVING = $localize`:@@catalogs.common.saving:Guardando...`;
 export const CATALOGS_SAVE = $localize`:@@catalogs.common.save:Guardar`;
+export const CATALOGS_VALUE = $localize`:@@catalogs.field.value:Valor`;

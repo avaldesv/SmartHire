@@ -433,6 +433,17 @@
           <context context-type="linenumber">1862,1864</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="catalogs.field.value" datatype="html">
+        <source>Valor</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">115,116</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="nav.main.home" datatype="html">
         <source>Inicio</source>
         <context-group purpose="location">
@@ -578,11 +589,163 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">85,86</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">174,175</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">267,268</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">339,340</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">420,421</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">491,492</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">570,571</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">649,650</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">730,731</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">811,812</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">891,892</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
           <context context-type="linenumber">979,980</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1067,1068</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1149,1150</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1230,1231</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1315,1316</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1395,1396</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1477,1478</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1553,1554</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1618,1619</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1696,1697</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1776,1777</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
           <context context-type="linenumber">1857,1858</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1938,1939</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2017,2018</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2103,2104</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2184,2185</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2264,2265</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2343,2344</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2423,2424</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2503,2504</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2583,2584</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2663,2664</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2743,2744</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2823,2824</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2903,2904</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2983,2984</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3063,3064</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3143,3144</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3219,3220</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
@@ -880,8 +1043,91 @@
           <context context-type="linenumber">44,46</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="catalogs.pending.message" datatype="html">
+        <source> Catálogo pendiente de implementación. Ver plan <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code&gt;"/>docs/technical/CATALOG-REFACTOR-PLAN-v1.md<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/> y issues AVV-380+. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">26,29</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="catalogs.field.country" datatype="html">
         <source>País</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">36,37</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">63,64</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">215,216</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">239,240</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">299,300</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">325,326</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">382,383</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">408,409</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">479,480</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">532,533</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">558,559</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">611,612</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">637,638</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">690,691</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">716,717</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">773,774</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">799,800</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">852,853</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">878,879</context>
+        </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
           <context context-type="linenumber">933,934</context>
@@ -889,6 +1135,2037 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
           <context context-type="linenumber">966,967</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1027,1028</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1053,1054</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1110,1111</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1136,1137</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1191,1192</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1217,1218</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1304,1305</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1384,1385</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1433,1434</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1465,1466</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1524,1525</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1540,1541</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1590,1591</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1656,1657</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1681,1682</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1738,1739</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1763,1764</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1908,1909</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1980,1981</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2058,2059</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2145,2146</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2170,2171</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2225,2226</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2250,2251</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2305,2306</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2330,2331</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2384,2385</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2409,2410</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2464,2465</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2489,2490</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2544,2545</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2569,2570</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2624,2625</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2649,2650</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2704,2705</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2729,2730</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2784,2785</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2809,2810</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2864,2865</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2889,2890</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2944,2945</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2969,2970</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3024,3025</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3049,3050</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3104,3105</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3129,3130</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3202,3203</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.common.recordScope" datatype="html">
+        <source>Ámbito del registro:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">53,54</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">161,162</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">315,316</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">398,399</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">469,470</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">548,549</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">627,628</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">706,707</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">789,790</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">868,869</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">956,957</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1043,1044</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1126,1127</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1207,1208</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1289,1290</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1369,1370</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1449,1450</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1672,1673</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1754,1755</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1830,1831</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1924,1925</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2004,2005</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2090,2091</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2161,2162</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2241,2242</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2321,2322</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2400,2401</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2480,2481</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2560,2561</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2640,2641</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2720,2721</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2800,2801</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2880,2881</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2960,2961</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3040,3041</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3120,3121</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3192,3193</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.common.scopeTenant" datatype="html">
+        <source>Tenant actual</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">55,56</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">163,164</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">317,318</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">400,401</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">471,472</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">550,551</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">629,630</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">708,709</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">791,792</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">870,871</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">958,959</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1045,1046</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1128,1129</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1209,1210</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1291,1292</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1371,1372</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1451,1452</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1674,1675</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1756,1757</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1832,1833</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1926,1927</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2006,2007</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2092,2093</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2163,2164</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2243,2244</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2323,2324</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2402,2403</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2482,2483</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2562,2563</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2642,2643</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2722,2723</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2802,2803</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2882,2883</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2962,2963</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3042,3043</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3122,3123</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3194,3195</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.common.scopeGlobal" datatype="html">
+        <source>Global</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">56,57</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">164,165</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">318,319</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">401,402</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">472,473</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">551,552</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">630,631</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">709,710</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">792,793</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">871,872</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">959,960</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1046,1047</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1129,1130</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1210,1211</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1292,1293</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1372,1373</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1452,1453</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1675,1676</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1757,1758</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1833,1834</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1927,1928</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2007,2008</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2093,2094</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2164,2165</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2244,2245</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2324,2325</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2403,2404</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2483,2484</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2563,2564</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2643,2644</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2723,2724</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2803,2804</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2883,2884</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2963,2964</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3043,3044</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3123,3124</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3195,3196</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.field.allCountries" datatype="html">
+        <source>Todos los países</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">65,66</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">327,328</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">410,411</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">481,482</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">560,561</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">639,640</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">718,719</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">801,802</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">880,881</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">968,969</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1055,1056</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1138,1139</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1219,1220</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1542,1543</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1683,1684</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1765,1766</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2172,2173</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2252,2253</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2332,2333</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2411,2412</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2491,2492</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2571,2572</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2651,2652</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2731,2732</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2811,2812</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2891,2892</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2971,2972</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3051,3052</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3131,3132</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.field.code" datatype="html">
+        <source>Clave</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">72,73</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">107,108</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">170</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">192</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">233</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">279</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">333</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">357</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">416</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">438</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">487</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">509</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">566</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">588</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">645</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">667</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">724</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">748</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">807</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">829</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">886</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">909</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">974</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1003</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1061</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1085</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1144</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1167</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1225</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1248</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1472</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1495</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1548</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1571</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1689</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1714</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1771</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1794</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1881</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1933</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1956</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2013</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2035</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2178</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2202</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2258</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2282</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2338</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2361</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2417</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2441</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2497</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2521</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2577</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2601</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2657</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2681</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2737</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2761</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2817</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2841</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2897</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2921</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2977</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3001</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3057</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3081</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3137</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3161</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3209</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3237</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.field.name" datatype="html">
+        <source>Nombre</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">76,77</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">111,112</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">171</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">193</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">234</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">280</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">334</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">358</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">417</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">439</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">488</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">510</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">567</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">589</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">646</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">668</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">725</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">749</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">808</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">830</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">887</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">910</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">975</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1004</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1062</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1086</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1145</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1168</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1226</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1249</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1311</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1333</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1391</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1413</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1473</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1496</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1549</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1572</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1772</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1795</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1839</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1883</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1934</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1957</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2014</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2036</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2099</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2121</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2179</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2203</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2259</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2283</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2339</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2362</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2418</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2442</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2498</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2522</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2578</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2602</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2658</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2682</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2738</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2762</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2818</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2842</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2898</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2922</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2978</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3002</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3058</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3082</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3138</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3162</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.field.active" datatype="html">
+        <source>Activo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">83,84</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">119,120</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">172,173</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">194</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">265,266</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">284</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">337,338</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">361</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">418,419</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">440</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">489,490</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">511</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">568,569</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">590</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">647,648</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">669</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">728,729</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">752</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">809,810</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">831</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">889,890</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">912</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">977,978</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1006</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1065,1066</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1089</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1147,1148</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1170</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1228,1229</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1251</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1313,1314</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1335</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1393,1394</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1415</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1475,1476</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1498</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1551,1552</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1574</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1616,1617</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1640</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1694,1695</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1719</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1774,1775</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1797</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1855,1856</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1887</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1936,1937</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1959</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2015,2016</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2037</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2101,2102</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2123</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2182,2183</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2205</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2262,2263</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2285</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2341,2342</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2364</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2421,2422</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2444</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2501,2502</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2524</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2581,2582</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2604</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2661,2662</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2684</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2741,2742</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2764</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2821,2822</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2844</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2901,2902</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2924</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2981,2982</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3004</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3061,3062</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3084</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3141,3142</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3164</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3217,3218</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3242</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.field.scope" datatype="html">
+        <source>Ámbito</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">123,124</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">196,197</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">363,364</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">442,443</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">513,514</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">592,593</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">671,672</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">754,755</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">833,834</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">914,915</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1008,1009</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1091,1092</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1172,1173</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1253,1254</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1337,1338</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1417,1418</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1500,1501</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1721,1722</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1799,1800</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1889,1890</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1961,1962</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2039,2040</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2125,2126</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2207,2208</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2287,2288</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2366,2367</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2446,2447</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2526,2527</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2606,2607</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2686,2687</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2766,2767</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2846,2847</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2926,2927</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3006,3007</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3086,3087</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3166,3167</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3244,3245</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.field.description" datatype="html">
+        <source>Descripción</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">235</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">888</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">911</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">976</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1005</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1063</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1087</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1227</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1250</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1312</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1334</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1392</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1414</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1474</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1497</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1550</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1573</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1615</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1639</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1690</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1715</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1773</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1796</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1840</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1884</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">1958</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2180</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2204</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2260</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2284</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2340</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2363</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2419</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2443</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2499</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2523</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2579</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2603</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2659</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2683</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2739</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2763</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2819</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2843</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2899</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2923</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">2979</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3003</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3059</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3083</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3139</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">3163</context>
         </context-group>
       </trans-unit>
       <trans-unit id="catalogs.coverageType.newButton" datatype="html">
@@ -910,129 +3187,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
           <context context-type="linenumber">951,954</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="catalogs.common.recordScope" datatype="html">
-        <source>Ámbito del registro:</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">956,957</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">1830,1831</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="catalogs.common.scopeTenant" datatype="html">
-        <source>Tenant actual</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">958,959</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">1832,1833</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="catalogs.common.scopeGlobal" datatype="html">
-        <source>Global</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">959,960</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">1833,1834</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="catalogs.field.allCountries" datatype="html">
-        <source>Todos los países</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">968,969</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="catalogs.field.code" datatype="html">
-        <source>Clave</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">974</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">1003</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">1881</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="catalogs.field.name" datatype="html">
-        <source>Nombre</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">975</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">1004</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">1839</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">1883</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="catalogs.field.description" datatype="html">
-        <source>Descripción</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">976</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">1005</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">1840</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">1884</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="catalogs.field.active" datatype="html">
-        <source>Activo</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">977,978</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">1006</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">1855,1856</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">1887</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="catalogs.field.scope" datatype="html">
-        <source>Ámbito</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">1008,1009</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">1889,1890</context>
         </context-group>
       </trans-unit>
       <trans-unit id="catalogs.country.newButton" datatype="html">

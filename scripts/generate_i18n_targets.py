@@ -160,6 +160,8 @@ EN_BY_SOURCE: dict[str, str] = {
     "País": "Country",
     "Áreas": "Areas",
     "Departamentos": "Departments",
+    "Valor": "Value",
+    "Catálogo pendiente de implementación. Ver plan ": "Catalog not yet implemented. See plan ",
 }
 
 
