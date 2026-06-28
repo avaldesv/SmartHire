@@ -3,6 +3,7 @@ import { Injectable, inject, signal } from '@angular/core';
 
 export const LOCALE_STORAGE_KEY = 'sh_portal_locale';
 export const LOCALE_COOKIE_KEY = 'sh_portal_locale';
+export const LOCALE_RELOAD_GUARD_KEY = 'sh_locale_reload_guard';
 export const DEFAULT_LOGIN_LOCALE = 'es-MX';
 export const X_LANGUAGE_HEADER = 'X-Language';
 
@@ -60,11 +61,17 @@ export class LocaleService {
 
   needsLocaleReload(locale?: string | null): boolean {
     const preferred = locale?.trim() || DEFAULT_LOGIN_LOCALE;
-    return this.getBuildLocale() !== preferred;
+    if (this.getBuildLocale() === preferred) {
+      sessionStorage.removeItem(LOCALE_RELOAD_GUARD_KEY);
+      return false;
+    }
+    return sessionStorage.getItem(LOCALE_RELOAD_GUARD_KEY) !== preferred;
   }
 
   reloadForLocale(locale: string): void {
-    this.persistLocale(locale);
+    const normalized = locale.trim() || DEFAULT_LOGIN_LOCALE;
+    sessionStorage.setItem(LOCALE_RELOAD_GUARD_KEY, normalized);
+    this.persistLocale(normalized);
     window.location.reload();
   }
 
