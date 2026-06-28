@@ -234,6 +234,550 @@
         <source>Valor</source>
         <target>Valor</target>
       </trans-unit>
+      <trans-unit id="catalogs.column.tradeName" datatype="html">
+        <source>Nombre comercial</source>
+        <target>Nombre comercial</target>
+      </trans-unit>
+      <trans-unit id="catalogs.column.taxId" datatype="html">
+        <source>RFC</source>
+        <target>RFC</target>
+      </trans-unit>
+      <trans-unit id="catalogs.column.symbol" datatype="html">
+        <source>Símbolo</source>
+        <target>Símbolo</target>
+      </trans-unit>
+      <trans-unit id="catalogs.column.denomination" datatype="html">
+        <source>Denominación</source>
+        <target>Denominación</target>
+      </trans-unit>
+      <trans-unit id="catalogs.column.type" datatype="html">
+        <source>Tipo</source>
+        <target>Tipo</target>
+      </trans-unit>
+      <trans-unit id="catalogs.column.ai" datatype="html">
+        <source>IA</source>
+        <target>IA</target>
+      </trans-unit>
+      <trans-unit id="catalogs.column.requiresCareer" datatype="html">
+        <source>Requiere carrera</source>
+        <target>Requiere carrera</target>
+      </trans-unit>
+      <trans-unit id="catalogs.column.appliesToCareer" datatype="html">
+        <source>Aplica a carrera</source>
+        <target>Aplica a carrera</target>
+      </trans-unit>
+      <trans-unit id="catalogs.column.category" datatype="html">
+        <source>Categoría</source>
+        <target>Categoría</target>
+      </trans-unit>
+      <trans-unit id="catalogs.column.question" datatype="html">
+        <source>Pregunta</source>
+        <target>Pregunta</target>
+      </trans-unit>
+      <trans-unit id="catalogs.column.coreAts" datatype="html">
+        <source>Core ATS</source>
+        <target>Core ATS</target>
+      </trans-unit>
+      <trans-unit id="catalogs.column.coreAppian" datatype="html">
+        <source>Core Appian</source>
+        <target>Core Appian</target>
+      </trans-unit>
+      <trans-unit id="catalogs.column.postalCode" datatype="html">
+        <source>CP</source>
+        <target>CP</target>
+      </trans-unit>
+      <trans-unit id="catalogs.column.legalName" datatype="html">
+        <source>Razón social</source>
+        <target>Razón social</target>
+      </trans-unit>
+      <trans-unit id="catalogs.column.companyArea" datatype="html">
+        <source>Empresa / área</source>
+        <target>Empresa / área</target>
+      </trans-unit>
+      <trans-unit id="catalogs.column.contact" datatype="html">
+        <source>Contacto</source>
+        <target>Contacto</target>
+      </trans-unit>
+      <trans-unit id="catalogs.gender.newButton" datatype="html">
+        <source>Nuevo género</source>
+        <target>Nuevo género</target>
+      </trans-unit>
+      <trans-unit id="catalogs.gender.editTitle" datatype="html">
+        <source>Editar género</source>
+        <target>Editar género</target>
+      </trans-unit>
+      <trans-unit id="catalogs.gender.newTitle" datatype="html">
+        <source>Nuevo género</source>
+        <target>Nuevo género</target>
+      </trans-unit>
+      <trans-unit id="catalogs.kinship.newButton" datatype="html">
+        <source>Nuevo parentesco</source>
+        <target>Nuevo parentesco</target>
+      </trans-unit>
+      <trans-unit id="catalogs.kinship.editTitle" datatype="html">
+        <source>Editar parentesco</source>
+        <target>Editar parentesco</target>
+      </trans-unit>
+      <trans-unit id="catalogs.kinship.newTitle" datatype="html">
+        <source>Nuevo parentesco</source>
+        <target>Nuevo parentesco</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.newButton" datatype="html">
+        <source>Nueva empresa</source>
+        <target>Nueva empresa</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.editTitle" datatype="html">
+        <source>Editar empresa</source>
+        <target>Editar empresa</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.newTitle" datatype="html">
+        <source>Nueva empresa</source>
+        <target>Nueva empresa</target>
+      </trans-unit>
+      <trans-unit id="catalogs.currency.newButton" datatype="html">
+        <source>Nueva moneda</source>
+        <target>Nueva moneda</target>
+      </trans-unit>
+      <trans-unit id="catalogs.currency.editTitle" datatype="html">
+        <source>Editar moneda</source>
+        <target>Editar moneda</target>
+      </trans-unit>
+      <trans-unit id="catalogs.currency.newTitle" datatype="html">
+        <source>Nueva moneda</source>
+        <target>Nueva moneda</target>
+      </trans-unit>
+      <trans-unit id="catalogs.career.newButton" datatype="html">
+        <source>Nueva carrera</source>
+        <target>Nueva carrera</target>
+      </trans-unit>
+      <trans-unit id="catalogs.career.editTitle" datatype="html">
+        <source>Editar carrera</source>
+        <target>Editar carrera</target>
+      </trans-unit>
+      <trans-unit id="catalogs.career.newTitle" datatype="html">
+        <source>Nueva carrera</source>
+        <target>Nueva carrera</target>
+      </trans-unit>
+      <trans-unit id="catalogs.language.newButton" datatype="html">
+        <source>Nuevo idioma</source>
+        <target>Nuevo idioma</target>
+      </trans-unit>
+      <trans-unit id="catalogs.language.editTitle" datatype="html">
+        <source>Editar idioma</source>
+        <target>Editar idioma</target>
+      </trans-unit>
+      <trans-unit id="catalogs.language.newTitle" datatype="html">
+        <source>Nuevo idioma</source>
+        <target>Nuevo idioma</target>
+      </trans-unit>
+      <trans-unit id="catalogs.shift.newButton" datatype="html">
+        <source>Nuevo turno</source>
+        <target>Nuevo turno</target>
+      </trans-unit>
+      <trans-unit id="catalogs.shift.editTitle" datatype="html">
+        <source>Editar turno</source>
+        <target>Editar turno</target>
+      </trans-unit>
+      <trans-unit id="catalogs.shift.newTitle" datatype="html">
+        <source>Nuevo turno</source>
+        <target>Nuevo turno</target>
+      </trans-unit>
+      <trans-unit id="catalogs.benefit.newButton" datatype="html">
+        <source>Nueva prestación</source>
+        <target>Nueva prestación</target>
+      </trans-unit>
+      <trans-unit id="catalogs.benefit.editTitle" datatype="html">
+        <source>Editar prestación</source>
+        <target>Editar prestación</target>
+      </trans-unit>
+      <trans-unit id="catalogs.benefit.newTitle" datatype="html">
+        <source>Nueva prestación</source>
+        <target>Nueva prestación</target>
+      </trans-unit>
+      <trans-unit id="catalogs.documentType.newButton" datatype="html">
+        <source>Nuevo tipo</source>
+        <target>Nuevo tipo</target>
+      </trans-unit>
+      <trans-unit id="catalogs.documentType.editTitle" datatype="html">
+        <source>Editar tipo de documento</source>
+        <target>Editar tipo de documento</target>
+      </trans-unit>
+      <trans-unit id="catalogs.documentType.newTitle" datatype="html">
+        <source>Nuevo tipo de documento</source>
+        <target>Nuevo tipo de documento</target>
+      </trans-unit>
+      <trans-unit id="catalogs.brand.newButton" datatype="html">
+        <source>Nueva marca</source>
+        <target>Nueva marca</target>
+      </trans-unit>
+      <trans-unit id="catalogs.brand.editTitle" datatype="html">
+        <source>Editar marca</source>
+        <target>Editar marca</target>
+      </trans-unit>
+      <trans-unit id="catalogs.brand.newTitle" datatype="html">
+        <source>Nueva marca</source>
+        <target>Nueva marca</target>
+      </trans-unit>
+      <trans-unit id="catalogs.contractType.newButton" datatype="html">
+        <source>Nuevo tipo de contrato</source>
+        <target>Nuevo tipo de contrato</target>
+      </trans-unit>
+      <trans-unit id="catalogs.contractType.editTitle" datatype="html">
+        <source>Editar tipo de contrato</source>
+        <target>Editar tipo de contrato</target>
+      </trans-unit>
+      <trans-unit id="catalogs.contractType.newTitle" datatype="html">
+        <source>Nuevo tipo de contrato</source>
+        <target>Nuevo tipo de contrato</target>
+      </trans-unit>
+      <trans-unit id="catalogs.coverageType.newButton" datatype="html">
+        <source>Nuevo tipo de cobertura</source>
+        <target>Nuevo tipo de cobertura</target>
+      </trans-unit>
+      <trans-unit id="catalogs.coverageType.editTitle" datatype="html">
+        <source>Editar tipo de cobertura</source>
+        <target>Editar tipo de cobertura</target>
+      </trans-unit>
+      <trans-unit id="catalogs.coverageType.newTitle" datatype="html">
+        <source>Nuevo tipo de cobertura</source>
+        <target>Nuevo tipo de cobertura</target>
+      </trans-unit>
+      <trans-unit id="catalogs.educationLevel.newButton" datatype="html">
+        <source>Nuevo nivel de educación</source>
+        <target>Nuevo nivel de educación</target>
+      </trans-unit>
+      <trans-unit id="catalogs.educationLevel.editTitle" datatype="html">
+        <source>Editar nivel de educación</source>
+        <target>Editar nivel de educación</target>
+      </trans-unit>
+      <trans-unit id="catalogs.educationLevel.newTitle" datatype="html">
+        <source>Nuevo nivel de educación</source>
+        <target>Nuevo nivel de educación</target>
+      </trans-unit>
+      <trans-unit id="catalogs.languageLevel.newButton" datatype="html">
+        <source>Nuevo nivel de idioma</source>
+        <target>Nuevo nivel de idioma</target>
+      </trans-unit>
+      <trans-unit id="catalogs.languageLevel.editTitle" datatype="html">
+        <source>Editar nivel de idioma</source>
+        <target>Editar nivel de idioma</target>
+      </trans-unit>
+      <trans-unit id="catalogs.languageLevel.newTitle" datatype="html">
+        <source>Nuevo nivel de idioma</source>
+        <target>Nuevo nivel de idioma</target>
+      </trans-unit>
+      <trans-unit id="catalogs.requisitionType.newButton" datatype="html">
+        <source>Nuevo tipo de requisición</source>
+        <target>Nuevo tipo de requisición</target>
+      </trans-unit>
+      <trans-unit id="catalogs.requisitionType.editTitle" datatype="html">
+        <source>Editar tipo de requisición</source>
+        <target>Editar tipo de requisición</target>
+      </trans-unit>
+      <trans-unit id="catalogs.requisitionType.newTitle" datatype="html">
+        <source>Nuevo tipo de requisición</source>
+        <target>Nuevo tipo de requisición</target>
+      </trans-unit>
+      <trans-unit id="catalogs.companyArea.newButton" datatype="html">
+        <source>Nuevo áreas</source>
+        <target>Nuevo áreas</target>
+      </trans-unit>
+      <trans-unit id="catalogs.companyArea.editTitle" datatype="html">
+        <source>Editar áreas</source>
+        <target>Editar áreas</target>
+      </trans-unit>
+      <trans-unit id="catalogs.companyArea.newTitle" datatype="html">
+        <source>Nuevo áreas</source>
+        <target>Nuevo áreas</target>
+      </trans-unit>
+      <trans-unit id="catalogs.companyDepartment.newButton" datatype="html">
+        <source>Nuevo departamentos</source>
+        <target>Nuevo departamentos</target>
+      </trans-unit>
+      <trans-unit id="catalogs.companyDepartment.editTitle" datatype="html">
+        <source>Editar departamentos</source>
+        <target>Editar departamentos</target>
+      </trans-unit>
+      <trans-unit id="catalogs.companyDepartment.newTitle" datatype="html">
+        <source>Nuevo departamentos</source>
+        <target>Nuevo departamentos</target>
+      </trans-unit>
+      <trans-unit id="catalogs.branch.newButton" datatype="html">
+        <source>Nueva sucursales</source>
+        <target>Nueva sucursales</target>
+      </trans-unit>
+      <trans-unit id="catalogs.branch.editTitle" datatype="html">
+        <source>Editar sucursales</source>
+        <target>Editar sucursales</target>
+      </trans-unit>
+      <trans-unit id="catalogs.branch.newTitle" datatype="html">
+        <source>Nueva sucursales</source>
+        <target>Nueva sucursales</target>
+      </trans-unit>
+      <trans-unit id="catalogs.questionnaireCategory.newButton" datatype="html">
+        <source>Nueva categoría</source>
+        <target>Nueva categoría</target>
+      </trans-unit>
+      <trans-unit id="catalogs.questionnaireCategory.editTitle" datatype="html">
+        <source>Editar categoría</source>
+        <target>Editar categoría</target>
+      </trans-unit>
+      <trans-unit id="catalogs.questionnaireCategory.newTitle" datatype="html">
+        <source>Nueva categoría</source>
+        <target>Nueva categoría</target>
+      </trans-unit>
+      <trans-unit id="catalogs.questionnaireQuestion.newButton" datatype="html">
+        <source>Nueva pregunta</source>
+        <target>Nueva pregunta</target>
+      </trans-unit>
+      <trans-unit id="catalogs.questionnaireQuestion.editTitle" datatype="html">
+        <source>Editar pregunta</source>
+        <target>Editar pregunta</target>
+      </trans-unit>
+      <trans-unit id="catalogs.questionnaireQuestion.newTitle" datatype="html">
+        <source>Nueva pregunta</source>
+        <target>Nueva pregunta</target>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.newButton" datatype="html">
+        <source>Nuevo grupo</source>
+        <target>Nuevo grupo</target>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.editTitle" datatype="html">
+        <source>Editar grupo</source>
+        <target>Editar grupo</target>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.newTitle" datatype="html">
+        <source>Nuevo grupo</source>
+        <target>Nuevo grupo</target>
+      </trans-unit>
+      <trans-unit id="catalogs.jobPortal.newButton" datatype="html">
+        <source>Nuevo portal</source>
+        <target>Nuevo portal</target>
+      </trans-unit>
+      <trans-unit id="catalogs.jobPortal.editTitle" datatype="html">
+        <source>Editar portal</source>
+        <target>Editar portal</target>
+      </trans-unit>
+      <trans-unit id="catalogs.jobPortal.newTitle" datatype="html">
+        <source>Nuevo portal</source>
+        <target>Nuevo portal</target>
+      </trans-unit>
+      <trans-unit id="catalogs.country.newButton" datatype="html">
+        <source>Nuevo país</source>
+        <target>Nuevo país</target>
+      </trans-unit>
+      <trans-unit id="catalogs.country.editTitle" datatype="html">
+        <source>Editar país</source>
+        <target>Editar país</target>
+      </trans-unit>
+      <trans-unit id="catalogs.country.newTitle" datatype="html">
+        <source>Nuevo país</source>
+        <target>Nuevo país</target>
+      </trans-unit>
+      <trans-unit id="catalogs.state.newButton" datatype="html">
+        <source>Nueva entidad</source>
+        <target>Nueva entidad</target>
+      </trans-unit>
+      <trans-unit id="catalogs.state.editTitle" datatype="html">
+        <source>Editar entidad</source>
+        <target>Editar entidad</target>
+      </trans-unit>
+      <trans-unit id="catalogs.state.newTitle" datatype="html">
+        <source>Nueva entidad federativa</source>
+        <target>Nueva entidad federativa</target>
+      </trans-unit>
+      <trans-unit id="catalogs.municipality.newButton" datatype="html">
+        <source>Nuevo municipio</source>
+        <target>Nuevo municipio</target>
+      </trans-unit>
+      <trans-unit id="catalogs.municipality.editTitle" datatype="html">
+        <source>Editar municipio</source>
+        <target>Editar municipio</target>
+      </trans-unit>
+      <trans-unit id="catalogs.municipality.newTitle" datatype="html">
+        <source>Nuevo municipio</source>
+        <target>Nuevo municipio</target>
+      </trans-unit>
+      <trans-unit id="catalogs.neighborhood.newButton" datatype="html">
+        <source>Nueva colonia</source>
+        <target>Nueva colonia</target>
+      </trans-unit>
+      <trans-unit id="catalogs.neighborhood.editTitle" datatype="html">
+        <source>Editar colonia</source>
+        <target>Editar colonia</target>
+      </trans-unit>
+      <trans-unit id="catalogs.neighborhood.newTitle" datatype="html">
+        <source>Nueva colonia</source>
+        <target>Nueva colonia</target>
+      </trans-unit>
+      <trans-unit id="catalogs.coverageCategory.newButton" datatype="html">
+        <source>Nuevo c categoría cubrimiento</source>
+        <target>Nuevo c categoría cubrimiento</target>
+      </trans-unit>
+      <trans-unit id="catalogs.coverageCategory.editTitle" datatype="html">
+        <source>Editar c categoría cubrimiento</source>
+        <target>Editar c categoría cubrimiento</target>
+      </trans-unit>
+      <trans-unit id="catalogs.coverageCategory.newTitle" datatype="html">
+        <source>Nuevo c categoría cubrimiento</source>
+        <target>Nuevo c categoría cubrimiento</target>
+      </trans-unit>
+      <trans-unit id="catalogs.characteristic.newButton" datatype="html">
+        <source>Nuevo características</source>
+        <target>Nuevo características</target>
+      </trans-unit>
+      <trans-unit id="catalogs.characteristic.editTitle" datatype="html">
+        <source>Editar características</source>
+        <target>Editar características</target>
+      </trans-unit>
+      <trans-unit id="catalogs.characteristic.newTitle" datatype="html">
+        <source>Nuevo características</source>
+        <target>Nuevo características</target>
+      </trans-unit>
+      <trans-unit id="catalogs.category.newButton" datatype="html">
+        <source>Nuevo categoría</source>
+        <target>Nuevo categoría</target>
+      </trans-unit>
+      <trans-unit id="catalogs.category.editTitle" datatype="html">
+        <source>Editar categoría</source>
+        <target>Editar categoría</target>
+      </trans-unit>
+      <trans-unit id="catalogs.category.newTitle" datatype="html">
+        <source>Nuevo categoría</source>
+        <target>Nuevo categoría</target>
+      </trans-unit>
+      <trans-unit id="catalogs.maritalStatus.newButton" datatype="html">
+        <source>Nuevo estado civil</source>
+        <target>Nuevo estado civil</target>
+      </trans-unit>
+      <trans-unit id="catalogs.maritalStatus.editTitle" datatype="html">
+        <source>Editar estado civil</source>
+        <target>Editar estado civil</target>
+      </trans-unit>
+      <trans-unit id="catalogs.maritalStatus.newTitle" datatype="html">
+        <source>Nuevo estado civil</source>
+        <target>Nuevo estado civil</target>
+      </trans-unit>
+      <trans-unit id="catalogs.experienceLevel.newButton" datatype="html">
+        <source>Nuevo experiencia</source>
+        <target>Nuevo experiencia</target>
+      </trans-unit>
+      <trans-unit id="catalogs.experienceLevel.editTitle" datatype="html">
+        <source>Editar experiencia</source>
+        <target>Editar experiencia</target>
+      </trans-unit>
+      <trans-unit id="catalogs.experienceLevel.newTitle" datatype="html">
+        <source>Nuevo experiencia</source>
+        <target>Nuevo experiencia</target>
+      </trans-unit>
+      <trans-unit id="catalogs.tool.newButton" datatype="html">
+        <source>Nuevo herramienta</source>
+        <target>Nuevo herramienta</target>
+      </trans-unit>
+      <trans-unit id="catalogs.tool.editTitle" datatype="html">
+        <source>Editar herramienta</source>
+        <target>Editar herramienta</target>
+      </trans-unit>
+      <trans-unit id="catalogs.tool.newTitle" datatype="html">
+        <source>Nuevo herramienta</source>
+        <target>Nuevo herramienta</target>
+      </trans-unit>
+      <trans-unit id="catalogs.workSchedule.newButton" datatype="html">
+        <source>Nuevo horario trabajo</source>
+        <target>Nuevo horario trabajo</target>
+      </trans-unit>
+      <trans-unit id="catalogs.workSchedule.editTitle" datatype="html">
+        <source>Editar horario trabajo</source>
+        <target>Editar horario trabajo</target>
+      </trans-unit>
+      <trans-unit id="catalogs.workSchedule.newTitle" datatype="html">
+        <source>Nuevo horario trabajo</source>
+        <target>Nuevo horario trabajo</target>
+      </trans-unit>
+      <trans-unit id="catalogs.workplace.newButton" datatype="html">
+        <source>Nuevo lugar trabajo</source>
+        <target>Nuevo lugar trabajo</target>
+      </trans-unit>
+      <trans-unit id="catalogs.workplace.editTitle" datatype="html">
+        <source>Editar lugar trabajo</source>
+        <target>Editar lugar trabajo</target>
+      </trans-unit>
+      <trans-unit id="catalogs.workplace.newTitle" datatype="html">
+        <source>Nuevo lugar trabajo</source>
+        <target>Nuevo lugar trabajo</target>
+      </trans-unit>
+      <trans-unit id="catalogs.requirement.newButton" datatype="html">
+        <source>Nuevo requisitos</source>
+        <target>Nuevo requisitos</target>
+      </trans-unit>
+      <trans-unit id="catalogs.requirement.editTitle" datatype="html">
+        <source>Editar requisitos</source>
+        <target>Editar requisitos</target>
+      </trans-unit>
+      <trans-unit id="catalogs.requirement.newTitle" datatype="html">
+        <source>Nuevo requisitos</source>
+        <target>Nuevo requisitos</target>
+      </trans-unit>
+      <trans-unit id="catalogs.responsibilityLevel.newButton" datatype="html">
+        <source>Nuevo responsabilidad</source>
+        <target>Nuevo responsabilidad</target>
+      </trans-unit>
+      <trans-unit id="catalogs.responsibilityLevel.editTitle" datatype="html">
+        <source>Editar responsabilidad</source>
+        <target>Editar responsabilidad</target>
+      </trans-unit>
+      <trans-unit id="catalogs.responsibilityLevel.newTitle" datatype="html">
+        <source>Nuevo responsabilidad</source>
+        <target>Nuevo responsabilidad</target>
+      </trans-unit>
+      <trans-unit id="catalogs.disabilityType.newButton" datatype="html">
+        <source>Nuevo tipo discapacidad</source>
+        <target>Nuevo tipo discapacidad</target>
+      </trans-unit>
+      <trans-unit id="catalogs.disabilityType.editTitle" datatype="html">
+        <source>Editar tipo discapacidad</source>
+        <target>Editar tipo discapacidad</target>
+      </trans-unit>
+      <trans-unit id="catalogs.disabilityType.newTitle" datatype="html">
+        <source>Nuevo tipo discapacidad</source>
+        <target>Nuevo tipo discapacidad</target>
+      </trans-unit>
+      <trans-unit id="catalogs.businessUnit.newButton" datatype="html">
+        <source>Nuevo unidad de negocio</source>
+        <target>Nuevo unidad de negocio</target>
+      </trans-unit>
+      <trans-unit id="catalogs.businessUnit.editTitle" datatype="html">
+        <source>Editar unidad de negocio</source>
+        <target>Editar unidad de negocio</target>
+      </trans-unit>
+      <trans-unit id="catalogs.businessUnit.newTitle" datatype="html">
+        <source>Nuevo unidad de negocio</source>
+        <target>Nuevo unidad de negocio</target>
+      </trans-unit>
+      <trans-unit id="catalogs.positionType.newButton" datatype="html">
+        <source>Nuevo puesto</source>
+        <target>Nuevo puesto</target>
+      </trans-unit>
+      <trans-unit id="catalogs.positionType.editTitle" datatype="html">
+        <source>Editar puesto</source>
+        <target>Editar puesto</target>
+      </trans-unit>
+      <trans-unit id="catalogs.positionType.newTitle" datatype="html">
+        <source>Nuevo puesto</source>
+        <target>Nuevo puesto</target>
+      </trans-unit>
+      <trans-unit id="catalogs.client.newButton" datatype="html">
+        <source>Nuevo cliente</source>
+        <target>Nuevo cliente</target>
+      </trans-unit>
+      <trans-unit id="catalogs.client.editTitle" datatype="html">
+        <source>Editar cliente</source>
+        <target>Editar cliente</target>
+      </trans-unit>
+      <trans-unit id="catalogs.client.newTitle" datatype="html">
+        <source>Nuevo cliente</source>
+        <target>Nuevo cliente</target>
+      </trans-unit>
       <trans-unit id="nav.main.home" datatype="html">
         <source>Inicio</source>
         <target>Inicio</target>
@@ -522,29 +1066,9 @@
         <source>Descripción</source>
         <target>Descripción</target>
       </trans-unit>
-      <trans-unit id="catalogs.coverageType.newButton" datatype="html">
-        <source>Nuevo tipo de cobertura</source>
-        <target>Nuevo tipo de cobertura</target>
-      </trans-unit>
-      <trans-unit id="catalogs.coverageType.editTitle" datatype="html">
-        <source>Editar tipo de cobertura</source>
-        <target>Editar tipo de cobertura</target>
-      </trans-unit>
-      <trans-unit id="catalogs.coverageType.newTitle" datatype="html">
-        <source>Nuevo tipo de cobertura</source>
-        <target>Nuevo tipo de cobertura</target>
-      </trans-unit>
-      <trans-unit id="catalogs.country.newButton" datatype="html">
-        <source>Nuevo país</source>
-        <target>Nuevo país</target>
-      </trans-unit>
-      <trans-unit id="catalogs.country.editTitle" datatype="html">
-        <source>Editar país</source>
-        <target>Editar país</target>
-      </trans-unit>
-      <trans-unit id="catalogs.country.newTitle" datatype="html">
-        <source>Nuevo país</source>
-        <target>Nuevo país</target>
+      <trans-unit id="catalogs.field.manpowerIdShort" datatype="html">
+        <source>Id MP</source>
+        <target>Id MP</target>
       </trans-unit>
       <trans-unit id="catalogs.field.primaryCode" datatype="html">
         <source>Clave 1</source>
@@ -569,10 +1093,6 @@
       <trans-unit id="catalogs.field.jobPortalUrl" datatype="html">
         <source>Portal empleo</source>
         <target>Portal empleo</target>
-      </trans-unit>
-      <trans-unit id="catalogs.field.manpowerIdShort" datatype="html">
-        <source>Id MP</source>
-        <target>Id MP</target>
       </trans-unit>
       <trans-unit id="nav.settings.title" datatype="html">
         <source>Configuraciones</source>
