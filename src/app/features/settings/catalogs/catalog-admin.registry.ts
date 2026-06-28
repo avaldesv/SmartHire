@@ -1,3 +1,5 @@
+import { getCatalogCategoryLabel, getCatalogEntryLabel } from '../../../core/i18n/catalog-i18n-labels';
+
 export type CatalogCategoryId =
   | 'generales'
   | 'cuestionario'
@@ -69,7 +71,20 @@ export interface CatalogCategoryDefinition {
 }
 
 function sortCatalogsByLabel(catalogs: CatalogRegistryEntry[]): CatalogRegistryEntry[] {
-  return [...catalogs].sort((a, b) => a.label.localeCompare(b.label, 'es', { sensitivity: 'base' }));
+  return [...catalogs].sort((a, b) => a.label.localeCompare(b.label, undefined, { sensitivity: 'base' }));
+}
+
+function localizeCategory(category: CatalogCategoryDefinition): CatalogCategoryDefinition {
+  return {
+    ...category,
+    label: getCatalogCategoryLabel(category.id),
+    catalogs: sortCatalogsByLabel(
+      category.catalogs.map((entry) => ({
+        ...entry,
+        label: getCatalogEntryLabel(entry.id),
+      })),
+    ),
+  };
 }
 
 const CATALOG_CATEGORIES_RAW: CatalogCategoryDefinition[] = [
@@ -161,13 +176,11 @@ const CATALOG_CATEGORIES_RAW: CatalogCategoryDefinition[] = [
   },
 ];
 
-export const CATALOG_CATEGORIES: CatalogCategoryDefinition[] = CATALOG_CATEGORIES_RAW.map((category) => ({
-  ...category,
-  catalogs: sortCatalogsByLabel(category.catalogs),
-}));
+export const CATALOG_CATEGORIES: CatalogCategoryDefinition[] = CATALOG_CATEGORIES_RAW.map(localizeCategory);
 
 export function getCategoryById(id: CatalogCategoryId): CatalogCategoryDefinition {
-  return CATALOG_CATEGORIES.find((c) => c.id === id) ?? CATALOG_CATEGORIES[0];
+  const raw = CATALOG_CATEGORIES_RAW.find((c) => c.id === id) ?? CATALOG_CATEGORIES_RAW[0];
+  return localizeCategory(raw);
 }
 
 export function isCatalogEntryVisible(entry: CatalogRegistryEntry, isGlobalAdmin: boolean): boolean {

@@ -104,6 +104,7 @@ import {
   getCategoryById,
   resolveVisibleCategories,
 } from './catalog-admin.registry';
+import { CATALOGS_NO, CATALOGS_YES } from '../../../core/i18n/catalog-i18n-labels';
 
 @Component({
   selector: 'sh-catalogs-admin',
@@ -135,6 +136,9 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly tenantContext = inject(TenantContextService);
   private tenantReloadReady = false;
   readonly isGlobalAdmin = computed(() => this.permissions.isGlobalAdmin());
+
+  readonly catalogsYes = CATALOGS_YES;
+  readonly catalogsNo = CATALOGS_NO;
 
   readonly categories = CATALOG_CATEGORIES;
   readonly visibleCategories = computed(() => resolveVisibleCategories(this.isGlobalAdmin()));
