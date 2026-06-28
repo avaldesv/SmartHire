@@ -10,6 +10,226 @@
         <source>No se pudo completar el inicio de sesión con SSO. Intente de nuevo o use usuario y contraseña.</source>
         <target>No se pudo completar el inicio de sesión con SSO. Intente de nuevo o use usuario y contraseña.</target>
       </trans-unit>
+      <trans-unit id="catalogs.category.generales" datatype="html">
+        <source>Generales</source>
+        <target>Generales</target>
+      </trans-unit>
+      <trans-unit id="catalogs.category.cuestionario" datatype="html">
+        <source>Cuestionario</source>
+        <target>Cuestionario</target>
+      </trans-unit>
+      <trans-unit id="catalogs.category.notificaciones" datatype="html">
+        <source>Notificaciones</source>
+        <target>Notificaciones</target>
+      </trans-unit>
+      <trans-unit id="catalogs.category.empresas" datatype="html">
+        <source>Empresas</source>
+        <target>Empresas</target>
+      </trans-unit>
+      <trans-unit id="catalogs.category.portal" datatype="html">
+        <source>Portal</source>
+        <target>Portal</target>
+      </trans-unit>
+      <trans-unit id="catalogs.category.datosMp" datatype="html">
+        <source>Datos MP</source>
+        <target>Datos MP</target>
+      </trans-unit>
+      <trans-unit id="catalogs.category.smarthireOps" datatype="html">
+        <source>SmartHire / Operación</source>
+        <target>SmartHire / Operación</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.gender" datatype="html">
+        <source>Género</source>
+        <target>Género</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.career" datatype="html">
+        <source>Carrera</source>
+        <target>Carrera</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.currency" datatype="html">
+        <source>Moneda</source>
+        <target>Moneda</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.language" datatype="html">
+        <source>Idioma</source>
+        <target>Idioma</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.shift" datatype="html">
+        <source>Turno</source>
+        <target>Turno</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.benefit" datatype="html">
+        <source>Prestación</source>
+        <target>Prestación</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.contractType" datatype="html">
+        <source>Tipo contratación</source>
+        <target>Tipo contratación</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.educationLevel" datatype="html">
+        <source>Escolaridad</source>
+        <target>Escolaridad</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.languageLevel" datatype="html">
+        <source>Nivel de idioma</source>
+        <target>Nivel de idioma</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.country" datatype="html">
+        <source>País</source>
+        <target>País</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.state" datatype="html">
+        <source>Entidad federativa</source>
+        <target>Entidad federativa</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.municipality" datatype="html">
+        <source>Delegación municipio</source>
+        <target>Delegación municipio</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.client" datatype="html">
+        <source>Cliente</source>
+        <target>Cliente</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.coverageCategory" datatype="html">
+        <source>C Categoría cubrimiento</source>
+        <target>C Categoría cubrimiento</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.characteristic" datatype="html">
+        <source>Características</source>
+        <target>Características</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.category" datatype="html">
+        <source>Categoría</source>
+        <target>Categoría</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.maritalStatus" datatype="html">
+        <source>Estado civil</source>
+        <target>Estado civil</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.experienceLevel" datatype="html">
+        <source>Experiencia</source>
+        <target>Experiencia</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.tool" datatype="html">
+        <source>Herramienta</source>
+        <target>Herramienta</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.workSchedule" datatype="html">
+        <source>Horario de trabajo</source>
+        <target>Horario de trabajo</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.workplace" datatype="html">
+        <source>Lugar de trabajo</source>
+        <target>Lugar de trabajo</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.requirement" datatype="html">
+        <source>Requisitos</source>
+        <target>Requisitos</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.responsibilityLevel" datatype="html">
+        <source>Nivel de responsabilidad</source>
+        <target>Nivel de responsabilidad</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.disabilityType" datatype="html">
+        <source>Tipo de discapacidad</source>
+        <target>Tipo de discapacidad</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.businessUnit" datatype="html">
+        <source>Unidades de negocio</source>
+        <target>Unidades de negocio</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.positionType" datatype="html">
+        <source>Puesto</source>
+        <target>Puesto</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.recruiterGroup" datatype="html">
+        <source>Grupo reclutadores</source>
+        <target>Grupo reclutadores</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.questionnaireCategory" datatype="html">
+        <source>Categoría cuestionario</source>
+        <target>Categoría cuestionario</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.questionnaireQuestion" datatype="html">
+        <source>Pregunta</source>
+        <target>Pregunta</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.messages" datatype="html">
+        <source>Mensajes</source>
+        <target>Mensajes</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.company" datatype="html">
+        <source>Empresas</source>
+        <target>Empresas</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.companyArea" datatype="html">
+        <source>Áreas</source>
+        <target>Áreas</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.companyDepartment" datatype="html">
+        <source>Departamentos</source>
+        <target>Departamentos</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.branch" datatype="html">
+        <source>Sucursales</source>
+        <target>Sucursales</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.jobPortal" datatype="html">
+        <source>Portales de publicación</source>
+        <target>Portales de publicación</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.mpCountry" datatype="html">
+        <source>País</source>
+        <target>País</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.mpCoverageType" datatype="html">
+        <source>Tipo cubrimiento</source>
+        <target>Tipo cubrimiento</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.kinship" datatype="html">
+        <source>Parentesco</source>
+        <target>Parentesco</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.brand" datatype="html">
+        <source>Marca</source>
+        <target>Marca</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.documentType" datatype="html">
+        <source>Tipo documento</source>
+        <target>Tipo documento</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.requisitionType" datatype="html">
+        <source>Tipo requisición</source>
+        <target>Tipo requisición</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.neighborhood" datatype="html">
+        <source>Colonia</source>
+        <target>Colonia</target>
+      </trans-unit>
+      <trans-unit id="catalogs.pageTitle" datatype="html">
+        <source>Catálogos</source>
+        <target>Catálogos</target>
+      </trans-unit>
+      <trans-unit id="catalogs.selectorLabel" datatype="html">
+        <source>Catálogos</source>
+        <target>Catálogos</target>
+      </trans-unit>
+      <trans-unit id="common.yes" datatype="html">
+        <source>Sí</source>
+        <target>Sí</target>
+      </trans-unit>
+      <trans-unit id="common.no" datatype="html">
+        <source>No</source>
+        <target>No</target>
+      </trans-unit>
+      <trans-unit id="catalogs.common.saving" datatype="html">
+        <source>Guardando...</source>
+        <target>Guardando...</target>
+      </trans-unit>
+      <trans-unit id="catalogs.common.save" datatype="html">
+        <source>Guardar</source>
+        <target>Guardar</target>
+      </trans-unit>
       <trans-unit id="nav.main.home" datatype="html">
         <source>Inicio</source>
         <target>Inicio</target>
@@ -125,14 +345,6 @@
       <trans-unit id="users.confirm.delete" datatype="html">
         <source>¿Eliminar el usuario "</source>
         <target>¿Eliminar el usuario "</target>
-      </trans-unit>
-      <trans-unit id="common.yes" datatype="html">
-        <source>Sí</source>
-        <target>Sí</target>
-      </trans-unit>
-      <trans-unit id="common.no" datatype="html">
-        <source>No</source>
-        <target>No</target>
       </trans-unit>
       <trans-unit id="users.form.saving" datatype="html">
         <source>Guardando...</source>
@@ -261,6 +473,98 @@
       <trans-unit id="auth.login.sso" datatype="html">
         <source>Iniciar sesión con SSO corporativo</source>
         <target>Iniciar sesión con SSO corporativo</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.country" datatype="html">
+        <source>País</source>
+        <target>País</target>
+      </trans-unit>
+      <trans-unit id="catalogs.coverageType.newButton" datatype="html">
+        <source>Nuevo tipo de cobertura</source>
+        <target>Nuevo tipo de cobertura</target>
+      </trans-unit>
+      <trans-unit id="catalogs.coverageType.editTitle" datatype="html">
+        <source>Editar tipo de cobertura</source>
+        <target>Editar tipo de cobertura</target>
+      </trans-unit>
+      <trans-unit id="catalogs.coverageType.newTitle" datatype="html">
+        <source>Nuevo tipo de cobertura</source>
+        <target>Nuevo tipo de cobertura</target>
+      </trans-unit>
+      <trans-unit id="catalogs.common.recordScope" datatype="html">
+        <source>Ámbito del registro:</source>
+        <target>Ámbito del registro:</target>
+      </trans-unit>
+      <trans-unit id="catalogs.common.scopeTenant" datatype="html">
+        <source>Tenant actual</source>
+        <target>Tenant actual</target>
+      </trans-unit>
+      <trans-unit id="catalogs.common.scopeGlobal" datatype="html">
+        <source>Global</source>
+        <target>Global</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.allCountries" datatype="html">
+        <source>Todos los países</source>
+        <target>Todos los países</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.code" datatype="html">
+        <source>Clave</source>
+        <target>Clave</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.name" datatype="html">
+        <source>Nombre</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.description" datatype="html">
+        <source>Descripción</source>
+        <target>Descripción</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.active" datatype="html">
+        <source>Activo</source>
+        <target>Activo</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.scope" datatype="html">
+        <source>Ámbito</source>
+        <target>Ámbito</target>
+      </trans-unit>
+      <trans-unit id="catalogs.country.newButton" datatype="html">
+        <source>Nuevo país</source>
+        <target>Nuevo país</target>
+      </trans-unit>
+      <trans-unit id="catalogs.country.editTitle" datatype="html">
+        <source>Editar país</source>
+        <target>Editar país</target>
+      </trans-unit>
+      <trans-unit id="catalogs.country.newTitle" datatype="html">
+        <source>Nuevo país</source>
+        <target>Nuevo país</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.primaryCode" datatype="html">
+        <source>Clave 1</source>
+        <target>Clave 1</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.secondaryCode" datatype="html">
+        <source>Clave 2</source>
+        <target>Clave 2</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.language" datatype="html">
+        <source>Idioma</source>
+        <target>Idioma</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.manpowerId" datatype="html">
+        <source>Id Manpower</source>
+        <target>Id Manpower</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.region" datatype="html">
+        <source>Región</source>
+        <target>Región</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.jobPortalUrl" datatype="html">
+        <source>Portal empleo</source>
+        <target>Portal empleo</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.manpowerIdShort" datatype="html">
+        <source>Id MP</source>
+        <target>Id MP</target>
       </trans-unit>
       <trans-unit id="nav.settings.title" datatype="html">
         <source>Configuraciones</source>
