@@ -66,6 +66,7 @@ import { CatalogCurrencyService } from '../../../core/services/catalog-currency.
 import { CatalogDocumentTypeService } from '../../../core/services/catalog-document-type.service';
 import { CatalogGenderService } from '../../../core/services/catalog-gender.service';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
+import { UserSettingsApiService } from '../../../core/services/user-settings-api.service';
 import { CatalogKinshipService } from '../../../core/services/catalog-kinship.service';
 import { CatalogLanguageService } from '../../../core/services/catalog-language.service';
 import { CatalogShiftService } from '../../../core/services/catalog-shift.service';
@@ -74,6 +75,7 @@ import { CatalogBenefit } from '../../../shared/models/catalog-benefit.model';
 import { CatalogBrand } from '../../../shared/models/catalog-brand.model';
 import { CatalogClient } from '../../../shared/models/catalog-client.model';
 import { CatalogCompany } from '../../../shared/models/catalog-company.model';
+import { PortalLanguage } from '../../../shared/models/portal-language.model';
 import { CatalogContractType } from '../../../shared/models/catalog-contract-type.model';
 import { CatalogEducationLevel } from '../../../shared/models/catalog-education-level.model';
 import { CatalogLanguageLevel } from '../../../shared/models/catalog-language-level.model';
@@ -184,6 +186,7 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly coverageTypeService = inject(CatalogCoverageTypeService);
   private readonly documentTypeService = inject(CatalogDocumentTypeService);
   private readonly geographyService = inject(CatalogGeographyService);
+  private readonly userSettingsApi = inject(UserSettingsApiService);
   private readonly snack = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
 
@@ -752,6 +755,8 @@ export class CatalogsAdminComponent implements OnInit {
   loadingQuestionnaireCategoryOptions = false;
 
   companies: CatalogCompany[] = [];
+  portalLanguages: PortalLanguage[] = [];
+  loadingCompanyDetail = false;
   companyTotal = 0;
   companyPageIndex = 0;
   companyPageSize = 10;
@@ -1004,6 +1009,7 @@ export class CatalogsAdminComponent implements OnInit {
     tradeName: [''],
     taxId: [''],
     countryId: [null as number | null, Validators.required],
+    defaultPortalLanguageId: [null as number | null, Validators.required],
     billingMessage: [''],
     atsCode: [null as number | null],
     noPurchaseOrder: [false],
@@ -1336,6 +1342,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.loadKinships();
     this.loadCompanies();
     this.loadLanguages();
+    this.loadPortalLanguages();
     this.loadCountryRecords();
     this.reloadCountryDropdown();
   }
@@ -1889,6 +1896,27 @@ export class CatalogsAdminComponent implements OnInit {
         this.snack.open('No se pudieron cargar las compañías', 'Cerrar', { duration: 4000 });
       },
     });
+  }
+
+  loadPortalLanguages(): void {
+    this.userSettingsApi.listPortalLanguages().subscribe({
+      next: (languages) => {
+        this.portalLanguages = [...languages].sort((a, b) => a.sortOrder - b.sortOrder);
+      },
+      error: () => this.snack.open('No se pudieron cargar los idiomas del portal', 'Cerrar', { duration: 4000 }),
+    });
+  }
+
+  private defaultPortalLanguageId(): number | null {
+    const esMx = this.portalLanguages.find((language) => language.code === 'ES_MX');
+    return esMx?.id ?? this.portalLanguages[0]?.id ?? null;
+  }
+
+  portalLanguageName(portalLanguageId: number | null | undefined): string {
+    if (portalLanguageId == null) {
+      return '—';
+    }
+    return this.portalLanguages.find((language) => language.id === portalLanguageId)?.name ?? String(portalLanguageId);
   }
 
   onCompanyPage(e: PageEvent): void {
@@ -3660,6 +3688,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateCompany(): void {
     this.editingCompanyId = null;
     this.showCompanyForm = true;
+    this.loadingCompanyDetail = false;
     this.companyForm.reset({
       code: '',
       name: '',
@@ -3667,6 +3696,7 @@ export class CatalogsAdminComponent implements OnInit {
       tradeName: '',
       taxId: '',
       countryId: this.selectedCountryId,
+      defaultPortalLanguageId: this.defaultPortalLanguageId(),
       billingMessage: '',
       atsCode: null,
       noPurchaseOrder: false,
@@ -3685,31 +3715,45 @@ export class CatalogsAdminComponent implements OnInit {
   openEditCompany(row: CatalogCompany): void {
     this.editingCompanyId = row.id;
     this.showCompanyForm = true;
-    this.companyForm.patchValue({
-      code: row.code,
-      name: row.name,
-      description: row.description ?? '',
-      tradeName: row.tradeName ?? '',
-      taxId: row.taxId ?? '',
-      countryId: row.countryId,
-      billingMessage: row.billingMessage ?? '',
-      atsCode: row.atsCode ?? null,
-      noPurchaseOrder: row.noPurchaseOrder ?? false,
-      street: row.street ?? '',
-      neighborhood: row.neighborhood ?? '',
-      municipality: row.municipality ?? '',
-      stateName: row.stateName ?? '',
-      logoUrl: row.logoUrl ?? '',
-      bannerUrl: row.bannerUrl ?? '',
-      r3Interface: row.r3Interface ?? false,
-      wsSignature: row.wsSignature ?? false,
-      isActive: row.isActive,
+    this.loadingCompanyDetail = true;
+    this.companyService.getById(row.id).subscribe({
+      next: (company) => {
+        this.loadingCompanyDetail = false;
+        this.companyForm.patchValue({
+          code: company.code,
+          name: company.name,
+          description: company.description ?? '',
+          tradeName: company.tradeName ?? '',
+          taxId: company.taxId ?? '',
+          countryId: company.countryId,
+          defaultPortalLanguageId: company.defaultPortalLanguageId ?? this.defaultPortalLanguageId(),
+          billingMessage: company.billingMessage ?? '',
+          atsCode: company.atsCode ?? null,
+          noPurchaseOrder: company.noPurchaseOrder ?? false,
+          street: company.street ?? '',
+          neighborhood: company.neighborhood ?? '',
+          municipality: company.municipality ?? '',
+          stateName: company.stateName ?? '',
+          logoUrl: company.logoUrl ?? '',
+          bannerUrl: company.bannerUrl ?? '',
+          r3Interface: company.r3Interface ?? false,
+          wsSignature: company.wsSignature ?? false,
+          isActive: company.isActive,
+        });
+      },
+      error: () => {
+        this.loadingCompanyDetail = false;
+        this.showCompanyForm = false;
+        this.editingCompanyId = null;
+        this.snack.open('No se pudo cargar la compañía', 'Cerrar', { duration: 4000 });
+      },
     });
   }
 
   cancelCompanyForm(): void {
     this.showCompanyForm = false;
     this.editingCompanyId = null;
+    this.loadingCompanyDetail = false;
   }
 
   saveCompany(): void {
@@ -3721,6 +3765,7 @@ export class CatalogsAdminComponent implements OnInit {
     const payload = {
       ...value,
       countryId: value.countryId!,
+      defaultPortalLanguageId: value.defaultPortalLanguageId!,
       atsCode: value.atsCode ?? undefined,
       billingMessage: value.billingMessage || undefined,
     };

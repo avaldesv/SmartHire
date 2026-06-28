@@ -28,6 +28,12 @@ export class CatalogCompanyService {
       .pipe(map((res) => ({ items: res.data ?? [], total: res.pagination?.total ?? 0 })));
   }
 
+  getById(id: number): Observable<CatalogCompany> {
+    return this.http.get<CatalogCompany>(this.api.apiUrl(`/api/v1/companies/${id}`), {
+      headers: this.api.buildHeaders(),
+    });
+  }
+
   create(request: CreateCompanyRequest): Observable<CatalogCompany> {
     return this.http.post<CatalogCompany>(this.api.apiUrl('/api/v1/companies'), request, {
       headers: this.api.buildHeaders(),
