@@ -17,6 +17,73 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { PositionService } from '../../../core/services/position.service';
+import {
+  DASHBOARD_ACTION_APPLY_CANDIDATES,
+  DASHBOARD_ACTION_APPROVE_CANCELLATION,
+  DASHBOARD_ACTION_CANCEL_DIRECT,
+  DASHBOARD_ACTION_DUPLICATE,
+  DASHBOARD_ACTION_EDIT,
+  DASHBOARD_ACTION_GO_SELECTION,
+  DASHBOARD_ACTION_REJECT_CANCELLATION,
+  DASHBOARD_ACTION_REQUEST_CANCELLATION,
+  DASHBOARD_ACTION_VIEW_APPLICANTS,
+  DASHBOARD_APPROVE_CANCELLATION_ERROR,
+  DASHBOARD_APPROVE_CANCELLATION_SUCCESS,
+  DASHBOARD_CANCEL_ERROR,
+  DASHBOARD_CANCEL_SUCCESS,
+  DASHBOARD_CLEAR_FILTERS,
+  DASHBOARD_COL_BRAND,
+  DASHBOARD_COL_CATEGORY,
+  DASHBOARD_COL_CITY,
+  DASHBOARD_COL_CLIENT,
+  DASHBOARD_COL_CLIENT_KEY,
+  DASHBOARD_COL_COUNTRY,
+  DASHBOARD_COL_CREATED_AT,
+  DASHBOARD_COL_OT,
+  DASHBOARD_COL_POSITION,
+  DASHBOARD_COL_POSITIONS_COUNT,
+  DASHBOARD_COL_RECRUITER,
+  DASHBOARD_COL_REQUISITION,
+  DASHBOARD_COL_START_DATE,
+  DASHBOARD_COL_STATE,
+  DASHBOARD_COL_STATUS,
+  DASHBOARD_COL_TYPE,
+  DASHBOARD_DUPLICATE_ERROR,
+  DASHBOARD_FILTER_ALL,
+  DASHBOARD_FILTER_COUNTRY,
+  DASHBOARD_FILTER_DATE_FROM,
+  DASHBOARD_FILTER_DATE_TO,
+  DASHBOARD_FILTER_RECRUITER,
+  DASHBOARD_FILTER_RECRUITER_PLACEHOLDER,
+  DASHBOARD_FILTER_STATUS,
+  DASHBOARD_FILTERS_CLEARED,
+  DASHBOARD_KPI_INTERESTED,
+  DASHBOARD_KPI_INTERESTED_SUB,
+  DASHBOARD_KPI_PRESELECTED,
+  DASHBOARD_KPI_PRESELECTED_SUB,
+  DASHBOARD_KPI_TOTAL_POSITIONS,
+  DASHBOARD_KPI_TOTAL_POSITIONS_SUB,
+  DASHBOARD_LOAD_KPIS_ERROR,
+  DASHBOARD_LOAD_REQUESTS_ERROR,
+  DASHBOARD_NEW_REQUISITION,
+  DASHBOARD_PAGINATOR_ARIA,
+  DASHBOARD_REJECT_CANCELLATION_ERROR,
+  DASHBOARD_REJECT_CANCELLATION_SUCCESS,
+  DASHBOARD_REQUEST_CANCELLATION_ERROR,
+  DASHBOARD_REQUEST_CANCELLATION_SUCCESS,
+  DASHBOARD_SEARCH_LABEL,
+  DASHBOARD_SEARCH_PLACEHOLDER,
+  DASHBOARD_SECTION_REQUESTS,
+  DASHBOARD_SNACK_CLOSE,
+  DASHBOARD_SUBTITLE,
+  DASHBOARD_WELCOME,
+  dashboardApproveCancellationConfirm,
+  dashboardCancelConfirm,
+  dashboardCandidatesApplied,
+  dashboardDuplicateSuccess,
+  dashboardRejectCancellationConfirm,
+  dashboardRequestCancellationConfirm,
+} from '../../../core/i18n/dashboard-labels';
 import { KpiCardComponent } from '../../../shared/components/kpi-card/kpi-card.component';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
@@ -62,6 +129,53 @@ export class DashboardComponent implements OnInit {
   private readonly dialog = inject(MatDialog);
 
   readonly user = this.auth.currentUser;
+  readonly welcomeLabel = DASHBOARD_WELCOME;
+  readonly subtitle = DASHBOARD_SUBTITLE;
+  readonly kpiTotalPositions = DASHBOARD_KPI_TOTAL_POSITIONS;
+  readonly kpiTotalPositionsSub = DASHBOARD_KPI_TOTAL_POSITIONS_SUB;
+  readonly kpiPreselected = DASHBOARD_KPI_PRESELECTED;
+  readonly kpiPreselectedSub = DASHBOARD_KPI_PRESELECTED_SUB;
+  readonly kpiInterested = DASHBOARD_KPI_INTERESTED;
+  readonly kpiInterestedSub = DASHBOARD_KPI_INTERESTED_SUB;
+  readonly sectionRequests = DASHBOARD_SECTION_REQUESTS;
+  readonly newRequisition = DASHBOARD_NEW_REQUISITION;
+  readonly searchLabel = DASHBOARD_SEARCH_LABEL;
+  readonly searchPlaceholder = DASHBOARD_SEARCH_PLACEHOLDER;
+  readonly filterStatus = DASHBOARD_FILTER_STATUS;
+  readonly filterRecruiter = DASHBOARD_FILTER_RECRUITER;
+  readonly filterRecruiterPlaceholder = DASHBOARD_FILTER_RECRUITER_PLACEHOLDER;
+  readonly filterCountry = DASHBOARD_FILTER_COUNTRY;
+  readonly filterAll = DASHBOARD_FILTER_ALL;
+  readonly filterDateFrom = DASHBOARD_FILTER_DATE_FROM;
+  readonly filterDateTo = DASHBOARD_FILTER_DATE_TO;
+  readonly clearFiltersLabel = DASHBOARD_CLEAR_FILTERS;
+  readonly colRequisition = DASHBOARD_COL_REQUISITION;
+  readonly colPosition = DASHBOARD_COL_POSITION;
+  readonly colOt = DASHBOARD_COL_OT;
+  readonly colClient = DASHBOARD_COL_CLIENT;
+  readonly colClientKey = DASHBOARD_COL_CLIENT_KEY;
+  readonly colPositionsCount = DASHBOARD_COL_POSITIONS_COUNT;
+  readonly colCity = DASHBOARD_COL_CITY;
+  readonly colState = DASHBOARD_COL_STATE;
+  readonly colBrand = DASHBOARD_COL_BRAND;
+  readonly colType = DASHBOARD_COL_TYPE;
+  readonly colCategory = DASHBOARD_COL_CATEGORY;
+  readonly colCountry = DASHBOARD_COL_COUNTRY;
+  readonly colStartDate = DASHBOARD_COL_START_DATE;
+  readonly colStatus = DASHBOARD_COL_STATUS;
+  readonly colRecruiter = DASHBOARD_COL_RECRUITER;
+  readonly colCreatedAt = DASHBOARD_COL_CREATED_AT;
+  readonly actionEdit = DASHBOARD_ACTION_EDIT;
+  readonly actionGoSelection = DASHBOARD_ACTION_GO_SELECTION;
+  readonly actionApplyCandidates = DASHBOARD_ACTION_APPLY_CANDIDATES;
+  readonly actionViewApplicants = DASHBOARD_ACTION_VIEW_APPLICANTS;
+  readonly actionDuplicate = DASHBOARD_ACTION_DUPLICATE;
+  readonly actionRequestCancellation = DASHBOARD_ACTION_REQUEST_CANCELLATION;
+  readonly actionApproveCancellation = DASHBOARD_ACTION_APPROVE_CANCELLATION;
+  readonly actionRejectCancellation = DASHBOARD_ACTION_REJECT_CANCELLATION;
+  readonly actionCancelDirect = DASHBOARD_ACTION_CANCEL_DIRECT;
+  readonly paginatorAria = DASHBOARD_PAGINATOR_ARIA;
+
   loading = true;
   total = 0;
   pageSize = 10;
@@ -102,6 +216,10 @@ export class DashboardComponent implements OnInit {
     dateTo: [''],
   });
 
+  statusLabel(status: string): string {
+    return status === 'Todos' ? this.filterAll : status;
+  }
+
   ngOnInit(): void {
     this.geographyService.listCountries(0, 200).subscribe({
       next: (countries) => {
@@ -126,7 +244,7 @@ export class DashboardComponent implements OnInit {
         };
       },
       error: () => {
-        this.snack.open('No se pudieron cargar los KPIs', 'Cerrar', { duration: 4000 });
+        this.snack.open(DASHBOARD_LOAD_KPIS_ERROR, DASHBOARD_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -158,7 +276,7 @@ export class DashboardComponent implements OnInit {
         },
         error: () => {
           this.loading = false;
-          this.snack.open('No se pudieron cargar las solicitudes', 'Cerrar', { duration: 4000 });
+          this.snack.open(DASHBOARD_LOAD_REQUESTS_ERROR, DASHBOARD_SNACK_CLOSE, { duration: 4000 });
         },
       });
   }
@@ -171,7 +289,7 @@ export class DashboardComponent implements OnInit {
 
   clearFilters(): void {
     this.filters.reset({ search: '', status: 'Todos', countryId: 0, recruiter: '', dateFrom: '', dateTo: '' });
-    this.snack.open('Filtros limpiados', 'Cerrar', { duration: 2500 });
+    this.snack.open(DASHBOARD_FILTERS_CLEARED, DASHBOARD_SNACK_CLOSE, { duration: 2500 });
   }
 
   duplicatePosition(row: PositionListItem): void {
@@ -179,26 +297,26 @@ export class DashboardComponent implements OnInit {
       next: (res) => {
         this.loadKpis();
         this.loadData();
-        this.snack.open(`Posición duplicada: REQ-${res.id}`, 'Cerrar', { duration: 4000 });
+        this.snack.open(dashboardDuplicateSuccess(res.id), DASHBOARD_SNACK_CLOSE, { duration: 4000 });
       },
       error: () => {
-        this.snack.open('No se pudo duplicar la posición', 'Cerrar', { duration: 4000 });
+        this.snack.open(DASHBOARD_DUPLICATE_ERROR, DASHBOARD_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
 
   cancelPosition(row: PositionListItem): void {
-    if (!confirm(`¿Cancelar directamente la requisición ${row.requisitionNo}? Esta acción no se puede deshacer.`)) {
+    if (!confirm(dashboardCancelConfirm(row.requisitionNo))) {
       return;
     }
     this.positionService.delete(row.id).subscribe({
       next: () => {
         this.loadKpis();
         this.loadData();
-        this.snack.open('Requisición cancelada', 'Cerrar', { duration: 3000 });
+        this.snack.open(DASHBOARD_CANCEL_SUCCESS, DASHBOARD_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
-        this.snack.open('No se pudo cancelar la requisición', 'Cerrar', { duration: 4000 });
+        this.snack.open(DASHBOARD_CANCEL_ERROR, DASHBOARD_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -207,16 +325,16 @@ export class DashboardComponent implements OnInit {
     if (row.status !== 'DRAFT') {
       return;
     }
-    if (!confirm(`¿Solicitar cancelación de ${row.requisitionNo}? Quedará pendiente de aprobación.`)) {
+    if (!confirm(dashboardRequestCancellationConfirm(row.requisitionNo))) {
       return;
     }
     this.positionService.requestCancellation(row.id).subscribe({
       next: () => {
         this.loadData();
-        this.snack.open('Solicitud de cancelación enviada', 'Cerrar', { duration: 3000 });
+        this.snack.open(DASHBOARD_REQUEST_CANCELLATION_SUCCESS, DASHBOARD_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
-        this.snack.open('No se pudo solicitar la cancelación', 'Cerrar', { duration: 4000 });
+        this.snack.open(DASHBOARD_REQUEST_CANCELLATION_ERROR, DASHBOARD_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -225,17 +343,17 @@ export class DashboardComponent implements OnInit {
     if (row.status !== 'PENDING_CANCELLATION') {
       return;
     }
-    if (!confirm(`¿Aprobar cancelación de ${row.requisitionNo}? La requisición será eliminada.`)) {
+    if (!confirm(dashboardApproveCancellationConfirm(row.requisitionNo))) {
       return;
     }
     this.positionService.approveCancellation(row.id).subscribe({
       next: () => {
         this.loadKpis();
         this.loadData();
-        this.snack.open('Cancelación aprobada', 'Cerrar', { duration: 3000 });
+        this.snack.open(DASHBOARD_APPROVE_CANCELLATION_SUCCESS, DASHBOARD_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
-        this.snack.open('No se pudo aprobar la cancelación', 'Cerrar', { duration: 4000 });
+        this.snack.open(DASHBOARD_APPROVE_CANCELLATION_ERROR, DASHBOARD_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -244,16 +362,16 @@ export class DashboardComponent implements OnInit {
     if (row.status !== 'PENDING_CANCELLATION') {
       return;
     }
-    if (!confirm(`¿Rechazar solicitud de cancelación de ${row.requisitionNo}? Volverá a borrador.`)) {
+    if (!confirm(dashboardRejectCancellationConfirm(row.requisitionNo))) {
       return;
     }
     this.positionService.rejectCancellation(row.id).subscribe({
       next: () => {
         this.loadData();
-        this.snack.open('Solicitud de cancelación rechazada', 'Cerrar', { duration: 3000 });
+        this.snack.open(DASHBOARD_REJECT_CANCELLATION_SUCCESS, DASHBOARD_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
-        this.snack.open('No se pudo rechazar la solicitud', 'Cerrar', { duration: 4000 });
+        this.snack.open(DASHBOARD_REJECT_CANCELLATION_ERROR, DASHBOARD_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -270,9 +388,11 @@ export class DashboardComponent implements OnInit {
     ref.afterClosed().subscribe((result) => {
       if (result?.created) {
         this.loadKpis();
-        this.snack.open(`${result.created} candidato(s) postulado(s) a ${row.requisitionNo}`, 'Cerrar', {
-          duration: 4000,
-        });
+        this.snack.open(
+          dashboardCandidatesApplied(result.created, row.requisitionNo),
+          DASHBOARD_SNACK_CLOSE,
+          { duration: 4000 },
+        );
       }
     });
   }

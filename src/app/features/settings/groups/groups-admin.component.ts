@@ -42,6 +42,14 @@ import {
   GROUPS_SCOPE_GLOBAL,
   GROUPS_SCOPE_TENANT,
   GROUPS_YES,
+  GROUPS_DELETE_ERROR,
+  GROUPS_DELETE_SUCCESS,
+  GROUPS_LOAD_ERROR,
+  GROUPS_LOAD_PERMISSIONS_ERROR,
+  GROUPS_SAVE_ERROR,
+  GROUPS_SAVE_SUCCESS,
+  GROUPS_SNACK_CLOSE,
+  groupsDeleteConfirm,
 } from '../../../core/i18n/groups-labels';
 
 @Component({
@@ -173,7 +181,7 @@ export class GroupsAdminComponent implements OnInit {
       next: (permissions) => {
         this.permissionOptions = permissions;
       },
-      error: () => this.snack.open('No se pudieron cargar los permisos', 'Cerrar', { duration: 4000 }),
+      error: () => this.snack.open(GROUPS_LOAD_PERMISSIONS_ERROR, GROUPS_SNACK_CLOSE, { duration: 4000 }),
     });
   }
 
@@ -187,7 +195,7 @@ export class GroupsAdminComponent implements OnInit {
       },
       error: () => {
         this.loading = false;
-        this.snack.open('No se pudieron cargar los grupos', 'Cerrar', { duration: 4000 });
+        this.snack.open(GROUPS_LOAD_ERROR, GROUPS_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -285,19 +293,19 @@ export class GroupsAdminComponent implements OnInit {
     this.saving = false;
     this.cancelForm();
     this.load();
-    this.snack.open('Grupo guardado', 'Cerrar', { duration: 3000 });
+    this.snack.open(GROUPS_SAVE_SUCCESS, GROUPS_SNACK_CLOSE, { duration: 3000 });
   }
 
   private onSaveError(): void {
     this.saving = false;
-    this.snack.open('No se pudo guardar el grupo', 'Cerrar', { duration: 4000 });
+    this.snack.open(GROUPS_SAVE_ERROR, GROUPS_SNACK_CLOSE, { duration: 4000 });
   }
 
   deleteRole(row: SecurityRole): void {
     if (!this.canDeleteRole(row)) {
       return;
     }
-    if (!confirm(`¿Eliminar el grupo "${row.name}"? Esta acción no se puede deshacer.`)) {
+    if (!confirm(groupsDeleteConfirm(row.name))) {
       return;
     }
     this.deletingRoleId = row.id;
@@ -308,11 +316,11 @@ export class GroupsAdminComponent implements OnInit {
           this.cancelForm();
         }
         this.load();
-        this.snack.open('Grupo eliminado', 'Cerrar', { duration: 3000 });
+        this.snack.open(GROUPS_DELETE_SUCCESS, GROUPS_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.deletingRoleId = null;
-        this.snack.open('No se pudo eliminar el grupo', 'Cerrar', { duration: 4000 });
+        this.snack.open(GROUPS_DELETE_ERROR, GROUPS_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }

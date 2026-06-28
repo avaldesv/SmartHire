@@ -1014,6 +1014,262 @@
         <source>Nuevo cliente</source>
         <target>New client</target>
       </trans-unit>
+      <trans-unit id="dashboard.welcome" datatype="html">
+        <source>Bienvenido,</source>
+        <target>Welcome,</target>
+      </trans-unit>
+      <trans-unit id="dashboard.subtitle" datatype="html">
+        <source>Resumen general de tu actividad como reclutador</source>
+        <target>Overview of your recruiting activity</target>
+      </trans-unit>
+      <trans-unit id="dashboard.kpi.totalPositions" datatype="html">
+        <source>Total Posiciones</source>
+        <target>Total positions</target>
+      </trans-unit>
+      <trans-unit id="dashboard.kpi.totalPositionsSub" datatype="html">
+        <source>Posiciones registradas en el tenant</source>
+        <target>Positions registered in the tenant</target>
+      </trans-unit>
+      <trans-unit id="dashboard.kpi.preselected" datatype="html">
+        <source>Candidatos Preseleccionados</source>
+        <target>Preselected candidates</target>
+      </trans-unit>
+      <trans-unit id="dashboard.kpi.preselectedSub" datatype="html">
+        <source>Postulaciones en preselección</source>
+        <target>Applications in preselection</target>
+      </trans-unit>
+      <trans-unit id="dashboard.kpi.interested" datatype="html">
+        <source>Candidatos Interesados</source>
+        <target>Interested candidates</target>
+      </trans-unit>
+      <trans-unit id="dashboard.kpi.interestedSub" datatype="html">
+        <source>Postulaciones marcadas interesadas</source>
+        <target>Applications marked as interested</target>
+      </trans-unit>
+      <trans-unit id="dashboard.section.requests" datatype="html">
+        <source>Solicitudes</source>
+        <target>Requests</target>
+      </trans-unit>
+      <trans-unit id="dashboard.newRequisition" datatype="html">
+        <source>Nueva Requisición</source>
+        <target>New requisition</target>
+      </trans-unit>
+      <trans-unit id="dashboard.searchLabel" datatype="html">
+        <source>Buscar requisición</source>
+        <target>Search requisition</target>
+      </trans-unit>
+      <trans-unit id="dashboard.searchPlaceholder" datatype="html">
+        <source>REQ, puesto, cliente, OT…</source>
+        <target>REQ, position, client, WO…</target>
+      </trans-unit>
+      <trans-unit id="dashboard.filter.status" datatype="html">
+        <source>Estado</source>
+        <target>State</target>
+      </trans-unit>
+      <trans-unit id="dashboard.filter.recruiter" datatype="html">
+        <source>Reclutador</source>
+        <target>Reclutador</target>
+      </trans-unit>
+      <trans-unit id="dashboard.filter.recruiterPlaceholder" datatype="html">
+        <source>Usuario creador</source>
+        <target>Creator user</target>
+      </trans-unit>
+      <trans-unit id="dashboard.filter.country" datatype="html">
+        <source>País</source>
+        <target>Country</target>
+      </trans-unit>
+      <trans-unit id="dashboard.filter.all" datatype="html">
+        <source>Todos</source>
+        <target>Todos</target>
+      </trans-unit>
+      <trans-unit id="dashboard.filter.dateFrom" datatype="html">
+        <source>Fecha inicio</source>
+        <target>Start date</target>
+      </trans-unit>
+      <trans-unit id="dashboard.filter.dateTo" datatype="html">
+        <source>Fecha fin</source>
+        <target>End date</target>
+      </trans-unit>
+      <trans-unit id="dashboard.clearFilters" datatype="html">
+        <source>Limpiar filtros</source>
+        <target>Clear filters</target>
+      </trans-unit>
+      <trans-unit id="dashboard.column.requisition" datatype="html">
+        <source>Requisición</source>
+        <target>Requisition</target>
+      </trans-unit>
+      <trans-unit id="dashboard.column.position" datatype="html">
+        <source>Puesto</source>
+        <target>Position</target>
+      </trans-unit>
+      <trans-unit id="dashboard.column.ot" datatype="html">
+        <source>OT</source>
+        <target>OT</target>
+      </trans-unit>
+      <trans-unit id="dashboard.column.client" datatype="html">
+        <source>Cliente</source>
+        <target>Client</target>
+      </trans-unit>
+      <trans-unit id="dashboard.column.clientKey" datatype="html">
+        <source>Clave Cliente</source>
+        <target>Client code</target>
+      </trans-unit>
+      <trans-unit id="dashboard.column.positionsCount" datatype="html">
+        <source># Pos.</source>
+        <target># Pos.</target>
+      </trans-unit>
+      <trans-unit id="dashboard.column.city" datatype="html">
+        <source>Ciudad</source>
+        <target>City</target>
+      </trans-unit>
+      <trans-unit id="dashboard.column.state" datatype="html">
+        <source>Estado</source>
+        <target>State</target>
+      </trans-unit>
+      <trans-unit id="dashboard.column.brand" datatype="html">
+        <source>Marca</source>
+        <target>Brand</target>
+      </trans-unit>
+      <trans-unit id="dashboard.column.type" datatype="html">
+        <source>Tipo</source>
+        <target>Type</target>
+      </trans-unit>
+      <trans-unit id="dashboard.column.category" datatype="html">
+        <source>Categoría</source>
+        <target>Category</target>
+      </trans-unit>
+      <trans-unit id="dashboard.column.country" datatype="html">
+        <source>País</source>
+        <target>Country</target>
+      </trans-unit>
+      <trans-unit id="dashboard.column.startDate" datatype="html">
+        <source>Primer Día</source>
+        <target>First day</target>
+      </trans-unit>
+      <trans-unit id="dashboard.column.status" datatype="html">
+        <source>Estatus</source>
+        <target>Status</target>
+      </trans-unit>
+      <trans-unit id="dashboard.column.recruiter" datatype="html">
+        <source>Reclutador</source>
+        <target>Reclutador</target>
+      </trans-unit>
+      <trans-unit id="dashboard.column.createdAt" datatype="html">
+        <source>Fecha Creación</source>
+        <target>Created date</target>
+      </trans-unit>
+      <trans-unit id="dashboard.action.edit" datatype="html">
+        <source>Editar</source>
+        <target>Editar</target>
+      </trans-unit>
+      <trans-unit id="dashboard.action.goSelection" datatype="html">
+        <source>Ir a selección</source>
+        <target>Go to selection</target>
+      </trans-unit>
+      <trans-unit id="dashboard.action.applyCandidates" datatype="html">
+        <source>Postular candidatos</source>
+        <target>Apply candidates</target>
+      </trans-unit>
+      <trans-unit id="dashboard.action.viewApplicants" datatype="html">
+        <source>Ver postulados</source>
+        <target>View applicants</target>
+      </trans-unit>
+      <trans-unit id="dashboard.action.duplicate" datatype="html">
+        <source>Duplicar</source>
+        <target>Duplicate</target>
+      </trans-unit>
+      <trans-unit id="dashboard.action.requestCancellation" datatype="html">
+        <source>Solicitar cancelación</source>
+        <target>Request cancellation</target>
+      </trans-unit>
+      <trans-unit id="dashboard.action.approveCancellation" datatype="html">
+        <source>Aprobar cancelación</source>
+        <target>Approve cancellation</target>
+      </trans-unit>
+      <trans-unit id="dashboard.action.rejectCancellation" datatype="html">
+        <source>Rechazar solicitud</source>
+        <target>Reject request</target>
+      </trans-unit>
+      <trans-unit id="dashboard.action.cancelDirect" datatype="html">
+        <source>Cancelar directamente</source>
+        <target>Cancel directly</target>
+      </trans-unit>
+      <trans-unit id="dashboard.paginatorAria" datatype="html">
+        <source>Paginación de solicitudes</source>
+        <target>Requests pagination</target>
+      </trans-unit>
+      <trans-unit id="dashboard.errors.loadKpis" datatype="html">
+        <source>No se pudieron cargar los KPIs</source>
+        <target>Could not load KPIs</target>
+      </trans-unit>
+      <trans-unit id="dashboard.errors.loadRequests" datatype="html">
+        <source>No se pudieron cargar las solicitudes</source>
+        <target>Could not load requests</target>
+      </trans-unit>
+      <trans-unit id="dashboard.success.filtersCleared" datatype="html">
+        <source>Filtros limpiados</source>
+        <target>Filters cleared</target>
+      </trans-unit>
+      <trans-unit id="dashboard.errors.duplicate" datatype="html">
+        <source>No se pudo duplicar la posición</source>
+        <target>Could not duplicate position</target>
+      </trans-unit>
+      <trans-unit id="dashboard.success.cancelled" datatype="html">
+        <source>Requisición cancelada</source>
+        <target>Requisition cancelled</target>
+      </trans-unit>
+      <trans-unit id="dashboard.errors.cancel" datatype="html">
+        <source>No se pudo cancelar la requisición</source>
+        <target>Could not cancel requisition</target>
+      </trans-unit>
+      <trans-unit id="dashboard.success.requestCancellation" datatype="html">
+        <source>Solicitud de cancelación enviada</source>
+        <target>Cancellation request sent</target>
+      </trans-unit>
+      <trans-unit id="dashboard.errors.requestCancellation" datatype="html">
+        <source>No se pudo solicitar la cancelación</source>
+        <target>Could not request cancellation</target>
+      </trans-unit>
+      <trans-unit id="dashboard.success.approveCancellation" datatype="html">
+        <source>Cancelación aprobada</source>
+        <target>Cancellation approved</target>
+      </trans-unit>
+      <trans-unit id="dashboard.errors.approveCancellation" datatype="html">
+        <source>No se pudo aprobar la cancelación</source>
+        <target>Could not approve cancellation</target>
+      </trans-unit>
+      <trans-unit id="dashboard.success.rejectCancellation" datatype="html">
+        <source>Solicitud de cancelación rechazada</source>
+        <target>Cancellation request rejected</target>
+      </trans-unit>
+      <trans-unit id="dashboard.errors.rejectCancellation" datatype="html">
+        <source>No se pudo rechazar la solicitud</source>
+        <target>Could not reject request</target>
+      </trans-unit>
+      <trans-unit id="dashboard.success.duplicated" datatype="html">
+        <source>Posición duplicada: REQ-</source>
+        <target>Position duplicated: REQ-</target>
+      </trans-unit>
+      <trans-unit id="dashboard.confirm.cancel" datatype="html">
+        <source>¿Cancelar directamente la requisición </source>
+        <target>Cancel requisition </target>
+      </trans-unit>
+      <trans-unit id="dashboard.confirm.requestCancellation" datatype="html">
+        <source>¿Solicitar cancelación de </source>
+        <target>Request cancellation of </target>
+      </trans-unit>
+      <trans-unit id="dashboard.confirm.approveCancellation" datatype="html">
+        <source>¿Aprobar cancelación de </source>
+        <target>Approve cancellation of </target>
+      </trans-unit>
+      <trans-unit id="dashboard.confirm.rejectCancellation" datatype="html">
+        <source>¿Rechazar solicitud de cancelación de </source>
+        <target>Reject cancellation request for </target>
+      </trans-unit>
+      <trans-unit id="dashboard.success.candidatesApplied" datatype="html">
+        <source />
+        <target />
+      </trans-unit>
       <trans-unit id="groups.pageTitle" datatype="html">
         <source>Grupos de usuarios</source>
         <target>User groups</target>
@@ -1073,6 +1329,34 @@
       <trans-unit id="common.cancel" datatype="html">
         <source>Cancelar</source>
         <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="groups.errors.loadPermissions" datatype="html">
+        <source>No se pudieron cargar los permisos</source>
+        <target>Could not load permissions</target>
+      </trans-unit>
+      <trans-unit id="groups.errors.load" datatype="html">
+        <source>No se pudieron cargar los grupos</source>
+        <target>Could not load groups</target>
+      </trans-unit>
+      <trans-unit id="groups.success.saved" datatype="html">
+        <source>Grupo guardado</source>
+        <target>Group saved</target>
+      </trans-unit>
+      <trans-unit id="groups.errors.save" datatype="html">
+        <source>No se pudo guardar el grupo</source>
+        <target>Could not save group</target>
+      </trans-unit>
+      <trans-unit id="groups.success.deleted" datatype="html">
+        <source>Grupo eliminado</source>
+        <target>Group deleted</target>
+      </trans-unit>
+      <trans-unit id="groups.errors.delete" datatype="html">
+        <source>No se pudo eliminar el grupo</source>
+        <target>Could not delete group</target>
+      </trans-unit>
+      <trans-unit id="groups.confirm.delete" datatype="html">
+        <source>¿Eliminar el grupo "</source>
+        <target>Delete group "</target>
       </trans-unit>
       <trans-unit id="nav.main.home" datatype="html">
         <source>Inicio</source>
