@@ -68,18 +68,27 @@
         </ng-container>
         <ng-container matColumnDef="promptText">
           <th mat-header-cell *matHeaderCellDef>{{ columnPrompt }}</th>
-          <td mat-cell *matCellDef="let row" class="prompt-cell">
-            @if (isPromptExpanded(row.id) || !isPromptTruncated(row.promptText)) {
-              <span class="prompt-full">{{ row.promptText }}</span>
+          <td mat-cell *matCellDef="let row" class="text-cell">
+            @if (isPromptTextExpanded(row.id) || !isTextTruncated(row.promptText)) {
+              <span class="text-full">{{ row.promptText }}</span>
             } @else {
-              <span class="prompt-preview">{{ promptPreview(row.promptText) }}</span
-              ><button type="button" class="show-more-btn" (click)="expandPrompt(row.id)">[{{ showMoreLabel }}]</button>
+              <span class="text-preview">{{ textPreview(row.promptText) }}</span
+              ><button type="button" class="show-more-btn" (click)="expandPromptText(row.id)">[{{ showMoreLabel }}]</button>
             }
           </td>
         </ng-container>
         <ng-container matColumnDef="description">
           <th mat-header-cell *matHeaderCellDef>{{ fieldDescription }}</th>
-          <td mat-cell *matCellDef="let row">{{ row.description || '—' }}</td>
+          <td mat-cell *matCellDef="let row" class="text-cell">
+            @if (!row.description) {
+              —
+            } @else if (isDescriptionExpanded(row.id) || !isTextTruncated(row.description)) {
+              <span class="text-full">{{ row.description }}</span>
+            } @else {
+              <span class="text-preview">{{ textPreview(row.description) }}</span
+              ><button type="button" class="show-more-btn" (click)="expandDescription(row.id)">[{{ showMoreLabel }}]</button>
+            }
+          </td>
         </ng-container>
         <ng-container matColumnDef="scope">
           <th mat-header-cell *matHeaderCellDef>{{ columnScope }}</th>

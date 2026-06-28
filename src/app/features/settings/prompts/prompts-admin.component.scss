@@ -6,9 +6,9 @@ code { font-size: 12px; background: #f1f5f9; padding: 2px 6px; border-radius: 4p
 .form-card h4 { margin: 0 0 12px; font-size: 1rem; }
 .prompt-form { display: flex; flex-direction: column; gap: 8px; max-width: 720px; }
 .prompt-field { width: 100%; }
-.prompt-cell { max-width: 360px; }
-.prompt-full { white-space: pre-wrap; word-break: break-word; }
-.prompt-preview { white-space: pre-wrap; }
+.text-cell { max-width: 280px; }
+.text-full { white-space: pre-wrap; word-break: break-word; }
+.text-preview { white-space: pre-wrap; }
 .show-more-btn {
   margin: 0;
   padding: 0;
@@ -34,6 +34,12 @@ code { font-size: 12px; background: #f1f5f9; padding: 2px 6px; border-radius: 4p
 .form-actions { display: flex; gap: 8px; margin-top: 8px; }
 .table-header-bar { display: flex; justify-content: flex-end; padding: 8px 8px 0; }
 .empty-state { padding: 24px 16px; margin: 0; color: rgba(0, 0, 0, 0.6); }
+
+:host ::ng-deep .mat-column-promptText,
+:host ::ng-deep .mat-column-description {
+  width: 280px;
+  max-width: 280px;
+}
 
 :host ::ng-deep .mat-column-actions {
   width: 1%;
