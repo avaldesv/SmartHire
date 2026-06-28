@@ -2,6 +2,34 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="es-MX" target-language="es-ES" datatype="plaintext" original="ng2.template">
     <body>
+      <trans-unit id="audit.pageTitle" datatype="html">
+        <source>Bitácoras de auditoría</source>
+        <target>Bitácoras de auditoría</target>
+      </trans-unit>
+      <trans-unit id="audit.column.timestamp" datatype="html">
+        <source>Fecha</source>
+        <target>Fecha</target>
+      </trans-unit>
+      <trans-unit id="audit.column.user" datatype="html">
+        <source>Usuario</source>
+        <target>Usuario</target>
+      </trans-unit>
+      <trans-unit id="audit.column.action" datatype="html">
+        <source>Acción</source>
+        <target>Acción</target>
+      </trans-unit>
+      <trans-unit id="audit.column.entity" datatype="html">
+        <source>Entidad</source>
+        <target>Entidad</target>
+      </trans-unit>
+      <trans-unit id="audit.column.entityId" datatype="html">
+        <source>ID</source>
+        <target>ID</target>
+      </trans-unit>
+      <trans-unit id="audit.column.details" datatype="html">
+        <source>Detalle</source>
+        <target>Detalle</target>
+      </trans-unit>
       <trans-unit id="auth.login.failed" datatype="html">
         <source>No se pudo iniciar sesión. Intente de nuevo.</source>
         <target>No se pudo iniciar sesión. Intente de nuevo.</target>
@@ -1253,6 +1281,150 @@
       <trans-unit id="pipelineStages.confirm.delete" datatype="html">
         <source>¿Eliminar la etapa "</source>
         <target>¿Eliminar la etapa "</target>
+      </trans-unit>
+      <trans-unit id="documents.pageTitle" datatype="html">
+        <source>Documentos requeridos</source>
+        <target>Documentos requeridos</target>
+      </trans-unit>
+      <trans-unit id="documents.field.ine" datatype="html">
+        <source>INE obligatorio</source>
+        <target>INE obligatorio</target>
+      </trans-unit>
+      <trans-unit id="documents.field.curp" datatype="html">
+        <source>CURP obligatorio</source>
+        <target>CURP obligatorio</target>
+      </trans-unit>
+      <trans-unit id="documents.field.rfc" datatype="html">
+        <source>RFC obligatorio</source>
+        <target>RFC obligatorio</target>
+      </trans-unit>
+      <trans-unit id="documents.field.proofOfAddress" datatype="html">
+        <source>Comprobante de domicilio</source>
+        <target>Comprobante de domicilio</target>
+      </trans-unit>
+      <trans-unit id="documents.field.deadlineDays" datatype="html">
+        <source>Días para entrega</source>
+        <target>Días para entrega</target>
+      </trans-unit>
+      <trans-unit id="documents.success.saved" datatype="html">
+        <source>Configuración de documentos guardada</source>
+        <target>Configuración de documentos guardada</target>
+      </trans-unit>
+      <trans-unit id="prompts.pageTitle" datatype="html">
+        <source>Prompts IA</source>
+        <target>Prompts IA</target>
+      </trans-unit>
+      <trans-unit id="prompts.field.preselection" datatype="html">
+        <source>Prompt de preselección</source>
+        <target>Prompt de preselección</target>
+      </trans-unit>
+      <trans-unit id="prompts.field.analysis" datatype="html">
+        <source>Prompt de análisis</source>
+        <target>Prompt de análisis</target>
+      </trans-unit>
+      <trans-unit id="prompts.field.interview" datatype="html">
+        <source>Prompt de entrevista</source>
+        <target>Prompt de entrevista</target>
+      </trans-unit>
+      <trans-unit id="prompts.saveButton" datatype="html">
+        <source>Guardar prompts</source>
+        <target>Guardar prompts</target>
+      </trans-unit>
+      <trans-unit id="prompts.success.saved" datatype="html">
+        <source>Prompts IA actualizados</source>
+        <target>Prompts IA actualizados</target>
+      </trans-unit>
+      <trans-unit id="cvs.pageTitle" datatype="html">
+        <source>Configuración de CVs</source>
+        <target>Configuración de CVs</target>
+      </trans-unit>
+      <trans-unit id="cvs.field.format" datatype="html">
+        <source>Formato aceptado</source>
+        <target>Formato aceptado</target>
+      </trans-unit>
+      <trans-unit id="cvs.field.maxSizeMb" datatype="html">
+        <source>Tamaño máximo (MB)</source>
+        <target>Tamaño máximo (MB)</target>
+      </trans-unit>
+      <trans-unit id="cvs.field.autoParse" datatype="html">
+        <source>Parseo automático con IA</source>
+        <target>Parseo automático con IA</target>
+      </trans-unit>
+      <trans-unit id="cvs.field.requirePhoto" datatype="html">
+        <source>Requerir fotografía</source>
+        <target>Requerir fotografía</target>
+      </trans-unit>
+      <trans-unit id="cvs.success.saved" datatype="html">
+        <source>Configuración de CVs guardada</source>
+        <target>Configuración de CVs guardada</target>
+      </trans-unit>
+      <trans-unit id="interviews.pageTitle" datatype="html">
+        <source>Configuración de entrevistas</source>
+        <target>Configuración de entrevistas</target>
+      </trans-unit>
+      <trans-unit id="interviews.field.duration" datatype="html">
+        <source>Duración default (min)</source>
+        <target>Duración default (min)</target>
+      </trans-unit>
+      <trans-unit id="interviews.field.modality" datatype="html">
+        <source>Modalidad</source>
+        <target>Modalidad</target>
+      </trans-unit>
+      <trans-unit id="interviews.field.reminder" datatype="html">
+        <source>Recordatorio (horas antes)</source>
+        <target>Recordatorio (horas antes)</target>
+      </trans-unit>
+      <trans-unit id="interviews.modality.inPerson" datatype="html">
+        <source>Presencial</source>
+        <target>Presencial</target>
+      </trans-unit>
+      <trans-unit id="interviews.modality.virtual" datatype="html">
+        <source>Virtual</source>
+        <target>Virtual</target>
+      </trans-unit>
+      <trans-unit id="interviews.modality.hybrid" datatype="html">
+        <source>Mixta</source>
+        <target>Mixta</target>
+      </trans-unit>
+      <trans-unit id="interviews.success.saved" datatype="html">
+        <source>Configuración de entrevistas guardada</source>
+        <target>Configuración de entrevistas guardada</target>
+      </trans-unit>
+      <trans-unit id="system.pageTitle" datatype="html">
+        <source>Configuración del sistema</source>
+        <target>Configuración del sistema</target>
+      </trans-unit>
+      <trans-unit id="system.field.instanceName" datatype="html">
+        <source>Nombre de la instancia</source>
+        <target>Nombre de la instancia</target>
+      </trans-unit>
+      <trans-unit id="system.field.timezone" datatype="html">
+        <source>Zona horaria</source>
+        <target>Zona horaria</target>
+      </trans-unit>
+      <trans-unit id="system.field.defaultLocale" datatype="html">
+        <source>Idioma default</source>
+        <target>Idioma default</target>
+      </trans-unit>
+      <trans-unit id="system.locale.esMx" datatype="html">
+        <source>Español (México)</source>
+        <target>Español (México)</target>
+      </trans-unit>
+      <trans-unit id="system.field.maintenance" datatype="html">
+        <source>Modo mantenimiento</source>
+        <target>Modo mantenimiento</target>
+      </trans-unit>
+      <trans-unit id="system.field.debugLogs" datatype="html">
+        <source>Logs de depuración</source>
+        <target>Logs de depuración</target>
+      </trans-unit>
+      <trans-unit id="system.saveButton" datatype="html">
+        <source>Guardar configuración</source>
+        <target>Guardar configuración</target>
+      </trans-unit>
+      <trans-unit id="system.success.saved" datatype="html">
+        <source>Configuración del sistema guardada</source>
+        <target>Configuración del sistema guardada</target>
       </trans-unit>
       <trans-unit id="users.errors.tenantContext" datatype="html">
         <source>No se pudo cargar el contexto del tenant</source>

@@ -332,6 +332,50 @@ EN_BY_SOURCE: dict[str, str] = {
     "Etapa eliminada": "Stage deleted",
     "No se pudo eliminar la etapa": "Could not delete stage",
     "No se pudo reordenar las etapas": "Could not reorder stages",
+    # Audit logs
+    "Bitácoras de auditoría": "Audit logs",
+    "Entidad": "Entity",
+    "Detalle": "Details",
+    # Settings mock config — documents
+    "Documentos requeridos": "Required documents",
+    "INE obligatorio": "INE required",
+    "CURP obligatorio": "CURP required",
+    "RFC obligatorio": "RFC required",
+    "Comprobante de domicilio": "Proof of address",
+    "Días para entrega": "Days to submit",
+    "Configuración de documentos guardada": "Documents configuration saved",
+    # Prompts
+    "Prompt de preselección": "Preselection prompt",
+    "Prompt de análisis": "Analysis prompt",
+    "Prompt de entrevista": "Interview prompt",
+    "Guardar prompts": "Save prompts",
+    "Prompts IA actualizados": "AI prompts updated",
+    # CVs
+    "Configuración de CVs": "CV configuration",
+    "Formato aceptado": "Accepted format",
+    "Tamaño máximo (MB)": "Maximum size (MB)",
+    "Parseo automático con IA": "Automatic AI parsing",
+    "Requerir fotografía": "Require photo",
+    "Configuración de CVs guardada": "CV configuration saved",
+    # Interviews
+    "Configuración de entrevistas": "Interview configuration",
+    "Duración default (min)": "Default duration (min)",
+    "Modalidad": "Modality",
+    "Recordatorio (horas antes)": "Reminder (hours before)",
+    "Presencial": "In person",
+    "Virtual": "Virtual",
+    "Mixta": "Hybrid",
+    "Configuración de entrevistas guardada": "Interview configuration saved",
+    # System
+    "Configuración del sistema": "System configuration",
+    "Nombre de la instancia": "Instance name",
+    "Zona horaria": "Timezone",
+    "Idioma default": "Default language",
+    "Español (México)": "Spanish (Mexico)",
+    "Modo mantenimiento": "Maintenance mode",
+    "Logs de depuración": "Debug logs",
+    "Guardar configuración": "Save configuration",
+    "Configuración del sistema guardada": "System configuration saved",
 }
 
 
