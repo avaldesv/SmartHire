@@ -51,6 +51,11 @@ export class ShellComponent implements OnInit {
   readonly portalLanguages = signal<PortalLanguage[]>([]);
   readonly languageChanging = signal(false);
 
+  readonly activeLanguageName = computed(() => {
+    const currentId = this.activePortalLanguageId() ?? this.user()?.portalLanguageId;
+    return this.portalLanguages().find((language) => language.id === currentId)?.name ?? '';
+  });
+
   readonly navItems = computed(() =>
     MAIN_NAV_ITEMS.filter((item) => {
       if (item.path === '/settings') {
@@ -69,7 +74,7 @@ export class ShellComponent implements OnInit {
 
   onLanguageChange(portalLanguageId: number): void {
     const selected = this.portalLanguages().find((item) => item.id === portalLanguageId);
-    if (!selected || selected.locale === this.activeLocale()) {
+    if (!selected || selected.locale === this.activeLocale() || this.isActiveLanguage(portalLanguageId)) {
       return;
     }
     this.languageChanging.set(true);
@@ -77,6 +82,11 @@ export class ShellComponent implements OnInit {
       next: () => this.localeService.changePortalLanguage(selected.id, selected.locale),
       error: () => this.languageChanging.set(false),
     });
+  }
+
+  isActiveLanguage(portalLanguageId: number): boolean {
+    const currentId = this.activePortalLanguageId() ?? this.user()?.portalLanguageId;
+    return currentId === portalLanguageId;
   }
 
   onTenantChange(companyId: number): void {
