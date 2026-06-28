@@ -112,7 +112,7 @@ export class AuthService {
         tap((res) => {
           const userRaw = sessionStorage.getItem('sh_user');
           const email = userRaw ? (JSON.parse(userRaw) as AuthUser).email : 'user@empresa.com';
-          this.persistSession(email, res);
+          this.persistSession(email, res, { keepSessionVerified: true });
         }),
         catchError((err) => {
           this.clearLocalSession();
@@ -215,6 +215,7 @@ export class AuthService {
     this.sessionVerified.set(false);
     this.sessionValidationStarted = false;
     this.tenantContext.clear();
+    this.localeService.clearLocalePreference();
     sessionStorage.removeItem('sh_token');
     sessionStorage.removeItem('sh_refresh_token');
     sessionStorage.removeItem('sh_token_expires_at');
@@ -268,7 +269,11 @@ export class AuthService {
     return sessionStorage.getItem('sh_token');
   }
 
-  private persistSession(usernameOrEmail: string, response: LoginApiResponse): void {
+  private persistSession(
+    usernameOrEmail: string,
+    response: LoginApiResponse,
+    options?: { keepSessionVerified?: boolean },
+  ): void {
     const sessionCompanyId = response.companyId ?? this.tenantContext.getCompanyId();
     const user = this.buildUser({
       userId: response.userId,
@@ -283,7 +288,12 @@ export class AuthService {
     });
     this.tenantContext.initialize(sessionCompanyId);
     this.currentUser.set(user);
-    this.sessionVerified.set(true);
+    if (options?.keepSessionVerified) {
+      this.sessionVerified.set(true);
+    } else {
+      this.sessionVerified.set(false);
+      this.sessionValidationStarted = false;
+    }
     sessionStorage.setItem('sh_token', response.accessToken);
     sessionStorage.setItem('sh_user', JSON.stringify(user));
     if (response.refreshToken) {

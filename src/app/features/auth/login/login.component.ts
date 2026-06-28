@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -21,7 +21,6 @@ export class LoginComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly auth = inject(AuthService);
   private readonly apiErrors = inject(ApiErrorTranslationService);
-  private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
   loading = false;
@@ -49,7 +48,11 @@ export class LoginComponent implements OnInit {
     this.auth.login(email, password).subscribe({
       next: () => {
         this.loading = false;
-        this.router.navigate(['/home']);
+        this.auth.loadCurrentUserProfile().subscribe({
+          error: () => {
+            this.error = AUTH_LOGIN_FAILED;
+          },
+        });
       },
       error: (err) => {
         this.loading = false;
