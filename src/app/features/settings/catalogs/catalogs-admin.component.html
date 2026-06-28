@@ -77,7 +77,7 @@
               <input matInput formControlName="name" />
             </mat-form-field>
             <mat-form-field appearance="outline">
-              <mat-label>Valor</mat-label>
+              <mat-label>{{ catalogsValue }}</mat-label>
               <input matInput formControlName="value" />
             </mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
@@ -233,8 +233,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Nombre comercial</mat-label><input matInput formControlName="tradeName" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>RFC</mat-label><input matInput formControlName="taxId" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ colTradeName }}</mat-label><input matInput formControlName="tradeName" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ colTaxId }}</mat-label><input matInput formControlName="taxId" /></mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label i18n="@@catalogs.field.country">País</mat-label>
               <mat-select formControlName="countryId">
@@ -244,24 +244,24 @@
               </mat-select>
             </mat-form-field>
             <mat-form-field appearance="outline">
-              <mat-label>Idioma default del portal</mat-label>
+              <mat-label>{{ fieldDefaultPortalLanguage }}</mat-label>
               <mat-select formControlName="defaultPortalLanguageId" [disabled]="loadingCompanyDetail">
                 @for (language of portalLanguages; track language.id) {
                   <mat-option [value]="language.id">{{ language.name }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Mensaje facturación</mat-label><input matInput formControlName="billingMessage" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Código ATS</mat-label><input matInput type="number" formControlName="atsCode" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Calle</mat-label><input matInput formControlName="street" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Colonia</mat-label><input matInput formControlName="neighborhood" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Municipio</mat-label><input matInput formControlName="municipality" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Estado</mat-label><input matInput formControlName="stateName" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>URL logo</mat-label><input matInput formControlName="logoUrl" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>URL banner</mat-label><input matInput formControlName="bannerUrl" /></mat-form-field>
-            <mat-checkbox formControlName="noPurchaseOrder">Sin orden de compra</mat-checkbox>
-            <mat-checkbox formControlName="r3Interface">Interfaz R3</mat-checkbox>
-            <mat-checkbox formControlName="wsSignature">Firma WS</mat-checkbox>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldBillingMessage }}</mat-label><input matInput formControlName="billingMessage" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldAtsCode }}</mat-label><input matInput type="number" formControlName="atsCode" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldStreet }}</mat-label><input matInput formControlName="street" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldNeighborhood }}</mat-label><input matInput formControlName="neighborhood" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldMunicipality }}</mat-label><input matInput formControlName="municipality" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldState }}</mat-label><input matInput formControlName="stateName" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldLogoUrl }}</mat-label><input matInput formControlName="logoUrl" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldBannerUrl }}</mat-label><input matInput formControlName="bannerUrl" /></mat-form-field>
+            <mat-checkbox formControlName="noPurchaseOrder">{{ fieldNoPurchaseOrder }}</mat-checkbox>
+            <mat-checkbox formControlName="r3Interface">{{ fieldR3Interface }}</mat-checkbox>
+            <mat-checkbox formControlName="wsSignature">{{ fieldWsSignature }}</mat-checkbox>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
             <div class="form-actions">
               <button mat-button type="button" (click)="cancelCompanyForm()" i18n="@@common.cancel">Cancelar</button>
@@ -281,6 +281,7 @@
             <ng-container matColumnDef="tradeName"><th mat-header-cell *matHeaderCellDef>{{ colTradeName }}</th><td mat-cell *matCellDef="let row">{{ row.tradeName }}</td></ng-container>
             <ng-container matColumnDef="taxId"><th mat-header-cell *matHeaderCellDef>{{ colTaxId }}</th><td mat-cell *matCellDef="let row">{{ row.taxId }}</td></ng-container>
             <ng-container matColumnDef="country"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.country">País</th><td mat-cell *matCellDef="let row">{{ countryName(row.countryId) }}</td></ng-container>
+            <ng-container matColumnDef="defaultPortalLanguage"><th mat-header-cell *matHeaderCellDef>{{ colDefaultPortalLanguage }}</th><td mat-cell *matCellDef="let row">{{ portalLanguageName(row.defaultPortalLanguageId) }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.active">Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? catalogsYes : catalogsNo }}</td></ng-container>
             <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><sh-catalog-list-actions [showDelete]="true" (editClick)="openEditCompany(row)" (deleteClick)="deleteCompany(row)" [deleteDisabled]="deletingCatalogId === row.id" /></td></ng-container>
             <tr mat-header-row *matHeaderRowDef="companyColumns"></tr>
@@ -332,8 +333,8 @@
             </mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Símbolo</mat-label><input matInput formControlName="symbol" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Denominación</mat-label><input matInput formControlName="denomination" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ colSymbol }}</mat-label><input matInput formControlName="symbol" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ colDenomination }}</mat-label><input matInput formControlName="denomination" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
             <div class="form-actions">
               <button mat-button type="button" (click)="cancelCurrencyForm()" i18n="@@common.cancel">Cancelar</button>
@@ -723,8 +724,8 @@
             </mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Tipo documento</mat-label><input matInput formControlName="documentType" /></mat-form-field>
-            <mat-checkbox formControlName="validatesWithAi">Valida con IA</mat-checkbox>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldDocumentType }}</mat-label><input matInput formControlName="documentType" /></mat-form-field>
+            <mat-checkbox formControlName="validatesWithAi">{{ fieldValidatesWithAi }}</mat-checkbox>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
             <div class="form-actions">
               <button mat-button type="button" (click)="cancelDocumentTypeForm()" i18n="@@common.cancel">Cancelar</button>
@@ -1061,7 +1062,7 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
-            <mat-checkbox formControlName="requiresCareer">Requiere carrera</mat-checkbox>
+            <mat-checkbox formControlName="requiresCareer">{{ colRequiresCareer }}</mat-checkbox>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
             <div class="form-actions">
               <button mat-button type="button" (click)="cancelEducationLevelForm()" i18n="@@common.cancel">Cancelar</button>
@@ -1143,7 +1144,7 @@
             </mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
-            <mat-checkbox formControlName="appliesToCareer">Aplica a carrera</mat-checkbox>
+            <mat-checkbox formControlName="appliesToCareer">{{ colAppliesToCareer }}</mat-checkbox>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
             <div class="form-actions">
               <button mat-button type="button" (click)="cancelLanguageLevelForm()" i18n="@@common.cancel">Cancelar</button>
@@ -1270,7 +1271,7 @@
     <div class="tab-content">
       <div class="toolbar">
         <mat-form-field appearance="outline" class="country-field">
-          <mat-label>Empresa</mat-label>
+          <mat-label>{{ fieldCompany }}</mat-label>
           <mat-select [value]="selectedCatalogCompanyId" (selectionChange)="onCatalogCompanyChange($event.value)">
             @for (company of companies; track company.id) {
               <mat-option [value]="company.id">{{ company.name }}</mat-option>
@@ -1294,7 +1295,7 @@
             </div>
           }
           <form [formGroup]="companyAreaForm" class="gender-form" (ngSubmit)="saveCompanyArea()">
-            <mat-form-field appearance="outline"><mat-label>Empresa</mat-label>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldCompany }}</mat-label>
               <mat-select formControlName="catalogCompanyId">
                 @for (company of companies; track company.id) {
                   <mat-option [value]="company.id">{{ company.name }}</mat-option>
@@ -1350,7 +1351,7 @@
     <div class="tab-content">
       <div class="toolbar">
         <mat-form-field appearance="outline" class="country-field">
-          <mat-label>Empresa</mat-label>
+          <mat-label>{{ fieldCompany }}</mat-label>
           <mat-select [value]="selectedCatalogCompanyId" (selectionChange)="onCatalogCompanyChange($event.value)">
             @for (company of companies; track company.id) {
               <mat-option [value]="company.id">{{ company.name }}</mat-option>
@@ -1374,7 +1375,7 @@
             </div>
           }
           <form [formGroup]="companyDepartmentForm" class="gender-form" (ngSubmit)="saveCompanyDepartment()">
-            <mat-form-field appearance="outline"><mat-label>Empresa</mat-label>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldCompany }}</mat-label>
               <mat-select formControlName="catalogCompanyId">
                 @for (company of companies; track company.id) {
                   <mat-option [value]="company.id">{{ company.name }}</mat-option>
@@ -1454,7 +1455,7 @@
             </div>
           }
           <form [formGroup]="branchForm" class="gender-form" (ngSubmit)="saveBranch()">
-            <mat-form-field appearance="outline"><mat-label>Empresa (opcional)</mat-label>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldCompanyOptional }}</mat-label>
               <mat-select formControlName="catalogCompanyId">
                 <mat-option [value]="null">—</mat-option>
                 @for (company of companies; track company.id) {
@@ -1603,15 +1604,15 @@
           <h4>{{ editingQuestionnaireQuestionId ? panelUi('questionnaireQuestion').editTitle : panelUi('questionnaireQuestion').newTitle }}</h4>
           <form [formGroup]="questionnaireQuestionForm" class="gender-form" (ngSubmit)="saveQuestionnaireQuestion()">
             <mat-form-field appearance="outline">
-              <mat-label>Categoría</mat-label>
+              <mat-label>{{ colCategory }}</mat-label>
               <mat-select formControlName="categoryId">
                 @for (category of questionnaireCategoryOptions; track category.id) {
                   <mat-option [value]="category.id">{{ category.name }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Tipo</mat-label><input matInput formControlName="questionType" /></mat-form-field>
-            <mat-form-field appearance="outline" class="full-width"><mat-label>Pregunta</mat-label><textarea matInput rows="2" formControlName="questionText"></textarea></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ colType }}</mat-label><input matInput formControlName="questionType" /></mat-form-field>
+            <mat-form-field appearance="outline" class="full-width"><mat-label>{{ colQuestion }}</mat-label><textarea matInput rows="2" formControlName="questionText"></textarea></mat-form-field>
             <mat-form-field appearance="outline" class="full-width"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><textarea matInput rows="2" formControlName="description"></textarea></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
             <div class="form-actions">
@@ -1688,9 +1689,9 @@
             </mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Id MP</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Core ATS</mat-label><input matInput formControlName="coreAts" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Core Appian</mat-label><input matInput formControlName="coreAppian" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.manpowerIdShort">Id MP</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ colCoreAts }}</mat-label><input matInput formControlName="coreAts" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ colCoreAppian }}</mat-label><input matInput formControlName="coreAppian" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
             <div class="form-actions">
               <button mat-button type="button" (click)="cancelRecruiterGroupForm()" i18n="@@common.cancel">Cancelar</button>
@@ -1932,7 +1933,7 @@
           <form [formGroup]="stateForm" class="gender-form" (ngSubmit)="saveState()">
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Descripción corta</mat-label><input matInput formControlName="shortDescription" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldShortDescription }}</mat-label><input matInput formControlName="shortDescription" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
             <div class="form-actions">
               <button mat-button type="button" (click)="cancelStateForm()" i18n="@@common.cancel">Cancelar</button>
@@ -1985,7 +1986,7 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field appearance="outline" class="country-field">
-          <mat-label>Entidad federativa</mat-label>
+          <mat-label>{{ fieldFederalState }}</mat-label>
           <mat-select [value]="selectedStateId" (selectionChange)="onGeoStateChange($event.value)">
             @for (state of stateOptions; track state.id) {
               <mat-option [value]="state.id">{{ state.name }}</mat-option>
@@ -2063,7 +2064,7 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field appearance="outline" class="country-field">
-          <mat-label>Entidad federativa</mat-label>
+          <mat-label>{{ fieldFederalState }}</mat-label>
           <mat-select [value]="selectedStateId" (selectionChange)="onGeoStateChange($event.value)">
             @for (state of stateOptions; track state.id) {
               <mat-option [value]="state.id">{{ state.name }}</mat-option>
@@ -2071,7 +2072,7 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field appearance="outline" class="country-field">
-          <mat-label>Municipio</mat-label>
+          <mat-label>{{ fieldMunicipality }}</mat-label>
           <mat-select [value]="selectedMunicipalityId" (selectionChange)="onMunicipalityChange($event.value)">
             @for (m of municipalityOptions; track m.id) {
               <mat-option [value]="m.id">{{ m.name }}</mat-option>
@@ -2097,7 +2098,7 @@
 
           <form [formGroup]="neighborhoodForm" class="gender-form" (ngSubmit)="saveNeighborhood()">
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Código postal</mat-label><input matInput formControlName="postalCode" maxlength="5" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldPostalCode }}</mat-label><input matInput formControlName="postalCode" maxlength="5" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
             <div class="form-actions">
               <button mat-button type="button" (click)="cancelNeighborhoodForm()" i18n="@@common.cancel">Cancelar</button>
@@ -2178,7 +2179,7 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>ID Manpower</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldManpowerId }}</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
             <div class="form-actions">
               <button mat-button type="button" (click)="cancelCoverageCategoryForm()" i18n="@@common.cancel">Cancelar</button>
@@ -2258,7 +2259,7 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>ID Manpower</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldManpowerId }}</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
             <div class="form-actions">
               <button mat-button type="button" (click)="cancelCharacteristicForm()" i18n="@@common.cancel">Cancelar</button>
@@ -2417,7 +2418,7 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>ID Manpower</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldManpowerId }}</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
             <div class="form-actions">
               <button mat-button type="button" (click)="cancelMaritalStatusForm()" i18n="@@common.cancel">Cancelar</button>
@@ -2497,7 +2498,7 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>ID Manpower</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldManpowerId }}</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
             <div class="form-actions">
               <button mat-button type="button" (click)="cancelExperienceLevelForm()" i18n="@@common.cancel">Cancelar</button>
@@ -2577,7 +2578,7 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>ID Manpower</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldManpowerId }}</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
             <div class="form-actions">
               <button mat-button type="button" (click)="cancelToolForm()" i18n="@@common.cancel">Cancelar</button>
@@ -2657,7 +2658,7 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>ID Manpower</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldManpowerId }}</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
             <div class="form-actions">
               <button mat-button type="button" (click)="cancelWorkScheduleForm()" i18n="@@common.cancel">Cancelar</button>
@@ -2737,7 +2738,7 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>ID Manpower</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldManpowerId }}</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
             <div class="form-actions">
               <button mat-button type="button" (click)="cancelWorkplaceForm()" i18n="@@common.cancel">Cancelar</button>
@@ -2817,7 +2818,7 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>ID Manpower</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldManpowerId }}</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
             <div class="form-actions">
               <button mat-button type="button" (click)="cancelRequirementForm()" i18n="@@common.cancel">Cancelar</button>
@@ -2897,7 +2898,7 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>ID Manpower</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldManpowerId }}</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
             <div class="form-actions">
               <button mat-button type="button" (click)="cancelResponsibilityLevelForm()" i18n="@@common.cancel">Cancelar</button>
@@ -2977,7 +2978,7 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>ID Manpower</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldManpowerId }}</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
             <div class="form-actions">
               <button mat-button type="button" (click)="cancelDisabilityTypeForm()" i18n="@@common.cancel">Cancelar</button>
@@ -3057,7 +3058,7 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>ID Manpower</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldManpowerId }}</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
             <div class="form-actions">
               <button mat-button type="button" (click)="cancelBusinessUnitForm()" i18n="@@common.cancel">Cancelar</button>
@@ -3137,7 +3138,7 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>ID Manpower</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ fieldManpowerId }}</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
             <div class="form-actions">
               <button mat-button type="button" (click)="cancelPositionTypeForm()" i18n="@@common.cancel">Cancelar</button>
@@ -3207,13 +3208,13 @@
               </mat-select>
             </mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Empresa / área</mat-label><input matInput formControlName="companyArea" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Contacto</mat-label><input matInput formControlName="contactName" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Puesto</mat-label><input matInput formControlName="contactPosition" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Teléfono</mat-label><input matInput formControlName="phone" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Correo</mat-label><input matInput formControlName="email" type="email" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Nombre comercial</mat-label><input matInput formControlName="tradeName" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Razón social</mat-label><input matInput formControlName="legalName" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ colCompanyArea }}</mat-label><input matInput formControlName="companyArea" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ colContact }}</mat-label><input matInput formControlName="contactName" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ colPosition }}</mat-label><input matInput formControlName="contactPosition" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ colPhone }}</mat-label><input matInput formControlName="phone" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ colEmail }}</mat-label><input matInput formControlName="email" type="email" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ colTradeName }}</mat-label><input matInput formControlName="tradeName" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ colLegalName }}</mat-label><input matInput formControlName="legalName" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
             <div class="form-actions">
               <button mat-button type="button" (click)="cancelClientForm()" i18n="@@common.cancel">Cancelar</button>
