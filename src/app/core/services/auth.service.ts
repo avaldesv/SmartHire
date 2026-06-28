@@ -6,6 +6,7 @@ import { environment } from '../../../environments/environment';
 import { msalScopes } from '../auth/msal.config';
 import { AuthUser } from '../../shared/models';
 import { ApiClientService } from './api-client.service';
+import { LocaleService } from './locale.service';
 import { TenantContextService } from './tenant-context.service';
 
 interface LoginApiResponse {
@@ -34,12 +35,16 @@ interface AuthMeApiResponse {
   globalAdmin: boolean;
   roles: string[];
   authorities: string[];
+  portalLanguageId?: number;
+  portalLanguageCode?: string;
+  locale?: string;
 }
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly api = inject(ApiClientService);
+  private readonly localeService = inject(LocaleService);
   private readonly tenantContext = inject(TenantContextService);
   private readonly msal = inject(MsalService, { optional: true });
 
@@ -140,9 +145,13 @@ export class AuthService {
           authorities: profile.authorities,
           globalAdmin: profile.globalAdmin,
           companyId: activeCompanyId,
+          portalLanguageId: profile.portalLanguageId,
+          portalLanguageCode: profile.portalLanguageCode,
+          locale: profile.locale,
         });
         this.currentUser.set(user);
         sessionStorage.setItem('sh_user', JSON.stringify(user));
+        this.localeService.resolveFromAuth(profile.locale, profile.portalLanguageId);
         this.sessionVerified.set(true);
         if (window.location.pathname.startsWith('/login')) {
           window.location.href = '/home';
@@ -332,6 +341,9 @@ export class AuthService {
     authorities?: string[];
     globalAdmin?: boolean;
     companyId?: number;
+    portalLanguageId?: number;
+    portalLanguageCode?: string;
+    locale?: string;
   }): AuthUser {
     const email = input.email.includes('@') ? input.email : `${input.email}@empresa.com`;
     const firstName = input.firstName?.trim() || 'Usuario';
@@ -348,6 +360,9 @@ export class AuthService {
       branch: 'CDMX Centro',
       globalAdmin: input.globalAdmin === true,
       companyId: input.companyId,
+      portalLanguageId: input.portalLanguageId,
+      portalLanguageCode: input.portalLanguageCode,
+      locale: input.locale,
     };
   }
 

@@ -75,6 +75,16 @@
   small { color: #64748b; }
 }
 
+.menu-language {
+  padding: 4px 16px 8px;
+  width: 220px;
+
+  mat-form-field {
+    width: 100%;
+    font-size: 13px;
+  }
+}
+
 .main-nav {
   display: flex;
   gap: 4px;

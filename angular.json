@@ -13,6 +13,13 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
+      "i18n": {
+        "sourceLocale": "es-MX",
+        "locales": {
+          "es-ES": "src/locale/messages.es-ES.xlf",
+          "en-US": "src/locale/messages.en-US.xlf"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
@@ -21,7 +28,8 @@
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
-              "zone.js"
+              "zone.js",
+              "@angular/localize/init"
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -38,6 +46,7 @@
           },
           "configurations": {
             "production": {
+              "localize": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -62,6 +71,18 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "es-ES": {
+              "localize": ["es-ES"],
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            },
+            "en-US": {
+              "localize": ["en-US"],
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -74,6 +95,12 @@
             },
             "development": {
               "buildTarget": "smarthire-recruiter-portal:build:development"
+            },
+            "es-ES": {
+              "buildTarget": "smarthire-recruiter-portal:build:es-ES"
+            },
+            "en-US": {
+              "buildTarget": "smarthire-recruiter-portal:build:en-US"
             }
           },
           "defaultConfiguration": "development"

@@ -4,7 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:es-MX": "ng serve --configuration=development",
+    "start:es-ES": "ng serve --configuration=development,es-ES",
+    "start:en-US": "ng serve --configuration=development,en-US",
     "build": "ng build",
+    "build:i18n": "ng build --configuration=production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -16,6 +20,7 @@
     "@angular/compiler": "^19.2.0",
     "@angular/core": "^19.2.0",
     "@angular/forms": "^19.2.0",
+    "@angular/localize": "^19.2.25",
     "@angular/material": "^19.2.19",
     "@angular/platform-browser": "^19.2.0",
     "@angular/platform-browser-dynamic": "^19.2.0",
