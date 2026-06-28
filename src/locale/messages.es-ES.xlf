@@ -423,8 +423,10 @@
         <target>Valida con IA</target>
       </trans-unit>
       <trans-unit id="catalogImport.title" datatype="html">
-        <source>Importar </source>
-        <target>Importar </target>
+        <source>Importar <x id="catalogLabel" equiv-text="catalogLabel" />
+        </source>
+        <target>Importar <x id="catalogLabel" equiv-text="catalogLabel" />
+        </target>
       </trans-unit>
       <trans-unit id="catalogImport.hint" datatype="html">
         <source>Descargue la plantilla, complete los datos y suba el archivo CSV.</source>
@@ -483,12 +485,14 @@
         <target>Importación completada</target>
       </trans-unit>
       <trans-unit id="catalogImport.structureValid" datatype="html">
-        <source>Estructura válida. Filas detectadas: </source>
-        <target>Estructura válida. Filas detectadas: </target>
+        <source>Estructura válida. Filas detectadas: <x id="totalRows" equiv-text="totalRows" />.</source>
+        <target>Estructura válida. Filas detectadas: <x id="totalRows" equiv-text="totalRows" />.</target>
       </trans-unit>
       <trans-unit id="catalogImport.resultSummary" datatype="html">
-        <source>Creados: </source>
-        <target>Creados: </target>
+        <source>Creados: <x id="created" equiv-text="created" /> · Actualizados: <x id="updated" equiv-text="updated" /> · Fallidos: <x id="failed" equiv-text="failed" />
+        </source>
+        <target>Creados: <x id="created" equiv-text="created" /> · Actualizados: <x id="updated" equiv-text="updated" /> · Fallidos: <x id="failed" equiv-text="failed" />
+        </target>
       </trans-unit>
       <trans-unit id="catalogs.errors.loadStatesSelector" datatype="html">
         <source>No se pudieron cargar entidades para el selector</source>
@@ -519,20 +523,26 @@
         <target>No se pudo eliminar el registro</target>
       </trans-unit>
       <trans-unit id="catalogs.errors.loadList" datatype="html">
-        <source>No se pudieron cargar </source>
-        <target>No se pudieron cargar </target>
+        <source>No se pudieron cargar <x id="catalogName" equiv-text="catalogName" />
+        </source>
+        <target>No se pudieron cargar <x id="catalogName" equiv-text="catalogName" />
+        </target>
       </trans-unit>
       <trans-unit id="catalogs.success.saved" datatype="html">
-        <source />
-        <target />
+        <source>
+          <x id="catalogName" equiv-text="catalogName" /> guardado</source>
+        <target>
+          <x id="catalogName" equiv-text="catalogName" /> guardado</target>
       </trans-unit>
       <trans-unit id="catalogs.errors.save" datatype="html">
-        <source>No se pudo guardar </source>
-        <target>No se pudo guardar </target>
+        <source>No se pudo guardar <x id="catalogName" equiv-text="catalogName" />
+        </source>
+        <target>No se pudo guardar <x id="catalogName" equiv-text="catalogName" />
+        </target>
       </trans-unit>
       <trans-unit id="catalogs.confirm.delete" datatype="html">
-        <source>¿Eliminar "</source>
-        <target>¿Eliminar "</target>
+        <source>¿Eliminar "<x id="display" equiv-text="display" />"? Esta acción no se puede deshacer.</source>
+        <target>¿Eliminar "<x id="display" equiv-text="display" />"? Esta acción no se puede deshacer.</target>
       </trans-unit>
       <trans-unit id="catalogs.gender.newButton" datatype="html">
         <source>Nuevo género</source>
@@ -1271,28 +1281,34 @@
         <target>No se pudo rechazar la solicitud</target>
       </trans-unit>
       <trans-unit id="dashboard.success.duplicated" datatype="html">
-        <source>Posición duplicada: REQ-</source>
-        <target>Posición duplicada: REQ-</target>
+        <source>Posición duplicada: REQ-<x id="id" equiv-text="id" />
+        </source>
+        <target>Posición duplicada: REQ-<x id="id" equiv-text="id" />
+        </target>
       </trans-unit>
       <trans-unit id="dashboard.confirm.cancel" datatype="html">
-        <source>¿Cancelar directamente la requisición </source>
-        <target>¿Cancelar directamente la requisición </target>
+        <source>¿Cancelar directamente la requisición <x id="requisitionNo" equiv-text="requisitionNo" />? Esta acción no se puede deshacer.</source>
+        <target>¿Cancelar directamente la requisición <x id="requisitionNo" equiv-text="requisitionNo" />? Esta acción no se puede deshacer.</target>
       </trans-unit>
       <trans-unit id="dashboard.confirm.requestCancellation" datatype="html">
-        <source>¿Solicitar cancelación de </source>
-        <target>¿Solicitar cancelación de </target>
+        <source>¿Solicitar cancelación de <x id="requisitionNo" equiv-text="requisitionNo" />? Quedará pendiente de aprobación.</source>
+        <target>¿Solicitar cancelación de <x id="requisitionNo" equiv-text="requisitionNo" />? Quedará pendiente de aprobación.</target>
       </trans-unit>
       <trans-unit id="dashboard.confirm.approveCancellation" datatype="html">
-        <source>¿Aprobar cancelación de </source>
-        <target>¿Aprobar cancelación de </target>
+        <source>¿Aprobar cancelación de <x id="requisitionNo" equiv-text="requisitionNo" />? La requisición será eliminada.</source>
+        <target>¿Aprobar cancelación de <x id="requisitionNo" equiv-text="requisitionNo" />? La requisición será eliminada.</target>
       </trans-unit>
       <trans-unit id="dashboard.confirm.rejectCancellation" datatype="html">
-        <source>¿Rechazar solicitud de cancelación de </source>
-        <target>¿Rechazar solicitud de cancelación de </target>
+        <source>¿Rechazar solicitud de cancelación de <x id="requisitionNo" equiv-text="requisitionNo" />? Volverá a borrador.</source>
+        <target>¿Rechazar solicitud de cancelación de <x id="requisitionNo" equiv-text="requisitionNo" />? Volverá a borrador.</target>
       </trans-unit>
       <trans-unit id="dashboard.success.candidatesApplied" datatype="html">
-        <source />
-        <target />
+        <source>
+          <x id="count" equiv-text="count" /> candidato(s) postulado(s) a <x id="requisitionNo" equiv-text="requisitionNo" />
+        </source>
+        <target>
+          <x id="count" equiv-text="count" /> candidato(s) postulado(s) a <x id="requisitionNo" equiv-text="requisitionNo" />
+        </target>
       </trans-unit>
       <trans-unit id="groups.pageTitle" datatype="html">
         <source>Grupos de usuarios</source>
@@ -1379,8 +1395,8 @@
         <target>No se pudo eliminar el grupo</target>
       </trans-unit>
       <trans-unit id="groups.confirm.delete" datatype="html">
-        <source>¿Eliminar el grupo "</source>
-        <target>¿Eliminar el grupo "</target>
+        <source>¿Eliminar el grupo "<x id="name" equiv-text="name" />"? Esta acción no se puede deshacer.</source>
+        <target>¿Eliminar el grupo "<x id="name" equiv-text="name" />"? Esta acción no se puede deshacer.</target>
       </trans-unit>
       <trans-unit id="nav.main.home" datatype="html">
         <source>Inicio</source>
@@ -1563,12 +1579,16 @@
         <target>desactivada</target>
       </trans-unit>
       <trans-unit id="notifications.success.toggled" datatype="html">
-        <source>Notificación </source>
-        <target>Notificación </target>
+        <source>Notificación <x id="action" equiv-text="action" />
+          <x id="state" equiv-text="state" />
+        </source>
+        <target>Notificación <x id="action" equiv-text="action" />
+          <x id="state" equiv-text="state" />
+        </target>
       </trans-unit>
       <trans-unit id="notifications.confirm.delete" datatype="html">
-        <source>¿Eliminar la plantilla "</source>
-        <target>¿Eliminar la plantilla "</target>
+        <source>¿Eliminar la plantilla "<x id="action" equiv-text="action" />"? Esta acción no se puede deshacer.</source>
+        <target>¿Eliminar la plantilla "<x id="action" equiv-text="action" />"? Esta acción no se puede deshacer.</target>
       </trans-unit>
       <trans-unit id="pipelineStages.pageTitle" datatype="html">
         <source>Etapas del pipeline</source>
@@ -1647,8 +1667,8 @@
         <target>No se pudo reordenar las etapas</target>
       </trans-unit>
       <trans-unit id="pipelineStages.confirm.delete" datatype="html">
-        <source>¿Eliminar la etapa "</source>
-        <target>¿Eliminar la etapa "</target>
+        <source>¿Eliminar la etapa "<x id="name" equiv-text="name" />"?</source>
+        <target>¿Eliminar la etapa "<x id="name" equiv-text="name" />"?</target>
       </trans-unit>
       <trans-unit id="positions.pageTitle" datatype="html">
         <source>Posiciones</source>
@@ -1883,8 +1903,8 @@
         <target>Usuario eliminado</target>
       </trans-unit>
       <trans-unit id="users.confirm.delete" datatype="html">
-        <source>¿Eliminar el usuario "</source>
-        <target>¿Eliminar el usuario "</target>
+        <source>¿Eliminar el usuario "<x id="PH" equiv-text="label" />"? Esta acción no se puede deshacer.</source>
+        <target>¿Eliminar el usuario "<x id="PH" equiv-text="label" />"? Esta acción no se puede deshacer.</target>
       </trans-unit>
       <trans-unit id="users.form.saving" datatype="html">
         <source>Guardando...</source>
@@ -2015,8 +2035,8 @@
         <target>Iniciar sesión con SSO corporativo</target>
       </trans-unit>
       <trans-unit id="catalogs.pending.message" datatype="html">
-        <source> Catálogo pendiente de implementación. Ver plan </source>
-        <target> Catálogo pendiente de implementación. Ver plan </target>
+        <source> Catálogo pendiente de implementación. Ver plan <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code&gt;" />docs/technical/CATALOG-REFACTOR-PLAN-v1.md<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;" /> y issues AVV-380+. </source>
+        <target> Catálogo pendiente de implementación. Ver plan <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code&gt;" />docs/technical/CATALOG-REFACTOR-PLAN-v1.md<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;" /> y issues AVV-380+. </target>
       </trans-unit>
       <trans-unit id="catalogs.field.allCountries" datatype="html">
         <source>Todos los países</source>
@@ -2055,8 +2075,26 @@
         <target>Configuraciones</target>
       </trans-unit>
       <trans-unit id="notifications.field.messageHint" datatype="html">
-        <source>Variables: </source>
-        <target>Variables: </target>
+        <source>Variables: <x id="INTERPOLATION" equiv-text="{{ '{' }}" />
+          <x id="INTERPOLATION" equiv-text="{{ '{' }}" />req<x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />
+          <x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />, <x id="INTERPOLATION" equiv-text="{{ '{' }}" />
+          <x id="INTERPOLATION" equiv-text="{{ '{' }}" />puesto<x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />
+          <x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />, <x id="INTERPOLATION" equiv-text="{{ '{' }}" />
+          <x id="INTERPOLATION" equiv-text="{{ '{' }}" />cliente<x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />
+          <x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />, <x id="INTERPOLATION" equiv-text="{{ '{' }}" />
+          <x id="INTERPOLATION" equiv-text="{{ '{' }}" />usuarioSolicita<x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />
+          <x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />
+        </source>
+        <target>Variables: <x id="INTERPOLATION" equiv-text="{{ '{' }}" />
+          <x id="INTERPOLATION" equiv-text="{{ '{' }}" />req<x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />
+          <x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />, <x id="INTERPOLATION" equiv-text="{{ '{' }}" />
+          <x id="INTERPOLATION" equiv-text="{{ '{' }}" />puesto<x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />
+          <x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />, <x id="INTERPOLATION" equiv-text="{{ '{' }}" />
+          <x id="INTERPOLATION" equiv-text="{{ '{' }}" />cliente<x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />
+          <x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />, <x id="INTERPOLATION" equiv-text="{{ '{' }}" />
+          <x id="INTERPOLATION" equiv-text="{{ '{' }}" />usuarioSolicita<x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />
+          <x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />
+        </target>
       </trans-unit>
       <trans-unit id="users.search" datatype="html">
         <source>Buscar usuario</source>
