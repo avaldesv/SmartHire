@@ -94,8 +94,9 @@ export class PromptsAdminComponent implements OnInit {
   pageSize = 10;
 
   readonly columns = ['clave', 'promptText', 'description', 'scope', 'active', 'actions'];
-  readonly promptPreviewLength = 80;
-  private readonly expandedPromptIds = new Set<number>();
+  readonly textPreviewLength = 30;
+  private readonly expandedPromptTextIds = new Set<number>();
+  private readonly expandedDescriptionIds = new Set<number>();
 
   readonly pageTitle = PROMPTS_PAGE_TITLE;
   readonly newButton = PROMPTS_NEW_BUTTON;
@@ -155,7 +156,8 @@ export class PromptsAdminComponent implements OnInit {
 
   load(): void {
     this.loading = true;
-    this.expandedPromptIds.clear();
+    this.expandedPromptTextIds.clear();
+    this.expandedDescriptionIds.clear();
     this.aiPromptApi.list(this.pageIndex, this.pageSize).subscribe({
       next: ({ items, total }) => {
         this.data = items;
@@ -273,20 +275,28 @@ export class PromptsAdminComponent implements OnInit {
       });
   }
 
-  isPromptTruncated(text: string): boolean {
-    return text.length > this.promptPreviewLength;
+  isTextTruncated(text: string | null | undefined): boolean {
+    return (text ?? '').length > this.textPreviewLength;
   }
 
-  isPromptExpanded(id: number): boolean {
-    return this.expandedPromptIds.has(id);
+  textPreview(text: string | null | undefined): string {
+    return (text ?? '').slice(0, this.textPreviewLength);
   }
 
-  promptPreview(text: string): string {
-    return text.slice(0, this.promptPreviewLength);
+  isPromptTextExpanded(id: number): boolean {
+    return this.expandedPromptTextIds.has(id);
   }
 
-  expandPrompt(id: number): void {
-    this.expandedPromptIds.add(id);
+  isDescriptionExpanded(id: number): boolean {
+    return this.expandedDescriptionIds.has(id);
+  }
+
+  expandPromptText(id: number): void {
+    this.expandedPromptTextIds.add(id);
+  }
+
+  expandDescription(id: number): void {
+    this.expandedDescriptionIds.add(id);
   }
 
   deletePrompt(row: AiPromptItem): void {
