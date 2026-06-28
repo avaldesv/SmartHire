@@ -6,7 +6,24 @@ code { font-size: 12px; background: #f1f5f9; padding: 2px 6px; border-radius: 4p
 .form-card h4 { margin: 0 0 12px; font-size: 1rem; }
 .template-form { display: flex; flex-direction: column; gap: 8px; max-width: 640px; }
 .message-field { width: 100%; }
-.message-cell { max-width: 320px; white-space: pre-wrap; }
+.message-cell { max-width: 280px; }
+.message-full { white-space: pre-wrap; word-break: break-word; }
+.message-preview { white-space: pre-wrap; }
+.show-more-btn {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--mat-sys-primary, #1565c0);
+  font: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  white-space: nowrap;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
 .form-actions { display: flex; gap: 8px; margin-top: 8px; }
 
 :host ::ng-deep .mat-column-actions {

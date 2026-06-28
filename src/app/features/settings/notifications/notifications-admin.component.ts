@@ -23,6 +23,7 @@ import {
   NOTIFICATIONS_COLUMN_CHANNELS,
   NOTIFICATIONS_COLUMN_MESSAGE,
   NOTIFICATIONS_COLUMN_TEMPLATE,
+  NOTIFICATIONS_SHOW_MORE,
   NOTIFICATIONS_DELETE_ERROR,
   NOTIFICATIONS_DELETE_SUCCESS,
   NOTIFICATIONS_EDIT_TITLE,
@@ -101,7 +102,11 @@ export class NotificationsAdminComponent implements OnInit {
   readonly columnChannels = NOTIFICATIONS_COLUMN_CHANNELS;
   readonly columnTemplate = NOTIFICATIONS_COLUMN_TEMPLATE;
   readonly columnMessage = NOTIFICATIONS_COLUMN_MESSAGE;
+  readonly showMoreLabel = NOTIFICATIONS_SHOW_MORE;
   readonly columnActive = NOTIFICATIONS_COLUMN_ACTIVE;
+  readonly messagePreviewLength = 30;
+
+  private readonly expandedMessageIds = new Set<number>();
   readonly cancelLabel = NOTIFICATIONS_CANCEL;
   readonly savingLabel = NOTIFICATIONS_SAVING;
   readonly saveLabel = NOTIFICATIONS_SAVE;
@@ -122,6 +127,7 @@ export class NotificationsAdminComponent implements OnInit {
 
   load(): void {
     this.loading = true;
+    this.expandedMessageIds.clear();
     this.notificationApi.list().subscribe({
       next: ({ items }) => {
         this.data = items;
@@ -226,8 +232,24 @@ export class NotificationsAdminComponent implements OnInit {
           row.active = previous;
           this.savingId = null;
           this.snack.open(NOTIFICATIONS_UPDATE_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
-        },
-      });
+      },
+    });
+  }
+
+  isMessageTruncated(message: string): boolean {
+    return message.length > this.messagePreviewLength;
+  }
+
+  isMessageExpanded(id: number): boolean {
+    return this.expandedMessageIds.has(id);
+  }
+
+  messagePreview(message: string): string {
+    return message.slice(0, this.messagePreviewLength);
+  }
+
+  expandMessage(id: number): void {
+    this.expandedMessageIds.add(id);
   }
 
   deleteTemplate(row: NotificationTemplateItem): void {
