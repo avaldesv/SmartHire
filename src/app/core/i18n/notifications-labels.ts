@@ -33,6 +33,7 @@ export const NOTIFICATIONS_COLUMN_ACTION = $localize`:@@notifications.column.act
 export const NOTIFICATIONS_COLUMN_CHANNELS = $localize`:@@notifications.column.channels:Canales`;
 export const NOTIFICATIONS_COLUMN_TEMPLATE = $localize`:@@notifications.column.template:Plantilla`;
 export const NOTIFICATIONS_COLUMN_MESSAGE = $localize`:@@notifications.column.message:Mensaje`;
+export const NOTIFICATIONS_SHOW_MORE = $localize`:@@notifications.showMore:mostrar más`;
 export const NOTIFICATIONS_COLUMN_ACTIVE = $localize`:@@notifications.column.active:Activo`;
 export const NOTIFICATIONS_CANCEL = $localize`:@@common.cancel:Cancelar`;
 export const NOTIFICATIONS_SAVING = $localize`:@@catalogs.common.saving:Guardando...`;
