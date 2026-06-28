@@ -29,6 +29,22 @@
         <strong>{{ user()?.firstName }} {{ user()?.lastName }}</strong>
         <small>{{ user()?.email }}</small>
       </div>
+      @if (portalLanguages().length > 0) {
+        <div class="menu-language">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>Idioma</mat-label>
+            <mat-select
+              [value]="activePortalLanguageId() ?? user()?.portalLanguageId"
+              [disabled]="languageChanging()"
+              (selectionChange)="onLanguageChange($event.value)"
+            >
+              @for (language of portalLanguages(); track language.id) {
+                <mat-option [value]="language.id">{{ language.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+      }
       <button mat-menu-item (click)="logout()">
         <mat-icon>logout</mat-icon>
         Cerrar sesión

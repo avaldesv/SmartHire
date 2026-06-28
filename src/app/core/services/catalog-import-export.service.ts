@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiClientService } from './api-client.service';
+import { LocaleService, X_LANGUAGE_HEADER } from './locale.service';
 import { TenantContextService } from './tenant-context.service';
 import { environment } from '../../../environments/environment';
 
@@ -25,6 +26,7 @@ export interface CatalogCsvImportResponse {
 export class CatalogImportExportService {
   private readonly http = inject(HttpClient);
   private readonly api = inject(ApiClientService);
+  private readonly localeService = inject(LocaleService);
   private readonly tenantContext = inject(TenantContextService);
 
   downloadTemplate(catalogKey: string): Observable<Blob> {
@@ -67,7 +69,7 @@ export class CatalogImportExportService {
     return new HttpHeaders({
       applicationId: environment.applicationId,
       companyId: String(this.tenantContext.getCompanyId()),
-      language: environment.language,
+      [X_LANGUAGE_HEADER]: this.localeService.getLanguageHeader(),
       authorization: token ? `Bearer ${token}` : '',
     });
   }

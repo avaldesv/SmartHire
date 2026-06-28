@@ -9,6 +9,9 @@ export interface AuthUser {
   branch: string;
   globalAdmin?: boolean;
   companyId?: number;
+  portalLanguageId?: number;
+  portalLanguageCode?: string;
+  locale?: string;
 }
 
 export interface PaginatedResult<T> {
