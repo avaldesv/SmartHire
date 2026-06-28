@@ -18,3 +18,15 @@ export const GROUPS_SAVING = $localize`:@@catalogs.common.saving:Guardando...`;
 export const GROUPS_SAVE = $localize`:@@catalogs.common.save:Guardar`;
 export const GROUPS_YES = $localize`:@@common.yes:Sí`;
 export const GROUPS_NO = $localize`:@@common.no:No`;
+export const GROUPS_SNACK_CLOSE = $localize`:@@common.close:Cerrar`;
+
+export const GROUPS_LOAD_PERMISSIONS_ERROR = $localize`:@@groups.errors.loadPermissions:No se pudieron cargar los permisos`;
+export const GROUPS_LOAD_ERROR = $localize`:@@groups.errors.load:No se pudieron cargar los grupos`;
+export const GROUPS_SAVE_SUCCESS = $localize`:@@groups.success.saved:Grupo guardado`;
+export const GROUPS_SAVE_ERROR = $localize`:@@groups.errors.save:No se pudo guardar el grupo`;
+export const GROUPS_DELETE_SUCCESS = $localize`:@@groups.success.deleted:Grupo eliminado`;
+export const GROUPS_DELETE_ERROR = $localize`:@@groups.errors.delete:No se pudo eliminar el grupo`;
+
+export function groupsDeleteConfirm(name: string): string {
+  return $localize`:@@groups.confirm.delete:¿Eliminar el grupo "${name}:name:"? Esta acción no se puede deshacer.`;
+}

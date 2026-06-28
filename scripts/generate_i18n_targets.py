@@ -384,6 +384,58 @@ EN_BY_SOURCE: dict[str, str] = {
     "No se pudo cargar la compañía": "Could not load company",
     "Registro eliminado": "Record deleted",
     "No se pudo eliminar el registro": "Could not delete record",
+    # Groups snacks
+    "No se pudieron cargar los permisos": "Could not load permissions",
+    "No se pudieron cargar los grupos": "Could not load groups",
+    "Grupo guardado": "Group saved",
+    "No se pudo guardar el grupo": "Could not save group",
+    "Grupo eliminado": "Group deleted",
+    "No se pudo eliminar el grupo": "Could not delete group",
+    # Dashboard home
+    "Bienvenido,": "Welcome,",
+    "Resumen general de tu actividad como reclutador": "Overview of your recruiting activity",
+    "Total Posiciones": "Total positions",
+    "Posiciones registradas en el tenant": "Positions registered in the tenant",
+    "Candidatos Preseleccionados": "Preselected candidates",
+    "Postulaciones en preselección": "Applications in preselection",
+    "Candidatos Interesados": "Interested candidates",
+    "Postulaciones marcadas interesadas": "Applications marked as interested",
+    "Solicitudes": "Requests",
+    "Nueva Requisición": "New requisition",
+    "Buscar requisición": "Search requisition",
+    "REQ, puesto, cliente, OT…": "REQ, position, client, WO…",
+    "Usuario creador": "Creator user",
+    "Fecha inicio": "Start date",
+    "Fecha fin": "End date",
+    "Limpiar filtros": "Clear filters",
+    "Requisición": "Requisition",
+    "Clave Cliente": "Client code",
+    "# Pos.": "# Pos.",
+    "Ciudad": "City",
+    "Primer Día": "First day",
+    "Estatus": "Status",
+    "Fecha Creación": "Created date",
+    "Ir a selección": "Go to selection",
+    "Postular candidatos": "Apply candidates",
+    "Ver postulados": "View applicants",
+    "Duplicar": "Duplicate",
+    "Solicitar cancelación": "Request cancellation",
+    "Aprobar cancelación": "Approve cancellation",
+    "Rechazar solicitud": "Reject request",
+    "Cancelar directamente": "Cancel directly",
+    "Paginación de solicitudes": "Requests pagination",
+    "No se pudieron cargar los KPIs": "Could not load KPIs",
+    "No se pudieron cargar las solicitudes": "Could not load requests",
+    "Filtros limpiados": "Filters cleared",
+    "No se pudo duplicar la posición": "Could not duplicate position",
+    "Requisición cancelada": "Requisition cancelled",
+    "No se pudo cancelar la requisición": "Could not cancel requisition",
+    "Solicitud de cancelación enviada": "Cancellation request sent",
+    "No se pudo solicitar la cancelación": "Could not request cancellation",
+    "Cancelación aprobada": "Cancellation approved",
+    "No se pudo aprobar la cancelación": "Could not approve cancellation",
+    "Solicitud de cancelación rechazada": "Cancellation request rejected",
+    "No se pudo rechazar la solicitud": "Could not reject request",
 }
 
 
@@ -426,6 +478,30 @@ def translate_en(source: str) -> str:
         return "Could not save " + source[len("No se pudo guardar ") :]
     if "Eliminar \"" in source and "Esta acción no se puede deshacer" in source:
         return source.replace("¿Eliminar", "Delete").replace(
+            "Esta acción no se puede deshacer.", "This action cannot be undone."
+        )
+    if source.startswith("Posición duplicada: REQ-"):
+        return source.replace("Posición duplicada:", "Position duplicated:")
+    if "candidato(s) postulado(s) a" in source:
+        return source.replace("candidato(s) postulado(s) a", "candidate(s) applied to")
+    if source.startswith("¿Cancelar directamente la requisición"):
+        return source.replace("¿Cancelar directamente la requisición", "Cancel requisition").replace(
+            "Esta acción no se puede deshacer.", "This action cannot be undone."
+        )
+    if source.startswith("¿Solicitar cancelación de"):
+        return source.replace("¿Solicitar cancelación de", "Request cancellation of").replace(
+            "Quedará pendiente de aprobación.", "It will be pending approval."
+        )
+    if source.startswith("¿Aprobar cancelación de"):
+        return source.replace("¿Aprobar cancelación de", "Approve cancellation of").replace(
+            "La requisición será eliminada.", "The requisition will be deleted."
+        )
+    if source.startswith("¿Rechazar solicitud de cancelación de"):
+        return source.replace("¿Rechazar solicitud de cancelación de", "Reject cancellation request for").replace(
+            "Volverá a borrador.", "It will return to draft."
+        )
+    if source.startswith("¿Eliminar el grupo"):
+        return source.replace("¿Eliminar el grupo", "Delete group").replace(
             "Esta acción no se puede deshacer.", "This action cannot be undone."
         )
     return source
