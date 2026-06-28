@@ -61,7 +61,20 @@
       <ng-container matColumnDef="action"><th mat-header-cell *matHeaderCellDef>{{ columnAction }}</th><td mat-cell *matCellDef="let row">{{ row.action }}</td></ng-container>
       <ng-container matColumnDef="channels"><th mat-header-cell *matHeaderCellDef>{{ columnChannels }}</th><td mat-cell *matCellDef="let row">@for (ch of row.channels; track ch) { <mat-chip>{{ channelLabel(ch) }}</mat-chip> }</td></ng-container>
       <ng-container matColumnDef="templateId"><th mat-header-cell *matHeaderCellDef>{{ columnTemplate }}</th><td mat-cell *matCellDef="let row"><code>{{ row.templateId || '—' }}</code></td></ng-container>
-      <ng-container matColumnDef="message"><th mat-header-cell *matHeaderCellDef>{{ columnMessage }}</th><td mat-cell *matCellDef="let row" class="message-cell">{{ row.message }}</td></ng-container>
+      <ng-container matColumnDef="message">
+        <th mat-header-cell *matHeaderCellDef>{{ columnMessage }}</th>
+        <td mat-cell *matCellDef="let row" class="message-cell">
+          @if (isMessageExpanded(row.id) || !isMessageTruncated(row.message)) {
+            <span class="message-full">{{ row.message }}</span>
+          } @else {
+            <span class="message-preview">{{ messagePreview(row.message) }}</span><button
+              type="button"
+              class="show-more-btn"
+              (click)="expandMessage(row.id)"
+            >[{{ showMoreLabel }}]</button>
+          }
+        </td>
+      </ng-container>
       <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>{{ columnActive }}</th><td mat-cell *matCellDef="let row"><mat-slide-toggle [checked]="row.active" [disabled]="savingId === row.id" (change)="toggle(row, $event.checked)" /></td></ng-container>
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef></th>
