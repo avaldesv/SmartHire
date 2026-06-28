@@ -2,6 +2,55 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="es-MX" datatype="plaintext" original="ng2.template">
     <body>
+      <trans-unit id="audit.pageTitle" datatype="html">
+        <source>Bitácoras de auditoría</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/audit-labels.ts</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="audit.column.timestamp" datatype="html">
+        <source>Fecha</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/audit-labels.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="audit.column.user" datatype="html">
+        <source>Usuario</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/audit-labels.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="audit.column.action" datatype="html">
+        <source>Acción</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/audit-labels.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="audit.column.entity" datatype="html">
+        <source>Entidad</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/audit-labels.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="audit.column.entityId" datatype="html">
+        <source>ID</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/audit-labels.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="audit.column.details" datatype="html">
+        <source>Detalle</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/audit-labels.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="auth.login.failed" datatype="html">
         <source>No se pudo iniciar sesión. Intente de nuevo.</source>
         <context-group purpose="location">
@@ -465,6 +514,10 @@
           <context context-type="linenumber">23</context>
         </context-group>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
           <context context-type="linenumber">985,987</context>
         </context-group>
@@ -813,6 +866,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/pipeline-stages-labels.ts</context>
           <context context-type="linenumber">26</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">2</context>
         </context-group>
       </trans-unit>
       <trans-unit id="catalogImport.validate" datatype="html">
@@ -4467,6 +4524,258 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/pipeline-stages-labels.ts</context>
           <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documents.pageTitle" datatype="html">
+        <source>Documentos requeridos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documents.field.ine" datatype="html">
+        <source>INE obligatorio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documents.field.curp" datatype="html">
+        <source>CURP obligatorio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documents.field.rfc" datatype="html">
+        <source>RFC obligatorio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documents.field.proofOfAddress" datatype="html">
+        <source>Comprobante de domicilio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documents.field.deadlineDays" datatype="html">
+        <source>Días para entrega</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documents.success.saved" datatype="html">
+        <source>Configuración de documentos guardada</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="prompts.pageTitle" datatype="html">
+        <source>Prompts IA</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="prompts.field.preselection" datatype="html">
+        <source>Prompt de preselección</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="prompts.field.analysis" datatype="html">
+        <source>Prompt de análisis</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="prompts.field.interview" datatype="html">
+        <source>Prompt de entrevista</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="prompts.saveButton" datatype="html">
+        <source>Guardar prompts</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="prompts.success.saved" datatype="html">
+        <source>Prompts IA actualizados</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cvs.pageTitle" datatype="html">
+        <source>Configuración de CVs</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cvs.field.format" datatype="html">
+        <source>Formato aceptado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cvs.field.maxSizeMb" datatype="html">
+        <source>Tamaño máximo (MB)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cvs.field.autoParse" datatype="html">
+        <source>Parseo automático con IA</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cvs.field.requirePhoto" datatype="html">
+        <source>Requerir fotografía</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cvs.success.saved" datatype="html">
+        <source>Configuración de CVs guardada</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviews.pageTitle" datatype="html">
+        <source>Configuración de entrevistas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviews.field.duration" datatype="html">
+        <source>Duración default (min)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviews.field.modality" datatype="html">
+        <source>Modalidad</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviews.field.reminder" datatype="html">
+        <source>Recordatorio (horas antes)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviews.modality.inPerson" datatype="html">
+        <source>Presencial</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviews.modality.virtual" datatype="html">
+        <source>Virtual</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviews.modality.hybrid" datatype="html">
+        <source>Mixta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviews.success.saved" datatype="html">
+        <source>Configuración de entrevistas guardada</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="system.pageTitle" datatype="html">
+        <source>Configuración del sistema</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="system.field.instanceName" datatype="html">
+        <source>Nombre de la instancia</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="system.field.timezone" datatype="html">
+        <source>Zona horaria</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="system.field.defaultLocale" datatype="html">
+        <source>Idioma default</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="system.locale.esMx" datatype="html">
+        <source>Español (México)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="system.field.maintenance" datatype="html">
+        <source>Modo mantenimiento</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="system.field.debugLogs" datatype="html">
+        <source>Logs de depuración</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="system.saveButton" datatype="html">
+        <source>Guardar configuración</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="system.success.saved" datatype="html">
+        <source>Configuración del sistema guardada</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/settings-config-labels.ts</context>
+          <context context-type="linenumber">48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="users.errors.tenantContext" datatype="html">
