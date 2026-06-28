@@ -436,6 +436,15 @@ EN_BY_SOURCE: dict[str, str] = {
     "No se pudo aprobar la cancelación": "Could not approve cancellation",
     "Solicitud de cancelación rechazada": "Cancellation request rejected",
     "No se pudo rechazar la solicitud": "Could not reject request",
+    # Positions list (phase 2)
+    "Gestión de requisiciones y posiciones abiertas": "Open requisition and position management",
+    "Nueva posición": "New position",
+    "Buscar posición": "Search position",
+    "Cliente, puesto, OT, clave…": "Client, position, WO, code…",
+    "No se pudieron cargar las posiciones": "Could not load positions",
+    "Creación": "Created",
+    "Ir a selección": "Go to selection",
+    "Más acciones": "More actions",
 }
 
 

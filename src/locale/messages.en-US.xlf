@@ -1610,6 +1610,50 @@
         <source>¿Eliminar la etapa "</source>
         <target>Delete stage "</target>
       </trans-unit>
+      <trans-unit id="positions.pageTitle" datatype="html">
+        <source>Posiciones</source>
+        <target>Positions</target>
+      </trans-unit>
+      <trans-unit id="positions.pageSubtitle" datatype="html">
+        <source>Gestión de requisiciones y posiciones abiertas</source>
+        <target>Open requisition and position management</target>
+      </trans-unit>
+      <trans-unit id="positions.newButton" datatype="html">
+        <source>Nueva posición</source>
+        <target>New position</target>
+      </trans-unit>
+      <trans-unit id="positions.searchLabel" datatype="html">
+        <source>Buscar posición</source>
+        <target>Search position</target>
+      </trans-unit>
+      <trans-unit id="positions.searchPlaceholder" datatype="html">
+        <source>Cliente, puesto, OT, clave…</source>
+        <target>Client, position, WO, code…</target>
+      </trans-unit>
+      <trans-unit id="positions.errors.load" datatype="html">
+        <source>No se pudieron cargar las posiciones</source>
+        <target>Could not load positions</target>
+      </trans-unit>
+      <trans-unit id="positions.column.clientKey" datatype="html">
+        <source>Clave</source>
+        <target>Code</target>
+      </trans-unit>
+      <trans-unit id="positions.column.status" datatype="html">
+        <source>Estado</source>
+        <target>State</target>
+      </trans-unit>
+      <trans-unit id="positions.column.createdAt" datatype="html">
+        <source>Creación</source>
+        <target>Created</target>
+      </trans-unit>
+      <trans-unit id="positions.action.goSelectionAria" datatype="html">
+        <source>Ir a selección</source>
+        <target>Go to selection</target>
+      </trans-unit>
+      <trans-unit id="positions.action.moreAria" datatype="html">
+        <source>Más acciones</source>
+        <target>More actions</target>
+      </trans-unit>
       <trans-unit id="documents.pageTitle" datatype="html">
         <source>Documentos requeridos</source>
         <target>Required documents</target>

@@ -5112,6 +5112,83 @@
           <context context-type="linenumber">36</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="positions.pageTitle" datatype="html">
+        <source>Posiciones</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="positions.pageSubtitle" datatype="html">
+        <source>Gestión de requisiciones y posiciones abiertas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="positions.newButton" datatype="html">
+        <source>Nueva posición</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="positions.searchLabel" datatype="html">
+        <source>Buscar posición</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="positions.searchPlaceholder" datatype="html">
+        <source>Cliente, puesto, OT, clave…</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="positions.errors.load" datatype="html">
+        <source>No se pudieron cargar las posiciones</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="positions.column.clientKey" datatype="html">
+        <source>Clave</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="positions.column.status" datatype="html">
+        <source>Estado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="positions.column.createdAt" datatype="html">
+        <source>Creación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="positions.action.goSelectionAria" datatype="html">
+        <source>Ir a selección</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="positions.action.moreAria" datatype="html">
+        <source>Más acciones</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="documents.pageTitle" datatype="html">
         <source>Documentos requeridos</source>
         <context-group purpose="location">
