@@ -75,14 +75,23 @@
   small { color: #64748b; }
 }
 
-.menu-language {
-  padding: 4px 16px 8px;
-  width: 220px;
+.menu-language-current {
+  margin-left: auto;
+  padding-left: 12px;
+  color: #64748b;
+  font-size: 13px;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-  mat-form-field {
-    width: 100%;
-    font-size: 13px;
-  }
+.language-submenu {
+  min-width: 200px;
+}
+
+.menu-check-hidden {
+  visibility: hidden;
 }
 
 .main-nav {

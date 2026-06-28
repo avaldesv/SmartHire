@@ -30,20 +30,24 @@
         <small>{{ user()?.email }}</small>
       </div>
       @if (portalLanguages().length > 0) {
-        <div class="menu-language">
-          <mat-form-field appearance="outline" subscriptSizing="dynamic">
-            <mat-label i18n="@@shell.language">Idioma</mat-label>
-            <mat-select
-              [value]="activePortalLanguageId() ?? user()?.portalLanguageId"
+        <button mat-menu-item [matMenuTriggerFor]="languageMenu" [disabled]="languageChanging()">
+          <mat-icon>language</mat-icon>
+          <span i18n="@@shell.language">Idioma</span>
+          <span class="menu-language-current">{{ activeLanguageName() }}</span>
+        </button>
+        <mat-menu #languageMenu="matMenu" class="language-submenu">
+          @for (language of portalLanguages(); track language.id) {
+            <button
+              mat-menu-item
+              type="button"
               [disabled]="languageChanging()"
-              (selectionChange)="onLanguageChange($event.value)"
+              (click)="onLanguageChange(language.id)"
             >
-              @for (language of portalLanguages(); track language.id) {
-                <mat-option [value]="language.id">{{ language.name }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-        </div>
+              <mat-icon [class.menu-check-hidden]="!isActiveLanguage(language.id)">check</mat-icon>
+              <span>{{ language.name }}</span>
+            </button>
+          }
+        </mat-menu>
       }
       <button mat-menu-item (click)="logout()">
         <mat-icon>logout</mat-icon>
