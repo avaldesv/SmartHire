@@ -56,7 +56,20 @@ for (const locale of LOCALES) {
   }
 }
 
-// SPA fallback for static servers that support _redirects (optional)
-const redirects = `/*    /index.html   200\n`;
+// SPA fallback — locale-specific rules MUST come before the catch-all
+const redirects = `/en-US/*    /en-US/index.html   200
+/es-ES/*    /es-ES/index.html   200
+/*          /index.html         200
+`;
 fs.writeFileSync(path.join(ROOT, '_redirects'), redirects, 'utf8');
-console.log('postbuild-i18n: wrote _redirects');
+
+const serveConfig = {
+  public: '.',
+  rewrites: [
+    { source: '/en-US/**', destination: '/en-US/index.html' },
+    { source: '/es-ES/**', destination: '/es-ES/index.html' },
+    { source: '/**', destination: '/index.html' },
+  ],
+};
+fs.writeFileSync(path.join(ROOT, 'serve.json'), `${JSON.stringify(serveConfig, null, 2)}\n`, 'utf8');
+console.log('postbuild-i18n: wrote _redirects and serve.json');
