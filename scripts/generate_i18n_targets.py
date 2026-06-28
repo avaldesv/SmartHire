@@ -456,6 +456,14 @@ EN_BY_SOURCE: dict[str, str] = {
     "Sugiere preguntas de entrevista basadas en el perfil.": (
         "Suggest interview questions based on the profile."
     ),
+    # Positions list (phase 2)
+    "Gestión de requisiciones y posiciones abiertas": "Open requisition and position management",
+    "Nueva posición": "New position",
+    "Buscar posición": "Search position",
+    "Cliente, puesto, OT, clave…": "Client, position, WO, code…",
+    "No se pudieron cargar las posiciones": "Could not load positions",
+    "Creación": "Created",
+    "Más acciones": "More actions",
 }
 
 
