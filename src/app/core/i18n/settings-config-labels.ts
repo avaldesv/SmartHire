@@ -15,6 +15,9 @@ export const PROMPTS_PAGE_TITLE = $localize`:@@prompts.pageTitle:Prompts IA`;
 export const PROMPTS_FIELD_PRESELECTION = $localize`:@@prompts.field.preselection:Prompt de preselección`;
 export const PROMPTS_FIELD_ANALYSIS = $localize`:@@prompts.field.analysis:Prompt de análisis`;
 export const PROMPTS_FIELD_INTERVIEW = $localize`:@@prompts.field.interview:Prompt de entrevista`;
+export const PROMPTS_DEFAULT_PRESELECTION = $localize`:@@prompts.default.preselection:Evalúa candidatos según requisitos obligatorios y deseables de la posición.`;
+export const PROMPTS_DEFAULT_ANALYSIS = $localize`:@@prompts.default.analysis:Genera un análisis comparativo de los candidatos preseleccionados.`;
+export const PROMPTS_DEFAULT_INTERVIEW = $localize`:@@prompts.default.interview:Sugiere preguntas de entrevista basadas en el perfil.`;
 export const PROMPTS_SAVE_BUTTON = $localize`:@@prompts.saveButton:Guardar prompts`;
 export const PROMPTS_SAVE_SUCCESS = $localize`:@@prompts.success.saved:Prompts IA actualizados`;
 

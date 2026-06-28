@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { COMMON_DELETE } from '../../../core/i18n/common-labels';
 import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 
 /** @deprecated Use sh-table-row-actions directly. Kept for catalog admin imports. */
@@ -22,7 +23,7 @@ export class CatalogListActionsComponent {
   @Input() editDisabled = false;
   @Input() showDelete = false;
   @Input() deleteDisabled = false;
-  @Input() deleteLabel = 'Eliminar';
+  @Input() deleteLabel = COMMON_DELETE;
   @Output() editClick = new EventEmitter<void>();
   @Output() deleteClick = new EventEmitter<void>();
 }

@@ -436,6 +436,26 @@ EN_BY_SOURCE: dict[str, str] = {
     "No se pudo aprobar la cancelación": "Could not approve cancellation",
     "Solicitud de cancelación rechazada": "Cancellation request rejected",
     "No se pudo rechazar la solicitud": "Could not reject request",
+    # Common actions & status
+    "Ver": "View",
+    "Editar": "Edit",
+    "Eliminar": "Delete",
+    "Otros": "Others",
+    "Borrador": "Draft",
+    "Cancelación pendiente": "Pending cancellation",
+    # Notifications placeholders & channels
+    "ASIGNACION, CANCELACION, POSTULADO...": "ASSIGNMENT, CANCELLATION, APPLIED...",
+    "WhatsApp / SendGrid template ID": "WhatsApp / SendGrid template ID",
+    # Prompts defaults
+    "Evalúa candidatos según requisitos obligatorios y deseables de la posición.": (
+        "Evaluate candidates against mandatory and desirable position requirements."
+    ),
+    "Genera un análisis comparativo de los candidatos preseleccionados.": (
+        "Generate a comparative analysis of preselected candidates."
+    ),
+    "Sugiere preguntas de entrevista basadas en el perfil.": (
+        "Suggest interview questions based on the profile."
+    ),
     # Positions list (phase 2)
     "Gestión de requisiciones y posiciones abiertas": "Open requisition and position management",
     "Nueva posición": "New position",
@@ -443,8 +463,30 @@ EN_BY_SOURCE: dict[str, str] = {
     "Cliente, puesto, OT, clave…": "Client, position, WO, code…",
     "No se pudieron cargar las posiciones": "Could not load positions",
     "Creación": "Created",
-    "Ir a selección": "Go to selection",
     "Más acciones": "More actions",
+    # Remaining en-US gaps (single words / segments)
+    "Fecha": "Date",
+    "Reclutador": "Recruiter",
+    "Todos": "All",
+    "guardado": "saved",
+    "Creados: ": "Created: ",
+    " · Actualizados: ": " · Updated: ",
+    " · Fallidos: ": " · Failed: ",
+    "Notificación ": "Notification ",
+    " candidato(s) postulado(s) a ": " candidate(s) applied to ",
+    "¿Eliminar \"": "Delete \"",
+    "\"? Esta acción no se puede deshacer.": "\"? This action cannot be undone.",
+    " Catálogo pendiente de implementación. Ver plan ": " Catalog not yet implemented. See plan ",
+    " y issues AVV-380+. ": " and issues AVV-380+. ",
+    " guardado": " saved",
+    "? Esta acción no se puede deshacer.": "? This action cannot be undone.",
+    "? Quedará pendiente de aprobación.": "? It will be pending approval.",
+    "? La requisición será eliminada.": "? The requisition will be deleted.",
+    "? Volverá a borrador.": "? It will return to draft.",
+    "¿Cancelar directamente la requisición ": "Cancel requisition ",
+    "¿Solicitar cancelación de ": "Request cancellation of ",
+    "¿Aprobar cancelación de ": "Approve cancellation of ",
+    "¿Rechazar solicitud de cancelación de ": "Reject cancellation request for ",
 }
 
 
@@ -513,7 +555,24 @@ def translate_en(source: str) -> str:
         return source.replace("¿Eliminar el grupo", "Delete group").replace(
             "Esta acción no se puede deshacer.", "This action cannot be undone."
         )
+    if source.startswith("¿Eliminar la plantilla \""):
+        return source.replace("¿Eliminar la plantilla", "Delete template").replace(
+            "Esta acción no se puede deshacer.", "This action cannot be undone."
+        )
+    if source.startswith("¿Eliminar la etapa \""):
+        return source.replace("¿Eliminar la etapa", "Delete stage")
     return source
+
+
+def clone_source_content(parent: ET.Element, source_el: ET.Element, *, translate: bool) -> None:
+    """Copy source inner content into parent, optionally translating text segments."""
+    fn = translate_en if translate else (lambda value: value)
+    if source_el.text is not None:
+        parent.text = fn(source_el.text)
+    for child in source_el:
+        placeholder = ET.SubElement(parent, "x", dict(child.attrib))
+        if child.tail is not None:
+            placeholder.tail = fn(child.tail)
 
 
 def build(locale: str, target_lang: str) -> None:
@@ -536,11 +595,14 @@ def build(locale: str, target_lang: str) -> None:
 
     for unit in body.findall("x:trans-unit", NS):
         uid = unit.get("id")
-        source = unit.find("x:source", NS).text or ""
+        source_el = unit.find("x:source", NS)
         new_unit = ET.SubElement(out_body, "trans-unit", {"id": uid, "datatype": unit.get("datatype", "html")})
-        ET.SubElement(new_unit, "source").text = source
-        target = source if locale == "es-ES" else translate_en(source)
-        ET.SubElement(new_unit, "target").text = target
+
+        new_source = ET.SubElement(new_unit, "source")
+        clone_source_content(new_source, source_el, translate=False)
+
+        new_target = ET.SubElement(new_unit, "target")
+        clone_source_content(new_target, source_el, translate=locale == "en-US")
 
     ET.indent(out, space="  ")
     path = ROOT / f"src/locale/messages.{locale}.xlf"
