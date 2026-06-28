@@ -104,7 +104,29 @@ import {
   getCategoryById,
   resolveVisibleCategories,
 } from './catalog-admin.registry';
-import { CATALOGS_NO, CATALOGS_SAVE, CATALOGS_SAVING, CATALOGS_YES } from '../../../core/i18n/catalog-i18n-labels';
+import {
+  CATALOG_COLUMN_AI,
+  CATALOG_COLUMN_APPLIES_TO_CAREER,
+  CATALOG_COLUMN_CATEGORY,
+  CATALOG_COLUMN_COMPANY_AREA,
+  CATALOG_COLUMN_CONTACT,
+  CATALOG_COLUMN_CORE_APPIAN,
+  CATALOG_COLUMN_CORE_ATS,
+  CATALOG_COLUMN_DENOMINATION,
+  CATALOG_COLUMN_LEGAL_NAME,
+  CATALOG_COLUMN_POSTAL_CODE,
+  CATALOG_COLUMN_QUESTION,
+  CATALOG_COLUMN_REQUIRES_CAREER,
+  CATALOG_COLUMN_SYMBOL,
+  CATALOG_COLUMN_TAX_ID,
+  CATALOG_COLUMN_TRADE_NAME,
+  CATALOG_COLUMN_TYPE,
+  CATALOGS_NO,
+  CATALOGS_SAVE,
+  CATALOGS_SAVING,
+  CATALOGS_YES,
+} from '../../../core/i18n/catalog-i18n-labels';
+import { catalogPanelUi } from '../../../core/i18n/catalog-panel-ui-labels';
 
 @Component({
   selector: 'sh-catalogs-admin',
@@ -141,6 +163,23 @@ export class CatalogsAdminComponent implements OnInit {
   readonly catalogsNo = CATALOGS_NO;
   readonly catalogsSaving = CATALOGS_SAVING;
   readonly catalogsSave = CATALOGS_SAVE;
+  readonly panelUi = catalogPanelUi;
+  readonly colTradeName = CATALOG_COLUMN_TRADE_NAME;
+  readonly colTaxId = CATALOG_COLUMN_TAX_ID;
+  readonly colSymbol = CATALOG_COLUMN_SYMBOL;
+  readonly colDenomination = CATALOG_COLUMN_DENOMINATION;
+  readonly colType = CATALOG_COLUMN_TYPE;
+  readonly colAi = CATALOG_COLUMN_AI;
+  readonly colRequiresCareer = CATALOG_COLUMN_REQUIRES_CAREER;
+  readonly colAppliesToCareer = CATALOG_COLUMN_APPLIES_TO_CAREER;
+  readonly colCategory = CATALOG_COLUMN_CATEGORY;
+  readonly colQuestion = CATALOG_COLUMN_QUESTION;
+  readonly colCoreAts = CATALOG_COLUMN_CORE_ATS;
+  readonly colCoreAppian = CATALOG_COLUMN_CORE_APPIAN;
+  readonly colPostalCode = CATALOG_COLUMN_POSTAL_CODE;
+  readonly colLegalName = CATALOG_COLUMN_LEGAL_NAME;
+  readonly colCompanyArea = CATALOG_COLUMN_COMPANY_AREA;
+  readonly colContact = CATALOG_COLUMN_CONTACT;
 
   readonly categories = CATALOG_CATEGORIES;
   readonly visibleCategories = computed(() => resolveVisibleCategories(this.isGlobalAdmin()));

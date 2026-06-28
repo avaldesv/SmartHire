@@ -41,13 +41,13 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateGender()">
-          <mat-icon>add</mat-icon> Nuevo género
+          <mat-icon>add</mat-icon> {{ panelUi('gender').newButton }}
         </button>
       </div>
 
       @if (showGenderForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingGenderId ? 'Editar género' : 'Nuevo género' }}</h4>
+          <h4>{{ editingGenderId ? panelUi('gender').editTitle : panelUi('gender').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingGenderId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -150,12 +150,12 @@
     <div class="tab-content">
       <div class="toolbar">
         <button mat-flat-button color="primary" type="button" (click)="openCreateKinship()">
-          <mat-icon>add</mat-icon> Nuevo parentesco
+          <mat-icon>add</mat-icon> {{ panelUi('kinship').newButton }}
         </button>
       </div>
       @if (showKinshipForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingKinshipId ? 'Editar parentesco' : 'Nuevo parentesco' }}</h4>
+          <h4>{{ editingKinshipId ? panelUi('kinship').editTitle : panelUi('kinship').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingKinshipId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -220,12 +220,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateCompany()">
-          <mat-icon>add</mat-icon> Nueva empresa
+          <mat-icon>add</mat-icon> {{ panelUi('company').newButton }}
         </button>
       </div>
       @if (showCompanyForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingCompanyId ? 'Editar empresa' : 'Nueva empresa' }}</h4>
+          <h4>{{ editingCompanyId ? panelUi('company').editTitle : panelUi('company').newTitle }}</h4>
           @if (loadingCompanyDetail) {
             <div class="loading-wrap"><mat-spinner diameter="28" /></div>
           } @else {
@@ -278,9 +278,9 @@
           <table mat-table [dataSource]="companies">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.code">Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.name">Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
-            <ng-container matColumnDef="tradeName"><th mat-header-cell *matHeaderCellDef>Nombre comercial</th><td mat-cell *matCellDef="let row">{{ row.tradeName }}</td></ng-container>
-            <ng-container matColumnDef="taxId"><th mat-header-cell *matHeaderCellDef>RFC</th><td mat-cell *matCellDef="let row">{{ row.taxId }}</td></ng-container>
-            <ng-container matColumnDef="country"><th mat-header-cell *matHeaderCellDef>País</th><td mat-cell *matCellDef="let row">{{ countryName(row.countryId) }}</td></ng-container>
+            <ng-container matColumnDef="tradeName"><th mat-header-cell *matHeaderCellDef>{{ colTradeName }}</th><td mat-cell *matCellDef="let row">{{ row.tradeName }}</td></ng-container>
+            <ng-container matColumnDef="taxId"><th mat-header-cell *matHeaderCellDef>{{ colTaxId }}</th><td mat-cell *matCellDef="let row">{{ row.taxId }}</td></ng-container>
+            <ng-container matColumnDef="country"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.country">País</th><td mat-cell *matCellDef="let row">{{ countryName(row.countryId) }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.active">Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? catalogsYes : catalogsNo }}</td></ng-container>
             <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><sh-catalog-list-actions [showDelete]="true" (editClick)="openEditCompany(row)" (deleteClick)="deleteCompany(row)" [deleteDisabled]="deletingCatalogId === row.id" /></td></ng-container>
             <tr mat-header-row *matHeaderRowDef="companyColumns"></tr>
@@ -304,12 +304,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateCurrency()">
-          <mat-icon>add</mat-icon> Nueva moneda
+          <mat-icon>add</mat-icon> {{ panelUi('currency').newButton }}
         </button>
       </div>
       @if (showCurrencyForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingCurrencyId ? 'Editar moneda' : 'Nueva moneda' }}</h4>
+          <h4>{{ editingCurrencyId ? panelUi('currency').editTitle : panelUi('currency').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingCurrencyId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -356,8 +356,8 @@
           <table mat-table [dataSource]="currencies">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.code">Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.name">Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
-            <ng-container matColumnDef="symbol"><th mat-header-cell *matHeaderCellDef>Símbolo</th><td mat-cell *matCellDef="let row">{{ row.symbol || '—' }}</td></ng-container>
-            <ng-container matColumnDef="denomination"><th mat-header-cell *matHeaderCellDef>Denominación</th><td mat-cell *matCellDef="let row">{{ row.denomination || '—' }}</td></ng-container>
+            <ng-container matColumnDef="symbol"><th mat-header-cell *matHeaderCellDef>{{ colSymbol }}</th><td mat-cell *matCellDef="let row">{{ row.symbol || '—' }}</td></ng-container>
+            <ng-container matColumnDef="denomination"><th mat-header-cell *matHeaderCellDef>{{ colDenomination }}</th><td mat-cell *matCellDef="let row">{{ row.denomination || '—' }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.active">Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? catalogsYes : catalogsNo }}</td></ng-container>
                         <ng-container matColumnDef="scope">
               <th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.scope">Ámbito</th>
@@ -387,12 +387,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateCareer()">
-          <mat-icon>add</mat-icon> Nueva carrera
+          <mat-icon>add</mat-icon> {{ panelUi('career').newButton }}
         </button>
       </div>
       @if (showCareerForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingCareerId ? 'Editar carrera' : 'Nueva carrera' }}</h4>
+          <h4>{{ editingCareerId ? panelUi('career').editTitle : panelUi('career').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingCareerId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -458,12 +458,12 @@
     <div class="tab-content">
       <div class="toolbar">
         <button mat-flat-button color="primary" type="button" (click)="openCreateLanguage()">
-          <mat-icon>add</mat-icon> Nuevo idioma
+          <mat-icon>add</mat-icon> {{ panelUi('language').newButton }}
         </button>
       </div>
       @if (showLanguageForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingLanguageId ? 'Editar idioma' : 'Nuevo idioma' }}</h4>
+          <h4>{{ editingLanguageId ? panelUi('language').editTitle : panelUi('language').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingLanguageId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -537,12 +537,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateShift()">
-          <mat-icon>add</mat-icon> Nuevo turno
+          <mat-icon>add</mat-icon> {{ panelUi('shift').newButton }}
         </button>
       </div>
       @if (showShiftForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingShiftId ? 'Editar turno' : 'Nuevo turno' }}</h4>
+          <h4>{{ editingShiftId ? panelUi('shift').editTitle : panelUi('shift').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingShiftId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -616,12 +616,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateBenefit()">
-          <mat-icon>add</mat-icon> Nueva prestación
+          <mat-icon>add</mat-icon> {{ panelUi('benefit').newButton }}
         </button>
       </div>
       @if (showBenefitForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingBenefitId ? 'Editar prestación' : 'Nueva prestación' }}</h4>
+          <h4>{{ editingBenefitId ? panelUi('benefit').editTitle : panelUi('benefit').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingBenefitId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -695,12 +695,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateDocumentType()">
-          <mat-icon>add</mat-icon> Nuevo tipo
+          <mat-icon>add</mat-icon> {{ panelUi('documentType').newButton }}
         </button>
       </div>
       @if (showDocumentTypeForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingDocumentTypeId ? 'Editar tipo de documento' : 'Nuevo tipo de documento' }}</h4>
+          <h4>{{ editingDocumentTypeId ? panelUi('documentType').editTitle : panelUi('documentType').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingDocumentTypeId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -747,8 +747,8 @@
           <table mat-table [dataSource]="documentTypes">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.code">Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.name">Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
-            <ng-container matColumnDef="documentType"><th mat-header-cell *matHeaderCellDef>Tipo</th><td mat-cell *matCellDef="let row">{{ row.documentType || '—' }}</td></ng-container>
-            <ng-container matColumnDef="validatesWithAi"><th mat-header-cell *matHeaderCellDef>IA</th><td mat-cell *matCellDef="let row">{{ row.validatesWithAi ? catalogsYes : catalogsNo }}</td></ng-container>
+            <ng-container matColumnDef="documentType"><th mat-header-cell *matHeaderCellDef>{{ colType }}</th><td mat-cell *matCellDef="let row">{{ row.documentType || '—' }}</td></ng-container>
+            <ng-container matColumnDef="validatesWithAi"><th mat-header-cell *matHeaderCellDef>{{ colAi }}</th><td mat-cell *matCellDef="let row">{{ row.validatesWithAi ? catalogsYes : catalogsNo }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.active">Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? catalogsYes : catalogsNo }}</td></ng-container>
                         <ng-container matColumnDef="scope">
               <th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.scope">Ámbito</th>
@@ -778,12 +778,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateBrand()">
-          <mat-icon>add</mat-icon> Nueva marca
+          <mat-icon>add</mat-icon> {{ panelUi('brand').newButton }}
         </button>
       </div>
       @if (showBrandForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingBrandId ? 'Editar marca' : 'Nueva marca' }}</h4>
+          <h4>{{ editingBrandId ? panelUi('brand').editTitle : panelUi('brand').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingBrandId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -857,12 +857,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateContractType()">
-          <mat-icon>add</mat-icon> Nuevo tipo de contrato
+          <mat-icon>add</mat-icon> {{ panelUi('documentType').newButton }} de contrato
         </button>
       </div>
       @if (showContractTypeForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingContractTypeId ? 'Editar tipo de contrato' : 'Nuevo tipo de contrato' }}</h4>
+          <h4>{{ editingContractTypeId ? panelUi('contractType').editTitle : panelUi('contractType').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingContractTypeId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -939,16 +939,16 @@
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateCoverageType()">
           <mat-icon>add</mat-icon>
-          <span i18n="@@catalogs.coverageType.newButton">Nuevo tipo de cobertura</span>
+          {{ panelUi('coverageType').newButton }}
         </button>
       </div>
       @if (showCoverageTypeForm) {
         <div class="sh-card form-card">
           <h4>
             @if (editingCoverageTypeId) {
-              <span i18n="@@catalogs.coverageType.editTitle">Editar tipo de cobertura</span>
+              {{ panelUi('coverageType').editTitle }}
             } @else {
-              <span i18n="@@catalogs.coverageType.newTitle">Nuevo tipo de cobertura</span>
+              {{ panelUi('coverageType').newTitle }}
             }
           </h4>
             @if (isGlobalAdmin() && !editingCoverageTypeId) {
@@ -1032,12 +1032,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateEducationLevel()">
-          <mat-icon>add</mat-icon> Nuevo nivel de educación
+          <mat-icon>add</mat-icon> {{ panelUi('educationLevel').newButton }}
         </button>
       </div>
       @if (showEducationLevelForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingEducationLevelId ? 'Editar nivel de educación' : 'Nuevo nivel de educación' }}</h4>
+          <h4>{{ editingEducationLevelId ? panelUi('educationLevel').editTitle : panelUi('educationLevel').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingEducationLevelId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1085,7 +1085,7 @@
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.code">Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.name">Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
             <ng-container matColumnDef="description"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.description">Descripción</th><td mat-cell *matCellDef="let row">{{ row.description || '—' }}</td></ng-container>
-            <ng-container matColumnDef="requiresCareer"><th mat-header-cell *matHeaderCellDef>Requiere carrera</th><td mat-cell *matCellDef="let row">{{ row.requiresCareer ? catalogsYes : catalogsNo }}</td></ng-container>
+            <ng-container matColumnDef="requiresCareer"><th mat-header-cell *matHeaderCellDef>{{ colRequiresCareer }}</th><td mat-cell *matCellDef="let row">{{ row.requiresCareer ? catalogsYes : catalogsNo }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.active">Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? catalogsYes : catalogsNo }}</td></ng-container>
                         <ng-container matColumnDef="scope">
               <th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.scope">Ámbito</th>
@@ -1115,12 +1115,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateLanguageLevel()">
-          <mat-icon>add</mat-icon> Nuevo nivel de idioma
+          <mat-icon>add</mat-icon> {{ panelUi('languageLevel').newButton }}
         </button>
       </div>
       @if (showLanguageLevelForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingLanguageLevelId ? 'Editar nivel de idioma' : 'Nuevo nivel de idioma' }}</h4>
+          <h4>{{ editingLanguageLevelId ? panelUi('languageLevel').editTitle : panelUi('languageLevel').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingLanguageLevelId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1166,7 +1166,7 @@
           <table mat-table [dataSource]="languageLevels">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.code">Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.name">Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
-            <ng-container matColumnDef="appliesToCareer"><th mat-header-cell *matHeaderCellDef>Aplica a carrera</th><td mat-cell *matCellDef="let row">{{ row.appliesToCareer ? catalogsYes : catalogsNo }}</td></ng-container>
+            <ng-container matColumnDef="appliesToCareer"><th mat-header-cell *matHeaderCellDef>{{ colAppliesToCareer }}</th><td mat-cell *matCellDef="let row">{{ row.appliesToCareer ? catalogsYes : catalogsNo }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.active">Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? catalogsYes : catalogsNo }}</td></ng-container>
                         <ng-container matColumnDef="scope">
               <th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.scope">Ámbito</th>
@@ -1196,12 +1196,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateRequisitionType()">
-          <mat-icon>add</mat-icon> Nuevo tipo de requisición
+          <mat-icon>add</mat-icon> {{ panelUi('documentType').newButton }} de requisición
         </button>
       </div>
       @if (showRequisitionTypeForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingRequisitionTypeId ? 'Editar tipo de requisición' : 'Nuevo tipo de requisición' }}</h4>
+          <h4>{{ editingRequisitionTypeId ? panelUi('requisitionType').editTitle : panelUi('requisitionType').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingRequisitionTypeId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1278,12 +1278,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateCompanyArea()" [disabled]="selectedCatalogCompanyId == null">
-          <mat-icon>add</mat-icon> Nuevo áreas
+          <mat-icon>add</mat-icon> {{ panelUi('companyArea').newButton }}
         </button>
       </div>
       @if (showCompanyAreaForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingCompanyAreaId ? 'Editar áreas' : 'Nuevo áreas' }}</h4>
+          <h4>{{ editingCompanyAreaId ? panelUi('companyArea').editTitle : panelUi('companyArea').newTitle }}</h4>
           @if (isGlobalAdmin() && !editingCompanyAreaId) {
             <div class="scope-selector" [formGroup]="createScopeForm">
               <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1358,12 +1358,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateCompanyDepartment()" [disabled]="selectedCatalogCompanyId == null">
-          <mat-icon>add</mat-icon> Nuevo departamentos
+          <mat-icon>add</mat-icon> {{ panelUi('companyDepartment').newButton }}
         </button>
       </div>
       @if (showCompanyDepartmentForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingCompanyDepartmentId ? 'Editar departamentos' : 'Nuevo departamentos' }}</h4>
+          <h4>{{ editingCompanyDepartmentId ? panelUi('companyDepartment').editTitle : panelUi('companyDepartment').newTitle }}</h4>
           @if (isGlobalAdmin() && !editingCompanyDepartmentId) {
             <div class="scope-selector" [formGroup]="createScopeForm">
               <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1438,12 +1438,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateBranch()" [disabled]="selectedCountryId == null">
-          <mat-icon>add</mat-icon> Nueva sucursales
+          <mat-icon>add</mat-icon> {{ panelUi('branch').newButton }}
         </button>
       </div>
       @if (showBranchForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingBranchId ? 'Editar sucursales' : 'Nueva sucursales' }}</h4>
+          <h4>{{ editingBranchId ? panelUi('branch').editTitle : panelUi('branch').newTitle }}</h4>
           @if (isGlobalAdmin() && !editingBranchId) {
             <div class="scope-selector" [formGroup]="createScopeForm">
               <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1529,12 +1529,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateQuestionnaireCategory()" [disabled]="selectedCountryId == null">
-          <mat-icon>add</mat-icon> Nueva categoría
+          <mat-icon>add</mat-icon> {{ panelUi('questionnaireCategory').newButton }}
         </button>
       </div>
       @if (showQuestionnaireCategoryForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingQuestionnaireCategoryId ? 'Editar categoría' : 'Nueva categoría' }}</h4>
+          <h4>{{ editingQuestionnaireCategoryId ? panelUi('questionnaireCategory').editTitle : panelUi('questionnaireCategory').newTitle }}</h4>
           <form [formGroup]="questionnaireCategoryForm" class="gender-form" (ngSubmit)="saveQuestionnaireCategory()">
             <mat-form-field appearance="outline">
               <mat-label i18n="@@catalogs.field.country">País</mat-label>
@@ -1595,12 +1595,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateQuestionnaireQuestion()" [disabled]="selectedCountryId == null">
-          <mat-icon>add</mat-icon> Nueva pregunta
+          <mat-icon>add</mat-icon> {{ panelUi('questionnaireQuestion').newButton }}
         </button>
       </div>
       @if (showQuestionnaireQuestionForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingQuestionnaireQuestionId ? 'Editar pregunta' : 'Nueva pregunta' }}</h4>
+          <h4>{{ editingQuestionnaireQuestionId ? panelUi('questionnaireQuestion').editTitle : panelUi('questionnaireQuestion').newTitle }}</h4>
           <form [formGroup]="questionnaireQuestionForm" class="gender-form" (ngSubmit)="saveQuestionnaireQuestion()">
             <mat-form-field appearance="outline">
               <mat-label>Categoría</mat-label>
@@ -1633,9 +1633,9 @@
             />
           </div>
           <table mat-table [dataSource]="questionnaireQuestions">
-            <ng-container matColumnDef="category"><th mat-header-cell *matHeaderCellDef>Categoría</th><td mat-cell *matCellDef="let row">{{ row.categoryName || row.categoryId }}</td></ng-container>
-            <ng-container matColumnDef="questionType"><th mat-header-cell *matHeaderCellDef>Tipo</th><td mat-cell *matCellDef="let row">{{ row.questionType }}</td></ng-container>
-            <ng-container matColumnDef="questionText"><th mat-header-cell *matHeaderCellDef>Pregunta</th><td mat-cell *matCellDef="let row">{{ row.questionText }}</td></ng-container>
+            <ng-container matColumnDef="category"><th mat-header-cell *matHeaderCellDef>{{ colCategory }}</th><td mat-cell *matCellDef="let row">{{ row.categoryName || row.categoryId }}</td></ng-container>
+            <ng-container matColumnDef="questionType"><th mat-header-cell *matHeaderCellDef>{{ colType }}</th><td mat-cell *matCellDef="let row">{{ row.questionType }}</td></ng-container>
+            <ng-container matColumnDef="questionText"><th mat-header-cell *matHeaderCellDef>{{ colQuestion }}</th><td mat-cell *matCellDef="let row">{{ row.questionText }}</td></ng-container>
             <ng-container matColumnDef="description"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.description">Descripción</th><td mat-cell *matCellDef="let row">{{ row.description }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.active">Activo</th><td mat-cell *matCellDef="let row">{{ row.active ? catalogsYes : catalogsNo }}</td></ng-container>
             <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><sh-catalog-list-actions [showDelete]="true" (editClick)="openEditQuestionnaireQuestion(row)" (deleteClick)="deleteQuestionnaireQuestion(row)" [deleteDisabled]="deletingCatalogId === row.id" /></td></ng-container>
@@ -1661,12 +1661,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateRecruiterGroup()" [disabled]="selectedCountryId == null">
-          <mat-icon>add</mat-icon> Nuevo grupo
+          <mat-icon>add</mat-icon> {{ panelUi('recruiterGroup').newButton }}
         </button>
       </div>
       @if (showRecruiterGroupForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingRecruiterGroupId ? 'Editar grupo' : 'Nuevo grupo' }}</h4>
+          <h4>{{ editingRecruiterGroupId ? panelUi('recruiterGroup').editTitle : panelUi('recruiterGroup').newTitle }}</h4>
           @if (isGlobalAdmin() && !editingRecruiterGroupId) {
             <div class="scope-selector" [formGroup]="createScopeForm">
               <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1713,9 +1713,9 @@
           <table mat-table [dataSource]="recruiterGroups">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.code">Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="description"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.description">Descripción</th><td mat-cell *matCellDef="let row">{{ row.description }}</td></ng-container>
-            <ng-container matColumnDef="legacyManpowerId"><th mat-header-cell *matHeaderCellDef>Id MP</th><td mat-cell *matCellDef="let row">{{ row.legacyManpowerId }}</td></ng-container>
-            <ng-container matColumnDef="coreAts"><th mat-header-cell *matHeaderCellDef>Core ATS</th><td mat-cell *matCellDef="let row">{{ row.coreAts }}</td></ng-container>
-            <ng-container matColumnDef="coreAppian"><th mat-header-cell *matHeaderCellDef>Core Appian</th><td mat-cell *matCellDef="let row">{{ row.coreAppian }}</td></ng-container>
+            <ng-container matColumnDef="legacyManpowerId"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.manpowerIdShort">Id MP</th><td mat-cell *matCellDef="let row">{{ row.legacyManpowerId }}</td></ng-container>
+            <ng-container matColumnDef="coreAts"><th mat-header-cell *matHeaderCellDef>{{ colCoreAts }}</th><td mat-cell *matCellDef="let row">{{ row.coreAts }}</td></ng-container>
+            <ng-container matColumnDef="coreAppian"><th mat-header-cell *matHeaderCellDef>{{ colCoreAppian }}</th><td mat-cell *matCellDef="let row">{{ row.coreAppian }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.active">Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? catalogsYes : catalogsNo }}</td></ng-container>
             <ng-container matColumnDef="scope">
               <th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.scope">Ámbito</th>
@@ -1743,12 +1743,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateJobPortal()" [disabled]="selectedCountryId == null">
-          <mat-icon>add</mat-icon> Nuevo portal
+          <mat-icon>add</mat-icon> {{ panelUi('jobPortal').newButton }}
         </button>
       </div>
       @if (showJobPortalForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingJobPortalId ? 'Editar portal' : 'Nuevo portal' }}</h4>
+          <h4>{{ editingJobPortalId ? panelUi('jobPortal').editTitle : panelUi('jobPortal').newTitle }}</h4>
           @if (isGlobalAdmin() && !editingJobPortalId) {
             <div class="scope-selector" [formGroup]="createScopeForm">
               <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1813,16 +1813,16 @@
       <div class="toolbar">
         <button mat-flat-button color="primary" type="button" (click)="openCreateCountry()">
           <mat-icon>add</mat-icon>
-          <span i18n="@@catalogs.country.newButton">Nuevo país</span>
+          {{ panelUi('country').newButton }}
         </button>
       </div>
       @if (showCountryForm) {
         <div class="sh-card form-card">
           <h4>
             @if (editingCountryId) {
-              <span i18n="@@catalogs.country.editTitle">Editar país</span>
+              {{ panelUi('country').editTitle }}
             } @else {
-              <span i18n="@@catalogs.country.newTitle">Nuevo país</span>
+              {{ panelUi('country').newTitle }}
             }
           </h4>
             @if (isGlobalAdmin() && !editingCountryId) {
@@ -1913,12 +1913,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateState()">
-          <mat-icon>add</mat-icon> Nueva entidad
+          <mat-icon>add</mat-icon> {{ panelUi('state').newButton }}
         </button>
       </div>
       @if (showStateForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingStateId ? 'Editar entidad' : 'Nueva entidad federativa' }}</h4>
+          <h4>{{ editingStateId ? panelUi('state').editTitle : panelUi('state').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingStateId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1993,12 +1993,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateMunicipality()">
-          <mat-icon>add</mat-icon> Nuevo municipio
+          <mat-icon>add</mat-icon> {{ panelUi('municipality').newButton }}
         </button>
       </div>
       @if (showMunicipalityForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingMunicipalityId ? 'Editar municipio' : 'Nuevo municipio' }}</h4>
+          <h4>{{ editingMunicipalityId ? panelUi('municipality').editTitle : panelUi('municipality').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingMunicipalityId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2079,12 +2079,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateNeighborhood()">
-          <mat-icon>add</mat-icon> Nueva colonia
+          <mat-icon>add</mat-icon> {{ panelUi('neighborhood').newButton }}
         </button>
       </div>
       @if (showNeighborhoodForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingNeighborhoodId ? 'Editar colonia' : 'Nueva colonia' }}</h4>
+          <h4>{{ editingNeighborhoodId ? panelUi('neighborhood').editTitle : panelUi('neighborhood').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingNeighborhoodId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2119,7 +2119,7 @@
           </div>
           <table mat-table [dataSource]="neighborhoods">
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.name">Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
-            <ng-container matColumnDef="postalCode"><th mat-header-cell *matHeaderCellDef>CP</th><td mat-cell *matCellDef="let row">{{ row.postalCode }}</td></ng-container>
+            <ng-container matColumnDef="postalCode"><th mat-header-cell *matHeaderCellDef>{{ colPostalCode }}</th><td mat-cell *matCellDef="let row">{{ row.postalCode }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.active">Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? catalogsYes : catalogsNo }}</td></ng-container>
                         <ng-container matColumnDef="scope">
               <th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.scope">Ámbito</th>
@@ -2150,12 +2150,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateCoverageCategory()">
-          <mat-icon>add</mat-icon> Nuevo c categoría cubrimiento
+          <mat-icon>add</mat-icon> {{ panelUi('coverageCategory').newButton }}
         </button>
       </div>
       @if (showCoverageCategoryForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingCoverageCategoryId ? 'Editar c categoría cubrimiento' : 'Nuevo c categoría cubrimiento' }}</h4>
+          <h4>{{ editingCoverageCategoryId ? panelUi('coverageCategory').editTitle : panelUi('coverageCategory').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingCoverageCategoryId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2230,12 +2230,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateCharacteristic()">
-          <mat-icon>add</mat-icon> Nuevo características
+          <mat-icon>add</mat-icon> {{ panelUi('characteristic').newButton }}
         </button>
       </div>
       @if (showCharacteristicForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingCharacteristicId ? 'Editar características' : 'Nuevo características' }}</h4>
+          <h4>{{ editingCharacteristicId ? panelUi('characteristic').editTitle : panelUi('characteristic').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingCharacteristicId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2310,12 +2310,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateCategory()">
-          <mat-icon>add</mat-icon> Nuevo categoría
+          <mat-icon>add</mat-icon> {{ panelUi('category').newButton }}
         </button>
       </div>
       @if (showCategoryForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingCategoryId ? 'Editar categoría' : 'Nuevo categoría' }}</h4>
+          <h4>{{ editingCategoryId ? panelUi('category').editTitle : panelUi('category').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingCategoryId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2389,12 +2389,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateMaritalStatus()">
-          <mat-icon>add</mat-icon> Nuevo estado civil
+          <mat-icon>add</mat-icon> {{ panelUi('maritalStatus').newButton }}
         </button>
       </div>
       @if (showMaritalStatusForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingMaritalStatusId ? 'Editar estado civil' : 'Nuevo estado civil' }}</h4>
+          <h4>{{ editingMaritalStatusId ? panelUi('maritalStatus').editTitle : panelUi('maritalStatus').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingMaritalStatusId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2469,12 +2469,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateExperienceLevel()">
-          <mat-icon>add</mat-icon> Nuevo experiencia
+          <mat-icon>add</mat-icon> {{ panelUi('experienceLevel').newButton }}
         </button>
       </div>
       @if (showExperienceLevelForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingExperienceLevelId ? 'Editar experiencia' : 'Nuevo experiencia' }}</h4>
+          <h4>{{ editingExperienceLevelId ? panelUi('experienceLevel').editTitle : panelUi('experienceLevel').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingExperienceLevelId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2549,12 +2549,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateTool()">
-          <mat-icon>add</mat-icon> Nuevo herramienta
+          <mat-icon>add</mat-icon> {{ panelUi('tool').newButton }}
         </button>
       </div>
       @if (showToolForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingToolId ? 'Editar herramienta' : 'Nuevo herramienta' }}</h4>
+          <h4>{{ editingToolId ? panelUi('tool').editTitle : panelUi('tool').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingToolId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2629,12 +2629,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateWorkSchedule()">
-          <mat-icon>add</mat-icon> Nuevo horario trabajo
+          <mat-icon>add</mat-icon> {{ panelUi('workSchedule').newButton }}
         </button>
       </div>
       @if (showWorkScheduleForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingWorkScheduleId ? 'Editar horario trabajo' : 'Nuevo horario trabajo' }}</h4>
+          <h4>{{ editingWorkScheduleId ? panelUi('workSchedule').editTitle : panelUi('workSchedule').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingWorkScheduleId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2709,12 +2709,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateWorkplace()">
-          <mat-icon>add</mat-icon> Nuevo lugar trabajo
+          <mat-icon>add</mat-icon> {{ panelUi('workplace').newButton }}
         </button>
       </div>
       @if (showWorkplaceForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingWorkplaceId ? 'Editar lugar trabajo' : 'Nuevo lugar trabajo' }}</h4>
+          <h4>{{ editingWorkplaceId ? panelUi('workplace').editTitle : panelUi('workplace').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingWorkplaceId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2789,12 +2789,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateRequirement()">
-          <mat-icon>add</mat-icon> Nuevo requisitos
+          <mat-icon>add</mat-icon> {{ panelUi('requirement').newButton }}
         </button>
       </div>
       @if (showRequirementForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingRequirementId ? 'Editar requisitos' : 'Nuevo requisitos' }}</h4>
+          <h4>{{ editingRequirementId ? panelUi('requirement').editTitle : panelUi('requirement').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingRequirementId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2869,12 +2869,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateResponsibilityLevel()">
-          <mat-icon>add</mat-icon> Nuevo responsabilidad
+          <mat-icon>add</mat-icon> {{ panelUi('responsibilityLevel').newButton }}
         </button>
       </div>
       @if (showResponsibilityLevelForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingResponsibilityLevelId ? 'Editar responsabilidad' : 'Nuevo responsabilidad' }}</h4>
+          <h4>{{ editingResponsibilityLevelId ? panelUi('responsibilityLevel').editTitle : panelUi('responsibilityLevel').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingResponsibilityLevelId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2949,12 +2949,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateDisabilityType()">
-          <mat-icon>add</mat-icon> Nuevo tipo discapacidad
+          <mat-icon>add</mat-icon> {{ panelUi('documentType').newButton }} discapacidad
         </button>
       </div>
       @if (showDisabilityTypeForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingDisabilityTypeId ? 'Editar tipo discapacidad' : 'Nuevo tipo discapacidad' }}</h4>
+          <h4>{{ editingDisabilityTypeId ? panelUi('disabilityType').editTitle : panelUi('disabilityType').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingDisabilityTypeId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -3029,12 +3029,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreateBusinessUnit()">
-          <mat-icon>add</mat-icon> Nuevo unidad de negocio
+          <mat-icon>add</mat-icon> {{ panelUi('businessUnit').newButton }}
         </button>
       </div>
       @if (showBusinessUnitForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingBusinessUnitId ? 'Editar unidad de negocio' : 'Nuevo unidad de negocio' }}</h4>
+          <h4>{{ editingBusinessUnitId ? panelUi('businessUnit').editTitle : panelUi('businessUnit').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingBusinessUnitId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -3109,12 +3109,12 @@
           </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" type="button" (click)="openCreatePositionType()">
-          <mat-icon>add</mat-icon> Nuevo puesto
+          <mat-icon>add</mat-icon> {{ panelUi('positionType').newButton }}
         </button>
       </div>
       @if (showPositionTypeForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingPositionTypeId ? 'Editar puesto' : 'Nuevo puesto' }}</h4>
+          <h4>{{ editingPositionTypeId ? panelUi('positionType').editTitle : panelUi('positionType').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingPositionTypeId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -3181,12 +3181,12 @@
     <div class="tab-content">
       <div class="toolbar">
         <button mat-flat-button color="primary" type="button" (click)="openCreateClient()">
-          <mat-icon>add</mat-icon> Nuevo cliente
+          <mat-icon>add</mat-icon> {{ panelUi('client').newButton }}
         </button>
       </div>
       @if (showClientForm) {
         <div class="sh-card form-card">
-          <h4>{{ editingClientId ? 'Editar cliente' : 'Nuevo cliente' }}</h4>
+          <h4>{{ editingClientId ? panelUi('client').editTitle : panelUi('client').newTitle }}</h4>
             @if (isGlobalAdmin() && !editingClientId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -3235,10 +3235,10 @@
           </div>
           <table mat-table [dataSource]="clients">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.code">Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
-            <ng-container matColumnDef="tradeName"><th mat-header-cell *matHeaderCellDef>Nombre comercial</th><td mat-cell *matCellDef="let row">{{ row.tradeName }}</td></ng-container>
-            <ng-container matColumnDef="legalName"><th mat-header-cell *matHeaderCellDef>Razón social</th><td mat-cell *matCellDef="let row">{{ row.legalName }}</td></ng-container>
-            <ng-container matColumnDef="companyArea"><th mat-header-cell *matHeaderCellDef>Empresa / área</th><td mat-cell *matCellDef="let row">{{ row.companyArea }}</td></ng-container>
-            <ng-container matColumnDef="contactName"><th mat-header-cell *matHeaderCellDef>Contacto</th><td mat-cell *matCellDef="let row">{{ row.contactName }}</td></ng-container>
+            <ng-container matColumnDef="tradeName"><th mat-header-cell *matHeaderCellDef>{{ colTradeName }}</th><td mat-cell *matCellDef="let row">{{ row.tradeName }}</td></ng-container>
+            <ng-container matColumnDef="legalName"><th mat-header-cell *matHeaderCellDef>{{ colLegalName }}</th><td mat-cell *matCellDef="let row">{{ row.legalName }}</td></ng-container>
+            <ng-container matColumnDef="companyArea"><th mat-header-cell *matHeaderCellDef>{{ colCompanyArea }}</th><td mat-cell *matCellDef="let row">{{ row.companyArea }}</td></ng-container>
+            <ng-container matColumnDef="contactName"><th mat-header-cell *matHeaderCellDef>{{ colContact }}</th><td mat-cell *matCellDef="let row">{{ row.contactName }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.active">Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? catalogsYes : catalogsNo }}</td></ng-container>
             <ng-container matColumnDef="scope">
               <th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.scope">Ámbito</th>

@@ -444,6 +444,958 @@
           <context context-type="linenumber">115,116</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="catalogs.column.tradeName" datatype="html">
+        <source>Nombre comercial</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.column.taxId" datatype="html">
+        <source>RFC</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
+          <context context-type="linenumber">74</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.column.symbol" datatype="html">
+        <source>Símbolo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
+          <context context-type="linenumber">75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.column.denomination" datatype="html">
+        <source>Denominación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
+          <context context-type="linenumber">76</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.column.type" datatype="html">
+        <source>Tipo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
+          <context context-type="linenumber">77</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.column.ai" datatype="html">
+        <source>IA</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
+          <context context-type="linenumber">78</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.column.requiresCareer" datatype="html">
+        <source>Requiere carrera</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
+          <context context-type="linenumber">79</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.column.appliesToCareer" datatype="html">
+        <source>Aplica a carrera</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
+          <context context-type="linenumber">80</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.column.category" datatype="html">
+        <source>Categoría</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.column.question" datatype="html">
+        <source>Pregunta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
+          <context context-type="linenumber">82</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.column.coreAts" datatype="html">
+        <source>Core ATS</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
+          <context context-type="linenumber">83</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.column.coreAppian" datatype="html">
+        <source>Core Appian</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
+          <context context-type="linenumber">84</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.column.postalCode" datatype="html">
+        <source>CP</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
+          <context context-type="linenumber">85</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.column.legalName" datatype="html">
+        <source>Razón social</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
+          <context context-type="linenumber">86</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.column.companyArea" datatype="html">
+        <source>Empresa / área</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
+          <context context-type="linenumber">87</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.column.contact" datatype="html">
+        <source>Contacto</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
+          <context context-type="linenumber">88</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.gender.newButton" datatype="html">
+        <source>Nuevo género</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.gender.editTitle" datatype="html">
+        <source>Editar género</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.gender.newTitle" datatype="html">
+        <source>Nuevo género</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.kinship.newButton" datatype="html">
+        <source>Nuevo parentesco</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.kinship.editTitle" datatype="html">
+        <source>Editar parentesco</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.kinship.newTitle" datatype="html">
+        <source>Nuevo parentesco</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.company.newButton" datatype="html">
+        <source>Nueva empresa</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.company.editTitle" datatype="html">
+        <source>Editar empresa</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.company.newTitle" datatype="html">
+        <source>Nueva empresa</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.currency.newButton" datatype="html">
+        <source>Nueva moneda</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.currency.editTitle" datatype="html">
+        <source>Editar moneda</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.currency.newTitle" datatype="html">
+        <source>Nueva moneda</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.career.newButton" datatype="html">
+        <source>Nueva carrera</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.career.editTitle" datatype="html">
+        <source>Editar carrera</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.career.newTitle" datatype="html">
+        <source>Nueva carrera</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.language.newButton" datatype="html">
+        <source>Nuevo idioma</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.language.editTitle" datatype="html">
+        <source>Editar idioma</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.language.newTitle" datatype="html">
+        <source>Nuevo idioma</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.shift.newButton" datatype="html">
+        <source>Nuevo turno</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.shift.editTitle" datatype="html">
+        <source>Editar turno</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.shift.newTitle" datatype="html">
+        <source>Nuevo turno</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.benefit.newButton" datatype="html">
+        <source>Nueva prestación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.benefit.editTitle" datatype="html">
+        <source>Editar prestación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.benefit.newTitle" datatype="html">
+        <source>Nueva prestación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.documentType.newButton" datatype="html">
+        <source>Nuevo tipo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.documentType.editTitle" datatype="html">
+        <source>Editar tipo de documento</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.documentType.newTitle" datatype="html">
+        <source>Nuevo tipo de documento</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.brand.newButton" datatype="html">
+        <source>Nueva marca</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.brand.editTitle" datatype="html">
+        <source>Editar marca</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.brand.newTitle" datatype="html">
+        <source>Nueva marca</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.contractType.newButton" datatype="html">
+        <source>Nuevo tipo de contrato</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.contractType.editTitle" datatype="html">
+        <source>Editar tipo de contrato</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.contractType.newTitle" datatype="html">
+        <source>Nuevo tipo de contrato</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.coverageType.newButton" datatype="html">
+        <source>Nuevo tipo de cobertura</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.coverageType.editTitle" datatype="html">
+        <source>Editar tipo de cobertura</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.coverageType.newTitle" datatype="html">
+        <source>Nuevo tipo de cobertura</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.educationLevel.newButton" datatype="html">
+        <source>Nuevo nivel de educación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">69</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.educationLevel.editTitle" datatype="html">
+        <source>Editar nivel de educación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">70</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.educationLevel.newTitle" datatype="html">
+        <source>Nuevo nivel de educación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.languageLevel.newButton" datatype="html">
+        <source>Nuevo nivel de idioma</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">74</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.languageLevel.editTitle" datatype="html">
+        <source>Editar nivel de idioma</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.languageLevel.newTitle" datatype="html">
+        <source>Nuevo nivel de idioma</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">76</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.requisitionType.newButton" datatype="html">
+        <source>Nuevo tipo de requisición</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">79</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.requisitionType.editTitle" datatype="html">
+        <source>Editar tipo de requisición</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">80</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.requisitionType.newTitle" datatype="html">
+        <source>Nuevo tipo de requisición</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.companyArea.newButton" datatype="html">
+        <source>Nuevo áreas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">84</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.companyArea.editTitle" datatype="html">
+        <source>Editar áreas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">85</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.companyArea.newTitle" datatype="html">
+        <source>Nuevo áreas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">86</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.companyDepartment.newButton" datatype="html">
+        <source>Nuevo departamentos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">89</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.companyDepartment.editTitle" datatype="html">
+        <source>Editar departamentos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">90</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.companyDepartment.newTitle" datatype="html">
+        <source>Nuevo departamentos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">91</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.branch.newButton" datatype="html">
+        <source>Nueva sucursales</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">94</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.branch.editTitle" datatype="html">
+        <source>Editar sucursales</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">95</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.branch.newTitle" datatype="html">
+        <source>Nueva sucursales</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.questionnaireCategory.newButton" datatype="html">
+        <source>Nueva categoría</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">99</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.questionnaireCategory.editTitle" datatype="html">
+        <source>Editar categoría</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">100</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.questionnaireCategory.newTitle" datatype="html">
+        <source>Nueva categoría</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">101</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.questionnaireQuestion.newButton" datatype="html">
+        <source>Nueva pregunta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">104</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.questionnaireQuestion.editTitle" datatype="html">
+        <source>Editar pregunta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">105</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.questionnaireQuestion.newTitle" datatype="html">
+        <source>Nueva pregunta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">106</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.newButton" datatype="html">
+        <source>Nuevo grupo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">109</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.editTitle" datatype="html">
+        <source>Editar grupo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">110</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.newTitle" datatype="html">
+        <source>Nuevo grupo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">111</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.jobPortal.newButton" datatype="html">
+        <source>Nuevo portal</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">114</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.jobPortal.editTitle" datatype="html">
+        <source>Editar portal</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">115</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.jobPortal.newTitle" datatype="html">
+        <source>Nuevo portal</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">116</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.country.newButton" datatype="html">
+        <source>Nuevo país</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">119</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.country.editTitle" datatype="html">
+        <source>Editar país</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">120</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.country.newTitle" datatype="html">
+        <source>Nuevo país</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">121</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.state.newButton" datatype="html">
+        <source>Nueva entidad</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">124</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.state.editTitle" datatype="html">
+        <source>Editar entidad</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">125</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.state.newTitle" datatype="html">
+        <source>Nueva entidad federativa</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">126</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.municipality.newButton" datatype="html">
+        <source>Nuevo municipio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">129</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.municipality.editTitle" datatype="html">
+        <source>Editar municipio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">130</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.municipality.newTitle" datatype="html">
+        <source>Nuevo municipio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">131</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.neighborhood.newButton" datatype="html">
+        <source>Nueva colonia</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">134</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.neighborhood.editTitle" datatype="html">
+        <source>Editar colonia</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">135</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.neighborhood.newTitle" datatype="html">
+        <source>Nueva colonia</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">136</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.coverageCategory.newButton" datatype="html">
+        <source>Nuevo c categoría cubrimiento</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">139</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.coverageCategory.editTitle" datatype="html">
+        <source>Editar c categoría cubrimiento</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">140</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.coverageCategory.newTitle" datatype="html">
+        <source>Nuevo c categoría cubrimiento</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">141</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.characteristic.newButton" datatype="html">
+        <source>Nuevo características</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">144</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.characteristic.editTitle" datatype="html">
+        <source>Editar características</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">145</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.characteristic.newTitle" datatype="html">
+        <source>Nuevo características</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">146</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.category.newButton" datatype="html">
+        <source>Nuevo categoría</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">149</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.category.editTitle" datatype="html">
+        <source>Editar categoría</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">150</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.category.newTitle" datatype="html">
+        <source>Nuevo categoría</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">151</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.maritalStatus.newButton" datatype="html">
+        <source>Nuevo estado civil</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">154</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.maritalStatus.editTitle" datatype="html">
+        <source>Editar estado civil</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">155</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.maritalStatus.newTitle" datatype="html">
+        <source>Nuevo estado civil</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">156</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.experienceLevel.newButton" datatype="html">
+        <source>Nuevo experiencia</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">159</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.experienceLevel.editTitle" datatype="html">
+        <source>Editar experiencia</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">160</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.experienceLevel.newTitle" datatype="html">
+        <source>Nuevo experiencia</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">161</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.tool.newButton" datatype="html">
+        <source>Nuevo herramienta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">164</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.tool.editTitle" datatype="html">
+        <source>Editar herramienta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">165</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.tool.newTitle" datatype="html">
+        <source>Nuevo herramienta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">166</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.workSchedule.newButton" datatype="html">
+        <source>Nuevo horario trabajo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">169</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.workSchedule.editTitle" datatype="html">
+        <source>Editar horario trabajo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">170</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.workSchedule.newTitle" datatype="html">
+        <source>Nuevo horario trabajo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">171</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.workplace.newButton" datatype="html">
+        <source>Nuevo lugar trabajo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">174</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.workplace.editTitle" datatype="html">
+        <source>Editar lugar trabajo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">175</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.workplace.newTitle" datatype="html">
+        <source>Nuevo lugar trabajo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">176</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.requirement.newButton" datatype="html">
+        <source>Nuevo requisitos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">179</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.requirement.editTitle" datatype="html">
+        <source>Editar requisitos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">180</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.requirement.newTitle" datatype="html">
+        <source>Nuevo requisitos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">181</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.responsibilityLevel.newButton" datatype="html">
+        <source>Nuevo responsabilidad</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">184</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.responsibilityLevel.editTitle" datatype="html">
+        <source>Editar responsabilidad</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">185</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.responsibilityLevel.newTitle" datatype="html">
+        <source>Nuevo responsabilidad</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">186</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.disabilityType.newButton" datatype="html">
+        <source>Nuevo tipo discapacidad</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.disabilityType.editTitle" datatype="html">
+        <source>Editar tipo discapacidad</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">190</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.disabilityType.newTitle" datatype="html">
+        <source>Nuevo tipo discapacidad</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">191</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.businessUnit.newButton" datatype="html">
+        <source>Nuevo unidad de negocio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">194</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.businessUnit.editTitle" datatype="html">
+        <source>Editar unidad de negocio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">195</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.businessUnit.newTitle" datatype="html">
+        <source>Nuevo unidad de negocio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">196</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.positionType.newButton" datatype="html">
+        <source>Nuevo puesto</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">199</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.positionType.editTitle" datatype="html">
+        <source>Editar puesto</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">200</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.positionType.newTitle" datatype="html">
+        <source>Nuevo puesto</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">201</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.client.newButton" datatype="html">
+        <source>Nuevo cliente</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">204</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.client.editTitle" datatype="html">
+        <source>Editar cliente</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">205</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.client.newTitle" datatype="html">
+        <source>Nuevo cliente</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-panel-ui-labels.ts</context>
+          <context context-type="linenumber">206</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="nav.main.home" datatype="html">
         <source>Inicio</source>
         <context-group purpose="location">
@@ -1067,6 +2019,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
           <context context-type="linenumber">239,240</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
+          <context context-type="linenumber">283</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
@@ -3168,46 +4124,15 @@
           <context context-type="linenumber">3163</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="catalogs.coverageType.newButton" datatype="html">
-        <source>Nuevo tipo de cobertura</source>
+      <trans-unit id="catalogs.field.manpowerIdShort" datatype="html">
+        <source>Id MP</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">942,945</context>
+          <context context-type="linenumber">1716</context>
         </context-group>
-      </trans-unit>
-      <trans-unit id="catalogs.coverageType.editTitle" datatype="html">
-        <source>Editar tipo de cobertura</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">949,951</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="catalogs.coverageType.newTitle" datatype="html">
-        <source>Nuevo tipo de cobertura</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">951,954</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="catalogs.country.newButton" datatype="html">
-        <source>Nuevo país</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">1816,1818</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="catalogs.country.editTitle" datatype="html">
-        <source>Editar país</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">1823,1825</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="catalogs.country.newTitle" datatype="html">
-        <source>Nuevo país</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">1825,1827</context>
+          <context context-type="linenumber">1885</context>
         </context-group>
       </trans-unit>
       <trans-unit id="catalogs.field.primaryCode" datatype="html">
@@ -3258,13 +4183,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
           <context context-type="linenumber">1854</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="catalogs.field.manpowerIdShort" datatype="html">
-        <source>Id MP</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
-          <context context-type="linenumber">1885</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nav.settings.title" datatype="html">
