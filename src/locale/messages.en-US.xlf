@@ -490,6 +490,50 @@
         <source>Creados: </source>
         <target>Creados: </target>
       </trans-unit>
+      <trans-unit id="catalogs.errors.loadStatesSelector" datatype="html">
+        <source>No se pudieron cargar entidades para el selector</source>
+        <target>Could not load states for selector</target>
+      </trans-unit>
+      <trans-unit id="catalogs.errors.loadMunicipalitiesSelector" datatype="html">
+        <source>No se pudieron cargar municipios para el selector</source>
+        <target>Could not load municipalities for selector</target>
+      </trans-unit>
+      <trans-unit id="catalogs.errors.loadFormCategories" datatype="html">
+        <source>No se pudieron cargar categorías para el formulario</source>
+        <target>Could not load categories for form</target>
+      </trans-unit>
+      <trans-unit id="catalogs.errors.loadPortalLanguages" datatype="html">
+        <source>No se pudieron cargar los idiomas del portal</source>
+        <target>Could not load portal languages</target>
+      </trans-unit>
+      <trans-unit id="catalogs.errors.loadSingleCompany" datatype="html">
+        <source>No se pudo cargar la compañía</source>
+        <target>Could not load company</target>
+      </trans-unit>
+      <trans-unit id="catalogs.success.deleted" datatype="html">
+        <source>Registro eliminado</source>
+        <target>Record deleted</target>
+      </trans-unit>
+      <trans-unit id="catalogs.errors.delete" datatype="html">
+        <source>No se pudo eliminar el registro</source>
+        <target>Could not delete record</target>
+      </trans-unit>
+      <trans-unit id="catalogs.errors.loadList" datatype="html">
+        <source>No se pudieron cargar </source>
+        <target>Could not load </target>
+      </trans-unit>
+      <trans-unit id="catalogs.success.saved" datatype="html">
+        <source />
+        <target />
+      </trans-unit>
+      <trans-unit id="catalogs.errors.save" datatype="html">
+        <source>No se pudo guardar </source>
+        <target>Could not save </target>
+      </trans-unit>
+      <trans-unit id="catalogs.confirm.delete" datatype="html">
+        <source>¿Eliminar "</source>
+        <target>¿Eliminar "</target>
+      </trans-unit>
       <trans-unit id="catalogs.gender.newButton" datatype="html">
         <source>Nuevo género</source>
         <target>New gender</target>
