@@ -13,6 +13,30 @@ const DEFAULT_LOCALE = 'es-MX';
 const SUPPORTED = new Set(['es-MX', 'es-ES', 'en-US']);
 const PORT = Number(process.env.PORT || 8080);
 const LOCALE_COOKIE = 'sh_portal_locale';
+const LOCALE_PREFIXES = ['es-ES', 'en-US'];
+
+function stripLocalePrefixFromPath(reqPath) {
+  for (const prefix of LOCALE_PREFIXES) {
+    const legacyRoot = `/${prefix}`;
+    if (reqPath.startsWith(`${legacyRoot}/`)) {
+      return reqPath.slice(legacyRoot.length) || '/';
+    }
+    if (reqPath === legacyRoot) {
+      return '/';
+    }
+  }
+  return reqPath;
+}
+
+function detectLocaleFromPath(reqPath) {
+  for (const prefix of LOCALE_PREFIXES) {
+    const legacyRoot = `/${prefix}`;
+    if (reqPath === legacyRoot || reqPath.startsWith(`${legacyRoot}/`)) {
+      return prefix;
+    }
+  }
+  return null;
+}
 
 function readLocaleFromCookie(cookieHeader) {
   if (!cookieHeader) {
@@ -78,9 +102,11 @@ const server = http.createServer((req, res) => {
     reqPath = '/index.html';
   }
 
-  const locale = resolveRequestLocale(req, reqPath);
+  const pathLocale = detectLocaleFromPath(reqPath);
+  const assetPath = stripLocalePrefixFromPath(reqPath);
+  const locale = pathLocale || resolveRequestLocale(req, assetPath);
   const localeDir = resolveLocaleDir(locale);
-  const relative = reqPath.replace(/^\//, '');
+  const relative = assetPath.replace(/^\//, '');
   const candidate = path.join(localeDir, relative);
 
   if (fs.existsSync(candidate) && fs.statSync(candidate).isFile()) {

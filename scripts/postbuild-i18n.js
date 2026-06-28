@@ -11,6 +11,20 @@ const ROOT = path.join(__dirname, '..', 'dist', 'smarthire-recruiter-portal', 'b
 const DEFAULT_LOCALE = 'es-MX';
 const LOCALES = ['es-MX', 'es-ES', 'en-US'];
 
+function fixBaseHref(indexPath, locale) {
+  if (!fs.existsSync(indexPath)) {
+    return;
+  }
+  const html = fs.readFileSync(indexPath, 'utf8');
+  const legacyBase = `/${locale}/`;
+  const fixed = html
+    .replace(new RegExp(`<base href="${legacyBase.replace('/', '\\/')}">`, 'g'), '<base href="/">')
+    .replace(new RegExp(`<base href='${legacyBase.replace('/', '\\/')}'>`, 'g'), "<base href='/'>");
+  if (fixed !== html) {
+    fs.writeFileSync(indexPath, fixed, 'utf8');
+  }
+}
+
 function copyDir(src, dest) {
   fs.mkdirSync(dest, { recursive: true });
   for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
@@ -44,15 +58,11 @@ for (const locale of LOCALES) {
   }
   if (locale === DEFAULT_LOCALE) {
     copyDir(localeDir, ROOT);
-    const rootIndex = path.join(ROOT, 'index.html');
-    if (fs.existsSync(rootIndex)) {
-      const html = fs.readFileSync(rootIndex, 'utf8');
-      const fixed = html
-        .replace(/<base href="\/es-MX\/">/, '<base href="/">')
-        .replace(/<base href='\/es-MX\/'>/, "<base href='/'>");
-      fs.writeFileSync(rootIndex, fixed, 'utf8');
-    }
+    fixBaseHref(path.join(ROOT, 'index.html'), DEFAULT_LOCALE);
     console.log(`postbuild-i18n: copied ${DEFAULT_LOCALE} to browser root (base href -> /)`);
+  } else {
+    fixBaseHref(path.join(localeDir, 'index.html'), locale);
+    console.log(`postbuild-i18n: fixed base href for ${locale} -> /`);
   }
 }
 
