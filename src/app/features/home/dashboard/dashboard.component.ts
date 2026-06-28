@@ -84,6 +84,7 @@ import {
   dashboardRejectCancellationConfirm,
   dashboardRequestCancellationConfirm,
 } from '../../../core/i18n/dashboard-labels';
+import { getRequisitionStatusLabel } from '../../../core/i18n/common-labels';
 import { KpiCardComponent } from '../../../shared/components/kpi-card/kpi-card.component';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
@@ -217,7 +218,10 @@ export class DashboardComponent implements OnInit {
   });
 
   statusLabel(status: string): string {
-    return status === 'Todos' ? this.filterAll : status;
+    if (status === 'Todos') {
+      return this.filterAll;
+    }
+    return getRequisitionStatusLabel(status);
   }
 
   ngOnInit(): void {

@@ -35,17 +35,20 @@ import {
   NOTIFICATIONS_NEW_BUTTON,
   NOTIFICATIONS_NEW_TITLE,
   NOTIFICATIONS_PAGE_TITLE,
+  NOTIFICATIONS_PLACEHOLDER_ACTION,
+  NOTIFICATIONS_PLACEHOLDER_TEMPLATE_ID,
   NOTIFICATIONS_SAVE,
   NOTIFICATIONS_SAVE_ERROR,
   NOTIFICATIONS_SAVE_SUCCESS,
   NOTIFICATIONS_SAVING,
   NOTIFICATIONS_SNACK_CLOSE,
   NOTIFICATIONS_UPDATE_ERROR,
+  NOTIFICATION_CHANNEL_OPTIONS,
+  NOTIFICATIONS_CHANNEL_EMAIL_VALUE,
+  notificationChannelLabel,
   notificationsDeleteConfirm,
   notificationsToggleMessage,
 } from '../../../core/i18n/notifications-labels';
-
-const CHANNEL_OPTIONS = ['Correo', 'WhatsApp'] as const;
 
 @Component({
   selector: 'sh-notifications-admin',
@@ -82,7 +85,8 @@ export class NotificationsAdminComponent implements OnInit {
   editingId: number | null = null;
   data: NotificationTemplateItem[] = [];
   readonly columns = ['action', 'channels', 'templateId', 'message', 'active', 'actions'];
-  readonly channelOptions = [...CHANNEL_OPTIONS];
+  readonly channelOptions = NOTIFICATION_CHANNEL_OPTIONS;
+  readonly channelLabel = notificationChannelLabel;
 
   readonly pageTitle = NOTIFICATIONS_PAGE_TITLE;
   readonly newButton = NOTIFICATIONS_NEW_BUTTON;
@@ -101,6 +105,8 @@ export class NotificationsAdminComponent implements OnInit {
   readonly cancelLabel = NOTIFICATIONS_CANCEL;
   readonly savingLabel = NOTIFICATIONS_SAVING;
   readonly saveLabel = NOTIFICATIONS_SAVE;
+  readonly placeholderAction = NOTIFICATIONS_PLACEHOLDER_ACTION;
+  readonly placeholderTemplateId = NOTIFICATIONS_PLACEHOLDER_TEMPLATE_ID;
 
   readonly templateForm = this.fb.nonNullable.group({
     action: ['', Validators.required],
@@ -133,7 +139,7 @@ export class NotificationsAdminComponent implements OnInit {
     this.showForm = true;
     this.templateForm.reset({
       action: '',
-      channels: ['Correo'],
+      channels: [NOTIFICATIONS_CHANNEL_EMAIL_VALUE],
       templateId: '',
       message: '',
       isActive: true,

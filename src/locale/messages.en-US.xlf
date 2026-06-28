@@ -1014,6 +1014,30 @@
         <source>Nuevo cliente</source>
         <target>New client</target>
       </trans-unit>
+      <trans-unit id="common.view" datatype="html">
+        <source>Ver</source>
+        <target>View</target>
+      </trans-unit>
+      <trans-unit id="common.edit" datatype="html">
+        <source>Editar</source>
+        <target>Edit</target>
+      </trans-unit>
+      <trans-unit id="common.delete" datatype="html">
+        <source>Eliminar</source>
+        <target>Delete</target>
+      </trans-unit>
+      <trans-unit id="common.others" datatype="html">
+        <source>Otros</source>
+        <target>Others</target>
+      </trans-unit>
+      <trans-unit id="status.draft" datatype="html">
+        <source>Borrador</source>
+        <target>Draft</target>
+      </trans-unit>
+      <trans-unit id="status.pendingCancellation" datatype="html">
+        <source>Cancelación pendiente</source>
+        <target>Pending cancellation</target>
+      </trans-unit>
       <trans-unit id="dashboard.welcome" datatype="html">
         <source>Bienvenido,</source>
         <target>Welcome,</target>
@@ -1160,7 +1184,7 @@
       </trans-unit>
       <trans-unit id="dashboard.action.edit" datatype="html">
         <source>Editar</source>
-        <target>Editar</target>
+        <target>Edit</target>
       </trans-unit>
       <trans-unit id="dashboard.action.goSelection" datatype="html">
         <source>Ir a selección</source>
@@ -1466,6 +1490,22 @@
         <source>Activa</source>
         <target>Active</target>
       </trans-unit>
+      <trans-unit id="notifications.placeholder.action" datatype="html">
+        <source>ASIGNACION, CANCELACION, POSTULADO...</source>
+        <target>ASSIGNMENT, CANCELLATION, APPLIED...</target>
+      </trans-unit>
+      <trans-unit id="notifications.placeholder.templateId" datatype="html">
+        <source>WhatsApp / SendGrid template ID</source>
+        <target>WhatsApp / SendGrid template ID</target>
+      </trans-unit>
+      <trans-unit id="notifications.channel.email" datatype="html">
+        <source>Correo</source>
+        <target>Email</target>
+      </trans-unit>
+      <trans-unit id="notifications.channel.whatsapp" datatype="html">
+        <source>WhatsApp</source>
+        <target>WhatsApp</target>
+      </trans-unit>
       <trans-unit id="notifications.column.action" datatype="html">
         <source>Acción</source>
         <target>Action</target>
@@ -1653,6 +1693,18 @@
       <trans-unit id="prompts.field.interview" datatype="html">
         <source>Prompt de entrevista</source>
         <target>Interview prompt</target>
+      </trans-unit>
+      <trans-unit id="prompts.default.preselection" datatype="html">
+        <source>Evalúa candidatos según requisitos obligatorios y deseables de la posición.</source>
+        <target>Evaluate candidates against mandatory and desirable position requirements.</target>
+      </trans-unit>
+      <trans-unit id="prompts.default.analysis" datatype="html">
+        <source>Genera un análisis comparativo de los candidatos preseleccionados.</source>
+        <target>Generate a comparative analysis of preselected candidates.</target>
+      </trans-unit>
+      <trans-unit id="prompts.default.interview" datatype="html">
+        <source>Sugiere preguntas de entrevista basadas en el perfil.</source>
+        <target>Suggest interview questions based on the profile.</target>
       </trans-unit>
       <trans-unit id="prompts.saveButton" datatype="html">
         <source>Guardar prompts</source>

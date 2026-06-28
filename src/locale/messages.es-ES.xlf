@@ -1014,6 +1014,30 @@
         <source>Nuevo cliente</source>
         <target>Nuevo cliente</target>
       </trans-unit>
+      <trans-unit id="common.view" datatype="html">
+        <source>Ver</source>
+        <target>Ver</target>
+      </trans-unit>
+      <trans-unit id="common.edit" datatype="html">
+        <source>Editar</source>
+        <target>Editar</target>
+      </trans-unit>
+      <trans-unit id="common.delete" datatype="html">
+        <source>Eliminar</source>
+        <target>Eliminar</target>
+      </trans-unit>
+      <trans-unit id="common.others" datatype="html">
+        <source>Otros</source>
+        <target>Otros</target>
+      </trans-unit>
+      <trans-unit id="status.draft" datatype="html">
+        <source>Borrador</source>
+        <target>Borrador</target>
+      </trans-unit>
+      <trans-unit id="status.pendingCancellation" datatype="html">
+        <source>Cancelación pendiente</source>
+        <target>Cancelación pendiente</target>
+      </trans-unit>
       <trans-unit id="dashboard.welcome" datatype="html">
         <source>Bienvenido,</source>
         <target>Bienvenido,</target>
@@ -1466,6 +1490,22 @@
         <source>Activa</source>
         <target>Activa</target>
       </trans-unit>
+      <trans-unit id="notifications.placeholder.action" datatype="html">
+        <source>ASIGNACION, CANCELACION, POSTULADO...</source>
+        <target>ASIGNACION, CANCELACION, POSTULADO...</target>
+      </trans-unit>
+      <trans-unit id="notifications.placeholder.templateId" datatype="html">
+        <source>WhatsApp / SendGrid template ID</source>
+        <target>WhatsApp / SendGrid template ID</target>
+      </trans-unit>
+      <trans-unit id="notifications.channel.email" datatype="html">
+        <source>Correo</source>
+        <target>Correo</target>
+      </trans-unit>
+      <trans-unit id="notifications.channel.whatsapp" datatype="html">
+        <source>WhatsApp</source>
+        <target>WhatsApp</target>
+      </trans-unit>
       <trans-unit id="notifications.column.action" datatype="html">
         <source>Acción</source>
         <target>Acción</target>
@@ -1653,6 +1693,18 @@
       <trans-unit id="prompts.field.interview" datatype="html">
         <source>Prompt de entrevista</source>
         <target>Prompt de entrevista</target>
+      </trans-unit>
+      <trans-unit id="prompts.default.preselection" datatype="html">
+        <source>Evalúa candidatos según requisitos obligatorios y deseables de la posición.</source>
+        <target>Evalúa candidatos según requisitos obligatorios y deseables de la posición.</target>
+      </trans-unit>
+      <trans-unit id="prompts.default.analysis" datatype="html">
+        <source>Genera un análisis comparativo de los candidatos preseleccionados.</source>
+        <target>Genera un análisis comparativo de los candidatos preseleccionados.</target>
+      </trans-unit>
+      <trans-unit id="prompts.default.interview" datatype="html">
+        <source>Sugiere preguntas de entrevista basadas en el perfil.</source>
+        <target>Sugiere preguntas de entrevista basadas en el perfil.</target>
       </trans-unit>
       <trans-unit id="prompts.saveButton" datatype="html">
         <source>Guardar prompts</source>

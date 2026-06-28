@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { COMMON_DELETE, COMMON_EDIT, COMMON_VIEW } from '../../../core/i18n/common-labels';
 
 @Component({
   selector: 'sh-table-row-actions',
@@ -14,7 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
           <a
             mat-icon-button
             [routerLink]="viewRouterLink"
-            aria-label="Ver"
+            [attr.aria-label]="viewLabel"
             [class.disabled-link]="viewDisabled"
             [attr.aria-disabled]="viewDisabled"
             (click)="viewDisabled ? $event.preventDefault() : null"
@@ -25,7 +26,7 @@ import { MatIconModule } from '@angular/material/icon';
           <button
             mat-icon-button
             type="button"
-            aria-label="Ver"
+            [attr.aria-label]="viewLabel"
             [disabled]="viewDisabled"
             (click)="viewClick.emit()"
           >
@@ -39,7 +40,7 @@ import { MatIconModule } from '@angular/material/icon';
           <a
             mat-icon-button
             [routerLink]="editRouterLink"
-            aria-label="Editar"
+            [attr.aria-label]="editLabel"
             [class.disabled-link]="editDisabled"
             [attr.aria-disabled]="editDisabled"
             (click)="editDisabled ? $event.preventDefault() : null"
@@ -50,7 +51,7 @@ import { MatIconModule } from '@angular/material/icon';
           <button
             mat-icon-button
             type="button"
-            aria-label="Editar"
+            [attr.aria-label]="editLabel"
             [disabled]="editDisabled"
             (click)="editClick.emit()"
           >
@@ -114,7 +115,9 @@ export class TableRowActionsComponent {
   @Input() viewDisabled = false;
   @Input() editDisabled = false;
   @Input() deleteDisabled = false;
-  @Input() deleteLabel = 'Eliminar';
+  readonly viewLabel = COMMON_VIEW;
+  readonly editLabel = COMMON_EDIT;
+  @Input() deleteLabel = COMMON_DELETE;
   @Input() viewRouterLink: unknown[] | string | null = null;
   @Input() editRouterLink: unknown[] | string | null = null;
   @Output() viewClick = new EventEmitter<void>();

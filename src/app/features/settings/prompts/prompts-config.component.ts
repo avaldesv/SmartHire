@@ -5,6 +5,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import {
+  PROMPTS_DEFAULT_ANALYSIS,
+  PROMPTS_DEFAULT_INTERVIEW,
+  PROMPTS_DEFAULT_PRESELECTION,
   PROMPTS_FIELD_ANALYSIS,
   PROMPTS_FIELD_INTERVIEW,
   PROMPTS_FIELD_PRESELECTION,
@@ -43,9 +46,9 @@ export class PromptsConfigComponent {
   readonly saveLabel = PROMPTS_SAVE_BUTTON;
 
   readonly form = this.fb.nonNullable.group({
-    preselection: ['Evalúa candidatos según requisitos obligatorios y deseables de la posición.'],
-    analysis: ['Genera un análisis comparativo de los candidatos preseleccionados.'],
-    interview: ['Sugiere preguntas de entrevista basadas en el perfil.'],
+    preselection: [PROMPTS_DEFAULT_PRESELECTION],
+    analysis: [PROMPTS_DEFAULT_ANALYSIS],
+    interview: [PROMPTS_DEFAULT_INTERVIEW],
   });
 
   save(): void {

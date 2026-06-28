@@ -7,6 +7,28 @@ export const NOTIFICATIONS_FIELD_CHANNELS = $localize`:@@notifications.field.cha
 export const NOTIFICATIONS_FIELD_EXTERNAL_TEMPLATE_ID = $localize`:@@notifications.field.externalTemplateId:ID plantilla externa`;
 export const NOTIFICATIONS_FIELD_MESSAGE = $localize`:@@notifications.field.message:Mensaje`;
 export const NOTIFICATIONS_FIELD_ACTIVE = $localize`:@@notifications.field.active:Activa`;
+export const NOTIFICATIONS_PLACEHOLDER_ACTION = $localize`:@@notifications.placeholder.action:ASIGNACION, CANCELACION, POSTULADO...`;
+export const NOTIFICATIONS_PLACEHOLDER_TEMPLATE_ID = $localize`:@@notifications.placeholder.templateId:WhatsApp / SendGrid template ID`;
+export const NOTIFICATIONS_CHANNEL_EMAIL = $localize`:@@notifications.channel.email:Correo`;
+export const NOTIFICATIONS_CHANNEL_WHATSAPP = $localize`:@@notifications.channel.whatsapp:WhatsApp`;
+export const NOTIFICATIONS_CHANNEL_EMAIL_VALUE = 'Correo';
+export const NOTIFICATIONS_CHANNEL_WHATSAPP_VALUE = 'WhatsApp';
+
+export const NOTIFICATION_CHANNEL_OPTIONS = [
+  { value: NOTIFICATIONS_CHANNEL_EMAIL_VALUE, label: NOTIFICATIONS_CHANNEL_EMAIL },
+  { value: NOTIFICATIONS_CHANNEL_WHATSAPP_VALUE, label: NOTIFICATIONS_CHANNEL_WHATSAPP },
+] as const;
+
+export function notificationChannelLabel(value: string): string {
+  if (value === NOTIFICATIONS_CHANNEL_EMAIL_VALUE) {
+    return NOTIFICATIONS_CHANNEL_EMAIL;
+  }
+  if (value === NOTIFICATIONS_CHANNEL_WHATSAPP_VALUE) {
+    return NOTIFICATIONS_CHANNEL_WHATSAPP;
+  }
+  return value;
+}
+
 export const NOTIFICATIONS_COLUMN_ACTION = $localize`:@@notifications.column.action:Acción`;
 export const NOTIFICATIONS_COLUMN_CHANNELS = $localize`:@@notifications.column.channels:Canales`;
 export const NOTIFICATIONS_COLUMN_TEMPLATE = $localize`:@@notifications.column.template:Plantilla`;

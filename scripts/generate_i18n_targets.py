@@ -436,6 +436,26 @@ EN_BY_SOURCE: dict[str, str] = {
     "No se pudo aprobar la cancelación": "Could not approve cancellation",
     "Solicitud de cancelación rechazada": "Cancellation request rejected",
     "No se pudo rechazar la solicitud": "Could not reject request",
+    # Common actions & status
+    "Ver": "View",
+    "Editar": "Edit",
+    "Eliminar": "Delete",
+    "Otros": "Others",
+    "Borrador": "Draft",
+    "Cancelación pendiente": "Pending cancellation",
+    # Notifications placeholders & channels
+    "ASIGNACION, CANCELACION, POSTULADO...": "ASSIGNMENT, CANCELLATION, APPLIED...",
+    "WhatsApp / SendGrid template ID": "WhatsApp / SendGrid template ID",
+    # Prompts defaults
+    "Evalúa candidatos según requisitos obligatorios y deseables de la posición.": (
+        "Evaluate candidates against mandatory and desirable position requirements."
+    ),
+    "Genera un análisis comparativo de los candidatos preseleccionados.": (
+        "Generate a comparative analysis of preselected candidates."
+    ),
+    "Sugiere preguntas de entrevista basadas en el perfil.": (
+        "Suggest interview questions based on the profile."
+    ),
 }
 
 

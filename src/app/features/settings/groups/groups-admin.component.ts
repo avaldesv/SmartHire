@@ -21,6 +21,7 @@ import { SecurityModulePermission } from '../../../shared/models/security-module
 import { SecurityRole } from '../../../shared/models/security-role.model';
 import { TenantDataScope } from '../../../shared/models/tenant-data-scope.model';
 import { canEditScopedRecord } from '../../../shared/utils/tenant-scope.util';
+import { COMMON_OTHERS } from '../../../core/i18n/common-labels';
 import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 import {
   GROUPS_CANCEL,
@@ -146,7 +147,7 @@ export class GroupsAdminComponent implements OnInit {
   get permissionGroups(): { moduleName: string; permissions: SecurityModulePermission[] }[] {
     const grouped = new Map<string, SecurityModulePermission[]>();
     for (const permission of this.permissionOptions) {
-      const moduleName = permission.moduleName?.trim() || permission.module?.trim() || 'Otros';
+      const moduleName = permission.moduleName?.trim() || permission.module?.trim() || COMMON_OTHERS;
       const list = grouped.get(moduleName) ?? [];
       list.push(permission);
       grouped.set(moduleName, list);
