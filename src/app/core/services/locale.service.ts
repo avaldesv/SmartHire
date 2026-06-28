@@ -1,7 +1,11 @@
 import { DOCUMENT } from '@angular/common';
 import { Injectable, inject, signal } from '@angular/core';
 
-export const LOCALE_STORAGE_KEY = 'sh_portal_locale';
+/** Client-side locale preference (tab session). */
+export const LOCALE_SESSION_KEY = 'sh_portal_locale';
+/** @deprecated Use LOCALE_SESSION_KEY — kept for legacy localStorage cleanup only. */
+export const LOCALE_STORAGE_KEY = LOCALE_SESSION_KEY;
+/** Server bundle selection on full page reload (session cookie, no Max-Age). */
 export const LOCALE_COOKIE_KEY = 'sh_portal_locale';
 export const LOCALE_RELOAD_GUARD_KEY = 'sh_locale_reload_guard';
 export const DEFAULT_LOGIN_LOCALE = 'es-MX';
@@ -17,6 +21,7 @@ export class LocaleService {
   readonly portalLanguageId = signal<number | null>(null);
 
   constructor() {
+    this.migrateLegacyLocaleStorage();
     this.normalizeLegacyLocaleUrl();
   }
 
@@ -75,6 +80,27 @@ export class LocaleService {
     window.location.reload();
   }
 
+  /** Clears locale for logout — next user gets language from auth/me. */
+  clearLocalePreference(): void {
+    sessionStorage.removeItem(LOCALE_SESSION_KEY);
+    sessionStorage.removeItem(LOCALE_RELOAD_GUARD_KEY);
+    localStorage.removeItem(LOCALE_SESSION_KEY);
+    this.portalLanguageId.set(null);
+    this.activeLocale.set(DEFAULT_LOGIN_LOCALE);
+    this.clearLocaleCookie();
+  }
+
+  private migrateLegacyLocaleStorage(): void {
+    const legacy = localStorage.getItem(LOCALE_SESSION_KEY);
+    if (!legacy) {
+      return;
+    }
+    localStorage.removeItem(LOCALE_SESSION_KEY);
+    if (!sessionStorage.getItem(LOCALE_SESSION_KEY)) {
+      sessionStorage.setItem(LOCALE_SESSION_KEY, legacy);
+    }
+  }
+
   private normalizeLegacyLocaleUrl(): void {
     const path = window.location.pathname;
     for (const prefix of LEGACY_LOCALE_PREFIXES) {
@@ -95,17 +121,37 @@ export class LocaleService {
   private persistLocale(locale: string): void {
     const normalized = locale.trim() || DEFAULT_LOGIN_LOCALE;
     this.activeLocale.set(normalized);
-    localStorage.setItem(LOCALE_STORAGE_KEY, normalized);
+    sessionStorage.setItem(LOCALE_SESSION_KEY, normalized);
     this.writeLocaleCookie(normalized);
   }
 
+  /** Session cookie — used by serve-spa.js on reload; cleared on logout. */
   private writeLocaleCookie(locale: string): void {
-    const maxAge = 60 * 60 * 24 * 365;
-    document.cookie = `${LOCALE_COOKIE_KEY}=${encodeURIComponent(locale)}; path=/; max-age=${maxAge}; SameSite=Lax`;
+    document.cookie = `${LOCALE_COOKIE_KEY}=${encodeURIComponent(locale)}; path=/; SameSite=Lax`;
+  }
+
+  private clearLocaleCookie(): void {
+    document.cookie = `${LOCALE_COOKIE_KEY}=; path=/; max-age=0; SameSite=Lax`;
   }
 
   private readStoredLocale(): string | null {
-    return localStorage.getItem(LOCALE_STORAGE_KEY);
+    const fromSession = sessionStorage.getItem(LOCALE_SESSION_KEY);
+    if (fromSession?.trim()) {
+      return fromSession.trim();
+    }
+    return this.readLocaleFromCookie();
+  }
+
+  private readLocaleFromCookie(): string | null {
+    const prefix = `${LOCALE_COOKIE_KEY}=`;
+    for (const part of document.cookie.split(';')) {
+      const trimmed = part.trim();
+      if (trimmed.startsWith(prefix)) {
+        const value = decodeURIComponent(trimmed.slice(prefix.length)).trim();
+        return value || null;
+      }
+    }
+    return null;
   }
 
   private getBuildLocale(): string {

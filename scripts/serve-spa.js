@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Production static server for multi-locale Angular builds without URL locale prefix.
- * Reads sh_portal_locale cookie and serves the matching bundle; /login always uses es-MX.
+ * Reads sh_portal_locale session cookie and serves the matching bundle; /login always uses es-MX.
  */
 const http = require('http');
 const fs = require('fs');
