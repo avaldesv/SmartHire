@@ -376,6 +376,14 @@ EN_BY_SOURCE: dict[str, str] = {
     "Logs de depuración": "Debug logs",
     "Guardar configuración": "Save configuration",
     "Configuración del sistema guardada": "System configuration saved",
+    # Catalog admin messages (TS snacks)
+    "No se pudieron cargar entidades para el selector": "Could not load states for selector",
+    "No se pudieron cargar municipios para el selector": "Could not load municipalities for selector",
+    "No se pudieron cargar categorías para el formulario": "Could not load categories for form",
+    "No se pudieron cargar los idiomas del portal": "Could not load portal languages",
+    "No se pudo cargar la compañía": "Could not load company",
+    "Registro eliminado": "Record deleted",
+    "No se pudo eliminar el registro": "Could not delete record",
 }
 
 
@@ -409,6 +417,16 @@ def translate_en(source: str) -> str:
             source.replace("Notificación ", "Notification ")
             .replace("activada", "activated")
             .replace("desactivada", "deactivated")
+        )
+    if source.startswith("No se pudieron cargar "):
+        return "Could not load " + source[len("No se pudieron cargar ") :]
+    if source.endswith(" guardado") and not source.startswith("No "):
+        return source[: -len(" guardado")] + " saved"
+    if source.startswith("No se pudo guardar "):
+        return "Could not save " + source[len("No se pudo guardar ") :]
+    if "Eliminar \"" in source and "Esta acción no se puede deshacer" in source:
+        return source.replace("¿Eliminar", "Delete").replace(
+            "Esta acción no se puede deshacer.", "This action cannot be undone."
         )
     return source
 
