@@ -1,12 +1,12 @@
 import { DOCUMENT } from '@angular/common';
 import { Injectable, inject, signal } from '@angular/core';
-import { environment } from '../../../environments/environment';
 
 export const LOCALE_STORAGE_KEY = 'sh_portal_locale';
+export const LOCALE_COOKIE_KEY = 'sh_portal_locale';
 export const DEFAULT_LOGIN_LOCALE = 'es-MX';
 export const X_LANGUAGE_HEADER = 'X-Language';
 
-const LOCALE_PATH_PREFIXES = ['es-ES', 'en-US'] as const;
+const LEGACY_LOCALE_PREFIXES = ['es-ES', 'en-US'] as const;
 
 @Injectable({ providedIn: 'root' })
 export class LocaleService {
@@ -15,18 +15,33 @@ export class LocaleService {
   readonly activeLocale = signal<string>(this.readStoredLocale() ?? DEFAULT_LOGIN_LOCALE);
   readonly portalLanguageId = signal<number | null>(null);
 
+  constructor() {
+    this.normalizeLegacyLocaleUrl();
+  }
+
   getLanguageHeader(): string {
     return this.activeLocale();
   }
 
-  /** Build an app route respecting the active locale (production multi-bundle layout). */
+  /** Routes never include locale prefix (RF: X-Language + session, not URL). */
   appPath(routePath: string): string {
-    const clean = routePath.startsWith('/') ? routePath.slice(1) : routePath;
-    const locale = this.activeLocale();
-    if (locale === DEFAULT_LOGIN_LOCALE) {
-      return `/${clean}`;
+    return routePath.startsWith('/') ? routePath : `/${routePath}`;
+  }
+
+  normalizeAppPath(pathname: string): string {
+    let path = pathname.startsWith('/') ? pathname : `/${pathname}`;
+    for (const prefix of LEGACY_LOCALE_PREFIXES) {
+      const legacyRoot = `/${prefix}`;
+      if (path.startsWith(`${legacyRoot}/`)) {
+        path = path.slice(legacyRoot.length) || '/';
+        break;
+      }
+      if (path === legacyRoot) {
+        path = '/';
+        break;
+      }
     }
-    return `/${locale}/${clean}`;
+    return path;
   }
 
   resolveFromAuth(locale?: string | null, portalLanguageId?: number | null): void {
@@ -34,59 +49,52 @@ export class LocaleService {
       this.portalLanguageId.set(portalLanguageId);
     }
     const resolved = locale?.trim() || DEFAULT_LOGIN_LOCALE;
-    this.activeLocale.set(resolved);
-    localStorage.setItem(LOCALE_STORAGE_KEY, resolved);
+    this.persistLocale(resolved);
   }
 
   changePortalLanguage(portalLanguageId: number, locale: string): void {
     this.portalLanguageId.set(portalLanguageId);
-    this.activeLocale.set(locale);
-    localStorage.setItem(LOCALE_STORAGE_KEY, locale);
-
-    if (environment.production) {
-      this.navigateToLocale(locale);
-      return;
-    }
+    this.persistLocale(locale);
     window.location.reload();
   }
 
-  /** One-time sync after login when profile locale bundle differs from current URL. */
-  ensureLocaleBundle(locale?: string | null): void {
-    if (!environment.production || !locale?.trim()) {
-      return;
-    }
-    const normalized = locale.trim();
-    if (this.getBuildLocale() !== normalized) {
-      this.navigateToLocale(normalized);
-    }
+  needsLocaleReload(locale?: string | null): boolean {
+    const preferred = locale?.trim() || DEFAULT_LOGIN_LOCALE;
+    return this.getBuildLocale() !== preferred;
   }
 
-  private navigateToLocale(locale: string): void {
-    const suffix = this.stripLocalePrefix(window.location.pathname);
-    const targetPath = (this.localeBasePath(locale) + suffix).replace(/\/{2,}/g, '/');
-    const target = targetPath + window.location.search + window.location.hash;
-
-    const current = window.location.pathname + window.location.search + window.location.hash;
-    if (current === target || window.location.pathname === targetPath) {
-      return;
-    }
-    window.location.href = target;
+  reloadForLocale(locale: string): void {
+    this.persistLocale(locale);
+    window.location.reload();
   }
 
-  private localeBasePath(locale: string): string {
-    return locale === DEFAULT_LOGIN_LOCALE ? '/' : `/${locale}/`;
-  }
-
-  private stripLocalePrefix(path: string): string {
-    for (const prefix of LOCALE_PATH_PREFIXES) {
+  private normalizeLegacyLocaleUrl(): void {
+    const path = window.location.pathname;
+    for (const prefix of LEGACY_LOCALE_PREFIXES) {
       if (path.startsWith(`/${prefix}/`)) {
-        return path.slice(prefix.length + 2);
+        this.persistLocale(prefix);
+        const target = this.normalizeAppPath(path) + window.location.search + window.location.hash;
+        window.location.replace(target);
+        return;
       }
       if (path === `/${prefix}`) {
-        return '';
+        this.persistLocale(prefix);
+        window.location.replace('/' + window.location.search + window.location.hash);
+        return;
       }
     }
-    return path.startsWith('/') ? path.slice(1) : path;
+  }
+
+  private persistLocale(locale: string): void {
+    const normalized = locale.trim() || DEFAULT_LOGIN_LOCALE;
+    this.activeLocale.set(normalized);
+    localStorage.setItem(LOCALE_STORAGE_KEY, normalized);
+    this.writeLocaleCookie(normalized);
+  }
+
+  private writeLocaleCookie(locale: string): void {
+    const maxAge = 60 * 60 * 24 * 365;
+    document.cookie = `${LOCALE_COOKIE_KEY}=${encodeURIComponent(locale)}; path=/; max-age=${maxAge}; SameSite=Lax`;
   }
 
   private readStoredLocale(): string | null {
@@ -94,20 +102,6 @@ export class LocaleService {
   }
 
   private getBuildLocale(): string {
-    const fromUrl = this.getBuildLocaleFromUrl();
-    if (fromUrl) {
-      return fromUrl;
-    }
     return this.document.documentElement.lang?.trim() || DEFAULT_LOGIN_LOCALE;
-  }
-
-  private getBuildLocaleFromUrl(): string | null {
-    const path = window.location.pathname;
-    for (const prefix of LOCALE_PATH_PREFIXES) {
-      if (path === `/${prefix}` || path.startsWith(`/${prefix}/`)) {
-        return prefix;
-      }
-    }
-    return null;
   }
 }

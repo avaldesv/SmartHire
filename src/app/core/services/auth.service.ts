@@ -155,8 +155,8 @@ export class AuthService {
         this.sessionVerified.set(true);
         if (this.isLoginPath(window.location.pathname)) {
           window.location.href = this.localeService.appPath('/home');
-        } else {
-          this.localeService.ensureLocaleBundle(profile.locale);
+        } else if (this.localeService.needsLocaleReload(profile.locale)) {
+          this.localeService.reloadForLocale(profile.locale!);
         }
       }),
       map(() => this.currentUser()!),
@@ -369,7 +369,7 @@ export class AuthService {
   }
 
   private isLoginPath(pathname: string): boolean {
-    return pathname === '/login' || pathname.endsWith('/login');
+    return this.localeService.normalizeAppPath(pathname) === '/login';
   }
 
   private resolveSsoEmail(response?: LoginApiResponse): string {

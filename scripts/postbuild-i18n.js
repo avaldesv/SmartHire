@@ -56,20 +56,14 @@ for (const locale of LOCALES) {
   }
 }
 
-// SPA fallback — locale-specific rules MUST come before the catch-all
-const redirects = `/en-US/*    /en-US/index.html   200
-/es-ES/*    /es-ES/index.html   200
-/*          /index.html         200
-`;
+// SPA fallback for hosts that ignore npm start and serve dist/ as static files only.
+// Multi-locale UI requires npm start → scripts/start.js → serve-spa.js (cookie routing).
+const redirects = '/*    /index.html   200\n';
 fs.writeFileSync(path.join(ROOT, '_redirects'), redirects, 'utf8');
 
 const serveConfig = {
   public: '.',
-  rewrites: [
-    { source: '/en-US/**', destination: '/en-US/index.html' },
-    { source: '/es-ES/**', destination: '/es-ES/index.html' },
-    { source: '/**', destination: '/index.html' },
-  ],
+  rewrites: [{ source: '/**', destination: '/index.html' }],
 };
 fs.writeFileSync(path.join(ROOT, 'serve.json'), `${JSON.stringify(serveConfig, null, 2)}\n`, 'utf8');
 console.log('postbuild-i18n: wrote _redirects and serve.json');
