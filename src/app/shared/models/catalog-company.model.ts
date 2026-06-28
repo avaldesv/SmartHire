@@ -8,6 +8,7 @@ export interface CatalogCompany {
   tradeName?: string | null;
   taxId?: string | null;
   countryId: number;
+  defaultPortalLanguageId?: number | null;
   billingMessage?: string | null;
   atsCode?: number | null;
   noPurchaseOrder?: boolean;
@@ -30,6 +31,7 @@ export interface CreateCompanyRequest {
   tradeName?: string;
   taxId?: string;
   countryId: number;
+  defaultPortalLanguageId: number;
   billingMessage?: string;
   atsCode?: number | null;
   noPurchaseOrder?: boolean;
