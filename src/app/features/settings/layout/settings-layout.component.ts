@@ -3,10 +3,6 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { PermissionService } from '../../../core/services/permission.service';
 import { SETTINGS_NAV_ITEMS } from '../../../core/i18n/nav-labels';
 
-  /*  { label: 'Documentos', path: 'documents', authority: AppPermissions.SETTINGS_SYSTEM_READ }, */
-  /*  { label: 'CVs', path: 'cvs', authority: AppPermissions.SETTINGS_SYSTEM_READ }, */
-  { label: 'Entrevistas', path: 'interviews', authority: AppPermissions.SETTINGS_SYSTEM_READ }, */
- /*  { label: 'Sistema', path: 'system', authority: AppPermissions.SETTINGS_SYSTEM_READ }, */
 @Component({
   selector: 'sh-settings-layout',
   standalone: true,
