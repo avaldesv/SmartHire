@@ -20,7 +20,7 @@ export const MAIN_NAV_ITEMS: MainNavItem[] = [
     icon: 'home',
     authority: AppPermissions.HOME_READ,
   },
-  {
+ /* {
     label: $localize`:@@nav.main.positions:Posiciones`,
     path: '/positions',
     icon: 'work',
@@ -49,7 +49,7 @@ export const MAIN_NAV_ITEMS: MainNavItem[] = [
     path: '/reports',
     icon: 'bar_chart',
     authority: AppPermissions.REPORT_READ,
-  },
+  },*/
   {
     label: $localize`:@@nav.main.settings:Configuraciones`,
     path: '/settings',
@@ -79,17 +79,17 @@ export const SETTINGS_NAV_ITEMS: SettingsNavItem[] = [
     path: 'notifications',
     authority: AppPermissions.SETTINGS_NOTIFICATIONS_READ,
   },
-  {
+  /*{
     label: $localize`:@@nav.settings.documents:Documentos`,
     path: 'documents',
     authority: AppPermissions.SETTINGS_SYSTEM_READ,
-  },
+  },*/
   {
     label: $localize`:@@nav.settings.prompts:Prompts IA`,
     path: 'prompts',
     authority: AppPermissions.SETTINGS_PROMPTS_READ,
   },
-  {
+  /*{
     label: $localize`:@@nav.settings.cvs:CVs`,
     path: 'cvs',
     authority: AppPermissions.SETTINGS_SYSTEM_READ,
@@ -98,17 +98,17 @@ export const SETTINGS_NAV_ITEMS: SettingsNavItem[] = [
     label: $localize`:@@nav.settings.interviews:Entrevistas`,
     path: 'interviews',
     authority: AppPermissions.SETTINGS_SYSTEM_READ,
-  },
+  },*/
   {
     label: $localize`:@@nav.settings.pipelineStages:Etapas`,
     path: 'pipeline-stages',
     authority: AppPermissions.SETTINGS_SYSTEM_READ,
   },
-  {
+  /*{
     label: $localize`:@@nav.settings.system:Sistema`,
     path: 'system',
     authority: AppPermissions.SETTINGS_SYSTEM_READ,
-  },
+  },*/
   {
     label: $localize`:@@nav.settings.audit:Bitácoras`,
     path: 'audit',
