@@ -14,9 +14,6 @@ export class PermissionService {
     if (!user) {
       return false;
     }
-    if (user.roles.includes('ADMIN')) {
-      return true;
-    }
     if (user.roles.includes('GLOBAL_ADMIN')) {
       if (normalized.startsWith(SETTINGS_PREFIX)) {
         return true;
