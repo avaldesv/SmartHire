@@ -21,7 +21,37 @@ import { SecurityModulePermission } from '../../../shared/models/security-module
 import { SecurityRole } from '../../../shared/models/security-role.model';
 import { TenantDataScope } from '../../../shared/models/tenant-data-scope.model';
 import { canEditScopedRecord } from '../../../shared/utils/tenant-scope.util';
+import { COMMON_OTHERS } from '../../../core/i18n/common-labels';
 import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
+import {
+  GROUPS_CANCEL,
+  GROUPS_COLUMN_GROUP,
+  GROUPS_COLUMN_PERMISSIONS,
+  GROUPS_EDIT_TITLE,
+  GROUPS_FIELD_ACTIVE,
+  GROUPS_FIELD_DESCRIPTION,
+  GROUPS_FIELD_MODULE_PERMISSIONS,
+  GROUPS_FIELD_NAME,
+  GROUPS_FIELD_SCOPE,
+  GROUPS_NEW_BUTTON,
+  GROUPS_NEW_TITLE,
+  GROUPS_NO,
+  GROUPS_PAGE_TITLE,
+  GROUPS_RECORD_SCOPE,
+  GROUPS_SAVE,
+  GROUPS_SAVING,
+  GROUPS_SCOPE_GLOBAL,
+  GROUPS_SCOPE_TENANT,
+  GROUPS_YES,
+  GROUPS_DELETE_ERROR,
+  GROUPS_DELETE_SUCCESS,
+  GROUPS_LOAD_ERROR,
+  GROUPS_LOAD_PERMISSIONS_ERROR,
+  GROUPS_SAVE_ERROR,
+  GROUPS_SAVE_SUCCESS,
+  GROUPS_SNACK_CLOSE,
+  groupsDeleteConfirm,
+} from '../../../core/i18n/groups-labels';
 
 @Component({
   selector: 'sh-groups-admin',
@@ -56,6 +86,26 @@ export class GroupsAdminComponent implements OnInit {
   private tenantReloadReady = false;
 
   readonly isGlobalAdmin = computed(() => this.appPermissions.isGlobalAdmin());
+
+  readonly groupsPageTitle = GROUPS_PAGE_TITLE;
+  readonly groupsNewButton = GROUPS_NEW_BUTTON;
+  readonly groupsEditTitle = GROUPS_EDIT_TITLE;
+  readonly groupsNewTitle = GROUPS_NEW_TITLE;
+  readonly groupsRecordScope = GROUPS_RECORD_SCOPE;
+  readonly groupsScopeTenant = GROUPS_SCOPE_TENANT;
+  readonly groupsScopeGlobal = GROUPS_SCOPE_GLOBAL;
+  readonly groupsFieldName = GROUPS_FIELD_NAME;
+  readonly groupsFieldDescription = GROUPS_FIELD_DESCRIPTION;
+  readonly groupsFieldModulePermissions = GROUPS_FIELD_MODULE_PERMISSIONS;
+  readonly groupsFieldActive = GROUPS_FIELD_ACTIVE;
+  readonly groupsFieldScope = GROUPS_FIELD_SCOPE;
+  readonly groupsColumnGroup = GROUPS_COLUMN_GROUP;
+  readonly groupsColumnPermissions = GROUPS_COLUMN_PERMISSIONS;
+  readonly groupsCancel = GROUPS_CANCEL;
+  readonly groupsSaving = GROUPS_SAVING;
+  readonly groupsSave = GROUPS_SAVE;
+  readonly groupsYes = GROUPS_YES;
+  readonly groupsNo = GROUPS_NO;
 
   loading = true;
   saving = false;
@@ -97,7 +147,7 @@ export class GroupsAdminComponent implements OnInit {
   get permissionGroups(): { moduleName: string; permissions: SecurityModulePermission[] }[] {
     const grouped = new Map<string, SecurityModulePermission[]>();
     for (const permission of this.permissionOptions) {
-      const moduleName = permission.moduleName?.trim() || permission.module?.trim() || 'Otros';
+      const moduleName = permission.moduleName?.trim() || permission.module?.trim() || COMMON_OTHERS;
       const list = grouped.get(moduleName) ?? [];
       list.push(permission);
       grouped.set(moduleName, list);
@@ -132,7 +182,7 @@ export class GroupsAdminComponent implements OnInit {
       next: (permissions) => {
         this.permissionOptions = permissions;
       },
-      error: () => this.snack.open('No se pudieron cargar los permisos', 'Cerrar', { duration: 4000 }),
+      error: () => this.snack.open(GROUPS_LOAD_PERMISSIONS_ERROR, GROUPS_SNACK_CLOSE, { duration: 4000 }),
     });
   }
 
@@ -146,7 +196,7 @@ export class GroupsAdminComponent implements OnInit {
       },
       error: () => {
         this.loading = false;
-        this.snack.open('No se pudieron cargar los grupos', 'Cerrar', { duration: 4000 });
+        this.snack.open(GROUPS_LOAD_ERROR, GROUPS_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -244,19 +294,19 @@ export class GroupsAdminComponent implements OnInit {
     this.saving = false;
     this.cancelForm();
     this.load();
-    this.snack.open('Grupo guardado', 'Cerrar', { duration: 3000 });
+    this.snack.open(GROUPS_SAVE_SUCCESS, GROUPS_SNACK_CLOSE, { duration: 3000 });
   }
 
   private onSaveError(): void {
     this.saving = false;
-    this.snack.open('No se pudo guardar el grupo', 'Cerrar', { duration: 4000 });
+    this.snack.open(GROUPS_SAVE_ERROR, GROUPS_SNACK_CLOSE, { duration: 4000 });
   }
 
   deleteRole(row: SecurityRole): void {
     if (!this.canDeleteRole(row)) {
       return;
     }
-    if (!confirm(`¿Eliminar el grupo "${row.name}"? Esta acción no se puede deshacer.`)) {
+    if (!confirm(groupsDeleteConfirm(row.name))) {
       return;
     }
     this.deletingRoleId = row.id;
@@ -267,11 +317,11 @@ export class GroupsAdminComponent implements OnInit {
           this.cancelForm();
         }
         this.load();
-        this.snack.open('Grupo eliminado', 'Cerrar', { duration: 3000 });
+        this.snack.open(GROUPS_DELETE_SUCCESS, GROUPS_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.deletingRoleId = null;
-        this.snack.open('No se pudo eliminar el grupo', 'Cerrar', { duration: 4000 });
+        this.snack.open(GROUPS_DELETE_ERROR, GROUPS_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }

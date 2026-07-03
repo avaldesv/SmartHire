@@ -15,7 +15,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { CatalogCareerService } from '../../../core/services/catalog-career.service';
 import { CatalogBenefitService } from '../../../core/services/catalog-benefit.service';
 import { CatalogBrandService } from '../../../core/services/catalog-brand.service';
-import { CatalogClientCompanyService } from '../../../core/services/catalog-client-company.service';
 import { CatalogClientService } from '../../../core/services/catalog-client.service';
 import { CatalogCompanyService } from '../../../core/services/catalog-company.service';
 import { CatalogCoverageCategoryService } from '../../../core/services/catalog-coverage-category.service';
@@ -67,15 +66,16 @@ import { CatalogCurrencyService } from '../../../core/services/catalog-currency.
 import { CatalogDocumentTypeService } from '../../../core/services/catalog-document-type.service';
 import { CatalogGenderService } from '../../../core/services/catalog-gender.service';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
+import { UserSettingsApiService } from '../../../core/services/user-settings-api.service';
 import { CatalogKinshipService } from '../../../core/services/catalog-kinship.service';
 import { CatalogLanguageService } from '../../../core/services/catalog-language.service';
 import { CatalogShiftService } from '../../../core/services/catalog-shift.service';
 import { CatalogCareer } from '../../../shared/models/catalog-career.model';
 import { CatalogBenefit } from '../../../shared/models/catalog-benefit.model';
 import { CatalogBrand } from '../../../shared/models/catalog-brand.model';
-import { CatalogClientCompany } from '../../../shared/models/catalog-client-company.model';
 import { CatalogClient } from '../../../shared/models/catalog-client.model';
 import { CatalogCompany } from '../../../shared/models/catalog-company.model';
+import { PortalLanguage } from '../../../shared/models/portal-language.model';
 import { CatalogContractType } from '../../../shared/models/catalog-contract-type.model';
 import { CatalogEducationLevel } from '../../../shared/models/catalog-education-level.model';
 import { CatalogLanguageLevel } from '../../../shared/models/catalog-language-level.model';
@@ -93,6 +93,7 @@ import { TenantContextService } from '../../../core/services/tenant-context.serv
 import { NotificationsAdminComponent } from '../notifications/notifications-admin.component';
 import { ScopeBadgeComponent } from '../../../shared/components/scope-badge/scope-badge.component';
 import { CatalogListActionsComponent } from './catalog-list-actions.component';
+import { CatalogTableImportExportActionsComponent } from './catalog-table-import-export-actions.component';
 import { TenantDataScope } from '../../../shared/models/tenant-data-scope.model';
 import { canEditScopedRecord } from '../../../shared/utils/tenant-scope.util';
 import {
@@ -103,6 +104,70 @@ import {
   getCategoryById,
   resolveVisibleCategories,
 } from './catalog-admin.registry';
+import {
+  CATALOG_COLUMN_AI,
+  CATALOG_COLUMN_APPLIES_TO_CAREER,
+  CATALOG_COLUMN_CATEGORY,
+  CATALOG_COLUMN_COMPANY_AREA,
+  CATALOG_COLUMN_CONTACT,
+  CATALOG_COLUMN_CORE_APPIAN,
+  CATALOG_COLUMN_CORE_ATS,
+  CATALOG_COLUMN_DEFAULT_PORTAL_LANGUAGE,
+  CATALOG_COLUMN_DENOMINATION,
+  CATALOG_COLUMN_EMAIL,
+  CATALOG_COLUMN_LEGAL_NAME,
+  CATALOG_COLUMN_PHONE,
+  CATALOG_COLUMN_POSITION,
+  CATALOG_COLUMN_POSTAL_CODE,
+  CATALOG_COLUMN_QUESTION,
+  CATALOG_COLUMN_REQUIRES_CAREER,
+  CATALOG_COLUMN_SYMBOL,
+  CATALOG_COLUMN_TAX_ID,
+  CATALOG_COLUMN_TRADE_NAME,
+  CATALOG_COLUMN_TYPE,
+  CATALOG_FIELD_ATS_CODE,
+  CATALOG_FIELD_BILLING_MESSAGE,
+  CATALOG_FIELD_COMPANY,
+  CATALOG_FIELD_COMPANY_OPTIONAL,
+  CATALOG_FIELD_DEFAULT_PORTAL_LANGUAGE,
+  CATALOG_FIELD_DOCUMENT_TYPE,
+  CATALOG_FIELD_BANNER_URL,
+  CATALOG_FIELD_FEDERAL_STATE,
+  CATALOG_FIELD_LOGO_URL,
+  CATALOG_FIELD_MANPOWER_ID,
+  CATALOG_FIELD_MUNICIPALITY,
+  CATALOG_FIELD_NEIGHBORHOOD,
+  CATALOG_FIELD_NO_PURCHASE_ORDER,
+  CATALOG_FIELD_POSTAL_CODE,
+  CATALOG_FIELD_R3_INTERFACE,
+  CATALOG_FIELD_SHORT_DESCRIPTION,
+  CATALOG_FIELD_STATE,
+  CATALOG_FIELD_STREET,
+  CATALOG_FIELD_VALIDATES_AI,
+  CATALOG_FIELD_WS_SIGNATURE,
+  CATALOGS_NO,
+  CATALOGS_SAVE,
+  CATALOGS_SAVING,
+  CATALOGS_VALUE,
+  CATALOGS_YES,
+  getCatalogEntryLabel,
+} from '../../../core/i18n/catalog-i18n-labels';
+import {
+  CATALOG_MSG_DELETE_ERROR,
+  CATALOG_MSG_DELETE_SUCCESS,
+  CATALOG_MSG_LOAD_FORM_CATEGORIES,
+  CATALOG_MSG_LOAD_MUNICIPALITIES_SELECTOR,
+  CATALOG_MSG_LOAD_PORTAL_LANGUAGES,
+  CATALOG_MSG_LOAD_SINGLE_COMPANY,
+  CATALOG_MSG_LOAD_STATES_SELECTOR,
+  CATALOG_MSG_SNACK_CLOSE,
+  catalogDeleteConfirm,
+  catalogLoadListError,
+  catalogSaveError,
+  catalogSaveSuccess,
+} from '../../../core/i18n/catalog-messages-labels';
+
+import { catalogPanelUi } from '../../../core/i18n/catalog-panel-ui-labels';
 
 @Component({
   selector: 'sh-catalogs-admin',
@@ -124,6 +189,7 @@ import {
     ScopeBadgeComponent,
     NotificationsAdminComponent,
     CatalogListActionsComponent,
+    CatalogTableImportExportActionsComponent,
   ],
   templateUrl: './catalogs-admin.component.html',
   styleUrl: './catalogs-admin.component.scss',
@@ -134,6 +200,53 @@ export class CatalogsAdminComponent implements OnInit {
   private tenantReloadReady = false;
   readonly isGlobalAdmin = computed(() => this.permissions.isGlobalAdmin());
 
+  readonly catalogsYes = CATALOGS_YES;
+  readonly catalogsNo = CATALOGS_NO;
+  readonly catalogsSaving = CATALOGS_SAVING;
+  readonly catalogsSave = CATALOGS_SAVE;
+  readonly panelUi = catalogPanelUi;
+  readonly colTradeName = CATALOG_COLUMN_TRADE_NAME;
+  readonly colTaxId = CATALOG_COLUMN_TAX_ID;
+  readonly colSymbol = CATALOG_COLUMN_SYMBOL;
+  readonly colDenomination = CATALOG_COLUMN_DENOMINATION;
+  readonly colType = CATALOG_COLUMN_TYPE;
+  readonly colAi = CATALOG_COLUMN_AI;
+  readonly colRequiresCareer = CATALOG_COLUMN_REQUIRES_CAREER;
+  readonly colAppliesToCareer = CATALOG_COLUMN_APPLIES_TO_CAREER;
+  readonly colCategory = CATALOG_COLUMN_CATEGORY;
+  readonly colQuestion = CATALOG_COLUMN_QUESTION;
+  readonly colCoreAts = CATALOG_COLUMN_CORE_ATS;
+  readonly colCoreAppian = CATALOG_COLUMN_CORE_APPIAN;
+  readonly colPostalCode = CATALOG_COLUMN_POSTAL_CODE;
+  readonly colLegalName = CATALOG_COLUMN_LEGAL_NAME;
+  readonly colCompanyArea = CATALOG_COLUMN_COMPANY_AREA;
+  readonly colContact = CATALOG_COLUMN_CONTACT;
+  readonly colDefaultPortalLanguage = CATALOG_COLUMN_DEFAULT_PORTAL_LANGUAGE;
+  readonly colPosition = CATALOG_COLUMN_POSITION;
+  readonly colPhone = CATALOG_COLUMN_PHONE;
+  readonly colEmail = CATALOG_COLUMN_EMAIL;
+  readonly catalogsValue = CATALOGS_VALUE;
+  readonly fieldDefaultPortalLanguage = CATALOG_FIELD_DEFAULT_PORTAL_LANGUAGE;
+  readonly fieldBillingMessage = CATALOG_FIELD_BILLING_MESSAGE;
+  readonly fieldAtsCode = CATALOG_FIELD_ATS_CODE;
+  readonly fieldStreet = CATALOG_FIELD_STREET;
+  readonly fieldNeighborhood = CATALOG_FIELD_NEIGHBORHOOD;
+  readonly fieldMunicipality = CATALOG_FIELD_MUNICIPALITY;
+  readonly fieldState = CATALOG_FIELD_STATE;
+  readonly fieldLogoUrl = CATALOG_FIELD_LOGO_URL;
+  readonly fieldBannerUrl = CATALOG_FIELD_BANNER_URL;
+  readonly fieldNoPurchaseOrder = CATALOG_FIELD_NO_PURCHASE_ORDER;
+  readonly fieldR3Interface = CATALOG_FIELD_R3_INTERFACE;
+  readonly fieldWsSignature = CATALOG_FIELD_WS_SIGNATURE;
+  readonly fieldDocumentType = CATALOG_FIELD_DOCUMENT_TYPE;
+  readonly fieldCompany = CATALOG_FIELD_COMPANY;
+  readonly fieldCompanyOptional = CATALOG_FIELD_COMPANY_OPTIONAL;
+  readonly fieldShortDescription = CATALOG_FIELD_SHORT_DESCRIPTION;
+  readonly fieldFederalState = CATALOG_FIELD_FEDERAL_STATE;
+  readonly fieldPostalCode = CATALOG_FIELD_POSTAL_CODE;
+  readonly fieldManpowerId = CATALOG_FIELD_MANPOWER_ID;
+  readonly fieldValidatesWithAi = CATALOG_FIELD_VALIDATES_AI;
+
   readonly categories = CATALOG_CATEGORIES;
   readonly visibleCategories = computed(() => resolveVisibleCategories(this.isGlobalAdmin()));
   categoryTabIndex = 0;
@@ -141,7 +254,7 @@ export class CatalogsAdminComponent implements OnInit {
     generales: 'gender',
     cuestionario: 'questionnaireCategory',
     notificaciones: 'messages',
-    empresas: 'clientCompany',
+    empresas: 'companyArea',
     portal: 'jobPortal',
     datosMp: 'mpCountry',
     smarthireOps: 'kinship',
@@ -159,7 +272,6 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly educationLevelService = inject(CatalogEducationLevelService);
   private readonly languageLevelService = inject(CatalogLanguageLevelService);
   private readonly requisitionTypeService = inject(CatalogRequisitionTypeService);
-  private readonly clientCompanyService = inject(CatalogClientCompanyService);
   private readonly clientService = inject(CatalogClientService);
   private readonly recruiterGroupService = inject(SecurityRecruiterGroupService);
   private readonly jobPortalService = inject(CatalogJobPortalService);
@@ -185,6 +297,7 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly coverageTypeService = inject(CatalogCoverageTypeService);
   private readonly documentTypeService = inject(CatalogDocumentTypeService);
   private readonly geographyService = inject(CatalogGeographyService);
+  private readonly userSettingsApi = inject(UserSettingsApiService);
   private readonly snack = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
 
@@ -222,6 +335,129 @@ export class CatalogsAdminComponent implements OnInit {
 
   canEditRecord(companyId?: number | null): boolean {
     return canEditScopedRecord(companyId, this.isGlobalAdmin());
+  }
+
+  reloadCatalogAfterImport(panel: CatalogPanelKey): void {
+    switch (panel) {
+      case 'gender':
+        this.loadGenders();
+        break;
+      case 'career':
+        this.loadCareers();
+        break;
+      case 'currency':
+        this.loadCurrencies();
+        break;
+      case 'shift':
+        this.loadShifts();
+        break;
+      case 'benefit':
+        this.loadBenefits();
+        break;
+      case 'contractType':
+        this.loadContractTypes();
+        break;
+      case 'educationLevel':
+        this.loadEducationLevels();
+        break;
+      case 'languageLevel':
+        this.loadLanguageLevels();
+        break;
+      case 'coverageType':
+        this.loadCoverageTypes();
+        break;
+      case 'coverageCategory':
+        this.loadCoverageCategorys();
+        break;
+      case 'characteristic':
+        this.loadCharacteristics();
+        break;
+      case 'category':
+        this.loadCategorys();
+        break;
+      case 'maritalStatus':
+        this.loadMaritalStatuss();
+        break;
+      case 'experienceLevel':
+        this.loadExperienceLevels();
+        break;
+      case 'tool':
+        this.loadTools();
+        break;
+      case 'workSchedule':
+        this.loadWorkSchedules();
+        break;
+      case 'workplace':
+        this.loadWorkplaces();
+        break;
+      case 'requirement':
+        this.loadRequirements();
+        break;
+      case 'responsibilityLevel':
+        this.loadResponsibilityLevels();
+        break;
+      case 'disabilityType':
+        this.loadDisabilityTypes();
+        break;
+      case 'businessUnit':
+        this.loadBusinessUnits();
+        break;
+      case 'positionType':
+        this.loadPositionTypes();
+        break;
+      case 'brand':
+        this.loadBrands();
+        break;
+      case 'requisitionType':
+        this.loadRequisitionTypes();
+        break;
+      case 'jobPortal':
+        this.loadJobPortals();
+        break;
+      case 'language':
+        this.loadLanguages();
+        break;
+      case 'kinship':
+        this.loadKinships();
+        break;
+      case 'client':
+        this.loadClients();
+        break;
+      case 'documentType':
+        this.loadDocumentTypes();
+        break;
+      case 'country':
+        this.loadCountryRecords();
+        this.reloadCountryDropdown();
+        break;
+      case 'state':
+        this.loadStates();
+        break;
+      case 'municipality':
+        this.loadMunicipalities();
+        break;
+      case 'neighborhood':
+        this.loadNeighborhoods();
+        break;
+      case 'companyArea':
+        this.loadCompanyAreas();
+        break;
+      case 'companyDepartment':
+        this.loadCompanyDepartments();
+        break;
+      case 'branch':
+        this.loadBranchs();
+        break;
+      case 'questionnaireCategory':
+        this.loadQuestionnaireCategorys();
+        break;
+      case 'questionnaireQuestion':
+        this.loadQuestionnaireQuestions();
+        break;
+      case 'recruiterGroup':
+        this.loadRecruiterGroups();
+        break;
+    }
   }
 
   get activeCategoryId(): CatalogCategoryId {
@@ -340,9 +576,6 @@ export class CatalogsAdminComponent implements OnInit {
       case 'questionnaireQuestion':
         this.loadQuestionnaireCategoryOptions();
         this.loadQuestionnaireQuestions();
-        break;
-      case 'clientCompany':
-        this.loadClientCompanies();
         break;
       case 'companyArea':
         this.ensureCompaniesLoaded();
@@ -633,6 +866,8 @@ export class CatalogsAdminComponent implements OnInit {
   loadingQuestionnaireCategoryOptions = false;
 
   companies: CatalogCompany[] = [];
+  portalLanguages: PortalLanguage[] = [];
+  loadingCompanyDetail = false;
   companyTotal = 0;
   companyPageIndex = 0;
   companyPageSize = 10;
@@ -749,15 +984,6 @@ export class CatalogsAdminComponent implements OnInit {
   editingRequisitionTypeId: number | null = null;
   showRequisitionTypeForm = false;
 
-  clientCompanies: CatalogClientCompany[] = [];
-  clientCompanyTotal = 0;
-  clientCompanyPageIndex = 0;
-  clientCompanyPageSize = 10;
-  loadingClientCompanies = false;
-  savingClientCompany = false;
-  editingClientCompanyId: number | null = null;
-  showClientCompanyForm = false;
-
   countryRecords: CatalogCountry[] = [];
   countryRecordTotal = 0;
   countryPageIndex = 0;
@@ -810,7 +1036,7 @@ export class CatalogsAdminComponent implements OnInit {
   readonly businessUnitColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
   readonly positionTypeColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
   readonly clientColumns = ['code', 'tradeName', 'legalName', 'companyArea', 'contactName', 'active', 'scope', 'actions'];
-  readonly companyColumns = ['code', 'name', 'tradeName', 'taxId', 'active', 'scope', 'actions'];
+  readonly companyColumns = ['code', 'name', 'tradeName', 'taxId', 'country', 'defaultPortalLanguage', 'active', 'actions'];
   readonly currencyColumns = ['code', 'name', 'symbol', 'denomination', 'active', 'scope', 'actions'];
   readonly careerColumns = ['code', 'name', 'active', 'scope', 'actions'];
   readonly languageColumns = ['code', 'name', 'active', 'scope', 'actions'];
@@ -868,7 +1094,6 @@ export class CatalogsAdminComponent implements OnInit {
     isActive: [true],
   });
 
-  readonly clientCompanyColumns = ['code', 'name', 'tradeName', 'taxId', 'r3Interface', 'active', 'scope', 'actions'];
   readonly countryColumns = ['code', 'secondaryCode', 'name', 'description', 'manpowerId', 'region', 'active', 'scope', 'actions'];
   readonly stateColumns = ['code', 'name', 'shortDescription', 'active', 'scope', 'actions'];
   readonly municipalityColumns = ['code', 'name', 'active', 'scope', 'actions'];
@@ -894,7 +1119,11 @@ export class CatalogsAdminComponent implements OnInit {
     description: [''],
     tradeName: [''],
     taxId: [''],
-    countryId: [null as number | null],
+    countryId: [null as number | null, Validators.required],
+    defaultPortalLanguageId: [null as number | null, Validators.required],
+    billingMessage: [''],
+    atsCode: [null as number | null],
+    noPurchaseOrder: [false],
     street: [''],
     neighborhood: [''],
     municipality: [''],
@@ -1139,17 +1368,6 @@ export class CatalogsAdminComponent implements OnInit {
     isActive: [true],
   });
 
-  readonly clientCompanyForm = this.fb.nonNullable.group({
-    countryId: [null as number | null, Validators.required],
-    code: ['', Validators.required],
-    name: ['', Validators.required],
-    description: [''],
-    tradeName: [''],
-    taxId: [''],
-    r3Interface: [false],
-    isActive: [true],
-  });
-
   readonly countryForm = this.fb.nonNullable.group({
     code: ['', Validators.required],
     secondaryCode: [''],
@@ -1210,7 +1428,6 @@ export class CatalogsAdminComponent implements OnInit {
     this.cancelEducationLevelForm();
     this.cancelLanguageLevelForm();
     this.cancelRequisitionTypeForm();
-    this.cancelClientCompanyForm();
     this.cancelClientForm();
     this.cancelCoverageCategoryForm();
     this.cancelCharacteristicForm();
@@ -1236,6 +1453,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.loadKinships();
     this.loadCompanies();
     this.loadLanguages();
+    this.loadPortalLanguages();
     this.loadCountryRecords();
     this.reloadCountryDropdown();
   }
@@ -1254,7 +1472,7 @@ export class CatalogsAdminComponent implements OnInit {
           this.loadCountryCatalogs();
         }
       },
-      error: () => this.snack.open('No se pudieron cargar los países', 'Cerrar', { duration: 4000 }),
+      error: () => this.snack.open(catalogLoadListError(getCatalogEntryLabel('country')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 }),
     });
   }
 
@@ -1272,7 +1490,7 @@ export class CatalogsAdminComponent implements OnInit {
           this.loadMunicipalities();
         }
       },
-      error: () => this.snack.open('No se pudieron cargar entidades para el selector', 'Cerrar', { duration: 4000 }),
+      error: () => this.snack.open(CATALOG_MSG_LOAD_STATES_SELECTOR, CATALOG_MSG_SNACK_CLOSE, { duration: 4000 }),
     });
   }
 
@@ -1288,7 +1506,7 @@ export class CatalogsAdminComponent implements OnInit {
           this.loadNeighborhoods();
         }
       },
-      error: () => this.snack.open('No se pudieron cargar municipios para el selector', 'Cerrar', { duration: 4000 }),
+      error: () => this.snack.open(CATALOG_MSG_LOAD_MUNICIPALITIES_SELECTOR, CATALOG_MSG_SNACK_CLOSE, { duration: 4000 }),
     });
   }
 
@@ -1323,7 +1541,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.loadRecruiterGroups();
     this.loadJobPortals();
     this.loadBranchs();
-    this.loadClientCompanies();
+    this.loadCompanies();
     this.loadStates();
   }
 
@@ -1361,7 +1579,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.jobPortalPageIndex = 0;
     this.recruiterGroupPageIndex = 0;
     this.branchPageIndex = 0;
-    this.clientCompanyPageIndex = 0;
+    this.companyPageIndex = 0;
     this.statePageIndex = 0;
     this.municipalityPageIndex = 0;
     this.neighborhoodPageIndex = 0;
@@ -1377,7 +1595,6 @@ export class CatalogsAdminComponent implements OnInit {
     this.cancelEducationLevelForm();
     this.cancelLanguageLevelForm();
     this.cancelRequisitionTypeForm();
-    this.cancelClientCompanyForm();
     this.cancelClientForm();
     this.cancelCoverageCategoryForm();
     this.cancelCharacteristicForm();
@@ -1397,6 +1614,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.cancelRecruiterGroupForm();
     this.cancelJobPortalForm();
     this.cancelBranchForm();
+    this.cancelCompanyForm();
     this.cancelStateForm();
     this.cancelMunicipalityForm();
     this.cancelNeighborhoodForm();
@@ -1433,7 +1651,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingGenders = false;
-        this.snack.open('No se pudieron cargar los géneros', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('gender')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1448,7 +1666,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingKinships = false;
-        this.snack.open('No se pudieron cargar los parentescos', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('kinship')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1464,7 +1682,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingCurrencies = false;
-        this.snack.open('No se pudieron cargar las monedas', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('currency')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1492,7 +1710,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingCoverageCategories = false;
-        this.snack.open('No se pudieron cargar c categoría cubrimiento', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('coverageCategory')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1513,7 +1731,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingCharacteristics = false;
-        this.snack.open('No se pudieron cargar características', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('characteristic')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1534,7 +1752,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingCategories = false;
-        this.snack.open('No se pudieron cargar categoría', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('category')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1555,7 +1773,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingMaritalStatuses = false;
-        this.snack.open('No se pudieron cargar estado civil', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('maritalStatus')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1576,7 +1794,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingExperienceLevels = false;
-        this.snack.open('No se pudieron cargar experiencia', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('experienceLevel')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1597,7 +1815,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingTools = false;
-        this.snack.open('No se pudieron cargar herramienta', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('tool')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1618,7 +1836,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingWorkSchedules = false;
-        this.snack.open('No se pudieron cargar horario trabajo', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('workSchedule')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1639,7 +1857,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingWorkplaces = false;
-        this.snack.open('No se pudieron cargar lugar trabajo', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('workplace')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1660,7 +1878,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingRequirements = false;
-        this.snack.open('No se pudieron cargar requisitos', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('requirement')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1681,7 +1899,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingResponsibilityLevels = false;
-        this.snack.open('No se pudieron cargar responsabilidad', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('responsibilityLevel')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1702,7 +1920,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingDisabilityTypes = false;
-        this.snack.open('No se pudieron cargar tipo discapacidad', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('disabilityType')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1723,7 +1941,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingBusinessUnits = false;
-        this.snack.open('No se pudieron cargar unidad de negocio', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('businessUnit')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1744,7 +1962,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingPositionTypes = false;
-        this.snack.open('No se pudieron cargar puesto', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('positionType')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1765,7 +1983,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingClients = false;
-        this.snack.open('No se pudieron cargar los clientes', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('client')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1778,7 +1996,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   loadCompanies(): void {
     this.loadingCompanies = true;
-    this.companyService.list(this.companyPageIndex, this.companyPageSize).subscribe({
+    this.companyService.list(this.companyPageIndex, this.companyPageSize, this.selectedCountryId ?? undefined).subscribe({
       next: (res) => {
         this.companies = res.items;
         this.companyTotal = res.total;
@@ -1786,15 +2004,43 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingCompanies = false;
-        this.snack.open('No se pudieron cargar las compañías', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('company')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
+  }
+
+  loadPortalLanguages(): void {
+    this.userSettingsApi.listPortalLanguages().subscribe({
+      next: (languages) => {
+        this.portalLanguages = [...languages].sort((a, b) => a.sortOrder - b.sortOrder);
+      },
+      error: () => this.snack.open(CATALOG_MSG_LOAD_PORTAL_LANGUAGES, CATALOG_MSG_SNACK_CLOSE, { duration: 4000 }),
+    });
+  }
+
+  private defaultPortalLanguageId(): number | null {
+    const esMx = this.portalLanguages.find((language) => language.code === 'ES_MX');
+    return esMx?.id ?? this.portalLanguages[0]?.id ?? null;
+  }
+
+  portalLanguageName(portalLanguageId: number | null | undefined): string {
+    if (portalLanguageId == null) {
+      return '—';
+    }
+    return this.portalLanguages.find((language) => language.id === portalLanguageId)?.name ?? String(portalLanguageId);
   }
 
   onCompanyPage(e: PageEvent): void {
     this.companyPageIndex = e.pageIndex;
     this.companyPageSize = e.pageSize;
     this.loadCompanies();
+  }
+
+  countryName(countryId: number | null | undefined): string {
+    if (countryId == null) {
+      return '—';
+    }
+    return this.countries.find((country) => country.id === countryId)?.name ?? String(countryId);
   }
 
   onCurrencyPage(e: PageEvent): void {
@@ -1814,7 +2060,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingCareers = false;
-        this.snack.open('No se pudieron cargar las carreras', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('career')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1829,7 +2075,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingLanguages = false;
-        this.snack.open('No se pudieron cargar los idiomas', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('language')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1857,7 +2103,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingShifts = false;
-        this.snack.open('No se pudieron cargar los turnos', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('shift')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1873,7 +2119,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingBenefits = false;
-        this.snack.open('No se pudieron cargar las prestaciones', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('benefit')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1889,7 +2135,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingDocumentTypes = false;
-        this.snack.open('No se pudieron cargar los tipos de documento', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('documentType')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1923,7 +2169,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingBrands = false;
-        this.snack.open('No se pudieron cargar las marcas', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('brand')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1939,7 +2185,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingContractTypes = false;
-        this.snack.open('No se pudieron cargar los tipos de contrato', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('contractType')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1955,7 +2201,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingCoverageTypes = false;
-        this.snack.open('No se pudieron cargar los tipos de cobertura', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('mpCoverageType')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -1991,7 +2237,7 @@ export class CatalogsAdminComponent implements OnInit {
         },
         error: () => {
           this.loadingEducationLevels = false;
-          this.snack.open('No se pudieron cargar los niveles de educación', 'Cerrar', { duration: 4000 });
+          this.snack.open(catalogLoadListError(getCatalogEntryLabel('educationLevel')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
         },
       });
   }
@@ -2009,7 +2255,7 @@ export class CatalogsAdminComponent implements OnInit {
         },
         error: () => {
           this.loadingLanguageLevels = false;
-          this.snack.open('No se pudieron cargar los niveles de idioma', 'Cerrar', { duration: 4000 });
+          this.snack.open(catalogLoadListError(getCatalogEntryLabel('languageLevel')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
         },
       });
   }
@@ -2027,7 +2273,7 @@ export class CatalogsAdminComponent implements OnInit {
         },
         error: () => {
           this.loadingRequisitionTypes = false;
-          this.snack.open('No se pudieron cargar los tipos de requisición', 'Cerrar', { duration: 4000 });
+          this.snack.open(catalogLoadListError(getCatalogEntryLabel('requisitionType')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
         },
       });
   }
@@ -2043,7 +2289,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingCompanyAreas = false;
-        this.snack.open('No se pudieron cargar áreas', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('companyArea')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -2064,7 +2310,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingCompanyDepartments = false;
-        this.snack.open('No se pudieron cargar departamentos', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('companyDepartment')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -2085,7 +2331,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingBranches = false;
-        this.snack.open('No se pudieron cargar sucursales', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('branch')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -2129,7 +2375,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingRecruiterGroups = false;
-        this.snack.open('No se pudieron cargar grupos reclutadores', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('recruiterGroup')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -2199,11 +2445,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingRecruiterGroup = false;
         this.cancelRecruiterGroupForm();
         this.loadRecruiterGroups();
-        this.snack.open('Grupo guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('recruiterGroup')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingRecruiterGroup = false;
-        this.snack.open('No se pudo guardar el grupo', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('recruiterGroup')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -2230,7 +2476,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingJobPortals = false;
-        this.snack.open('No se pudieron cargar portales', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('jobPortal')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -2294,11 +2540,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingJobPortal = false;
         this.cancelJobPortalForm();
         this.loadJobPortals();
-        this.snack.open('Portal guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('jobPortal')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingJobPortal = false;
-        this.snack.open('No se pudo guardar el portal', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('jobPortal')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -2314,7 +2560,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingQuestionnaireCategories = false;
-        this.snack.open('No se pudieron cargar categorías de cuestionario', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('questionnaireCategory')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -2377,11 +2623,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingQuestionnaireCategory = false;
         this.cancelQuestionnaireCategoryForm();
         this.loadQuestionnaireCategorys();
-        this.snack.open('Categoría guardada', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('questionnaireCategory')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingQuestionnaireCategory = false;
-        this.snack.open('No se pudo guardar la categoría', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('questionnaireCategory')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -2407,7 +2653,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingQuestionnaireCategoryOptions = false;
-        this.snack.open('No se pudieron cargar categorías para el formulario', 'Cerrar', { duration: 4000 });
+        this.snack.open(CATALOG_MSG_LOAD_FORM_CATEGORIES, CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -2425,7 +2671,7 @@ export class CatalogsAdminComponent implements OnInit {
         },
         error: () => {
           this.loadingQuestionnaireQuestions = false;
-          this.snack.open('No se pudieron cargar las preguntas', 'Cerrar', { duration: 4000 });
+          this.snack.open(catalogLoadListError(getCatalogEntryLabel('questionnaireQuestion')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
         },
       });
   }
@@ -2451,7 +2697,7 @@ export class CatalogsAdminComponent implements OnInit {
           isActive: true,
         });
       },
-      error: () => this.snack.open('No se pudieron cargar categorías para el formulario', 'Cerrar', { duration: 4000 }),
+      error: () => this.snack.open(CATALOG_MSG_LOAD_FORM_CATEGORIES, CATALOG_MSG_SNACK_CLOSE, { duration: 4000 }),
     });
   }
 
@@ -2470,7 +2716,7 @@ export class CatalogsAdminComponent implements OnInit {
           isActive: row.active,
         });
       },
-      error: () => this.snack.open('No se pudieron cargar categorías para el formulario', 'Cerrar', { duration: 4000 }),
+      error: () => this.snack.open(CATALOG_MSG_LOAD_FORM_CATEGORIES, CATALOG_MSG_SNACK_CLOSE, { duration: 4000 }),
     });
   }
 
@@ -2505,11 +2751,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingQuestionnaireQuestion = false;
         this.cancelQuestionnaireQuestionForm();
         this.loadQuestionnaireQuestions();
-        this.snack.open('Pregunta guardada', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('questionnaireQuestion')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingQuestionnaireQuestion = false;
-        this.snack.open('No se pudo guardar la pregunta', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('questionnaireQuestion')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -2523,24 +2769,6 @@ export class CatalogsAdminComponent implements OnInit {
       this.editingQuestionnaireQuestionId,
       () => this.cancelQuestionnaireQuestionForm(),
     );
-  }
-
-  loadClientCompanies(): void {
-    if (this.selectedCountryId == null) return;
-    this.loadingClientCompanies = true;
-    this.clientCompanyService
-      .list(this.selectedCountryId, this.clientCompanyPageIndex, this.clientCompanyPageSize)
-      .subscribe({
-        next: (res) => {
-          this.clientCompanies = res.items;
-          this.clientCompanyTotal = res.total;
-          this.loadingClientCompanies = false;
-        },
-        error: () => {
-          this.loadingClientCompanies = false;
-          this.snack.open('No se pudieron cargar las empresas cliente', 'Cerrar', { duration: 4000 });
-        },
-      });
   }
 
   onEducationLevelPage(e: PageEvent): void {
@@ -2572,12 +2800,6 @@ export class CatalogsAdminComponent implements OnInit {
     this.loadDisabilityTypes();
     this.loadBusinessUnits();
     this.loadPositionTypes();
-  }
-
-  onClientCompanyPage(e: PageEvent): void {
-    this.clientCompanyPageIndex = e.pageIndex;
-    this.clientCompanyPageSize = e.pageSize;
-    this.loadClientCompanies();
   }
 
   openCreateGender(): void {
@@ -2627,11 +2849,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingGender = false;
         this.cancelGenderForm();
         this.loadGenders();
-        this.snack.open('Género guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('gender')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingGender = false;
-        this.snack.open('No se pudo guardar el género', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('gender')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -2670,11 +2892,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingKinship = false;
         this.cancelKinshipForm();
         this.loadKinships();
-        this.snack.open('Parentesco guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('kinship')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingKinship = false;
-        this.snack.open('No se pudo guardar el parentesco', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('kinship')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -2735,11 +2957,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingCoverageCategory = false;
         this.cancelCoverageCategoryForm();
         this.loadCoverageCategorys();
-        this.snack.open('C Categoría cubrimiento guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('coverageCategory')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingCoverageCategory = false;
-        this.snack.open('No se pudo guardar c categoría cubrimiento', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('coverageCategory')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -2799,11 +3021,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingCharacteristic = false;
         this.cancelCharacteristicForm();
         this.loadCharacteristics();
-        this.snack.open('Características guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('characteristic')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingCharacteristic = false;
-        this.snack.open('No se pudo guardar características', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('characteristic')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -2860,11 +3082,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingCategory = false;
         this.cancelCategoryForm();
         this.loadCategorys();
-        this.snack.open('Categoría guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('category')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingCategory = false;
-        this.snack.open('No se pudo guardar categoría', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('category')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -2924,11 +3146,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingMaritalStatus = false;
         this.cancelMaritalStatusForm();
         this.loadMaritalStatuss();
-        this.snack.open('Estado civil guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('maritalStatus')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingMaritalStatus = false;
-        this.snack.open('No se pudo guardar estado civil', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('maritalStatus')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -2988,11 +3210,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingExperienceLevel = false;
         this.cancelExperienceLevelForm();
         this.loadExperienceLevels();
-        this.snack.open('Experiencia guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('experienceLevel')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingExperienceLevel = false;
-        this.snack.open('No se pudo guardar experiencia', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('experienceLevel')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -3052,11 +3274,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingTool = false;
         this.cancelToolForm();
         this.loadTools();
-        this.snack.open('Herramienta guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('tool')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingTool = false;
-        this.snack.open('No se pudo guardar herramienta', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('tool')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -3116,11 +3338,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingWorkSchedule = false;
         this.cancelWorkScheduleForm();
         this.loadWorkSchedules();
-        this.snack.open('Horario trabajo guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('workSchedule')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingWorkSchedule = false;
-        this.snack.open('No se pudo guardar horario trabajo', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('workSchedule')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -3180,11 +3402,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingWorkplace = false;
         this.cancelWorkplaceForm();
         this.loadWorkplaces();
-        this.snack.open('Lugar trabajo guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('workplace')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingWorkplace = false;
-        this.snack.open('No se pudo guardar lugar trabajo', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('workplace')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -3244,11 +3466,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingRequirement = false;
         this.cancelRequirementForm();
         this.loadRequirements();
-        this.snack.open('Requisitos guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('requirement')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingRequirement = false;
-        this.snack.open('No se pudo guardar requisitos', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('requirement')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -3308,11 +3530,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingResponsibilityLevel = false;
         this.cancelResponsibilityLevelForm();
         this.loadResponsibilityLevels();
-        this.snack.open('Responsabilidad guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('responsibilityLevel')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingResponsibilityLevel = false;
-        this.snack.open('No se pudo guardar responsabilidad', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('responsibilityLevel')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -3372,11 +3594,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingDisabilityType = false;
         this.cancelDisabilityTypeForm();
         this.loadDisabilityTypes();
-        this.snack.open('Tipo discapacidad guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('disabilityType')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingDisabilityType = false;
-        this.snack.open('No se pudo guardar tipo discapacidad', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('disabilityType')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -3436,11 +3658,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingBusinessUnit = false;
         this.cancelBusinessUnitForm();
         this.loadBusinessUnits();
-        this.snack.open('Unidad de negocio guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('businessUnit')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingBusinessUnit = false;
-        this.snack.open('No se pudo guardar unidad de negocio', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('businessUnit')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -3500,11 +3722,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingPositionType = false;
         this.cancelPositionTypeForm();
         this.loadPositionTypes();
-        this.snack.open('Puesto guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('positionType')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingPositionType = false;
-        this.snack.open('No se pudo guardar puesto', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('positionType')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -3565,26 +3787,30 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingClient = false;
         this.cancelClientForm();
         this.loadClients();
-        this.snack.open('Cliente guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('client')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingClient = false;
-        this.snack.open('No se pudo guardar el cliente', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('client')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
 
   openCreateCompany(): void {
-    this.resetCreateScope();
     this.editingCompanyId = null;
     this.showCompanyForm = true;
+    this.loadingCompanyDetail = false;
     this.companyForm.reset({
       code: '',
       name: '',
       description: '',
       tradeName: '',
       taxId: '',
-      countryId: null,
+      countryId: this.selectedCountryId,
+      defaultPortalLanguageId: this.defaultPortalLanguageId(),
+      billingMessage: '',
+      atsCode: null,
+      noPurchaseOrder: false,
       street: '',
       neighborhood: '',
       municipality: '',
@@ -3600,28 +3826,45 @@ export class CatalogsAdminComponent implements OnInit {
   openEditCompany(row: CatalogCompany): void {
     this.editingCompanyId = row.id;
     this.showCompanyForm = true;
-    this.companyForm.patchValue({
-      code: row.code,
-      name: row.name,
-      description: row.description ?? '',
-      tradeName: row.tradeName ?? '',
-      taxId: row.taxId ?? '',
-      countryId: row.countryId ?? null,
-      street: row.street ?? '',
-      neighborhood: row.neighborhood ?? '',
-      municipality: row.municipality ?? '',
-      stateName: row.stateName ?? '',
-      logoUrl: row.logoUrl ?? '',
-      bannerUrl: row.bannerUrl ?? '',
-      r3Interface: row.r3Interface ?? false,
-      wsSignature: row.wsSignature ?? false,
-      isActive: row.isActive,
+    this.loadingCompanyDetail = true;
+    this.companyService.getById(row.id).subscribe({
+      next: (company) => {
+        this.loadingCompanyDetail = false;
+        this.companyForm.patchValue({
+          code: company.code,
+          name: company.name,
+          description: company.description ?? '',
+          tradeName: company.tradeName ?? '',
+          taxId: company.taxId ?? '',
+          countryId: company.countryId,
+          defaultPortalLanguageId: company.defaultPortalLanguageId ?? this.defaultPortalLanguageId(),
+          billingMessage: company.billingMessage ?? '',
+          atsCode: company.atsCode ?? null,
+          noPurchaseOrder: company.noPurchaseOrder ?? false,
+          street: company.street ?? '',
+          neighborhood: company.neighborhood ?? '',
+          municipality: company.municipality ?? '',
+          stateName: company.stateName ?? '',
+          logoUrl: company.logoUrl ?? '',
+          bannerUrl: company.bannerUrl ?? '',
+          r3Interface: company.r3Interface ?? false,
+          wsSignature: company.wsSignature ?? false,
+          isActive: company.isActive,
+        });
+      },
+      error: () => {
+        this.loadingCompanyDetail = false;
+        this.showCompanyForm = false;
+        this.editingCompanyId = null;
+        this.snack.open(CATALOG_MSG_LOAD_SINGLE_COMPANY, CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
+      },
     });
   }
 
   cancelCompanyForm(): void {
     this.showCompanyForm = false;
     this.editingCompanyId = null;
+    this.loadingCompanyDetail = false;
   }
 
   saveCompany(): void {
@@ -3630,21 +3873,28 @@ export class CatalogsAdminComponent implements OnInit {
       return;
     }
     const value = this.companyForm.getRawValue();
+    const payload = {
+      ...value,
+      countryId: value.countryId!,
+      defaultPortalLanguageId: value.defaultPortalLanguageId!,
+      atsCode: value.atsCode ?? undefined,
+      billingMessage: value.billingMessage || undefined,
+    };
     this.savingCompany = true;
     const request$ =
       this.editingCompanyId != null
-        ? this.companyService.update(this.editingCompanyId, value)
-        : this.companyService.create(value);
+        ? this.companyService.update(this.editingCompanyId, payload)
+        : this.companyService.create(payload);
     request$.subscribe({
       next: () => {
         this.savingCompany = false;
         this.cancelCompanyForm();
         this.loadCompanies();
-        this.snack.open('Compañía guardada', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('company')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingCompany = false;
-        this.snack.open('No se pudo guardar la compañía', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('company')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -3705,11 +3955,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingCurrency = false;
         this.cancelCurrencyForm();
         this.loadCurrencies();
-        this.snack.open('Moneda guardada', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('currency')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingCurrency = false;
-        this.snack.open('No se pudo guardar la moneda', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('currency')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -3759,11 +4009,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingCareer = false;
         this.cancelCareerForm();
         this.loadCareers();
-        this.snack.open('Carrera guardada', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('career')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingCareer = false;
-        this.snack.open('No se pudo guardar la carrera', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('career')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -3802,11 +4052,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingLanguage = false;
         this.cancelLanguageForm();
         this.loadLanguages();
-        this.snack.open('Idioma guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('language')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingLanguage = false;
-        this.snack.open('No se pudo guardar el idioma', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('language')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -3856,11 +4106,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingShift = false;
         this.cancelShiftForm();
         this.loadShifts();
-        this.snack.open('Turno guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('shift')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingShift = false;
-        this.snack.open('No se pudo guardar el turno', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('shift')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -3910,11 +4160,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingBenefit = false;
         this.cancelBenefitForm();
         this.loadBenefits();
-        this.snack.open('Prestación guardada', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('benefit')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingBenefit = false;
-        this.snack.open('No se pudo guardar la prestación', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('benefit')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -3975,11 +4225,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingDocumentType = false;
         this.cancelDocumentTypeForm();
         this.loadDocumentTypes();
-        this.snack.open('Tipo de documento guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('documentType')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingDocumentType = false;
-        this.snack.open('No se pudo guardar el tipo de documento', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('documentType')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -4029,11 +4279,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingBrand = false;
         this.cancelBrandForm();
         this.loadBrands();
-        this.snack.open('Marca guardada', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('brand')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingBrand = false;
-        this.snack.open('No se pudo guardar la marca', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('brand')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -4091,11 +4341,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingContractType = false;
         this.cancelContractTypeForm();
         this.loadContractTypes();
-        this.snack.open('Tipo de contrato guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('contractType')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingContractType = false;
-        this.snack.open('No se pudo guardar el tipo de contrato', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('contractType')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -4153,11 +4403,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingCoverageType = false;
         this.cancelCoverageTypeForm();
         this.loadCoverageTypes();
-        this.snack.open('Tipo de cobertura guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('mpCoverageType')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingCoverageType = false;
-        this.snack.open('No se pudo guardar el tipo de cobertura', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('mpCoverageType')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -4218,11 +4468,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingEducationLevel = false;
         this.cancelEducationLevelForm();
         this.loadEducationLevels();
-        this.snack.open('Nivel de educación guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('educationLevel')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingEducationLevel = false;
-        this.snack.open('No se pudo guardar el nivel de educación', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('educationLevel')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -4280,11 +4530,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingLanguageLevel = false;
         this.cancelLanguageLevelForm();
         this.loadLanguageLevels();
-        this.snack.open('Nivel de idioma guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('languageLevel')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingLanguageLevel = false;
-        this.snack.open('No se pudo guardar el nivel de idioma', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('languageLevel')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -4355,11 +4605,11 @@ export class CatalogsAdminComponent implements OnInit {
     this.loadDisabilityTypes();
     this.loadBusinessUnits();
     this.loadPositionTypes();
-        this.snack.open('Tipo de requisición guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('requisitionType')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingRequisitionType = false;
-        this.snack.open('No se pudo guardar el tipo de requisición', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('requisitionType')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -4417,11 +4667,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingCompanyArea = false;
         this.cancelCompanyAreaForm();
         this.loadCompanyAreas();
-        this.snack.open('Áreas guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('companyArea')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingCompanyArea = false;
-        this.snack.open('No se pudo guardar áreas', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('companyArea')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -4478,11 +4728,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingCompanyDepartment = false;
         this.cancelCompanyDepartmentForm();
         this.loadCompanyDepartments();
-        this.snack.open('Departamentos guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('companyDepartment')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingCompanyDepartment = false;
-        this.snack.open('No se pudo guardar departamentos', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('companyDepartment')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -4542,82 +4792,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingBranch = false;
         this.cancelBranchForm();
         this.loadBranchs();
-        this.snack.open('Sucursales guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('branch')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingBranch = false;
-        this.snack.open('No se pudo guardar sucursales', 'Cerrar', { duration: 4000 });
-      },
-    });
-  }
-
-  openCreateClientCompany(): void {
-    this.resetCreateScope();
-    this.editingClientCompanyId = null;
-    this.showClientCompanyForm = true;
-    this.clientCompanyForm.reset({
-      countryId: this.selectedCountryId,
-      code: '',
-      name: '',
-      description: '',
-      tradeName: '',
-      taxId: '',
-      r3Interface: false,
-      isActive: true,
-    });
-  }
-
-  openEditClientCompany(row: CatalogClientCompany): void {
-    this.editingClientCompanyId = row.id;
-    this.showClientCompanyForm = true;
-    this.clientCompanyForm.patchValue({
-      countryId: row.countryId,
-      code: row.code,
-      name: row.name,
-      description: row.description ?? '',
-      tradeName: row.tradeName ?? '',
-      taxId: row.taxId ?? '',
-      r3Interface: row.r3Interface,
-      isActive: row.isActive,
-    });
-  }
-
-  cancelClientCompanyForm(): void {
-    this.showClientCompanyForm = false;
-    this.editingClientCompanyId = null;
-  }
-
-  saveClientCompany(): void {
-    if (this.clientCompanyForm.invalid) {
-      this.clientCompanyForm.markAllAsTouched();
-      return;
-    }
-    const value = this.clientCompanyForm.getRawValue();
-    const payload = {
-      countryId: value.countryId!,
-      code: value.code,
-      name: value.name,
-      description: value.description || undefined,
-      tradeName: value.tradeName || undefined,
-      taxId: value.taxId || undefined,
-      r3Interface: value.r3Interface,
-      isActive: value.isActive,
-    };
-    this.savingClientCompany = true;
-    const request$ =
-      this.editingClientCompanyId != null
-        ? this.clientCompanyService.update(this.editingClientCompanyId, payload)
-        : this.clientCompanyService.create(this.withCreateScope(payload));
-    request$.subscribe({
-      next: () => {
-        this.savingClientCompany = false;
-        this.cancelClientCompanyForm();
-        this.loadClientCompanies();
-        this.snack.open('Empresa cliente guardada', 'Cerrar', { duration: 3000 });
-      },
-      error: () => {
-        this.savingClientCompany = false;
-        this.snack.open('No se pudo guardar la empresa cliente', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('branch')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -4632,7 +4811,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingCountryRecords = false;
-        this.snack.open('No se pudieron cargar los países', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('country')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -4648,7 +4827,7 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingStates = false;
-        this.snack.open('No se pudieron cargar las entidades federativas', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('state')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -4734,11 +4913,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.cancelCountryForm();
         this.loadCountryRecords();
         this.reloadCountryDropdown();
-        this.snack.open('País guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('mpCountry')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingCountry = false;
-        this.snack.open('No se pudo guardar el país', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('mpCountry')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -4796,11 +4975,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingState = false;
         this.cancelStateForm();
         this.loadStates();
-        this.snack.open('Entidad federativa guardada', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('state')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingState = false;
-        this.snack.open('No se pudo guardar la entidad federativa', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('state')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -4818,7 +4997,7 @@ export class CatalogsAdminComponent implements OnInit {
         },
         error: () => {
           this.loadingMunicipalities = false;
-          this.snack.open('No se pudieron cargar los municipios', 'Cerrar', { duration: 4000 });
+          this.snack.open(catalogLoadListError(getCatalogEntryLabel('municipality')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
         },
       });
   }
@@ -4836,7 +5015,7 @@ export class CatalogsAdminComponent implements OnInit {
         },
         error: () => {
           this.loadingNeighborhoods = false;
-          this.snack.open('No se pudieron cargar las colonias', 'Cerrar', { duration: 4000 });
+          this.snack.open(catalogLoadListError(getCatalogEntryLabel('neighborhood')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
         },
       });
   }
@@ -4899,11 +5078,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.cancelMunicipalityForm();
         this.loadMunicipalities();
         this.loadMunicipalityOptions();
-        this.snack.open('Municipio guardado', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('municipality')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingMunicipality = false;
-        this.snack.open('No se pudo guardar el municipio', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('municipality')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -4958,11 +5137,11 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingNeighborhood = false;
         this.cancelNeighborhoodForm();
         this.loadNeighborhoods();
-        this.snack.open('Colonia guardada', 'Cerrar', { duration: 3000 });
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('neighborhood')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.savingNeighborhood = false;
-        this.snack.open('No se pudo guardar la colonia', 'Cerrar', { duration: 4000 });
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('neighborhood')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -4976,7 +5155,7 @@ export class CatalogsAdminComponent implements OnInit {
     cancelForm: () => void,
   ): void {
     const display = label?.trim() || `ID ${row.id}`;
-    if (!confirm(`¿Eliminar "${display}"? Esta acción no se puede deshacer.`)) {
+    if (!confirm(catalogDeleteConfirm(display))) {
       return;
     }
     this.deletingCatalogId = row.id;
@@ -4987,11 +5166,11 @@ export class CatalogsAdminComponent implements OnInit {
           cancelForm();
         }
         reload();
-        this.snack.open('Registro eliminado', 'Cerrar', { duration: 3000 });
+        this.snack.open(CATALOG_MSG_DELETE_SUCCESS, CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
         this.deletingCatalogId = null;
-        this.snack.open('No se pudo eliminar el registro', 'Cerrar', { duration: 4000 });
+        this.snack.open(CATALOG_MSG_DELETE_ERROR, CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
@@ -5356,17 +5535,6 @@ export class CatalogsAdminComponent implements OnInit {
       () => this.loadClients(),
       this.editingClientId,
       () => this.cancelClientForm(),
-    );
-  }
-
-  deleteClientCompany(row: CatalogClientCompany): void {
-    this.deleteCatalogRow(
-      row,
-      row.name || row.code,
-      this.clientCompanyService.delete(row.id),
-      () => this.loadClientCompanies(),
-      this.editingClientCompanyId,
-      () => this.cancelClientCompanyForm(),
     );
   }
 

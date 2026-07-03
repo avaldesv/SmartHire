@@ -1,12 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../../core/services/auth.service';
+import { AUTH_LOGIN_FAILED, AUTH_SSO_FAILED } from '../../../core/i18n/auth-labels';
+import { ApiErrorTranslationService } from '../../../core/services/api-error-translation.service';
 
 @Component({
   selector: 'sh-login',
@@ -18,7 +20,7 @@ import { AuthService } from '../../../core/services/auth.service';
 export class LoginComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly auth = inject(AuthService);
-  private readonly router = inject(Router);
+  private readonly apiErrors = inject(ApiErrorTranslationService);
   private readonly route = inject(ActivatedRoute);
 
   loading = false;
@@ -31,7 +33,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.route.snapshot.queryParamMap.get('ssoError') === '1') {
-      this.error = 'No se pudo completar el inicio de sesión con SSO. Intente de nuevo o use usuario y contraseña.';
+      this.error = AUTH_SSO_FAILED;
     }
   }
 
@@ -46,11 +48,15 @@ export class LoginComponent implements OnInit {
     this.auth.login(email, password).subscribe({
       next: () => {
         this.loading = false;
-        this.router.navigate(['/home']);
+        this.auth.loadCurrentUserProfile().subscribe({
+          error: () => {
+            this.error = AUTH_LOGIN_FAILED;
+          },
+        });
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.error = 'No se pudo iniciar sesión. Intente de nuevo.';
+        this.error = this.apiErrors.translate(err) || AUTH_LOGIN_FAILED;
       },
     });
   }

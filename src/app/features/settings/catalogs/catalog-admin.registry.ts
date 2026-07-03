@@ -1,3 +1,5 @@
+import { getCatalogCategoryLabel, getCatalogEntryLabel } from '../../../core/i18n/catalog-i18n-labels';
+
 export type CatalogCategoryId =
   | 'generales'
   | 'cuestionario'
@@ -25,7 +27,6 @@ export type CatalogPanelKey =
   | 'neighborhood'
   | 'company'
   | 'client'
-  | 'clientCompany'
   | 'kinship'
   | 'brand'
   | 'documentType'
@@ -70,7 +71,20 @@ export interface CatalogCategoryDefinition {
 }
 
 function sortCatalogsByLabel(catalogs: CatalogRegistryEntry[]): CatalogRegistryEntry[] {
-  return [...catalogs].sort((a, b) => a.label.localeCompare(b.label, 'es', { sensitivity: 'base' }));
+  return [...catalogs].sort((a, b) => a.label.localeCompare(b.label, undefined, { sensitivity: 'base' }));
+}
+
+function localizeCategory(category: CatalogCategoryDefinition): CatalogCategoryDefinition {
+  return {
+    ...category,
+    label: getCatalogCategoryLabel(category.id),
+    catalogs: sortCatalogsByLabel(
+      category.catalogs.map((entry) => ({
+        ...entry,
+        label: getCatalogEntryLabel(entry.id),
+      })),
+    ),
+  };
 }
 
 const CATALOG_CATEGORIES_RAW: CatalogCategoryDefinition[] = [
@@ -124,7 +138,13 @@ const CATALOG_CATEGORIES_RAW: CatalogCategoryDefinition[] = [
     id: 'empresas',
     label: 'Empresas',
     catalogs: [
-      { id: 'clientCompany', label: 'Empresas cliente', panelKey: 'clientCompany', implemented: true },
+      {
+        id: 'company',
+        label: 'Empresas',
+        panelKey: 'company',
+        implemented: true,
+        globalAdminOnly: true,
+      },
       { id: 'companyArea', label: 'Áreas', panelKey: 'companyArea', implemented: true },
       { id: 'companyDepartment', label: 'Departamentos', panelKey: 'companyDepartment', implemented: true },
       { id: 'branch', label: 'Sucursales', panelKey: 'branch', implemented: true },
@@ -147,13 +167,6 @@ const CATALOG_CATEGORIES_RAW: CatalogCategoryDefinition[] = [
     id: 'smarthireOps',
     label: 'SmartHire / Operación',
     catalogs: [
-      {
-        id: 'company',
-        label: 'Empresas',
-        panelKey: 'company',
-        implemented: true,
-        globalAdminOnly: true,
-      },
       { id: 'kinship', label: 'Parentesco', panelKey: 'kinship', implemented: true },
       { id: 'brand', label: 'Marca', panelKey: 'brand', implemented: true },
       { id: 'documentType', label: 'Tipo documento', panelKey: 'documentType', implemented: true },
@@ -163,13 +176,11 @@ const CATALOG_CATEGORIES_RAW: CatalogCategoryDefinition[] = [
   },
 ];
 
-export const CATALOG_CATEGORIES: CatalogCategoryDefinition[] = CATALOG_CATEGORIES_RAW.map((category) => ({
-  ...category,
-  catalogs: sortCatalogsByLabel(category.catalogs),
-}));
+export const CATALOG_CATEGORIES: CatalogCategoryDefinition[] = CATALOG_CATEGORIES_RAW.map(localizeCategory);
 
 export function getCategoryById(id: CatalogCategoryId): CatalogCategoryDefinition {
-  return CATALOG_CATEGORIES.find((c) => c.id === id) ?? CATALOG_CATEGORIES[0];
+  const raw = CATALOG_CATEGORIES_RAW.find((c) => c.id === id) ?? CATALOG_CATEGORIES_RAW[0];
+  return localizeCategory(raw);
 }
 
 export function isCatalogEntryVisible(entry: CatalogRegistryEntry, isGlobalAdmin: boolean): boolean {
@@ -187,7 +198,7 @@ export function resolveVisibleCategories(isGlobalAdmin: boolean): CatalogCategor
 }
 
 const CATEGORY_DEFAULT_CATALOG: Partial<Record<CatalogCategoryId, string>> = {
-  empresas: 'clientCompany',
+  empresas: 'companyArea',
   smarthireOps: 'kinship',
 };
 

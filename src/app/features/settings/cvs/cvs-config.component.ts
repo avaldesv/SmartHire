@@ -6,19 +6,29 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import {
+  CVS_FIELD_AUTO_PARSE,
+  CVS_FIELD_FORMAT,
+  CVS_FIELD_MAX_SIZE_MB,
+  CVS_FIELD_REQUIRE_PHOTO,
+  CVS_PAGE_TITLE,
+  CVS_SAVE_SUCCESS,
+  SETTINGS_CONFIG_SAVE,
+  SETTINGS_CONFIG_SNACK_CLOSE,
+} from '../../../core/i18n/settings-config-labels';
 
 @Component({
   selector: 'sh-cvs-config',
   standalone: true,
   imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatSlideToggleModule, MatButtonModule, MatSnackBarModule],
   template: `
-    <h3>Configuración de CVs</h3>
+    <h3>{{ pageTitle }}</h3>
     <form [formGroup]="form" (ngSubmit)="save()" class="sh-card config-form">
-      <mat-form-field appearance="outline"><mat-label>Formato aceptado</mat-label><mat-select formControlName="format"><mat-option value="pdf">PDF</mat-option><mat-option value="docx">DOCX</mat-option></mat-select></mat-form-field>
-      <mat-form-field appearance="outline"><mat-label>Tamaño máximo (MB)</mat-label><input matInput type="number" formControlName="maxSizeMb" /></mat-form-field>
-      <mat-slide-toggle formControlName="autoParse">Parseo automático con IA</mat-slide-toggle>
-      <mat-slide-toggle formControlName="requirePhoto">Requerir fotografía</mat-slide-toggle>
-      <button mat-flat-button color="primary" type="submit">Guardar</button>
+      <mat-form-field appearance="outline"><mat-label>{{ fieldFormat }}</mat-label><mat-select formControlName="format"><mat-option value="pdf">PDF</mat-option><mat-option value="docx">DOCX</mat-option></mat-select></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>{{ fieldMaxSizeMb }}</mat-label><input matInput type="number" formControlName="maxSizeMb" /></mat-form-field>
+      <mat-slide-toggle formControlName="autoParse">{{ fieldAutoParse }}</mat-slide-toggle>
+      <mat-slide-toggle formControlName="requirePhoto">{{ fieldRequirePhoto }}</mat-slide-toggle>
+      <button mat-flat-button color="primary" type="submit">{{ saveLabel }}</button>
     </form>
   `,
   styles: `
@@ -30,6 +40,13 @@ export class CvsConfigComponent {
   private readonly fb = inject(FormBuilder);
   private readonly snack = inject(MatSnackBar);
 
+  readonly pageTitle = CVS_PAGE_TITLE;
+  readonly fieldFormat = CVS_FIELD_FORMAT;
+  readonly fieldMaxSizeMb = CVS_FIELD_MAX_SIZE_MB;
+  readonly fieldAutoParse = CVS_FIELD_AUTO_PARSE;
+  readonly fieldRequirePhoto = CVS_FIELD_REQUIRE_PHOTO;
+  readonly saveLabel = SETTINGS_CONFIG_SAVE;
+
   readonly form = this.fb.nonNullable.group({
     format: ['pdf'],
     maxSizeMb: [5],
@@ -38,6 +55,6 @@ export class CvsConfigComponent {
   });
 
   save(): void {
-    this.snack.open('Configuración de CVs guardada', 'Cerrar', { duration: 2500 });
+    this.snack.open(CVS_SAVE_SUCCESS, SETTINGS_CONFIG_SNACK_CLOSE, { duration: 2500 });
   }
 }

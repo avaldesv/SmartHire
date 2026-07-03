@@ -1,7 +1,7 @@
 <header class="top-header">
   <div class="brand">
     <div class="logo-mark">SH</div>
-    <span class="logo-text">Smart Hire</span>
+    <span class="logo-text" i18n="@@app.brand">Smart Hire</span>
   </div>
   <div class="header-actions">
     @if (isGlobalAdmin()) {
@@ -14,10 +14,10 @@
         </mat-select>
       </mat-form-field>
     }
-    <button mat-icon-button matBadge="3" matBadgeColor="primary" aria-label="Notificaciones">
+    <button mat-icon-button matBadge="3" matBadgeColor="primary" i18n-aria-label="@@shell.notifications" aria-label="Notificaciones">
       <mat-icon>notifications</mat-icon>
     </button>
-    <button mat-icon-button aria-label="Ayuda">
+    <button mat-icon-button i18n-aria-label="@@shell.help" aria-label="Ayuda">
       <mat-icon>help_outline</mat-icon>
     </button>
     <button mat-button [matMenuTriggerFor]="userMenu" class="user-btn">
@@ -29,9 +29,29 @@
         <strong>{{ user()?.firstName }} {{ user()?.lastName }}</strong>
         <small>{{ user()?.email }}</small>
       </div>
+      @if (portalLanguages().length > 0) {
+        <button mat-menu-item [matMenuTriggerFor]="languageMenu" [disabled]="languageChanging()">
+          <mat-icon>language</mat-icon>
+          <span i18n="@@shell.language">Idioma</span>
+          <span class="menu-language-current">{{ activeLanguageName() }}</span>
+        </button>
+        <mat-menu #languageMenu="matMenu" class="language-submenu">
+          @for (language of portalLanguages(); track language.id) {
+            <button
+              mat-menu-item
+              type="button"
+              [disabled]="languageChanging()"
+              (click)="onLanguageChange(language.id)"
+            >
+              <mat-icon [class.menu-check-hidden]="!isActiveLanguage(language.id)">check</mat-icon>
+              <span>{{ language.name }}</span>
+            </button>
+          }
+        </mat-menu>
+      }
       <button mat-menu-item (click)="logout()">
         <mat-icon>logout</mat-icon>
-        Cerrar sesión
+        <span i18n="@@shell.logout">Cerrar sesión</span>
       </button>
     </mat-menu>
   </div>

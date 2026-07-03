@@ -8,6 +8,7 @@ import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-b
 import { routes } from './app.routes';
 import { createMsalConfiguration } from './core/auth/msal.config';
 import { authTokenInterceptor } from './core/interceptors/auth-token.interceptor';
+import { languageInterceptor } from './core/interceptors/language.interceptor';
 
 function createMsalInstance(): IPublicClientApplication | null {
   const config = createMsalConfiguration();
@@ -45,7 +46,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimations(),
-    provideHttpClient(withInterceptors([authTokenInterceptor])),
+    provideHttpClient(withInterceptors([languageInterceptor, authTokenInterceptor])),
     ...msalProviders,
   ],
 };

@@ -14,11 +14,12 @@ import { MatTableModule } from '@angular/material/table';
 import { debounceTime, distinctUntilChanged, switchMap, catchError, map } from 'rxjs';
 import { of } from 'rxjs';
 import { CatalogBranchService } from '../../../core/services/catalog-branch.service';
-import { CatalogClientCompanyService } from '../../../core/services/catalog-client-company.service';
 import { CatalogCompanyAreaService } from '../../../core/services/catalog-company-area.service';
 import { CatalogCompanyDepartmentService } from '../../../core/services/catalog-company-department.service';
-import { CatalogCompanyService } from '../../../core/services/catalog-company.service';
-import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
+import {
+  CountryDialCodeOption,
+  ReferenceDataService,
+} from '../../../core/services/reference-data.service';
 import { SecurityRoleService } from '../../../core/services/security-role.service';
 import { SecurityUserService } from '../../../core/services/security-user.service';
 import { SecurityRole } from '../../../shared/models/security-role.model';
@@ -27,11 +28,26 @@ import {
   SupervisorOption,
 } from '../../../shared/models/security-user.model';
 import { CatalogBranch } from '../../../shared/models/catalog-branch.model';
-import { CatalogClientCompany } from '../../../shared/models/catalog-client-company.model';
 import { CatalogCompanyArea } from '../../../shared/models/catalog-company-area.model';
 import { CatalogCompanyDepartment } from '../../../shared/models/catalog-company-department.model';
-import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import { TenantContextService } from '../../../core/services/tenant-context.service';
+import { ApiErrorTranslationService } from '../../../core/services/api-error-translation.service';
+import { SNACK_CLOSE_ACTION } from '../../../core/i18n/nav-labels';
+import {
+  USERS_DELETE_ERROR,
+  USERS_DELETE_SUCCESS,
+  USERS_DIAL_CODES_ERROR,
+  USERS_LIST_ERROR,
+  USERS_NO,
+  USERS_ROLES_ERROR,
+  USERS_SAVE,
+  USERS_SAVE_ERROR,
+  USERS_SAVE_SUCCESS,
+  USERS_SAVING,
+  USERS_TENANT_CONTEXT_ERROR,
+  USERS_YES,
+  usersDeleteConfirm,
+} from '../../../core/i18n/users-labels';
 import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 
 @Component({
@@ -58,29 +74,35 @@ import { TableRowActionsComponent } from '../../../shared/components/table-row-a
 export class UsersAdminComponent implements OnInit {
   private readonly userService = inject(SecurityUserService);
   private readonly roleService = inject(SecurityRoleService);
-  private readonly geographyService = inject(CatalogGeographyService);
+  private readonly referenceDataService = inject(ReferenceDataService);
   private readonly branchService = inject(CatalogBranchService);
   private readonly areaService = inject(CatalogCompanyAreaService);
   private readonly departmentService = inject(CatalogCompanyDepartmentService);
-  private readonly clientCompanyService = inject(CatalogClientCompanyService);
-  private readonly catalogCompanyService = inject(CatalogCompanyService);
   private readonly tenantContext = inject(TenantContextService);
   private readonly snack = inject(MatSnackBar);
+  private readonly apiErrors = inject(ApiErrorTranslationService);
   private readonly fb = inject(FormBuilder);
   private tenantReloadReady = false;
+
+  readonly createTitle = $localize`:@@users.form.createTitle:Nuevo usuario`;
+  readonly editTitle = $localize`:@@users.form.editTitle:Editar usuario`;
+  readonly saveLabel = USERS_SAVE;
+  readonly savingLabel = USERS_SAVING;
+  readonly yesLabel = USERS_YES;
+  readonly noLabel = USERS_NO;
 
   loading = true;
   saving = false;
   deletingId: number | null = null;
   data: SecurityUser[] = [];
   roleOptions: SecurityRole[] = [];
-  countryOptions: CatalogCountry[] = [];
+  dialCodeOptions: CountryDialCodeOption[] = [];
   branchOptions: CatalogBranch[] = [];
   areaOptions: CatalogCompanyArea[] = [];
   departmentOptions: CatalogCompanyDepartment[] = [];
-  clientCompanyOptions: CatalogClientCompany[] = [];
   supervisorOptions: SupervisorOption[] = [];
-  catalogCompanyId: number | null = null;
+  tenantCountryId: number | null = null;
+  tenantCountryName: string | null = null;
   total = 0;
   pageIndex = 0;
   pageSize = 10;
@@ -96,13 +118,11 @@ export class UsersAdminComponent implements OnInit {
     lastName: ['', Validators.required],
     phoneCountryCode: [''],
     phone: [''],
-    countryId: [null as number | null],
     supervisorId: [null as number | null],
     supervisorSearch: [''],
     branchId: [null as number | null],
     companyAreaId: [null as number | null],
     companyDepartmentId: [null as number | null],
-    clientCompanyIds: [[] as number[]],
     address: [''],
     legacyR3Username: [''],
     legacyAppianProfile: [''],
@@ -135,9 +155,6 @@ export class UsersAdminComponent implements OnInit {
     this.searchForm.controls.search.valueChanges.pipe(debounceTime(300)).subscribe(() => {
       this.pageIndex = 0;
       this.load();
-    });
-    this.userForm.controls.countryId.valueChanges.subscribe((countryId) => {
-      this.onCountryChanged(countryId);
     });
     this.userForm.controls.supervisorSearch.valueChanges
       .pipe(
@@ -198,18 +215,26 @@ export class UsersAdminComponent implements OnInit {
   }
 
   private loadCatalogData(): void {
-    this.geographyService.listCountries(0, 300).subscribe({
-      next: (countries) => {
-        this.countryOptions = countries.filter((c) => c.isActive !== false);
-      },
-      error: () => this.snack.open('No se pudieron cargar los países', 'Cerrar', { duration: 4000 }),
-    });
-    this.catalogCompanyService.list(0, 50).subscribe({
-      next: (res) => {
-        const active = res.items.filter((c) => c.isActive !== false);
-        this.catalogCompanyId = active[0]?.id ?? null;
+    this.referenceDataService.getUserTenantContext().subscribe({
+      next: (ctx) => {
+        this.tenantCountryId = ctx.countryId;
+        this.tenantCountryName = ctx.countryName;
+        this.loadDialCodes(ctx.countryId);
+        this.loadBranches(ctx.countryId);
         this.loadAreaAndDepartmentOptions();
       },
+      error: () =>
+        this.snack.open(USERS_TENANT_CONTEXT_ERROR, SNACK_CLOSE_ACTION, { duration: 4000 }),
+    });
+  }
+
+  private loadDialCodes(preferredCountryId: number | null): void {
+    this.referenceDataService.listCountryDialCodes(preferredCountryId).subscribe({
+      next: (options) => {
+        this.dialCodeOptions = options;
+      },
+      error: () =>
+        this.snack.open(USERS_DIAL_CODES_ERROR, SNACK_CLOSE_ACTION, { duration: 4000 }),
     });
   }
 
@@ -220,7 +245,7 @@ export class UsersAdminComponent implements OnInit {
           .filter((r) => r.isActive !== false)
           .sort((a, b) => a.name.localeCompare(b.name, 'es'));
       },
-      error: () => this.snack.open('No se pudieron cargar los roles', 'Cerrar', { duration: 4000 }),
+      error: () => this.snack.open(USERS_ROLES_ERROR, SNACK_CLOSE_ACTION, { duration: 4000 }),
     });
   }
 
@@ -233,9 +258,11 @@ export class UsersAdminComponent implements OnInit {
         this.total = res.total;
         this.loading = false;
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open('No se pudieron cargar los usuarios', 'Cerrar', { duration: 4000 });
+        this.snack.open(this.apiErrors.translate(err) || USERS_LIST_ERROR, SNACK_CLOSE_ACTION, {
+          duration: 4000,
+        });
       },
     });
   }
@@ -255,6 +282,10 @@ export class UsersAdminComponent implements OnInit {
       return '';
     }
     return typeof option === 'string' ? option : option.label;
+  }
+
+  dialCodeLabel(option: CountryDialCodeOption): string {
+    return `${option.dialCode} — ${option.countryName}`;
   }
 
   private parseSupervisorOption(term: unknown): SupervisorOption | null {
@@ -291,21 +322,20 @@ export class UsersAdminComponent implements OnInit {
   openCreate(): void {
     this.editingUserId = null;
     this.showForm = true;
+    const defaultDialCode = this.defaultTenantDialCode();
     this.userForm.reset({
       username: '',
       email: '',
       password: '',
       name: '',
       lastName: '',
-      phoneCountryCode: '',
+      phoneCountryCode: defaultDialCode,
       phone: '',
-      countryId: null,
       supervisorId: null,
       supervisorSearch: '',
       branchId: null,
       companyAreaId: null,
       companyDepartmentId: null,
-      clientCompanyIds: [],
       address: '',
       legacyR3Username: '',
       legacyAppianProfile: '',
@@ -313,8 +343,6 @@ export class UsersAdminComponent implements OnInit {
       isActive: true,
       roleIds: [],
     });
-    this.branchOptions = [];
-    this.clientCompanyOptions = [];
     this.userForm.controls.username.enable();
     this.userForm.controls.password.setValidators([Validators.required]);
     this.userForm.controls.password.updateValueAndValidity();
@@ -342,13 +370,11 @@ export class UsersAdminComponent implements OnInit {
         lastName: user.lastName,
         phoneCountryCode: user.phoneCountryCode ?? '',
         phone: user.phone ?? '',
-        countryId: user.countryId ?? null,
         supervisorId: user.supervisorId ?? null,
         supervisorSearch: user.supervisorLabel ?? '',
         branchId: user.branchId ?? null,
         companyAreaId: user.companyAreaId ?? null,
         companyDepartmentId: user.companyDepartmentId ?? null,
-        clientCompanyIds: user.clientCompanyIds ?? [],
         address: user.address ?? '',
         legacyR3Username: user.legacyR3Username ?? '',
         legacyAppianProfile: user.legacyAppianProfile ?? '',
@@ -358,9 +384,6 @@ export class UsersAdminComponent implements OnInit {
       },
       { emitEvent: false },
     );
-    if (user.countryId) {
-      this.loadBranchesAndClientCompanies(user.countryId);
-    }
     if (user.supervisorId != null && user.supervisorLabel) {
       this.supervisorOptions = [{ id: user.supervisorId, label: user.supervisorLabel }];
     }
@@ -381,13 +404,11 @@ export class UsersAdminComponent implements OnInit {
     const supervisorId =
       value.supervisorId ?? this.parseSupervisorOption(value.supervisorSearch)?.id ?? undefined;
     const profilePayload = {
-      countryId: value.countryId ?? undefined,
       phoneCountryCode: value.phoneCountryCode || undefined,
       supervisorId,
       branchId: value.branchId ?? undefined,
       companyAreaId: value.companyAreaId ?? undefined,
       companyDepartmentId: value.companyDepartmentId ?? undefined,
-      clientCompanyIds: value.clientCompanyIds?.length ? value.clientCompanyIds : undefined,
       address: value.address || undefined,
       legacyR3Username: value.legacyR3Username || undefined,
       legacyAppianProfile: value.legacyAppianProfile || undefined,
@@ -408,7 +429,7 @@ export class UsersAdminComponent implements OnInit {
         })
         .subscribe({
           next: () => this.onSaveSuccess(),
-          error: () => this.onSaveError(),
+          error: (err) => this.onSaveError(err),
         });
       return;
     }
@@ -428,7 +449,7 @@ export class UsersAdminComponent implements OnInit {
       })
       .subscribe({
         next: () => this.onSaveSuccess(),
-        error: () => this.onSaveError(),
+        error: (err) => this.onSaveError(err),
       });
   }
 
@@ -436,17 +457,19 @@ export class UsersAdminComponent implements OnInit {
     this.saving = false;
     this.cancelForm();
     this.load();
-    this.snack.open('Usuario guardado', 'Cerrar', { duration: 3000 });
+    this.snack.open(USERS_SAVE_SUCCESS, SNACK_CLOSE_ACTION, { duration: 3000 });
   }
 
-  private onSaveError(): void {
+  private onSaveError(err?: unknown): void {
     this.saving = false;
-    this.snack.open('No se pudo guardar el usuario', 'Cerrar', { duration: 4000 });
+    this.snack.open(this.apiErrors.translate(err) || USERS_SAVE_ERROR, SNACK_CLOSE_ACTION, {
+      duration: 4000,
+    });
   }
 
   deleteUser(row: SecurityUser): void {
     const label = row.username || row.email;
-    if (!confirm(`¿Eliminar el usuario "${label}"? Esta acción no se puede deshacer.`)) {
+    if (!confirm(usersDeleteConfirm(label))) {
       return;
     }
     this.deletingId = row.id;
@@ -457,54 +480,49 @@ export class UsersAdminComponent implements OnInit {
           this.cancelForm();
         }
         this.load();
-        this.snack.open('Usuario eliminado', 'Cerrar', { duration: 3000 });
+        this.snack.open(USERS_DELETE_SUCCESS, SNACK_CLOSE_ACTION, { duration: 3000 });
       },
-      error: () => {
+      error: (err) => {
         this.deletingId = null;
-        this.snack.open('No se pudo eliminar el usuario', 'Cerrar', { duration: 4000 });
+        this.snack.open(this.apiErrors.translate(err) || USERS_DELETE_ERROR, SNACK_CLOSE_ACTION, {
+          duration: 4000,
+        });
       },
     });
   }
 
-  private onCountryChanged(countryId: number | null): void {
-    const country = this.countryOptions.find((c) => c.id === countryId);
-    if (country?.secondaryCode && !this.userForm.controls.phoneCountryCode.value) {
-      this.userForm.patchValue({ phoneCountryCode: country.secondaryCode });
+  private defaultTenantDialCode(): string {
+    if (this.tenantCountryId == null) {
+      return '';
     }
-    this.userForm.patchValue({ branchId: null, clientCompanyIds: [] });
-    if (countryId) {
-      this.loadBranchesAndClientCompanies(countryId);
-    } else {
-      this.branchOptions = [];
-      this.clientCompanyOptions = [];
-    }
+    return this.dialCodeOptions.find((o) => o.countryId === this.tenantCountryId)?.dialCode ?? '';
   }
 
-  private loadBranchesAndClientCompanies(countryId: number): void {
+  private loadBranches(countryId: number | null): void {
+    if (countryId == null) {
+      this.branchOptions = [];
+      return;
+    }
     this.branchService.list(countryId, 0, 300).subscribe({
       next: (res) => {
         this.branchOptions = res.items.filter((b) => b.isActive !== false);
       },
     });
-    this.clientCompanyService.list(countryId, 0, 300).subscribe({
-      next: (res) => {
-        this.clientCompanyOptions = res.items.filter((c) => c.isActive !== false);
-      },
-    });
   }
 
   private loadAreaAndDepartmentOptions(): void {
-    if (!this.catalogCompanyId) {
+    const companyId = this.tenantContext.getCompanyId();
+    if (!companyId) {
       this.areaOptions = [];
       this.departmentOptions = [];
       return;
     }
-    this.areaService.list(this.catalogCompanyId, 0, 300).subscribe({
+    this.areaService.list(companyId, 0, 300).subscribe({
       next: (res) => {
         this.areaOptions = res.items.filter((a) => a.isActive !== false);
       },
     });
-    this.departmentService.list(this.catalogCompanyId, 0, 300).subscribe({
+    this.departmentService.list(companyId, 0, 300).subscribe({
       next: (res) => {
         this.departmentOptions = res.items.filter((d) => d.isActive !== false);
       },

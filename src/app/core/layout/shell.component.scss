@@ -75,6 +75,25 @@
   small { color: #64748b; }
 }
 
+.menu-language-current {
+  margin-left: auto;
+  padding-left: 12px;
+  color: #64748b;
+  font-size: 13px;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.language-submenu {
+  min-width: 200px;
+}
+
+.menu-check-hidden {
+  visibility: hidden;
+}
+
 .main-nav {
   display: flex;
   gap: 4px;

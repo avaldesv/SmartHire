@@ -7,19 +7,19 @@ import {
 describe('catalog-admin.registry', () => {
   describe('resolveVisibleCategories', () => {
     it('hides global-admin-only Empresas catalog for tenant users', () => {
-      const smarthireOps = resolveVisibleCategories(false).find((category) => category.id === 'smarthireOps');
-      expect(smarthireOps?.catalogs.some((entry) => entry.id === 'company')).toBeFalse();
+      const empresas = resolveVisibleCategories(false).find((category) => category.id === 'empresas');
+      expect(empresas?.catalogs.some((entry) => entry.id === 'company')).toBeFalse();
     });
 
-    it('shows Empresas catalog under SmartHire/Ops for global admin', () => {
-      const smarthireOps = resolveVisibleCategories(true).find((category) => category.id === 'smarthireOps');
-      expect(smarthireOps?.catalogs.some((entry) => entry.id === 'company')).toBeTrue();
+    it('shows Empresas catalog under Empresas tab for global admin', () => {
+      const empresas = resolveVisibleCategories(true).find((category) => category.id === 'empresas');
+      expect(empresas?.catalogs.some((entry) => entry.id === 'company')).toBeTrue();
     });
 
-    it('removes Empresas catalog from Empresas tab for all users', () => {
+    it('removes Empresas catalog from SmartHire/Ops tab', () => {
       for (const isGlobalAdmin of [false, true]) {
-        const empresas = resolveVisibleCategories(isGlobalAdmin).find((category) => category.id === 'empresas');
-        expect(empresas?.catalogs.some((entry) => entry.id === 'company')).toBeFalse();
+        const smarthireOps = resolveVisibleCategories(isGlobalAdmin).find((category) => category.id === 'smarthireOps');
+        expect(smarthireOps?.catalogs.some((entry) => entry.id === 'company')).toBeFalse();
       }
     });
 
@@ -35,11 +35,11 @@ describe('catalog-admin.registry', () => {
   describe('ensureValidCatalogSelection', () => {
     it('falls back when tenant user had company selected in Empresas tab', () => {
       const resolved = ensureValidCatalogSelection('empresas', 'company', false);
-      expect(resolved).toBe('clientCompany');
+      expect(resolved).toBe('companyArea');
     });
 
-    it('keeps company selection for global admin in SmartHire/Ops', () => {
-      const resolved = ensureValidCatalogSelection('smarthireOps', 'company', true);
+    it('keeps company selection for global admin in Empresas tab', () => {
+      const resolved = ensureValidCatalogSelection('empresas', 'company', true);
       expect(resolved).toBe('company');
     });
   });

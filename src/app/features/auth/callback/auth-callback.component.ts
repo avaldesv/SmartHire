@@ -54,7 +54,11 @@ export class AuthCallbackComponent implements OnInit {
         switchMap((accessToken) => this.auth.exchangeSsoToken(accessToken)),
       )
       .subscribe({
-        next: () => this.router.navigate(['/home']),
+        next: () => {
+          this.auth.loadCurrentUserProfile().subscribe({
+            error: () => this.router.navigate(['/login'], { queryParams: { ssoError: '1' } }),
+          });
+        },
         error: () => this.router.navigate(['/login'], { queryParams: { ssoError: '1' } }),
       });
   }

@@ -13,7 +13,6 @@ export class ApiClientService {
       'Content-Type': 'application/json',
       applicationId: environment.applicationId,
       companyId: String(this.tenantContext.getCompanyId()),
-      language: environment.language,
       page: String(page),
       size: String(size),
       authorization: token ? `Bearer ${token}` : '',

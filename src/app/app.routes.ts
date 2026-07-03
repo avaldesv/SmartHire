@@ -153,6 +153,7 @@ export const routes: Routes = [
             AppPermissions.SETTINGS_GROUPS_READ,
             AppPermissions.SETTINGS_CATALOGS_READ,
             AppPermissions.SETTINGS_NOTIFICATIONS_READ,
+            AppPermissions.SETTINGS_PROMPTS_READ,
             AppPermissions.SETTINGS_SYSTEM_READ,
           ],
         },
@@ -193,8 +194,8 @@ export const routes: Routes = [
           {
             path: 'prompts',
             canActivate: [permissionGuard],
-            data: { authorities: [AppPermissions.SETTINGS_SYSTEM_READ] },
-            loadComponent: () => import('./features/settings/prompts/prompts-config.component').then((m) => m.PromptsConfigComponent),
+            data: { authorities: [AppPermissions.SETTINGS_PROMPTS_READ] },
+            loadComponent: () => import('./features/settings/prompts/prompts-admin.component').then((m) => m.PromptsAdminComponent),
           },
           {
             path: 'cvs',

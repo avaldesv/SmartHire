@@ -1,34 +1,34 @@
-<h3>Grupos de usuarios</h3>
+<h3>{{ groupsPageTitle }}</h3>
 
 <div class="toolbar">
   <button mat-flat-button color="primary" type="button" (click)="openCreate()">
-    <mat-icon>add</mat-icon> Nuevo grupo
+    <mat-icon>add</mat-icon> {{ groupsNewButton }}
   </button>
 </div>
 
 @if (showForm) {
   <div class="sh-card form-card">
-    <h4>{{ editingRoleId ? 'Editar grupo' : 'Nuevo grupo' }}</h4>
+    <h4>{{ editingRoleId ? groupsEditTitle : groupsNewTitle }}</h4>
     @if (isGlobalAdmin() && !editingRoleId) {
       <div class="scope-selector" [formGroup]="createScopeForm">
-        <span class="scope-label">Ámbito del registro:</span>
+        <span class="scope-label">{{ groupsRecordScope }}</span>
         <mat-radio-group formControlName="scope">
-          <mat-radio-button value="TENANT">Tenant actual</mat-radio-button>
-          <mat-radio-button value="GLOBAL">Global</mat-radio-button>
+          <mat-radio-button value="TENANT">{{ groupsScopeTenant }}</mat-radio-button>
+          <mat-radio-button value="GLOBAL">{{ groupsScopeGlobal }}</mat-radio-button>
         </mat-radio-group>
       </div>
     }
     <form [formGroup]="roleForm" class="group-form" (ngSubmit)="save()">
       <mat-form-field appearance="outline">
-        <mat-label>Nombre</mat-label>
+        <mat-label>{{ groupsFieldName }}</mat-label>
         <input matInput formControlName="name" />
       </mat-form-field>
       <mat-form-field appearance="outline">
-        <mat-label>Descripción</mat-label>
+        <mat-label>{{ groupsFieldDescription }}</mat-label>
         <input matInput formControlName="description" />
       </mat-form-field>
       <mat-form-field appearance="outline">
-        <mat-label>Permisos de módulo</mat-label>
+        <mat-label>{{ groupsFieldModulePermissions }}</mat-label>
         <mat-select formControlName="modulePermissionIds" multiple>
           @for (group of permissionGroups; track group.moduleName) {
             <mat-optgroup [label]="group.moduleName">
@@ -39,11 +39,11 @@
           }
         </mat-select>
       </mat-form-field>
-      <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+      <mat-checkbox formControlName="isActive">{{ groupsFieldActive }}</mat-checkbox>
       <div class="form-actions">
-        <button mat-button type="button" (click)="cancelForm()">Cancelar</button>
+        <button mat-button type="button" (click)="cancelForm()">{{ groupsCancel }}</button>
         <button mat-flat-button color="primary" type="submit" [disabled]="saving">
-          {{ saving ? 'Guardando...' : 'Guardar' }}
+          {{ saving ? groupsSaving : groupsSave }}
         </button>
       </div>
     </form>
@@ -56,21 +56,21 @@
   <div class="sh-card sh-table-wrap">
     <table mat-table [dataSource]="data">
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Grupo</th>
+        <th mat-header-cell *matHeaderCellDef>{{ groupsColumnGroup }}</th>
         <td mat-cell *matCellDef="let row">{{ row.name }}</td>
       </ng-container>
       <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef>Descripción</th>
+        <th mat-header-cell *matHeaderCellDef>{{ groupsFieldDescription }}</th>
         <td mat-cell *matCellDef="let row">{{ row.description || '—' }}</td>
       </ng-container>
       <ng-container matColumnDef="scope">
-        <th mat-header-cell *matHeaderCellDef>Ámbito</th>
+        <th mat-header-cell *matHeaderCellDef>{{ groupsFieldScope }}</th>
         <td mat-cell *matCellDef="let row">
           <sh-scope-badge [companyId]="row.companyId" />
         </td>
       </ng-container>
       <ng-container matColumnDef="permissions">
-        <th mat-header-cell *matHeaderCellDef>Permisos</th>
+        <th mat-header-cell *matHeaderCellDef>{{ groupsColumnPermissions }}</th>
         <td mat-cell *matCellDef="let row">
           @for (name of permissionNames(row); track name) {
             <mat-chip>{{ name }}</mat-chip>
@@ -80,8 +80,8 @@
         </td>
       </ng-container>
       <ng-container matColumnDef="active">
-        <th mat-header-cell *matHeaderCellDef>Activo</th>
-        <td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td>
+        <th mat-header-cell *matHeaderCellDef>{{ groupsFieldActive }}</th>
+        <td mat-cell *matCellDef="let row">{{ row.isActive ? groupsYes : groupsNo }}</td>
       </ng-container>
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef></th>

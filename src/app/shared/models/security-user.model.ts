@@ -19,7 +19,6 @@ export interface SecurityUserProfile {
   legacyR3Username?: string | null;
   legacyAppianProfile?: string | null;
   manpowerPosition?: string | null;
-  clientCompanyIds?: number[];
 }
 
 export interface SecurityUser extends SecurityUserProfile {

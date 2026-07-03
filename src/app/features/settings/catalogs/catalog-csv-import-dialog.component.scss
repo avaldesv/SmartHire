@@ -1,0 +1,41 @@
+.hint {
+  margin: 0 0 12px;
+  color: #475569;
+}
+
+.actions-row,
+.file-row {
+  margin-bottom: 12px;
+}
+
+.file-name {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #334155;
+}
+
+.validation-result,
+.import-result {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.validation-result.valid {
+  border: 1px solid #86efac;
+}
+
+.validation-result.invalid {
+  border: 1px solid #fca5a5;
+}
+
+.error {
+  color: #b91c1c;
+  margin-top: 12px;
+}
+
+mat-spinner {
+  display: inline-block;
+}

@@ -1,3 +1,57 @@
-h3 { margin: 0 0 16px; font-size: 1.1rem; }
-.color-dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
-.loading-wrap { display: flex; justify-content: center; padding: 48px; }
+h3 {
+  margin: 0 0 16px;
+  font-size: 1.1rem;
+}
+
+.toolbar {
+  margin-bottom: 16px;
+}
+
+.form-card {
+  margin-bottom: 16px;
+  padding: 16px;
+}
+
+.form-card h4 {
+  margin: 0 0 12px;
+}
+
+.stage-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.scope-selector {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.scope-label {
+  font-weight: 500;
+}
+
+.form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.color-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 48px;
+}
