@@ -2244,6 +2244,46 @@
         <source>Editar usuario</source>
         <target>Edit user</target>
       </trans-unit>
+      <trans-unit id="questionnaires.pageTitle" datatype="html">
+        <source>Cuestionarios</source>
+        <target>Questionnaires</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.shell.hint" datatype="html">
+        <source>El contenido de esta sección se implementará en las siguientes tareas del módulo.</source>
+        <target>This section will be implemented in upcoming module tasks.</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.nav.categories" datatype="html">
+        <source>Categorías y tags</source>
+        <target>Categories and tags</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.nav.questions" datatype="html">
+        <source>Preguntas</source>
+        <target>Questions</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.nav.questionnaires" datatype="html">
+        <source>Cuestionarios</source>
+        <target>Questionnaires</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.nav.exams" datatype="html">
+        <source>Exámenes</source>
+        <target>Exams</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.categories.title" datatype="html">
+        <source>Categorías de conocimiento y tags</source>
+        <target>Knowledge categories and tags</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questions.title" datatype="html">
+        <source>Banco de preguntas</source>
+        <target>Question bank</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.title" datatype="html">
+        <source>Cuestionarios</source>
+        <target>Questionnaires</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.title" datatype="html">
+        <source>Exámenes</source>
+        <target>Exams</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
