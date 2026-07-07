@@ -54,6 +54,12 @@ export class QuestionnaireV2QuestionApiService {
       .pipe(map((res) => ({ items: res.data ?? [], total: res.pagination?.total ?? 0 })));
   }
 
+  getById(id: number): Observable<QuestionItem> {
+    return this.http.get<QuestionItem>(this.api.apiUrl(`/api/v1/questionnaire-questions/${id}`), {
+      headers: this.api.buildHeaders(),
+    });
+  }
+
   create(request: UpsertQuestionRequest): Observable<QuestionItem> {
     return this.http.post<QuestionItem>(this.api.apiUrl('/api/v1/questionnaire-questions'), request, {
       headers: this.api.buildHeaders(),

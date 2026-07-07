@@ -1,0 +1,136 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+
+<mat-dialog-content>
+  @if (loading) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else {
+    @if (readOnly) {
+      <p class="locked-hint">{{ lockedHint }}</p>
+    }
+    @if (isGlobalAdmin() && !editingId && !readOnly) {
+      <div class="scope-selector" [formGroup]="createScopeForm">
+        <span class="scope-label">{{ recordScope }}</span>
+        <mat-radio-group formControlName="scope">
+          <mat-radio-button value="TENANT">{{ scopeTenant }}</mat-radio-button>
+          <mat-radio-button value="GLOBAL">{{ scopeGlobal }}</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    }
+    <form [formGroup]="form" class="question-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ fieldText }}</mat-label>
+        <textarea matInput rows="3" formControlName="text"></textarea>
+      </mat-form-field>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ fieldType }}</mat-label>
+          <mat-select formControlName="type">
+            @for (item of questionTypes; track item.value) {
+              <mat-option [value]="item.value">{{ item.label }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ fieldCategory }}</mat-label>
+          <mat-select formControlName="knowledgeCategoryId">
+            @for (cat of categories; track cat.id) {
+              <mat-option [value]="cat.id">{{ cat.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="difficulty-field">
+          <mat-label>{{ fieldDifficulty }}</mat-label>
+          <input matInput type="number" min="1" max="5" formControlName="difficulty" />
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ fieldExplanation }}</mat-label>
+        <input matInput formControlName="explanation" />
+      </mat-form-field>
+
+      @if (showCorrectAnswerText) {
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{ fieldCorrectAnswer }}</mat-label>
+          <input matInput formControlName="correctAnswerText" />
+        </mat-form-field>
+      }
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ fieldTags }}</mat-label>
+        <mat-select formControlName="tagIds" multiple>
+          @if (!tags.length) {
+            <mat-option disabled [value]="null">{{ noTagsLabel }}</mat-option>
+          }
+          @for (tag of tags; track tag.id) {
+            <mat-option [value]="tag.id">{{ tag.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      @if (showOptions) {
+        <div class="options-block">
+          <div class="options-header">
+            <h4>{{ optionsTitle }}</h4>
+            @if (!readOnly && form.controls.type.value !== 'yes_no') {
+              <button mat-stroked-button type="button" (click)="addOption()">
+                <mat-icon>add</mat-icon> {{ addOptionLabel }}
+              </button>
+            }
+          </div>
+          @if (isSingleCorrectType) {
+            <mat-radio-group
+              class="options-radio-group"
+              [value]="selectedCorrectIndex"
+              (change)="setCorrectOption(+$event.value)"
+            >
+              @for (option of optionsArray.controls; track $index; let i = $index) {
+                <div class="option-row" [formGroup]="option">
+                  <mat-form-field appearance="outline" class="option-text">
+                    <mat-label>{{ optionTextLabel }}</mat-label>
+                    <input matInput formControlName="optionText" />
+                  </mat-form-field>
+                  <mat-radio-button [value]="i" [disabled]="readOnly">{{ optionCorrectLabel }}</mat-radio-button>
+                  @if (!readOnly && form.controls.type.value !== 'yes_no' && optionsArray.length > 2) {
+                    <button mat-icon-button type="button" color="warn" (click)="removeOption(i)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  }
+                </div>
+              }
+            </mat-radio-group>
+          } @else {
+            @for (option of optionsArray.controls; track $index; let i = $index) {
+              <div class="option-row" [formGroup]="option">
+                <mat-form-field appearance="outline" class="option-text">
+                  <mat-label>{{ optionTextLabel }}</mat-label>
+                  <input matInput formControlName="optionText" />
+                </mat-form-field>
+                <mat-checkbox formControlName="correct">{{ optionCorrectLabel }}</mat-checkbox>
+                @if (!readOnly && optionsArray.length > 2) {
+                  <button mat-icon-button type="button" color="warn" (click)="removeOption(i)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                }
+              </div>
+            }
+          }
+        </div>
+      }
+    </form>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="cancel()" [disabled]="saving">
+    {{ readOnly ? closeLabel : cancelLabel }}
+  </button>
+  @if (!readOnly) {
+    <button mat-flat-button color="primary" type="button" (click)="save()" [disabled]="saving || loading">
+      {{ saving ? savingLabel : saveLabel }}
+    </button>
+  }
+</mat-dialog-actions>

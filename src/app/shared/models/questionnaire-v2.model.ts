@@ -32,6 +32,8 @@ export interface QuestionItem {
   knowledgeCategoryId: number;
   text: string;
   type: string;
+  explanation?: string | null;
+  correctAnswerText?: string | null;
   status: string;
   difficulty?: number;
   locked?: boolean;
