@@ -1,16 +1,19 @@
 import { Component } from '@angular/core';
-import {
-  QUESTIONNAIRES_CATEGORIES_TITLE,
-  QUESTIONNAIRES_SHELL_HINT,
-} from '../../../core/i18n/questionnaires-labels';
+import { MatTabsModule } from '@angular/material/tabs';
+import { QUESTIONNAIRES_CATEGORIES_TITLE } from '../../../core/i18n/questionnaires-labels';
+import { QCAT_TAB_CATEGORIES, QCAT_TAB_TAGS } from '../../../core/i18n/questionnaire-categories-labels';
+import { KnowledgeCategoriesAdminComponent } from './knowledge-categories-admin.component';
+import { TagsAdminComponent } from './tags-admin.component';
 
 @Component({
   selector: 'sh-questionnaire-categories-shell',
   standalone: true,
+  imports: [MatTabsModule, KnowledgeCategoriesAdminComponent, TagsAdminComponent],
   templateUrl: './categories-shell.component.html',
-  styleUrl: '../shared/section-shell.component.scss',
+  styleUrl: './categories-shell.component.scss',
 })
 export class CategoriesShellComponent {
   readonly title = QUESTIONNAIRES_CATEGORIES_TITLE;
-  readonly hint = QUESTIONNAIRES_SHELL_HINT;
+  readonly tabCategories = QCAT_TAB_CATEGORIES;
+  readonly tabTags = QCAT_TAB_TAGS;
 }
