@@ -2252,6 +2252,134 @@
         <source>El contenido de esta sección se implementará en las siguientes tareas del módulo.</source>
         <target>This section will be implemented in upcoming module tasks.</target>
       </trans-unit>
+      <trans-unit id="questionnaires.categories.tab.categories" datatype="html">
+        <source>Categorías</source>
+        <target>Categories</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.categories.tab.tags" datatype="html">
+        <source>Tags</source>
+        <target>Tags</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.categories.newButton" datatype="html">
+        <source>Nueva categoría</source>
+        <target>New category</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.categories.newTitle" datatype="html">
+        <source>Nueva categoría</source>
+        <target>New category</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.categories.editTitle" datatype="html">
+        <source>Editar categoría</source>
+        <target>Edit category</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.categories.field.name" datatype="html">
+        <source>Nombre</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.categories.field.parent" datatype="html">
+        <source>Categoría padre</source>
+        <target>Parent category</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.categories.field.noParent" datatype="html">
+        <source>Sin categoría padre</source>
+        <target>No parent category</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.categories.field.description" datatype="html">
+        <source>Descripción</source>
+        <target>Description</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.categories.col.parent" datatype="html">
+        <source>Padre</source>
+        <target>Parent</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.categories.empty" datatype="html">
+        <source>No hay categorías registradas</source>
+        <target>No categories registered</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.categories.errors.list" datatype="html">
+        <source>No se pudieron cargar las categorías</source>
+        <target>Could not load categories</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.categories.errors.save" datatype="html">
+        <source>No se pudo guardar la categoría</source>
+        <target>Could not save category</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.categories.errors.delete" datatype="html">
+        <source>No se pudo eliminar la categoría</source>
+        <target>Could not delete category</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.categories.success.saved" datatype="html">
+        <source>Categoría guardada</source>
+        <target>Category saved</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.categories.success.deleted" datatype="html">
+        <source>Categoría eliminada</source>
+        <target>Category deleted</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.categories.deleteConfirm" datatype="html">
+        <source>¿Eliminar la categoría "<x id="name" equiv-text="name"/>"? Esta acción no se puede deshacer.</source>
+        <target>Delete category "<x id="name" equiv-text="name"/>"? This action cannot be undone.</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.tags.newButton" datatype="html">
+        <source>Nuevo tag</source>
+        <target>New tag</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.tags.newTitle" datatype="html">
+        <source>Nuevo tag</source>
+        <target>New tag</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.tags.editTitle" datatype="html">
+        <source>Editar tag</source>
+        <target>Edit tag</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.tags.field.name" datatype="html">
+        <source>Nombre</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.tags.field.description" datatype="html">
+        <source>Descripción</source>
+        <target>Description</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.tags.empty" datatype="html">
+        <source>No hay tags registrados</source>
+        <target>No tags registered</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.tags.errors.list" datatype="html">
+        <source>No se pudieron cargar los tags</source>
+        <target>Could not load tags</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.tags.errors.save" datatype="html">
+        <source>No se pudo guardar el tag</source>
+        <target>Could not save tag</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.tags.errors.delete" datatype="html">
+        <source>No se pudo eliminar el tag</source>
+        <target>Could not delete tag</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.tags.success.saved" datatype="html">
+        <source>Tag guardado</source>
+        <target>Tag saved</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.tags.success.deleted" datatype="html">
+        <source>Tag eliminado</source>
+        <target>Tag deleted</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.tags.deleteConfirm" datatype="html">
+        <source>¿Eliminar el tag "<x id="name" equiv-text="name"/>"? Esta acción no se puede deshacer.</source>
+        <target>Delete tag "<x id="name" equiv-text="name"/>"? This action cannot be undone.</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.common.col.name" datatype="html">
+        <source>Nombre</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.common.col.description" datatype="html">
+        <source>Descripción</source>
+        <target>Description</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.common.col.scope" datatype="html">
+        <source>Ámbito</source>
+        <target>Scope</target>
+      </trans-unit>
       <trans-unit id="questionnaires.nav.categories" datatype="html">
         <source>Categorías y tags</source>
         <target>Categories and tags</target>
