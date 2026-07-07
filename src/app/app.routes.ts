@@ -113,13 +113,47 @@ export const routes: Routes = [
         path: 'questionnaires',
         canActivate: [permissionGuard],
         data: { authorities: [AppPermissions.QUESTIONNAIRE_READ] },
-        loadComponent: () => import('./features/questionnaires/list/questionnaires-list.component').then((m) => m.QuestionnairesListComponent),
-      },
-      {
-        path: 'questionnaires/assign',
-        canActivate: [permissionGuard],
-        data: { authorities: [AppPermissions.QUESTIONNAIRE_READ] },
-        loadComponent: () => import('./features/questionnaires/assign/questionnaire-assign.component').then((m) => m.QuestionnaireAssignComponent),
+        loadComponent: () =>
+          import('./features/questionnaires/layout/questionnaires-layout.component').then(
+            (m) => m.QuestionnairesLayoutComponent,
+          ),
+        children: [
+          { path: '', redirectTo: 'categories', pathMatch: 'full' },
+          {
+            path: 'categories',
+            canActivate: [permissionGuard],
+            data: { authorities: [AppPermissions.QUESTIONNAIRE_READ] },
+            loadComponent: () =>
+              import('./features/questionnaires/categories/categories-shell.component').then(
+                (m) => m.CategoriesShellComponent,
+              ),
+          },
+          {
+            path: 'questions',
+            canActivate: [permissionGuard],
+            data: { authorities: [AppPermissions.QUESTIONNAIRE_READ] },
+            loadComponent: () =>
+              import('./features/questionnaires/questions/questions-shell.component').then(
+                (m) => m.QuestionsShellComponent,
+              ),
+          },
+          {
+            path: 'questionnaires',
+            canActivate: [permissionGuard],
+            data: { authorities: [AppPermissions.QUESTIONNAIRE_READ] },
+            loadComponent: () =>
+              import('./features/questionnaires/questionnaires/questionnaires-shell.component').then(
+                (m) => m.QuestionnairesShellComponent,
+              ),
+          },
+          {
+            path: 'exams',
+            canActivate: [permissionGuard],
+            data: { authorities: [AppPermissions.QUESTIONNAIRE_READ] },
+            loadComponent: () =>
+              import('./features/questionnaires/exams/exams-shell.component').then((m) => m.ExamsShellComponent),
+          },
+        ],
       },
       {
         path: 'tracking',

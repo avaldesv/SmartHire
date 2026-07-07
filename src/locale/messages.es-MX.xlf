@@ -6307,6 +6307,81 @@
           <context context-type="linenumber">88</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="questionnaires.pageTitle" datatype="html">
+        <source>Cuestionarios</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/questionnaires/layout/questionnaires-layout.component.html</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/questionnaires-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="questionnaires.shell.hint" datatype="html">
+        <source>El contenido de esta sección se implementará en las siguientes tareas del módulo.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/questionnaires-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="questionnaires.nav.categories" datatype="html">
+        <source>Categorías y tags</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/questionnaires-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="questionnaires.nav.questions" datatype="html">
+        <source>Preguntas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/questionnaires-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="questionnaires.nav.questionnaires" datatype="html">
+        <source>Cuestionarios</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/questionnaires-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="questionnaires.nav.exams" datatype="html">
+        <source>Exámenes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/questionnaires-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="questionnaires.categories.title" datatype="html">
+        <source>Categorías de conocimiento y tags</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/questionnaires-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="questionnaires.questions.title" datatype="html">
+        <source>Banco de preguntas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/questionnaires-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.title" datatype="html">
+        <source>Cuestionarios</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/questionnaires-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.title" datatype="html">
+        <source>Exámenes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/questionnaires-labels.ts</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
