@@ -494,6 +494,34 @@
         <target>Created: <x id="created" equiv-text="created" /> · Updated: <x id="updated" equiv-text="updated" /> · Failed: <x id="failed" equiv-text="failed" />
         </target>
       </trans-unit>
+      <trans-unit id="catalogImport.resultNoErrors" datatype="html">
+        <source>Sin errores.</source>
+        <target>No errors.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.resultWithErrors" datatype="html">
+        <source>Filas con error: <x id="failed" equiv-text="failed"/>.</source>
+        <target>Rows with errors: <x id="failed" equiv-text="failed"/>.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.resultSummary.questionOptions" datatype="html">
+        <source>Se importaron <x id="options" equiv-text="options"/> opciones en <x id="questions" equiv-text="questions"/> preguntas.</source>
+        <target>Imported <x id="options" equiv-text="options"/> options across <x id="questions" equiv-text="questions"/> questions.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.resultSummary.questionnaireQuestions" datatype="html">
+        <source>Se vincularon <x id="links" equiv-text="links"/> preguntas en <x id="questionnaires" equiv-text="questionnaires"/> cuestionarios.</source>
+        <target>Linked <x id="links" equiv-text="links"/> questions in <x id="questionnaires" equiv-text="questionnaires"/> questionnaires.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.resultSummary.questionTags" datatype="html">
+        <source>Se asignaron <x id="tags" equiv-text="tags"/> tags en <x id="questions" equiv-text="questions"/> preguntas.</source>
+        <target>Assigned <x id="tags" equiv-text="tags"/> tags across <x id="questions" equiv-text="questions"/> questions.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.resultSummary.questionnairePublish" datatype="html">
+        <source>Se publicaron <x id="questionnaires" equiv-text="questionnaires"/> cuestionarios.</source>
+        <target>Published <x id="questionnaires" equiv-text="questionnaires"/> questionnaires.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.resultSummary.default" datatype="html">
+        <source>Nuevos: <x id="created" equiv-text="created"/> · Actualizados: <x id="updated" equiv-text="updated"/>.</source>
+        <target>New: <x id="created" equiv-text="created"/> · Updated: <x id="updated" equiv-text="updated"/>.</target>
+      </trans-unit>
       <trans-unit id="catalogs.errors.loadStatesSelector" datatype="html">
         <source>No se pudieron cargar entidades para el selector</source>
         <target>Could not load states for selector</target>
