@@ -6541,6 +6541,48 @@
       <trans-unit id="questionnaires.questions.deleteConfirm" datatype="html">
         <source>¿Eliminar la pregunta "<x id="text" equiv-text="text"/>"? Esta acción no se puede deshacer.</source>
       </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.newButton" datatype="html"><source>Nuevo cuestionario</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.empty" datatype="html"><source>No hay cuestionarios registrados</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.filter.name" datatype="html"><source>Buscar por nombre</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.filter.category" datatype="html"><source>Categoría</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.filter.status" datatype="html"><source>Estado</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.filter.all" datatype="html"><source>Todos</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.filter.apply" datatype="html"><source>Buscar</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.filter.clear" datatype="html"><source>Limpiar</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.col.name" datatype="html"><source>Nombre</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.col.category" datatype="html"><source>Categoría</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.col.status" datatype="html"><source>Estado</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.col.questions" datatype="html"><source>Preguntas</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.status.draft" datatype="html"><source>Borrador</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.status.published" datatype="html"><source>Publicado</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.status.archived" datatype="html"><source>Archivado</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.publishButton" datatype="html"><source>Publicar</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.publishConfirm" datatype="html"><source>¿Publicar este cuestionario? No podrá editarse después.</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.publishSuccess" datatype="html"><source>Cuestionario publicado</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.publishError" datatype="html"><source>No se pudo publicar el cuestionario</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.dialog.newTitle" datatype="html"><source>Nuevo cuestionario</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.dialog.editTitle" datatype="html"><source>Editar cuestionario</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.dialog.viewTitle" datatype="html"><source>Ver cuestionario</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.field.name" datatype="html"><source>Nombre</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.field.description" datatype="html"><source>Descripción</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.field.category" datatype="html"><source>Categoría (opcional)</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.field.noCategory" datatype="html"><source>Sin categoría</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.questions.title" datatype="html"><source>Preguntas asignadas</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.questions.add" datatype="html"><source>Agregar pregunta</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.questions.select" datatype="html"><source>Seleccionar pregunta</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.questions.empty" datatype="html"><source>No hay preguntas asignadas</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.questions.weight" datatype="html"><source>Peso</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.questions.moveUp" datatype="html"><source>Subir</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.questions.moveDown" datatype="html"><source>Bajar</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.categoryMismatch" datatype="html"><source>Algunas preguntas pertenecen a otra categoría distinta a la del cuestionario.</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.publishedLocked" datatype="html"><source>Este cuestionario está publicado y no puede editarse.</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.errors.list" datatype="html"><source>No se pudieron cargar los cuestionarios</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.errors.load" datatype="html"><source>No se pudo cargar el cuestionario</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.errors.save" datatype="html"><source>No se pudo guardar el cuestionario</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.errors.delete" datatype="html"><source>No se pudo eliminar el cuestionario</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.success.saved" datatype="html"><source>Cuestionario guardado</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.success.deleted" datatype="html"><source>Cuestionario eliminado</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.deleteConfirm" datatype="html"><source>¿Eliminar el cuestionario "<x id="name" equiv-text="name"/>"? Esta acción no se puede deshacer.</source></trans-unit>
       <trans-unit id="questionnaires.nav.categories" datatype="html">
         <source>Categorías y tags</source>
         <context-group purpose="location">

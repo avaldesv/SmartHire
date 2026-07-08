@@ -1,0 +1,124 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+
+<mat-dialog-content>
+  @if (loading) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else {
+    @if (readOnly) {
+      <p class="locked-hint">{{ publishedLockedLabel }}</p>
+    }
+    @if (isGlobalAdmin() && !editingItem && !readOnly) {
+      <div class="scope-selector" [formGroup]="createScopeForm">
+        <span class="scope-label">{{ recordScope }}</span>
+        <mat-radio-group formControlName="scope">
+          <mat-radio-button value="TENANT">{{ scopeTenant }}</mat-radio-button>
+          <mat-radio-button value="GLOBAL">{{ scopeGlobal }}</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    }
+    <form [formGroup]="form" class="questionnaire-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ fieldName }}</mat-label>
+        <input matInput formControlName="name" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ fieldDescription }}</mat-label>
+        <textarea matInput rows="2" formControlName="description"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ fieldCategory }}</mat-label>
+        <mat-select formControlName="knowledgeCategoryId">
+          <mat-option [value]="null">{{ noCategoryLabel }}</mat-option>
+          @for (cat of categories; track cat.id) {
+            <mat-option [value]="cat.id">{{ cat.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-checkbox formControlName="isActive">{{ fieldActive }}</mat-checkbox>
+    </form>
+
+    @if (showCategoryMismatch) {
+      <p class="warning-hint">{{ categoryMismatchLabel }}</p>
+    }
+
+    <div class="questions-block">
+      <h4>{{ questionsTitle }}</h4>
+      @if (!readOnly) {
+        <div class="add-question-row">
+          <mat-form-field appearance="outline" class="question-select">
+            <mat-label>{{ selectQuestionLabel }}</mat-label>
+            <mat-select [(value)]="selectedQuestionId">
+              @for (q of unassignedQuestions; track q.id) {
+                <mat-option [value]="q.id">{{ textPreview(q.text) }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <button mat-stroked-button type="button" (click)="addQuestion()" [disabled]="selectedQuestionId == null">
+            <mat-icon>add</mat-icon> {{ addQuestionLabel }}
+          </button>
+        </div>
+      }
+      @if (!assignedQuestions.length) {
+        <p class="empty-questions">{{ emptyQuestionsLabel }}</p>
+      } @else {
+        @for (row of assignedQuestions; track row.questionId; let i = $index) {
+          <div class="assigned-row">
+            <span class="order-badge">{{ i + 1 }}</span>
+            <div class="assigned-text">
+              <span class="question-text">{{ row.text }}</span>
+              <span class="question-type">{{ typeLabel(row.type) }}</span>
+            </div>
+            <mat-form-field appearance="outline" class="weight-field">
+              <mat-label>{{ weightLabel }}</mat-label>
+              <input
+                matInput
+                type="number"
+                min="0"
+                step="0.1"
+                [value]="row.weightOverride ?? ''"
+                [disabled]="readOnly"
+                (input)="updateWeight(i, $any($event.target).value)"
+              />
+            </mat-form-field>
+            @if (!readOnly) {
+              <button mat-icon-button type="button" [attr.aria-label]="moveUpLabel" [disabled]="i === 0" (click)="moveQuestion(i, -1)">
+                <mat-icon>arrow_upward</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                type="button"
+                [attr.aria-label]="moveDownLabel"
+                [disabled]="i === assignedQuestions.length - 1"
+                (click)="moveQuestion(i, 1)"
+              >
+                <mat-icon>arrow_downward</mat-icon>
+              </button>
+              <button mat-icon-button type="button" color="warn" (click)="removeQuestion(i)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            }
+          </div>
+        }
+      }
+    </div>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="cancel()" [disabled]="saving || publishing">
+    {{ readOnly ? closeLabel : cancelLabel }}
+  </button>
+  @if (canPublish()) {
+    <button mat-stroked-button color="primary" type="button" (click)="publish()" [disabled]="saving || publishing">
+      {{ publishLabel }}
+    </button>
+  }
+  @if (!readOnly) {
+    <button mat-flat-button color="primary" type="button" (click)="save()" [disabled]="saving || publishing || loading">
+      {{ saving ? savingLabel : saveLabel }}
+    </button>
+  }
+</mat-dialog-actions>
