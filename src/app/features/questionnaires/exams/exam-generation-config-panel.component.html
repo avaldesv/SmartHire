@@ -1,20 +1,25 @@
 <section class="generation-panel" (focusout)="markTouched()">
   <p class="generation-intro">{{ intro }}</p>
 
-  <div class="generation-section">
-    <span class="section-label">{{ questionTypesLabel }}</span>
-    <div class="checkbox-grid" [formGroup]="rulesForm">
-      @for (opt of questionTypeOptions; track opt.value) {
-        <mat-checkbox
-          [checked]="isQuestionTypeSelected(opt.value)"
-          (change)="toggleQuestionType(opt.value, $event.checked)"
-        >
-          {{ opt.label }}
-        </mat-checkbox>
-      }
-    </div>
-    <p class="field-hint">{{ questionTypesHint }}</p>
+  <div class="form-row form-row--filters" [formGroup]="rulesForm">
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>{{ questionTypesLabel }}</mat-label>
+      <mat-select formControlName="questionTypes" multiple>
+        @for (opt of questionTypeOptions; track opt.value) {
+          <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>{{ categoriesLabel }}</mat-label>
+      <mat-select formControlName="knowledgeCategoryIds" multiple>
+        @for (cat of categories; track cat.id) {
+          <mat-option [value]="cat.id">{{ cat.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
   </div>
+  <p class="field-hint">{{ questionTypesHint }}</p>
 
   <div class="generation-section" [formGroup]="rulesForm">
     <mat-checkbox formControlName="filterDifficulty">{{ difficultyFilterLabel }}</mat-checkbox>
@@ -34,17 +39,6 @@
 
   <div class="generation-section" [formGroup]="rulesForm">
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>{{ categoriesLabel }}</mat-label>
-      <mat-select formControlName="knowledgeCategoryIds" multiple>
-        @for (cat of categories; track cat.id) {
-          <mat-option [value]="cat.id">{{ cat.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-  </div>
-
-  <div class="generation-section" [formGroup]="rulesForm">
-    <mat-form-field appearance="outline" class="full-width">
       <mat-label>{{ excludeQuestionsLabel }}</mat-label>
       <mat-select formControlName="excludeQuestionIds" multiple [disabled]="!questionnaireQuestions.length">
         @for (q of questionnaireQuestions; track q.questionId) {
@@ -60,23 +54,4 @@
   @if (hasUnsupportedKeys) {
     <p class="warning-hint">{{ unsupportedJsonLabel }}</p>
   }
-
-  <mat-expansion-panel class="hint-panel">
-    <mat-expansion-panel-header>
-      <mat-panel-title>{{ jsonPreviewLabel }}</mat-panel-title>
-    </mat-expansion-panel-header>
-    <pre class="json-preview">{{ jsonPreview }}</pre>
-  </mat-expansion-panel>
-
-  <mat-expansion-panel class="hint-panel advanced-panel" [expanded]="showAdvancedJson">
-    <mat-expansion-panel-header>
-      <mat-panel-title>{{ advancedJsonLabel }}</mat-panel-title>
-    </mat-expansion-panel-header>
-    <div [formGroup]="rulesForm">
-      <mat-checkbox formControlName="useAdvancedJson">{{ useAdvancedJsonLabel }}</mat-checkbox>
-      <mat-form-field appearance="outline" class="full-width">
-        <textarea matInput rows="4" formControlName="advancedJson"></textarea>
-      </mat-form-field>
-    </div>
-  </mat-expansion-panel>
 </section>
