@@ -26,6 +26,11 @@ import {
   QQN_FIELD_NAME,
   QQN_FIELD_NO_CATEGORY,
   QQN_FIELD_ACTIVE,
+  QQN_ARCHIVE_BUTTON,
+  QQN_ARCHIVE_CONFIRM,
+  QQN_ARCHIVE_ERROR,
+  QQN_ARCHIVE_SUCCESS,
+  QQN_ARCHIVED_LOCKED,
   QQN_PUBLISH_BUTTON,
   QQN_PUBLISH_CONFIRM,
   QQN_PUBLISH_ERROR,
@@ -72,7 +77,7 @@ interface AssignedQuestionRow {
   weightOverride: number | null;
 }
 
-export type QuestionnaireFormDialogResult = boolean | 'published';
+export type QuestionnaireFormDialogResult = boolean | 'published' | 'archived';
 
 @Component({
   selector: 'sh-questionnaire-form-dialog',
@@ -107,6 +112,7 @@ export class QuestionnaireFormDialogComponent implements OnInit {
   loading = true;
   saving = false;
   publishing = false;
+  archiving = false;
   readOnly = this.data.readOnly ?? false;
   editingItem = this.data.questionnaire ?? null;
   categories: KnowledgeCategoryItem[] = [];
@@ -131,6 +137,7 @@ export class QuestionnaireFormDialogComponent implements OnInit {
   readonly moveDownLabel = QQN_QUESTIONS_MOVE_DOWN;
   readonly categoryMismatchLabel = QQN_CATEGORY_MISMATCH;
   readonly publishedLockedLabel = QQN_PUBLISHED_LOCKED;
+  readonly archivedLockedLabel = QQN_ARCHIVED_LOCKED;
   readonly recordScope = QQN_RECORD_SCOPE;
   readonly scopeTenant = QQN_SCOPE_TENANT;
   readonly scopeGlobal = QQN_SCOPE_GLOBAL;
@@ -139,6 +146,7 @@ export class QuestionnaireFormDialogComponent implements OnInit {
   readonly savingLabel = QQN_SAVING;
   readonly saveLabel = QQN_SAVE;
   readonly publishLabel = QQN_PUBLISH_BUTTON;
+  readonly archiveLabel = QQN_ARCHIVE_BUTTON;
 
   readonly form = this.fb.nonNullable.group({
     name: ['', Validators.required],
@@ -152,7 +160,7 @@ export class QuestionnaireFormDialogComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    if (this.editingItem?.status === 'published') {
+    if (this.editingItem?.status === 'published' || this.editingItem?.status === 'archived') {
       this.readOnly = true;
     }
 
@@ -202,6 +210,17 @@ export class QuestionnaireFormDialogComponent implements OnInit {
     return this.availableQuestions.filter((q) => !assignedIds.has(q.id));
   }
 
+  get lockedHintLabel(): string {
+    if (this.editingItem?.status === 'archived') {
+      return this.archivedLockedLabel;
+    }
+    return this.publishedLockedLabel;
+  }
+
+  get isPublished(): boolean {
+    return this.editingItem?.status === 'published';
+  }
+
   canPublish(): boolean {
     return (
       !this.readOnly &&
@@ -209,6 +228,15 @@ export class QuestionnaireFormDialogComponent implements OnInit {
       !!this.editingItem &&
       this.assignedQuestions.length > 0 &&
       this.permissions.hasAuthority(AppPermissions.QUESTIONNAIRE_PUBLISH)
+    );
+  }
+
+  canArchive(): boolean {
+    return (
+      this.readOnly &&
+      this.isPublished &&
+      !!this.editingItem &&
+      this.permissions.hasAuthority(AppPermissions.QUESTIONNAIRE_EDIT)
     );
   }
 
@@ -387,6 +415,27 @@ export class QuestionnaireFormDialogComponent implements OnInit {
       error: () => {
         this.publishing = false;
         this.snack.open(QQN_PUBLISH_ERROR, QQN_SNACK_CLOSE, { duration: 3500 });
+      },
+    });
+  }
+
+  archive(): void {
+    if (!this.canArchive() || !this.editingItem) {
+      return;
+    }
+    if (!confirm(QQN_ARCHIVE_CONFIRM)) {
+      return;
+    }
+    this.archiving = true;
+    this.api.archive(this.editingItem.id).subscribe({
+      next: () => {
+        this.archiving = false;
+        this.snack.open(QQN_ARCHIVE_SUCCESS, QQN_SNACK_CLOSE, { duration: 2500 });
+        this.dialogRef.close('archived');
+      },
+      error: () => {
+        this.archiving = false;
+        this.snack.open(QQN_ARCHIVE_ERROR, QQN_SNACK_CLOSE, { duration: 3500 });
       },
     });
   }

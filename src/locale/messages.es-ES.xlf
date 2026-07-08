@@ -2684,6 +2684,38 @@
         <source>No se pudo publicar el cuestionario</source>
         <target>No se pudo publicar el cuestionario</target>
       </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.archiveButton" datatype="html">
+        <source>Archivar</source>
+        <target>Archivar</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.archiveConfirm" datatype="html">
+        <source>¿Archivar este cuestionario? Dejará de estar disponible para nuevos exámenes, pero los exámenes existentes conservarán su referencia.</source>
+        <target>¿Archivar este cuestionario? Dejará de estar disponible para nuevos exámenes, pero los exámenes existentes conservarán su referencia.</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.archiveSuccess" datatype="html">
+        <source>Cuestionario archivado</source>
+        <target>Cuestionario archivado</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.archiveError" datatype="html">
+        <source>No se pudo archivar el cuestionario</source>
+        <target>No se pudo archivar el cuestionario</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.duplicateButton" datatype="html">
+        <source>Duplicar</source>
+        <target>Duplicar</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.duplicateConfirm" datatype="html">
+        <source>¿Crear una copia en borrador de este cuestionario? Podrá editarla y publicarla cuando esté lista.</source>
+        <target>¿Crear una copia en borrador de este cuestionario? Podrá editarla y publicarla cuando esté lista.</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.duplicateSuccess" datatype="html">
+        <source>Cuestionario duplicado en borrador</source>
+        <target>Cuestionario duplicado en borrador</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.duplicateError" datatype="html">
+        <source>No se pudo duplicar el cuestionario</source>
+        <target>No se pudo duplicar el cuestionario</target>
+      </trans-unit>
       <trans-unit id="questionnaires.questionnaires.dialog.newTitle" datatype="html">
         <source>Nuevo cuestionario</source>
         <target>Nuevo cuestionario</target>
@@ -2747,6 +2779,10 @@
       <trans-unit id="questionnaires.questionnaires.publishedLocked" datatype="html">
         <source>Este cuestionario está publicado y no puede editarse.</source>
         <target>Este cuestionario está publicado y no puede editarse.</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.archivedLocked" datatype="html">
+        <source>Este cuestionario está archivado y no puede editarse.</source>
+        <target>Este cuestionario está archivado y no puede editarse.</target>
       </trans-unit>
       <trans-unit id="questionnaires.questionnaires.errors.list" datatype="html">
         <source>No se pudieron cargar los cuestionarios</source>

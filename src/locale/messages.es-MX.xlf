@@ -6608,6 +6608,14 @@
       <trans-unit id="questionnaires.questionnaires.publishConfirm" datatype="html"><source>¿Publicar este cuestionario? No podrá editarse después.</source></trans-unit>
       <trans-unit id="questionnaires.questionnaires.publishSuccess" datatype="html"><source>Cuestionario publicado</source></trans-unit>
       <trans-unit id="questionnaires.questionnaires.publishError" datatype="html"><source>No se pudo publicar el cuestionario</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.archiveButton" datatype="html"><source>Archivar</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.archiveConfirm" datatype="html"><source>¿Archivar este cuestionario? Dejará de estar disponible para nuevos exámenes, pero los exámenes existentes conservarán su referencia.</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.archiveSuccess" datatype="html"><source>Cuestionario archivado</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.archiveError" datatype="html"><source>No se pudo archivar el cuestionario</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.duplicateButton" datatype="html"><source>Duplicar</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.duplicateConfirm" datatype="html"><source>¿Crear una copia en borrador de este cuestionario? Podrá editarla y publicarla cuando esté lista.</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.duplicateSuccess" datatype="html"><source>Cuestionario duplicado en borrador</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.duplicateError" datatype="html"><source>No se pudo duplicar el cuestionario</source></trans-unit>
       <trans-unit id="questionnaires.questionnaires.dialog.newTitle" datatype="html"><source>Nuevo cuestionario</source></trans-unit>
       <trans-unit id="questionnaires.questionnaires.dialog.editTitle" datatype="html"><source>Editar cuestionario</source></trans-unit>
       <trans-unit id="questionnaires.questionnaires.dialog.viewTitle" datatype="html"><source>Ver cuestionario</source></trans-unit>
@@ -6624,6 +6632,7 @@
       <trans-unit id="questionnaires.questionnaires.questions.moveDown" datatype="html"><source>Bajar</source></trans-unit>
       <trans-unit id="questionnaires.questionnaires.categoryMismatch" datatype="html"><source>Algunas preguntas pertenecen a otra categoría distinta a la del cuestionario.</source></trans-unit>
       <trans-unit id="questionnaires.questionnaires.publishedLocked" datatype="html"><source>Este cuestionario está publicado y no puede editarse.</source></trans-unit>
+      <trans-unit id="questionnaires.questionnaires.archivedLocked" datatype="html"><source>Este cuestionario está archivado y no puede editarse.</source></trans-unit>
       <trans-unit id="questionnaires.questionnaires.errors.list" datatype="html"><source>No se pudieron cargar los cuestionarios</source></trans-unit>
       <trans-unit id="questionnaires.questionnaires.errors.load" datatype="html"><source>No se pudo cargar el cuestionario</source></trans-unit>
       <trans-unit id="questionnaires.questionnaires.errors.save" datatype="html"><source>No se pudo guardar el cuestionario</source></trans-unit>
