@@ -2941,12 +2941,84 @@
         <target>Window end</target>
       </trans-unit>
       <trans-unit id="questionnaires.exams.field.generationConfig" datatype="html">
-        <source>Config. generación (JSON)</source>
-        <target>Generation config (JSON)</target>
+        <source>Reglas de selección de preguntas</source>
+        <target>Question selection rules</target>
       </trans-unit>
       <trans-unit id="questionnaires.exams.field.randomSeed" datatype="html">
         <source>Semilla aleatoria</source>
         <target>Random seed</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.randomSeed.hintTitle" datatype="html">
+        <source>¿Qué es la semilla aleatoria?</source>
+        <target>What is the random seed?</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.randomSeed.hintBody" datatype="html">
+        <source>Opcional. Si la deja vacía, cada intento puede obtener un subconjunto distinto de preguntas. Si indica un número (ej. 42), la selección será reproducible para pruebas o auditoría.</source>
+        <target>Optional. Leave empty for a different question subset on each attempt. Enter a number (e.g. 42) to make selection reproducible for testing or audit.</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.randomSeed.exampleTitle" datatype="html">
+        <source>Ejemplos</source>
+        <target>Examples</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.randomSeed.exampleEmpty" datatype="html">
+        <source>Vacío — selección variable entre intentos</source>
+        <target>Empty — variable selection between attempts</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.randomSeed.exampleFixed" datatype="html">
+        <source>42 — misma selección de preguntas al repetir el examen</source>
+        <target>42 — same question selection when retaking the exam</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.generation.intro" datatype="html">
+        <source>Defina cómo se eligen las preguntas del cuestionario al iniciar un intento. Si no aplica filtros, se usarán todas las preguntas vinculadas.</source>
+        <target>Define how questions are chosen from the questionnaire when an attempt starts. With no filters, all linked questions are used.</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.generation.questionTypes" datatype="html">
+        <source>Tipos de pregunta permitidos</source>
+        <target>Allowed question types</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.generation.questionTypesHint" datatype="html">
+        <source>Sin marcar ninguno = todos los tipos del cuestionario.</source>
+        <target>None selected = all types from the questionnaire.</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.generation.difficultyFilter" datatype="html">
+        <source>Filtrar por dificultad</source>
+        <target>Filter by difficulty</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.generation.difficultyMin" datatype="html">
+        <source>Dificultad mínima (1-5)</source>
+        <target>Minimum difficulty (1-5)</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.generation.difficultyMax" datatype="html">
+        <source>Dificultad máxima (1-5)</source>
+        <target>Maximum difficulty (1-5)</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.generation.categories" datatype="html">
+        <source>Categorías de conocimiento (opcional)</source>
+        <target>Knowledge categories (optional)</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.generation.excludeQuestions" datatype="html">
+        <source>Excluir preguntas del cuestionario</source>
+        <target>Exclude questions from questionnaire</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.generation.jsonPreview" datatype="html">
+        <source>Vista previa técnica (JSON)</source>
+        <target>Technical preview (JSON)</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.generation.advancedJson" datatype="html">
+        <source>Edición avanzada JSON</source>
+        <target>Advanced JSON editing</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.generation.useAdvancedJson" datatype="html">
+        <source>Usar JSON manual (solo usuarios avanzados)</source>
+        <target>Use manual JSON (advanced users only)</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.generation.unsupportedJson" datatype="html">
+        <source>Este examen tiene un JSON con campos no editables en el formulario. Revise la edición avanzada.</source>
+        <target>This exam has JSON with fields not editable in the form. Check advanced editing.</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.generation.excludeHint" datatype="html">
+        <source>Seleccione un cuestionario para excluir preguntas concretas.</source>
+        <target>Select a questionnaire to exclude specific questions.</target>
       </trans-unit>
       <trans-unit id="questionnaires.exams.field.status" datatype="html">
         <source>Estado</source>
@@ -2955,6 +3027,10 @@
       <trans-unit id="questionnaires.exams.questionsAvailable" datatype="html">
         <source>Preguntas disponibles en cuestionario:</source>
         <target>Questions available in questionnaire:</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.eligibleQuestions" datatype="html">
+        <source>Preguntas elegibles tras filtros:</source>
+        <target>Eligible questions after filters:</target>
       </trans-unit>
       <trans-unit id="questionnaires.exams.noPublishedQuestionnaires" datatype="html">
         <source>No hay cuestionarios publicados disponibles</source>
@@ -2979,6 +3055,10 @@
       <trans-unit id="questionnaires.exams.errors.maxAttempts" datatype="html">
         <source>Los intentos máximos deben ser al menos 1 o dejarse vacío</source>
         <target>Max attempts must be at least 1 or left empty</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.errors.insufficientEligible" datatype="html">
+        <source>Solo hay <x id="eligible" equiv-text="eligible"/> elegibles tras los filtros; el examen solicita <x id="requested" equiv-text="requested"/>.</source>
+        <target>Only <x id="eligible" equiv-text="eligible"/> eligible after filters; exam requests <x id="requested" equiv-text="requested"/>.</target>
       </trans-unit>
       <trans-unit id="questionnaires.exams.success.saved" datatype="html">
         <source>Examen guardado</source>
