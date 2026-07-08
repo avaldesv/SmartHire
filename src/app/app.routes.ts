@@ -129,6 +129,13 @@ export const routes: Routes = [
               ),
           },
           {
+            path: 'question-tags',
+            canActivate: [permissionGuard],
+            data: { authorities: [AppPermissions.QUESTIONNAIRE_READ] },
+            loadComponent: () =>
+              import('./features/questionnaires/categories/tags-shell.component').then((m) => m.TagsShellComponent),
+          },
+          {
             path: 'questions',
             canActivate: [permissionGuard],
             data: { authorities: [AppPermissions.QUESTIONNAIRE_READ] },

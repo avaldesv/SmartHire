@@ -9,6 +9,7 @@ const QUESTIONNAIRES_NAV_ORDER: Record<string, number> = {
   questionnaires: 2,
   exams: 3,
   categories: 4,
+  'question-tags': 5,
 };
 
 @Component({

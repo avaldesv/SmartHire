@@ -6878,7 +6878,16 @@
         <source>¿Eliminar el examen "<x id="name" equiv-text="name"/>"? Esta acción no se puede deshacer.</source>
       </trans-unit>
       <trans-unit id="questionnaires.nav.categories" datatype="html">
-        <source>Categorías y tags</source>
+        <source>Categorías</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/questionnaires-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="questionnaires.nav.questionTags" datatype="html">
+        <source>Preguntas Tags</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
         </context-group>
@@ -6920,7 +6929,13 @@
         </context-group>
       </trans-unit>
       <trans-unit id="questionnaires.categories.title" datatype="html">
-        <source>Categorías de conocimiento y tags</source>
+        <source>Categorías de conocimiento</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/questionnaires-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="questionnaires.tags.title" datatype="html">
+        <source>Preguntas Tags</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/questionnaires-labels.ts</context>
         </context-group>

@@ -86,8 +86,13 @@ export const QUESTIONNAIRES_NAV_ITEMS: QuestionnairesNavItem[] = [
     authority: AppPermissions.QUESTIONNAIRE_READ,
   },
   {
-    label: $localize`:@@questionnaires.nav.categories:Categorías y tags`,
+    label: $localize`:@@questionnaires.nav.categories:Categorías`,
     path: 'categories',
+    authority: AppPermissions.QUESTIONNAIRE_READ,
+  },
+  {
+    label: $localize`:@@questionnaires.nav.questionTags:Preguntas Tags`,
+    path: 'question-tags',
     authority: AppPermissions.QUESTIONNAIRE_READ,
   },
 ];
