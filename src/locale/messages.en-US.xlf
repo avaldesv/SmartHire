@@ -3157,8 +3157,8 @@
         <target>Knowledge categories</target>
       </trans-unit>
       <trans-unit id="questionnaires.tags.title" datatype="html">
-        <source>Preguntas Tags</source>
-        <target>Question Tags</target>
+        <source>Preguntas tags</source>
+        <target>Question tags</target>
       </trans-unit>
       <trans-unit id="questionnaires.questions.title" datatype="html">
         <source>Banco de preguntas</source>
