@@ -2712,6 +2712,186 @@
         <source>¿Eliminar el cuestionario "<x id="name" equiv-text="name"/>"? Esta acción no se puede deshacer.</source>
         <target>Delete questionnaire "<x id="name" equiv-text="name"/>"? This action cannot be undone.</target>
       </trans-unit>
+      <trans-unit id="questionnaires.exams.newButton" datatype="html">
+        <source>Nuevo examen</source>
+        <target>New exam</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.empty" datatype="html">
+        <source>No hay exámenes registrados</source>
+        <target>No exams registered</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.filter.name" datatype="html">
+        <source>Buscar por nombre</source>
+        <target>Search by name</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.filter.questionnaire" datatype="html">
+        <source>Cuestionario</source>
+        <target>Questionnaire</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.filter.status" datatype="html">
+        <source>Estado</source>
+        <target>Status</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.filter.all" datatype="html">
+        <source>Todos</source>
+        <target>All</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.filter.apply" datatype="html">
+        <source>Buscar</source>
+        <target>Search</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.filter.clear" datatype="html">
+        <source>Limpiar</source>
+        <target>Clear</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.col.name" datatype="html">
+        <source>Nombre</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.col.questionnaire" datatype="html">
+        <source>Cuestionario</source>
+        <target>Questionnaire</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.col.status" datatype="html">
+        <source>Estado</source>
+        <target>Status</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.col.questions" datatype="html">
+        <source>Nº preguntas</source>
+        <target>Questions count</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.col.attempts" datatype="html">
+        <source>Intentos máx.</source>
+        <target>Max attempts</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.attemptsUnlimited" datatype="html">
+        <source>Ilimitado</source>
+        <target>Unlimited</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.status.draft" datatype="html">
+        <source>Borrador</source>
+        <target>Draft</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.status.published" datatype="html">
+        <source>Publicado</source>
+        <target>Published</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.status.archived" datatype="html">
+        <source>Archivado</source>
+        <target>Archived</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.dialog.newTitle" datatype="html">
+        <source>Nuevo examen</source>
+        <target>New exam</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.dialog.editTitle" datatype="html">
+        <source>Editar examen</source>
+        <target>Edit exam</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.field.questionnaire" datatype="html">
+        <source>Cuestionario publicado</source>
+        <target>Published questionnaire</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.field.name" datatype="html">
+        <source>Nombre</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.field.description" datatype="html">
+        <source>Descripción</source>
+        <target>Description</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.field.numberOfQuestions" datatype="html">
+        <source>Número de preguntas</source>
+        <target>Number of questions</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.field.defaultWeight" datatype="html">
+        <source>Peso por defecto</source>
+        <target>Default weight</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.field.timeLimitSeconds" datatype="html">
+        <source>Tiempo límite por pregunta (seg)</source>
+        <target>Time limit per question (sec)</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.field.totalTimeMinutes" datatype="html">
+        <source>Tiempo total (min)</source>
+        <target>Total time (min)</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.field.acceptancePercent" datatype="html">
+        <source>Umbral aprobación (%)</source>
+        <target>Pass threshold (%)</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.field.maxAttempts" datatype="html">
+        <source>Intentos máximos</source>
+        <target>Max attempts</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.field.maxAttemptsHint" datatype="html">
+        <source>Vacío = ilimitado. Mínimo 1 si se indica.</source>
+        <target>Empty = unlimited. Minimum 1 if set.</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.field.retryDelayDays" datatype="html">
+        <source>Días entre reintentos</source>
+        <target>Days between retries</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.field.startDate" datatype="html">
+        <source>Inicio ventana</source>
+        <target>Window start</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.field.endDate" datatype="html">
+        <source>Fin ventana</source>
+        <target>Window end</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.field.generationConfig" datatype="html">
+        <source>Config. generación (JSON)</source>
+        <target>Generation config (JSON)</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.field.randomSeed" datatype="html">
+        <source>Semilla aleatoria</source>
+        <target>Random seed</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.field.status" datatype="html">
+        <source>Estado</source>
+        <target>Status</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.questionsAvailable" datatype="html">
+        <source>Preguntas disponibles en cuestionario:</source>
+        <target>Questions available in questionnaire:</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.noPublishedQuestionnaires" datatype="html">
+        <source>No hay cuestionarios publicados disponibles</source>
+        <target>No published questionnaires available</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.errors.list" datatype="html">
+        <source>No se pudieron cargar los exámenes</source>
+        <target>Could not load exams</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.errors.load" datatype="html">
+        <source>No se pudo cargar el examen</source>
+        <target>Could not load exam</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.errors.save" datatype="html">
+        <source>No se pudo guardar el examen</source>
+        <target>Could not save exam</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.errors.delete" datatype="html">
+        <source>No se pudo eliminar el examen</source>
+        <target>Could not delete exam</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.errors.maxAttempts" datatype="html">
+        <source>Los intentos máximos deben ser al menos 1 o dejarse vacío</source>
+        <target>Max attempts must be at least 1 or left empty</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.success.saved" datatype="html">
+        <source>Examen guardado</source>
+        <target>Exam saved</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.success.deleted" datatype="html">
+        <source>Examen eliminado</source>
+        <target>Exam deleted</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.deleteConfirm" datatype="html">
+        <source>¿Eliminar el examen "<x id="name" equiv-text="name"/>"? Esta acción no se puede deshacer.</source>
+        <target>Delete exam "<x id="name" equiv-text="name"/>"? This action cannot be undone.</target>
+      </trans-unit>
       <trans-unit id="questionnaires.nav.categories" datatype="html">
         <source>Categorías y tags</source>
         <target>Categories and tags</target>
