@@ -28,11 +28,13 @@ import {
   imports: [MatButtonModule, MatIconModule, MatSnackBarModule, MatTooltipModule],
   template: `
     <div class="table-import-export-actions">
+      <span class="catalog-label">{{ catalogLabel }}</span>
       @if (canExport()) {
         <button
           mat-icon-button
           type="button"
           [matTooltip]="exportTooltip"
+          [attr.aria-label]="exportTooltip + ' ' + catalogLabel"
           [disabled]="exporting"
           (click)="exportData()"
         >
@@ -40,7 +42,13 @@ import {
         </button>
       }
       @if (canImport()) {
-        <button mat-icon-button type="button" [matTooltip]="importTooltip" (click)="openImportDialog()">
+        <button
+          mat-icon-button
+          type="button"
+          [matTooltip]="importTooltip"
+          [attr.aria-label]="importTooltip + ' ' + catalogLabel"
+          (click)="openImportDialog()"
+        >
           <mat-icon>upload</mat-icon>
         </button>
       }
@@ -51,6 +59,13 @@ import {
       display: flex;
       align-items: center;
       gap: 4px;
+    }
+
+    .catalog-label {
+      margin-right: 2px;
+      color: rgba(0, 0, 0, 0.6);
+      font-size: 0.8125rem;
+      white-space: nowrap;
     }
   `,
 })
