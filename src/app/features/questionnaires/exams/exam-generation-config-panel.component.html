@@ -18,8 +18,17 @@
         }
       </mat-select>
     </mat-form-field>
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>{{ tagsLabel }}</mat-label>
+      <mat-select formControlName="tagIds" multiple>
+        @for (tag of tags; track tag.id) {
+          <mat-option [value]="tag.id">{{ tag.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
   </div>
   <p class="field-hint">{{ questionTypesHint }}</p>
+  <p class="field-hint">{{ tagsHint }}</p>
 
   <div class="generation-section" [formGroup]="rulesForm">
     <mat-checkbox formControlName="filterDifficulty">{{ difficultyFilterLabel }}</mat-checkbox>

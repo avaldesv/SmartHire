@@ -3,6 +3,7 @@ export interface ExamGenerationConfig {
   difficultyMax?: number;
   questionTypes?: string[];
   knowledgeCategoryIds?: number[];
+  tagIds?: number[];
   excludeQuestionIds?: number[];
 }
 
@@ -11,6 +12,7 @@ const KNOWN_KEYS = new Set([
   'difficultyMax',
   'questionTypes',
   'knowledgeCategoryIds',
+  'tagIds',
   'excludeQuestionIds',
 ]);
 
@@ -46,6 +48,9 @@ export function parseGenerationConfig(json: string | null | undefined): ParsedGe
         (id): id is number => typeof id === 'number',
       );
     }
+    if (Array.isArray(parsed['tagIds'])) {
+      config.tagIds = parsed['tagIds'].filter((id): id is number => typeof id === 'number');
+    }
     if (Array.isArray(parsed['excludeQuestionIds'])) {
       config.excludeQuestionIds = parsed['excludeQuestionIds'].filter(
         (id): id is number => typeof id === 'number',
@@ -71,6 +76,9 @@ export function buildGenerationConfigJson(config: ExamGenerationConfig): string 
   if (config.knowledgeCategoryIds?.length) {
     out.knowledgeCategoryIds = config.knowledgeCategoryIds;
   }
+  if (config.tagIds?.length) {
+    out.tagIds = config.tagIds;
+  }
   if (config.excludeQuestionIds?.length) {
     out.excludeQuestionIds = config.excludeQuestionIds;
   }
@@ -85,6 +93,7 @@ export interface ExamEligibleQuestion {
   type?: string | null;
   knowledgeCategoryId?: number | null;
   difficulty?: number | null;
+  tagIds?: number[];
 }
 
 export function countEligibleQuestions(
@@ -109,6 +118,12 @@ export function isQuestionEligible(question: ExamEligibleQuestion, config: ExamG
       question.knowledgeCategoryId == null ||
       !config.knowledgeCategoryIds.includes(question.knowledgeCategoryId)
     ) {
+      return false;
+    }
+  }
+  if (config.tagIds?.length) {
+    const questionTags = question.tagIds ?? [];
+    if (!questionTags.length || !config.tagIds.some((tagId) => questionTags.includes(tagId))) {
       return false;
     }
   }

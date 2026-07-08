@@ -60,6 +60,7 @@ export interface QuestionnaireQuestionLinkItem {
   difficulty?: number | null;
   sortOrder?: number | null;
   weightOverride?: number | null;
+  tagIds?: number[];
 }
 
 export interface ExamItem {

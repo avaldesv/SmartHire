@@ -6811,6 +6811,12 @@
       <trans-unit id="questionnaires.exams.generation.categories" datatype="html">
         <source>Categorías de conocimiento (opcional)</source>
       </trans-unit>
+      <trans-unit id="questionnaires.exams.generation.tags" datatype="html">
+        <source>Etiquetas (opcional)</source>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.generation.tagsHint" datatype="html">
+        <source>Sin marcar ninguna = no filtra por etiquetas. Con varias, la pregunta debe tener al menos una.</source>
+      </trans-unit>
       <trans-unit id="questionnaires.exams.generation.excludeQuestions" datatype="html">
         <source>Excluir preguntas del cuestionario</source>
       </trans-unit>
