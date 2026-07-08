@@ -193,8 +193,7 @@ export class ExamFormDialogComponent implements OnInit {
   }
 
   get showInsufficientEligibleWarning(): boolean {
-    const control = this.form.controls.numberOfQuestions;
-    return control.hasError('insufficientEligible') && control.touched;
+    return this.form.controls.numberOfQuestions.hasError('insufficientEligible');
   }
 
   private validateEligibleQuestions(control: AbstractControl): ValidationErrors | null {
