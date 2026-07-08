@@ -3040,6 +3040,14 @@
         <source>Categorías de conocimiento (opcional)</source>
         <target>Categorías de conocimiento (opcional)</target>
       </trans-unit>
+      <trans-unit id="questionnaires.exams.generation.tags" datatype="html">
+        <source>Etiquetas (opcional)</source>
+        <target>Etiquetas (opcional)</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.generation.tagsHint" datatype="html">
+        <source>Sin marcar ninguna = no filtra por etiquetas. Con varias, la pregunta debe tener al menos una.</source>
+        <target>Sin marcar ninguna = no filtra por etiquetas. Con varias, la pregunta debe tener al menos una.</target>
+      </trans-unit>
       <trans-unit id="questionnaires.exams.generation.excludeQuestions" datatype="html">
         <source>Excluir preguntas del cuestionario</source>
         <target>Excluir preguntas del cuestionario</target>

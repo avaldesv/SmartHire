@@ -24,12 +24,15 @@ import {
   QEXAM_GEN_QUESTION_TYPES,
   QEXAM_GEN_QUESTION_TYPES_HINT,
   QEXAM_GEN_SELECT_CATEGORIES,
+  QEXAM_GEN_SELECT_TAGS,
+  QEXAM_GEN_TAGS_HINT,
   QEXAM_GEN_UNSUPPORTED_JSON,
 } from '../../../core/i18n/questionnaire-exams-labels';
 import { QQUEST_TYPES, qquestTypeLabel } from '../../../core/i18n/questionnaire-questions-labels';
 import { QuestionnaireKnowledgeCategoryApiService } from '../../../core/services/questionnaire-knowledge-category-api.service';
 import { QuestionnaireQuestionnaireApiService } from '../../../core/services/questionnaire-questionnaire-api.service';
-import { KnowledgeCategoryItem, QuestionnaireQuestionLinkItem } from '../../../shared/models/questionnaire-v2.model';
+import { QuestionnaireTagApiService } from '../../../core/services/questionnaire-tag-api.service';
+import { KnowledgeCategoryItem, QuestionnaireQuestionLinkItem, TagItem } from '../../../shared/models/questionnaire-v2.model';
 import { buildGenerationConfigJson, parseGenerationConfig } from './exam-generation-config.util';
 
 @Component({
@@ -55,6 +58,7 @@ import { buildGenerationConfigJson, parseGenerationConfig } from './exam-generat
 export class ExamGenerationConfigPanelComponent implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
   private readonly fb = inject(FormBuilder);
   private readonly categoryApi = inject(QuestionnaireKnowledgeCategoryApiService);
+  private readonly tagApi = inject(QuestionnaireTagApiService);
   private readonly questionnaireApi = inject(QuestionnaireQuestionnaireApiService);
 
   @Input() questionnaireId: number | null = null;
@@ -65,6 +69,7 @@ export class ExamGenerationConfigPanelComponent implements ControlValueAccessor,
   private disabled = false;
 
   categories: KnowledgeCategoryItem[] = [];
+  tags: TagItem[] = [];
   questionnaireQuestions: QuestionnaireQuestionLinkItem[] = [];
   hasUnsupportedKeys = false;
 
@@ -75,6 +80,8 @@ export class ExamGenerationConfigPanelComponent implements ControlValueAccessor,
   readonly difficultyMinLabel = QEXAM_GEN_DIFFICULTY_MIN;
   readonly difficultyMaxLabel = QEXAM_GEN_DIFFICULTY_MAX;
   readonly categoriesLabel = QEXAM_GEN_SELECT_CATEGORIES;
+  readonly tagsLabel = QEXAM_GEN_SELECT_TAGS;
+  readonly tagsHint = QEXAM_GEN_TAGS_HINT;
   readonly excludeQuestionsLabel = QEXAM_GEN_EXCLUDE_QUESTIONS;
   readonly unsupportedJsonLabel = QEXAM_GEN_UNSUPPORTED_JSON;
   readonly excludeHint = QEXAM_GEN_EXCLUDE_HINT;
@@ -90,6 +97,7 @@ export class ExamGenerationConfigPanelComponent implements ControlValueAccessor,
     difficultyMax: [5],
     questionTypes: [[] as string[]],
     knowledgeCategoryIds: [[] as number[]],
+    tagIds: [[] as number[]],
     excludeQuestionIds: [[] as number[]],
   });
 
@@ -97,6 +105,12 @@ export class ExamGenerationConfigPanelComponent implements ControlValueAccessor,
     this.categoryApi.list({ isActive: true }, 0, 500).subscribe({
       next: ({ items }) => {
         this.categories = items;
+      },
+    });
+
+    this.tagApi.list({ isActive: true }, 0, 500).subscribe({
+      next: ({ items }) => {
+        this.tags = items;
       },
     });
 
@@ -180,6 +194,7 @@ export class ExamGenerationConfigPanelComponent implements ControlValueAccessor,
         difficultyMax: config.difficultyMax ?? 5,
         questionTypes: config.questionTypes ?? [],
         knowledgeCategoryIds: config.knowledgeCategoryIds ?? [],
+        tagIds: config.tagIds ?? [],
         excludeQuestionIds: config.excludeQuestionIds ?? [],
       },
       { emitEvent: false },
@@ -196,6 +211,7 @@ export class ExamGenerationConfigPanelComponent implements ControlValueAccessor,
       difficultyMax: raw.filterDifficulty ? raw.difficultyMax : undefined,
       questionTypes: raw.questionTypes.length ? raw.questionTypes : undefined,
       knowledgeCategoryIds: raw.knowledgeCategoryIds.length ? raw.knowledgeCategoryIds : undefined,
+      tagIds: raw.tagIds.length ? raw.tagIds : undefined,
       excludeQuestionIds: raw.excludeQuestionIds.length ? raw.excludeQuestionIds : undefined,
     };
     this.valueChange?.(buildGenerationConfigJson(config));

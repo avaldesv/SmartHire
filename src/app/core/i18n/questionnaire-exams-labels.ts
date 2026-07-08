@@ -60,6 +60,8 @@ export const QEXAM_GEN_DIFFICULTY_FILTER = $localize`:@@questionnaires.exams.gen
 export const QEXAM_GEN_DIFFICULTY_MIN = $localize`:@@questionnaires.exams.generation.difficultyMin:Dificultad mínima (1-5)`;
 export const QEXAM_GEN_DIFFICULTY_MAX = $localize`:@@questionnaires.exams.generation.difficultyMax:Dificultad máxima (1-5)`;
 export const QEXAM_GEN_SELECT_CATEGORIES = $localize`:@@questionnaires.exams.generation.categories:Categorías de conocimiento (opcional)`;
+export const QEXAM_GEN_SELECT_TAGS = $localize`:@@questionnaires.exams.generation.tags:Etiquetas (opcional)`;
+export const QEXAM_GEN_TAGS_HINT = $localize`:@@questionnaires.exams.generation.tagsHint:Sin marcar ninguna = no filtra por etiquetas. Con varias, la pregunta debe tener al menos una.`;
 export const QEXAM_GEN_EXCLUDE_QUESTIONS = $localize`:@@questionnaires.exams.generation.excludeQuestions:Excluir preguntas del cuestionario`;
 export const QEXAM_GEN_JSON_PREVIEW = $localize`:@@questionnaires.exams.generation.jsonPreview:Vista previa técnica (JSON)`;
 export const QEXAM_GEN_ADVANCED_JSON = $localize`:@@questionnaires.exams.generation.advancedJson:Edición avanzada JSON`;
