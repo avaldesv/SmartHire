@@ -3,6 +3,21 @@
     <button mat-flat-button color="primary" type="button" (click)="openCreate()">
       <mat-icon>add</mat-icon> {{ newButton }}
     </button>
+    <sh-questionnaire-import-export-actions
+      [catalogKey]="csvQuestionnaires.catalogKey"
+      [catalogLabel]="csvQuestionnaires.label"
+      (importComplete)="load()"
+    />
+    <sh-questionnaire-import-export-actions
+      [catalogKey]="csvQuestionnaireQuestions.catalogKey"
+      [catalogLabel]="csvQuestionnaireQuestions.label"
+      (importComplete)="load()"
+    />
+    <sh-questionnaire-import-export-actions
+      [catalogKey]="csvPublish.catalogKey"
+      [catalogLabel]="csvPublish.label"
+      (importComplete)="load()"
+    />
   </div>
 }
 

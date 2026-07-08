@@ -1,5 +1,5 @@
 .loading-wrap { display: flex; justify-content: center; padding: 48px; }
-.toolbar { margin-bottom: 16px; }
+.toolbar { margin-bottom: 16px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .form-card { margin-bottom: 16px; padding: 16px; }
 .form-card h4 { margin: 0 0 12px; font-size: 1rem; }
 .entity-form { display: flex; flex-direction: column; gap: 8px; max-width: 560px; }
