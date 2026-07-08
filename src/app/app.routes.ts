@@ -118,7 +118,7 @@ export const routes: Routes = [
             (m) => m.QuestionnairesLayoutComponent,
           ),
         children: [
-          { path: '', redirectTo: 'categories', pathMatch: 'full' },
+          { path: '', redirectTo: 'questions', pathMatch: 'full' },
           {
             path: 'categories',
             canActivate: [permissionGuard],

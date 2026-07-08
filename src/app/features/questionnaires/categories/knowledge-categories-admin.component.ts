@@ -43,6 +43,8 @@ import {
 } from '../../../core/i18n/questionnaire-categories-labels';
 import { PermissionService } from '../../../core/services/permission.service';
 import { QuestionnaireKnowledgeCategoryApiService } from '../../../core/services/questionnaire-knowledge-category-api.service';
+import { QUESTIONNAIRE_CSV_PANELS } from '../../../core/questionnaire/questionnaire-import-export.registry';
+import { QuestionnaireImportExportActionsComponent } from '../shared/questionnaire-import-export-actions.component';
 import { ScopeBadgeComponent } from '../../../shared/components/scope-badge/scope-badge.component';
 import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 import { KnowledgeCategoryItem, TenantDataScope } from '../../../shared/models/questionnaire-v2.model';
@@ -67,6 +69,7 @@ import { canEditScopedRecord } from '../../../shared/utils/tenant-scope.util';
     MatRadioModule,
     ScopeBadgeComponent,
     TableRowActionsComponent,
+    QuestionnaireImportExportActionsComponent,
   ],
   templateUrl: './knowledge-categories-admin.component.html',
   styleUrl: './questionnaire-admin.component.scss',
@@ -76,6 +79,8 @@ export class KnowledgeCategoriesAdminComponent implements OnInit {
   private readonly permissions = inject(PermissionService);
   private readonly snack = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
+
+  readonly csvPanel = QUESTIONNAIRE_CSV_PANELS.knowledgeCategories;
 
   readonly isGlobalAdmin = computed(() => this.permissions.isGlobalAdmin());
 

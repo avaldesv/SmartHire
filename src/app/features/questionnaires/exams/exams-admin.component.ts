@@ -45,6 +45,8 @@ import {
 import { PermissionService } from '../../../core/services/permission.service';
 import { QuestionnaireExamApiService } from '../../../core/services/questionnaire-exam-api.service';
 import { QuestionnaireQuestionnaireApiService } from '../../../core/services/questionnaire-questionnaire-api.service';
+import { QUESTIONNAIRE_CSV_PANELS } from '../../../core/questionnaire/questionnaire-import-export.registry';
+import { QuestionnaireImportExportActionsComponent } from '../shared/questionnaire-import-export-actions.component';
 import { ScopeBadgeComponent } from '../../../shared/components/scope-badge/scope-badge.component';
 import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 import { ExamItem, QuestionnaireItem } from '../../../shared/models/questionnaire-v2.model';
@@ -69,6 +71,7 @@ import { ExamFormDialogComponent, ExamFormDialogData } from './exam-form-dialog.
     MatDialogModule,
     ScopeBadgeComponent,
     TableRowActionsComponent,
+    QuestionnaireImportExportActionsComponent,
   ],
   templateUrl: './exams-admin.component.html',
   styleUrl: './exams-admin.component.scss',
@@ -80,6 +83,8 @@ export class ExamsAdminComponent implements OnInit {
   private readonly snack = inject(MatSnackBar);
   private readonly dialog = inject(MatDialog);
   private readonly fb = inject(FormBuilder);
+
+  readonly csvPanel = QUESTIONNAIRE_CSV_PANELS.exams;
 
   readonly isGlobalAdmin = computed(() => this.permissions.isGlobalAdmin());
 

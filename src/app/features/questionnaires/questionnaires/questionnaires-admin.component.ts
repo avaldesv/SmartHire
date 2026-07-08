@@ -45,6 +45,8 @@ import {
 import { PermissionService } from '../../../core/services/permission.service';
 import { QuestionnaireKnowledgeCategoryApiService } from '../../../core/services/questionnaire-knowledge-category-api.service';
 import { QuestionnaireQuestionnaireApiService } from '../../../core/services/questionnaire-questionnaire-api.service';
+import { QUESTIONNAIRE_CSV_PANELS } from '../../../core/questionnaire/questionnaire-import-export.registry';
+import { QuestionnaireImportExportActionsComponent } from '../shared/questionnaire-import-export-actions.component';
 import { ScopeBadgeComponent } from '../../../shared/components/scope-badge/scope-badge.component';
 import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 import { KnowledgeCategoryItem, QuestionnaireItem } from '../../../shared/models/questionnaire-v2.model';
@@ -73,6 +75,7 @@ import {
     MatDialogModule,
     ScopeBadgeComponent,
     TableRowActionsComponent,
+    QuestionnaireImportExportActionsComponent,
   ],
   templateUrl: './questionnaires-admin.component.html',
   styleUrl: './questionnaires-admin.component.scss',
@@ -84,6 +87,10 @@ export class QuestionnairesAdminComponent implements OnInit {
   private readonly snack = inject(MatSnackBar);
   private readonly dialog = inject(MatDialog);
   private readonly fb = inject(FormBuilder);
+
+  readonly csvQuestionnaires = QUESTIONNAIRE_CSV_PANELS.questionnaires;
+  readonly csvQuestionnaireQuestions = QUESTIONNAIRE_CSV_PANELS.questionnaireQuestions;
+  readonly csvPublish = QUESTIONNAIRE_CSV_PANELS.publish;
 
   readonly isGlobalAdmin = computed(() => this.permissions.isGlobalAdmin());
 
