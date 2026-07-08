@@ -3133,8 +3133,8 @@
         <target>Categorías</target>
       </trans-unit>
       <trans-unit id="questionnaires.nav.questionTags" datatype="html">
-        <source>Preguntas Tags</source>
-        <target>Preguntas Tags</target>
+        <source>Preguntas tags</source>
+        <target>Preguntas tags</target>
       </trans-unit>
       <trans-unit id="questionnaires.nav.questions" datatype="html">
         <source>Preguntas</source>
@@ -3157,8 +3157,8 @@
         <target>Categorías de conocimiento</target>
       </trans-unit>
       <trans-unit id="questionnaires.tags.title" datatype="html">
-        <source>Preguntas Tags</source>
-        <target>Preguntas Tags</target>
+        <source>Preguntas tags</source>
+        <target>Preguntas tags</target>
       </trans-unit>
       <trans-unit id="questionnaires.questions.title" datatype="html">
         <source>Banco de preguntas</source>
