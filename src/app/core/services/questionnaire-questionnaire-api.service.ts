@@ -103,4 +103,16 @@ export class QuestionnaireQuestionnaireApiService {
       headers: this.api.buildHeaders(),
     });
   }
+
+  archive(id: number): Observable<QuestionnaireItem> {
+    return this.http.put<QuestionnaireItem>(this.api.apiUrl(`/api/v1/questionnaire-questionnaires/${id}/archive`), null, {
+      headers: this.api.buildHeaders(),
+    });
+  }
+
+  duplicate(id: number): Observable<QuestionnaireItem> {
+    return this.http.post<QuestionnaireItem>(this.api.apiUrl(`/api/v1/questionnaire-questionnaires/${id}/duplicate`), null, {
+      headers: this.api.buildHeaders(),
+    });
+  }
 }

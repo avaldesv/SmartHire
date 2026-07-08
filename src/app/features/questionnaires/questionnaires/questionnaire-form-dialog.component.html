@@ -5,7 +5,7 @@
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else {
     @if (readOnly) {
-      <p class="locked-hint">{{ publishedLockedLabel }}</p>
+      <p class="locked-hint">{{ lockedHintLabel }}</p>
     }
     @if (isGlobalAdmin() && !editingItem && !readOnly) {
       <div class="scope-selector" [formGroup]="createScopeForm">
@@ -108,16 +108,21 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button type="button" (click)="cancel()" [disabled]="saving || publishing">
+  <button mat-button type="button" (click)="cancel()" [disabled]="saving || publishing || archiving">
     {{ readOnly ? closeLabel : cancelLabel }}
   </button>
+  @if (canArchive()) {
+    <button mat-stroked-button type="button" (click)="archive()" [disabled]="saving || publishing || archiving">
+      {{ archiveLabel }}
+    </button>
+  }
   @if (canPublish()) {
-    <button mat-stroked-button color="primary" type="button" (click)="publish()" [disabled]="saving || publishing">
+    <button mat-stroked-button color="primary" type="button" (click)="publish()" [disabled]="saving || publishing || archiving">
       {{ publishLabel }}
     </button>
   }
   @if (!readOnly) {
-    <button mat-flat-button color="primary" type="button" (click)="save()" [disabled]="saving || publishing || loading">
+    <button mat-flat-button color="primary" type="button" (click)="save()" [disabled]="saving || publishing || archiving || loading">
       {{ saving ? savingLabel : saveLabel }}
     </button>
   }

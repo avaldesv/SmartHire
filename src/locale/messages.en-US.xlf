@@ -2684,6 +2684,38 @@
         <source>No se pudo publicar el cuestionario</source>
         <target>Could not publish questionnaire</target>
       </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.archiveButton" datatype="html">
+        <source>Archivar</source>
+        <target>Archive</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.archiveConfirm" datatype="html">
+        <source>¿Archivar este cuestionario? Dejará de estar disponible para nuevos exámenes, pero los exámenes existentes conservarán su referencia.</source>
+        <target>Archive this questionnaire? It will no longer be available for new exams, but existing exams will keep their reference.</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.archiveSuccess" datatype="html">
+        <source>Cuestionario archivado</source>
+        <target>Questionnaire archived</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.archiveError" datatype="html">
+        <source>No se pudo archivar el cuestionario</source>
+        <target>Could not archive questionnaire</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.duplicateButton" datatype="html">
+        <source>Duplicar</source>
+        <target>Duplicate</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.duplicateConfirm" datatype="html">
+        <source>¿Crear una copia en borrador de este cuestionario? Podrá editarla y publicarla cuando esté lista.</source>
+        <target>Create a draft copy of this questionnaire? You can edit and publish it when ready.</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.duplicateSuccess" datatype="html">
+        <source>Cuestionario duplicado en borrador</source>
+        <target>Questionnaire duplicated as draft</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.duplicateError" datatype="html">
+        <source>No se pudo duplicar el cuestionario</source>
+        <target>Could not duplicate questionnaire</target>
+      </trans-unit>
       <trans-unit id="questionnaires.questionnaires.dialog.newTitle" datatype="html">
         <source>Nuevo cuestionario</source>
         <target>New questionnaire</target>
@@ -2747,6 +2779,10 @@
       <trans-unit id="questionnaires.questionnaires.publishedLocked" datatype="html">
         <source>Este cuestionario está publicado y no puede editarse.</source>
         <target>This questionnaire is published and cannot be edited.</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.archivedLocked" datatype="html">
+        <source>Este cuestionario está archivado y no puede editarse.</source>
+        <target>This questionnaire is archived and cannot be edited.</target>
       </trans-unit>
       <trans-unit id="questionnaires.questionnaires.errors.list" datatype="html">
         <source>No se pudieron cargar los cuestionarios</source>

@@ -29,6 +29,14 @@ import {
   QQN_FILTER_NAME,
   QQN_FILTER_STATUS,
   QQN_NEW_BUTTON,
+  QQN_ARCHIVE_BUTTON,
+  QQN_ARCHIVE_CONFIRM,
+  QQN_ARCHIVE_ERROR,
+  QQN_ARCHIVE_SUCCESS,
+  QQN_DUPLICATE_BUTTON,
+  QQN_DUPLICATE_CONFIRM,
+  QQN_DUPLICATE_ERROR,
+  QQN_DUPLICATE_SUCCESS,
   QQN_PUBLISH_BUTTON,
   QQN_PUBLISH_CONFIRM,
   QQN_PUBLISH_ERROR,
@@ -98,6 +106,8 @@ export class QuestionnairesAdminComponent implements OnInit {
   savingId: number | null = null;
   deletingId: number | null = null;
   publishingId: number | null = null;
+  archivingId: number | null = null;
+  duplicatingId: number | null = null;
   data: QuestionnaireItem[] = [];
   categories: KnowledgeCategoryItem[] = [];
   categoryMap = new Map<number, string>();
@@ -121,6 +131,8 @@ export class QuestionnairesAdminComponent implements OnInit {
   readonly columnScope = QQN_COL_SCOPE;
   readonly fieldActive = QQN_FIELD_ACTIVE;
   readonly publishLabel = QQN_PUBLISH_BUTTON;
+  readonly archiveLabel = QQN_ARCHIVE_BUTTON;
+  readonly duplicateLabel = QQN_DUPLICATE_BUTTON;
 
   readonly statusOptions = [
     { value: '', label: QQN_FILTER_ALL },
@@ -166,11 +178,23 @@ export class QuestionnairesAdminComponent implements OnInit {
   }
 
   canDeleteRecord(row: QuestionnaireItem): boolean {
-    return this.canDelete() && this.canEditRecord(row.companyId) && row.status !== 'published';
+    return this.canDelete() && this.canEditRecord(row.companyId) && row.status === 'draft';
   }
 
   canPublishRecord(row: QuestionnaireItem): boolean {
     return this.canPublish() && this.canEditRecord(row.companyId) && row.status === 'draft';
+  }
+
+  canArchiveRecord(row: QuestionnaireItem): boolean {
+    return this.canEdit() && this.canEditRecord(row.companyId) && row.status === 'published';
+  }
+
+  canDuplicateRecord(row: QuestionnaireItem): boolean {
+    return this.canCreate() && this.canEditRecord(row.companyId);
+  }
+
+  isLocked(row: QuestionnaireItem): boolean {
+    return row.status === 'published' || row.status === 'archived';
   }
 
   isPublished(row: QuestionnaireItem): boolean {
@@ -236,7 +260,7 @@ export class QuestionnairesAdminComponent implements OnInit {
   }
 
   openEdit(row: QuestionnaireItem): void {
-    const readOnly = row.status === 'published' || !this.canEditRecord(row.companyId);
+    const readOnly = this.isLocked(row) || !this.canEditRecord(row.companyId);
     this.openDialog({ questionnaire: row, readOnly });
   }
 
@@ -252,6 +276,9 @@ export class QuestionnairesAdminComponent implements OnInit {
         this.load();
       } else if (result === 'published') {
         this.snack.open(QQN_PUBLISH_SUCCESS, QQN_SNACK_CLOSE, { duration: 2500 });
+        this.load();
+      } else if (result === 'archived') {
+        this.snack.open(QQN_ARCHIVE_SUCCESS, QQN_SNACK_CLOSE, { duration: 2500 });
         this.load();
       }
     });
@@ -278,8 +305,51 @@ export class QuestionnairesAdminComponent implements OnInit {
     });
   }
 
+  archive(row: QuestionnaireItem): void {
+    if (!this.canArchiveRecord(row)) {
+      return;
+    }
+    if (!confirm(QQN_ARCHIVE_CONFIRM)) {
+      return;
+    }
+    this.archivingId = row.id;
+    this.api.archive(row.id).subscribe({
+      next: (updated) => {
+        Object.assign(row, updated);
+        this.archivingId = null;
+        this.snack.open(QQN_ARCHIVE_SUCCESS, QQN_SNACK_CLOSE, { duration: 2500 });
+      },
+      error: () => {
+        this.archivingId = null;
+        this.snack.open(QQN_ARCHIVE_ERROR, QQN_SNACK_CLOSE, { duration: 3500 });
+      },
+    });
+  }
+
+  duplicate(row: QuestionnaireItem): void {
+    if (!this.canDuplicateRecord(row)) {
+      return;
+    }
+    if (!confirm(QQN_DUPLICATE_CONFIRM)) {
+      return;
+    }
+    this.duplicatingId = row.id;
+    this.api.duplicate(row.id).subscribe({
+      next: (created) => {
+        this.duplicatingId = null;
+        this.snack.open(QQN_DUPLICATE_SUCCESS, QQN_SNACK_CLOSE, { duration: 2500 });
+        this.openDialog({ questionnaire: created, readOnly: false });
+        this.load();
+      },
+      error: () => {
+        this.duplicatingId = null;
+        this.snack.open(QQN_DUPLICATE_ERROR, QQN_SNACK_CLOSE, { duration: 3500 });
+      },
+    });
+  }
+
   toggle(row: QuestionnaireItem, active: boolean): void {
-    if (!this.canEditRecord(row.companyId) || row.status === 'published') {
+    if (!this.canEditRecord(row.companyId) || this.isLocked(row)) {
       return;
     }
     const previous = row.isActive;

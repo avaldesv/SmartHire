@@ -21,6 +21,16 @@ export const QQN_PUBLISH_CONFIRM = $localize`:@@questionnaires.questionnaires.pu
 export const QQN_PUBLISH_SUCCESS = $localize`:@@questionnaires.questionnaires.publishSuccess:Cuestionario publicado`;
 export const QQN_PUBLISH_ERROR = $localize`:@@questionnaires.questionnaires.publishError:No se pudo publicar el cuestionario`;
 
+export const QQN_ARCHIVE_BUTTON = $localize`:@@questionnaires.questionnaires.archiveButton:Archivar`;
+export const QQN_ARCHIVE_CONFIRM = $localize`:@@questionnaires.questionnaires.archiveConfirm:¿Archivar este cuestionario? Dejará de estar disponible para nuevos exámenes, pero los exámenes existentes conservarán su referencia.`;
+export const QQN_ARCHIVE_SUCCESS = $localize`:@@questionnaires.questionnaires.archiveSuccess:Cuestionario archivado`;
+export const QQN_ARCHIVE_ERROR = $localize`:@@questionnaires.questionnaires.archiveError:No se pudo archivar el cuestionario`;
+
+export const QQN_DUPLICATE_BUTTON = $localize`:@@questionnaires.questionnaires.duplicateButton:Duplicar`;
+export const QQN_DUPLICATE_CONFIRM = $localize`:@@questionnaires.questionnaires.duplicateConfirm:¿Crear una copia en borrador de este cuestionario? Podrá editarla y publicarla cuando esté lista.`;
+export const QQN_DUPLICATE_SUCCESS = $localize`:@@questionnaires.questionnaires.duplicateSuccess:Cuestionario duplicado en borrador`;
+export const QQN_DUPLICATE_ERROR = $localize`:@@questionnaires.questionnaires.duplicateError:No se pudo duplicar el cuestionario`;
+
 export const QQN_DIALOG_NEW = $localize`:@@questionnaires.questionnaires.dialog.newTitle:Nuevo cuestionario`;
 export const QQN_DIALOG_EDIT = $localize`:@@questionnaires.questionnaires.dialog.editTitle:Editar cuestionario`;
 export const QQN_DIALOG_VIEW = $localize`:@@questionnaires.questionnaires.dialog.viewTitle:Ver cuestionario`;
@@ -37,6 +47,7 @@ export const QQN_QUESTIONS_MOVE_UP = $localize`:@@questionnaires.questionnaires.
 export const QQN_QUESTIONS_MOVE_DOWN = $localize`:@@questionnaires.questionnaires.questions.moveDown:Bajar`;
 export const QQN_CATEGORY_MISMATCH = $localize`:@@questionnaires.questionnaires.categoryMismatch:Algunas preguntas pertenecen a otra categoría distinta a la del cuestionario.`;
 export const QQN_PUBLISHED_LOCKED = $localize`:@@questionnaires.questionnaires.publishedLocked:Este cuestionario está publicado y no puede editarse.`;
+export const QQN_ARCHIVED_LOCKED = $localize`:@@questionnaires.questionnaires.archivedLocked:Este cuestionario está archivado y no puede editarse.`;
 
 export const QQN_ERRORS_LIST = $localize`:@@questionnaires.questionnaires.errors.list:No se pudieron cargar los cuestionarios`;
 export const QQN_ERRORS_LOAD = $localize`:@@questionnaires.questionnaires.errors.load:No se pudo cargar el cuestionario`;

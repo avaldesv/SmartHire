@@ -71,7 +71,10 @@
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef>{{ columnStatus }}</th>
           <td mat-cell *matCellDef="let row">
-            <span class="status-badge" [class.status-badge--published]="row.status === 'published'">
+            <span class="status-badge"
+              [class.status-badge--published]="row.status === 'published'"
+              [class.status-badge--archived]="row.status === 'archived'"
+            >
               {{ statusLabel(row.status) }}
             </span>
           </td>
@@ -87,7 +90,7 @@
           <td mat-cell *matCellDef="let row">
             <mat-slide-toggle
               [checked]="row.isActive"
-              [disabled]="!canEditRecord(row.companyId) || isPublished(row) || savingId === row.id"
+              [disabled]="!canEditRecord(row.companyId) || isLocked(row) || savingId === row.id"
               (change)="toggle(row, $event.checked)"
             />
           </td>
@@ -108,8 +111,30 @@
                   <mat-icon>publish</mat-icon>
                 </button>
               }
+              @if (canArchiveRecord(row)) {
+                <button
+                  mat-icon-button
+                  type="button"
+                  [attr.aria-label]="archiveLabel"
+                  [disabled]="archivingId === row.id"
+                  (click)="archive(row)"
+                >
+                  <mat-icon>archive</mat-icon>
+                </button>
+              }
+              @if (canDuplicateRecord(row)) {
+                <button
+                  mat-icon-button
+                  type="button"
+                  [attr.aria-label]="duplicateLabel"
+                  [disabled]="duplicatingId === row.id"
+                  (click)="duplicate(row)"
+                >
+                  <mat-icon>content_copy</mat-icon>
+                </button>
+              }
               <sh-table-row-actions
-                [showEdit]="canEdit() || isPublished(row)"
+                [showEdit]="canEdit() || isLocked(row)"
                 [editDisabled]="false"
                 (editClick)="openEdit(row)"
                 [showDelete]="canDelete()"
