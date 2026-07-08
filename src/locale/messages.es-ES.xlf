@@ -2448,6 +2448,42 @@
         <source>Abierta</source>
         <target>Abierta</target>
       </trans-unit>
+      <trans-unit id="questionnaires.questionTypes.title" datatype="html">
+        <source>Tipos de pregunta</source>
+        <target>Tipos de pregunta</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionTypes.intro" datatype="html">
+        <source>Tipos de pregunta definidos por el sistema. No son editables; se usan al crear preguntas e importar CSV.</source>
+        <target>Tipos de pregunta definidos por el sistema. No son editables; se usan al crear preguntas e importar CSV.</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionTypes.col.code" datatype="html">
+        <source>Código</source>
+        <target>Código</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionTypes.col.label" datatype="html">
+        <source>Etiqueta</source>
+        <target>Etiqueta</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionTypes.col.description" datatype="html">
+        <source>Descripción</source>
+        <target>Descripción</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionTypes.desc.singleChoice" datatype="html">
+        <source>El candidato elige una sola opción correcta. Requiere al menos dos opciones.</source>
+        <target>El candidato elige una sola opción correcta. Requiere al menos dos opciones.</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionTypes.desc.multipleChoice" datatype="html">
+        <source>El candidato puede marcar varias opciones correctas. Requiere al menos dos opciones.</source>
+        <target>El candidato puede marcar varias opciones correctas. Requiere al menos dos opciones.</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionTypes.desc.yesNo" datatype="html">
+        <source>Pregunta binaria con dos opciones y exactamente una respuesta correcta.</source>
+        <target>Pregunta binaria con dos opciones y exactamente una respuesta correcta.</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionTypes.desc.open" datatype="html">
+        <source>Respuesta libre en texto. No admite opciones predefinidas.</source>
+        <target>Respuesta libre en texto. No admite opciones predefinidas.</target>
+      </trans-unit>
       <trans-unit id="questionnaires.questions.dialog.newTitle" datatype="html">
         <source>Nueva pregunta</source>
         <target>Nueva pregunta</target>
@@ -2899,6 +2935,10 @@
       <trans-unit id="questionnaires.nav.questions" datatype="html">
         <source>Preguntas</source>
         <target>Preguntas</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.nav.questionTypes" datatype="html">
+        <source>Tipos de pregunta</source>
+        <target>Tipos de pregunta</target>
       </trans-unit>
       <trans-unit id="questionnaires.nav.questionnaires" datatype="html">
         <source>Cuestionarios</source>

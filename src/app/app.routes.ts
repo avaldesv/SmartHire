@@ -138,6 +138,15 @@ export const routes: Routes = [
               ),
           },
           {
+            path: 'question-types',
+            canActivate: [permissionGuard],
+            data: { authorities: [AppPermissions.QUESTIONNAIRE_READ] },
+            loadComponent: () =>
+              import('./features/questionnaires/question-types/question-types-shell.component').then(
+                (m) => m.QuestionTypesShellComponent,
+              ),
+          },
+          {
             path: 'questionnaires',
             canActivate: [permissionGuard],
             data: { authorities: [AppPermissions.QUESTIONNAIRE_READ] },

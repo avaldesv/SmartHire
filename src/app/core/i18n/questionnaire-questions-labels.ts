@@ -27,6 +27,22 @@ export const QQUEST_TYPE_MULTIPLE = $localize`:@@questionnaires.questions.type.m
 export const QQUEST_TYPE_YES_NO = $localize`:@@questionnaires.questions.type.yesNo:Sí/No`;
 export const QQUEST_TYPE_OPEN = $localize`:@@questionnaires.questions.type.open:Abierta`;
 
+export const QQUEST_TYPES_INTRO = $localize`:@@questionnaires.questionTypes.intro:Tipos de pregunta definidos por el sistema. No son editables; se usan al crear preguntas e importar CSV.`;
+export const QQUEST_TYPES_COL_CODE = $localize`:@@questionnaires.questionTypes.col.code:Código`;
+export const QQUEST_TYPES_COL_LABEL = $localize`:@@questionnaires.questionTypes.col.label:Etiqueta`;
+export const QQUEST_TYPES_COL_DESCRIPTION = $localize`:@@questionnaires.questionTypes.col.description:Descripción`;
+
+export const QQUEST_TYPE_SINGLE_DESC = $localize`:@@questionnaires.questionTypes.desc.singleChoice:El candidato elige una sola opción correcta. Requiere al menos dos opciones.`;
+export const QQUEST_TYPE_MULTIPLE_DESC = $localize`:@@questionnaires.questionTypes.desc.multipleChoice:El candidato puede marcar varias opciones correctas. Requiere al menos dos opciones.`;
+export const QQUEST_TYPE_YES_NO_DESC = $localize`:@@questionnaires.questionTypes.desc.yesNo:Pregunta binaria con dos opciones y exactamente una respuesta correcta.`;
+export const QQUEST_TYPE_OPEN_DESC = $localize`:@@questionnaires.questionTypes.desc.open:Respuesta libre en texto. No admite opciones predefinidas.`;
+
+export interface QuestionTypeReferenceItem {
+  value: QuestionTypeValue;
+  label: string;
+  description: string;
+}
+
 export const QQUEST_DIALOG_NEW = $localize`:@@questionnaires.questions.dialog.newTitle:Nueva pregunta`;
 export const QQUEST_DIALOG_EDIT = $localize`:@@questionnaires.questions.dialog.editTitle:Editar pregunta`;
 export const QQUEST_DIALOG_VIEW = $localize`:@@questionnaires.questions.dialog.viewTitle:Ver pregunta`;
@@ -70,6 +86,25 @@ export function qquestTypeLabel(type: string): string {
       return type;
   }
 }
+
+export function qquestTypeDescription(type: QuestionTypeValue): string {
+  switch (type) {
+    case 'single_choice':
+      return QQUEST_TYPE_SINGLE_DESC;
+    case 'multiple_choice':
+      return QQUEST_TYPE_MULTIPLE_DESC;
+    case 'yes_no':
+      return QQUEST_TYPE_YES_NO_DESC;
+    case 'open':
+      return QQUEST_TYPE_OPEN_DESC;
+  }
+}
+
+export const QQUEST_TYPE_REFERENCE: QuestionTypeReferenceItem[] = QQUEST_TYPES.map((type) => ({
+  value: type.value,
+  label: qquestTypeLabel(type.value),
+  description: qquestTypeDescription(type.value),
+}));
 
 export const QQUEST_COL_SCOPE = $localize`:@@questionnaires.common.col.scope:Ámbito`;
 export const QQUEST_FIELD_ACTIVE = $localize`:@@catalogs.field.active:Activo`;

@@ -6469,6 +6469,33 @@
       <trans-unit id="questionnaires.questions.type.open" datatype="html">
         <source>Abierta</source>
       </trans-unit>
+      <trans-unit id="questionnaires.questionTypes.title" datatype="html">
+        <source>Tipos de pregunta</source>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionTypes.intro" datatype="html">
+        <source>Tipos de pregunta definidos por el sistema. No son editables; se usan al crear preguntas e importar CSV.</source>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionTypes.col.code" datatype="html">
+        <source>Código</source>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionTypes.col.label" datatype="html">
+        <source>Etiqueta</source>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionTypes.col.description" datatype="html">
+        <source>Descripción</source>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionTypes.desc.singleChoice" datatype="html">
+        <source>El candidato elige una sola opción correcta. Requiere al menos dos opciones.</source>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionTypes.desc.multipleChoice" datatype="html">
+        <source>El candidato puede marcar varias opciones correctas. Requiere al menos dos opciones.</source>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionTypes.desc.yesNo" datatype="html">
+        <source>Pregunta binaria con dos opciones y exactamente una respuesta correcta.</source>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionTypes.desc.open" datatype="html">
+        <source>Respuesta libre en texto. No admite opciones predefinidas.</source>
+      </trans-unit>
       <trans-unit id="questionnaires.questions.dialog.newTitle" datatype="html">
         <source>Nueva pregunta</source>
       </trans-unit>
@@ -6734,6 +6761,12 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/questionnaires-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="questionnaires.nav.questionTypes" datatype="html">
+        <source>Tipos de pregunta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
         </context-group>
       </trans-unit>
       <trans-unit id="questionnaires.nav.questionnaires" datatype="html">
