@@ -91,7 +91,7 @@ export const QUESTIONNAIRES_NAV_ITEMS: QuestionnairesNavItem[] = [
     authority: AppPermissions.QUESTIONNAIRE_READ,
   },
   {
-    label: $localize`:@@questionnaires.nav.questionTags:Preguntas Tags`,
+    label: $localize`:@@questionnaires.nav.questionTags:Preguntas tags`,
     path: 'question-tags',
     authority: AppPermissions.QUESTIONNAIRE_READ,
   },
