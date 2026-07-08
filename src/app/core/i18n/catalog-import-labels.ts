@@ -23,6 +23,4 @@ export function catalogImportStructureValid(totalRows: number): string {
   return $localize`:@@catalogImport.structureValid:Estructura válida. Filas detectadas: ${totalRows}:totalRows:.`;
 }
 
-export function catalogImportResultSummary(created: number, updated: number, failed: number): string {
-  return $localize`:@@catalogImport.resultSummary:Creados: ${created}:created: · Actualizados: ${updated}:updated: · Fallidos: ${failed}:failed:`;
-}
+export { catalogImportResultSummary, isGroupedQuestionnaireImport } from './catalog-import-result-summary';
