@@ -1,0 +1,57 @@
+.toolbar {
+  margin-bottom: 16px;
+}
+
+.filter-card {
+  margin-bottom: 16px;
+  padding: 16px;
+}
+
+.filter-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: flex-start;
+
+  mat-form-field {
+    flex: 1 1 180px;
+  }
+}
+
+.filter-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding-top: 4px;
+}
+
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 48px;
+}
+
+.empty-state {
+  padding: 24px 16px;
+  margin: 0;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  background: #e2e8f0;
+  color: #334155;
+
+  &--published {
+    background: #dcfce7;
+    color: #166534;
+  }
+}
+
+:host ::ng-deep .mat-column-actions {
+  width: 1%;
+  white-space: nowrap;
+}
