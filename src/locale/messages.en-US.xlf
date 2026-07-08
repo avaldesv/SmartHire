@@ -3133,8 +3133,8 @@
         <target>Categories</target>
       </trans-unit>
       <trans-unit id="questionnaires.nav.questionTags" datatype="html">
-        <source>Preguntas Tags</source>
-        <target>Question Tags</target>
+        <source>Preguntas tags</source>
+        <target>Question tags</target>
       </trans-unit>
       <trans-unit id="questionnaires.nav.questions" datatype="html">
         <source>Preguntas</source>
