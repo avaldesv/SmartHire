@@ -20,6 +20,14 @@
       @if (availableQuestions > 0) {
         <p class="hint">{{ questionsAvailableLabel }} {{ availableQuestions }}</p>
       }
+      @if (form.controls.questionnaireId.value && questionnaireLinks.length) {
+        <p
+          class="hint"
+          [class.hint--warning]="form.controls.numberOfQuestions.hasError('insufficientEligible')"
+        >
+          {{ eligibleQuestionsLabel }} {{ eligibleQuestions }}
+        </p>
+      }
 
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>{{ fieldName }}</mat-label>
@@ -34,7 +42,16 @@
       <div class="form-row">
         <mat-form-field appearance="outline">
           <mat-label>{{ fieldNumberOfQuestions }}</mat-label>
-          <input matInput type="number" min="1" [max]="availableQuestions || null" formControlName="numberOfQuestions" />
+          <input
+            matInput
+            type="number"
+            min="1"
+            [max]="eligibleQuestions || availableQuestions || null"
+            formControlName="numberOfQuestions"
+          />
+          @if (form.controls.numberOfQuestions.hasError('insufficientEligible') && form.controls.numberOfQuestions.touched) {
+            <mat-error>{{ insufficientEligibleMessage }}</mat-error>
+          }
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>{{ fieldAcceptance }}</mat-label>
@@ -67,10 +84,23 @@
           <mat-label>{{ fieldRetryDelay }}</mat-label>
           <input matInput type="number" min="0" formControlName="retryDelayDays" />
         </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>{{ fieldRandomSeed }}</mat-label>
-          <input matInput type="number" formControlName="randomSeed" />
-        </mat-form-field>
+        <div class="random-seed-block">
+          <mat-form-field appearance="outline" class="random-seed-field">
+            <mat-label>{{ fieldRandomSeed }}</mat-label>
+            <input matInput type="number" formControlName="randomSeed" />
+          </mat-form-field>
+          <mat-expansion-panel class="hint-panel">
+            <mat-expansion-panel-header>
+              <mat-panel-title>{{ randomSeedHintTitle }}</mat-panel-title>
+            </mat-expansion-panel-header>
+            <p class="hint-text">{{ randomSeedHintBody }}</p>
+            <p class="hint-subtitle">{{ randomSeedExampleTitle }}</p>
+            <ul class="hint-list">
+              <li>{{ randomSeedExampleEmpty }}</li>
+              <li>{{ randomSeedExampleFixed }}</li>
+            </ul>
+          </mat-expansion-panel>
+        </div>
         <mat-form-field appearance="outline" class="field-status">
           <mat-label>{{ fieldStatus }}</mat-label>
           <mat-select formControlName="status">
@@ -92,10 +122,11 @@
         </mat-form-field>
       </div>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>{{ fieldGenerationConfig }}</mat-label>
-        <textarea matInput rows="3" formControlName="generationConfig"></textarea>
-      </mat-form-field>
+      <h3 class="section-title">{{ fieldGenerationConfig }}</h3>
+      <sh-exam-generation-config-panel
+        formControlName="generationConfig"
+        [questionnaireId]="form.controls.questionnaireId.value"
+      />
 
       <mat-checkbox formControlName="isActive">{{ fieldActive }}</mat-checkbox>
     </form>
@@ -109,7 +140,7 @@
     color="primary"
     type="button"
     (click)="save()"
-    [disabled]="saving || loading || !publishedQuestionnaires.length"
+    [disabled]="saving || loading || !publishedQuestionnaires.length || form.invalid"
   >
     {{ saving ? savingLabel : saveLabel }}
   </button>

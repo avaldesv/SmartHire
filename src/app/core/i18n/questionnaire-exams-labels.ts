@@ -33,11 +33,37 @@ export const QEXAM_FIELD_MAX_ATTEMPTS_HINT = $localize`:@@questionnaires.exams.f
 export const QEXAM_FIELD_RETRY_DELAY = $localize`:@@questionnaires.exams.field.retryDelayDays:Días entre reintentos`;
 export const QEXAM_FIELD_START_DATE = $localize`:@@questionnaires.exams.field.startDate:Inicio ventana`;
 export const QEXAM_FIELD_END_DATE = $localize`:@@questionnaires.exams.field.endDate:Fin ventana`;
-export const QEXAM_FIELD_GENERATION_CONFIG = $localize`:@@questionnaires.exams.field.generationConfig:Config. generación (JSON)`;
+export const QEXAM_FIELD_GENERATION_CONFIG = $localize`:@@questionnaires.exams.field.generationConfig:Reglas de selección de preguntas`;
 export const QEXAM_FIELD_RANDOM_SEED = $localize`:@@questionnaires.exams.field.randomSeed:Semilla aleatoria`;
+
+export const QEXAM_RANDOM_SEED_HINT_TITLE = $localize`:@@questionnaires.exams.randomSeed.hintTitle:¿Qué es la semilla aleatoria?`;
+export const QEXAM_RANDOM_SEED_HINT_BODY = $localize`:@@questionnaires.exams.randomSeed.hintBody:Opcional. Si la deja vacía, cada intento puede obtener un subconjunto distinto de preguntas. Si indica un número (ej. 42), la selección será reproducible para pruebas o auditoría.`;
+export const QEXAM_RANDOM_SEED_HINT_EXAMPLE_TITLE = $localize`:@@questionnaires.exams.randomSeed.exampleTitle:Ejemplos`;
+export const QEXAM_RANDOM_SEED_EXAMPLE_EMPTY = $localize`:@@questionnaires.exams.randomSeed.exampleEmpty:Vacío — selección variable entre intentos`;
+export const QEXAM_RANDOM_SEED_EXAMPLE_FIXED = $localize`:@@questionnaires.exams.randomSeed.exampleFixed:42 — misma selección de preguntas al repetir el examen`;
+
+export const QEXAM_GEN_INTRO = $localize`:@@questionnaires.exams.generation.intro:Defina cómo se eligen las preguntas del cuestionario al iniciar un intento. Si no aplica filtros, se usarán todas las preguntas vinculadas.`;
+export const QEXAM_GEN_QUESTION_TYPES = $localize`:@@questionnaires.exams.generation.questionTypes:Tipos de pregunta permitidos`;
+export const QEXAM_GEN_QUESTION_TYPES_HINT = $localize`:@@questionnaires.exams.generation.questionTypesHint:Sin marcar ninguno = todos los tipos del cuestionario.`;
+export const QEXAM_GEN_DIFFICULTY_FILTER = $localize`:@@questionnaires.exams.generation.difficultyFilter:Filtrar por dificultad`;
+export const QEXAM_GEN_DIFFICULTY_MIN = $localize`:@@questionnaires.exams.generation.difficultyMin:Dificultad mínima (1-5)`;
+export const QEXAM_GEN_DIFFICULTY_MAX = $localize`:@@questionnaires.exams.generation.difficultyMax:Dificultad máxima (1-5)`;
+export const QEXAM_GEN_SELECT_CATEGORIES = $localize`:@@questionnaires.exams.generation.categories:Categorías de conocimiento (opcional)`;
+export const QEXAM_GEN_EXCLUDE_QUESTIONS = $localize`:@@questionnaires.exams.generation.excludeQuestions:Excluir preguntas del cuestionario`;
+export const QEXAM_GEN_JSON_PREVIEW = $localize`:@@questionnaires.exams.generation.jsonPreview:Vista previa técnica (JSON)`;
+export const QEXAM_GEN_ADVANCED_JSON = $localize`:@@questionnaires.exams.generation.advancedJson:Edición avanzada JSON`;
+export const QEXAM_GEN_USE_ADVANCED_JSON = $localize`:@@questionnaires.exams.generation.useAdvancedJson:Usar JSON manual (solo usuarios avanzados)`;
+export const QEXAM_GEN_UNSUPPORTED_JSON = $localize`:@@questionnaires.exams.generation.unsupportedJson:Este examen tiene un JSON con campos no editables en el formulario. Revise la edición avanzada.`;
+export const QEXAM_GEN_EXCLUDE_HINT = $localize`:@@questionnaires.exams.generation.excludeHint:Seleccione un cuestionario para excluir preguntas concretas.`;
+
 export const QEXAM_FIELD_STATUS = $localize`:@@questionnaires.exams.field.status:Estado`;
 export const QEXAM_QUESTIONS_AVAILABLE = $localize`:@@questionnaires.exams.questionsAvailable:Preguntas disponibles en cuestionario:`;
+export const QEXAM_ELIGIBLE_QUESTIONS = $localize`:@@questionnaires.exams.eligibleQuestions:Preguntas elegibles tras filtros:`;
 export const QEXAM_NO_PUBLISHED_QUESTIONNAIRES = $localize`:@@questionnaires.exams.noPublishedQuestionnaires:No hay cuestionarios publicados disponibles`;
+
+export function qexamInsufficientEligibleError(eligible: number, requested: number): string {
+  return $localize`:@@questionnaires.exams.errors.insufficientEligible:Solo hay ${eligible}:eligible: elegibles tras los filtros; el examen solicita ${requested}:requested:.`;
+}
 
 export const QEXAM_ERRORS_LIST = $localize`:@@questionnaires.exams.errors.list:No se pudieron cargar los exámenes`;
 export const QEXAM_ERRORS_LOAD = $localize`:@@questionnaires.exams.errors.load:No se pudo cargar el examen`;

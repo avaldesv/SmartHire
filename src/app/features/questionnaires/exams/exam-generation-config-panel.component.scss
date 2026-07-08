@@ -1,0 +1,78 @@
+.generation-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.generation-intro {
+  margin: 0;
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.generation-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.section-label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.checkbox-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+
+.field-hint {
+  margin: 0;
+  font-size: 0.75rem;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.warning-hint {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: #b45309;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  mat-form-field {
+    flex: 1 1 120px;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+.hint-panel {
+  background: #fff;
+}
+
+.json-preview {
+  margin: 0;
+  padding: 8px;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  background: #f1f5f9;
+  border-radius: 4px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+}
+
+.advanced-panel {
+  margin-top: 4px;
+}

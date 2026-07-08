@@ -57,6 +57,7 @@ export interface QuestionnaireQuestionLinkItem {
   text?: string | null;
   type?: string | null;
   knowledgeCategoryId?: number | null;
+  difficulty?: number | null;
   sortOrder?: number | null;
   weightOverride?: number | null;
 }
