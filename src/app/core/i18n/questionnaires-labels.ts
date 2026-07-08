@@ -8,5 +8,6 @@ export const QUESTIONNAIRES_NAV_EXAMS = $localize`:@@questionnaires.nav.exams:Ex
 
 export const QUESTIONNAIRES_CATEGORIES_TITLE = $localize`:@@questionnaires.categories.title:Categorías de conocimiento y tags`;
 export const QUESTIONNAIRES_QUESTIONS_TITLE = $localize`:@@questionnaires.questions.title:Banco de preguntas`;
+export const QUESTIONNAIRES_QUESTION_TYPES_TITLE = $localize`:@@questionnaires.questionTypes.title:Tipos de pregunta`;
 export const QUESTIONNAIRES_QUESTIONNAIRES_TITLE = $localize`:@@questionnaires.questionnaires.title:Cuestionarios`;
 export const QUESTIONNAIRES_EXAMS_TITLE = $localize`:@@questionnaires.exams.title:Exámenes`;

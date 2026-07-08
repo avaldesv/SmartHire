@@ -71,6 +71,11 @@ export const QUESTIONNAIRES_NAV_ITEMS: QuestionnairesNavItem[] = [
     authority: AppPermissions.QUESTIONNAIRE_READ,
   },
   {
+    label: $localize`:@@questionnaires.nav.questionTypes:Tipos de pregunta`,
+    path: 'question-types',
+    authority: AppPermissions.QUESTIONNAIRE_READ,
+  },
+  {
     label: $localize`:@@questionnaires.nav.questionnaires:Cuestionarios`,
     path: 'questionnaires',
     authority: AppPermissions.QUESTIONNAIRE_READ,
