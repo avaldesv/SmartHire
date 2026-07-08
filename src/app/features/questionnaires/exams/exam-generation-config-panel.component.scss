@@ -20,18 +20,6 @@
   gap: 6px;
 }
 
-.section-label {
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: rgba(0, 0, 0, 0.75);
-}
-
-.checkbox-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 16px;
-}
-
 .field-hint {
   margin: 0;
   font-size: 0.75rem;
@@ -46,33 +34,26 @@
 
 .form-row {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   gap: 8px;
+  width: 100%;
 
   mat-form-field {
     flex: 1 1 120px;
+  }
+
+  &--filters {
+    align-items: flex-start;
+    gap: 12px;
+
+    .filter-field {
+      flex: 1 1 200px;
+      min-width: 200px;
+    }
   }
 }
 
 .full-width {
   width: 100%;
-}
-
-.hint-panel {
-  background: #fff;
-}
-
-.json-preview {
-  margin: 0;
-  padding: 8px;
-  font-size: 0.75rem;
-  line-height: 1.35;
-  background: #f1f5f9;
-  border-radius: 4px;
-  overflow-x: auto;
-  white-space: pre-wrap;
-}
-
-.advanced-panel {
-  margin-top: 4px;
 }

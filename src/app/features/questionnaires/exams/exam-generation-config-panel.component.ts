@@ -9,49 +9,38 @@ import {
   inject,
 } from '@angular/core';
 import { ControlValueAccessor, FormBuilder, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Subscription } from 'rxjs';
 import {
-  QEXAM_GEN_ADVANCED_JSON,
   QEXAM_GEN_DIFFICULTY_FILTER,
   QEXAM_GEN_DIFFICULTY_MAX,
   QEXAM_GEN_DIFFICULTY_MIN,
+  QEXAM_GEN_EXCLUDE_HINT,
   QEXAM_GEN_EXCLUDE_QUESTIONS,
   QEXAM_GEN_INTRO,
-  QEXAM_GEN_JSON_PREVIEW,
   QEXAM_GEN_QUESTION_TYPES,
   QEXAM_GEN_QUESTION_TYPES_HINT,
   QEXAM_GEN_SELECT_CATEGORIES,
   QEXAM_GEN_UNSUPPORTED_JSON,
-  QEXAM_GEN_USE_ADVANCED_JSON,
-  QEXAM_GEN_EXCLUDE_HINT,
 } from '../../../core/i18n/questionnaire-exams-labels';
 import { QQUEST_TYPES, qquestTypeLabel } from '../../../core/i18n/questionnaire-questions-labels';
 import { QuestionnaireKnowledgeCategoryApiService } from '../../../core/services/questionnaire-knowledge-category-api.service';
 import { QuestionnaireQuestionnaireApiService } from '../../../core/services/questionnaire-questionnaire-api.service';
 import { KnowledgeCategoryItem, QuestionnaireQuestionLinkItem } from '../../../shared/models/questionnaire-v2.model';
-import {
-  buildGenerationConfigJson,
-  formatGenerationConfigPreview,
-  parseGenerationConfig,
-} from './exam-generation-config.util';
+import { buildGenerationConfigJson, parseGenerationConfig } from './exam-generation-config.util';
 
 @Component({
   selector: 'sh-exam-generation-config-panel',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    MatExpansionModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatButtonModule,
   ],
   providers: [
     {
@@ -78,8 +67,6 @@ export class ExamGenerationConfigPanelComponent implements ControlValueAccessor,
   categories: KnowledgeCategoryItem[] = [];
   questionnaireQuestions: QuestionnaireQuestionLinkItem[] = [];
   hasUnsupportedKeys = false;
-  jsonPreview = '{}';
-  showAdvancedJson = false;
 
   readonly intro = QEXAM_GEN_INTRO;
   readonly questionTypesLabel = QEXAM_GEN_QUESTION_TYPES;
@@ -89,9 +76,6 @@ export class ExamGenerationConfigPanelComponent implements ControlValueAccessor,
   readonly difficultyMaxLabel = QEXAM_GEN_DIFFICULTY_MAX;
   readonly categoriesLabel = QEXAM_GEN_SELECT_CATEGORIES;
   readonly excludeQuestionsLabel = QEXAM_GEN_EXCLUDE_QUESTIONS;
-  readonly jsonPreviewLabel = QEXAM_GEN_JSON_PREVIEW;
-  readonly advancedJsonLabel = QEXAM_GEN_ADVANCED_JSON;
-  readonly useAdvancedJsonLabel = QEXAM_GEN_USE_ADVANCED_JSON;
   readonly unsupportedJsonLabel = QEXAM_GEN_UNSUPPORTED_JSON;
   readonly excludeHint = QEXAM_GEN_EXCLUDE_HINT;
 
@@ -107,8 +91,6 @@ export class ExamGenerationConfigPanelComponent implements ControlValueAccessor,
     questionTypes: [[] as string[]],
     knowledgeCategoryIds: [[] as number[]],
     excludeQuestionIds: [[] as number[]],
-    useAdvancedJson: [false],
-    advancedJson: [''],
   });
 
   ngOnInit(): void {
@@ -154,23 +136,6 @@ export class ExamGenerationConfigPanelComponent implements ControlValueAccessor,
     }
   }
 
-  toggleQuestionType(type: string, checked: boolean): void {
-    const current = [...this.rulesForm.controls.questionTypes.value];
-    if (checked && !current.includes(type)) {
-      current.push(type);
-    } else if (!checked) {
-      const idx = current.indexOf(type);
-      if (idx >= 0) {
-        current.splice(idx, 1);
-      }
-    }
-    this.rulesForm.patchValue({ questionTypes: current });
-  }
-
-  isQuestionTypeSelected(type: string): boolean {
-    return this.rulesForm.controls.questionTypes.value.includes(type);
-  }
-
   questionPreview(link: QuestionnaireQuestionLinkItem): string {
     const text = link.text?.trim() || `Pregunta #${link.questionId}`;
     return text.length > 60 ? `${text.slice(0, 60)}…` : text;
@@ -208,8 +173,6 @@ export class ExamGenerationConfigPanelComponent implements ControlValueAccessor,
     const parsed = parseGenerationConfig(value);
     this.hasUnsupportedKeys = parsed.hasUnsupportedKeys;
     const config = parsed.config;
-    const useAdvanced = parsed.hasUnsupportedKeys;
-    this.showAdvancedJson = useAdvanced;
     this.rulesForm.patchValue(
       {
         filterDifficulty: config.difficultyMin != null || config.difficultyMax != null,
@@ -218,12 +181,9 @@ export class ExamGenerationConfigPanelComponent implements ControlValueAccessor,
         questionTypes: config.questionTypes ?? [],
         knowledgeCategoryIds: config.knowledgeCategoryIds ?? [],
         excludeQuestionIds: config.excludeQuestionIds ?? [],
-        useAdvancedJson: useAdvanced,
-        advancedJson: useAdvanced ? parsed.rawJson : formatGenerationConfigPreview(value),
       },
       { emitEvent: false },
     );
-    this.updatePreview(value);
   }
 
   private emitValue(): void {
@@ -231,24 +191,13 @@ export class ExamGenerationConfigPanelComponent implements ControlValueAccessor,
       return;
     }
     const raw = this.rulesForm.getRawValue();
-    let json: string | null;
-    if (raw.useAdvancedJson && raw.advancedJson.trim()) {
-      json = raw.advancedJson.trim();
-    } else {
-      const config = {
-        difficultyMin: raw.filterDifficulty ? raw.difficultyMin : undefined,
-        difficultyMax: raw.filterDifficulty ? raw.difficultyMax : undefined,
-        questionTypes: raw.questionTypes.length ? raw.questionTypes : undefined,
-        knowledgeCategoryIds: raw.knowledgeCategoryIds.length ? raw.knowledgeCategoryIds : undefined,
-        excludeQuestionIds: raw.excludeQuestionIds.length ? raw.excludeQuestionIds : undefined,
-      };
-      json = buildGenerationConfigJson(config);
-    }
-    this.updatePreview(json);
-    this.valueChange?.(json);
-  }
-
-  private updatePreview(json: string | null): void {
-    this.jsonPreview = formatGenerationConfigPreview(json);
+    const config = {
+      difficultyMin: raw.filterDifficulty ? raw.difficultyMin : undefined,
+      difficultyMax: raw.filterDifficulty ? raw.difficultyMax : undefined,
+      questionTypes: raw.questionTypes.length ? raw.questionTypes : undefined,
+      knowledgeCategoryIds: raw.knowledgeCategoryIds.length ? raw.knowledgeCategoryIds : undefined,
+      excludeQuestionIds: raw.excludeQuestionIds.length ? raw.excludeQuestionIds : undefined,
+    };
+    this.valueChange?.(buildGenerationConfigJson(config));
   }
 }

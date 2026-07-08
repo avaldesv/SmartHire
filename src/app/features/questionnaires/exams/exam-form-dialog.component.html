@@ -1,134 +1,178 @@
 <h2 mat-dialog-title>{{ title }}</h2>
 
-<mat-dialog-content>
+<mat-dialog-content class="exam-dialog-content">
   @if (loading) {
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else {
     @if (!publishedQuestionnaires.length) {
       <p class="hint">{{ noPublishedLabel }}</p>
     }
-    <form [formGroup]="form" class="exam-form">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>{{ fieldQuestionnaire }}</mat-label>
-        <mat-select formControlName="questionnaireId">
-          @for (q of publishedQuestionnaires; track q.id) {
-            <mat-option [value]="q.id">{{ q.name }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+    <form [formGroup]="form" class="exam-form" autocomplete="off">
+      <mat-tab-group
+        class="exam-tabs"
+        animationDuration="0ms"
+        [dynamicHeight]="false"
+        [style.--exam-tab-panel-height.px]="tabPanelHeight || null"
+      >
+        <mat-tab [label]="tabGeneral">
+          <div class="tab-panel" #generalTabPanel>
+            <div class="form-row form-row--name">
+              <mat-form-field appearance="outline" class="name-field">
+                <mat-label>{{ fieldName }}</mat-label>
+                <input matInput formControlName="name" />
+              </mat-form-field>
+              <div class="active-field">
+                <mat-checkbox formControlName="isActive">{{ fieldActive }}</mat-checkbox>
+              </div>
+            </div>
 
-      @if (availableQuestions > 0) {
-        <p class="hint">{{ questionsAvailableLabel }} {{ availableQuestions }}</p>
-      }
-      @if (form.controls.questionnaireId.value && questionnaireLinks.length) {
-        <p
-          class="hint"
-          [class.hint--warning]="form.controls.numberOfQuestions.hasError('insufficientEligible')"
-        >
-          {{ eligibleQuestionsLabel }} {{ eligibleQuestions }}
-        </p>
-      }
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="questionnaire-field">
+                <mat-label>{{ fieldQuestionnaire }}</mat-label>
+                <mat-select formControlName="questionnaireId">
+                  @for (q of publishedQuestionnaires; track q.id) {
+                    <mat-option [value]="q.id">{{ q.name }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>{{ fieldName }}</mat-label>
-        <input matInput formControlName="name" />
-      </mat-form-field>
+            <div class="form-row">
+              <mat-form-field appearance="outline">
+                <mat-label>{{ fieldAcceptance }}</mat-label>
+                <input matInput type="number" min="0" max="100" step="0.1" formControlName="acceptancePercent" />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>{{ fieldTotalTime }}</mat-label>
+                <input matInput type="number" min="1" formControlName="totalTimeMinutes" />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>{{ fieldDefaultWeight }}</mat-label>
+                <input matInput type="number" min="0" step="0.1" formControlName="defaultWeight" />
+              </mat-form-field>
+            </div>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>{{ fieldDescription }}</mat-label>
-        <textarea matInput rows="2" formControlName="description"></textarea>
-      </mat-form-field>
+            <div class="form-row">
+              <mat-form-field appearance="outline">
+                <mat-label>{{ fieldTimeLimit }}</mat-label>
+                <input matInput type="number" min="1" formControlName="defaultTimeLimitSeconds" />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>{{ fieldMaxAttempts }}</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  min="1"
+                  autocomplete="off"
+                  name="exam-max-attempts"
+                  formControlName="maxAttempts"
+                />
+                <mat-hint>
+                  <a class="help-link" href="#" (click)="openMaxAttemptsHelp($event)">{{ fieldHelpLink }}</a>
+                </mat-hint>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>{{ fieldStatus }}</mat-label>
+                <mat-select formControlName="status">
+                  @for (opt of statusOptions; track opt.value) {
+                    <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
 
-      <div class="form-row">
-        <mat-form-field appearance="outline">
-          <mat-label>{{ fieldNumberOfQuestions }}</mat-label>
-          <input
-            matInput
-            type="number"
-            min="1"
-            [max]="eligibleQuestions || availableQuestions || null"
-            formControlName="numberOfQuestions"
-          />
-          @if (form.controls.numberOfQuestions.hasError('insufficientEligible') && form.controls.numberOfQuestions.touched) {
-            <mat-error>{{ insufficientEligibleMessage }}</mat-error>
-          }
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>{{ fieldAcceptance }}</mat-label>
-          <input matInput type="number" min="0" max="100" step="0.1" formControlName="acceptancePercent" />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>{{ fieldTotalTime }}</mat-label>
-          <input matInput type="number" min="1" formControlName="totalTimeMinutes" />
-        </mat-form-field>
-      </div>
+            <div class="form-row form-row--status">
+              <mat-form-field appearance="outline">
+                <mat-label>{{ fieldRetryDelay }}</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  min="0"
+                  autocomplete="off"
+                  name="exam-retry-delay-days"
+                  formControlName="retryDelayDays"
+                />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>{{ fieldRandomSeed }}</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  autocomplete="off"
+                  name="exam-random-seed"
+                  formControlName="randomSeed"
+                />
+                <mat-hint>
+                  <a class="help-link" href="#" (click)="openRandomSeedHelp($event)">{{ fieldHelpLink }}</a>
+                </mat-hint>
+              </mat-form-field>
+            </div>
 
-      <div class="form-row">
-        <mat-form-field appearance="outline">
-          <mat-label>{{ fieldDefaultWeight }}</mat-label>
-          <input matInput type="number" min="0" step="0.1" formControlName="defaultWeight" />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>{{ fieldTimeLimit }}</mat-label>
-          <input matInput type="number" min="1" formControlName="defaultTimeLimitSeconds" />
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="field-max-attempts">
-          <mat-label>{{ fieldMaxAttempts }}</mat-label>
-          <input matInput type="number" min="1" formControlName="maxAttempts" />
-          <mat-hint class="compact-hint">{{ maxAttemptsHint }}</mat-hint>
-        </mat-form-field>
-      </div>
+            <div class="form-row">
+              <mat-form-field appearance="outline">
+                <mat-label>{{ fieldStartDate }}</mat-label>
+                <input matInput type="datetime-local" formControlName="startDate" />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>{{ fieldEndDate }}</mat-label>
+                <input matInput type="datetime-local" formControlName="endDate" />
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-tab>
 
-      <div class="form-row form-row--status">
-        <mat-form-field appearance="outline">
-          <mat-label>{{ fieldRetryDelay }}</mat-label>
-          <input matInput type="number" min="0" formControlName="retryDelayDays" />
-        </mat-form-field>
-        <div class="random-seed-block">
-          <mat-form-field appearance="outline" class="random-seed-field">
-            <mat-label>{{ fieldRandomSeed }}</mat-label>
-            <input matInput type="number" formControlName="randomSeed" />
-          </mat-form-field>
-          <mat-expansion-panel class="hint-panel">
-            <mat-expansion-panel-header>
-              <mat-panel-title>{{ randomSeedHintTitle }}</mat-panel-title>
-            </mat-expansion-panel-header>
-            <p class="hint-text">{{ randomSeedHintBody }}</p>
-            <p class="hint-subtitle">{{ randomSeedExampleTitle }}</p>
-            <ul class="hint-list">
-              <li>{{ randomSeedExampleEmpty }}</li>
-              <li>{{ randomSeedExampleFixed }}</li>
-            </ul>
-          </mat-expansion-panel>
-        </div>
-        <mat-form-field appearance="outline" class="field-status">
-          <mat-label>{{ fieldStatus }}</mat-label>
-          <mat-select formControlName="status">
-            @for (opt of statusOptions; track opt.value) {
-              <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
+        <mat-tab [label]="tabQuestionSelection">
+          <div class="tab-panel tab-panel--scroll">
+            @if (availableQuestions > 0 || (form.controls.questionnaireId.value && questionnaireLinks.length)) {
+              <section class="questions-summary-box">
+                <div class="form-row form-row--summary">
+                  @if (availableQuestions > 0) {
+                    <p class="hint hint--summary">{{ questionsAvailableLabel }} {{ availableQuestions }}</p>
+                  }
+                  @if (form.controls.questionnaireId.value && questionnaireLinks.length) {
+                    <p
+                      class="hint hint--summary"
+                      [class.hint--warning]="form.controls.numberOfQuestions.hasError('insufficientEligible')"
+                    >
+                      {{ eligibleQuestionsLabel }} {{ eligibleQuestions }}
+                    </p>
+                  }
+                </div>
+              </section>
             }
-          </mat-select>
-        </mat-form-field>
-      </div>
 
-      <div class="form-row">
-        <mat-form-field appearance="outline">
-          <mat-label>{{ fieldStartDate }}</mat-label>
-          <input matInput type="datetime-local" formControlName="startDate" />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>{{ fieldEndDate }}</mat-label>
-          <input matInput type="datetime-local" formControlName="endDate" />
-        </mat-form-field>
-      </div>
+            <div class="form-row form-row--questions">
+              <mat-form-field appearance="outline" class="number-of-questions-field">
+                <mat-label>{{ fieldNumberOfQuestions }}</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  min="1"
+                  [max]="eligibleQuestions || availableQuestions || null"
+                  formControlName="numberOfQuestions"
+                />
+              </mat-form-field>
+              @if (showInsufficientEligibleWarning) {
+                <p class="eligible-warning" role="alert">{{ insufficientEligibleMessage }}</p>
+              }
+            </div>
 
-      <h3 class="section-title">{{ fieldGenerationConfig }}</h3>
-      <sh-exam-generation-config-panel
-        formControlName="generationConfig"
-        [questionnaireId]="form.controls.questionnaireId.value"
-      />
+            <sh-exam-generation-config-panel
+              formControlName="generationConfig"
+              [questionnaireId]="form.controls.questionnaireId.value"
+            />
+          </div>
+        </mat-tab>
 
-      <mat-checkbox formControlName="isActive">{{ fieldActive }}</mat-checkbox>
+        <mat-tab [label]="tabDescription">
+          <div class="tab-panel tab-panel--scroll">
+            <mat-form-field appearance="outline" class="full-width description-field">
+              <mat-label>{{ fieldDescription }}</mat-label>
+              <textarea matInput rows="6" formControlName="description"></textarea>
+            </mat-form-field>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
     </form>
   }
 </mat-dialog-content>

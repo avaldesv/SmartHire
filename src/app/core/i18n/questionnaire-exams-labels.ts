@@ -20,6 +20,9 @@ export const QEXAM_STATUS_ARCHIVED = $localize`:@@questionnaires.exams.status.ar
 
 export const QEXAM_DIALOG_NEW = $localize`:@@questionnaires.exams.dialog.newTitle:Nuevo examen`;
 export const QEXAM_DIALOG_EDIT = $localize`:@@questionnaires.exams.dialog.editTitle:Editar examen`;
+export const QEXAM_TAB_GENERAL = $localize`:@@questionnaires.exams.tab.general:Datos generales`;
+export const QEXAM_TAB_QUESTION_SELECTION = $localize`:@@questionnaires.exams.tab.questionSelection:Selección de preguntas`;
+export const QEXAM_TAB_DESCRIPTION = $localize`:@@questionnaires.exams.tab.description:Descripción`;
 export const QEXAM_FIELD_QUESTIONNAIRE = $localize`:@@questionnaires.exams.field.questionnaire:Cuestionario publicado`;
 export const QEXAM_FIELD_NAME = $localize`:@@questionnaires.exams.field.name:Nombre`;
 export const QEXAM_FIELD_DESCRIPTION = $localize`:@@questionnaires.exams.field.description:Descripción`;
@@ -30,6 +33,13 @@ export const QEXAM_FIELD_TOTAL_TIME = $localize`:@@questionnaires.exams.field.to
 export const QEXAM_FIELD_ACCEPTANCE = $localize`:@@questionnaires.exams.field.acceptancePercent:Umbral aprobación (%)`;
 export const QEXAM_FIELD_MAX_ATTEMPTS = $localize`:@@questionnaires.exams.field.maxAttempts:Intentos máximos`;
 export const QEXAM_FIELD_MAX_ATTEMPTS_HINT = $localize`:@@questionnaires.exams.field.maxAttemptsHint:Vacío = ilimitado. Mínimo 1 si se indica.`;
+export const QEXAM_MAX_ATTEMPTS_HINT_TITLE = $localize`:@@questionnaires.exams.maxAttempts.hintTitle:¿Qué son los intentos máximos?`;
+export const QEXAM_MAX_ATTEMPTS_HINT_BODY = $localize`:@@questionnaires.exams.maxAttempts.hintBody:Indica cuántas veces puede presentar el examen cada candidato. Si lo deja vacío, los intentos son ilimitados. Si indica un número, debe ser al menos 1.`;
+export const QEXAM_MAX_ATTEMPTS_HINT_EXAMPLE_TITLE = $localize`:@@questionnaires.exams.maxAttempts.exampleTitle:Ejemplos`;
+export const QEXAM_MAX_ATTEMPTS_EXAMPLE_EMPTY = $localize`:@@questionnaires.exams.maxAttempts.exampleEmpty:Vacío — intentos ilimitados`;
+export const QEXAM_MAX_ATTEMPTS_EXAMPLE_ONE = $localize`:@@questionnaires.exams.maxAttempts.exampleOne:1 — una sola oportunidad por candidato`;
+export const QEXAM_MAX_ATTEMPTS_EXAMPLE_THREE = $localize`:@@questionnaires.exams.maxAttempts.exampleThree:3 — hasta tres presentaciones`;
+export const QEXAM_FIELD_HELP_LINK = $localize`:@@questionnaires.exams.field.helpLink:Ayuda`;
 export const QEXAM_FIELD_RETRY_DELAY = $localize`:@@questionnaires.exams.field.retryDelayDays:Días entre reintentos`;
 export const QEXAM_FIELD_START_DATE = $localize`:@@questionnaires.exams.field.startDate:Inicio ventana`;
 export const QEXAM_FIELD_END_DATE = $localize`:@@questionnaires.exams.field.endDate:Fin ventana`;
@@ -37,6 +47,7 @@ export const QEXAM_FIELD_GENERATION_CONFIG = $localize`:@@questionnaires.exams.f
 export const QEXAM_FIELD_RANDOM_SEED = $localize`:@@questionnaires.exams.field.randomSeed:Semilla aleatoria`;
 
 export const QEXAM_RANDOM_SEED_HINT_TITLE = $localize`:@@questionnaires.exams.randomSeed.hintTitle:¿Qué es la semilla aleatoria?`;
+export const QEXAM_RANDOM_SEED_HELP_LINK = QEXAM_FIELD_HELP_LINK;
 export const QEXAM_RANDOM_SEED_HINT_BODY = $localize`:@@questionnaires.exams.randomSeed.hintBody:Opcional. Si la deja vacía, cada intento puede obtener un subconjunto distinto de preguntas. Si indica un número (ej. 42), la selección será reproducible para pruebas o auditoría.`;
 export const QEXAM_RANDOM_SEED_HINT_EXAMPLE_TITLE = $localize`:@@questionnaires.exams.randomSeed.exampleTitle:Ejemplos`;
 export const QEXAM_RANDOM_SEED_EXAMPLE_EMPTY = $localize`:@@questionnaires.exams.randomSeed.exampleEmpty:Vacío — selección variable entre intentos`;
@@ -61,8 +72,11 @@ export const QEXAM_QUESTIONS_AVAILABLE = $localize`:@@questionnaires.exams.quest
 export const QEXAM_ELIGIBLE_QUESTIONS = $localize`:@@questionnaires.exams.eligibleQuestions:Preguntas elegibles tras filtros:`;
 export const QEXAM_NO_PUBLISHED_QUESTIONNAIRES = $localize`:@@questionnaires.exams.noPublishedQuestionnaires:No hay cuestionarios publicados disponibles`;
 
-export function qexamInsufficientEligibleError(eligible: number, requested: number): string {
-  return $localize`:@@questionnaires.exams.errors.insufficientEligible:Solo hay ${eligible}:eligible: elegibles tras los filtros; el examen solicita ${requested}:requested:.`;
+export function qexamInsufficientEligibleError(eligible: number, requested: number, available: number): string {
+  if (eligible === 1) {
+    return $localize`:@@questionnaires.exams.errors.insufficientEligibleOne:Solo hay 1 pregunta elegible tras los filtros; el examen solicita ${requested}:requested:. El cuestionario dispone de ${available}:available:.`;
+  }
+  return $localize`:@@questionnaires.exams.errors.insufficientEligibleMany:Solo hay ${eligible}:eligible: preguntas elegibles tras los filtros; el examen solicita ${requested}:requested:. El cuestionario dispone de ${available}:available:.`;
 }
 
 export const QEXAM_ERRORS_LIST = $localize`:@@questionnaires.exams.errors.list:No se pudieron cargar los exámenes`;

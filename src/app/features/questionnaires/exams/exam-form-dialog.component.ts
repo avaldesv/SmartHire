@@ -1,19 +1,22 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatExpansionModule } from '@angular/material/expansion';
 import {
   QEXAM_CANCEL,
   QEXAM_CLOSE,
   QEXAM_DIALOG_EDIT,
   QEXAM_DIALOG_NEW,
+  QEXAM_TAB_GENERAL,
+  QEXAM_TAB_QUESTION_SELECTION,
+  QEXAM_TAB_DESCRIPTION,
   QEXAM_ERRORS_LOAD,
   QEXAM_ERRORS_MAX_ATTEMPTS,
   QEXAM_ERRORS_SAVE,
@@ -21,18 +24,12 @@ import {
   QEXAM_FIELD_DEFAULT_WEIGHT,
   QEXAM_FIELD_DESCRIPTION,
   QEXAM_FIELD_END_DATE,
-  QEXAM_FIELD_GENERATION_CONFIG,
   QEXAM_FIELD_MAX_ATTEMPTS,
-  QEXAM_FIELD_MAX_ATTEMPTS_HINT,
+  QEXAM_FIELD_HELP_LINK,
   QEXAM_FIELD_NAME,
   QEXAM_FIELD_NUMBER_OF_QUESTIONS,
   QEXAM_FIELD_QUESTIONNAIRE,
   QEXAM_FIELD_RANDOM_SEED,
-  QEXAM_RANDOM_SEED_EXAMPLE_EMPTY,
-  QEXAM_RANDOM_SEED_EXAMPLE_FIXED,
-  QEXAM_RANDOM_SEED_HINT_EXAMPLE_TITLE,
-  QEXAM_RANDOM_SEED_HINT_BODY,
-  QEXAM_RANDOM_SEED_HINT_TITLE,
   QEXAM_FIELD_RETRY_DELAY,
   QEXAM_FIELD_START_DATE,
   QEXAM_FIELD_STATUS,
@@ -54,6 +51,8 @@ import { QuestionnaireExamApiService } from '../../../core/services/questionnair
 import { QuestionnaireQuestionnaireApiService } from '../../../core/services/questionnaire-questionnaire-api.service';
 import { ExamItem, QuestionnaireItem, QuestionnaireQuestionLinkItem } from '../../../shared/models/questionnaire-v2.model';
 import { ExamGenerationConfigPanelComponent } from './exam-generation-config-panel.component';
+import { ExamMaxAttemptsHelpDialogComponent } from './exam-max-attempts-help-dialog.component';
+import { ExamRandomSeedHelpDialogComponent } from './exam-random-seed-help-dialog.component';
 import { countEligibleQuestions } from './exam-generation-config.util';
 import { maxAttemptsValidator, toDateTimeLocalValue, toIsoDateTime } from './exam-form.util';
 
@@ -73,13 +72,16 @@ export interface ExamFormDialogData {
     MatSelectModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
-    MatExpansionModule,
+    MatTabsModule,
     ExamGenerationConfigPanelComponent,
   ],
   templateUrl: './exam-form-dialog.component.html',
   styleUrl: './exam-form-dialog.component.scss',
 })
 export class ExamFormDialogComponent implements OnInit {
+  @ViewChild('generalTabPanel') generalTabPanel?: ElementRef<HTMLElement>;
+
+  private readonly dialog = inject(MatDialog);
   private readonly dialogRef = inject(MatDialogRef<ExamFormDialogComponent, boolean>);
   readonly data = inject<ExamFormDialogData>(MAT_DIALOG_DATA);
   private readonly api = inject(QuestionnaireExamApiService);
@@ -89,6 +91,7 @@ export class ExamFormDialogComponent implements OnInit {
 
   loading = true;
   saving = false;
+  tabPanelHeight = 0;
   editingId: number | null = this.data.examId ?? null;
   publishedQuestionnaires: QuestionnaireItem[] = [];
   questionnaireLinks: QuestionnaireQuestionLinkItem[] = [];
@@ -97,6 +100,9 @@ export class ExamFormDialogComponent implements OnInit {
 
   readonly dialogNew = QEXAM_DIALOG_NEW;
   readonly dialogEdit = QEXAM_DIALOG_EDIT;
+  readonly tabGeneral = QEXAM_TAB_GENERAL;
+  readonly tabQuestionSelection = QEXAM_TAB_QUESTION_SELECTION;
+  readonly tabDescription = QEXAM_TAB_DESCRIPTION;
   readonly fieldQuestionnaire = QEXAM_FIELD_QUESTIONNAIRE;
   readonly fieldName = QEXAM_FIELD_NAME;
   readonly fieldDescription = QEXAM_FIELD_DESCRIPTION;
@@ -106,18 +112,12 @@ export class ExamFormDialogComponent implements OnInit {
   readonly fieldTotalTime = QEXAM_FIELD_TOTAL_TIME;
   readonly fieldAcceptance = QEXAM_FIELD_ACCEPTANCE;
   readonly fieldMaxAttempts = QEXAM_FIELD_MAX_ATTEMPTS;
-  readonly maxAttemptsHint = QEXAM_FIELD_MAX_ATTEMPTS_HINT;
+  readonly fieldHelpLink = QEXAM_FIELD_HELP_LINK;
   readonly fieldRetryDelay = QEXAM_FIELD_RETRY_DELAY;
+  readonly fieldRandomSeed = QEXAM_FIELD_RANDOM_SEED;
+  readonly fieldStatus = QEXAM_FIELD_STATUS;
   readonly fieldStartDate = QEXAM_FIELD_START_DATE;
   readonly fieldEndDate = QEXAM_FIELD_END_DATE;
-  readonly fieldGenerationConfig = QEXAM_FIELD_GENERATION_CONFIG;
-  readonly fieldRandomSeed = QEXAM_FIELD_RANDOM_SEED;
-  readonly randomSeedHintTitle = QEXAM_RANDOM_SEED_HINT_TITLE;
-  readonly randomSeedHintBody = QEXAM_RANDOM_SEED_HINT_BODY;
-  readonly randomSeedExampleTitle = QEXAM_RANDOM_SEED_HINT_EXAMPLE_TITLE;
-  readonly randomSeedExampleEmpty = QEXAM_RANDOM_SEED_EXAMPLE_EMPTY;
-  readonly randomSeedExampleFixed = QEXAM_RANDOM_SEED_EXAMPLE_FIXED;
-  readonly fieldStatus = QEXAM_FIELD_STATUS;
   readonly fieldActive = QEXAM_FIELD_ACTIVE;
   readonly questionsAvailableLabel = QEXAM_QUESTIONS_AVAILABLE;
   readonly eligibleQuestionsLabel = QEXAM_ELIGIBLE_QUESTIONS;
@@ -162,11 +162,11 @@ export class ExamFormDialogComponent implements OnInit {
         if (this.editingId) {
           this.loadExam(this.editingId);
         } else {
-          this.loading = false;
+          this.finishLoading();
         }
       },
       error: () => {
-        this.loading = false;
+        this.finishLoading();
         this.snack.open(QEXAM_ERRORS_LOAD, QEXAM_SNACK_CLOSE, { duration: 3500 });
       },
     });
@@ -189,7 +189,11 @@ export class ExamFormDialogComponent implements OnInit {
 
   get insufficientEligibleMessage(): string {
     const requested = this.form.controls.numberOfQuestions.value;
-    return qexamInsufficientEligibleError(this.eligibleQuestions, requested);
+    return qexamInsufficientEligibleError(this.eligibleQuestions, requested, this.availableQuestions);
+  }
+
+  get showInsufficientEligibleWarning(): boolean {
+    return this.form.controls.numberOfQuestions.hasError('insufficientEligible');
   }
 
   private validateEligibleQuestions(control: AbstractControl): ValidationErrors | null {
@@ -218,6 +222,20 @@ export class ExamFormDialogComponent implements OnInit {
     return this.editingId ? this.dialogEdit : this.dialogNew;
   }
 
+  private finishLoading(): void {
+    this.loading = false;
+    this.captureTabPanelHeight();
+  }
+
+  private captureTabPanelHeight(): void {
+    setTimeout(() => {
+      const height = this.generalTabPanel?.nativeElement.offsetHeight;
+      if (height && height > 0) {
+        this.tabPanelHeight = height;
+      }
+    });
+  }
+
   private loadExam(id: number): void {
     this.api.getById(id).subscribe({
       next: (exam) => {
@@ -241,10 +259,10 @@ export class ExamFormDialogComponent implements OnInit {
           isActive: exam.isActive,
         });
         this.refreshAvailableQuestions(exam.questionnaireId);
-        this.loading = false;
+        this.finishLoading();
       },
       error: () => {
-        this.loading = false;
+        this.finishLoading();
         this.snack.open(QEXAM_ERRORS_LOAD, QEXAM_SNACK_CLOSE, { duration: 3500 });
       },
     });
@@ -324,5 +342,21 @@ export class ExamFormDialogComponent implements OnInit {
 
   cancel(): void {
     this.dialogRef.close(false);
+  }
+
+  openRandomSeedHelp(event: Event): void {
+    event.preventDefault();
+    this.dialog.open(ExamRandomSeedHelpDialogComponent, {
+      width: '480px',
+      autoFocus: false,
+    });
+  }
+
+  openMaxAttemptsHelp(event: Event): void {
+    event.preventDefault();
+    this.dialog.open(ExamMaxAttemptsHelpDialogComponent, {
+      width: '480px',
+      autoFocus: false,
+    });
   }
 }

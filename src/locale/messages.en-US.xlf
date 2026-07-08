@@ -2888,6 +2888,18 @@
         <source>Editar examen</source>
         <target>Edit exam</target>
       </trans-unit>
+      <trans-unit id="questionnaires.exams.tab.general" datatype="html">
+        <source>Datos generales</source>
+        <target>General data</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.tab.questionSelection" datatype="html">
+        <source>Selección de preguntas</source>
+        <target>Question selection</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.tab.description" datatype="html">
+        <source>Descripción</source>
+        <target>Description</target>
+      </trans-unit>
       <trans-unit id="questionnaires.exams.field.questionnaire" datatype="html">
         <source>Cuestionario publicado</source>
         <target>Published questionnaire</target>
@@ -2928,6 +2940,34 @@
         <source>Vacío = ilimitado. Mínimo 1 si se indica.</source>
         <target>Empty = unlimited. Minimum 1 if set.</target>
       </trans-unit>
+      <trans-unit id="questionnaires.exams.field.helpLink" datatype="html">
+        <source>Ayuda</source>
+        <target>Help</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.maxAttempts.hintTitle" datatype="html">
+        <source>¿Qué son los intentos máximos?</source>
+        <target>What are max attempts?</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.maxAttempts.hintBody" datatype="html">
+        <source>Indica cuántas veces puede presentar el examen cada candidato. Si lo deja vacío, los intentos son ilimitados. Si indica un número, debe ser al menos 1.</source>
+        <target>How many times each candidate can take the exam. Leave empty for unlimited attempts. If set, the value must be at least 1.</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.maxAttempts.exampleTitle" datatype="html">
+        <source>Ejemplos</source>
+        <target>Examples</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.maxAttempts.exampleEmpty" datatype="html">
+        <source>Vacío — intentos ilimitados</source>
+        <target>Empty — unlimited attempts</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.maxAttempts.exampleOne" datatype="html">
+        <source>1 — una sola oportunidad por candidato</source>
+        <target>1 — one attempt per candidate</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.maxAttempts.exampleThree" datatype="html">
+        <source>3 — hasta tres presentaciones</source>
+        <target>3 — up to three attempts</target>
+      </trans-unit>
       <trans-unit id="questionnaires.exams.field.retryDelayDays" datatype="html">
         <source>Días entre reintentos</source>
         <target>Days between retries</target>
@@ -2951,6 +2991,10 @@
       <trans-unit id="questionnaires.exams.randomSeed.hintTitle" datatype="html">
         <source>¿Qué es la semilla aleatoria?</source>
         <target>What is the random seed?</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.randomSeed.helpLink" datatype="html">
+        <source>Ayuda</source>
+        <target>Help</target>
       </trans-unit>
       <trans-unit id="questionnaires.exams.randomSeed.hintBody" datatype="html">
         <source>Opcional. Si la deja vacía, cada intento puede obtener un subconjunto distinto de preguntas. Si indica un número (ej. 42), la selección será reproducible para pruebas o auditoría.</source>
@@ -3056,9 +3100,13 @@
         <source>Los intentos máximos deben ser al menos 1 o dejarse vacío</source>
         <target>Max attempts must be at least 1 or left empty</target>
       </trans-unit>
-      <trans-unit id="questionnaires.exams.errors.insufficientEligible" datatype="html">
-        <source>Solo hay <x id="eligible" equiv-text="eligible"/> elegibles tras los filtros; el examen solicita <x id="requested" equiv-text="requested"/>.</source>
-        <target>Only <x id="eligible" equiv-text="eligible"/> eligible after filters; exam requests <x id="requested" equiv-text="requested"/>.</target>
+      <trans-unit id="questionnaires.exams.errors.insufficientEligibleOne" datatype="html">
+        <source>Solo hay 1 pregunta elegible tras los filtros; el examen solicita <x id="requested" equiv-text="requested"/>. El cuestionario dispone de <x id="available" equiv-text="available"/>.</source>
+        <target>Only 1 eligible question after filters; exam requests <x id="requested" equiv-text="requested"/>. Questionnaire has <x id="available" equiv-text="available"/>.</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.errors.insufficientEligibleMany" datatype="html">
+        <source>Solo hay <x id="eligible" equiv-text="eligible"/> preguntas elegibles tras los filtros; el examen solicita <x id="requested" equiv-text="requested"/>. El cuestionario dispone de <x id="available" equiv-text="available"/>.</source>
+        <target>Only <x id="eligible" equiv-text="eligible"/> eligible questions after filters; exam requests <x id="requested" equiv-text="requested"/>. Questionnaire has <x id="available" equiv-text="available"/>.</target>
       </trans-unit>
       <trans-unit id="questionnaires.exams.success.saved" datatype="html">
         <source>Examen guardado</source>
