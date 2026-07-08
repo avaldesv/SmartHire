@@ -89,6 +89,7 @@ export class QuestionsAdminComponent implements OnInit {
 
   readonly csvQuestions = QUESTIONNAIRE_CSV_PANELS.questions;
   readonly csvQuestionOptions = QUESTIONNAIRE_CSV_PANELS.questionOptions;
+  readonly csvQuestionTags = QUESTIONNAIRE_CSV_PANELS.questionTags;
 
   readonly isGlobalAdmin = computed(() => this.permissions.isGlobalAdmin());
 
