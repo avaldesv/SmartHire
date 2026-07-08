@@ -4,6 +4,7 @@
       <mat-icon>add</mat-icon> {{ newButton }}
     </button>
     <sh-questionnaire-import-export-actions
+      class="toolbar-csv-actions"
       [catalogKey]="csvPanel.catalogKey"
       [catalogLabel]="csvPanel.label"
       (importComplete)="load()"
