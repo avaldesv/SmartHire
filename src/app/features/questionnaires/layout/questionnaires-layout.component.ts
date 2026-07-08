@@ -4,11 +4,12 @@ import { PermissionService } from '../../../core/services/permission.service';
 import { QUESTIONNAIRES_NAV_ITEMS } from '../../../core/i18n/nav-labels';
 
 const QUESTIONNAIRES_NAV_ORDER: Record<string, number> = {
-  questions: 0,
-  'question-types': 1,
-  questionnaires: 2,
-  exams: 3,
-  categories: 4,
+  categories: 0,
+  questions: 1,
+  'question-types': 2,
+  'question-tags': 3,
+  questionnaires: 4,
+  exams: 5,
 };
 
 @Component({

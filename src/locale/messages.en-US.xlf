@@ -3129,8 +3129,12 @@
         <target>Delete exam "<x id="name" equiv-text="name"/>"? This action cannot be undone.</target>
       </trans-unit>
       <trans-unit id="questionnaires.nav.categories" datatype="html">
-        <source>Categorías y tags</source>
-        <target>Categories and tags</target>
+        <source>Categorías</source>
+        <target>Categories</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.nav.questionTags" datatype="html">
+        <source>Preguntas Tags</source>
+        <target>Question Tags</target>
       </trans-unit>
       <trans-unit id="questionnaires.nav.questions" datatype="html">
         <source>Preguntas</source>
@@ -3149,8 +3153,12 @@
         <target>Exams</target>
       </trans-unit>
       <trans-unit id="questionnaires.categories.title" datatype="html">
-        <source>Categorías de conocimiento y tags</source>
-        <target>Knowledge categories and tags</target>
+        <source>Categorías de conocimiento</source>
+        <target>Knowledge categories</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.tags.title" datatype="html">
+        <source>Preguntas Tags</source>
+        <target>Question Tags</target>
       </trans-unit>
       <trans-unit id="questionnaires.questions.title" datatype="html">
         <source>Banco de preguntas</source>

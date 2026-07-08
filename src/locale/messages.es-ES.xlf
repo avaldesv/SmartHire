@@ -3129,8 +3129,12 @@
         <target>¿Eliminar el examen "<x id="name" equiv-text="name"/>"? Esta acción no se puede deshacer.</target>
       </trans-unit>
       <trans-unit id="questionnaires.nav.categories" datatype="html">
-        <source>Categorías y tags</source>
-        <target>Categorías y tags</target>
+        <source>Categorías</source>
+        <target>Categorías</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.nav.questionTags" datatype="html">
+        <source>Preguntas Tags</source>
+        <target>Preguntas Tags</target>
       </trans-unit>
       <trans-unit id="questionnaires.nav.questions" datatype="html">
         <source>Preguntas</source>
@@ -3149,8 +3153,12 @@
         <target>Exámenes</target>
       </trans-unit>
       <trans-unit id="questionnaires.categories.title" datatype="html">
-        <source>Categorías de conocimiento y tags</source>
-        <target>Categorías de conocimiento y tags</target>
+        <source>Categorías de conocimiento</source>
+        <target>Categorías de conocimiento</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.tags.title" datatype="html">
+        <source>Preguntas Tags</source>
+        <target>Preguntas Tags</target>
       </trans-unit>
       <trans-unit id="questionnaires.questions.title" datatype="html">
         <source>Banco de preguntas</source>
