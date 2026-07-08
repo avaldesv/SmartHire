@@ -2544,6 +2544,174 @@
         <source>¿Eliminar la pregunta "<x id="text" equiv-text="text"/>"? Esta acción no se puede deshacer.</source>
         <target>¿Eliminar la pregunta "<x id="text" equiv-text="text"/>"? Esta acción no se puede deshacer.</target>
       </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.newButton" datatype="html">
+        <source>Nuevo cuestionario</source>
+        <target>Nuevo cuestionario</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.empty" datatype="html">
+        <source>No hay cuestionarios registrados</source>
+        <target>No hay cuestionarios registrados</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.filter.name" datatype="html">
+        <source>Buscar por nombre</source>
+        <target>Buscar por nombre</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.filter.category" datatype="html">
+        <source>Categoría</source>
+        <target>Categoría</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.filter.status" datatype="html">
+        <source>Estado</source>
+        <target>Estado</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.filter.all" datatype="html">
+        <source>Todos</source>
+        <target>Todos</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.filter.apply" datatype="html">
+        <source>Buscar</source>
+        <target>Buscar</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.filter.clear" datatype="html">
+        <source>Limpiar</source>
+        <target>Limpiar</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.col.name" datatype="html">
+        <source>Nombre</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.col.category" datatype="html">
+        <source>Categoría</source>
+        <target>Categoría</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.col.status" datatype="html">
+        <source>Estado</source>
+        <target>Estado</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.col.questions" datatype="html">
+        <source>Preguntas</source>
+        <target>Preguntas</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.status.draft" datatype="html">
+        <source>Borrador</source>
+        <target>Borrador</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.status.published" datatype="html">
+        <source>Publicado</source>
+        <target>Publicado</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.status.archived" datatype="html">
+        <source>Archivado</source>
+        <target>Archivado</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.publishButton" datatype="html">
+        <source>Publicar</source>
+        <target>Publicar</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.publishConfirm" datatype="html">
+        <source>¿Publicar este cuestionario? No podrá editarse después.</source>
+        <target>¿Publicar este cuestionario? No podrá editarse después.</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.publishSuccess" datatype="html">
+        <source>Cuestionario publicado</source>
+        <target>Cuestionario publicado</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.publishError" datatype="html">
+        <source>No se pudo publicar el cuestionario</source>
+        <target>No se pudo publicar el cuestionario</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.dialog.newTitle" datatype="html">
+        <source>Nuevo cuestionario</source>
+        <target>Nuevo cuestionario</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.dialog.editTitle" datatype="html">
+        <source>Editar cuestionario</source>
+        <target>Editar cuestionario</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.dialog.viewTitle" datatype="html">
+        <source>Ver cuestionario</source>
+        <target>Ver cuestionario</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.field.name" datatype="html">
+        <source>Nombre</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.field.description" datatype="html">
+        <source>Descripción</source>
+        <target>Descripción</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.field.category" datatype="html">
+        <source>Categoría (opcional)</source>
+        <target>Categoría (opcional)</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.field.noCategory" datatype="html">
+        <source>Sin categoría</source>
+        <target>Sin categoría</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.questions.title" datatype="html">
+        <source>Preguntas asignadas</source>
+        <target>Preguntas asignadas</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.questions.add" datatype="html">
+        <source>Agregar pregunta</source>
+        <target>Agregar pregunta</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.questions.select" datatype="html">
+        <source>Seleccionar pregunta</source>
+        <target>Seleccionar pregunta</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.questions.empty" datatype="html">
+        <source>No hay preguntas asignadas</source>
+        <target>No hay preguntas asignadas</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.questions.weight" datatype="html">
+        <source>Peso</source>
+        <target>Peso</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.questions.moveUp" datatype="html">
+        <source>Subir</source>
+        <target>Subir</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.questions.moveDown" datatype="html">
+        <source>Bajar</source>
+        <target>Bajar</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.categoryMismatch" datatype="html">
+        <source>Algunas preguntas pertenecen a otra categoría distinta a la del cuestionario.</source>
+        <target>Algunas preguntas pertenecen a otra categoría distinta a la del cuestionario.</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.publishedLocked" datatype="html">
+        <source>Este cuestionario está publicado y no puede editarse.</source>
+        <target>Este cuestionario está publicado y no puede editarse.</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.errors.list" datatype="html">
+        <source>No se pudieron cargar los cuestionarios</source>
+        <target>No se pudieron cargar los cuestionarios</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.errors.load" datatype="html">
+        <source>No se pudo cargar el cuestionario</source>
+        <target>No se pudo cargar el cuestionario</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.errors.save" datatype="html">
+        <source>No se pudo guardar el cuestionario</source>
+        <target>No se pudo guardar el cuestionario</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.errors.delete" datatype="html">
+        <source>No se pudo eliminar el cuestionario</source>
+        <target>No se pudo eliminar el cuestionario</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.success.saved" datatype="html">
+        <source>Cuestionario guardado</source>
+        <target>Cuestionario guardado</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.success.deleted" datatype="html">
+        <source>Cuestionario eliminado</source>
+        <target>Cuestionario eliminado</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.questionnaires.deleteConfirm" datatype="html">
+        <source>¿Eliminar el cuestionario "<x id="name" equiv-text="name"/>"? Esta acción no se puede deshacer.</source>
+        <target>¿Eliminar el cuestionario "<x id="name" equiv-text="name"/>"? Esta acción no se puede deshacer.</target>
+      </trans-unit>
       <trans-unit id="questionnaires.nav.categories" datatype="html">
         <source>Categorías y tags</source>
         <target>Categorías y tags</target>
