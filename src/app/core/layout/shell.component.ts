@@ -17,8 +17,6 @@ import { PortalLanguage } from '../../shared/models/portal-language.model';
 import { AppPermissions } from '../auth/app-permissions';
 import { MAIN_NAV_ITEMS } from '../i18n/nav-labels';
 
-   /*{ label: 'Posiciones', path: '/positions', icon: 'work', authority: AppPermissions.REQUISITION_READ },
-  { label: 'Reportes', path: '/reports', icon: 'bar_chart', authority: AppPermissions.REPORT_READ },*/
 @Component({
   selector: 'sh-shell',
   standalone: true,
