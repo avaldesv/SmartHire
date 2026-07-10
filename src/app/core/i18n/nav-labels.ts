@@ -38,12 +38,14 @@ export const MAIN_NAV_ITEMS: MainNavItem[] = [
     icon: 'people',
     authority: AppPermissions.CANDIDATE_READ,
   },
+*/
   {
     label: $localize`:@@nav.main.questionnaires:Cuestionarios`,
     path: '/questionnaires',
     icon: 'quiz',
     authority: AppPermissions.QUESTIONNAIRE_READ,
   },
+/*
   {
     label: $localize`:@@nav.main.tracking:Seguimiento`,
     path: '/tracking',
