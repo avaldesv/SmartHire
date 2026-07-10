@@ -1,0 +1,13 @@
+<div class="questionnaires-layout sh-page">
+  <h2 i18n="@@questionnaires.pageTitle">Cuestionarios</h2>
+  <div class="layout-body">
+    <aside class="sidebar">
+      @for (item of navItems(); track item.path) {
+        <a [routerLink]="['/questionnaires', item.path]" routerLinkActive="active">{{ item.label }}</a>
+      }
+    </aside>
+    <main class="content">
+      <router-outlet />
+    </main>
+  </div>
+</div>

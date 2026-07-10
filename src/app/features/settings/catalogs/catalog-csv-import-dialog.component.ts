@@ -58,7 +58,10 @@ export class CatalogCsvImportDialogComponent {
   readonly validateLabel = CATALOG_IMPORT_VALIDATE;
   readonly importLabel = CATALOG_IMPORT_IMPORT;
   readonly structureValidMessage = catalogImportStructureValid;
-  readonly resultSummary = catalogImportResultSummary;
+
+  resultSummary(created: number, updated: number, failed: number): string {
+    return catalogImportResultSummary(this.data.catalogKey, created, updated, failed);
+  }
 
   get isValidated(): boolean {
     return this.validation?.structureValid === true;

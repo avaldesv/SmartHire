@@ -1,0 +1,130 @@
+@if (canCreate()) {
+  <div class="toolbar">
+    <button mat-flat-button color="primary" type="button" (click)="openCreate()">
+      <mat-icon>add</mat-icon> {{ newButton }}
+    </button>
+    <sh-questionnaire-import-export-actions
+      class="toolbar-csv-actions"
+      [catalogKey]="csvQuestions.catalogKey"
+      [catalogLabel]="csvQuestions.label"
+      (importComplete)="load()"
+    />
+    <sh-questionnaire-import-export-actions
+      [catalogKey]="csvQuestionOptions.catalogKey"
+      [catalogLabel]="csvQuestionOptions.label"
+      (importComplete)="load()"
+    />
+    <sh-questionnaire-import-export-actions
+      [catalogKey]="csvQuestionTags.catalogKey"
+      [catalogLabel]="csvQuestionTags.label"
+      (importComplete)="load()"
+    />
+  </div>
+}
+
+<div class="sh-card filter-card">
+  <form [formGroup]="filterForm" class="filter-form" (ngSubmit)="applyFilters()">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ filterText }}</mat-label>
+      <input matInput formControlName="text" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{ filterCategory }}</mat-label>
+      <mat-select formControlName="knowledgeCategoryId">
+        <mat-option [value]="null">{{ filterAll }}</mat-option>
+        @for (cat of categories; track cat.id) {
+          <mat-option [value]="cat.id">{{ cat.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{ filterType }}</mat-label>
+      <mat-select formControlName="type">
+        @for (opt of typeOptions; track opt.value) {
+          <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <div class="filter-actions">
+      <button mat-stroked-button type="button" (click)="clearFilters()">{{ filterClear }}</button>
+      <button mat-flat-button color="primary" type="submit">{{ filterApply }}</button>
+    </div>
+  </form>
+</div>
+
+@if (loading) {
+  <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+} @else {
+  <div class="sh-card sh-table-wrap">
+    @if (!data.length) {
+      <p class="empty-state">{{ emptyLabel }}</p>
+    } @else {
+      <table mat-table [dataSource]="data">
+        <ng-container matColumnDef="text">
+          <th mat-header-cell *matHeaderCellDef>{{ columnText }}</th>
+          <td mat-cell *matCellDef="let row" class="text-cell" [title]="row.text">{{ textPreview(row.text) }}</td>
+        </ng-container>
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef>{{ columnType }}</th>
+          <td mat-cell *matCellDef="let row">{{ typeLabel(row.type) }}</td>
+        </ng-container>
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef>{{ columnCategory }}</th>
+          <td mat-cell *matCellDef="let row">{{ categoryName(row.knowledgeCategoryId) }}</td>
+        </ng-container>
+        <ng-container matColumnDef="difficulty">
+          <th mat-header-cell *matHeaderCellDef>{{ columnDifficulty }}</th>
+          <td mat-cell *matCellDef="let row">{{ row.difficulty ?? '—' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="scope">
+          <th mat-header-cell *matHeaderCellDef>{{ columnScope }}</th>
+          <td mat-cell *matCellDef="let row">
+            <sh-scope-badge [companyId]="row.companyId" />
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="locked">
+          <th mat-header-cell *matHeaderCellDef>{{ columnLocked }}</th>
+          <td mat-cell *matCellDef="let row">
+            @if (row.locked) {
+              <mat-icon class="locked-icon" title="{{ columnLocked }}">lock</mat-icon>
+            } @else {
+              —
+            }
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="active">
+          <th mat-header-cell *matHeaderCellDef>{{ fieldActive }}</th>
+          <td mat-cell *matCellDef="let row">
+            <mat-slide-toggle
+              [checked]="row.isActive"
+              [disabled]="!canEditRecord(row.companyId) || row.locked || savingId === row.id"
+              (change)="toggle(row, $event.checked)"
+            />
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let row">
+            <sh-table-row-actions
+              [showEdit]="canEdit() || row.locked"
+              [editDisabled]="false"
+              (editClick)="openEdit(row)"
+              [showDelete]="canDelete()"
+              [deleteDisabled]="!canDeleteRecord(row) || deletingId === row.id || savingId === row.id"
+              (deleteClick)="deleteQuestion(row)"
+            />
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns"></tr>
+      </table>
+    }
+    <mat-paginator
+      [length]="total"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      [pageSizeOptions]="[10, 25, 50]"
+      (page)="onPage($event)"
+    />
+  </div>
+}

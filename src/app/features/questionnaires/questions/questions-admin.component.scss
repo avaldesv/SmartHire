@@ -1,0 +1,63 @@
+.toolbar {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.toolbar-csv-actions {
+  margin-left: auto;
+}
+
+.filter-card {
+  margin-bottom: 16px;
+  padding: 16px;
+}
+
+.filter-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: flex-start;
+
+  mat-form-field {
+    flex: 1 1 180px;
+  }
+}
+
+.filter-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding-top: 4px;
+}
+
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 48px;
+}
+
+.empty-state {
+  padding: 24px 16px;
+  margin: 0;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.text-cell {
+  max-width: 320px;
+}
+
+.locked-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: #b45309;
+  vertical-align: middle;
+}
+
+:host ::ng-deep .mat-column-actions {
+  width: 1%;
+  white-space: nowrap;
+}

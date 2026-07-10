@@ -1,0 +1,159 @@
+.hint {
+  margin: 0 0 12px;
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.hint--warning {
+  color: #b45309;
+  font-weight: 500;
+}
+
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 32px;
+}
+
+.exam-dialog-content {
+  padding-top: 8px;
+  min-height: 580px;
+  box-sizing: border-box;
+}
+
+.exam-form {
+  display: flex;
+  flex-direction: column;
+  width: 760px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.exam-tabs {
+  width: 100%;
+
+  ::ng-deep .mat-mdc-tab-body-wrapper {
+    height: var(--exam-tab-panel-height, 520px);
+    min-height: var(--exam-tab-panel-height, 520px);
+    transition: none;
+  }
+
+  ::ng-deep .mat-mdc-tab-body-content {
+    overflow-y: auto;
+    height: 100%;
+  }
+}
+
+.tab-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 4px 8px;
+  box-sizing: border-box;
+
+  &--scroll {
+    min-height: var(--exam-tab-panel-height, 520px);
+  }
+}
+
+.description-field {
+  width: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.questions-summary-box {
+  padding: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  background: #fafafa;
+  margin-bottom: 4px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  align-items: flex-start;
+
+  mat-form-field {
+    width: 100%;
+    min-width: 0;
+  }
+
+  &--status {
+    margin-top: 4px;
+  }
+
+  &--name {
+    .name-field {
+      grid-column: 1 / span 2;
+    }
+
+    .active-field {
+      grid-column: 3;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      min-width: 0;
+      padding-top: 8px;
+    }
+  }
+
+  .questionnaire-field {
+    grid-column: 1 / -1;
+  }
+
+  &--summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-bottom: 0;
+
+    .hint--summary {
+      margin: 0;
+    }
+  }
+
+  &--questions {
+    align-items: center;
+    margin-bottom: 4px;
+
+    .number-of-questions-field {
+      grid-column: 1;
+    }
+
+    .eligible-warning {
+      grid-column: 2 / span 2;
+      margin: 0;
+      padding-top: 4px;
+      font-size: 0.8125rem;
+      line-height: 1.4;
+      color: #b45309;
+      font-weight: 500;
+    }
+  }
+}
+
+.number-of-questions-field {
+  width: 100%;
+  min-width: 0;
+}
+
+.section-title {
+  margin: 12px 0 4px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.help-link {
+  font-size: 0.8125rem;
+  color: #1565c0;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

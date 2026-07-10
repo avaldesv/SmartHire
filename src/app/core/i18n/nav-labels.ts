@@ -13,6 +13,12 @@ export interface SettingsNavItem {
   authority: string;
 }
 
+export interface QuestionnairesNavItem {
+  label: string;
+  path: string;
+  authority: string;
+}
+
 export const MAIN_NAV_ITEMS: MainNavItem[] = [
   {
     label: $localize`:@@nav.main.home:Inicio`,
@@ -55,6 +61,39 @@ export const MAIN_NAV_ITEMS: MainNavItem[] = [
     path: '/settings',
     icon: 'settings',
     authority: AppPermissions.SETTINGS_USERS_READ,
+  },
+];
+
+export const QUESTIONNAIRES_NAV_ITEMS: QuestionnairesNavItem[] = [
+  {
+    label: $localize`:@@questionnaires.nav.questions:Preguntas`,
+    path: 'questions',
+    authority: AppPermissions.QUESTIONNAIRE_READ,
+  },
+  {
+    label: $localize`:@@questionnaires.nav.questionTypes:Tipos de pregunta`,
+    path: 'question-types',
+    authority: AppPermissions.QUESTIONNAIRE_READ,
+  },
+  {
+    label: $localize`:@@questionnaires.nav.questionnaires:Cuestionarios`,
+    path: 'questionnaires',
+    authority: AppPermissions.QUESTIONNAIRE_READ,
+  },
+  {
+    label: $localize`:@@questionnaires.nav.exams:Exámenes`,
+    path: 'exams',
+    authority: AppPermissions.QUESTIONNAIRE_READ,
+  },
+  {
+    label: $localize`:@@questionnaires.nav.categories:Categorías`,
+    path: 'categories',
+    authority: AppPermissions.QUESTIONNAIRE_READ,
+  },
+  {
+    label: $localize`:@@questionnaires.nav.questionTags:Preguntas tags`,
+    path: 'question-tags',
+    authority: AppPermissions.QUESTIONNAIRE_READ,
   },
 ];
 
