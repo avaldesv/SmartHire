@@ -49,6 +49,7 @@ const ENTRY_LABELS: Record<string, string> = {
   kinship: $localize`:@@catalogs.entry.kinship:Parentesco`,
   brand: $localize`:@@catalogs.entry.brand:Marca`,
   documentType: $localize`:@@catalogs.entry.documentType:Tipo documento`,
+  fileExtension: $localize`:@@catalogs.entry.fileExtension:Extensión de archivo`,
   requisitionType: $localize`:@@catalogs.entry.requisitionType:Tipo requisición`,
   neighborhood: $localize`:@@catalogs.entry.neighborhood:Colonia`,
 };

@@ -30,6 +30,7 @@ export type CatalogPanelKey =
   | 'kinship'
   | 'brand'
   | 'documentType'
+  | 'fileExtension'
   | 'requisitionType'
   | 'mpCountry'
   | 'mpCoverageType'
@@ -170,6 +171,7 @@ const CATALOG_CATEGORIES_RAW: CatalogCategoryDefinition[] = [
       { id: 'kinship', label: 'Parentesco', panelKey: 'kinship', implemented: true },
       { id: 'brand', label: 'Marca', panelKey: 'brand', implemented: true },
       { id: 'documentType', label: 'Tipo documento', panelKey: 'documentType', implemented: true },
+      { id: 'fileExtension', label: 'Extensión de archivo', panelKey: 'fileExtension', implemented: true },
       { id: 'requisitionType', label: 'Tipo requisición', panelKey: 'requisitionType', implemented: true },
       { id: 'neighborhood', label: 'Colonia', panelKey: 'neighborhood', implemented: true },
     ],
