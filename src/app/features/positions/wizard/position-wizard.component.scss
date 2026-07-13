@@ -9,6 +9,21 @@
 
 .step-form { padding: 8px 0; }
 
+.step-hint {
+  margin: 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.tenant-brand-hint {
+  grid-column: span 2;
+  margin-top: 4px;
+}
+
+.tenant-brand-hint--warning {
+  color: #b45309;
+}
+
 .step-actions {
   display: flex;
   gap: 8px;

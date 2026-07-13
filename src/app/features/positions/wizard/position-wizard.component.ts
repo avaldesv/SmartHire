@@ -15,6 +15,7 @@ import { debounceTime, distinctUntilChanged, filter, forkJoin, switchMap } from 
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { CatalogPositionService } from '../../../core/services/catalog-position.service';
 import { PositionService } from '../../../core/services/position.service';
+import { TenantContextService } from '../../../core/services/tenant-context.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { CreatePositionRequest, PositionDetail } from '../../../shared/models/position.model';
 import {
@@ -63,9 +64,12 @@ export class PositionWizardComponent implements OnInit {
   private readonly geographyService = inject(CatalogGeographyService);
   private readonly catalogService = inject(CatalogPositionService);
   private readonly positionService = inject(PositionService);
+  private readonly tenantContext = inject(TenantContextService);
   private readonly destroyRef = inject(DestroyRef);
 
   creating = false;
+  tenantBrandId: number | null = null;
+  tenantBrandName: string | null = null;
   loadingPosition = false;
   editPositionId: number | null = null;
   requisitionNo: string | null = null;
@@ -112,7 +116,6 @@ export class PositionWizardComponent implements OnInit {
 
   readonly clientForm = this.fb.nonNullable.group({
     countryId: [null as number | null, Validators.required],
-    brandId: [null as number | null, Validators.required],
     requisitionTypeId: [null as number | null, Validators.required],
     coverageTypeId: [null as number | null, Validators.required],
     ot: ['', Validators.required],
@@ -229,7 +232,8 @@ export class PositionWizardComponent implements OnInit {
           this.loadAddressStates(countryId);
           return;
         }
-        this.clientForm.patchValue({ brandId: null, coverageTypeId: null, requisitionTypeId: null }, { emitEvent: false });
+        this.resetTenantBrand();
+        this.clientForm.patchValue({ coverageTypeId: null, requisitionTypeId: null }, { emitEvent: false });
         this.generalForm.patchValue({ shiftId: null, contractTypeId: null }, { emitEvent: false });
         this.hiringForm.patchValue({ benefitId: null, hiringContractTypeId: null }, { emitEvent: false });
         this.requirementsForm.patchValue({ educationLevelId: null }, { emitEvent: false });
@@ -372,13 +376,42 @@ export class PositionWizardComponent implements OnInit {
     this.catalogService.listBrands(countryId).subscribe({
       next: (items) => {
         this.brands = items;
+        this.applyTenantBrand(items);
         this.loadingCatalog.brands = false;
       },
       error: () => {
         this.brands = [];
+        this.resetTenantBrand();
         this.loadingCatalog.brands = false;
       },
     });
+  }
+
+  private resetTenantBrand(): void {
+    this.tenantBrandId = null;
+    this.tenantBrandName = null;
+  }
+
+  private applyTenantBrand(brands: CatalogBrand[], fallbackBrandId?: number | null): void {
+    const tenantId = this.tenantContext.getCompanyId();
+    const tenantBrand = brands.find((brand) => brand.companyId === tenantId);
+    if (tenantBrand) {
+      this.tenantBrandId = tenantBrand.id;
+      this.tenantBrandName = tenantBrand.name;
+      return;
+    }
+    if (fallbackBrandId != null) {
+      const fallbackBrand = brands.find((brand) => brand.id === fallbackBrandId);
+      this.tenantBrandId = fallbackBrandId;
+      this.tenantBrandName = fallbackBrand?.name ?? null;
+      return;
+    }
+    this.resetTenantBrand();
+    if (!this.isEditMode) {
+      this.snack.open('No hay marca configurada para este tenant en el país seleccionado', 'Cerrar', {
+        duration: 4000,
+      });
+    }
   }
 
   private loadCoverageTypes(countryId: number): void {
@@ -550,9 +583,9 @@ export class PositionWizardComponent implements OnInit {
           if (neighborhoods.length) {
             this.addressForm.controls.neighborhoodId.enable();
           }
+          this.applyTenantBrand(catalogs.brands, position.brandId);
           this.clientForm.patchValue({
             countryId: position.countryId,
-            brandId: position.brandId,
             requisitionTypeId: position.requisitionTypeId,
             coverageTypeId: position.coverageTypeId,
             ot: position.ot,
@@ -638,7 +671,7 @@ export class PositionWizardComponent implements OnInit {
 
     return {
       countryId: client.countryId!,
-      brandId: client.brandId!,
+      brandId: this.tenantBrandId!,
       requisitionTypeId: client.requisitionTypeId!,
       coverageTypeId: client.coverageTypeId!,
       ot: client.ot,
@@ -690,6 +723,12 @@ export class PositionWizardComponent implements OnInit {
     if (forms.some((f) => f.invalid)) {
       forms.forEach((f) => f.markAllAsTouched());
       this.snack.open('Complete los campos obligatorios', 'Cerrar', { duration: 3000 });
+      return;
+    }
+    if (this.tenantBrandId == null) {
+      this.snack.open('No hay marca configurada para este tenant en el país seleccionado', 'Cerrar', {
+        duration: 4000,
+      });
       return;
     }
     if (this.creating) {
