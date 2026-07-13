@@ -1,0 +1,125 @@
+const REQUISITION_STEP_LABELS: Record<string, string> = {
+  client: $localize`:@@requisition.step.client:Datos Cliente`,
+  general: $localize`:@@requisition.step.general:Generales`,
+  manpower: $localize`:@@requisition.step.manpower:Manpower`,
+  hiring: $localize`:@@requisition.step.hiring:Contratación`,
+  languages: $localize`:@@requisition.step.languages:Idiomas`,
+  address: $localize`:@@requisition.step.address:Dirección`,
+  recruitment: $localize`:@@requisition.step.recruitment:Reclutamiento`,
+  clientDescription: $localize`:@@requisition.step.clientDescription:Descripción del cliente`,
+  extraBenefits: $localize`:@@requisition.step.extraBenefits:Beneficios adicionales`,
+  preselection: $localize`:@@requisition.step.preselection:Preselección`,
+  documents: $localize`:@@requisition.step.documents:Documentos`,
+};
+
+const REQUISITION_FIELD_LABELS: Record<string, string> = {
+  brandId: $localize`:@@requisition.field.brandId:Marca`,
+  countryId: $localize`:@@requisition.field.countryId:País`,
+  requisitionTypeId: $localize`:@@requisition.field.requisitionTypeId:Tipo de requisición`,
+  coverageTypeId: $localize`:@@requisition.field.coverageTypeId:Tipo de cobertura`,
+  ot: $localize`:@@requisition.field.ot:OT`,
+  clientKey: $localize`:@@requisition.field.clientKey:Clave cliente`,
+  legalName: $localize`:@@requisition.field.legalName:Razón social`,
+  tradeName: $localize`:@@requisition.field.tradeName:Nombre comercial`,
+  contactName: $localize`:@@requisition.field.contactName:Nombre de contacto`,
+  contactPhone: $localize`:@@requisition.field.contactPhone:Teléfono de contacto`,
+  contactEmail: $localize`:@@requisition.field.contactEmail:Correo de contacto`,
+  clientContactPosition: $localize`:@@requisition.field.clientContactPosition:Puesto del contacto`,
+  clientPositionKey: $localize`:@@requisition.field.clientPositionKey:Clave puesto cliente`,
+  positionName: $localize`:@@requisition.field.positionName:Nombre del puesto`,
+  serviceNumber: $localize`:@@requisition.field.serviceNumber:Número de servicio`,
+  genderId: $localize`:@@requisition.field.genderId:Género`,
+  maritalStatusId: $localize`:@@requisition.field.maritalStatusId:Estado civil`,
+  careerId: $localize`:@@requisition.field.careerId:Carrera`,
+  educationLevelId: $localize`:@@requisition.field.educationLevelId:Escolaridad`,
+  experienceIn: $localize`:@@requisition.field.experienceIn:Experiencia en`,
+  experienceLevelId: $localize`:@@requisition.field.experienceLevelId:Nivel de experiencia`,
+  minAge: $localize`:@@requisition.field.minAge:Edad mínima`,
+  maxAge: $localize`:@@requisition.field.maxAge:Edad máxima`,
+  hasPeopleInCharge: $localize`:@@requisition.field.hasPeopleInCharge:Tiene personas a cargo`,
+  peopleInChargeCount: $localize`:@@requisition.field.peopleInChargeCount:Total personas a cargo`,
+  travelAvailability: $localize`:@@requisition.field.travelAvailability:Disponibilidad para viajar`,
+  relocationAvailability: $localize`:@@requisition.field.relocationAvailability:Disponibilidad para reubicación`,
+  requirementsMandatory: $localize`:@@requisition.field.requirementsMandatory:Requisitos obligatorios`,
+  requirementsOptional: $localize`:@@requisition.field.requirementsOptional:Requisitos opcionales`,
+  requirementsDesirable: $localize`:@@requisition.field.requirementsDesirable:Requisitos deseables`,
+  contractTypeId: $localize`:@@requisition.field.contractTypeId:Tipo de contrato`,
+  shiftId: $localize`:@@requisition.field.shiftId:Turno`,
+  salary: $localize`:@@requisition.field.salary:Salario`,
+  serviceFee: $localize`:@@requisition.field.serviceFee:Tarifa de servicio`,
+  currencyId: $localize`:@@requisition.field.currencyId:Moneda`,
+  hasAdvancePayment: $localize`:@@requisition.field.hasAdvancePayment:Anticipo`,
+  workdayStartTime: $localize`:@@requisition.field.workdayStartTime:Hora inicio jornada`,
+  workdayEndTime: $localize`:@@requisition.field.workdayEndTime:Hora fin jornada`,
+  lunchStartTime: $localize`:@@requisition.field.lunchStartTime:Hora inicio comida`,
+  lunchEndTime: $localize`:@@requisition.field.lunchEndTime:Hora fin comida`,
+  rotatingShifts: $localize`:@@requisition.field.rotatingShifts:Turnos rotativos`,
+  commitmentDate: $localize`:@@requisition.field.commitmentDate:Fecha compromiso`,
+  hiringDate: $localize`:@@requisition.field.hiringDate:Fecha de contratación`,
+  hiringRequirements: $localize`:@@requisition.field.hiringRequirements:Requisitos de contratación`,
+  tools: $localize`:@@requisition.field.tools:Herramientas`,
+  recruiterGroupId: $localize`:@@requisition.field.recruiterGroupId:Grupo reclutador`,
+  careResponsibleUserId: $localize`:@@requisition.field.careResponsibleUserId:Responsable CARE`,
+  careResponsibleAts: $localize`:@@requisition.field.careResponsibleAts:ATS responsable CARE`,
+  disabilityTypeId: $localize`:@@requisition.field.disabilityTypeId:Tipo de discapacidad`,
+  hasLinkage: $localize`:@@requisition.field.hasLinkage:Vinculación`,
+  seniorCitizen: $localize`:@@requisition.field.seniorCitizen:Adulto mayor`,
+  languages: $localize`:@@requisition.field.languages:Idiomas`,
+  addressLine: $localize`:@@requisition.field.addressLine:Dirección`,
+  stateId: $localize`:@@requisition.field.stateId:Entidad federativa`,
+  municipalityId: $localize`:@@requisition.field.municipalityId:Municipio`,
+  neighborhoodId: $localize`:@@requisition.field.neighborhoodId:Colonia`,
+  subregion: $localize`:@@requisition.field.subregion:Subregión`,
+  postalCode: $localize`:@@requisition.field.postalCode:Código postal`,
+  city: $localize`:@@requisition.field.city:Ciudad`,
+  recruiterEmail: $localize`:@@requisition.field.recruiterEmail:Correo del reclutador`,
+  generalCategoryId: $localize`:@@requisition.field.generalCategoryId:Categoría general`,
+  jobDescription: $localize`:@@requisition.field.jobDescription:Descripción del puesto`,
+  workplaceId: $localize`:@@requisition.field.workplaceId:Lugar de trabajo`,
+  responsibilityLevelId: $localize`:@@requisition.field.responsibilityLevelId:Nivel de responsabilidad`,
+  publishSalaryMin: $localize`:@@requisition.field.publishSalaryMin:Salario mínimo publicado`,
+  publishSalaryMax: $localize`:@@requisition.field.publishSalaryMax:Salario máximo publicado`,
+  hasCommission: $localize`:@@requisition.field.hasCommission:Comisión`,
+  hideSalary: $localize`:@@requisition.field.hideSalary:Ocultar salario`,
+  jobPortalId: $localize`:@@requisition.field.jobPortalId:Portal de empleo`,
+  includeSoftSkills: $localize`:@@requisition.field.includeSoftSkills:Incluir habilidades blandas`,
+  includeExtraBenefits: $localize`:@@requisition.field.includeExtraBenefits:Incluir beneficios adicionales`,
+  includeProfessionalDevelopment: $localize`:@@requisition.field.includeProfessionalDevelopment:Incluir desarrollo profesional`,
+  includeKeywords: $localize`:@@requisition.field.includeKeywords:Incluir palabras clave`,
+  clientExpansionDescription: $localize`:@@requisition.field.clientExpansionDescription:Descripción expansión cliente`,
+  extraBenefitsText: $localize`:@@requisition.field.extraBenefitsText:Texto beneficios adicionales`,
+  questionnaire: $localize`:@@requisition.field.questionnaire:Cuestionario`,
+  documentRequirements: $localize`:@@requisition.field.documentRequirements:Documentos requeridos`,
+};
+
+const REQUISITION_I18N_BY_KEY: Record<string, string> = {
+  ...Object.fromEntries(
+    Object.entries(REQUISITION_STEP_LABELS).map(([stepKey, label]) => [`requisition.step.${stepKey}`, label]),
+  ),
+  ...Object.fromEntries(
+    Object.entries(REQUISITION_FIELD_LABELS).map(([fieldKey, label]) => [`requisition.field.${fieldKey}`, label]),
+  ),
+};
+
+function normalizeRequisitionI18nKey(keyOrSuffix: string, prefix: 'requisition.step.' | 'requisition.field.'): string {
+  if (keyOrSuffix.startsWith(prefix)) {
+    return keyOrSuffix;
+  }
+  return `${prefix}${keyOrSuffix}`;
+}
+
+export function resolveRequisitionWizardLabel(i18nKey: string): string {
+  return REQUISITION_I18N_BY_KEY[i18nKey] ?? i18nKey;
+}
+
+export function resolveRequisitionStepLabel(stepKeyOrI18nKey: string): string {
+  const key = normalizeRequisitionI18nKey(stepKeyOrI18nKey, 'requisition.step.');
+  return REQUISITION_I18N_BY_KEY[key] ?? stepKeyOrI18nKey;
+}
+
+export function resolveRequisitionFieldLabel(fieldKeyOrI18nKey: string): string {
+  const key = normalizeRequisitionI18nKey(fieldKeyOrI18nKey, 'requisition.field.');
+  return REQUISITION_I18N_BY_KEY[key] ?? fieldKeyOrI18nKey;
+}
+
+export const REQUISITION_STEP_LABEL_KEY_PLACEHOLDER = 'requisition.step.general';
