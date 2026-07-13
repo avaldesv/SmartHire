@@ -50,6 +50,11 @@ const PANEL_UI: Record<string, CatalogPanelUiLabels> = {
     editTitle: $localize`:@@catalogs.documentType.editTitle:Editar tipo de documento`,
     newTitle: $localize`:@@catalogs.documentType.newTitle:Nuevo tipo de documento`,
   },
+  fileExtension: {
+    newButton: $localize`:@@catalogs.fileExtension.newButton:Nueva extensión`,
+    editTitle: $localize`:@@catalogs.fileExtension.editTitle:Editar extensión de archivo`,
+    newTitle: $localize`:@@catalogs.fileExtension.newTitle:Nueva extensión de archivo`,
+  },
   brand: {
     newButton: $localize`:@@catalogs.brand.newButton:Nueva marca`,
     editTitle: $localize`:@@catalogs.brand.editTitle:Editar marca`,
