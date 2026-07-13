@@ -1,11 +1,52 @@
 <div class="sh-page wizard-page">
   <sh-page-header
     [title]="isEditMode ? 'Editar requisición' : 'Nueva requisición'"
-    [subtitle]="isEditMode && requisitionNo ? requisitionNo + ' — Asistente en 8 pasos' : 'Asistente de creación en 8 pasos'"
+    [subtitle]="wizardSubtitle"
   />
 
-  @if (loadingPosition) {
+  @if (loadingPosition || resolvingConfig) {
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else if (useDynamicWizard && dynamicForm && resolvedConfig) {
+  <div class="sh-card">
+    @if (tenantBrandName) {
+      <p class="step-hint tenant-brand-hint">Marca: {{ tenantBrandName }}</p>
+    } @else if (dynamicCountryId && !loadingCatalog.brands) {
+      <p class="step-hint tenant-brand-hint tenant-brand-hint--warning">Sin marca tenant para el país seleccionado</p>
+    }
+    <mat-stepper linear #dynamicStepper>
+      @for (step of resolvedConfig.steps; track step.stepKey) {
+        <mat-step [stepControl]="dynamicStepForm(step.stepKey)" [label]="stepLabel(step.stepKey, step.labelI18nKey)">
+          <form [formGroup]="dynamicStepForm(step.stepKey)" class="step-form">
+            <sh-dynamic-wizard-step
+              [step]="step"
+              [stepForm]="dynamicStepForm(step.stepKey)"
+              [rootForm]="dynamicForm"
+              [config]="resolvedConfig"
+              [countryId]="dynamicCountryId"
+            />
+            <div class="step-actions">
+              @if (!$first) {
+                <button mat-button matStepperPrevious type="button">Atrás</button>
+              }
+              @if (!$last) {
+                <button mat-button matStepperNext type="button">Siguiente</button>
+              }
+            </div>
+          </form>
+        </mat-step>
+      }
+    </mat-stepper>
+
+    <div class="bottom-actions">
+      <button mat-stroked-button type="button" (click)="cancel()">Cancelar</button>
+      <button mat-stroked-button type="button" (click)="exportJson()"><mat-icon>code</mat-icon> JSON</button>
+      <button mat-stroked-button type="button" (click)="sendAts()"><mat-icon>cloud_upload</mat-icon> ATS</button>
+      <button mat-flat-button color="primary" type="button" [disabled]="creating" (click)="save()">
+        <mat-icon>check</mat-icon>
+        {{ creating ? (isEditMode ? 'Guardando...' : 'Creando...') : (isEditMode ? 'Guardar' : 'Crear') }}
+      </button>
+    </div>
+  </div>
   } @else {
   <div class="sh-card">
     <mat-stepper linear #stepper>

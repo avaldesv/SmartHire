@@ -9,7 +9,14 @@ import {
   RequisitionFormConfigSummary,
   UpdateRequisitionFormConfigRequest,
 } from '../../shared/models/requisition-form.model';
+import { ResolvedRequisitionFormConfig } from '../../shared/models/requisition-wizard.model';
 import { ApiClientService } from './api-client.service';
+
+interface ResolveFormConfigApiResponse {
+  configId: number;
+  version: number;
+  steps: ResolvedRequisitionFormConfig['steps'];
+}
 
 @Injectable({ providedIn: 'root' })
 export class RequisitionFormConfigService {
@@ -64,10 +71,18 @@ export class RequisitionFormConfigService {
     );
   }
 
-  resolve(countryId: number, coverageTypeId: number): Observable<RequisitionFormConfigDetail> {
-    return this.http.get<RequisitionFormConfigDetail>(
-      this.api.apiUrl(`/api/v1/requisition-form/configs/resolve?countryId=${countryId}&coverageTypeId=${coverageTypeId}`),
-      { headers: this.api.buildHeaders() },
-    );
+  resolve(countryId: number, coverageTypeId: number): Observable<ResolvedRequisitionFormConfig> {
+    return this.http
+      .get<ResolveFormConfigApiResponse>(
+        this.api.apiUrl(`/api/v1/requisition-form/configs/resolve?countryId=${countryId}&coverageTypeId=${coverageTypeId}`),
+        { headers: this.api.buildHeaders() },
+      )
+      .pipe(
+        map((res) => ({
+          configId: res.configId,
+          version: res.version,
+          steps: res.steps ?? [],
+        })),
+      );
   }
 }

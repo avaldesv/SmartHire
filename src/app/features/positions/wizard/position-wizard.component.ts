@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,13 +11,22 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { debounceTime, distinctUntilChanged, filter, forkJoin, switchMap } from 'rxjs';
+import { combineLatest, debounceTime, distinctUntilChanged, filter, forkJoin, switchMap } from 'rxjs';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { CatalogPositionService } from '../../../core/services/catalog-position.service';
+import { DynamicRequisitionWizardService } from '../../../core/services/dynamic-requisition-wizard.service';
 import { PositionService } from '../../../core/services/position.service';
 import { TenantContextService } from '../../../core/services/tenant-context.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { CreatePositionRequest, PositionDetail } from '../../../shared/models/position.model';
+import { ResolvedRequisitionFormConfig } from '../../../shared/models/requisition-wizard.model';
+import {
+  buildDynamicCreatePayload,
+  hydrateDynamicFormValues,
+  patchDynamicForm,
+} from './dynamic-wizard-payload.util';
+import { resolveWizardStepLabel } from './requisition-wizard-labels';
+import { DynamicWizardStepComponent } from './dynamic-wizard-step/dynamic-wizard-step.component';
 import {
   CatalogCountry,
   CatalogMunicipality,
@@ -52,6 +61,7 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     PageHeaderComponent,
+    DynamicWizardStepComponent,
   ],
   templateUrl: './position-wizard.component.html',
   styleUrl: './position-wizard.component.scss',
@@ -65,8 +75,13 @@ export class PositionWizardComponent implements OnInit {
   private readonly catalogService = inject(CatalogPositionService);
   private readonly positionService = inject(PositionService);
   private readonly tenantContext = inject(TenantContextService);
+  private readonly dynamicWizardService = inject(DynamicRequisitionWizardService);
   private readonly destroyRef = inject(DestroyRef);
 
+  useDynamicWizard = false;
+  resolvingConfig = false;
+  resolvedConfig: ResolvedRequisitionFormConfig | null = null;
+  dynamicForm: FormGroup | null = null;
   creating = false;
   tenantBrandId: number | null = null;
   tenantBrandName: string | null = null;
@@ -168,8 +183,25 @@ export class PositionWizardComponent implements OnInit {
 
   readonly selectedDocumentTypeIds = this.fb.nonNullable.control<number[]>([]);
 
+  get wizardSubtitle(): string {
+    const steps = this.useDynamicWizard
+      ? (this.resolvedConfig?.steps.length ?? 0)
+      : 8;
+    const suffix = `Asistente en ${steps} pasos`;
+    return this.isEditMode && this.requisitionNo ? `${this.requisitionNo} — ${suffix}` : `Asistente de creación en ${steps} pasos`;
+  }
+
+  get dynamicCountryId(): number | null {
+    if (!this.dynamicForm) {
+      return null;
+    }
+    const clientStep = this.dynamicForm.get('client') as FormGroup | null;
+    return (clientStep?.get('countryId')?.value as number | null) ?? this.getDynamicScalarValue('countryId');
+  }
+
   ngOnInit(): void {
     this.setupCountryCascade();
+    this.setupResolveWatch();
     this.setupAddressCascade();
     this.loadCountries();
     this.loadLanguages();
@@ -217,6 +249,90 @@ export class PositionWizardComponent implements OnInit {
         this.snack.open('No se pudieron cargar los idiomas', 'Cerrar', { duration: 4000 });
       },
     });
+  }
+
+  stepLabel(stepKey: string, labelI18nKey: string): string {
+    return resolveWizardStepLabel(stepKey, labelI18nKey);
+  }
+
+  dynamicStepForm(stepKey: string): FormGroup {
+    return this.dynamicForm!.get(stepKey) as FormGroup;
+  }
+
+  private setupResolveWatch(): void {
+    combineLatest([
+      this.clientForm.controls.countryId.valueChanges,
+      this.clientForm.controls.coverageTypeId.valueChanges,
+    ])
+      .pipe(
+        debounceTime(200),
+        distinctUntilChanged(([a, b], [c, d]) => a === c && b === d),
+        filter(([countryId, coverageTypeId]) => countryId != null && coverageTypeId != null),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(([countryId, coverageTypeId]) => {
+        if (this.suppressCountryCascade) {
+          return;
+        }
+        this.tryResolveAndSetupWizard(countryId!, coverageTypeId!);
+      });
+  }
+
+  private tryResolveAndSetupWizard(countryId: number, coverageTypeId: number): void {
+    this.resolvingConfig = true;
+    this.dynamicWizardService.resolve(countryId, coverageTypeId).subscribe({
+      next: (config) => {
+        this.resolvingConfig = false;
+        if (config) {
+          this.activateDynamicWizard(config);
+        } else {
+          this.deactivateDynamicWizard();
+        }
+      },
+      error: () => {
+        this.resolvingConfig = false;
+        this.deactivateDynamicWizard();
+      },
+    });
+  }
+
+  private activateDynamicWizard(config: ResolvedRequisitionFormConfig): void {
+    this.useDynamicWizard = true;
+    this.resolvedConfig = config;
+    this.dynamicForm = this.dynamicWizardService.buildForm(config);
+    this.dynamicForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+      if (this.dynamicForm && this.resolvedConfig) {
+        this.dynamicWizardService.refreshValidators(this.dynamicForm, this.resolvedConfig);
+        const countryId = this.dynamicCountryId;
+        if (countryId != null) {
+          this.loadBrands(countryId);
+        }
+      }
+    });
+    const countryId = this.dynamicCountryId;
+    if (countryId != null) {
+      this.loadBrands(countryId);
+    }
+  }
+
+  private deactivateDynamicWizard(): void {
+    this.useDynamicWizard = false;
+    this.resolvedConfig = null;
+    this.dynamicForm = null;
+  }
+
+  private getDynamicScalarValue(fieldKey: string): number | null {
+    if (!this.dynamicForm || !this.resolvedConfig) {
+      return null;
+    }
+    for (const step of this.resolvedConfig.steps) {
+      const stepGroup = this.dynamicForm.get(step.stepKey) as FormGroup | null;
+      const control = stepGroup?.get(fieldKey);
+      if (control) {
+        return control.value as number | null;
+      }
+    }
+    return null;
   }
 
   private setupCountryCascade(): void {
@@ -532,12 +648,48 @@ export class PositionWizardComponent implements OnInit {
       next: (position) => {
         this.editPositionId = id;
         this.requisitionNo = position.requisitionNo;
-        this.hydrateForms(position);
+        this.dynamicWizardService.resolve(position.countryId, position.coverageTypeId).subscribe({
+          next: (config) => {
+            if (config) {
+              this.activateDynamicWizard(config);
+              this.hydrateDynamicForms(position, config);
+            } else {
+              this.deactivateDynamicWizard();
+              this.hydrateForms(position);
+            }
+          },
+          error: () => {
+            this.deactivateDynamicWizard();
+            this.hydrateForms(position);
+          },
+        });
       },
       error: () => {
         this.loadingPosition = false;
         this.snack.open('No se pudo cargar la requisición', 'Cerrar', { duration: 4000 });
         this.router.navigate(['/positions']);
+      },
+    });
+  }
+
+  private hydrateDynamicForms(position: PositionDetail, config: ResolvedRequisitionFormConfig): void {
+    this.suppressCountryCascade = true;
+    if (!this.dynamicForm) {
+      this.dynamicForm = this.dynamicWizardService.buildForm(config);
+    }
+    const values = hydrateDynamicFormValues(position, config);
+    patchDynamicForm(this.dynamicForm, values, config);
+    this.catalogService.listBrands(position.countryId).subscribe({
+      next: (brands) => {
+        this.brands = brands;
+        this.applyTenantBrand(brands, position.brandId);
+        this.suppressCountryCascade = false;
+        this.loadingPosition = false;
+      },
+      error: () => {
+        this.suppressCountryCascade = false;
+        this.loadingPosition = false;
+        this.snack.open('Error al cargar catálogos de la requisición', 'Cerrar', { duration: 4000 });
       },
     });
   }
@@ -656,8 +808,20 @@ export class PositionWizardComponent implements OnInit {
   }
 
   exportJson(): void {
-    console.log('JSON export:', this.buildCreatePayload());
+    const payload = this.useDynamicWizard ? this.buildDynamicPayload() : this.buildCreatePayload();
+    console.log('JSON export:', payload);
     this.snack.open('JSON exportado a consola', 'Cerrar', { duration: 3000 });
+  }
+
+  private buildDynamicPayload(): CreatePositionRequest {
+    if (!this.dynamicForm || !this.resolvedConfig || this.tenantBrandId == null) {
+      throw new Error('Dynamic wizard not ready');
+    }
+    return buildDynamicCreatePayload(
+      this.dynamicWizardService.getFlatValues(this.dynamicForm),
+      this.tenantBrandId,
+      this.resolvedConfig,
+    );
   }
 
   private buildCreatePayload(): CreatePositionRequest {
@@ -711,6 +875,10 @@ export class PositionWizardComponent implements OnInit {
   }
 
   save(): void {
+    if (this.useDynamicWizard) {
+      this.saveDynamic();
+      return;
+    }
     const forms = [
       this.clientForm,
       this.generalForm,
@@ -736,6 +904,53 @@ export class PositionWizardComponent implements OnInit {
     }
     this.creating = true;
     const payload = this.buildCreatePayload();
+    const request$ =
+      this.isEditMode && this.editPositionId != null
+        ? this.positionService.update(this.editPositionId, payload)
+        : this.positionService.create(payload);
+
+    request$.subscribe({
+      next: () => {
+        this.creating = false;
+        this.snack.open(
+          this.isEditMode ? 'Requisición actualizada correctamente' : 'Requisición creada correctamente',
+          'Cerrar',
+          { duration: 3000 },
+        );
+        this.router.navigate(['/positions']);
+      },
+      error: () => {
+        this.creating = false;
+        this.snack.open(
+          this.isEditMode ? 'No se pudo actualizar la requisición' : 'No se pudo crear la requisición',
+          'Cerrar',
+          { duration: 4000 },
+        );
+      },
+    });
+  }
+
+  private saveDynamic(): void {
+    if (!this.dynamicForm || !this.resolvedConfig) {
+      return;
+    }
+    this.dynamicWizardService.refreshValidators(this.dynamicForm, this.resolvedConfig);
+    if (this.dynamicForm.invalid) {
+      this.dynamicForm.markAllAsTouched();
+      this.snack.open('Complete los campos obligatorios', 'Cerrar', { duration: 3000 });
+      return;
+    }
+    if (this.tenantBrandId == null) {
+      this.snack.open('No hay marca configurada para este tenant en el país seleccionado', 'Cerrar', {
+        duration: 4000,
+      });
+      return;
+    }
+    if (this.creating) {
+      return;
+    }
+    this.creating = true;
+    const payload = this.buildDynamicPayload();
     const request$ =
       this.isEditMode && this.editPositionId != null
         ? this.positionService.update(this.editPositionId, payload)

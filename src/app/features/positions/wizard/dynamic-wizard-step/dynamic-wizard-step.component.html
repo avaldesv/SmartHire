@@ -1,0 +1,140 @@
+<div class="form-grid">
+  @for (field of visibleFields; track field.fieldKey) {
+    @if (field.uiType === 'language-grid') {
+      <div class="span-2 language-grid">
+        <h4 class="grid-title">{{ fieldLabel(field) }}</h4>
+        @for (row of languageArray(field.fieldKey).controls; track $index; let i = $index) {
+          <div class="language-row" [formGroup]="$any(row)">
+            <mat-form-field appearance="outline">
+              <mat-label>Idioma</mat-label>
+              <mat-select formControlName="languageId">
+                @for (opt of languageOptions(); track opt.id) {
+                  <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Nivel</mat-label>
+              <mat-select formControlName="languageLevelId">
+                @for (opt of languageLevelOptions(); track opt.id) {
+                  <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <button mat-icon-button type="button" (click)="removeLanguageRow(field.fieldKey, i)" [disabled]="languageArray(field.fieldKey).length <= 1">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        }
+        <button mat-stroked-button type="button" (click)="addLanguageRow(field.fieldKey)">
+          <mat-icon>add</mat-icon> Agregar idioma
+        </button>
+      </div>
+    } @else if (field.uiType === 'document-grid' && field.fieldKey === 'documentRequirements') {
+      <div class="span-2 document-grid">
+        <h4 class="grid-title">{{ fieldLabel(field) }}</h4>
+        @if (loadingByField['__documents__']) {
+          <p>Cargando tipos de documento...</p>
+        } @else if (!documentTypeOptions.length) {
+          <p>Sin tipos de documento para el país seleccionado.</p>
+        } @else {
+          @for (doc of documentTypeOptions; track doc.id) {
+            <div class="document-row">
+              <mat-checkbox
+                [checked]="isDocumentSelected(field.fieldKey, doc.id)"
+                (change)="toggleDocumentSelected(field.fieldKey, doc.id, $event.checked)"
+              >
+                {{ doc.label }}
+              </mat-checkbox>
+              @if (isDocumentSelected(field.fieldKey, doc.id)) {
+                <mat-checkbox
+                  [checked]="isDocumentRequired(field.fieldKey, doc.id)"
+                  (change)="toggleDocumentRequired(field.fieldKey, doc.id, $event.checked)"
+                >
+                  Obligatorio
+                </mat-checkbox>
+              }
+            </div>
+          }
+        }
+      </div>
+    } @else if (field.uiType === 'document-grid' && field.fieldKey === 'documentTypeIds') {
+      <div class="span-2 document-grid">
+        <h4 class="grid-title">{{ fieldLabel(field) }}</h4>
+        @if (loadingByField['__documents__']) {
+          <p>Cargando tipos de documento...</p>
+        } @else {
+          @for (doc of documentTypeOptions; track doc.id) {
+            <mat-checkbox
+              [checked]="isLegacyDocumentSelected(field.fieldKey, doc.id)"
+              (change)="toggleLegacyDocument(field.fieldKey, doc.id, $event.checked)"
+            >
+              {{ doc.label }}
+            </mat-checkbox>
+          }
+        }
+      </div>
+    } @else if (field.uiType === 'questionnaire-picker') {
+      <div class="span-2 questionnaire-picker" [formGroup]="questionnaireGroup(field.fieldKey)">
+        <h4 class="grid-title">{{ fieldLabel(field) }}</h4>
+        <div class="questionnaire-fields">
+          <mat-form-field appearance="outline">
+            <mat-label>Cuestionario</mat-label>
+            <mat-select formControlName="questionnaireId">
+              <mat-option [value]="null">—</mat-option>
+              @for (opt of optionsByField[field.fieldKey] ?? []; track opt.id) {
+                <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Tipo evaluación</mat-label>
+            <mat-select formControlName="evaluationType">
+              <mat-option value="PERCENTAGE">Porcentaje</mat-option>
+              <mat-option value="SCORE">Puntaje</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>% aceptación</mat-label>
+            <input matInput type="number" formControlName="acceptancePercentage" min="0" max="100" />
+          </mat-form-field>
+        </div>
+      </div>
+    } @else if (field.fieldKey === 'stateId') {
+      <mat-form-field appearance="outline">
+        <mat-label>{{ fieldLabel(field) }}</mat-label>
+        <mat-select [formControl]="fieldControl(field.fieldKey)">
+          @for (opt of states; track opt.id) {
+            <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    } @else if (field.fieldKey === 'municipalityId') {
+      <mat-form-field appearance="outline">
+        <mat-label>{{ fieldLabel(field) }}</mat-label>
+        <mat-select [formControl]="fieldControl(field.fieldKey)">
+          @for (opt of municipalities; track opt.id) {
+            <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    } @else if (field.fieldKey === 'neighborhoodId') {
+      <mat-form-field appearance="outline">
+        <mat-label>{{ fieldLabel(field) }}</mat-label>
+        <mat-select [formControl]="fieldControl(field.fieldKey)">
+          @for (opt of neighborhoods; track opt.id) {
+            <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    } @else {
+      <sh-dynamic-wizard-field
+        [field]="field"
+        [control]="fieldControl(field.fieldKey)"
+        [options]="optionsByField[field.fieldKey] ?? []"
+        [loadingOptions]="loadingByField[field.fieldKey] ?? false"
+        [disabled]="field.fieldKey === 'brandId'"
+      />
+    }
+  }
+</div>

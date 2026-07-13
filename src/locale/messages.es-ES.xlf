@@ -499,28 +499,28 @@
         <target>Sin errores.</target>
       </trans-unit>
       <trans-unit id="catalogImport.resultWithErrors" datatype="html">
-        <source>Filas con error: <x id="failed" equiv-text="failed"/>.</source>
-        <target>Filas con error: <x id="failed" equiv-text="failed"/>.</target>
+        <source>Filas con error: <x id="failed" equiv-text="failed" />.</source>
+        <target>Filas con error: <x id="failed" equiv-text="failed" />.</target>
       </trans-unit>
       <trans-unit id="catalogImport.resultSummary.questionOptions" datatype="html">
-        <source>Se importaron <x id="options" equiv-text="options"/> opciones en <x id="questions" equiv-text="questions"/> preguntas.</source>
-        <target>Se importaron <x id="options" equiv-text="options"/> opciones en <x id="questions" equiv-text="questions"/> preguntas.</target>
+        <source>Se importaron <x id="options" equiv-text="options" /> opciones en <x id="questions" equiv-text="questions" /> preguntas.</source>
+        <target>Se importaron <x id="options" equiv-text="options" /> opciones en <x id="questions" equiv-text="questions" /> preguntas.</target>
       </trans-unit>
       <trans-unit id="catalogImport.resultSummary.questionnaireQuestions" datatype="html">
-        <source>Se vincularon <x id="links" equiv-text="links"/> preguntas en <x id="questionnaires" equiv-text="questionnaires"/> cuestionarios.</source>
-        <target>Se vincularon <x id="links" equiv-text="links"/> preguntas en <x id="questionnaires" equiv-text="questionnaires"/> cuestionarios.</target>
+        <source>Se vincularon <x id="links" equiv-text="links" /> preguntas en <x id="questionnaires" equiv-text="questionnaires" /> cuestionarios.</source>
+        <target>Se vincularon <x id="links" equiv-text="links" /> preguntas en <x id="questionnaires" equiv-text="questionnaires" /> cuestionarios.</target>
       </trans-unit>
       <trans-unit id="catalogImport.resultSummary.questionTags" datatype="html">
-        <source>Se asignaron <x id="tags" equiv-text="tags"/> tags en <x id="questions" equiv-text="questions"/> preguntas.</source>
-        <target>Se asignaron <x id="tags" equiv-text="tags"/> tags en <x id="questions" equiv-text="questions"/> preguntas.</target>
+        <source>Se asignaron <x id="tags" equiv-text="tags" /> tags en <x id="questions" equiv-text="questions" /> preguntas.</source>
+        <target>Se asignaron <x id="tags" equiv-text="tags" /> tags en <x id="questions" equiv-text="questions" /> preguntas.</target>
       </trans-unit>
       <trans-unit id="catalogImport.resultSummary.questionnairePublish" datatype="html">
-        <source>Se publicaron <x id="questionnaires" equiv-text="questionnaires"/> cuestionarios.</source>
-        <target>Se publicaron <x id="questionnaires" equiv-text="questionnaires"/> cuestionarios.</target>
+        <source>Se publicaron <x id="questionnaires" equiv-text="questionnaires" /> cuestionarios.</source>
+        <target>Se publicaron <x id="questionnaires" equiv-text="questionnaires" /> cuestionarios.</target>
       </trans-unit>
       <trans-unit id="catalogImport.resultSummary.default" datatype="html">
-        <source>Nuevos: <x id="created" equiv-text="created"/> · Actualizados: <x id="updated" equiv-text="updated"/>.</source>
-        <target>Nuevos: <x id="created" equiv-text="created"/> · Actualizados: <x id="updated" equiv-text="updated"/>.</target>
+        <source>Nuevos: <x id="created" equiv-text="created" /> · Actualizados: <x id="updated" equiv-text="updated" />.</source>
+        <target>Nuevos: <x id="created" equiv-text="created" /> · Actualizados: <x id="updated" equiv-text="updated" />.</target>
       </trans-unit>
       <trans-unit id="catalogs.errors.loadStatesSelector" datatype="html">
         <source>No se pudieron cargar entidades para el selector</source>
@@ -2345,8 +2345,8 @@
         <target>Categoría eliminada</target>
       </trans-unit>
       <trans-unit id="questionnaires.categories.deleteConfirm" datatype="html">
-        <source>¿Eliminar la categoría "<x id="name" equiv-text="name"/>"? Esta acción no se puede deshacer.</source>
-        <target>¿Eliminar la categoría "<x id="name" equiv-text="name"/>"? Esta acción no se puede deshacer.</target>
+        <source>¿Eliminar la categoría "<x id="name" equiv-text="name" />"? Esta acción no se puede deshacer.</source>
+        <target>¿Eliminar la categoría "<x id="name" equiv-text="name" />"? Esta acción no se puede deshacer.</target>
       </trans-unit>
       <trans-unit id="questionnaires.tags.newButton" datatype="html">
         <source>Nuevo tag</source>
@@ -2393,8 +2393,8 @@
         <target>Tag eliminado</target>
       </trans-unit>
       <trans-unit id="questionnaires.tags.deleteConfirm" datatype="html">
-        <source>¿Eliminar el tag "<x id="name" equiv-text="name"/>"? Esta acción no se puede deshacer.</source>
-        <target>¿Eliminar el tag "<x id="name" equiv-text="name"/>"? Esta acción no se puede deshacer.</target>
+        <source>¿Eliminar el tag "<x id="name" equiv-text="name" />"? Esta acción no se puede deshacer.</source>
+        <target>¿Eliminar el tag "<x id="name" equiv-text="name" />"? Esta acción no se puede deshacer.</target>
       </trans-unit>
       <trans-unit id="questionnaires.common.col.name" datatype="html">
         <source>Nombre</source>
@@ -2605,8 +2605,8 @@
         <target>Pregunta eliminada</target>
       </trans-unit>
       <trans-unit id="questionnaires.questions.deleteConfirm" datatype="html">
-        <source>¿Eliminar la pregunta "<x id="text" equiv-text="text"/>"? Esta acción no se puede deshacer.</source>
-        <target>¿Eliminar la pregunta "<x id="text" equiv-text="text"/>"? Esta acción no se puede deshacer.</target>
+        <source>¿Eliminar la pregunta "<x id="text" equiv-text="text" />"? Esta acción no se puede deshacer.</source>
+        <target>¿Eliminar la pregunta "<x id="text" equiv-text="text" />"? Esta acción no se puede deshacer.</target>
       </trans-unit>
       <trans-unit id="questionnaires.questionnaires.newButton" datatype="html">
         <source>Nuevo cuestionario</source>
@@ -2809,8 +2809,8 @@
         <target>Cuestionario eliminado</target>
       </trans-unit>
       <trans-unit id="questionnaires.questionnaires.deleteConfirm" datatype="html">
-        <source>¿Eliminar el cuestionario "<x id="name" equiv-text="name"/>"? Esta acción no se puede deshacer.</source>
-        <target>¿Eliminar el cuestionario "<x id="name" equiv-text="name"/>"? Esta acción no se puede deshacer.</target>
+        <source>¿Eliminar el cuestionario "<x id="name" equiv-text="name" />"? Esta acción no se puede deshacer.</source>
+        <target>¿Eliminar el cuestionario "<x id="name" equiv-text="name" />"? Esta acción no se puede deshacer.</target>
       </trans-unit>
       <trans-unit id="questionnaires.exams.newButton" datatype="html">
         <source>Nuevo examen</source>
@@ -3109,12 +3109,12 @@
         <target>Los intentos máximos deben ser al menos 1 o dejarse vacío</target>
       </trans-unit>
       <trans-unit id="questionnaires.exams.errors.insufficientEligibleOne" datatype="html">
-        <source>Solo hay 1 pregunta elegible tras los filtros; el examen solicita <x id="requested" equiv-text="requested"/>. El cuestionario dispone de <x id="available" equiv-text="available"/>.</source>
-        <target>Solo hay 1 pregunta elegible tras los filtros; el examen solicita <x id="requested" equiv-text="requested"/>. El cuestionario dispone de <x id="available" equiv-text="available"/>.</target>
+        <source>Solo hay 1 pregunta elegible tras los filtros; el examen solicita <x id="requested" equiv-text="requested" />. El cuestionario dispone de <x id="available" equiv-text="available" />.</source>
+        <target>Solo hay 1 pregunta elegible tras los filtros; el examen solicita <x id="requested" equiv-text="requested" />. El cuestionario dispone de <x id="available" equiv-text="available" />.</target>
       </trans-unit>
       <trans-unit id="questionnaires.exams.errors.insufficientEligibleMany" datatype="html">
-        <source>Solo hay <x id="eligible" equiv-text="eligible"/> preguntas elegibles tras los filtros; el examen solicita <x id="requested" equiv-text="requested"/>. El cuestionario dispone de <x id="available" equiv-text="available"/>.</source>
-        <target>Solo hay <x id="eligible" equiv-text="eligible"/> preguntas elegibles tras los filtros; el examen solicita <x id="requested" equiv-text="requested"/>. El cuestionario dispone de <x id="available" equiv-text="available"/>.</target>
+        <source>Solo hay <x id="eligible" equiv-text="eligible" /> preguntas elegibles tras los filtros; el examen solicita <x id="requested" equiv-text="requested" />. El cuestionario dispone de <x id="available" equiv-text="available" />.</source>
+        <target>Solo hay <x id="eligible" equiv-text="eligible" /> preguntas elegibles tras los filtros; el examen solicita <x id="requested" equiv-text="requested" />. El cuestionario dispone de <x id="available" equiv-text="available" />.</target>
       </trans-unit>
       <trans-unit id="questionnaires.exams.success.saved" datatype="html">
         <source>Examen guardado</source>
@@ -3125,8 +3125,8 @@
         <target>Examen eliminado</target>
       </trans-unit>
       <trans-unit id="questionnaires.exams.deleteConfirm" datatype="html">
-        <source>¿Eliminar el examen "<x id="name" equiv-text="name"/>"? Esta acción no se puede deshacer.</source>
-        <target>¿Eliminar el examen "<x id="name" equiv-text="name"/>"? Esta acción no se puede deshacer.</target>
+        <source>¿Eliminar el examen "<x id="name" equiv-text="name" />"? Esta acción no se puede deshacer.</source>
+        <target>¿Eliminar el examen "<x id="name" equiv-text="name" />"? Esta acción no se puede deshacer.</target>
       </trans-unit>
       <trans-unit id="questionnaires.nav.categories" datatype="html">
         <source>Categorías</source>
@@ -3171,6 +3171,498 @@
       <trans-unit id="questionnaires.exams.title" datatype="html">
         <source>Exámenes</source>
         <target>Exámenes</target>
+      </trans-unit>
+      <trans-unit id="nav.settings.requisitionFormConfig" datatype="html">
+        <source>Formulario requisición</source>
+        <target>Formulario requisición</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.pageTitle" datatype="html">
+        <source>Configuración del formulario de requisición</source>
+        <target>Configuración del formulario de requisición</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.field.coverageType" datatype="html">
+        <source>Tipo de cobertura</source>
+        <target>Tipo de cobertura</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.load" datatype="html">
+        <source>Cargar borrador</source>
+        <target>Cargar borrador</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.status" datatype="html">
+        <source>Estado</source>
+        <target>Estado</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.version" datatype="html">
+        <source>Versión</source>
+        <target>Versión</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.statusDraft" datatype="html">
+        <source>Borrador</source>
+        <target>Borrador</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.statusPublished" datatype="html">
+        <source>Publicado</source>
+        <target>Publicado</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.stepsTitle" datatype="html">
+        <source>Pasos del wizard</source>
+        <target>Pasos del wizard</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.fieldsTitle" datatype="html">
+        <source>Campos del paso</source>
+        <target>Campos del paso</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.field.stepKey" datatype="html">
+        <source>Clave del paso</source>
+        <target>Clave del paso</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.field.labelKey" datatype="html">
+        <source>Clave i18n de etiqueta</source>
+        <target>Clave i18n de etiqueta</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.field.fieldKey" datatype="html">
+        <source>Campo</source>
+        <target>Campo</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.field.visible" datatype="html">
+        <source>Visible</source>
+        <target>Visible</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.field.required" datatype="html">
+        <source>Obligatorio</source>
+        <target>Obligatorio</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.column.reorder" datatype="html">
+        <source>Reordenar</source>
+        <target>Reordenar</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.moveUp" datatype="html">
+        <source>Subir</source>
+        <target>Subir</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.moveDown" datatype="html">
+        <source>Bajar</source>
+        <target>Bajar</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.addStep" datatype="html">
+        <source>Agregar paso</source>
+        <target>Agregar paso</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.addField" datatype="html">
+        <source>Agregar campo</source>
+        <target>Agregar campo</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.remove" datatype="html">
+        <source>Quitar</source>
+        <target>Quitar</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.saveDraft" datatype="html">
+        <source>Guardar borrador</source>
+        <target>Guardar borrador</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.publish" datatype="html">
+        <source>Publicar</source>
+        <target>Publicar</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.publishing" datatype="html">
+        <source>Publicando...</source>
+        <target>Publicando...</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.selectStep" datatype="html">
+        <source>Seleccione un paso para editar sus campos</source>
+        <target>Seleccione un paso para editar sus campos</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.rulesTitle" datatype="html">
+        <source>Reglas condicionales</source>
+        <target>Reglas condicionales</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.rule.visibleWhen" datatype="html">
+        <source>Visible cuando "Tiene personas a cargo" está activo</source>
+        <target>Visible cuando "Tiene personas a cargo" está activo</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.rule.requiredWhen" datatype="html">
+        <source>Obligatorio cuando "Tiene personas a cargo" está activo</source>
+        <target>Obligatorio cuando "Tiene personas a cargo" está activo</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.selectorsHint" datatype="html">
+        <source>Seleccione país y tipo de cobertura para cargar o crear el borrador de configuración</source>
+        <target>Seleccione país y tipo de cobertura para cargar o crear el borrador de configuración</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.errors.load" datatype="html">
+        <source>No se pudo cargar la configuración</source>
+        <target>No se pudo cargar la configuración</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.success.saved" datatype="html">
+        <source>Borrador guardado</source>
+        <target>Borrador guardado</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.errors.save" datatype="html">
+        <source>No se pudo guardar el borrador</source>
+        <target>No se pudo guardar el borrador</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.success.published" datatype="html">
+        <source>Configuración publicada</source>
+        <target>Configuración publicada</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.errors.publish" datatype="html">
+        <source>No se pudo publicar la configuración</source>
+        <target>No se pudo publicar la configuración</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.errors.selectCountryCoverage" datatype="html">
+        <source>Seleccione país y tipo de cobertura</source>
+        <target>Seleccione país y tipo de cobertura</target>
+      </trans-unit>
+      <trans-unit id="requisition.step.client" datatype="html">
+        <source>Datos Cliente</source>
+        <target>Datos Cliente</target>
+      </trans-unit>
+      <trans-unit id="requisition.step.general" datatype="html">
+        <source>Generales</source>
+        <target>Generales</target>
+      </trans-unit>
+      <trans-unit id="requisition.step.manpower" datatype="html">
+        <source>Manpower</source>
+        <target>Manpower</target>
+      </trans-unit>
+      <trans-unit id="requisition.step.hiring" datatype="html">
+        <source>Contratación</source>
+        <target>Contratación</target>
+      </trans-unit>
+      <trans-unit id="requisition.step.languages" datatype="html">
+        <source>Idiomas</source>
+        <target>Idiomas</target>
+      </trans-unit>
+      <trans-unit id="requisition.step.address" datatype="html">
+        <source>Dirección</source>
+        <target>Dirección</target>
+      </trans-unit>
+      <trans-unit id="requisition.step.recruitment" datatype="html">
+        <source>Reclutamiento</source>
+        <target>Reclutamiento</target>
+      </trans-unit>
+      <trans-unit id="requisition.step.clientDescription" datatype="html">
+        <source>Descripción del cliente</source>
+        <target>Descripción del cliente</target>
+      </trans-unit>
+      <trans-unit id="requisition.step.extraBenefits" datatype="html">
+        <source>Beneficios adicionales</source>
+        <target>Beneficios adicionales</target>
+      </trans-unit>
+      <trans-unit id="requisition.step.preselection" datatype="html">
+        <source>Preselección</source>
+        <target>Preselección</target>
+      </trans-unit>
+      <trans-unit id="requisition.step.documents" datatype="html">
+        <source>Documentos</source>
+        <target>Documentos</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.brandId" datatype="html">
+        <source>Marca</source>
+        <target>Marca</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.countryId" datatype="html">
+        <source>País</source>
+        <target>País</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.requisitionTypeId" datatype="html">
+        <source>Tipo de requisición</source>
+        <target>Tipo de requisición</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.coverageTypeId" datatype="html">
+        <source>Tipo de cobertura</source>
+        <target>Tipo de cobertura</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.ot" datatype="html">
+        <source>OT</source>
+        <target>OT</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.clientKey" datatype="html">
+        <source>Clave cliente</source>
+        <target>Clave cliente</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.legalName" datatype="html">
+        <source>Razón social</source>
+        <target>Razón social</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.tradeName" datatype="html">
+        <source>Nombre comercial</source>
+        <target>Nombre comercial</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.contactName" datatype="html">
+        <source>Nombre de contacto</source>
+        <target>Nombre de contacto</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.contactPhone" datatype="html">
+        <source>Teléfono de contacto</source>
+        <target>Teléfono de contacto</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.contactEmail" datatype="html">
+        <source>Correo de contacto</source>
+        <target>Correo de contacto</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.clientContactPosition" datatype="html">
+        <source>Puesto del contacto</source>
+        <target>Puesto del contacto</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.clientPositionKey" datatype="html">
+        <source>Clave puesto cliente</source>
+        <target>Clave puesto cliente</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.positionName" datatype="html">
+        <source>Nombre del puesto</source>
+        <target>Nombre del puesto</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.serviceNumber" datatype="html">
+        <source>Número de servicio</source>
+        <target>Número de servicio</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.genderId" datatype="html">
+        <source>Género</source>
+        <target>Género</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.maritalStatusId" datatype="html">
+        <source>Estado civil</source>
+        <target>Estado civil</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.careerId" datatype="html">
+        <source>Carrera</source>
+        <target>Carrera</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.educationLevelId" datatype="html">
+        <source>Escolaridad</source>
+        <target>Escolaridad</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.experienceIn" datatype="html">
+        <source>Experiencia en</source>
+        <target>Experiencia en</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.experienceLevelId" datatype="html">
+        <source>Nivel de experiencia</source>
+        <target>Nivel de experiencia</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.minAge" datatype="html">
+        <source>Edad mínima</source>
+        <target>Edad mínima</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.maxAge" datatype="html">
+        <source>Edad máxima</source>
+        <target>Edad máxima</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.hasPeopleInCharge" datatype="html">
+        <source>Tiene personas a cargo</source>
+        <target>Tiene personas a cargo</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.peopleInChargeCount" datatype="html">
+        <source>Total personas a cargo</source>
+        <target>Total personas a cargo</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.travelAvailability" datatype="html">
+        <source>Disponibilidad para viajar</source>
+        <target>Disponibilidad para viajar</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.relocationAvailability" datatype="html">
+        <source>Disponibilidad para reubicación</source>
+        <target>Disponibilidad para reubicación</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.requirementsMandatory" datatype="html">
+        <source>Requisitos obligatorios</source>
+        <target>Requisitos obligatorios</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.requirementsOptional" datatype="html">
+        <source>Requisitos opcionales</source>
+        <target>Requisitos opcionales</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.requirementsDesirable" datatype="html">
+        <source>Requisitos deseables</source>
+        <target>Requisitos deseables</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.contractTypeId" datatype="html">
+        <source>Tipo de contrato</source>
+        <target>Tipo de contrato</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.shiftId" datatype="html">
+        <source>Turno</source>
+        <target>Turno</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.salary" datatype="html">
+        <source>Salario</source>
+        <target>Salario</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.serviceFee" datatype="html">
+        <source>Tarifa de servicio</source>
+        <target>Tarifa de servicio</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.currencyId" datatype="html">
+        <source>Moneda</source>
+        <target>Moneda</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.hasAdvancePayment" datatype="html">
+        <source>Anticipo</source>
+        <target>Anticipo</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.workdayStartTime" datatype="html">
+        <source>Hora inicio jornada</source>
+        <target>Hora inicio jornada</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.workdayEndTime" datatype="html">
+        <source>Hora fin jornada</source>
+        <target>Hora fin jornada</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.lunchStartTime" datatype="html">
+        <source>Hora inicio comida</source>
+        <target>Hora inicio comida</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.lunchEndTime" datatype="html">
+        <source>Hora fin comida</source>
+        <target>Hora fin comida</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.rotatingShifts" datatype="html">
+        <source>Turnos rotativos</source>
+        <target>Turnos rotativos</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.commitmentDate" datatype="html">
+        <source>Fecha compromiso</source>
+        <target>Fecha compromiso</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.hiringDate" datatype="html">
+        <source>Fecha de contratación</source>
+        <target>Fecha de contratación</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.hiringRequirements" datatype="html">
+        <source>Requisitos de contratación</source>
+        <target>Requisitos de contratación</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.tools" datatype="html">
+        <source>Herramientas</source>
+        <target>Herramientas</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.recruiterGroupId" datatype="html">
+        <source>Grupo reclutador</source>
+        <target>Grupo reclutador</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.careResponsibleUserId" datatype="html">
+        <source>Responsable CARE</source>
+        <target>Responsable CARE</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.careResponsibleAts" datatype="html">
+        <source>ATS responsable CARE</source>
+        <target>ATS responsable CARE</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.disabilityTypeId" datatype="html">
+        <source>Tipo de discapacidad</source>
+        <target>Tipo de discapacidad</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.hasLinkage" datatype="html">
+        <source>Vinculación</source>
+        <target>Vinculación</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.seniorCitizen" datatype="html">
+        <source>Adulto mayor</source>
+        <target>Adulto mayor</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.languages" datatype="html">
+        <source>Idiomas</source>
+        <target>Idiomas</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.addressLine" datatype="html">
+        <source>Dirección</source>
+        <target>Dirección</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.stateId" datatype="html">
+        <source>Entidad federativa</source>
+        <target>Entidad federativa</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.municipalityId" datatype="html">
+        <source>Municipio</source>
+        <target>Municipio</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.neighborhoodId" datatype="html">
+        <source>Colonia</source>
+        <target>Colonia</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.subregion" datatype="html">
+        <source>Subregión</source>
+        <target>Subregión</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.postalCode" datatype="html">
+        <source>Código postal</source>
+        <target>Código postal</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.city" datatype="html">
+        <source>Ciudad</source>
+        <target>Ciudad</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.recruiterEmail" datatype="html">
+        <source>Correo del reclutador</source>
+        <target>Correo del reclutador</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.generalCategoryId" datatype="html">
+        <source>Categoría general</source>
+        <target>Categoría general</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.jobDescription" datatype="html">
+        <source>Descripción del puesto</source>
+        <target>Descripción del puesto</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.workplaceId" datatype="html">
+        <source>Lugar de trabajo</source>
+        <target>Lugar de trabajo</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.responsibilityLevelId" datatype="html">
+        <source>Nivel de responsabilidad</source>
+        <target>Nivel de responsabilidad</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.publishSalaryMin" datatype="html">
+        <source>Salario mínimo publicado</source>
+        <target>Salario mínimo publicado</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.publishSalaryMax" datatype="html">
+        <source>Salario máximo publicado</source>
+        <target>Salario máximo publicado</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.hasCommission" datatype="html">
+        <source>Comisión</source>
+        <target>Comisión</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.hideSalary" datatype="html">
+        <source>Ocultar salario</source>
+        <target>Ocultar salario</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.jobPortalId" datatype="html">
+        <source>Portal de empleo</source>
+        <target>Portal de empleo</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.includeSoftSkills" datatype="html">
+        <source>Incluir habilidades blandas</source>
+        <target>Incluir habilidades blandas</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.includeExtraBenefits" datatype="html">
+        <source>Incluir beneficios adicionales</source>
+        <target>Incluir beneficios adicionales</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.includeProfessionalDevelopment" datatype="html">
+        <source>Incluir desarrollo profesional</source>
+        <target>Incluir desarrollo profesional</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.includeKeywords" datatype="html">
+        <source>Incluir palabras clave</source>
+        <target>Incluir palabras clave</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.clientExpansionDescription" datatype="html">
+        <source>Descripción expansión cliente</source>
+        <target>Descripción expansión cliente</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.extraBenefitsText" datatype="html">
+        <source>Texto beneficios adicionales</source>
+        <target>Texto beneficios adicionales</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.questionnaire" datatype="html">
+        <source>Cuestionario</source>
+        <target>Cuestionario</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.documentRequirements" datatype="html">
+        <source>Documentos requeridos</source>
+        <target>Documentos requeridos</target>
       </trans-unit>
     </body>
   </file>

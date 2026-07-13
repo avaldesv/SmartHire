@@ -42,13 +42,13 @@
             <mat-label>{{ fieldStepKey }}</mat-label>
             <mat-select [(value)]="newStepKey">
               @for (key of getAvailableStepKeys(); track key) {
-                <mat-option [value]="key">{{ key }}</mat-option>
+                <mat-option [value]="key">{{ stepDisplayLabel(key) }} ({{ key }})</mat-option>
               }
             </mat-select>
           </mat-form-field>
           <mat-form-field appearance="outline" class="compact-field grow">
             <mat-label>{{ fieldLabelKey }}</mat-label>
-            <input matInput [(ngModel)]="newStepLabelKey" [ngModelOptions]="{ standalone: true }" placeholder="requisition.step.general" />
+            <input matInput [(ngModel)]="newStepLabelKey" [ngModelOptions]="{ standalone: true }" [placeholder]="stepLabelKeyPlaceholder" />
           </mat-form-field>
           <button mat-stroked-button type="button" (click)="addStep()" [disabled]="!newStepKey || !newStepLabelKey">
             <mat-icon>add</mat-icon> {{ addStepLabel }}
@@ -71,7 +71,7 @@
               [class.selected]="isStepSelected(row.stepKey)"
               (click)="selectStep(row.stepKey)"
             >
-              {{ row.stepKey }}
+              {{ stepDisplayLabel(row.stepKey, row.labelI18nKey) }}
             </button>
           </td>
         </ng-container>
@@ -85,7 +85,7 @@
                 (change)="updateStepLabel(row.stepKey, $any($event.target).value)"
               />
             } @else {
-              {{ row.labelI18nKey }}
+              {{ fieldLabelFromKey(row.labelI18nKey) }}
             }
           </td>
         </ng-container>
@@ -136,7 +136,7 @@
               <mat-label>{{ addFieldLabel }}</mat-label>
               <mat-select [(value)]="addFieldDefId">
                 @for (def of availableFieldDefsForStep(); track def.id) {
-                  <mat-option [value]="def.id">{{ def.fieldKey }} — {{ def.labelI18nKey }}</mat-option>
+                  <mat-option [value]="def.id">{{ def.fieldKey }} — {{ fieldLabelFromKey(def.labelI18nKey) }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>

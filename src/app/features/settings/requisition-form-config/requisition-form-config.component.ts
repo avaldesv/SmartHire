@@ -50,6 +50,11 @@ import {
   REQ_FORM_CONFIG_STEPS_TITLE,
   REQ_FORM_CONFIG_VERSION,
 } from '../../../core/i18n/requisition-form-config-labels';
+import {
+  REQUISITION_STEP_LABEL_KEY_PLACEHOLDER,
+  resolveRequisitionFieldLabel,
+  resolveRequisitionWizardLabel,
+} from '../../../core/i18n/requisition-wizard-labels';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { CatalogPositionService } from '../../../core/services/catalog-position.service';
 import { PermissionService } from '../../../core/services/permission.service';
@@ -127,6 +132,7 @@ export class RequisitionFormConfigComponent implements OnInit {
   readonly rulesTitle = REQ_FORM_CONFIG_RULES_TITLE;
   readonly ruleVisibleLabel = REQ_FORM_CONFIG_RULE_VISIBLE;
   readonly ruleRequiredLabel = REQ_FORM_CONFIG_RULE_REQUIRED;
+  readonly stepLabelKeyPlaceholder = REQUISITION_STEP_LABEL_KEY_PLACEHOLDER;
 
   readonly canWrite = computed(() => this.permissions.hasAuthority(AppPermissions.REQUISITION_FORM_CONFIG_WRITE));
   readonly canPublish = computed(() => this.permissions.hasAuthority(AppPermissions.REQUISITION_FORM_CONFIG_PUBLISH));
@@ -267,9 +273,20 @@ export class RequisitionFormConfigComponent implements OnInit {
       .sort((a, b) => a.orderIndex - b.orderIndex);
   }
 
+  stepDisplayLabel(stepKey: string, labelI18nKey?: string): string {
+    return resolveRequisitionWizardLabel(labelI18nKey ?? `requisition.step.${stepKey}`);
+  }
+
   fieldDefLabel(fieldDefId: number): string {
     const def = this.fieldDefs.find((item) => item.id === fieldDefId);
-    return def ? `${def.fieldKey} (${def.labelI18nKey})` : String(fieldDefId);
+    if (!def) {
+      return String(fieldDefId);
+    }
+    return `${def.fieldKey} — ${resolveRequisitionFieldLabel(def.labelI18nKey)}`;
+  }
+
+  fieldLabelFromKey(labelI18nKey: string): string {
+    return resolveRequisitionWizardLabel(labelI18nKey);
   }
 
   fieldDefKey(fieldDefId: number): string {

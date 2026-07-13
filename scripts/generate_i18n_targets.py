@@ -485,6 +485,93 @@ EN_BY_SOURCE: dict[str, str] = {
     "¿Solicitar cancelación de ": "Request cancellation of ",
     "¿Aprobar cancelación de ": "Approve cancellation of ",
     "¿Rechazar solicitud de cancelación de ": "Reject cancellation request for ",
+    # Requisition wizard + form config (FE-03)
+    "Formulario requisición": "Requisition form",
+    "Configuración del formulario de requisición": "Requisition form configuration",
+    "Cargar borrador": "Load draft",
+    "Versión": "Version",
+    "Publicado": "Published",
+    "Pasos del wizard": "Wizard steps",
+    "Campos del paso": "Step fields",
+    "Clave del paso": "Step key",
+    "Clave i18n de etiqueta": "Label i18n key",
+    "Campo": "Field",
+    "Visible": "Visible",
+    "Obligatorio": "Required",
+    "Agregar paso": "Add step",
+    "Agregar campo": "Add field",
+    "Quitar": "Remove",
+    "Guardar borrador": "Save draft",
+    "Publicar": "Publish",
+    "Publicando...": "Publishing...",
+    "Seleccione un paso para editar sus campos": "Select a step to edit its fields",
+    "Reglas condicionales": "Conditional rules",
+    'Visible cuando "Tiene personas a cargo" está activo': 'Visible when "Has people in charge" is enabled',
+    'Obligatorio cuando "Tiene personas a cargo" está activo': 'Required when "Has people in charge" is enabled',
+    "Seleccione país y tipo de cobertura para cargar o crear el borrador de configuración": (
+        "Select country and coverage type to load or create the configuration draft"
+    ),
+    "No se pudo cargar la configuración": "Could not load configuration",
+    "Borrador guardado": "Draft saved",
+    "No se pudo guardar el borrador": "Could not save draft",
+    "Configuración publicada": "Configuration published",
+    "No se pudo publicar la configuración": "Could not publish configuration",
+    "Seleccione país y tipo de cobertura": "Select country and coverage type",
+    "Datos Cliente": "Client data",
+    "Contratación": "Hiring",
+    "Reclutamiento": "Recruitment",
+    "Descripción del cliente": "Client description",
+    "Beneficios adicionales": "Additional benefits",
+    "Preselección": "Preselection",
+    "Clave cliente": "Client code",
+    "Nombre de contacto": "Contact name",
+    "Teléfono de contacto": "Contact phone",
+    "Correo de contacto": "Contact email",
+    "Puesto del contacto": "Contact position",
+    "Clave puesto cliente": "Client position code",
+    "Nombre del puesto": "Position name",
+    "Número de servicio": "Service number",
+    "Experiencia en": "Experience in",
+    "Nivel de experiencia": "Experience level",
+    "Edad mínima": "Minimum age",
+    "Edad máxima": "Maximum age",
+    "Tiene personas a cargo": "Has people in charge",
+    "Total personas a cargo": "Total people in charge",
+    "Disponibilidad para viajar": "Willing to travel",
+    "Disponibilidad para reubicación": "Willing to relocate",
+    "Requisitos obligatorios": "Mandatory requirements",
+    "Requisitos opcionales": "Optional requirements",
+    "Requisitos deseables": "Desirable requirements",
+    "Tarifa de servicio": "Service fee",
+    "Anticipo": "Advance payment",
+    "Hora inicio jornada": "Workday start time",
+    "Hora fin jornada": "Workday end time",
+    "Hora inicio comida": "Lunch start time",
+    "Hora fin comida": "Lunch end time",
+    "Turnos rotativos": "Rotating shifts",
+    "Fecha compromiso": "Commitment date",
+    "Fecha de contratación": "Hiring date",
+    "Requisitos de contratación": "Hiring requirements",
+    "Grupo reclutador": "Recruiter group",
+    "Responsable CARE": "CARE responsible",
+    "ATS responsable CARE": "CARE responsible ATS",
+    "Vinculación": "Linkage",
+    "Adulto mayor": "Senior citizen",
+    "Subregión": "Subregion",
+    "Correo del reclutador": "Recruiter email",
+    "Categoría general": "General category",
+    "Descripción del puesto": "Job description",
+    "Salario mínimo publicado": "Published minimum salary",
+    "Salario máximo publicado": "Published maximum salary",
+    "Comisión": "Commission",
+    "Ocultar salario": "Hide salary",
+    "Portal de empleo": "Job portal",
+    "Incluir habilidades blandas": "Include soft skills",
+    "Incluir beneficios adicionales": "Include additional benefits",
+    "Incluir desarrollo profesional": "Include professional development",
+    "Incluir palabras clave": "Include keywords",
+    "Descripción expansión cliente": "Client expansion description",
+    "Texto beneficios adicionales": "Additional benefits text",
 }
 
 
@@ -563,6 +650,158 @@ def translate_en(source: str) -> str:
         return source.replace("¿Eliminar el prompt", "Delete prompt").replace(
             "Esta acción no se puede deshacer.", "This action cannot be undone."
         )
+    if source.startswith("No se pudo cargar la configuración"):
+        return "Could not load configuration"
+    if source.startswith("No se pudo guardar el borrador"):
+        return "Could not save draft"
+    if source.startswith("No se pudo publicar la configuración"):
+        return "Could not publish configuration"
+    if source.startswith("Seleccione país y tipo de cobertura para"):
+        return "Select country and coverage type to load or create the configuration draft"
+    if source.startswith("Seleccione país y tipo de cobertura"):
+        return "Select country and coverage type"
+    if source.startswith("Seleccione un paso para editar"):
+        return "Select a step to edit its fields"
+    if source.startswith("Visible cuando"):
+        return 'Visible when "Has people in charge" is enabled'
+    if source.startswith("Obligatorio cuando"):
+        return 'Required when "Has people in charge" is enabled'
+    if source.startswith("Configuración del formulario"):
+        return "Requisition form configuration"
+    if source.startswith("Pasos del wizard"):
+        return "Wizard steps"
+    if source.startswith("Campos del paso"):
+        return "Step fields"
+    if source.startswith("Clave i18n de etiqueta"):
+        return "Label i18n key"
+    if source.startswith("Clave del paso"):
+        return "Step key"
+    if source.startswith("Guardar borrador"):
+        return "Save draft"
+    if source.startswith("Cargar borrador"):
+        return "Load draft"
+    if source.startswith("Publicando..."):
+        return "Publishing..."
+    if source.startswith("Borrador guardado"):
+        return "Draft saved"
+    if source.startswith("Configuración publicada"):
+        return "Configuration published"
+    if source.startswith("Reglas condicionales"):
+        return "Conditional rules"
+    if source.startswith("Formulario requisición"):
+        return "Requisition form"
+    if source.startswith("Datos Cliente"):
+        return "Client data"
+    if source.startswith("Contratación"):
+        return "Hiring"
+    if source.startswith("Reclutamiento"):
+        return "Recruitment"
+    if source.startswith("Descripción del cliente"):
+        return "Client description"
+    if source.startswith("Beneficios adicionales"):
+        return "Additional benefits"
+    if source.startswith("Preselección"):
+        return "Preselection"
+    if source.startswith("Tipo de requisición"):
+        return "Requisition type"
+    if source.startswith("Tipo de cobertura"):
+        return "Coverage type"
+    if source.startswith("Clave cliente"):
+        return "Client code"
+    if source.startswith("Nombre de contacto"):
+        return "Contact name"
+    if source.startswith("Teléfono de contacto"):
+        return "Contact phone"
+    if source.startswith("Correo de contacto"):
+        return "Contact email"
+    if source.startswith("Puesto del contacto"):
+        return "Contact position"
+    if source.startswith("Clave puesto cliente"):
+        return "Client position code"
+    if source.startswith("Nombre del puesto"):
+        return "Position name"
+    if source.startswith("Número de servicio"):
+        return "Service number"
+    if source.startswith("Experiencia en"):
+        return "Experience in"
+    if source.startswith("Nivel de experiencia"):
+        return "Experience level"
+    if source.startswith("Edad mínima"):
+        return "Minimum age"
+    if source.startswith("Edad máxima"):
+        return "Maximum age"
+    if source.startswith("Tiene personas a cargo"):
+        return "Has people in charge"
+    if source.startswith("Total personas a cargo"):
+        return "Total people in charge"
+    if source.startswith("Disponibilidad para viajar"):
+        return "Willing to travel"
+    if source.startswith("Disponibilidad para reubicación"):
+        return "Willing to relocate"
+    if source.startswith("Requisitos obligatorios"):
+        return "Mandatory requirements"
+    if source.startswith("Requisitos opcionales"):
+        return "Optional requirements"
+    if source.startswith("Requisitos deseables"):
+        return "Desirable requirements"
+    if source.startswith("Tipo de contrato"):
+        return "Contract type"
+    if source.startswith("Tarifa de servicio"):
+        return "Service fee"
+    if source.startswith("Hora inicio jornada"):
+        return "Workday start time"
+    if source.startswith("Hora fin jornada"):
+        return "Workday end time"
+    if source.startswith("Hora inicio comida"):
+        return "Lunch start time"
+    if source.startswith("Hora fin comida"):
+        return "Lunch end time"
+    if source.startswith("Turnos rotativos"):
+        return "Rotating shifts"
+    if source.startswith("Fecha compromiso"):
+        return "Commitment date"
+    if source.startswith("Fecha de contratación"):
+        return "Hiring date"
+    if source.startswith("Requisitos de contratación"):
+        return "Hiring requirements"
+    if source.startswith("Grupo reclutador"):
+        return "Recruiter group"
+    if source.startswith("Responsable CARE"):
+        return "CARE responsible"
+    if source.startswith("ATS responsable CARE"):
+        return "CARE responsible ATS"
+    if source.startswith("Adulto mayor"):
+        return "Senior citizen"
+    if source.startswith("Entidad federativa"):
+        return "State"
+    if source.startswith("Correo del reclutador"):
+        return "Recruiter email"
+    if source.startswith("Categoría general"):
+        return "General category"
+    if source.startswith("Descripción del puesto"):
+        return "Job description"
+    if source.startswith("Salario mínimo publicado"):
+        return "Published minimum salary"
+    if source.startswith("Salario máximo publicado"):
+        return "Published maximum salary"
+    if source.startswith("Ocultar salario"):
+        return "Hide salary"
+    if source.startswith("Portal de empleo"):
+        return "Job portal"
+    if source.startswith("Incluir habilidades blandas"):
+        return "Include soft skills"
+    if source.startswith("Incluir beneficios adicionales"):
+        return "Include additional benefits"
+    if source.startswith("Incluir desarrollo profesional"):
+        return "Include professional development"
+    if source.startswith("Incluir palabras clave"):
+        return "Include keywords"
+    if source.startswith("Descripción expansión cliente"):
+        return "Client expansion description"
+    if source.startswith("Texto beneficios adicionales"):
+        return "Additional benefits text"
+    if source.startswith("Documentos requeridos"):
+        return "Required documents"
     return source
 
 
