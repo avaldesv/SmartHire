@@ -144,6 +144,11 @@ export const SETTINGS_NAV_ITEMS: SettingsNavItem[] = [
     authority: AppPermissions.SETTINGS_SYSTEM_READ,
   },
   {
+    label: $localize`:@@nav.settings.requisitionFormConfig:Formulario requisición`,
+    path: 'requisition-form-config',
+    authority: AppPermissions.REQUISITION_FORM_CONFIG_READ,
+  },
+  {
     label: $localize`:@@nav.settings.system:Sistema`,
     path: 'system',
     authority: AppPermissions.SETTINGS_SYSTEM_READ,
