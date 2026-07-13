@@ -1,0 +1,240 @@
+<h3>{{ pageTitle }}</h3>
+<p class="hint">{{ selectorsHint }}</p>
+
+<div class="sh-card selector-card" [formGroup]="selectorForm">
+  <div class="selector-row">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ fieldCountry }}</mat-label>
+      <mat-select formControlName="countryId">
+        @for (country of countries; track country.id) {
+          <mat-option [value]="country.id">{{ country.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{ fieldCoverage }}</mat-label>
+      <mat-select formControlName="coverageTypeId" [disabled]="!selectorForm.controls.countryId.value">
+        @for (coverage of coverageTypes; track coverage.id) {
+          <mat-option [value]="coverage.id">{{ coverage.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <button mat-flat-button color="primary" type="button" (click)="loadDraft()" [disabled]="loading">
+      {{ loadLabel }}
+    </button>
+  </div>
+</div>
+
+@if (loading) {
+  <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+} @else if (config) {
+  <div class="meta-row sh-card">
+    <span><strong>{{ statusLabel }}:</strong> {{ statusLabelFor(config.status) }}</span>
+    <span><strong>{{ versionLabel }}:</strong> {{ config.version }}</span>
+  </div>
+
+  <div class="editor-grid">
+    <section class="sh-card panel">
+      <h4>{{ stepsTitle }}</h4>
+      @if (canWrite()) {
+        <div class="add-row">
+          <mat-form-field appearance="outline" class="compact-field">
+            <mat-label>{{ fieldStepKey }}</mat-label>
+            <mat-select [(value)]="newStepKey">
+              @for (key of getAvailableStepKeys(); track key) {
+                <mat-option [value]="key">{{ key }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="compact-field grow">
+            <mat-label>{{ fieldLabelKey }}</mat-label>
+            <input matInput [(ngModel)]="newStepLabelKey" [ngModelOptions]="{ standalone: true }" placeholder="requisition.step.general" />
+          </mat-form-field>
+          <button mat-stroked-button type="button" (click)="addStep()" [disabled]="!newStepKey || !newStepLabelKey">
+            <mat-icon>add</mat-icon> {{ addStepLabel }}
+          </button>
+        </div>
+      }
+
+      <table mat-table [dataSource]="steps" class="steps-table">
+        <ng-container matColumnDef="order">
+          <th mat-header-cell *matHeaderCellDef>#</th>
+          <td mat-cell *matCellDef="let row">{{ row.orderIndex }}</td>
+        </ng-container>
+        <ng-container matColumnDef="stepKey">
+          <th mat-header-cell *matHeaderCellDef>{{ fieldStepKey }}</th>
+          <td mat-cell *matCellDef="let row">
+            <button
+              mat-button
+              type="button"
+              class="step-link"
+              [class.selected]="isStepSelected(row.stepKey)"
+              (click)="selectStep(row.stepKey)"
+            >
+              {{ row.stepKey }}
+            </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="labelI18nKey">
+          <th mat-header-cell *matHeaderCellDef>{{ fieldLabelKey }}</th>
+          <td mat-cell *matCellDef="let row">
+            @if (canWrite()) {
+              <input
+                class="inline-input"
+                [value]="row.labelI18nKey"
+                (change)="updateStepLabel(row.stepKey, $any($event.target).value)"
+              />
+            } @else {
+              {{ row.labelI18nKey }}
+            }
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="visible">
+          <th mat-header-cell *matHeaderCellDef>{{ fieldVisible }}</th>
+          <td mat-cell *matCellDef="let row">
+            <mat-slide-toggle
+              [checked]="row.isVisible"
+              [disabled]="!canWrite()"
+              (change)="toggleStepVisible(row, $event.checked)"
+            />
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="reorder">
+          <th mat-header-cell *matHeaderCellDef>{{ columnReorder }}</th>
+          <td mat-cell *matCellDef="let row">
+            @if (canWrite()) {
+              <button mat-icon-button type="button" [attr.aria-label]="moveUpLabel" (click)="moveStep(row.stepKey, -1)">
+                <mat-icon>arrow_upward</mat-icon>
+              </button>
+              <button mat-icon-button type="button" [attr.aria-label]="moveDownLabel" (click)="moveStep(row.stepKey, 1)">
+                <mat-icon>arrow_downward</mat-icon>
+              </button>
+            }
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let row">
+            @if (canWrite()) {
+              <button mat-button color="warn" type="button" (click)="removeStep(row.stepKey)">{{ removeLabel }}</button>
+            }
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="stepColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: stepColumns"></tr>
+      </table>
+    </section>
+
+    <section class="sh-card panel">
+      <h4>{{ fieldsTitle }}</h4>
+      @if (!selectedStepKey) {
+        <p class="hint">{{ selectStepHint }}</p>
+      } @else {
+        @if (canWrite()) {
+          <div class="add-row">
+            <mat-form-field appearance="outline" class="compact-field grow">
+              <mat-label>{{ addFieldLabel }}</mat-label>
+              <mat-select [(value)]="addFieldDefId">
+                @for (def of availableFieldDefsForStep(); track def.id) {
+                  <mat-option [value]="def.id">{{ def.fieldKey }} — {{ def.labelI18nKey }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <button mat-stroked-button type="button" (click)="addField()" [disabled]="!addFieldDefId">
+              <mat-icon>add</mat-icon> {{ addFieldLabel }}
+            </button>
+          </div>
+        }
+
+        <table mat-table [dataSource]="fieldsForSelectedStep()" class="fields-table">
+          <ng-container matColumnDef="order">
+            <th mat-header-cell *matHeaderCellDef>#</th>
+            <td mat-cell *matCellDef="let row">{{ row.orderIndex }}</td>
+          </ng-container>
+          <ng-container matColumnDef="fieldKey">
+            <th mat-header-cell *matHeaderCellDef>{{ fieldFieldKey }}</th>
+            <td mat-cell *matCellDef="let row">
+              <button
+                mat-button
+                type="button"
+                class="field-link"
+                [class.selected]="isPeopleInChargeCountField(row)"
+                (click)="selectFieldForRules(row)"
+              >
+                {{ fieldDefLabel(row.fieldDefId) }}
+              </button>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="visible">
+            <th mat-header-cell *matHeaderCellDef>{{ fieldVisible }}</th>
+            <td mat-cell *matCellDef="let row">
+              <mat-slide-toggle
+                [checked]="row.isVisible"
+                [disabled]="!canWrite()"
+                (change)="toggleFieldVisible(row, $event.checked)"
+              />
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="required">
+            <th mat-header-cell *matHeaderCellDef>{{ fieldRequired }}</th>
+            <td mat-cell *matCellDef="let row">
+              <mat-slide-toggle
+                [checked]="row.isRequired"
+                [disabled]="!canWrite()"
+                (change)="toggleFieldRequired(row, $event.checked)"
+              />
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="reorder">
+            <th mat-header-cell *matHeaderCellDef>{{ columnReorder }}</th>
+            <td mat-cell *matCellDef="let row">
+              @if (canWrite()) {
+                <button mat-icon-button type="button" [attr.aria-label]="moveUpLabel" (click)="moveField(row, -1)">
+                  <mat-icon>arrow_upward</mat-icon>
+                </button>
+                <button mat-icon-button type="button" [attr.aria-label]="moveDownLabel" (click)="moveField(row, 1)">
+                  <mat-icon>arrow_downward</mat-icon>
+                </button>
+              }
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let row">
+              @if (canWrite()) {
+                <button mat-button color="warn" type="button" (click)="removeField(row)">{{ removeLabel }}</button>
+              }
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="fieldColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: fieldColumns"></tr>
+        </table>
+
+        @if (selectedFieldDefId != null && canWrite()) {
+          <div class="rules-panel">
+            <h5>{{ rulesTitle }}</h5>
+            <mat-checkbox [(ngModel)]="ruleVisibleWhen" [ngModelOptions]="{ standalone: true }" (change)="applyPeopleInChargeRules()">
+              {{ ruleVisibleLabel }}
+            </mat-checkbox>
+            <mat-checkbox [(ngModel)]="ruleRequiredWhen" [ngModelOptions]="{ standalone: true }" (change)="applyPeopleInChargeRules()">
+              {{ ruleRequiredLabel }}
+            </mat-checkbox>
+          </div>
+        }
+      }
+    </section>
+  </div>
+
+  <div class="actions-row">
+    @if (canWrite()) {
+      <button mat-flat-button color="primary" type="button" (click)="saveDraft()" [disabled]="saving || publishing">
+        {{ saving ? savingLabel : saveDraftLabel }}
+      </button>
+    }
+    @if (canPublish() && config.status === 'DRAFT') {
+      <button mat-stroked-button color="primary" type="button" (click)="publishConfig()" [disabled]="saving || publishing">
+        {{ publishing ? publishingLabel : publishLabel }}
+      </button>
+    }
+  </div>
+}

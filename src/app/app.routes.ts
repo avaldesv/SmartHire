@@ -205,6 +205,7 @@ export const routes: Routes = [
             AppPermissions.SETTINGS_NOTIFICATIONS_READ,
             AppPermissions.SETTINGS_PROMPTS_READ,
             AppPermissions.SETTINGS_SYSTEM_READ,
+            AppPermissions.REQUISITION_FORM_CONFIG_READ,
           ],
         },
         loadComponent: () => import('./features/settings/layout/settings-layout.component').then((m) => m.SettingsLayoutComponent),
@@ -264,6 +265,15 @@ export const routes: Routes = [
             canActivate: [permissionGuard],
             data: { authorities: [AppPermissions.SETTINGS_SYSTEM_READ] },
             loadComponent: () => import('./features/settings/pipeline-stages/pipeline-stages.component').then((m) => m.PipelineStagesComponent),
+          },
+          {
+            path: 'requisition-form-config',
+            canActivate: [permissionGuard],
+            data: { authorities: [AppPermissions.REQUISITION_FORM_CONFIG_READ] },
+            loadComponent: () =>
+              import('./features/settings/requisition-form-config/requisition-form-config.component').then(
+                (m) => m.RequisitionFormConfigComponent,
+              ),
           },
           {
             path: 'system',
