@@ -24,18 +24,11 @@
                 }
               </mat-select>
             </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Marca</mat-label>
-              <mat-select formControlName="brandId" [disabled]="!clientForm.controls.countryId.value || loadingCatalog.brands">
-                @if (loadingCatalog.brands) {
-                  <mat-option disabled>Cargando...</mat-option>
-                } @else {
-                  @for (brand of brands; track brand.id) {
-                    <mat-option [value]="brand.id">{{ brand.name }}</mat-option>
-                  }
-                }
-              </mat-select>
-            </mat-form-field>
+            @if (tenantBrandName) {
+              <p class="step-hint tenant-brand-hint">Marca: {{ tenantBrandName }}</p>
+            } @else if (clientForm.controls.countryId.value && !loadingCatalog.brands) {
+              <p class="step-hint tenant-brand-hint tenant-brand-hint--warning">Sin marca tenant para el país seleccionado</p>
+            }
             <mat-form-field appearance="outline">
               <mat-label>Tipo reclutamiento</mat-label>
               <mat-select formControlName="requisitionTypeId" [disabled]="!clientForm.controls.countryId.value || loadingCatalog.requisitionTypes">
