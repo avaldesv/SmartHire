@@ -583,7 +583,7 @@ export class PositionWizardComponent implements OnInit {
           if (neighborhoods.length) {
             this.addressForm.controls.neighborhoodId.enable();
           }
-          this.applyTenantBrand(catalogs.brands, position.brandId);
+          this.applyTenantBrand(this.brands, position.brandId);
           this.clientForm.patchValue({
             countryId: position.countryId,
             requisitionTypeId: position.requisitionTypeId,
