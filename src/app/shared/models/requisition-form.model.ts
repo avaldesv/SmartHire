@@ -1,6 +1,6 @@
 import { ApiPageResponse } from './catalog-position.model';
 
-export type RequisitionFormConfigStatus = 'DRAFT' | 'PUBLISHED';
+export type RequisitionFormConfigStatus = 'DRAFT' | 'PUBLISHED' | 'DEPRECATED';
 
 export interface RequisitionFormFieldDef {
   id: number;

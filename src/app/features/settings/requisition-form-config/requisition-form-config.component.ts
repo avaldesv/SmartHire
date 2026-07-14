@@ -52,6 +52,12 @@ import {
   REQ_FORM_CONFIG_STATUS,
   REQ_FORM_CONFIG_STATUS_DRAFT,
   REQ_FORM_CONFIG_STATUS_PUBLISHED,
+  REQ_FORM_CONFIG_STATUS_DEPRECATED,
+  REQ_FORM_CONFIG_FIELD_STATUS,
+  REQ_FORM_CONFIG_FILTER_ALL,
+  REQ_FORM_CONFIG_CLONE,
+  REQ_FORM_CONFIG_CLONE_SUCCESS,
+  REQ_FORM_CONFIG_CLONE_ERROR,
   REQ_FORM_CONFIG_TREE_TITLE,
   REQ_FORM_CONFIG_VERSION,
   REQ_FORM_CONFIG_COLUMN_REORDER,
@@ -77,6 +83,7 @@ import {
   PEOPLE_IN_CHARGE_FIELD_KEY,
   RequisitionFormConfigDetail,
   RequisitionFormConfigSummary,
+  RequisitionFormConfigStatus,
   RequisitionFormFieldConfig,
   RequisitionFormFieldDef,
   RequisitionFormFieldRules,
@@ -131,6 +138,10 @@ export class RequisitionFormConfigComponent implements OnInit {
   readonly versionLabel = REQ_FORM_CONFIG_VERSION;
   readonly statusDraft = REQ_FORM_CONFIG_STATUS_DRAFT;
   readonly statusPublished = REQ_FORM_CONFIG_STATUS_PUBLISHED;
+  readonly statusDeprecated = REQ_FORM_CONFIG_STATUS_DEPRECATED;
+  readonly fieldStatus = REQ_FORM_CONFIG_FIELD_STATUS;
+  readonly filterAllLabel = REQ_FORM_CONFIG_FILTER_ALL;
+  readonly cloneLabel = REQ_FORM_CONFIG_CLONE;
   readonly treeTitle = REQ_FORM_CONFIG_TREE_TITLE;
   readonly detailTitle = REQ_FORM_CONFIG_DETAIL_TITLE;
   readonly fieldVisible = REQ_FORM_CONFIG_FIELD_VISIBLE;
@@ -159,7 +170,12 @@ export class RequisitionFormConfigComponent implements OnInit {
 
   readonly canWrite = computed(() => this.permissions.hasAuthority(AppPermissions.REQUISITION_FORM_CONFIG_WRITE));
   readonly canPublish = computed(() => this.permissions.hasAuthority(AppPermissions.REQUISITION_FORM_CONFIG_PUBLISH));
-  readonly isReadOnly = computed(() => this.config?.status === 'PUBLISHED' || !this.canWrite());
+  readonly isReadOnly = computed(
+    () =>
+      this.config?.status === 'PUBLISHED' ||
+      this.config?.status === 'DEPRECATED' ||
+      !this.canWrite(),
+  );
 
   loadingList = false;
   listLoadError = false;
@@ -167,6 +183,7 @@ export class RequisitionFormConfigComponent implements OnInit {
   saving = false;
   publishing = false;
   deletingId: number | null = null;
+  cloningId: number | null = null;
   countries: CatalogCountry[] = [];
   coverageTypes: CatalogCoverageType[] = [];
   private readonly coverageTypesByCountry = new Map<number, CatalogCoverageType[]>();
@@ -187,6 +204,7 @@ export class RequisitionFormConfigComponent implements OnInit {
   readonly selectorForm = this.fb.nonNullable.group({
     countryId: this.fb.control<number | null>(null),
     coverageTypeId: this.fb.control<number | null>(null),
+    status: this.fb.control<RequisitionFormConfigStatus | null>(null),
   });
 
   ngOnInit(): void {
@@ -222,17 +240,23 @@ export class RequisitionFormConfigComponent implements OnInit {
       this.listPageIndex = 0;
       this.loadConfigsList();
     });
+    this.selectorForm.controls.status.valueChanges.subscribe(() => {
+      this.listPageIndex = 0;
+      this.loadConfigsList();
+    });
     this.loadConfigsList();
   }
 
   loadConfigsList(): void {
     const countryId = this.selectorForm.controls.countryId.value;
     const coverageTypeId = this.selectorForm.controls.coverageTypeId.value;
+    const status = this.selectorForm.controls.status.value;
     const request: {
       filters: string[];
       ordersBy: string[];
       countryId?: number;
       coverageTypeId?: number;
+      status?: string;
     } = {
       filters: [],
       ordersBy: ['version:desc'],
@@ -242,6 +266,9 @@ export class RequisitionFormConfigComponent implements OnInit {
     }
     if (coverageTypeId != null) {
       request.coverageTypeId = coverageTypeId;
+    }
+    if (status != null) {
+      request.status = status;
     }
 
     this.loadingList = true;
@@ -352,6 +379,41 @@ export class RequisitionFormConfigComponent implements OnInit {
     });
   }
 
+  cloneConfig(summary: RequisitionFormConfigSummary): void {
+    if (!this.canWrite() || (summary.status !== 'PUBLISHED' && summary.status !== 'DEPRECATED')) {
+      return;
+    }
+    this.cloningId = summary.id;
+    this.configService.clone(summary.id).subscribe({
+      next: (draft) => {
+        this.cloningId = null;
+        this.selectorForm.patchValue(
+          {
+            countryId: draft.countryId,
+            coverageTypeId: draft.coverageTypeId,
+            status: 'DRAFT',
+          },
+          { emitEvent: false },
+        );
+        this.applyConfig(draft);
+        this.loadConfigsList();
+        this.snack.open(REQ_FORM_CONFIG_CLONE_SUCCESS, REQ_FORM_CONFIG_SNACK_CLOSE, { duration: 3000 });
+      },
+      error: () => {
+        this.cloningId = null;
+        this.snack.open(REQ_FORM_CONFIG_CLONE_ERROR, REQ_FORM_CONFIG_SNACK_CLOSE, { duration: 3500 });
+      },
+    });
+  }
+
+  canClone(summary: RequisitionFormConfigSummary): boolean {
+    return this.canWrite() && (summary.status === 'PUBLISHED' || summary.status === 'DEPRECATED');
+  }
+
+  isViewOnly(summary: RequisitionFormConfigSummary): boolean {
+    return summary.status === 'PUBLISHED' || summary.status === 'DEPRECATED';
+  }
+
   private prefetchCoverageNames(items: RequisitionFormConfigSummary[]): void {
     const missingCountryIds = [...new Set(items.map((item) => item.countryId))].filter(
       (countryId) => !this.coverageTypesByCountry.has(countryId),
@@ -411,7 +473,13 @@ export class RequisitionFormConfigComponent implements OnInit {
   }
 
   statusLabelFor(status: string | undefined): string {
-    return status === 'PUBLISHED' ? this.statusPublished : this.statusDraft;
+    if (status === 'PUBLISHED') {
+      return this.statusPublished;
+    }
+    if (status === 'DEPRECATED') {
+      return this.statusDeprecated;
+    }
+    return this.statusDraft;
   }
 
   stepDisplayLabel(stepKey: string): string {
