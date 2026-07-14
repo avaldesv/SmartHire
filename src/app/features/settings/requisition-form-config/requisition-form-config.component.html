@@ -7,7 +7,7 @@
     <mat-form-field appearance="outline">
       <mat-label>{{ fieldCountry }}</mat-label>
       <mat-select formControlName="countryId">
-        <mat-option [value]="null">Todos</mat-option>
+        <mat-option [value]="null">{{ filterAllLabel }}</mat-option>
         @for (country of countries; track country.id) {
           <mat-option [value]="country.id">{{ country.name }}</mat-option>
         }
@@ -16,10 +16,19 @@
     <mat-form-field appearance="outline">
       <mat-label>{{ fieldCoverage }}</mat-label>
       <mat-select formControlName="coverageTypeId" [disabled]="!selectorForm.controls.countryId.value">
-        <mat-option [value]="null">Todos</mat-option>
+        <mat-option [value]="null">{{ filterAllLabel }}</mat-option>
         @for (coverage of coverageTypes; track coverage.id) {
           <mat-option [value]="coverage.id">{{ coverage.name }}</mat-option>
         }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{ fieldStatus }}</mat-label>
+      <mat-select formControlName="status">
+        <mat-option [value]="null">{{ filterAllLabel }}</mat-option>
+        <mat-option value="DRAFT">{{ statusDraft }}</mat-option>
+        <mat-option value="PUBLISHED">{{ statusPublished }}</mat-option>
+        <mat-option value="DEPRECATED">{{ statusDeprecated }}</mat-option>
       </mat-select>
     </mat-form-field>
     @if (canWrite()) {
@@ -78,17 +87,30 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>{{ colActions }}</th>
           <td mat-cell *matCellDef="let row" (click)="$event.stopPropagation()">
-            <sh-table-row-actions
-              [showView]="row.status === 'PUBLISHED'"
-              [showEdit]="row.status === 'DRAFT' && canWrite()"
-              [showDelete]="row.status === 'DRAFT' && canWrite()"
-              [editDisabled]="loadingConfig"
-              [viewDisabled]="loadingConfig"
-              [deleteDisabled]="deletingId === row.id || loadingConfig"
-              (viewClick)="openConfig(row)"
-              (editClick)="openConfig(row)"
-              (deleteClick)="deleteConfig(row)"
-            />
+            <div class="row-actions">
+              @if (canClone(row)) {
+                <button
+                  mat-icon-button
+                  type="button"
+                  [attr.aria-label]="cloneLabel"
+                  [disabled]="cloningId === row.id || loadingConfig"
+                  (click)="cloneConfig(row)"
+                >
+                  <mat-icon>content_copy</mat-icon>
+                </button>
+              }
+              <sh-table-row-actions
+                [showView]="isViewOnly(row)"
+                [showEdit]="row.status === 'DRAFT' && canWrite()"
+                [showDelete]="row.status === 'DRAFT' && canWrite()"
+                [editDisabled]="loadingConfig"
+                [viewDisabled]="loadingConfig"
+                [deleteDisabled]="deletingId === row.id || loadingConfig"
+                (viewClick)="openConfig(row)"
+                (editClick)="openConfig(row)"
+                (deleteClick)="deleteConfig(row)"
+              />
+            </div>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="listColumns"></tr>

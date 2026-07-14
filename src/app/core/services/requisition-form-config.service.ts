@@ -77,6 +77,14 @@ export class RequisitionFormConfigService {
     });
   }
 
+  clone(sourceConfigId: number): Observable<RequisitionFormConfigDetail> {
+    return this.http.post<RequisitionFormConfigDetail>(
+      this.api.apiUrl(`/api/v1/requisition-form/configs/${sourceConfigId}/clone`),
+      null,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
   resolve(countryId: number, coverageTypeId: number): Observable<ResolvedRequisitionFormConfig> {
     return this.http
       .get<ResolveFormConfigApiResponse>(
