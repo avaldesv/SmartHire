@@ -23,6 +23,28 @@ h5 {
   margin-bottom: 16px;
 }
 
+.list-card {
+  margin-bottom: 16px;
+  padding: 16px;
+}
+
+.list-card h4 {
+  margin: 0 0 12px;
+}
+
+.config-row {
+  cursor: pointer;
+}
+
+.config-row--active {
+  background: #f0fdfa;
+}
+
+.read-only-hint {
+  color: #b45309;
+  font-size: 0.9rem;
+}
+
 .selector-row {
   display: flex;
   flex-wrap: wrap;

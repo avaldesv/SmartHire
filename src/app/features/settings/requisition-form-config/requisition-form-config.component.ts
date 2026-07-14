@@ -1,21 +1,32 @@
 import { Component, computed, inject, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
+import { catchError, forkJoin, of } from 'rxjs';
 import { AppPermissions } from '../../../core/auth/app-permissions';
 import {
-  REQ_FORM_CONFIG_COLUMN_REORDER,
+  REQ_FORM_CONFIG_COL_ACTIONS,
+  REQ_FORM_CONFIG_COL_COUNTRY,
+  REQ_FORM_CONFIG_COL_COVERAGE,
+  REQ_FORM_CONFIG_COL_PUBLISHED_AT,
+  REQ_FORM_CONFIG_COL_STATUS,
+  REQ_FORM_CONFIG_COL_VERSION,
+  REQ_FORM_CONFIG_CREATE_DRAFT,
   REQ_FORM_CONFIG_DETAIL_TITLE,
+  REQ_FORM_CONFIG_EMPTY_LIST,
   REQ_FORM_CONFIG_FIELD_COVERAGE,
   REQ_FORM_CONFIG_FIELD_COUNTRY,
   REQ_FORM_CONFIG_FIELD_REQUIRED,
   REQ_FORM_CONFIG_FIELD_VISIBLE,
-  REQ_FORM_CONFIG_LOAD,
+  REQ_FORM_CONFIG_LIST_TITLE,
   REQ_FORM_CONFIG_LOAD_ERROR,
   REQ_FORM_CONFIG_MOVE_DOWN,
   REQ_FORM_CONFIG_MOVE_UP,
@@ -25,6 +36,8 @@ import {
   REQ_FORM_CONFIG_PUBLISH_ERROR,
   REQ_FORM_CONFIG_PUBLISH_SUCCESS,
   REQ_FORM_CONFIG_PUBLISHING,
+  REQ_FORM_CONFIG_READ_ONLY_HINT,
+  REQ_FORM_CONFIG_REFRESH_LIST,
   REQ_FORM_CONFIG_RULE_REQUIRED,
   REQ_FORM_CONFIG_RULE_VISIBLE,
   REQ_FORM_CONFIG_RULES_TITLE,
@@ -40,6 +53,10 @@ import {
   REQ_FORM_CONFIG_STATUS_PUBLISHED,
   REQ_FORM_CONFIG_TREE_TITLE,
   REQ_FORM_CONFIG_VERSION,
+  REQ_FORM_CONFIG_COLUMN_REORDER,
+  REQ_FORM_CONFIG_DELETE_ERROR,
+  REQ_FORM_CONFIG_DELETE_SUCCESS,
+  reqFormConfigDeleteConfirm,
 } from '../../../core/i18n/requisition-form-config-labels';
 import {
   resolveRequisitionFieldLabel,
@@ -50,6 +67,7 @@ import { CatalogPositionService } from '../../../core/services/catalog-position.
 import { PermissionService } from '../../../core/services/permission.service';
 import { RequisitionFormConfigService } from '../../../core/services/requisition-form-config.service';
 import { RequisitionFormFieldService } from '../../../core/services/requisition-form-field.service';
+import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 import { REQUISITION_FORM_DEFAULT_STEP_KEYS } from '../../../shared/models/requisition-form.model';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import { CatalogCoverageType } from '../../../shared/models/catalog-position.model';
@@ -57,6 +75,7 @@ import {
   PEOPLE_IN_CHARGE_COUNT_FIELD_KEY,
   PEOPLE_IN_CHARGE_FIELD_KEY,
   RequisitionFormConfigDetail,
+  RequisitionFormConfigSummary,
   RequisitionFormFieldConfig,
   RequisitionFormFieldDef,
   RequisitionFormFieldRules,
@@ -73,6 +92,7 @@ interface SelectedFieldRef {
   selector: 'sh-requisition-form-config',
   standalone: true,
   imports: [
+    DatePipe,
     FormsModule,
     ReactiveFormsModule,
     MatProgressSpinnerModule,
@@ -82,6 +102,9 @@ interface SelectedFieldRef {
     MatSelectModule,
     MatCheckboxModule,
     MatSnackBarModule,
+    MatTableModule,
+    MatPaginatorModule,
+    TableRowActionsComponent,
   ],
   templateUrl: './requisition-form-config.component.html',
   styleUrl: './requisition-form-config.component.scss',
@@ -98,7 +121,10 @@ export class RequisitionFormConfigComponent implements OnInit {
   readonly pageTitle = REQ_FORM_CONFIG_PAGE_TITLE;
   readonly fieldCountry = REQ_FORM_CONFIG_FIELD_COUNTRY;
   readonly fieldCoverage = REQ_FORM_CONFIG_FIELD_COVERAGE;
-  readonly loadLabel = REQ_FORM_CONFIG_LOAD;
+  readonly createDraftLabel = REQ_FORM_CONFIG_CREATE_DRAFT;
+  readonly refreshListLabel = REQ_FORM_CONFIG_REFRESH_LIST;
+  readonly listTitle = REQ_FORM_CONFIG_LIST_TITLE;
+  readonly emptyListLabel = REQ_FORM_CONFIG_EMPTY_LIST;
   readonly statusLabel = REQ_FORM_CONFIG_STATUS;
   readonly versionLabel = REQ_FORM_CONFIG_VERSION;
   readonly statusDraft = REQ_FORM_CONFIG_STATUS_DRAFT;
@@ -119,17 +145,33 @@ export class RequisitionFormConfigComponent implements OnInit {
   readonly ruleVisibleLabel = REQ_FORM_CONFIG_RULE_VISIBLE;
   readonly ruleRequiredLabel = REQ_FORM_CONFIG_RULE_REQUIRED;
   readonly noRulesHint = REQ_FORM_CONFIG_NO_RULES;
+  readonly readOnlyHint = REQ_FORM_CONFIG_READ_ONLY_HINT;
+  readonly colCountry = REQ_FORM_CONFIG_COL_COUNTRY;
+  readonly colCoverage = REQ_FORM_CONFIG_COL_COVERAGE;
+  readonly colVersion = REQ_FORM_CONFIG_COL_VERSION;
+  readonly colStatus = REQ_FORM_CONFIG_COL_STATUS;
+  readonly colPublishedAt = REQ_FORM_CONFIG_COL_PUBLISHED_AT;
+  readonly colActions = REQ_FORM_CONFIG_COL_ACTIONS;
   readonly defaultStepKeys = REQUISITION_FORM_DEFAULT_STEP_KEYS;
+  readonly listColumns = ['country', 'coverage', 'version', 'status', 'publishedAt', 'actions'];
 
   readonly canWrite = computed(() => this.permissions.hasAuthority(AppPermissions.REQUISITION_FORM_CONFIG_WRITE));
   readonly canPublish = computed(() => this.permissions.hasAuthority(AppPermissions.REQUISITION_FORM_CONFIG_PUBLISH));
+  readonly isReadOnly = computed(() => this.config?.status === 'PUBLISHED' || !this.canWrite());
 
-  loading = false;
+  loadingList = false;
+  loadingConfig = false;
   saving = false;
   publishing = false;
+  deletingId: number | null = null;
   countries: CatalogCountry[] = [];
   coverageTypes: CatalogCoverageType[] = [];
+  private readonly coverageTypesByCountry = new Map<number, CatalogCoverageType[]>();
   fieldDefs: RequisitionFormFieldDef[] = [];
+  configList: RequisitionFormConfigSummary[] = [];
+  configListTotal = 0;
+  listPageIndex = 0;
+  listPageSize = 10;
   config: RequisitionFormConfigDetail | null = null;
   private pendingConfigDetail: RequisitionFormConfigDetail | null = null;
   steps: RequisitionFormStepConfig[] = [];
@@ -160,19 +202,56 @@ export class RequisitionFormConfigComponent implements OnInit {
       },
     });
     this.selectorForm.controls.countryId.valueChanges.subscribe((countryId) => {
-      this.selectorForm.controls.coverageTypeId.setValue(null);
+      this.selectorForm.controls.coverageTypeId.setValue(null, { emitEvent: false });
       this.coverageTypes = [];
+      this.listPageIndex = 0;
       if (countryId) {
         this.positionCatalogService.listCoverageTypes(countryId).subscribe({
           next: (items) => {
             this.coverageTypes = items;
+            this.coverageTypesByCountry.set(countryId, items);
           },
         });
       }
+      this.loadConfigsList();
     });
+    this.selectorForm.controls.coverageTypeId.valueChanges.subscribe(() => {
+      this.listPageIndex = 0;
+      this.loadConfigsList();
+    });
+    this.loadConfigsList();
   }
 
-  loadDraft(): void {
+  loadConfigsList(): void {
+    const countryId = this.selectorForm.controls.countryId.value;
+    const coverageTypeId = this.selectorForm.controls.coverageTypeId.value;
+    this.loadingList = true;
+    this.configService
+      .list(this.listPageIndex, this.listPageSize, {
+        countryId: countryId ?? undefined,
+        coverageTypeId: coverageTypeId ?? undefined,
+      })
+      .subscribe({
+        next: ({ items, total }) => {
+          this.configList = items;
+          this.configListTotal = total;
+          this.prefetchCoverageNames(items);
+          this.loadingList = false;
+        },
+        error: () => {
+          this.loadingList = false;
+          this.snack.open(REQ_FORM_CONFIG_LOAD_ERROR, REQ_FORM_CONFIG_SNACK_CLOSE, { duration: 3500 });
+        },
+      });
+  }
+
+  onListPageChange(event: PageEvent): void {
+    this.listPageIndex = event.pageIndex;
+    this.listPageSize = event.pageSize;
+    this.loadConfigsList();
+  }
+
+  createDraft(): void {
     const countryId = this.selectorForm.controls.countryId.value;
     const coverageTypeId = this.selectorForm.controls.coverageTypeId.value;
     if (!countryId || !coverageTypeId) {
@@ -180,7 +259,7 @@ export class RequisitionFormConfigComponent implements OnInit {
       return;
     }
 
-    this.loading = true;
+    this.loadingConfig = true;
     this.resetEditorState();
     this.configService
       .list(0, 1, { countryId, coverageTypeId, status: 'DRAFT' })
@@ -188,11 +267,14 @@ export class RequisitionFormConfigComponent implements OnInit {
         next: ({ items }) => {
           const draft = items[0];
           if (draft) {
-            this.loadConfigById(draft.id);
+            this.openConfig(draft);
             return;
           }
           this.configService.create({ countryId, coverageTypeId }).subscribe({
-            next: (created) => this.applyConfig(created),
+            next: (created) => {
+              this.applyConfig(created);
+              this.loadConfigsList();
+            },
             error: () => this.handleLoadError(),
           });
         },
@@ -200,29 +282,103 @@ export class RequisitionFormConfigComponent implements OnInit {
       });
   }
 
-  private loadConfigById(id: number): void {
-    this.configService.getById(id).subscribe({
+  openConfig(summary: RequisitionFormConfigSummary): void {
+    this.selectorForm.patchValue(
+      {
+        countryId: summary.countryId,
+        coverageTypeId: summary.coverageTypeId,
+      },
+      { emitEvent: false },
+    );
+    if (!this.coverageTypesByCountry.has(summary.countryId)) {
+      this.positionCatalogService.listCoverageTypes(summary.countryId).subscribe({
+        next: (items) => {
+          this.coverageTypes = items;
+          this.coverageTypesByCountry.set(summary.countryId, items);
+        },
+      });
+    } else {
+      this.coverageTypes = this.coverageTypesByCountry.get(summary.countryId) ?? [];
+    }
+
+    this.loadingConfig = true;
+    this.resetEditorState();
+    this.configService.getById(summary.id).subscribe({
       next: (detail) => this.applyConfig(detail),
       error: () => this.handleLoadError(),
     });
+  }
+
+  deleteConfig(summary: RequisitionFormConfigSummary): void {
+    if (!this.canWrite() || summary.status !== 'DRAFT') {
+      return;
+    }
+    const statusLabel = this.statusLabelFor(summary.status);
+    if (!confirm(reqFormConfigDeleteConfirm(summary.version, statusLabel))) {
+      return;
+    }
+    this.deletingId = summary.id;
+    this.configService.delete(summary.id).subscribe({
+      next: () => {
+        this.deletingId = null;
+        if (this.config?.id === summary.id) {
+          this.resetEditorState();
+        }
+        this.loadConfigsList();
+        this.snack.open(REQ_FORM_CONFIG_DELETE_SUCCESS, REQ_FORM_CONFIG_SNACK_CLOSE, { duration: 2500 });
+      },
+      error: () => {
+        this.deletingId = null;
+        this.snack.open(REQ_FORM_CONFIG_DELETE_ERROR, REQ_FORM_CONFIG_SNACK_CLOSE, { duration: 3500 });
+      },
+    });
+  }
+
+  private prefetchCoverageNames(items: RequisitionFormConfigSummary[]): void {
+    const missingCountryIds = [...new Set(items.map((item) => item.countryId))].filter(
+      (countryId) => !this.coverageTypesByCountry.has(countryId),
+    );
+    if (!missingCountryIds.length) {
+      return;
+    }
+    forkJoin(
+      missingCountryIds.map((countryId) =>
+        this.positionCatalogService.listCoverageTypes(countryId).pipe(catchError(() => of([]))),
+      ),
+    ).subscribe({
+      next: (results) => {
+        missingCountryIds.forEach((countryId, index) => {
+          this.coverageTypesByCountry.set(countryId, results[index] ?? []);
+        });
+      },
+    });
+  }
+
+  countryName(countryId: number): string {
+    return this.countries.find((country) => country.id === countryId)?.name ?? String(countryId);
+  }
+
+  coverageName(countryId: number, coverageTypeId: number): string {
+    const types = this.coverageTypesByCountry.get(countryId) ?? [];
+    return types.find((type) => type.id === coverageTypeId)?.name ?? String(coverageTypeId);
   }
 
   private applyConfig(detail: RequisitionFormConfigDetail): void {
     if (this.fieldDefs.length === 0) {
       this.pendingConfigDetail = detail;
       this.config = detail;
-      this.loading = false;
+      this.loadingConfig = false;
       return;
     }
     this.config = detail;
     const catalog = buildFullCatalogState(this.fieldDefs, detail.steps ?? [], detail.fields ?? []);
     this.steps = catalog.steps;
     this.fields = catalog.fields;
-    this.loading = false;
+    this.loadingConfig = false;
   }
 
   private handleLoadError(): void {
-    this.loading = false;
+    this.loadingConfig = false;
     this.snack.open(REQ_FORM_CONFIG_LOAD_ERROR, REQ_FORM_CONFIG_SNACK_CLOSE, { duration: 3500 });
   }
 
@@ -249,7 +405,7 @@ export class RequisitionFormConfigComponent implements OnInit {
     if (!def) {
       return String(fieldDefId);
     }
-    return resolveRequisitionFieldLabel(def.labelI18nKey);
+    return resolveRequisitionFieldLabel(def.fieldKey, def.labelI18nKey);
   }
 
   fieldDefKey(fieldDefId: number): string {
@@ -275,6 +431,9 @@ export class RequisitionFormConfigComponent implements OnInit {
   }
 
   moveStep(stepKey: string, direction: -1 | 1): void {
+    if (this.isReadOnly()) {
+      return;
+    }
     const index = this.steps.findIndex((step) => step.stepKey === stepKey);
     const target = index + direction;
     if (index < 0 || target < 0 || target >= this.steps.length) {
@@ -286,6 +445,9 @@ export class RequisitionFormConfigComponent implements OnInit {
   }
 
   toggleStepVisible(step: RequisitionFormStepConfig, visible: boolean): void {
+    if (this.isReadOnly()) {
+      return;
+    }
     this.steps = this.steps.map((item) =>
       item.stepKey === step.stepKey ? { ...item, isVisible: visible } : item,
     );
@@ -297,6 +459,9 @@ export class RequisitionFormConfigComponent implements OnInit {
   }
 
   toggleFieldVisible(field: RequisitionFormFieldConfig, visible: boolean): void {
+    if (this.isReadOnly()) {
+      return;
+    }
     const patch: Partial<RequisitionFormFieldConfig> = { isVisible: visible };
     if (!visible) {
       patch.isRequired = false;
@@ -305,6 +470,9 @@ export class RequisitionFormConfigComponent implements OnInit {
   }
 
   toggleFieldRequired(field: RequisitionFormFieldConfig, required: boolean): void {
+    if (this.isReadOnly()) {
+      return;
+    }
     this.patchField(field, { isRequired: required, isVisible: required ? true : field.isVisible });
   }
 
@@ -345,6 +513,9 @@ export class RequisitionFormConfigComponent implements OnInit {
   }
 
   applyPeopleInChargeRules(): void {
+    if (this.isReadOnly()) {
+      return;
+    }
     const target = this.selectedFieldConfig();
     if (!target) {
       return;
@@ -361,7 +532,7 @@ export class RequisitionFormConfigComponent implements OnInit {
   }
 
   saveDraft(): void {
-    if (!this.config || !this.canWrite()) {
+    if (!this.config || !this.canWrite() || this.isReadOnly()) {
       return;
     }
     this.saving = true;
@@ -374,6 +545,7 @@ export class RequisitionFormConfigComponent implements OnInit {
         next: (updated) => {
           this.applyConfig(updated);
           this.saving = false;
+          this.loadConfigsList();
           this.snack.open(REQ_FORM_CONFIG_SAVE_SUCCESS, REQ_FORM_CONFIG_SNACK_CLOSE, { duration: 2500 });
         },
         error: () => {
@@ -384,7 +556,7 @@ export class RequisitionFormConfigComponent implements OnInit {
   }
 
   publishConfig(): void {
-    if (!this.config || !this.canPublish()) {
+    if (!this.config || !this.canPublish() || this.config.status !== 'DRAFT') {
       return;
     }
     this.publishing = true;
@@ -392,6 +564,7 @@ export class RequisitionFormConfigComponent implements OnInit {
       next: (published) => {
         this.applyConfig(published);
         this.publishing = false;
+        this.loadConfigsList();
         this.snack.open(REQ_FORM_CONFIG_PUBLISH_SUCCESS, REQ_FORM_CONFIG_SNACK_CLOSE, { duration: 2500 });
       },
       error: () => {

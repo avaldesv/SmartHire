@@ -6,6 +6,7 @@
     <mat-form-field appearance="outline">
       <mat-label>{{ fieldCountry }}</mat-label>
       <mat-select formControlName="countryId">
+        <mat-option [value]="null">Todos</mat-option>
         @for (country of countries; track country.id) {
           <mat-option [value]="country.id">{{ country.name }}</mat-option>
         }
@@ -14,23 +15,103 @@
     <mat-form-field appearance="outline">
       <mat-label>{{ fieldCoverage }}</mat-label>
       <mat-select formControlName="coverageTypeId" [disabled]="!selectorForm.controls.countryId.value">
+        <mat-option [value]="null">Todos</mat-option>
         @for (coverage of coverageTypes; track coverage.id) {
           <mat-option [value]="coverage.id">{{ coverage.name }}</mat-option>
         }
       </mat-select>
     </mat-form-field>
-    <button mat-flat-button color="primary" type="button" (click)="loadDraft()" [disabled]="loading">
-      {{ loadLabel }}
+    @if (canWrite()) {
+      <button mat-flat-button color="primary" type="button" (click)="createDraft()" [disabled]="loadingConfig">
+        {{ createDraftLabel }}
+      </button>
+    }
+    <button mat-stroked-button type="button" (click)="loadConfigsList()" [disabled]="loadingList">
+      {{ refreshListLabel }}
     </button>
   </div>
 </div>
 
-@if (loading) {
+<section class="sh-card list-card">
+  <h4>{{ listTitle }}</h4>
+  @if (loadingList) {
+    <div class="loading-wrap"><mat-spinner diameter="32" /></div>
+  } @else if (!configList.length) {
+    <p class="hint">{{ emptyListLabel }}</p>
+  } @else {
+    <div class="sh-table-wrap">
+      <table mat-table [dataSource]="configList">
+        <ng-container matColumnDef="country">
+          <th mat-header-cell *matHeaderCellDef>{{ colCountry }}</th>
+          <td mat-cell *matCellDef="let row">{{ countryName(row.countryId) }}</td>
+        </ng-container>
+        <ng-container matColumnDef="coverage">
+          <th mat-header-cell *matHeaderCellDef>{{ colCoverage }}</th>
+          <td mat-cell *matCellDef="let row">{{ coverageName(row.countryId, row.coverageTypeId) }}</td>
+        </ng-container>
+        <ng-container matColumnDef="version">
+          <th mat-header-cell *matHeaderCellDef>{{ colVersion }}</th>
+          <td mat-cell *matCellDef="let row">{{ row.version }}</td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>{{ colStatus }}</th>
+          <td mat-cell *matCellDef="let row">{{ statusLabelFor(row.status) }}</td>
+        </ng-container>
+        <ng-container matColumnDef="publishedAt">
+          <th mat-header-cell *matHeaderCellDef>{{ colPublishedAt }}</th>
+          <td mat-cell *matCellDef="let row">
+            @if (row.publishedAt) {
+              {{ row.publishedAt | date: 'short' }}
+            } @else {
+              —
+            }
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>{{ colActions }}</th>
+          <td mat-cell *matCellDef="let row">
+            <sh-table-row-actions
+              [showView]="row.status === 'PUBLISHED'"
+              [showEdit]="row.status === 'DRAFT' && canWrite()"
+              [showDelete]="row.status === 'DRAFT' && canWrite()"
+              [editDisabled]="loadingConfig"
+              [viewDisabled]="loadingConfig"
+              [deleteDisabled]="deletingId === row.id || loadingConfig"
+              (viewClick)="openConfig(row)"
+              (editClick)="openConfig(row)"
+              (deleteClick)="deleteConfig(row)"
+            />
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="listColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: listColumns"
+          class="config-row"
+          [class.config-row--active]="config?.id === row.id"
+          (click)="openConfig(row)"
+        ></tr>
+      </table>
+    </div>
+    <mat-paginator
+      [length]="configListTotal"
+      [pageIndex]="listPageIndex"
+      [pageSize]="listPageSize"
+      [pageSizeOptions]="[10, 20, 50]"
+      (page)="onListPageChange($event)"
+    />
+  }
+</section>
+
+@if (loadingConfig) {
   <div class="loading-wrap"><mat-spinner diameter="36" /></div>
 } @else if (config) {
   <div class="meta-row sh-card">
     <span><strong>{{ statusLabel }}:</strong> {{ statusLabelFor(config.status) }}</span>
     <span><strong>{{ versionLabel }}:</strong> {{ config.version }}</span>
+    @if (isReadOnly()) {
+      <span class="read-only-hint">{{ readOnlyHint }}</span>
+    }
   </div>
 
   <div class="editor-layout">
@@ -59,14 +140,14 @@
               <mat-checkbox
                 class="col-check"
                 [checked]="step.isVisible"
-                [disabled]="!canWrite()"
+                [disabled]="isReadOnly()"
                 (change)="toggleStepVisible(step, $event.checked)"
                 (click)="$event.stopPropagation()"
               />
               <span class="col-check col-check-empty" aria-hidden="true"></span>
               <span class="col-label tab-label">{{ stepDisplayLabel(step.stepKey) }}</span>
               <span class="col-actions">
-                @if (canWrite()) {
+                @if (canWrite() && !isReadOnly()) {
                   <button mat-icon-button type="button" [attr.aria-label]="moveUpLabel" (click)="moveStep(step.stepKey, -1)">
                     <mat-icon>arrow_upward</mat-icon>
                   </button>
@@ -89,14 +170,14 @@
                   <mat-checkbox
                     class="col-check"
                     [checked]="field.isVisible"
-                    [disabled]="!canWrite() || !step.isVisible"
+                    [disabled]="isReadOnly() || !step.isVisible"
                     (change)="toggleFieldVisible(field, $event.checked)"
                     (click)="$event.stopPropagation()"
                   />
                   <mat-checkbox
                     class="col-check"
                     [checked]="field.isRequired"
-                    [disabled]="!canWrite() || !field.isVisible || !step.isVisible"
+                    [disabled]="isReadOnly() || !field.isVisible || !step.isVisible"
                     (change)="toggleFieldRequired(field, $event.checked)"
                     (click)="$event.stopPropagation()"
                   />
@@ -122,7 +203,7 @@
             <mat-checkbox
               [(ngModel)]="ruleVisibleWhen"
               [ngModelOptions]="{ standalone: true }"
-              [disabled]="!canWrite()"
+              [disabled]="isReadOnly()"
               (change)="applyPeopleInChargeRules()"
             >
               {{ ruleVisibleLabel }}
@@ -130,7 +211,7 @@
             <mat-checkbox
               [(ngModel)]="ruleRequiredWhen"
               [ngModelOptions]="{ standalone: true }"
-              [disabled]="!canWrite()"
+              [disabled]="isReadOnly()"
               (change)="applyPeopleInChargeRules()"
             >
               {{ ruleRequiredLabel }}
@@ -144,7 +225,7 @@
   </div>
 
   <div class="actions-row">
-    @if (canWrite()) {
+    @if (canWrite() && !isReadOnly()) {
       <button mat-flat-button color="primary" type="button" (click)="saveDraft()" [disabled]="saving || publishing">
         {{ saving ? savingLabel : saveDraftLabel }}
       </button>
