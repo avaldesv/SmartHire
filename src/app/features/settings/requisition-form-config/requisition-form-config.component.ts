@@ -27,6 +27,7 @@ import {
   REQ_FORM_CONFIG_FIELD_REQUIRED,
   REQ_FORM_CONFIG_FIELD_VISIBLE,
   REQ_FORM_CONFIG_LIST_TITLE,
+  REQ_FORM_CONFIG_LIST_ERROR,
   REQ_FORM_CONFIG_LOAD_ERROR,
   REQ_FORM_CONFIG_MOVE_DOWN,
   REQ_FORM_CONFIG_MOVE_UP,
@@ -125,6 +126,7 @@ export class RequisitionFormConfigComponent implements OnInit {
   readonly refreshListLabel = REQ_FORM_CONFIG_REFRESH_LIST;
   readonly listTitle = REQ_FORM_CONFIG_LIST_TITLE;
   readonly emptyListLabel = REQ_FORM_CONFIG_EMPTY_LIST;
+  readonly listErrorLabel = REQ_FORM_CONFIG_LIST_ERROR;
   readonly statusLabel = REQ_FORM_CONFIG_STATUS;
   readonly versionLabel = REQ_FORM_CONFIG_VERSION;
   readonly statusDraft = REQ_FORM_CONFIG_STATUS_DRAFT;
@@ -160,6 +162,7 @@ export class RequisitionFormConfigComponent implements OnInit {
   readonly isReadOnly = computed(() => this.config?.status === 'PUBLISHED' || !this.canWrite());
 
   loadingList = false;
+  listLoadError = false;
   loadingConfig = false;
   saving = false;
   publishing = false;
@@ -225,24 +228,39 @@ export class RequisitionFormConfigComponent implements OnInit {
   loadConfigsList(): void {
     const countryId = this.selectorForm.controls.countryId.value;
     const coverageTypeId = this.selectorForm.controls.coverageTypeId.value;
+    const request: {
+      filters: string[];
+      ordersBy: string[];
+      countryId?: number;
+      coverageTypeId?: number;
+    } = {
+      filters: [],
+      ordersBy: ['version:desc'],
+    };
+    if (countryId != null) {
+      request.countryId = countryId;
+    }
+    if (coverageTypeId != null) {
+      request.coverageTypeId = coverageTypeId;
+    }
+
     this.loadingList = true;
-    this.configService
-      .list(this.listPageIndex, this.listPageSize, {
-        countryId: countryId ?? undefined,
-        coverageTypeId: coverageTypeId ?? undefined,
-      })
-      .subscribe({
-        next: ({ items, total }) => {
-          this.configList = items;
-          this.configListTotal = total;
-          this.prefetchCoverageNames(items);
-          this.loadingList = false;
-        },
-        error: () => {
-          this.loadingList = false;
-          this.snack.open(REQ_FORM_CONFIG_LOAD_ERROR, REQ_FORM_CONFIG_SNACK_CLOSE, { duration: 3500 });
-        },
-      });
+    this.listLoadError = false;
+    this.configService.list(this.listPageIndex, this.listPageSize, request).subscribe({
+      next: ({ items, total }) => {
+        this.configList = items;
+        this.configListTotal = total;
+        this.prefetchCoverageNames(items);
+        this.loadingList = false;
+      },
+      error: () => {
+        this.configList = [];
+        this.configListTotal = 0;
+        this.listLoadError = true;
+        this.loadingList = false;
+        this.snack.open(REQ_FORM_CONFIG_LIST_ERROR, REQ_FORM_CONFIG_SNACK_CLOSE, { duration: 4000 });
+      },
+    });
   }
 
   onListPageChange(event: PageEvent): void {

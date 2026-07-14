@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatStepperModule } from '@angular/material/stepper';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -25,7 +25,7 @@ import {
   hydrateDynamicFormValues,
   patchDynamicForm,
 } from './dynamic-wizard-payload.util';
-import { resolveWizardStepLabel, resolveWizardStepperStepLabel } from './requisition-wizard-labels';
+import { resolveWizardStepLabel } from './requisition-wizard-labels';
 import { DynamicWizardStepComponent } from './dynamic-wizard-step/dynamic-wizard-step.component';
 import {
   CatalogCountry,
@@ -82,6 +82,8 @@ export class PositionWizardComponent implements OnInit {
   resolvingConfig = false;
   resolvedConfig: ResolvedRequisitionFormConfig | null = null;
   dynamicForm: FormGroup | null = null;
+
+  @ViewChild('dynamicStepper') dynamicStepper?: MatStepper;
   creating = false;
   tenantBrandId: number | null = null;
   tenantBrandName: string | null = null;
@@ -251,12 +253,23 @@ export class PositionWizardComponent implements OnInit {
     });
   }
 
-  stepLabel(stepKey: string, labelI18nKey: string): string {
-    return resolveWizardStepperStepLabel(stepKey, labelI18nKey);
+  stepLabel(_stepKey: string, _labelI18nKey: string): string {
+    return '';
   }
 
   stepTitle(stepKey: string, labelI18nKey: string): string {
     return resolveWizardStepLabel(stepKey, labelI18nKey);
+  }
+
+  goToDynamicStep(index: number): void {
+    if (!this.dynamicStepper || index < 0 || index >= this.dynamicStepper.steps.length) {
+      return;
+    }
+    this.dynamicStepper.selectedIndex = index;
+  }
+
+  isDynamicStepActive(index: number): boolean {
+    return this.dynamicStepper?.selectedIndex === index;
   }
 
   dynamicStepForm(stepKey: string): FormGroup {

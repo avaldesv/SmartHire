@@ -13,7 +13,20 @@
     } @else if (dynamicCountryId && !loadingCatalog.brands) {
       <p class="step-hint tenant-brand-hint tenant-brand-hint--warning">Sin marca tenant para el país seleccionado</p>
     }
-    <mat-stepper linear #dynamicStepper class="wizard-stepper" labelPosition="bottom">
+    <nav class="wizard-step-nav" aria-label="Pasos del wizard">
+      @for (step of resolvedConfig.steps; track step.stepKey; let i = $index) {
+        <button
+          type="button"
+          class="wizard-step-nav__item"
+          [class.wizard-step-nav__item--active]="isDynamicStepActive(i)"
+          (click)="goToDynamicStep(i)"
+        >
+          <span class="wizard-step-nav__index">{{ i + 1 }}</span>
+          <span class="wizard-step-nav__label">{{ stepTitle(step.stepKey, step.labelI18nKey) }}</span>
+        </button>
+      }
+    </nav>
+    <mat-stepper linear #dynamicStepper class="wizard-stepper wizard-stepper--compact">
       @for (step of resolvedConfig.steps; track step.stepKey) {
         <mat-step [stepControl]="dynamicStepForm(step.stepKey)" [label]="stepLabel(step.stepKey, step.labelI18nKey)">
           <form [formGroup]="dynamicStepForm(step.stepKey)" class="step-form">

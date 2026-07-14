@@ -36,6 +36,7 @@ export const REQ_FORM_CONFIG_LIST_TITLE = $localize`:@@requisitionFormConfig.lis
 export const REQ_FORM_CONFIG_CREATE_DRAFT = $localize`:@@requisitionFormConfig.createDraft:Crear borrador`;
 export const REQ_FORM_CONFIG_REFRESH_LIST = $localize`:@@requisitionFormConfig.refreshList:Actualizar listado`;
 export const REQ_FORM_CONFIG_EMPTY_LIST = $localize`:@@requisitionFormConfig.emptyList:No hay configuraciones para los filtros seleccionados.`;
+export const REQ_FORM_CONFIG_LIST_ERROR = $localize`:@@requisitionFormConfig.errors.list:No se pudo cargar el listado de configuraciones. Verifique permisos y conexión con el API.`;
 export const REQ_FORM_CONFIG_COL_COUNTRY = $localize`:@@requisitionFormConfig.column.country:País`;
 export const REQ_FORM_CONFIG_COL_COVERAGE = $localize`:@@requisitionFormConfig.column.coverage:Cobertura`;
 export const REQ_FORM_CONFIG_COL_VERSION = $localize`:@@requisitionFormConfig.column.version:Versión`;
