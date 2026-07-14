@@ -23,6 +23,63 @@ h5 {
   margin-bottom: 16px;
 }
 
+.list-card {
+  margin-bottom: 16px;
+  padding: 16px;
+  min-height: 220px;
+}
+
+.list-card-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.list-card h4 {
+  margin: 0;
+}
+
+.list-count {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.list-error {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 0.9rem;
+}
+
+.empty-row .empty-cell {
+  padding: 20px 12px;
+  text-align: center;
+  color: #64748b;
+}
+
+.requisition-form-config-page {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.config-row {
+  cursor: pointer;
+}
+
+.config-row--active {
+  background: #f0fdfa;
+}
+
+.read-only-hint {
+  color: #b45309;
+  font-size: 0.9rem;
+}
+
 .selector-row {
   display: flex;
   flex-wrap: wrap;

@@ -71,6 +71,12 @@ export class RequisitionFormConfigService {
     );
   }
 
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(this.api.apiUrl(`/api/v1/requisition-form/configs/${id}`), {
+      headers: this.api.buildHeaders(),
+    });
+  }
+
   resolve(countryId: number, coverageTypeId: number): Observable<ResolvedRequisitionFormConfig> {
     return this.http
       .get<ResolveFormConfigApiResponse>(

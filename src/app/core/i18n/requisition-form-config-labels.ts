@@ -31,7 +31,25 @@ export const REQ_FORM_CONFIG_SELECT_STEP = $localize`:@@requisitionFormConfig.se
 export const REQ_FORM_CONFIG_RULES_TITLE = $localize`:@@requisitionFormConfig.rulesTitle:Reglas condicionales`;
 export const REQ_FORM_CONFIG_RULE_VISIBLE = $localize`:@@requisitionFormConfig.rule.visibleWhen:Visible cuando "Tiene personas a cargo" está activo`;
 export const REQ_FORM_CONFIG_RULE_REQUIRED = $localize`:@@requisitionFormConfig.rule.requiredWhen:Obligatorio cuando "Tiene personas a cargo" está activo`;
-export const REQ_FORM_CONFIG_SELECTORS_HINT = $localize`:@@requisitionFormConfig.selectorsHint:Seleccione país y tipo de cobertura para cargar o crear el borrador de configuración`;
+export const REQ_FORM_CONFIG_SELECTORS_HINT = $localize`:@@requisitionFormConfig.selectorsHint:Filtre por país y tipo de cobertura, o consulte el listado de configuraciones existentes.`;
+export const REQ_FORM_CONFIG_LIST_TITLE = $localize`:@@requisitionFormConfig.listTitle:Configuraciones guardadas`;
+export const REQ_FORM_CONFIG_CREATE_DRAFT = $localize`:@@requisitionFormConfig.createDraft:Crear borrador`;
+export const REQ_FORM_CONFIG_REFRESH_LIST = $localize`:@@requisitionFormConfig.refreshList:Actualizar listado`;
+export const REQ_FORM_CONFIG_EMPTY_LIST = $localize`:@@requisitionFormConfig.emptyList:No hay configuraciones para los filtros seleccionados.`;
+export const REQ_FORM_CONFIG_LIST_ERROR = $localize`:@@requisitionFormConfig.errors.list:No se pudo cargar el listado de configuraciones. Verifique permisos y conexión con el API.`;
+export const REQ_FORM_CONFIG_COL_COUNTRY = $localize`:@@requisitionFormConfig.column.country:País`;
+export const REQ_FORM_CONFIG_COL_COVERAGE = $localize`:@@requisitionFormConfig.column.coverage:Cobertura`;
+export const REQ_FORM_CONFIG_COL_VERSION = $localize`:@@requisitionFormConfig.column.version:Versión`;
+export const REQ_FORM_CONFIG_COL_STATUS = $localize`:@@requisitionFormConfig.column.status:Estado`;
+export const REQ_FORM_CONFIG_COL_PUBLISHED_AT = $localize`:@@requisitionFormConfig.column.publishedAt:Publicado`;
+export const REQ_FORM_CONFIG_COL_ACTIONS = $localize`:@@requisitionFormConfig.column.actions:Acciones`;
+export const REQ_FORM_CONFIG_READ_ONLY_HINT = $localize`:@@requisitionFormConfig.readOnlyHint:Configuración publicada (solo lectura). Cree un nuevo borrador para cambios.`;
+export const REQ_FORM_CONFIG_DELETE_SUCCESS = $localize`:@@requisitionFormConfig.success.deleted:Configuración eliminada`;
+export const REQ_FORM_CONFIG_DELETE_ERROR = $localize`:@@requisitionFormConfig.errors.delete:No se pudo eliminar la configuración`;
+
+export function reqFormConfigDeleteConfirm(version: number, status: string): string {
+  return $localize`:@@requisitionFormConfig.deleteConfirm:¿Eliminar la configuración v${version}:version: (${status}:status:)? Esta acción no se puede deshacer.`;
+}
 
 export const REQ_FORM_CONFIG_LOAD_ERROR = $localize`:@@requisitionFormConfig.errors.load:No se pudo cargar la configuración`;
 export const REQ_FORM_CONFIG_SAVE_SUCCESS = $localize`:@@requisitionFormConfig.success.saved:Borrador guardado`;
