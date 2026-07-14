@@ -13,10 +13,11 @@
     } @else if (dynamicCountryId && !loadingCatalog.brands) {
       <p class="step-hint tenant-brand-hint tenant-brand-hint--warning">Sin marca tenant para el país seleccionado</p>
     }
-    <mat-stepper linear #dynamicStepper>
+    <mat-stepper linear #dynamicStepper class="wizard-stepper">
       @for (step of resolvedConfig.steps; track step.stepKey) {
         <mat-step [stepControl]="dynamicStepForm(step.stepKey)" [label]="stepLabel(step.stepKey, step.labelI18nKey)">
           <form [formGroup]="dynamicStepForm(step.stepKey)" class="step-form">
+            <h3 class="step-title">{{ stepTitle(step.stepKey, step.labelI18nKey) }}</h3>
             <sh-dynamic-wizard-step
               [step]="step"
               [stepForm]="dynamicStepForm(step.stepKey)"

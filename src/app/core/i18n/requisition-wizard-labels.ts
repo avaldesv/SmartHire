@@ -112,14 +112,47 @@ export function resolveRequisitionWizardLabel(i18nKey: string): string {
   return REQUISITION_I18N_BY_KEY[i18nKey] ?? i18nKey;
 }
 
-export function resolveRequisitionStepLabel(stepKeyOrI18nKey: string): string {
+export function resolveRequisitionStepLabel(stepKeyOrI18nKey: string, labelI18nKey?: string): string {
+  if (labelI18nKey) {
+    const fromI18n = REQUISITION_I18N_BY_KEY[labelI18nKey];
+    if (fromI18n) {
+      return fromI18n;
+    }
+  }
   const key = normalizeRequisitionI18nKey(stepKeyOrI18nKey, 'requisition.step.');
   return REQUISITION_I18N_BY_KEY[key] ?? stepKeyOrI18nKey;
 }
 
-export function resolveRequisitionFieldLabel(fieldKeyOrI18nKey: string): string {
-  const key = normalizeRequisitionI18nKey(fieldKeyOrI18nKey, 'requisition.field.');
-  return REQUISITION_I18N_BY_KEY[key] ?? fieldKeyOrI18nKey;
+export function resolveRequisitionFieldLabel(fieldKey: string, labelI18nKey?: string): string {
+  if (labelI18nKey) {
+    const fromI18n = REQUISITION_I18N_BY_KEY[labelI18nKey];
+    if (fromI18n) {
+      return fromI18n;
+    }
+  }
+  const key = normalizeRequisitionI18nKey(fieldKey, 'requisition.field.');
+  return REQUISITION_I18N_BY_KEY[key] ?? fieldKey;
+}
+
+/** Compact labels for horizontal mat-stepper (11 tabs). */
+const REQUISITION_STEP_STEPPER_LABELS: Record<string, string> = {
+  client: $localize`:@@requisition.step.client.stepper:Datos cliente`,
+  general: $localize`:@@requisition.step.general.stepper:Generales`,
+  manpower: $localize`:@@requisition.step.manpower.stepper:Manpower`,
+  hiring: $localize`:@@requisition.step.hiring.stepper:Contratación`,
+  languages: $localize`:@@requisition.step.languages.stepper:Idiomas`,
+  address: $localize`:@@requisition.step.address.stepper:Dirección`,
+  recruitment: $localize`:@@requisition.step.recruitment.stepper:Reclutamiento`,
+  clientDescription: $localize`:@@requisition.step.clientDescription.stepper:Desc. cliente`,
+  extraBenefits: $localize`:@@requisition.step.extraBenefits.stepper:Beneficios`,
+  preselection: $localize`:@@requisition.step.preselection.stepper:Preselección`,
+  documents: $localize`:@@requisition.step.documents.stepper:Documentos`,
+  requirements: $localize`:@@requisition.step.requirements.stepper:Requisitos`,
+};
+
+export function resolveRequisitionStepStepperLabel(stepKeyOrI18nKey: string, labelI18nKey?: string): string {
+  const stepKey = (labelI18nKey || stepKeyOrI18nKey).replace(/^requisition\.step\./, '');
+  return REQUISITION_STEP_STEPPER_LABELS[stepKey] ?? resolveRequisitionStepLabel(stepKeyOrI18nKey, labelI18nKey);
 }
 
 export const REQUISITION_STEP_LABEL_KEY_PLACEHOLDER = 'requisition.step.general';

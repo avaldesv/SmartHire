@@ -25,7 +25,7 @@ import {
   hydrateDynamicFormValues,
   patchDynamicForm,
 } from './dynamic-wizard-payload.util';
-import { resolveWizardStepLabel } from './requisition-wizard-labels';
+import { resolveWizardStepLabel, resolveWizardStepperStepLabel } from './requisition-wizard-labels';
 import { DynamicWizardStepComponent } from './dynamic-wizard-step/dynamic-wizard-step.component';
 import {
   CatalogCountry,
@@ -252,6 +252,10 @@ export class PositionWizardComponent implements OnInit {
   }
 
   stepLabel(stepKey: string, labelI18nKey: string): string {
+    return resolveWizardStepperStepLabel(stepKey, labelI18nKey);
+  }
+
+  stepTitle(stepKey: string, labelI18nKey: string): string {
     return resolveWizardStepLabel(stepKey, labelI18nKey);
   }
 
