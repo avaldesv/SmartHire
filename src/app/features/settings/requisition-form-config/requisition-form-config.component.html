@@ -33,196 +33,114 @@
     <span><strong>{{ versionLabel }}:</strong> {{ config.version }}</span>
   </div>
 
-  <div class="editor-grid">
-    <section class="sh-card panel">
-      <h4>{{ stepsTitle }}</h4>
-      @if (canWrite()) {
-        <div class="add-row">
-          <mat-form-field appearance="outline" class="compact-field">
-            <mat-label>{{ fieldStepKey }}</mat-label>
-            <mat-select [(value)]="newStepKey">
-              @for (key of getAvailableStepKeys(); track key) {
-                <mat-option [value]="key">{{ stepDisplayLabel(key) }} ({{ key }})</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field appearance="outline" class="compact-field grow">
-            <mat-label>{{ fieldLabelKey }}</mat-label>
-            <input matInput [(ngModel)]="newStepLabelKey" [ngModelOptions]="{ standalone: true }" [placeholder]="stepLabelKeyPlaceholder" />
-          </mat-form-field>
-          <button mat-stroked-button type="button" (click)="addStep()" [disabled]="!newStepKey || !newStepLabelKey">
-            <mat-icon>add</mat-icon> {{ addStepLabel }}
-          </button>
-        </div>
-      }
+  <div class="editor-layout">
+    <section class="sh-card tree-panel">
+      <h4>{{ treeTitle }}</h4>
+      <div class="tree-header">
+        <span class="col-expand"></span>
+        <span class="col-check">{{ fieldVisible }}</span>
+        <span class="col-check">{{ fieldRequired }}</span>
+        <span class="col-label">Elemento</span>
+        <span class="col-actions">{{ columnReorder }}</span>
+      </div>
 
-      <table mat-table [dataSource]="steps" class="steps-table">
-        <ng-container matColumnDef="order">
-          <th mat-header-cell *matHeaderCellDef>#</th>
-          <td mat-cell *matCellDef="let row">{{ row.orderIndex }}</td>
-        </ng-container>
-        <ng-container matColumnDef="stepKey">
-          <th mat-header-cell *matHeaderCellDef>{{ fieldStepKey }}</th>
-          <td mat-cell *matCellDef="let row">
-            <button
-              mat-button
-              type="button"
-              class="step-link"
-              [class.selected]="isStepSelected(row.stepKey)"
-              (click)="selectStep(row.stepKey)"
-            >
-              {{ stepDisplayLabel(row.stepKey, row.labelI18nKey) }}
-            </button>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="labelI18nKey">
-          <th mat-header-cell *matHeaderCellDef>{{ fieldLabelKey }}</th>
-          <td mat-cell *matCellDef="let row">
-            @if (canWrite()) {
-              <input
-                class="inline-input"
-                [value]="row.labelI18nKey"
-                (change)="updateStepLabel(row.stepKey, $any($event.target).value)"
+      <div class="tree-body">
+        @for (step of steps; track step.stepKey) {
+          <div class="tree-step">
+            <div class="tree-row tree-row-tab" [class.inactive]="!step.isVisible">
+              <button
+                type="button"
+                class="expand-btn"
+                [attr.aria-expanded]="isStepExpanded(step.stepKey)"
+                (click)="toggleStepExpanded(step.stepKey)"
+              >
+                <mat-icon>{{ isStepExpanded(step.stepKey) ? 'expand_more' : 'chevron_right' }}</mat-icon>
+              </button>
+              <mat-checkbox
+                class="col-check"
+                [checked]="step.isVisible"
+                [disabled]="!canWrite()"
+                (change)="toggleStepVisible(step, $event.checked)"
+                (click)="$event.stopPropagation()"
               />
-            } @else {
-              {{ fieldLabelFromKey(row.labelI18nKey) }}
-            }
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="visible">
-          <th mat-header-cell *matHeaderCellDef>{{ fieldVisible }}</th>
-          <td mat-cell *matCellDef="let row">
-            <mat-slide-toggle
-              [checked]="row.isVisible"
-              [disabled]="!canWrite()"
-              (change)="toggleStepVisible(row, $event.checked)"
-            />
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="reorder">
-          <th mat-header-cell *matHeaderCellDef>{{ columnReorder }}</th>
-          <td mat-cell *matCellDef="let row">
-            @if (canWrite()) {
-              <button mat-icon-button type="button" [attr.aria-label]="moveUpLabel" (click)="moveStep(row.stepKey, -1)">
-                <mat-icon>arrow_upward</mat-icon>
-              </button>
-              <button mat-icon-button type="button" [attr.aria-label]="moveDownLabel" (click)="moveStep(row.stepKey, 1)">
-                <mat-icon>arrow_downward</mat-icon>
-              </button>
-            }
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let row">
-            @if (canWrite()) {
-              <button mat-button color="warn" type="button" (click)="removeStep(row.stepKey)">{{ removeLabel }}</button>
-            }
-          </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="stepColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: stepColumns"></tr>
-      </table>
-    </section>
-
-    <section class="sh-card panel">
-      <h4>{{ fieldsTitle }}</h4>
-      @if (!selectedStepKey) {
-        <p class="hint">{{ selectStepHint }}</p>
-      } @else {
-        @if (canWrite()) {
-          <div class="add-row">
-            <mat-form-field appearance="outline" class="compact-field grow">
-              <mat-label>{{ addFieldLabel }}</mat-label>
-              <mat-select [(value)]="addFieldDefId">
-                @for (def of availableFieldDefsForStep(); track def.id) {
-                  <mat-option [value]="def.id">{{ def.fieldKey }} — {{ fieldLabelFromKey(def.labelI18nKey) }}</mat-option>
+              <span class="col-check col-check-empty" aria-hidden="true"></span>
+              <span class="col-label tab-label">{{ stepDisplayLabel(step.stepKey) }}</span>
+              <span class="col-actions">
+                @if (canWrite()) {
+                  <button mat-icon-button type="button" [attr.aria-label]="moveUpLabel" (click)="moveStep(step.stepKey, -1)">
+                    <mat-icon>arrow_upward</mat-icon>
+                  </button>
+                  <button mat-icon-button type="button" [attr.aria-label]="moveDownLabel" (click)="moveStep(step.stepKey, 1)">
+                    <mat-icon>arrow_downward</mat-icon>
+                  </button>
                 }
-              </mat-select>
-            </mat-form-field>
-            <button mat-stroked-button type="button" (click)="addField()" [disabled]="!addFieldDefId">
-              <mat-icon>add</mat-icon> {{ addFieldLabel }}
-            </button>
+              </span>
+            </div>
+
+            @if (isStepExpanded(step.stepKey)) {
+              @for (field of fieldsForStep(step.stepKey); track field.fieldDefId) {
+                <div
+                  class="tree-row tree-row-field"
+                  [class.inactive]="!field.isVisible"
+                  [class.selected]="isFieldSelected(field)"
+                  (click)="selectField(field)"
+                >
+                  <span class="col-expand"></span>
+                  <mat-checkbox
+                    class="col-check"
+                    [checked]="field.isVisible"
+                    [disabled]="!canWrite() || !step.isVisible"
+                    (change)="toggleFieldVisible(field, $event.checked)"
+                    (click)="$event.stopPropagation()"
+                  />
+                  <mat-checkbox
+                    class="col-check"
+                    [checked]="field.isRequired"
+                    [disabled]="!canWrite() || !field.isVisible || !step.isVisible"
+                    (change)="toggleFieldRequired(field, $event.checked)"
+                    (click)="$event.stopPropagation()"
+                  />
+                  <span class="col-label">{{ fieldDefLabel(field.fieldDefId) }}</span>
+                  <span class="col-actions"></span>
+                </div>
+              }
+            }
           </div>
         }
+      </div>
+    </section>
 
-        <table mat-table [dataSource]="fieldsForSelectedStep()" class="fields-table">
-          <ng-container matColumnDef="order">
-            <th mat-header-cell *matHeaderCellDef>#</th>
-            <td mat-cell *matCellDef="let row">{{ row.orderIndex }}</td>
-          </ng-container>
-          <ng-container matColumnDef="fieldKey">
-            <th mat-header-cell *matHeaderCellDef>{{ fieldFieldKey }}</th>
-            <td mat-cell *matCellDef="let row">
-              <button
-                mat-button
-                type="button"
-                class="field-link"
-                [class.selected]="isPeopleInChargeCountField(row)"
-                (click)="selectFieldForRules(row)"
-              >
-                {{ fieldDefLabel(row.fieldDefId) }}
-              </button>
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="visible">
-            <th mat-header-cell *matHeaderCellDef>{{ fieldVisible }}</th>
-            <td mat-cell *matCellDef="let row">
-              <mat-slide-toggle
-                [checked]="row.isVisible"
-                [disabled]="!canWrite()"
-                (change)="toggleFieldVisible(row, $event.checked)"
-              />
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="required">
-            <th mat-header-cell *matHeaderCellDef>{{ fieldRequired }}</th>
-            <td mat-cell *matCellDef="let row">
-              <mat-slide-toggle
-                [checked]="row.isRequired"
-                [disabled]="!canWrite()"
-                (change)="toggleFieldRequired(row, $event.checked)"
-              />
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="reorder">
-            <th mat-header-cell *matHeaderCellDef>{{ columnReorder }}</th>
-            <td mat-cell *matCellDef="let row">
-              @if (canWrite()) {
-                <button mat-icon-button type="button" [attr.aria-label]="moveUpLabel" (click)="moveField(row, -1)">
-                  <mat-icon>arrow_upward</mat-icon>
-                </button>
-                <button mat-icon-button type="button" [attr.aria-label]="moveDownLabel" (click)="moveField(row, 1)">
-                  <mat-icon>arrow_downward</mat-icon>
-                </button>
-              }
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef></th>
-            <td mat-cell *matCellDef="let row">
-              @if (canWrite()) {
-                <button mat-button color="warn" type="button" (click)="removeField(row)">{{ removeLabel }}</button>
-              }
-            </td>
-          </ng-container>
-          <tr mat-header-row *matHeaderRowDef="fieldColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: fieldColumns"></tr>
-        </table>
-
-        @if (selectedFieldDefId != null && canWrite()) {
-          <div class="rules-panel">
+    <aside class="sh-card detail-panel">
+      <h4>{{ detailTitle }}</h4>
+      @if (!selectedField) {
+        <p class="hint">{{ noRulesHint }}</p>
+      } @else {
+        <p class="selected-field-name">{{ fieldDefLabel(selectedField.fieldDefId) }}</p>
+        @if (supportsConditionalRules(selectedField.fieldDefId)) {
+          <div class="rules-block">
             <h5>{{ rulesTitle }}</h5>
-            <mat-checkbox [(ngModel)]="ruleVisibleWhen" [ngModelOptions]="{ standalone: true }" (change)="applyPeopleInChargeRules()">
+            <mat-checkbox
+              [(ngModel)]="ruleVisibleWhen"
+              [ngModelOptions]="{ standalone: true }"
+              [disabled]="!canWrite()"
+              (change)="applyPeopleInChargeRules()"
+            >
               {{ ruleVisibleLabel }}
             </mat-checkbox>
-            <mat-checkbox [(ngModel)]="ruleRequiredWhen" [ngModelOptions]="{ standalone: true }" (change)="applyPeopleInChargeRules()">
+            <mat-checkbox
+              [(ngModel)]="ruleRequiredWhen"
+              [ngModelOptions]="{ standalone: true }"
+              [disabled]="!canWrite()"
+              (change)="applyPeopleInChargeRules()"
+            >
               {{ ruleRequiredLabel }}
             </mat-checkbox>
           </div>
+        } @else {
+          <p class="hint">{{ noRulesHint }}</p>
         }
       }
-    </section>
+    </aside>
   </div>
 
   <div class="actions-row">
