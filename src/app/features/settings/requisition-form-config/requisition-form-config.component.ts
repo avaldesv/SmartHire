@@ -537,7 +537,11 @@ export class RequisitionFormConfigComponent implements OnInit {
     this.steps = this.steps.map((item) =>
       item.stepKey === step.stepKey ? { ...item, isVisible: visible } : item,
     );
-    if (!visible) {
+    if (visible) {
+      this.fields = this.fields.map((field) =>
+        field.stepKey === step.stepKey ? { ...field, isVisible: true } : field,
+      );
+    } else {
       this.fields = this.fields.map((field) =>
         field.stepKey === step.stepKey ? { ...field, isVisible: false, isRequired: false } : field,
       );
