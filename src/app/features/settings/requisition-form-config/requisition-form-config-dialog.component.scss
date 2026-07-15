@@ -25,11 +25,18 @@ h5 {
   display: flex;
   flex-wrap: wrap;
   gap: 16px 24px;
+  align-items: center;
   margin-bottom: 16px;
   padding: 10px 12px;
   border-radius: 8px;
   background: #f8fafc;
   font-size: 0.9rem;
+}
+
+.name-field {
+  flex: 1 1 260px;
+  min-width: 220px;
+  max-width: 420px;
 }
 
 .read-only-hint {

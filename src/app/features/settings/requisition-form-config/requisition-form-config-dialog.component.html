@@ -5,6 +5,16 @@
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else if (config) {
     <div class="meta-row">
+      <mat-form-field appearance="outline" class="name-field">
+        <mat-label>{{ fieldNameLabel }}</mat-label>
+        <input
+          matInput
+          [(ngModel)]="configName"
+          [disabled]="isReadOnly()"
+          maxlength="150"
+          autocomplete="off"
+        />
+      </mat-form-field>
       <span><strong>{{ statusLabel }}:</strong> {{ statusLabelFor(config.status) }}</span>
       <span><strong>{{ versionLabel }}:</strong> {{ config.version }}</span>
       @if (isReadOnly()) {

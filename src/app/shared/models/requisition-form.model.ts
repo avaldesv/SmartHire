@@ -46,6 +46,7 @@ export interface RequisitionFormFieldRules {
 
 export interface RequisitionFormConfigSummary {
   id: number;
+  name: string;
   countryId: number;
   coverageTypeId: number;
   version: number;
@@ -78,9 +79,11 @@ export interface ListRequisitionFormConfigsRequest {
 export interface CreateRequisitionFormConfigRequest {
   countryId: number;
   coverageTypeId: number;
+  name: string;
 }
 
 export interface UpdateRequisitionFormConfigRequest {
+  name: string;
   steps: RequisitionFormStepConfig[];
   fields: RequisitionFormFieldConfig[];
 }

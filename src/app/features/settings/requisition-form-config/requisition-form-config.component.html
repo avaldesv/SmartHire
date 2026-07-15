@@ -58,6 +58,10 @@
     }
     <div class="sh-table-wrap">
       <table mat-table [dataSource]="configList">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>{{ colName }}</th>
+          <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+        </ng-container>
         <ng-container matColumnDef="country">
           <th mat-header-cell *matHeaderCellDef>{{ colCountry }}</th>
           <td mat-cell *matCellDef="let row">{{ countryName(row.countryId) }}</td>

@@ -16,6 +16,7 @@ import {
   REQ_FORM_CONFIG_COL_ACTIONS,
   REQ_FORM_CONFIG_COL_COUNTRY,
   REQ_FORM_CONFIG_COL_COVERAGE,
+  REQ_FORM_CONFIG_COL_NAME,
   REQ_FORM_CONFIG_COL_PUBLISHED_AT,
   REQ_FORM_CONFIG_COL_STATUS,
   REQ_FORM_CONFIG_COL_VERSION,
@@ -55,6 +56,7 @@ import {
   RequisitionFormConfigSummary,
   RequisitionFormConfigStatus,
 } from '../../../shared/models/requisition-form.model';
+import { RequisitionFormConfigCreateDialogComponent } from './requisition-form-config-create-dialog.component';
 import { RequisitionFormConfigDialogComponent } from './requisition-form-config-dialog.component';
 
 @Component({
@@ -103,11 +105,12 @@ export class RequisitionFormConfigComponent implements OnInit {
   readonly selectorsHint = REQ_FORM_CONFIG_SELECTORS_HINT;
   readonly colCountry = REQ_FORM_CONFIG_COL_COUNTRY;
   readonly colCoverage = REQ_FORM_CONFIG_COL_COVERAGE;
+  readonly colName = REQ_FORM_CONFIG_COL_NAME;
   readonly colVersion = REQ_FORM_CONFIG_COL_VERSION;
   readonly colStatus = REQ_FORM_CONFIG_COL_STATUS;
   readonly colPublishedAt = REQ_FORM_CONFIG_COL_PUBLISHED_AT;
   readonly colActions = REQ_FORM_CONFIG_COL_ACTIONS;
-  readonly listColumns = ['country', 'coverage', 'version', 'status', 'publishedAt', 'actions'];
+  readonly listColumns = ['name', 'country', 'coverage', 'version', 'status', 'publishedAt', 'actions'];
 
   readonly canWrite = computed(() => this.permissions.hasAuthority(AppPermissions.REQUISITION_FORM_CONFIG_WRITE));
 
@@ -226,12 +229,24 @@ export class RequisitionFormConfigComponent implements OnInit {
           this.openConfig(draft);
           return;
         }
-        this.configService.create({ countryId, coverageTypeId }).subscribe({
-          next: (created) => {
-            this.loadConfigsList();
-            this.openEditorDialog(created);
-          },
-          error: () => this.handleOpenError(),
+        this.openingEditor = false;
+        const createRef = this.dialog.open(RequisitionFormConfigCreateDialogComponent, {
+          width: '480px',
+          maxWidth: '95vw',
+          data: { countryId, coverageTypeId },
+        });
+        createRef.afterClosed().subscribe((result) => {
+          if (!result?.name) {
+            return;
+          }
+          this.openingEditor = true;
+          this.configService.create({ countryId, coverageTypeId, name: result.name }).subscribe({
+            next: (created) => {
+              this.loadConfigsList();
+              this.openEditorDialog(created);
+            },
+            error: () => this.handleOpenError(),
+          });
         });
       },
       error: () => this.handleOpenError(),

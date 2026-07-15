@@ -3,17 +3,21 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import {
   REQ_FORM_CONFIG_COLUMN_REORDER,
   REQ_FORM_CONFIG_DETAIL_TITLE,
+  REQ_FORM_CONFIG_FIELD_NAME,
   REQ_FORM_CONFIG_FIELD_REQUIRED,
   REQ_FORM_CONFIG_FIELD_VISIBLE,
   REQ_FORM_CONFIG_LOAD_ERROR,
   REQ_FORM_CONFIG_MOVE_DOWN,
   REQ_FORM_CONFIG_MOVE_UP,
+  REQ_FORM_CONFIG_NAME_REQUIRED,
   REQ_FORM_CONFIG_NO_RULES,
   REQ_FORM_CONFIG_PUBLISH,
   REQ_FORM_CONFIG_PUBLISH_ERROR,
@@ -73,6 +77,8 @@ interface SelectedFieldRef {
     MatButtonModule,
     MatIconModule,
     MatCheckboxModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
   ],
@@ -103,6 +109,7 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
   readonly ruleRequiredLabel = REQ_FORM_CONFIG_RULE_REQUIRED;
   readonly noRulesHint = REQ_FORM_CONFIG_NO_RULES;
   readonly readOnlyHint = REQ_FORM_CONFIG_READ_ONLY_HINT;
+  readonly fieldNameLabel = REQ_FORM_CONFIG_FIELD_NAME;
   readonly statusLabel = REQ_FORM_CONFIG_STATUS;
   readonly versionLabel = REQ_FORM_CONFIG_VERSION;
   readonly statusDraft = REQ_FORM_CONFIG_STATUS_DRAFT;
@@ -123,6 +130,7 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
   saving = false;
   publishing = false;
   changed = false;
+  configName = '';
   config: RequisitionFormConfigDetail | null = null;
   fieldDefs: RequisitionFormFieldDef[] = [];
   steps: RequisitionFormStepConfig[] = [];
@@ -152,7 +160,8 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
       return this.treeTitle;
     }
     const status = this.statusLabelFor(this.config.status);
-    return `${this.treeTitle} · v${this.config.version} (${status})`;
+    const name = this.configName?.trim() || this.config.name || this.treeTitle;
+    return `${name} · v${this.config.version} (${status})`;
   }
 
   statusLabelFor(status: string | undefined): string {
@@ -308,9 +317,15 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
     if (!this.config || !this.canWrite() || this.isReadOnly()) {
       return;
     }
+    const name = this.configName.trim();
+    if (!name) {
+      this.snack.open(REQ_FORM_CONFIG_NAME_REQUIRED, REQ_FORM_CONFIG_SNACK_CLOSE, { duration: 3000 });
+      return;
+    }
     this.saving = true;
     this.configService
       .update(this.config.id, {
+        name,
         steps: this.steps,
         fields: this.fields,
       })
@@ -354,6 +369,7 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
 
   private applyConfig(detail: RequisitionFormConfigDetail): void {
     this.config = detail;
+    this.configName = detail.name ?? '';
     const catalog = buildFullCatalogState(this.fieldDefs, detail.steps ?? [], detail.fields ?? []);
     this.steps = catalog.steps;
     this.fields = catalog.fields;
