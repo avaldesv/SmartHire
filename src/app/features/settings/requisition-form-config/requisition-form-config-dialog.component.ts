@@ -11,6 +11,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import {
   REQ_FORM_CONFIG_COLUMN_REORDER,
   REQ_FORM_CONFIG_DETAIL_TITLE,
+  REQ_FORM_CONFIG_FIELD_COUNTRY,
+  REQ_FORM_CONFIG_FIELD_COVERAGE,
   REQ_FORM_CONFIG_FIELD_NAME,
   REQ_FORM_CONFIG_FIELD_REQUIRED,
   REQ_FORM_CONFIG_FIELD_VISIBLE,
@@ -31,6 +33,8 @@ import {
   REQ_FORM_CONFIG_SAVE_ERROR,
   REQ_FORM_CONFIG_SAVE_SUCCESS,
   REQ_FORM_CONFIG_SAVING,
+  REQ_FORM_CONFIG_SCOPE_HINT,
+  REQ_FORM_CONFIG_SCOPE_LABEL,
   REQ_FORM_CONFIG_SNACK_CLOSE,
   REQ_FORM_CONFIG_STATUS,
   REQ_FORM_CONFIG_STATUS_DEPRECATED,
@@ -61,6 +65,8 @@ import { buildFullCatalogState } from '../../../shared/utils/requisition-form-ca
 
 export interface RequisitionFormConfigDialogData {
   config: RequisitionFormConfigDetail;
+  countryName: string;
+  coverageTypeName: string;
 }
 
 interface SelectedFieldRef {
@@ -110,12 +116,19 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
   readonly noRulesHint = REQ_FORM_CONFIG_NO_RULES;
   readonly readOnlyHint = REQ_FORM_CONFIG_READ_ONLY_HINT;
   readonly fieldNameLabel = REQ_FORM_CONFIG_FIELD_NAME;
+  readonly fieldCountry = REQ_FORM_CONFIG_FIELD_COUNTRY;
+  readonly fieldCoverage = REQ_FORM_CONFIG_FIELD_COVERAGE;
+  readonly scopeLabel = REQ_FORM_CONFIG_SCOPE_LABEL;
+  readonly scopeHint = REQ_FORM_CONFIG_SCOPE_HINT;
   readonly statusLabel = REQ_FORM_CONFIG_STATUS;
   readonly versionLabel = REQ_FORM_CONFIG_VERSION;
   readonly statusDraft = REQ_FORM_CONFIG_STATUS_DRAFT;
   readonly statusPublished = REQ_FORM_CONFIG_STATUS_PUBLISHED;
   readonly statusDeprecated = REQ_FORM_CONFIG_STATUS_DEPRECATED;
   readonly closeLabel = REQ_FORM_CONFIG_SNACK_CLOSE;
+
+  readonly countryName = this.data.countryName;
+  readonly coverageTypeName = this.data.coverageTypeName;
 
   readonly canWrite = computed(() => this.permissions.hasAuthority(AppPermissions.REQUISITION_FORM_CONFIG_WRITE));
   readonly canPublish = computed(() => this.permissions.hasAuthority(AppPermissions.REQUISITION_FORM_CONFIG_PUBLISH));

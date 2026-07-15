@@ -8,13 +8,19 @@ import {
   REQ_FORM_CONFIG_CANCEL,
   REQ_FORM_CONFIG_CREATE_CONFIRM,
   REQ_FORM_CONFIG_CREATE_DIALOG_TITLE,
+  REQ_FORM_CONFIG_FIELD_COUNTRY,
+  REQ_FORM_CONFIG_FIELD_COVERAGE,
   REQ_FORM_CONFIG_FIELD_NAME,
   REQ_FORM_CONFIG_NAME_REQUIRED,
+  REQ_FORM_CONFIG_SCOPE_HINT,
+  REQ_FORM_CONFIG_SCOPE_LABEL,
 } from '../../../core/i18n/requisition-form-config-labels';
 
 export interface RequisitionFormConfigCreateDialogData {
   countryId: number;
   coverageTypeId: number;
+  countryName: string;
+  coverageTypeName: string;
 }
 
 export interface RequisitionFormConfigCreateDialogResult {
@@ -40,6 +46,10 @@ export class RequisitionFormConfigCreateDialogComponent {
   readonly nameRequired = REQ_FORM_CONFIG_NAME_REQUIRED;
   readonly cancelLabel = REQ_FORM_CONFIG_CANCEL;
   readonly confirmLabel = REQ_FORM_CONFIG_CREATE_CONFIRM;
+  readonly scopeLabel = REQ_FORM_CONFIG_SCOPE_LABEL;
+  readonly scopeHint = REQ_FORM_CONFIG_SCOPE_HINT;
+  readonly fieldCountry = REQ_FORM_CONFIG_FIELD_COUNTRY;
+  readonly fieldCoverage = REQ_FORM_CONFIG_FIELD_COVERAGE;
 
   readonly form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.maxLength(150)]],

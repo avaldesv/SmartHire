@@ -4,6 +4,16 @@
   @if (loading) {
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else if (config) {
+    <div class="scope-banner" role="status">
+      <p class="scope-hint">{{ scopeHint }}</p>
+      <p class="scope-value">
+        <strong>{{ scopeLabel }}:</strong>
+        {{ fieldCountry }}: {{ countryName }}
+        <span class="scope-sep" aria-hidden="true">·</span>
+        {{ fieldCoverage }}: {{ coverageTypeName }}
+      </p>
+    </div>
+
     <div class="meta-row">
       <mat-form-field appearance="outline" class="name-field">
         <mat-label>{{ fieldNameLabel }}</mat-label>
