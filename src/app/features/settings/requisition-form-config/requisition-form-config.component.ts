@@ -10,7 +10,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
-import { catchError, filter, forkJoin, of } from 'rxjs';
+import { catchError, filter, forkJoin, Observable, of, tap } from 'rxjs';
 import { AppPermissions } from '../../../core/auth/app-permissions';
 import {
   REQ_FORM_CONFIG_COL_ACTIONS,
@@ -233,7 +233,12 @@ export class RequisitionFormConfigComponent implements OnInit {
         const createRef = this.dialog.open(RequisitionFormConfigCreateDialogComponent, {
           width: '480px',
           maxWidth: '95vw',
-          data: { countryId, coverageTypeId },
+          data: {
+            countryId,
+            coverageTypeId,
+            countryName: this.countryName(countryId),
+            coverageTypeName: this.coverageName(countryId, coverageTypeId),
+          },
         });
         createRef.afterClosed().subscribe((result) => {
           if (!result?.name) {
@@ -358,18 +363,38 @@ export class RequisitionFormConfigComponent implements OnInit {
   }
 
   private openEditorDialog(config: RequisitionFormConfigDetail): void {
-    this.openingEditor = false;
-    const ref = this.dialog.open(RequisitionFormConfigDialogComponent, {
-      width: '1100px',
-      maxWidth: '95vw',
-      maxHeight: '92vh',
-      autoFocus: false,
-      data: { config },
+    this.ensureCoverageTypes(config.countryId).subscribe(() => {
+      this.openingEditor = false;
+      const ref = this.dialog.open(RequisitionFormConfigDialogComponent, {
+        width: '1100px',
+        maxWidth: '95vw',
+        maxHeight: '92vh',
+        autoFocus: false,
+        data: {
+          config,
+          countryName: this.countryName(config.countryId),
+          coverageTypeName: this.coverageName(config.countryId, config.coverageTypeId),
+        },
+      });
+      ref
+        .afterClosed()
+        .pipe(filter((changed): changed is boolean => changed === true))
+        .subscribe(() => this.loadConfigsList());
     });
-    ref
-      .afterClosed()
-      .pipe(filter((changed): changed is boolean => changed === true))
-      .subscribe(() => this.loadConfigsList());
+  }
+
+  private ensureCoverageTypes(countryId: number): Observable<CatalogCoverageType[]> {
+    const cached = this.coverageTypesByCountry.get(countryId);
+    if (cached) {
+      return of(cached);
+    }
+    return this.positionCatalogService.listCoverageTypes(countryId).pipe(
+      tap((items) => {
+        this.coverageTypes = items;
+        this.coverageTypesByCountry.set(countryId, items);
+      }),
+      catchError(() => of([])),
+    );
   }
 
   private handleOpenError(): void {
