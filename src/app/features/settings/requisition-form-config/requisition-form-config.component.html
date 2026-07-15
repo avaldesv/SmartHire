@@ -32,7 +32,7 @@
       </mat-select>
     </mat-form-field>
     @if (canWrite()) {
-      <button mat-flat-button color="primary" type="button" (click)="createDraft()" [disabled]="loadingConfig">
+      <button mat-flat-button color="primary" type="button" (click)="createDraft()" [disabled]="openingEditor">
         {{ createDraftLabel }}
       </button>
     }
@@ -93,7 +93,7 @@
                   mat-icon-button
                   type="button"
                   [attr.aria-label]="cloneLabel"
-                  [disabled]="cloningId === row.id || loadingConfig"
+                  [disabled]="cloningId === row.id || openingEditor"
                   (click)="cloneConfig(row)"
                 >
                   <mat-icon>content_copy</mat-icon>
@@ -103,9 +103,9 @@
                 [showView]="isViewOnly(row)"
                 [showEdit]="row.status === 'DRAFT' && canWrite()"
                 [showDelete]="row.status === 'DRAFT' && canWrite()"
-                [editDisabled]="loadingConfig"
-                [viewDisabled]="loadingConfig"
-                [deleteDisabled]="deletingId === row.id || loadingConfig"
+                [editDisabled]="openingEditor"
+                [viewDisabled]="openingEditor"
+                [deleteDisabled]="deletingId === row.id || openingEditor"
                 (viewClick)="openConfig(row)"
                 (editClick)="openConfig(row)"
                 (deleteClick)="deleteConfig(row)"
@@ -118,7 +118,6 @@
           mat-row
           *matRowDef="let row; columns: listColumns"
           class="config-row"
-          [class.config-row--active]="config?.id === row.id"
           (click)="openConfig(row)"
         ></tr>
         <tr class="mat-row empty-row" *matNoDataRow>
@@ -138,138 +137,7 @@
   }
 </section>
 
-@if (loadingConfig) {
-  <div class="loading-wrap"><mat-spinner diameter="36" /></div>
-} @else if (config) {
-  <div class="meta-row sh-card">
-    <span><strong>{{ statusLabel }}:</strong> {{ statusLabelFor(config.status) }}</span>
-    <span><strong>{{ versionLabel }}:</strong> {{ config.version }}</span>
-    @if (isReadOnly()) {
-      <span class="read-only-hint">{{ readOnlyHint }}</span>
-    }
-  </div>
-
-  <div class="editor-layout">
-    <section class="sh-card tree-panel">
-      <h4>{{ treeTitle }}</h4>
-      <div class="tree-header">
-        <span class="col-expand"></span>
-        <span class="col-check">{{ fieldVisible }}</span>
-        <span class="col-check">{{ fieldRequired }}</span>
-        <span class="col-label">Elemento</span>
-        <span class="col-actions">{{ columnReorder }}</span>
-      </div>
-
-      <div class="tree-body">
-        @for (step of steps; track step.stepKey) {
-          <div class="tree-step">
-            <div class="tree-row tree-row-tab" [class.inactive]="!step.isVisible">
-              <button
-                type="button"
-                class="expand-btn"
-                [attr.aria-expanded]="isStepExpanded(step.stepKey)"
-                (click)="toggleStepExpanded(step.stepKey)"
-              >
-                <mat-icon>{{ isStepExpanded(step.stepKey) ? 'expand_more' : 'chevron_right' }}</mat-icon>
-              </button>
-              <mat-checkbox
-                class="col-check"
-                [checked]="step.isVisible"
-                [disabled]="isReadOnly()"
-                (change)="toggleStepVisible(step, $event.checked)"
-                (click)="$event.stopPropagation()"
-              />
-              <span class="col-check col-check-empty" aria-hidden="true"></span>
-              <span class="col-label tab-label">{{ stepDisplayLabel(step.stepKey) }}</span>
-              <span class="col-actions">
-                @if (canWrite() && !isReadOnly()) {
-                  <button mat-icon-button type="button" [attr.aria-label]="moveUpLabel" (click)="moveStep(step.stepKey, -1)">
-                    <mat-icon>arrow_upward</mat-icon>
-                  </button>
-                  <button mat-icon-button type="button" [attr.aria-label]="moveDownLabel" (click)="moveStep(step.stepKey, 1)">
-                    <mat-icon>arrow_downward</mat-icon>
-                  </button>
-                }
-              </span>
-            </div>
-
-            @if (isStepExpanded(step.stepKey)) {
-              @for (field of fieldsForStep(step.stepKey); track field.fieldDefId) {
-                <div
-                  class="tree-row tree-row-field"
-                  [class.inactive]="!field.isVisible"
-                  [class.selected]="isFieldSelected(field)"
-                  (click)="selectField(field)"
-                >
-                  <span class="col-expand"></span>
-                  <mat-checkbox
-                    class="col-check"
-                    [checked]="field.isVisible"
-                    [disabled]="isReadOnly() || !step.isVisible"
-                    (change)="toggleFieldVisible(field, $event.checked)"
-                    (click)="$event.stopPropagation()"
-                  />
-                  <mat-checkbox
-                    class="col-check"
-                    [checked]="field.isRequired"
-                    [disabled]="isReadOnly() || !field.isVisible || !step.isVisible"
-                    (change)="toggleFieldRequired(field, $event.checked)"
-                    (click)="$event.stopPropagation()"
-                  />
-                  <span class="col-label">{{ fieldDefLabel(field.fieldDefId) }}</span>
-                  <span class="col-actions"></span>
-                </div>
-              }
-            }
-          </div>
-        }
-      </div>
-    </section>
-
-    <aside class="sh-card detail-panel">
-      <h4>{{ detailTitle }}</h4>
-      @if (!selectedField) {
-        <p class="hint">{{ noRulesHint }}</p>
-      } @else {
-        <p class="selected-field-name">{{ fieldDefLabel(selectedField.fieldDefId) }}</p>
-        @if (supportsConditionalRules(selectedField.fieldDefId)) {
-          <div class="rules-block">
-            <h5>{{ rulesTitle }}</h5>
-            <mat-checkbox
-              [(ngModel)]="ruleVisibleWhen"
-              [ngModelOptions]="{ standalone: true }"
-              [disabled]="isReadOnly()"
-              (change)="applyPeopleInChargeRules()"
-            >
-              {{ ruleVisibleLabel }}
-            </mat-checkbox>
-            <mat-checkbox
-              [(ngModel)]="ruleRequiredWhen"
-              [ngModelOptions]="{ standalone: true }"
-              [disabled]="isReadOnly()"
-              (change)="applyPeopleInChargeRules()"
-            >
-              {{ ruleRequiredLabel }}
-            </mat-checkbox>
-          </div>
-        } @else {
-          <p class="hint">{{ noRulesHint }}</p>
-        }
-      }
-    </aside>
-  </div>
-
-  <div class="actions-row">
-    @if (canWrite() && !isReadOnly()) {
-      <button mat-flat-button color="primary" type="button" (click)="saveDraft()" [disabled]="saving || publishing">
-        {{ saving ? savingLabel : saveDraftLabel }}
-      </button>
-    }
-    @if (canPublish() && config.status === 'DRAFT') {
-      <button mat-stroked-button color="primary" type="button" (click)="publishConfig()" [disabled]="saving || publishing">
-        {{ publishing ? publishingLabel : publishLabel }}
-      </button>
-    }
-  </div>
+@if (openingEditor) {
+  <div class="loading-wrap opening-editor"><mat-spinner diameter="36" /></div>
 }
 </div>
