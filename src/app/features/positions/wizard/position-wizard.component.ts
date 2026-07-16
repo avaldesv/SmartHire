@@ -276,6 +276,7 @@ export class PositionWizardComponent implements OnInit {
   }
 
   private applyInitialScope(countryId: number, coverageTypeId: number): void {
+    this.resolvingConfig = true;
     this.suppressCountryCascade = true;
     this.clientForm.patchValue({ countryId, coverageTypeId }, { emitEvent: false });
     this.loadCountryCatalogs(countryId);
