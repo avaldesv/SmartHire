@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -11,7 +12,20 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { combineLatest, debounceTime, distinctUntilChanged, filter, forkJoin, switchMap } from 'rxjs';
+import {
+  catchError,
+  combineLatest,
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  forkJoin,
+  map,
+  of,
+  Subject,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { CatalogPositionService } from '../../../core/services/catalog-position.service';
 import { DynamicRequisitionWizardService } from '../../../core/services/dynamic-requisition-wizard.service';
@@ -22,11 +36,16 @@ import { CreatePositionRequest, PositionDetail } from '../../../shared/models/po
 import { ResolvedRequisitionFormConfig } from '../../../shared/models/requisition-wizard.model';
 import {
   buildDynamicCreatePayload,
+  flattenDynamicFormValues,
   hydrateDynamicFormValues,
   patchDynamicForm,
 } from './dynamic-wizard-payload.util';
 import { resolveWizardStepLabel } from './requisition-wizard-labels';
 import { DynamicWizardStepComponent } from './dynamic-wizard-step/dynamic-wizard-step.component';
+import {
+  RequisitionScopeDialogComponent,
+  RequisitionScopeDialogResult,
+} from './requisition-scope-dialog/requisition-scope-dialog.component';
 import {
   CatalogCountry,
   CatalogMunicipality,
@@ -60,6 +79,7 @@ import {
     MatSnackBarModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
+    MatDialogModule,
     PageHeaderComponent,
     DynamicWizardStepComponent,
   ],
@@ -71,6 +91,7 @@ export class PositionWizardComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly snack = inject(MatSnackBar);
+  private readonly dialog = inject(MatDialog);
   private readonly geographyService = inject(CatalogGeographyService);
   private readonly catalogService = inject(CatalogPositionService);
   private readonly positionService = inject(PositionService);
@@ -91,6 +112,14 @@ export class PositionWizardComponent implements OnInit {
   editPositionId: number | null = null;
   requisitionNo: string | null = null;
   private suppressCountryCascade = false;
+  private suppressScopeResolve = false;
+  private activeScopeKey: string | null = null;
+  private readonly scopeResolve$ = new Subject<{
+    countryId: number;
+    coverageTypeId: number;
+    preserveValues: boolean;
+  }>();
+  private readonly dynamicUiStop$ = new Subject<void>();
 
   get isEditMode(): boolean {
     return this.editPositionId != null;
@@ -202,6 +231,7 @@ export class PositionWizardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.setupScopeResolvePipeline();
     this.setupCountryCascade();
     this.setupResolveWatch();
     this.setupAddressCascade();
@@ -210,7 +240,133 @@ export class PositionWizardComponent implements OnInit {
     const idParam = this.route.snapshot.paramMap.get('id');
     if (idParam) {
       this.loadPositionForEdit(Number(idParam));
+      return;
     }
+    this.beginCreateFlow();
+  }
+
+  private beginCreateFlow(): void {
+    const countryId = Number(this.route.snapshot.queryParamMap.get('countryId'));
+    const coverageTypeId = Number(this.route.snapshot.queryParamMap.get('coverageTypeId'));
+    if (Number.isFinite(countryId) && countryId > 0 && Number.isFinite(coverageTypeId) && coverageTypeId > 0) {
+      this.applyInitialScope(countryId, coverageTypeId);
+      return;
+    }
+    this.openScopeDialogForCreate();
+  }
+
+  private openScopeDialogForCreate(): void {
+    this.dialog
+      .open(RequisitionScopeDialogComponent, {
+        width: '480px',
+        disableClose: true,
+        data: {},
+      })
+      .afterClosed()
+      .subscribe((result: RequisitionScopeDialogResult | null | undefined) => {
+        if (!result) {
+          void this.router.navigate(['/positions']);
+          return;
+        }
+        void this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: {
+            countryId: result.countryId,
+            coverageTypeId: result.coverageTypeId,
+          },
+          replaceUrl: true,
+        });
+        this.applyInitialScope(result.countryId, result.coverageTypeId);
+      });
+  }
+
+  private applyInitialScope(countryId: number, coverageTypeId: number): void {
+    this.suppressCountryCascade = true;
+    this.clientForm.patchValue({ countryId, coverageTypeId }, { emitEvent: false });
+    this.loadCountryCatalogs(countryId);
+    this.loadAddressStates(countryId);
+    this.suppressCountryCascade = false;
+    this.requestScopeResolve(countryId, coverageTypeId, false);
+  }
+
+  private setupScopeResolvePipeline(): void {
+    this.scopeResolve$
+      .pipe(
+        debounceTime(200),
+        distinctUntilChanged(
+          (a, b) =>
+            a.countryId === b.countryId &&
+            a.coverageTypeId === b.coverageTypeId &&
+            a.preserveValues === b.preserveValues,
+        ),
+        tap(() => {
+          this.resolvingConfig = true;
+        }),
+        switchMap(({ countryId, coverageTypeId, preserveValues }) => {
+          const preserved = preserveValues ? this.collectPreservedValues() : {};
+          preserved['countryId'] = countryId;
+          preserved['coverageTypeId'] = coverageTypeId;
+          const scopeKey = `${countryId}:${coverageTypeId}`;
+          if (scopeKey === this.activeScopeKey && this.useDynamicWizard && this.dynamicForm) {
+            this.resolvingConfig = false;
+            return of(null);
+          }
+          return this.dynamicWizardService.resolve(countryId, coverageTypeId).pipe(
+            map((config) => ({ config, countryId, coverageTypeId, preserved, scopeKey })),
+            catchError(() => of({ config: null, countryId, coverageTypeId, preserved, scopeKey })),
+          );
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe((result) => {
+        if (!result) {
+          return;
+        }
+        this.resolvingConfig = false;
+        this.activeScopeKey = result.scopeKey;
+        if (!this.isEditMode) {
+          void this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: {
+              countryId: result.countryId,
+              coverageTypeId: result.coverageTypeId,
+            },
+            replaceUrl: true,
+          });
+        }
+        if (result.config) {
+          this.activateDynamicWizard(result.config, result.preserved);
+        } else {
+          this.deactivateDynamicWizard(result.preserved);
+        }
+      });
+  }
+
+  private requestScopeResolve(countryId: number, coverageTypeId: number, preserveValues: boolean): void {
+    this.scopeResolve$.next({ countryId, coverageTypeId, preserveValues });
+  }
+
+  private collectPreservedValues(): Record<string, unknown> {
+    if (this.useDynamicWizard && this.dynamicForm) {
+      return flattenDynamicFormValues(this.dynamicForm);
+    }
+    const client = this.clientForm.getRawValue();
+    const general = this.generalForm.getRawValue();
+    const manpower = this.manpowerForm.getRawValue();
+    const hiring = this.hiringForm.getRawValue();
+    const languages = this.languagesForm.getRawValue();
+    const address = this.addressForm.getRawValue();
+    const requirements = this.requirementsForm.getRawValue();
+    return {
+      ...client,
+      ...general,
+      ...manpower,
+      ...hiring,
+      ...languages,
+      ...address,
+      ...requirements,
+      documentTypeIds: this.selectedDocumentTypeIds.value,
+    };
   }
 
   private loadCountries(): void {
@@ -219,12 +375,6 @@ export class PositionWizardComponent implements OnInit {
       next: (items) => {
         this.countries = items;
         this.loadingCatalog.countries = false;
-        if (!this.isEditMode) {
-          const mexico = items.find((c) => c.code === 'MX');
-          if (mexico) {
-            this.clientForm.patchValue({ countryId: mexico.id });
-          }
-        }
       },
       error: () => {
         this.loadingCatalog.countries = false;
@@ -288,54 +438,185 @@ export class PositionWizardComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(([countryId, coverageTypeId]) => {
-        if (this.suppressCountryCascade) {
+        if (this.suppressCountryCascade || this.suppressScopeResolve || this.useDynamicWizard) {
           return;
         }
-        this.tryResolveAndSetupWizard(countryId!, coverageTypeId!);
+        this.requestScopeResolve(countryId!, coverageTypeId!, true);
       });
   }
 
-  private tryResolveAndSetupWizard(countryId: number, coverageTypeId: number): void {
-    this.resolvingConfig = true;
-    this.dynamicWizardService.resolve(countryId, coverageTypeId).subscribe({
-      next: (config) => {
-        this.resolvingConfig = false;
-        if (config) {
-          this.activateDynamicWizard(config);
-        } else {
-          this.deactivateDynamicWizard();
+  private bindDynamicScopeWatch(): void {
+    if (!this.dynamicForm || !this.resolvedConfig) {
+      return;
+    }
+    const countryCtrl = this.findDynamicControl('countryId');
+    const coverageCtrl = this.findDynamicControl('coverageTypeId');
+    if (!countryCtrl || !coverageCtrl) {
+      return;
+    }
+    combineLatest([countryCtrl.valueChanges, coverageCtrl.valueChanges])
+      .pipe(
+        debounceTime(250),
+        distinctUntilChanged(([a, b], [c, d]) => a === c && b === d),
+        filter(([countryId, coverageTypeId]) => countryId != null && coverageTypeId != null),
+        takeUntil(this.dynamicUiStop$),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(([countryId, coverageTypeId]) => {
+        if (this.suppressScopeResolve || this.suppressCountryCascade) {
+          return;
         }
-      },
-      error: () => {
-        this.resolvingConfig = false;
-        this.deactivateDynamicWizard();
-      },
-    });
+        const scopeKey = `${countryId}:${coverageTypeId}`;
+        if (scopeKey === this.activeScopeKey) {
+          return;
+        }
+        this.requestScopeResolve(countryId as number, coverageTypeId as number, true);
+      });
   }
 
-  private activateDynamicWizard(config: ResolvedRequisitionFormConfig): void {
+  private findDynamicControl(fieldKey: string) {
+    if (!this.dynamicForm || !this.resolvedConfig) {
+      return null;
+    }
+    for (const step of this.resolvedConfig.steps) {
+      const stepGroup = this.dynamicForm.get(step.stepKey) as FormGroup | null;
+      const control = stepGroup?.get(fieldKey);
+      if (control) {
+        return control;
+      }
+    }
+    return null;
+  }
+
+  private activateDynamicWizard(
+    config: ResolvedRequisitionFormConfig,
+    preservedValues: Record<string, unknown> = {},
+  ): void {
+    this.suppressScopeResolve = true;
+    this.dynamicUiStop$.next();
     this.useDynamicWizard = true;
     this.resolvedConfig = config;
     this.dynamicForm = this.dynamicWizardService.buildForm(config);
-    this.dynamicForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
-      if (this.dynamicForm && this.resolvedConfig) {
-        this.dynamicWizardService.refreshValidators(this.dynamicForm, this.resolvedConfig);
-        const countryId = this.dynamicCountryId;
-        if (countryId != null) {
-          this.loadBrands(countryId);
+    patchDynamicForm(this.dynamicForm, preservedValues, config);
+    this.dynamicWizardService.refreshValidators(this.dynamicForm, config);
+    this.bindDynamicScopeWatch();
+    this.dynamicForm.valueChanges
+      .pipe(takeUntil(this.dynamicUiStop$), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        if (this.dynamicForm && this.resolvedConfig) {
+          this.dynamicWizardService.refreshValidators(this.dynamicForm, this.resolvedConfig);
+          const countryId = this.dynamicCountryId;
+          if (countryId != null) {
+            this.loadBrands(countryId);
+          }
         }
-      }
-    });
-    const countryId = this.dynamicCountryId;
+      });
+    const countryId =
+      (preservedValues['countryId'] as number | null | undefined) ?? this.dynamicCountryId;
     if (countryId != null) {
       this.loadBrands(countryId);
+      this.loadCountryCatalogs(countryId);
     }
+    this.suppressScopeResolve = false;
   }
 
-  private deactivateDynamicWizard(): void {
+  private deactivateDynamicWizard(preservedValues: Record<string, unknown> = {}): void {
+    this.suppressScopeResolve = true;
+    this.dynamicUiStop$.next();
     this.useDynamicWizard = false;
     this.resolvedConfig = null;
     this.dynamicForm = null;
+    this.applyPreservedValuesToLegacy(preservedValues);
+    this.suppressScopeResolve = false;
+  }
+
+  private applyPreservedValuesToLegacy(values: Record<string, unknown>): void {
+    const asNumber = (key: string): number | null => {
+      const raw = values[key];
+      return typeof raw === 'number' ? raw : null;
+    };
+    const asString = (key: string, fallback = ''): string => {
+      const raw = values[key];
+      return typeof raw === 'string' ? raw : fallback;
+    };
+    const countryId = asNumber('countryId');
+    const coverageTypeId = asNumber('coverageTypeId');
+    this.clientForm.patchValue(
+      {
+        countryId,
+        coverageTypeId,
+        requisitionTypeId: asNumber('requisitionTypeId'),
+        ot: asString('ot'),
+        clientKey: asString('clientKey'),
+        legalName: asString('legalName'),
+        contactName: asString('contactName'),
+        clientPosition: asString('clientPosition') || asString('clientContactPosition'),
+      },
+      { emitEvent: false },
+    );
+    this.generalForm.patchValue(
+      {
+        generalNotes: asString('generalNotes'),
+        contractTypeId: asNumber('contractTypeId'),
+        shiftId: asNumber('shiftId'),
+        salary: typeof values['salary'] === 'number' ? (values['salary'] as number) : 0,
+        workDays: asString('workDays', 'L-V'),
+      },
+      { emitEvent: false },
+    );
+    this.manpowerForm.patchValue(
+      {
+        positionsCount:
+          typeof values['positionsCount'] === 'number' ? (values['positionsCount'] as number) : 1,
+        headcount: typeof values['headcount'] === 'number' ? (values['headcount'] as number) : 1,
+        startDate: asString('startDate'),
+      },
+      { emitEvent: false },
+    );
+    this.hiringForm.patchValue(
+      {
+        hiringContractTypeId: asNumber('hiringContractTypeId'),
+        benefitId: asNumber('benefitId'),
+        probationDays:
+          typeof values['probationDays'] === 'number' ? (values['probationDays'] as number) : 30,
+      },
+      { emitEvent: false },
+    );
+    this.languagesForm.patchValue(
+      {
+        primaryLanguageId: asNumber('primaryLanguageId'),
+        secondaryLanguageId: asNumber('secondaryLanguageId'),
+        languageLevelId: asNumber('languageLevelId'),
+      },
+      { emitEvent: false },
+    );
+    this.addressForm.patchValue(
+      {
+        address: asString('address') || asString('addressLine'),
+        stateId: asNumber('stateId'),
+        municipalityId: asNumber('municipalityId'),
+        postalCode: asString('postalCode'),
+        neighborhoodId: asNumber('neighborhoodId'),
+        city: asString('city'),
+      },
+      { emitEvent: false },
+    );
+    this.requirementsForm.patchValue(
+      {
+        requirements: asString('requirements'),
+        educationLevelId: asNumber('educationLevelId'),
+        experienceYears:
+          typeof values['experienceYears'] === 'number' ? (values['experienceYears'] as number) : 2,
+      },
+      { emitEvent: false },
+    );
+    if (Array.isArray(values['documentTypeIds'])) {
+      this.selectedDocumentTypeIds.setValue(values['documentTypeIds'] as number[]);
+    }
+    if (countryId != null) {
+      this.loadCountryCatalogs(countryId);
+      this.loadAddressStates(countryId);
+    }
   }
 
   private getDynamicScalarValue(fieldKey: string): number | null {
@@ -667,6 +948,7 @@ export class PositionWizardComponent implements OnInit {
         this.requisitionNo = position.requisitionNo;
         this.dynamicWizardService.resolve(position.countryId, position.coverageTypeId).subscribe({
           next: (config) => {
+            this.activeScopeKey = `${position.countryId}:${position.coverageTypeId}`;
             if (config) {
               this.activateDynamicWizard(config);
               this.hydrateDynamicForms(position, config);
@@ -676,6 +958,7 @@ export class PositionWizardComponent implements OnInit {
             }
           },
           error: () => {
+            this.activeScopeKey = `${position.countryId}:${position.coverageTypeId}`;
             this.deactivateDynamicWizard();
             this.hydrateForms(position);
           },
