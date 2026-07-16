@@ -712,7 +712,8 @@
               </div>
             }
 
-          <form [formGroup]="documentTypeForm" class="gender-form" (ngSubmit)="saveDocumentType()">
+          <form [formGroup]="documentTypeForm" class="doc-type-form" (ngSubmit)="saveDocumentType()">
+            <!-- Row 1: País, Clave, Nombre -->
             <mat-form-field appearance="outline">
               <mat-label i18n="@@catalogs.field.country">País</mat-label>
               <mat-select formControlName="countryId" (selectionChange)="onDocumentTypeFormCountryChange($event.value)">
@@ -724,28 +725,18 @@
             </mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
+
+            <!-- Row 2: Tipo documento, Servicios procesamiento, Servicio predeterminado -->
             <mat-form-field appearance="outline"><mat-label>{{ fieldDocumentType }}</mat-label><input matInput formControlName="documentType" /></mat-form-field>
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label i18n="@@catalogs.field.description">Descripción</mat-label>
-              <textarea matInput formControlName="description" rows="3"></textarea>
-            </mat-form-field>
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label i18n="@@catalogs.field.allowedExtensions">Extensiones permitidas</mat-label>
-              <mat-select formControlName="allowedExtensionIds" multiple>
-                @for (ext of fileExtensionOptions; track ext.id) {
-                  <mat-option [value]="ext.id">{{ ext.code }} — {{ ext.name }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field appearance="outline" class="full-width">
+            <mat-form-field appearance="outline">
               <mat-label i18n="@@catalogs.field.processingServices">Servicios de procesamiento</mat-label>
               <mat-select formControlName="processingServiceIds" multiple (selectionChange)="onProcessingServiceIdsChange()">
                 @for (svc of processingServiceOptions; track svc.id) {
-                  <mat-option [value]="svc.id">{{ svc.code }} — {{ svc.name }}</mat-option>
+                  <mat-option [value]="svc.id">{{ svc.name }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
-            <mat-form-field appearance="outline" class="full-width">
+            <mat-form-field appearance="outline">
               <mat-label i18n="@@catalogs.field.defaultProcessingService">Servicio predeterminado</mat-label>
               <mat-select
                 formControlName="defaultProcessingServiceId"
@@ -753,12 +744,33 @@
               >
                 <mat-option [value]="null" i18n="@@catalogs.field.none">Ninguno</mat-option>
                 @for (svc of selectedProcessingServiceOptions; track svc.id) {
-                  <mat-option [value]="svc.id">{{ svc.code }} — {{ svc.name }}</mat-option>
+                  <mat-option [value]="svc.id">{{ svc.name }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
-            <mat-checkbox formControlName="validatesWithAi">{{ fieldValidatesWithAi }}</mat-checkbox>
-            <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
+
+            <!-- Row 3: Extensiones permitidas, Valida con IA, Activo -->
+            <mat-form-field appearance="outline">
+              <mat-label i18n="@@catalogs.field.allowedExtensions">Extensiones permitidas</mat-label>
+              <mat-select formControlName="allowedExtensionIds" multiple>
+                @for (ext of fileExtensionOptions; track ext.id) {
+                  <mat-option [value]="ext.id">{{ ext.code }} — {{ ext.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <div class="doc-type-checkbox-cell">
+              <mat-checkbox formControlName="validatesWithAi">{{ fieldValidatesWithAi }}</mat-checkbox>
+            </div>
+            <div class="doc-type-checkbox-cell">
+              <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
+            </div>
+
+            <!-- Row 4: Descripción (colspan=3) -->
+            <mat-form-field appearance="outline" class="doc-type-full-row">
+              <mat-label i18n="@@catalogs.field.description">Descripción</mat-label>
+              <textarea matInput formControlName="description" rows="3"></textarea>
+            </mat-form-field>
+
             <div class="form-actions">
               <button mat-button type="button" (click)="cancelDocumentTypeForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingDocumentType">{{ savingDocumentType ? catalogsSaving : catalogsSave }}</button>

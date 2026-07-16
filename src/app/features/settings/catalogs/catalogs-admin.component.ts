@@ -12,6 +12,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
+import { ApiErrorTranslationService } from '../../../core/services/api-error-translation.service';
 import { CatalogCareerService } from '../../../core/services/catalog-career.service';
 import { CatalogBenefitService } from '../../../core/services/catalog-benefit.service';
 import { CatalogBrandService } from '../../../core/services/catalog-brand.service';
@@ -305,6 +306,7 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly geographyService = inject(CatalogGeographyService);
   private readonly userSettingsApi = inject(UserSettingsApiService);
   private readonly snack = inject(MatSnackBar);
+  private readonly apiError = inject(ApiErrorTranslationService);
   private readonly fb = inject(FormBuilder);
 
   readonly createScopeForm = this.fb.nonNullable.group({
@@ -4333,9 +4335,9 @@ export class CatalogsAdminComponent implements OnInit {
         this.loadDocumentTypes();
         this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('documentType')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
-      error: () => {
+      error: (err: unknown) => {
         this.savingDocumentType = false;
-        this.snack.open(catalogSaveError(getCatalogEntryLabel('documentType')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
+        this.snack.open(this.apiError.translate(err), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }
