@@ -1,7 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ResolvedRequisitionFormField, WizardFieldOption } from '../../../../shared/models/requisition-wizard.model';
@@ -10,7 +13,17 @@ import { resolveWizardFieldLabel } from '../requisition-wizard-labels';
 @Component({
   selector: 'sh-dynamic-wizard-field',
   standalone: true,
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatCheckboxModule],
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatIconModule,
+  ],
+  providers: [provideNativeDateAdapter()],
   templateUrl: './dynamic-wizard-field.component.html',
   styleUrl: './dynamic-wizard-field.component.scss',
 })
@@ -50,6 +63,6 @@ export class DynamicWizardFieldComponent {
   }
 
   get isSimpleInput(): boolean {
-    return this.field.uiType === 'text' || this.isTextarea || this.isNumber || this.isDate || this.isTime;
+    return this.field.uiType === 'text' || this.isTextarea || this.isNumber;
   }
 }

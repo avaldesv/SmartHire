@@ -126,7 +126,7 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
   }
 
   isReadOnly(field: ResolvedRequisitionFormField): boolean {
-    return isFieldReadOnly(field) || field.fieldKey === 'brandId';
+    return isFieldReadOnly(field);
   }
 
   private syncMirroredFields(): void {

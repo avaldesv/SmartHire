@@ -14,6 +14,19 @@
       }
     </mat-select>
   </mat-form-field>
+} @else if (isDate) {
+  <mat-form-field appearance="outline">
+    <mat-label>{{ label }}</mat-label>
+    <input matInput [matDatepicker]="picker" [formControl]="control" [disabled]="disabled" />
+    <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="disabled"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+} @else if (isTime) {
+  <mat-form-field appearance="outline" class="time-field">
+    <mat-label>{{ label }}</mat-label>
+    <input matInput type="time" step="60" [formControl]="control" [disabled]="disabled" />
+    <mat-icon matIconSuffix>schedule</mat-icon>
+  </mat-form-field>
 } @else if (isSimpleInput) {
   <mat-form-field appearance="outline" [class.span-2]="isTextarea">
     <mat-label>{{ label }}</mat-label>
@@ -22,7 +35,7 @@
     } @else {
       <input
         matInput
-        [type]="isNumber ? 'number' : isDate ? 'date' : isTime ? 'time' : 'text'"
+        [type]="isNumber ? 'number' : 'text'"
         [formControl]="control"
         [disabled]="disabled"
       />

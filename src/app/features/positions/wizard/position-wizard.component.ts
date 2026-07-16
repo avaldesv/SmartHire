@@ -31,7 +31,6 @@ import { CatalogGeographyService } from '../../../core/services/catalog-geograph
 import { CatalogPositionService } from '../../../core/services/catalog-position.service';
 import { DynamicRequisitionWizardService } from '../../../core/services/dynamic-requisition-wizard.service';
 import { PositionService } from '../../../core/services/position.service';
-import { TenantContextService } from '../../../core/services/tenant-context.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { CreatePositionRequest, PositionDetail } from '../../../shared/models/position.model';
 import { ResolvedRequisitionFormConfig } from '../../../shared/models/requisition-wizard.model';
@@ -55,7 +54,6 @@ import {
 } from '../../../shared/models/catalog-geography.model';
 import {
   CatalogBenefit,
-  CatalogBrand,
   CatalogContractType,
   CatalogCoverageType,
   CatalogDocumentType,
@@ -96,7 +94,6 @@ export class PositionWizardComponent implements OnInit {
   private readonly geographyService = inject(CatalogGeographyService);
   private readonly catalogService = inject(CatalogPositionService);
   private readonly positionService = inject(PositionService);
-  private readonly tenantContext = inject(TenantContextService);
   private readonly dynamicWizardService = inject(DynamicRequisitionWizardService);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -107,8 +104,6 @@ export class PositionWizardComponent implements OnInit {
 
   @ViewChild('dynamicStepper') dynamicStepper?: MatStepper;
   creating = false;
-  tenantBrandId: number | null = null;
-  tenantBrandName: string | null = null;
   loadingPosition = false;
   editPositionId: number | null = null;
   requisitionNo: string | null = null;
@@ -116,8 +111,6 @@ export class PositionWizardComponent implements OnInit {
   private suppressCountryCascade = false;
   private suppressScopeResolve = false;
   private activeScopeKey: string | null = null;
-  private lastBrandCountryId: number | null = null;
-  private missingBrandWarnedForCountryId: number | null = null;
   private readonly scopeResolve$ = new Subject<{
     countryId: number;
     coverageTypeId: number;
@@ -133,7 +126,6 @@ export class PositionWizardComponent implements OnInit {
   states: CatalogState[] = [];
   municipalities: CatalogMunicipality[] = [];
   neighborhoods: CatalogNeighborhood[] = [];
-  brands: CatalogBrand[] = [];
   coverageTypes: CatalogCoverageType[] = [];
   shifts: CatalogShift[] = [];
   benefits: CatalogBenefit[] = [];
@@ -146,7 +138,6 @@ export class PositionWizardComponent implements OnInit {
 
   loadingCatalog = {
     countries: false,
-    brands: false,
     requisitionTypes: false,
     coverageTypes: false,
     shifts: false,
@@ -540,16 +531,11 @@ export class PositionWizardComponent implements OnInit {
       .subscribe(() => {
         if (this.dynamicForm && this.resolvedConfig) {
           this.dynamicWizardService.refreshValidators(this.dynamicForm, this.resolvedConfig);
-          const countryId = this.dynamicCountryId;
-          if (countryId != null) {
-            this.loadBrands(countryId);
-          }
         }
       });
     const countryId =
       (preservedValues['countryId'] as number | null | undefined) ?? this.dynamicCountryId;
     if (countryId != null) {
-      this.loadBrands(countryId);
       this.loadCountryCatalogs(countryId);
     }
     this.suppressScopeResolve = false;
@@ -681,9 +667,6 @@ export class PositionWizardComponent implements OnInit {
           this.loadAddressStates(countryId);
           return;
         }
-        this.resetTenantBrand();
-        this.lastBrandCountryId = null;
-        this.missingBrandWarnedForCountryId = null;
         this.clientForm.patchValue({ coverageTypeId: null, requisitionTypeId: null }, { emitEvent: false });
         this.generalForm.patchValue({ shiftId: null, contractTypeId: null }, { emitEvent: false });
         this.hiringForm.patchValue({ benefitId: null, hiringContractTypeId: null }, { emitEvent: false });
@@ -811,7 +794,6 @@ export class PositionWizardComponent implements OnInit {
   }
 
   private loadCountryCatalogs(countryId: number): void {
-    this.loadBrands(countryId);
     this.loadCoverageTypes(countryId);
     this.loadShifts(countryId);
     this.loadBenefits(countryId);
@@ -820,73 +802,6 @@ export class PositionWizardComponent implements OnInit {
     this.loadContractTypes(countryId);
     this.loadLanguageLevels(countryId);
     this.loadRequisitionTypes(countryId);
-  }
-
-  private loadBrands(countryId: number): void {
-    if (this.lastBrandCountryId === countryId && this.tenantBrandId != null) {
-      return;
-    }
-    this.lastBrandCountryId = countryId;
-    this.loadingCatalog.brands = true;
-    this.catalogService.listBrands(countryId).subscribe({
-      next: (items) => {
-        this.brands = items;
-        this.applyTenantBrand(items, undefined, countryId);
-        this.loadingCatalog.brands = false;
-      },
-      error: () => {
-        this.brands = [];
-        this.resetTenantBrand();
-        this.loadingCatalog.brands = false;
-      },
-    });
-  }
-
-  private resetTenantBrand(): void {
-    this.tenantBrandId = null;
-    this.tenantBrandName = null;
-  }
-
-  /**
-   * Brands list is already tenant-scoped (company_id IS NULL OR = tenant).
-   * Prefer an exact company match; otherwise use a shared (null) or first brand.
-   */
-  private applyTenantBrand(
-    brands: CatalogBrand[],
-    fallbackBrandId?: number | null,
-    countryId?: number | null,
-  ): void {
-    const tenantId = Number(this.tenantContext.getCompanyId());
-    const tenantBrand =
-      brands.find((brand) => brand.companyId != null && Number(brand.companyId) === tenantId) ??
-      brands.find((brand) => brand.companyId == null) ??
-      brands[0] ??
-      null;
-
-    if (tenantBrand) {
-      this.tenantBrandId = tenantBrand.id;
-      this.tenantBrandName = tenantBrand.name;
-      this.missingBrandWarnedForCountryId = null;
-      return;
-    }
-
-    if (fallbackBrandId != null) {
-      const fallbackBrand = brands.find((brand) => brand.id === fallbackBrandId);
-      this.tenantBrandId = fallbackBrandId;
-      this.tenantBrandName = fallbackBrand?.name ?? null;
-      this.missingBrandWarnedForCountryId = null;
-      return;
-    }
-
-    this.resetTenantBrand();
-    const warnedCountry =
-      countryId ?? this.dynamicCountryId ?? this.clientForm.controls.countryId.value;
-    if (!this.isEditMode && warnedCountry != null && this.missingBrandWarnedForCountryId !== warnedCountry) {
-      this.missingBrandWarnedForCountryId = warnedCountry;
-      this.snack.open('No hay marca configurada para este tenant en el país seleccionado', 'Cerrar', {
-        duration: 4000,
-      });
-    }
   }
 
   private loadCoverageTypes(countryId: number): void {
@@ -1040,25 +955,14 @@ export class PositionWizardComponent implements OnInit {
     }
     const values = hydrateDynamicFormValues(position, config);
     patchDynamicForm(this.dynamicForm, values, config);
-    this.catalogService.listBrands(position.countryId).subscribe({
-      next: (brands) => {
-        this.brands = brands;
-        this.applyTenantBrand(brands, position.brandId);
-        this.suppressCountryCascade = false;
-        this.loadingPosition = false;
-      },
-      error: () => {
-        this.suppressCountryCascade = false;
-        this.loadingPosition = false;
-        this.snack.open('Error al cargar catálogos de la requisición', 'Cerrar', { duration: 4000 });
-      },
-    });
+    this.loadCountryCatalogs(position.countryId);
+    this.suppressCountryCascade = false;
+    this.loadingPosition = false;
   }
 
   private hydrateForms(position: PositionDetail): void {
     this.suppressCountryCascade = true;
     forkJoin({
-      brands: this.catalogService.listBrands(position.countryId),
       coverageTypes: this.catalogService.listCoverageTypes(position.countryId),
       shifts: this.catalogService.listShifts(position.countryId),
       benefits: this.catalogService.listBenefits(position.countryId),
@@ -1071,7 +975,6 @@ export class PositionWizardComponent implements OnInit {
     })
       .pipe(
         switchMap((catalogs) => {
-          this.brands = catalogs.brands;
           this.coverageTypes = catalogs.coverageTypes;
           this.shifts = catalogs.shifts;
           this.benefits = catalogs.benefits;
@@ -1096,7 +999,6 @@ export class PositionWizardComponent implements OnInit {
           if (neighborhoods.length) {
             this.addressForm.controls.neighborhoodId.enable();
           }
-          this.applyTenantBrand(this.brands, position.brandId);
           this.clientForm.patchValue({
             countryId: position.countryId,
             requisitionTypeId: position.requisitionTypeId,
@@ -1175,12 +1077,11 @@ export class PositionWizardComponent implements OnInit {
   }
 
   private buildDynamicPayload(): CreatePositionRequest {
-    if (!this.dynamicForm || !this.resolvedConfig || this.tenantBrandId == null) {
+    if (!this.dynamicForm || !this.resolvedConfig) {
       throw new Error('Dynamic wizard not ready');
     }
     return buildDynamicCreatePayload(
       this.dynamicWizardService.getFlatValues(this.dynamicForm),
-      this.tenantBrandId,
       this.resolvedConfig,
     );
   }
@@ -1196,7 +1097,7 @@ export class PositionWizardComponent implements OnInit {
 
     return {
       countryId: client.countryId!,
-      brandId: this.tenantBrandId!,
+      brandId: null,
       requisitionTypeId: client.requisitionTypeId!,
       coverageTypeId: client.coverageTypeId!,
       ot: client.ot,
@@ -1254,12 +1155,6 @@ export class PositionWizardComponent implements OnInit {
       this.snack.open('Complete los campos obligatorios', 'Cerrar', { duration: 3000 });
       return;
     }
-    if (this.tenantBrandId == null) {
-      this.snack.open('No hay marca configurada para este tenant en el país seleccionado', 'Cerrar', {
-        duration: 4000,
-      });
-      return;
-    }
     if (this.creating) {
       return;
     }
@@ -1299,12 +1194,6 @@ export class PositionWizardComponent implements OnInit {
     if (this.dynamicForm.invalid) {
       this.dynamicForm.markAllAsTouched();
       this.snack.open('Complete los campos obligatorios', 'Cerrar', { duration: 3000 });
-      return;
-    }
-    if (this.tenantBrandId == null) {
-      this.snack.open('No hay marca configurada para este tenant en el país seleccionado', 'Cerrar', {
-        duration: 4000,
-      });
       return;
     }
     if (this.creating) {

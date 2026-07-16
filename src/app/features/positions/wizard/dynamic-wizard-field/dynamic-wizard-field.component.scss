@@ -9,3 +9,14 @@ mat-form-field {
 mat-checkbox {
   align-self: center;
 }
+
+.time-field {
+  input[type='time'] {
+    min-height: 1.5rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  mat-icon {
+    color: rgba(0, 0, 0, 0.54);
+  }
+}
