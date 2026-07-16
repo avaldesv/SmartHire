@@ -14,6 +14,19 @@
       }
     </mat-select>
   </mat-form-field>
+} @else if (isMultiselect) {
+  <mat-form-field appearance="outline" class="multiselect-field" subscriptSizing="dynamic">
+    <mat-label>{{ label }}</mat-label>
+    <mat-select [formControl]="control" [disabled]="disabled || loadingOptions" multiple>
+      @if (loadingOptions) {
+        <mat-option disabled>Cargando...</mat-option>
+      } @else {
+        @for (opt of options; track opt.id) {
+          <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
+        }
+      }
+    </mat-select>
+  </mat-form-field>
 } @else if (isDate) {
   <mat-form-field appearance="outline" subscriptSizing="dynamic">
     <mat-label>{{ label }}</mat-label>

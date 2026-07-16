@@ -21,6 +21,8 @@ import { CatalogCoverageTypeService } from './catalog-coverage-type.service';
 import { CatalogRequisitionTypeService } from './catalog-requisition-type.service';
 import { CatalogResponsibilityLevelService } from './catalog-responsibility-level.service';
 import { CatalogShiftService } from './catalog-shift.service';
+import { CatalogRequirementService } from './catalog-requirement.service';
+import { CatalogToolService } from './catalog-tool.service';
 import { CatalogWorkplaceService } from './catalog-workplace.service';
 import { QuestionnaireQuestionnaireApiService } from './questionnaire-questionnaire-api.service';
 import { SecurityRecruiterGroupService } from './security-recruiter-group.service';
@@ -51,6 +53,8 @@ export class WizardFieldCatalogService {
   private readonly disabilityTypeService = inject(CatalogDisabilityTypeService);
   private readonly generalCategoryService = inject(CatalogGeneralCategoryService);
   private readonly workplaceService = inject(CatalogWorkplaceService);
+  private readonly requirementService = inject(CatalogRequirementService);
+  private readonly toolService = inject(CatalogToolService);
   private readonly responsibilityLevelService = inject(CatalogResponsibilityLevelService);
   private readonly jobPortalService = inject(CatalogJobPortalService);
   private readonly documentTypeService = inject(CatalogDocumentTypeService);
@@ -130,6 +134,14 @@ export class WizardFieldCatalogService {
       case 'disability-types':
         return countryId != null
           ? this.disabilityTypeService.list(countryId, 0, 200).pipe(map((r) => this.toOptions(r.items)))
+          : of([]);
+      case 'requirements':
+        return countryId != null
+          ? this.requirementService.list(countryId, 0, 200).pipe(map((r) => this.toOptions(r.items)))
+          : of([]);
+      case 'tools':
+        return countryId != null
+          ? this.toolService.list(countryId, 0, 200).pipe(map((r) => this.toOptions(r.items)))
           : of([]);
       case 'general-categories':
         return countryId != null

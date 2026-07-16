@@ -81,11 +81,12 @@ export interface CreatePositionRequest {
   rotatingShifts?: boolean | null;
   commitmentDate?: string | null;
   hiringDate?: string | null;
-  hiringRequirements?: string | null;
-  tools?: string | null;
+  hiringRequirements?: number[] | null;
+  tools?: number[] | null;
   recruiterGroupId?: number | null;
   careResponsibleUserId?: number | null;
   careResponsibleAts?: string | null;
+  disabilityTypeIds?: number[] | null;
   disabilityTypeId?: number | null;
   hasLinkage?: boolean | null;
   seniorCitizen?: boolean | null;
