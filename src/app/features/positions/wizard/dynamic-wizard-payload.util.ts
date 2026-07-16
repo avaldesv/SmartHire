@@ -56,8 +56,8 @@ export function defaultValueForUiType(uiType: string): unknown {
 
 function createLanguageRowGroup(fb: FormBuilder): FormGroup {
   return fb.nonNullable.group({
-    languageId: [null as number | null, Validators.required],
-    languageLevelId: [null as number | null, Validators.required],
+    languageId: [null as number | null],
+    languageLevelId: [null as number | null],
   });
 }
 
@@ -67,7 +67,7 @@ export function createFieldControl(
   formValues: Record<string, unknown>,
 ): AbstractControl {
   if (field.uiType === 'language-grid') {
-    return fb.array([createLanguageRowGroup(fb)]);
+    return fb.array([createLanguageRowGroup(fb)], buildFieldValidators(field, formValues));
   }
   if (field.uiType === 'questionnaire-picker') {
     return fb.nonNullable.group({
@@ -113,7 +113,9 @@ export function buildFieldValidators(
 function requiredCompositeValidator(field: ResolvedRequisitionFormField): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     if (field.uiType === 'language-grid' && control instanceof FormArray) {
-      const rows = control.getRawValue() as WizardLanguageRow[];
+      const rows = (control.getRawValue() as WizardLanguageRow[]).filter(
+        (r) => r.languageId != null || r.languageLevelId != null,
+      );
       return rows.length > 0 && rows.every((r) => r.languageId != null && r.languageLevelId != null)
         ? null
         : { required: true };

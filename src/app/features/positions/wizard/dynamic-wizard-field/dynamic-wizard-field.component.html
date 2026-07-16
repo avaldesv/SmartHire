@@ -1,7 +1,7 @@
 @if (isCheckbox) {
   <mat-checkbox [formControl]="control" [disabled]="disabled">{{ label }}</mat-checkbox>
 } @else if (isSelect) {
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" subscriptSizing="dynamic">
     <mat-label>{{ label }}</mat-label>
     <mat-select [formControl]="control" [disabled]="disabled || loadingOptions">
       @if (loadingOptions) {
@@ -15,14 +15,14 @@
     </mat-select>
   </mat-form-field>
 } @else if (isDate) {
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" subscriptSizing="dynamic">
     <mat-label>{{ label }}</mat-label>
     <input matInput [matDatepicker]="picker" [formControl]="control" [disabled]="disabled" />
     <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="disabled"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 } @else if (isTime) {
-  <mat-form-field appearance="outline" class="time-field" (click)="openTimePicker($event)">
+  <mat-form-field appearance="outline" class="time-field" subscriptSizing="dynamic" (click)="openTimePicker($event)">
     <mat-label>{{ label }}</mat-label>
     <input
       #timeInput
@@ -46,10 +46,15 @@
     </button>
   </mat-form-field>
 } @else if (isSimpleInput) {
-  <mat-form-field appearance="outline" [class.span-2]="isTextarea">
+  <mat-form-field
+    appearance="outline"
+    subscriptSizing="dynamic"
+    [class.span-2]="isTextarea"
+    [class.textarea-field]="isTextarea"
+  >
     <mat-label>{{ label }}</mat-label>
     @if (isTextarea) {
-      <textarea matInput rows="3" [formControl]="control" [disabled]="disabled"></textarea>
+      <textarea matInput rows="6" [formControl]="control" [disabled]="disabled"></textarea>
     } @else {
       <input
         matInput

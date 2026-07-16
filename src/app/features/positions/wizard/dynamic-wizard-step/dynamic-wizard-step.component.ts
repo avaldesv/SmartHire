@@ -294,12 +294,14 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
         languageLevelId: [null as number | null],
       }),
     );
+    array.updateValueAndValidity({ emitEvent: false });
   }
 
   removeLanguageRow(fieldKey: string, index: number): void {
     const array = this.languageArray(fieldKey);
     if (array.length > 1) {
       array.removeAt(index);
+      array.updateValueAndValidity({ emitEvent: true });
     }
   }
 

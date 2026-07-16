@@ -1,12 +1,18 @@
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px 16px;
   margin-top: 16px;
+  align-items: start;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.span-2 {
-  grid-column: span 2;
+.span-2,
+.field-full {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-width: 0;
 }
 
 .grid-title {
@@ -22,13 +28,16 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  width: 100%;
+  min-width: 0;
 }
 
 .language-row {
   display: grid;
-  grid-template-columns: 1fr 1fr auto;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
   gap: 8px;
   align-items: start;
+  width: 100%;
 }
 
 .document-row {
@@ -40,18 +49,32 @@
 
 .questionnaire-fields {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
+  width: 100%;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 900px) {
   .form-grid,
-  .questionnaire-fields,
+  .questionnaire-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .language-row {
+    grid-template-columns: 1fr auto;
+  }
+
+  .language-row mat-form-field:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 600px) {
   .language-row {
     grid-template-columns: 1fr;
   }
 
-  .span-2 {
-    grid-column: span 1;
+  .language-row button {
+    justify-self: end;
   }
 }

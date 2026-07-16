@@ -5,17 +5,19 @@
         <h4 class="grid-title">{{ fieldLabel(field) }}</h4>
         @for (row of languageArray(field.fieldKey).controls; track $index; let i = $index) {
           <div class="language-row" [formGroup]="$any(row)">
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
               <mat-label>Idioma</mat-label>
               <mat-select formControlName="languageId">
+                <mat-option [value]="null">—</mat-option>
                 @for (opt of languageOptions(); track opt.id) {
                   <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
               <mat-label>Nivel</mat-label>
               <mat-select formControlName="languageLevelId">
+                <mat-option [value]="null">—</mat-option>
                 @for (opt of languageLevelOptions(); track opt.id) {
                   <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
                 }
@@ -127,6 +129,16 @@
           }
         </mat-select>
       </mat-form-field>
+    } @else if (field.uiType === 'textarea') {
+      <div class="span-2 field-full">
+        <sh-dynamic-wizard-field
+          [field]="field"
+          [control]="fieldControl(field.fieldKey)"
+          [options]="optionsByField[field.fieldKey] ?? []"
+          [loadingOptions]="loadingByField[field.fieldKey] ?? false"
+          [disabled]="isReadOnly(field)"
+        />
+      </div>
     } @else {
       <sh-dynamic-wizard-field
         [field]="field"

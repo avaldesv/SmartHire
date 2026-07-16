@@ -1,11 +1,52 @@
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px 16px;
   margin-top: 16px;
+  align-items: start;
+  width: 100%;
 }
 
-.span-2 { grid-column: span 2; }
+.span-2 {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-width: 0;
+}
+
+.wizard-page {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+
+  .sh-card {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  ::ng-deep .wizard-stepper--compact {
+    .mat-horizontal-stepper-header-container,
+    .mat-stepper-horizontal-line {
+      display: none !important;
+      height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      visibility: hidden !important;
+    }
+
+    .mat-horizontal-content-container {
+      padding: 0;
+      overflow: visible;
+    }
+
+    .mat-horizontal-stepper-content {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+}
 
 .wizard-progress {
   display: flex;
@@ -116,30 +157,13 @@
   font-weight: 600;
   color: #0f172a;
   text-align: center;
+  word-break: break-word;
 }
 
 .wizard-progress__caption-sep {
   margin: 0 0.35rem;
   color: #94a3b8;
   font-weight: 500;
-}
-
-.wizard-page {
-  ::ng-deep .wizard-stepper--compact {
-    .mat-horizontal-stepper-header-container,
-    .mat-stepper-horizontal-line {
-      display: none !important;
-      height: 0 !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      overflow: hidden !important;
-      visibility: hidden !important;
-    }
-
-    .mat-horizontal-content-container {
-      padding: 0;
-    }
-  }
 }
 
 .step-title {
@@ -149,7 +173,11 @@
   color: #0f172a;
 }
 
-.step-form { padding: 8px 0; }
+.step-form {
+  padding: 8px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
 
 .step-hint {
   margin: 0;
@@ -158,7 +186,7 @@
 }
 
 .tenant-brand-hint {
-  grid-column: span 2;
+  grid-column: 1 / -1;
   margin-top: 4px;
 }
 
@@ -168,6 +196,7 @@
 
 .step-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-top: 16px;
 }
@@ -189,27 +218,6 @@
   flex-wrap: wrap;
 }
 
-@media (max-width: 700px) {
-  .form-grid { grid-template-columns: 1fr; }
-  .span-2 { grid-column: span 1; }
-
-  .wizard-progress__track {
-    overflow-x: auto;
-    padding-bottom: 4px;
-  }
-
-  .wizard-progress__dot {
-    width: 1.5rem;
-    height: 1.5rem;
-    font-size: 0.7rem;
-  }
-
-  .wizard-progress__connector {
-    min-width: 8px;
-    margin: 0 3px;
-  }
-}
-
 .loading-wrap {
   display: flex;
   flex-direction: column;
@@ -224,4 +232,53 @@
   margin: 0;
   color: #64748b;
   font-size: 0.95rem;
+}
+
+@media (max-width: 900px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bottom-actions {
+    justify-content: stretch;
+  }
+
+  .bottom-actions button {
+    flex: 1 1 auto;
+  }
+}
+
+@media (max-width: 700px) {
+  .wizard-progress__track {
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .wizard-progress__dot {
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 0.7rem;
+  }
+
+  .wizard-progress__connector {
+    min-width: 8px;
+    margin: 0 3px;
+  }
+
+  .wizard-progress__caption {
+    font-size: 0.85rem;
+    text-align: left;
+  }
+
+  .step-actions,
+  .bottom-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .step-actions button,
+  .bottom-actions button {
+    width: 100%;
+  }
 }
