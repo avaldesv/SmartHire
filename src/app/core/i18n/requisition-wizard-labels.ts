@@ -24,7 +24,7 @@ const REQUISITION_FIELD_LABELS: Record<string, string> = {
   contactName: $localize`:@@requisition.field.contactName:Nombre de contacto`,
   contactPhone: $localize`:@@requisition.field.contactPhone:Teléfono de contacto`,
   contactEmail: $localize`:@@requisition.field.contactEmail:Correo de contacto`,
-  clientContactPosition: $localize`:@@requisition.field.clientContactPosition:Puesto del contacto`,
+  clientContactPosition: $localize`:@@requisition.field.clientContactPosition:Puesto Cliente`,
   clientPositionKey: $localize`:@@requisition.field.clientPositionKey:Clave puesto cliente`,
   positionName: $localize`:@@requisition.field.positionName:Nombre del puesto`,
   serviceNumber: $localize`:@@requisition.field.serviceNumber:Número de servicio`,
