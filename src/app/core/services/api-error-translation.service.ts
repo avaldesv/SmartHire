@@ -24,6 +24,10 @@ const ERROR_MESSAGES: Record<string, string> = {
   CATALOG_TENANT_MISMATCH: $localize`:@@errors.CATALOG_TENANT_MISMATCH:El catálogo no pertenece al tenant`,
   BRANCH_COUNTRY_MISMATCH: $localize`:@@errors.BRANCH_COUNTRY_MISMATCH:La sucursal no corresponde al país del tenant`,
   UNAUTHORIZED: $localize`:@@errors.UNAUTHORIZED:No autorizado`,
+  DOCUMENT_TYPE_DEFAULT_SERVICE_REQUIRED: $localize`:@@errors.DOCUMENT_TYPE_DEFAULT_SERVICE_REQUIRED:Debe seleccionar un servicio de procesamiento predeterminado`,
+  DOCUMENT_TYPE_INVALID_DEFAULT_SERVICE: $localize`:@@errors.DOCUMENT_TYPE_INVALID_DEFAULT_SERVICE:El servicio predeterminado debe estar entre los servicios seleccionados`,
+  DOCUMENT_TYPE_EXTENSION_INVALID: $localize`:@@errors.DOCUMENT_TYPE_EXTENSION_INVALID:La extensión de archivo seleccionada no es válida`,
+  DOCUMENT_TYPE_PROCESSING_SERVICE_INVALID: $localize`:@@errors.DOCUMENT_TYPE_PROCESSING_SERVICE_INVALID:El servicio de procesamiento seleccionado no es válido`,
 };
 
 const GENERIC_ERROR = $localize`:@@errors.generic:Ocurrió un error. Intente de nuevo.`;
