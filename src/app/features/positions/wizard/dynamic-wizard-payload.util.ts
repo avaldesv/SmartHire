@@ -241,13 +241,22 @@ function assignPayloadField(
       const rows = (raw as WizardLanguageRow[]).filter(
         (r) => r.languageId != null && r.languageLevelId != null,
       );
-      payload['languages'] = rows.map(
-        (r) =>
-          ({
-            languageId: r.languageId!,
-            languageLevelId: r.languageLevelId!,
-          }) satisfies PositionLanguageItem,
-      );
+      const seen = new Set<number>();
+      payload['languages'] = rows
+        .filter((r) => {
+          if (seen.has(r.languageId!)) {
+            return false;
+          }
+          seen.add(r.languageId!);
+          return true;
+        })
+        .map(
+          (r) =>
+            ({
+              languageId: r.languageId!,
+              languageLevelId: r.languageLevelId!,
+            }) satisfies PositionLanguageItem,
+        );
       break;
     }
     case 'document-grid': {

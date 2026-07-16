@@ -5,7 +5,10 @@
   />
 
   @if (loadingPosition || resolvingConfig) {
-    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+    <div class="loading-wrap" role="status" aria-live="polite">
+      <mat-spinner diameter="44" />
+      <p class="loading-wrap__label">Cargando formulario de requisición…</p>
+    </div>
   } @else if (useDynamicWizard && dynamicForm && resolvedConfig) {
   <div class="sh-card">
     <nav class="wizard-progress" aria-label="Pasos del wizard">
