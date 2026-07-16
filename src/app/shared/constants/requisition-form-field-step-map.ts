@@ -4,7 +4,6 @@ import { REQUISITION_FORM_DEFAULT_STEP_KEYS } from '../models/requisition-form.m
 export const REQUISITION_FIELDS_BY_STEP: Record<(typeof REQUISITION_FORM_DEFAULT_STEP_KEYS)[number], readonly string[]> = {
   client: [
     'countryId',
-    'brandId',
     'requisitionTypeId',
     'coverageTypeId',
     'ot',

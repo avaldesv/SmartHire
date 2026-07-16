@@ -8,11 +8,6 @@
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else if (useDynamicWizard && dynamicForm && resolvedConfig) {
   <div class="sh-card">
-    @if (tenantBrandName) {
-      <p class="step-hint tenant-brand-hint">Marca: {{ tenantBrandName }}</p>
-    } @else if (dynamicCountryId && !loadingCatalog.brands) {
-      <p class="step-hint tenant-brand-hint tenant-brand-hint--warning">Sin marca tenant para el país seleccionado</p>
-    }
     <nav class="wizard-step-nav" aria-label="Pasos del wizard">
       @for (step of resolvedConfig.steps; track step.stepKey; let i = $index) {
         <button
@@ -79,11 +74,6 @@
                 }
               </mat-select>
             </mat-form-field>
-            @if (tenantBrandName) {
-              <p class="step-hint tenant-brand-hint">Marca: {{ tenantBrandName }}</p>
-            } @else if (clientForm.controls.countryId.value && !loadingCatalog.brands) {
-              <p class="step-hint tenant-brand-hint tenant-brand-hint--warning">Sin marca tenant para el país seleccionado</p>
-            }
             <mat-form-field appearance="outline">
               <mat-label>Tipo reclutamiento</mat-label>
               <mat-select formControlName="requisitionTypeId" [disabled]="!clientForm.controls.countryId.value || loadingCatalog.requisitionTypes">
@@ -112,7 +102,7 @@
             <mat-form-field appearance="outline"><mat-label>Clave cliente</mat-label><input matInput formControlName="clientKey" /></mat-form-field>
             <mat-form-field appearance="outline" class="span-2"><mat-label>Razón social</mat-label><input matInput formControlName="legalName" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>Contacto</mat-label><input matInput formControlName="contactName" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>Puesto contacto</mat-label><input matInput formControlName="clientPosition" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Puesto Cliente</mat-label><input matInput formControlName="clientPosition" /></mat-form-field>
           </div>
           <div class="step-actions"><button mat-button matStepperNext>Siguiente</button></div>
         </form>
