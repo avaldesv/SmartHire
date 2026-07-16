@@ -58,7 +58,7 @@ export const REQUISITION_FIELDS_BY_STEP: Record<(typeof REQUISITION_FORM_DEFAULT
     'careResponsibleUserId',
     'careResponsibleAts',
   ],
-  languages: ['languages', 'disabilityTypeId', 'hasLinkage', 'seniorCitizen'],
+  languages: ['languages', 'disabilityTypeIds', 'disabilityTypeId', 'hasLinkage', 'seniorCitizen'],
   address: ['addressLine', 'stateId', 'municipalityId', 'neighborhoodId', 'postalCode', 'city', 'subregion'],
   recruitment: [
     'recruiterEmail',

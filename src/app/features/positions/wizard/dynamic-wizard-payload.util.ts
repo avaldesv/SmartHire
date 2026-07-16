@@ -39,6 +39,8 @@ export function defaultValueForUiType(uiType: string): unknown {
     case 'select':
     case 'user-picker':
       return null;
+    case 'multiselect':
+      return [] as number[];
     case 'language-grid':
       return [{ languageId: null, languageLevelId: null }] as WizardLanguageRow[];
     case 'document-grid':
@@ -79,6 +81,9 @@ export function createFieldControl(
   if (field.uiType === 'document-grid' && field.fieldKey === 'documentTypeIds') {
     return fb.nonNullable.control<number[]>([]);
   }
+  if (field.uiType === 'multiselect') {
+    return fb.nonNullable.control<number[]>([], buildFieldValidators(field, formValues));
+  }
   const initial = defaultValueForUiType(field.uiType);
   return fb.control(initial, buildFieldValidators(field, formValues));
 }
@@ -101,6 +106,8 @@ export function buildFieldValidators(
     case 'select':
     case 'user-picker':
       return [Validators.required];
+    case 'multiselect':
+      return [requiredMultiselectValidator()];
     case 'document-grid':
     case 'language-grid':
     case 'questionnaire-picker':
@@ -108,6 +115,13 @@ export function buildFieldValidators(
     default:
       return [Validators.required];
   }
+}
+
+function requiredMultiselectValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value as number[] | null;
+    return value != null && value.length > 0 ? null : { required: true };
+  };
 }
 
 function requiredCompositeValidator(field: ResolvedRequisitionFormField): ValidatorFn {
@@ -292,6 +306,11 @@ function assignPayloadField(
       payload[targetKey] = raw === null || raw === '' ? null : Number(raw);
       break;
     }
+    case 'multiselect': {
+      const ids = Array.isArray(raw) ? (raw as number[]).filter((id) => id != null) : [];
+      payload[targetKey] = ids;
+      break;
+    }
     case 'checkbox': {
       payload[targetKey] = !!raw;
       break;
@@ -422,6 +441,16 @@ function resolveHydratedValue(
         };
       }
       return defaultValueForUiType(field.uiType);
+    case 'multiselect': {
+      const raw = positionRecord[field.fieldKey];
+      if (Array.isArray(raw)) {
+        return (raw as number[]).filter((id) => id != null);
+      }
+      if (field.fieldKey === 'disabilityTypeIds' && position.disabilityTypeId != null) {
+        return [position.disabilityTypeId];
+      }
+      return [];
+    }
     default: {
       const alias = PAYLOAD_FIELD_ALIASES[field.fieldKey];
       let value =

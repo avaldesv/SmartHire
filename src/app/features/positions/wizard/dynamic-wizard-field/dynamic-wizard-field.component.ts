@@ -62,6 +62,10 @@ export class DynamicWizardFieldComponent {
     return this.field.uiType === 'select' || this.field.uiType === 'user-picker';
   }
 
+  get isMultiselect(): boolean {
+    return this.field.uiType === 'multiselect';
+  }
+
   get isCheckbox(): boolean {
     return this.field.uiType === 'checkbox';
   }
