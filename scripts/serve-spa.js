@@ -11,7 +11,7 @@ const url = require('url');
 const ROOT = path.join(__dirname, '..', 'dist', 'smarthire-recruiter-portal', 'browser');
 const DEFAULT_LOCALE = 'es-MX';
 const SUPPORTED = new Set(['es-MX', 'es-ES', 'en-US']);
-const PORT = Number(process.env.PORT || 8080);
+const PORT = Number(process.env.PORT || 4200);
 const LOCALE_COOKIE = 'sh_portal_locale';
 
 function readLocaleFromCookie(cookieHeader) {

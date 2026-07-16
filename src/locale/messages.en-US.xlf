@@ -226,6 +226,14 @@
         <source>Tipo documento</source>
         <target>Document type</target>
       </trans-unit>
+      <trans-unit id="catalogs.entry.fileExtension" datatype="html">
+        <source>Extensión de archivo</source>
+        <target>File extension</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.documentProcessingService" datatype="html">
+        <source>Servicio de procesamiento</source>
+        <target>Processing service</target>
+      </trans-unit>
       <trans-unit id="catalogs.entry.requisitionType" datatype="html">
         <source>Tipo requisición</source>
         <target>Requisition type</target>
@@ -2078,6 +2086,22 @@
         <source>No autorizado</source>
         <target>Unauthorized</target>
       </trans-unit>
+      <trans-unit id="errors.DOCUMENT_TYPE_DEFAULT_SERVICE_REQUIRED" datatype="html">
+        <source>Debe seleccionar un servicio de procesamiento predeterminado</source>
+        <target>You must select a default processing service</target>
+      </trans-unit>
+      <trans-unit id="errors.DOCUMENT_TYPE_INVALID_DEFAULT_SERVICE" datatype="html">
+        <source>El servicio predeterminado debe estar entre los servicios seleccionados</source>
+        <target>The default service must be one of the selected services</target>
+      </trans-unit>
+      <trans-unit id="errors.DOCUMENT_TYPE_EXTENSION_INVALID" datatype="html">
+        <source>La extensión de archivo seleccionada no es válida</source>
+        <target>The selected file extension is not valid</target>
+      </trans-unit>
+      <trans-unit id="errors.DOCUMENT_TYPE_PROCESSING_SERVICE_INVALID" datatype="html">
+        <source>El servicio de procesamiento seleccionado no es válido</source>
+        <target>The selected processing service is not valid</target>
+      </trans-unit>
       <trans-unit id="errors.generic" datatype="html">
         <source>Ocurrió un error. Intente de nuevo.</source>
         <target>An error occurred. Please try again.</target>
@@ -2121,6 +2145,38 @@
       <trans-unit id="catalogs.field.allCountries" datatype="html">
         <source>Todos los países</source>
         <target>All countries</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.processingServices" datatype="html">
+        <source>Servicios de procesamiento</source>
+        <target>Processing services</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.defaultProcessingService" datatype="html">
+        <source>Servicio predeterminado</source>
+        <target>Default service</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.none" datatype="html">
+        <source>Ninguno</source>
+        <target>None</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.allowedExtensions" datatype="html">
+        <source>Extensiones permitidas</source>
+        <target>Allowed extensions</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.mimeType" datatype="html">
+        <source>MIME type</source>
+        <target>MIME type</target>
+      </trans-unit>
+      <trans-unit id="catalogs.fileExtension.newButton" datatype="html">
+        <source>Nueva extensión</source>
+        <target>New extension</target>
+      </trans-unit>
+      <trans-unit id="catalogs.fileExtension.editTitle" datatype="html">
+        <source>Editar extensión de archivo</source>
+        <target>Edit file extension</target>
+      </trans-unit>
+      <trans-unit id="catalogs.fileExtension.newTitle" datatype="html">
+        <source>Nueva extensión de archivo</source>
+        <target>New file extension</target>
       </trans-unit>
       <trans-unit id="catalogs.field.manpowerIdShort" datatype="html">
         <source>Id MP</source>
@@ -2478,7 +2534,7 @@
       </trans-unit>
       <trans-unit id="questionnaires.questionTypes.title" datatype="html">
         <source>Tipos de pregunta</source>
-        <target>Tipos de pregunta</target>
+        <target>Question types</target>
       </trans-unit>
       <trans-unit id="questionnaires.questionTypes.intro" datatype="html">
         <source>Tipos de pregunta definidos por el sistema. No son editables; se usan al crear preguntas e importar CSV.</source>
@@ -3130,19 +3186,19 @@
       </trans-unit>
       <trans-unit id="questionnaires.nav.categories" datatype="html">
         <source>Categorías</source>
-        <target>Categorías</target>
+        <target>Categories</target>
       </trans-unit>
       <trans-unit id="questionnaires.nav.questionTags" datatype="html">
         <source>Preguntas tags</source>
-        <target>Preguntas tags</target>
+        <target>Question tags</target>
       </trans-unit>
       <trans-unit id="questionnaires.nav.questions" datatype="html">
         <source>Preguntas</source>
-        <target>Preguntas</target>
+        <target>Questions</target>
       </trans-unit>
       <trans-unit id="questionnaires.nav.questionTypes" datatype="html">
         <source>Tipos de pregunta</source>
-        <target>Tipos de pregunta</target>
+        <target>Question types</target>
       </trans-unit>
       <trans-unit id="questionnaires.nav.questionnaires" datatype="html">
         <source>Cuestionarios</source>
@@ -3150,19 +3206,19 @@
       </trans-unit>
       <trans-unit id="questionnaires.nav.exams" datatype="html">
         <source>Exámenes</source>
-        <target>Exámenes</target>
+        <target>Exams</target>
       </trans-unit>
       <trans-unit id="questionnaires.categories.title" datatype="html">
         <source>Categorías de conocimiento</source>
-        <target>Categorías de conocimiento</target>
+        <target>Knowledge categories</target>
       </trans-unit>
       <trans-unit id="questionnaires.tags.title" datatype="html">
         <source>Preguntas tags</source>
-        <target>Preguntas tags</target>
+        <target>Question tags</target>
       </trans-unit>
       <trans-unit id="questionnaires.questions.title" datatype="html">
         <source>Banco de preguntas</source>
-        <target>Banco de preguntas</target>
+        <target>Question bank</target>
       </trans-unit>
       <trans-unit id="questionnaires.questionnaires.title" datatype="html">
         <source>Cuestionarios</source>
@@ -3170,7 +3226,43 @@
       </trans-unit>
       <trans-unit id="questionnaires.exams.title" datatype="html">
         <source>Exámenes</source>
-        <target>Exámenes</target>
+        <target>Exams</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.csv.knowledgeCategories" datatype="html">
+        <source>Categorías de conocimiento</source>
+        <target>Knowledge categories</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.csv.tags" datatype="html">
+        <source>Tags</source>
+        <target>Tags</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.csv.questions" datatype="html">
+        <source>Preguntas</source>
+        <target>Questions</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.csv.questionOptions" datatype="html">
+        <source>Opciones de pregunta</source>
+        <target>Question options</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.csv.questionTags" datatype="html">
+        <source>Tags de pregunta</source>
+        <target>Question tags</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.csv.questionnaires" datatype="html">
+        <source>Cuestionarios</source>
+        <target>Questionnaires</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.csv.questionnaireQuestions" datatype="html">
+        <source>Preguntas del cuestionario</source>
+        <target>Questionnaire questions</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.csv.exams" datatype="html">
+        <source>Exámenes</source>
+        <target>Exams</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.csv.publish" datatype="html">
+        <source>Publicar cuestionarios</source>
+        <target>Publish questionnaires</target>
       </trans-unit>
       <trans-unit id="nav.settings.requisitionFormConfig" datatype="html">
         <source>Formulario requisición</source>

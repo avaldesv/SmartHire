@@ -13,9 +13,9 @@ export const X_LANGUAGE_HEADER = 'X-Language';
 
 const LEGACY_LOCALE_PREFIXES = ['es-ES', 'en-US'] as const;
 
-/** Build bundles use CLDR base codes (es/en); portal/API keep regional codes (es-ES/en-US). */
+/** Build bundles use CLDR base codes (es/en); portal/API keep regional codes (es-MX/es-ES/en-US). */
 const LOCALE_EQUIVALENCE_GROUPS: readonly (readonly string[])[] = [
-  ['es', 'es-ES'],
+  ['es', 'es-ES', 'es-MX'],
   ['en', 'en-US'],
 ];
 

@@ -226,6 +226,14 @@
         <source>Tipo documento</source>
         <target>Tipo documento</target>
       </trans-unit>
+      <trans-unit id="catalogs.entry.fileExtension" datatype="html">
+        <source>Extensión de archivo</source>
+        <target>Extensión de archivo</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.documentProcessingService" datatype="html">
+        <source>Servicio de procesamiento</source>
+        <target>Servicio de procesamiento</target>
+      </trans-unit>
       <trans-unit id="catalogs.entry.requisitionType" datatype="html">
         <source>Tipo requisición</source>
         <target>Tipo requisición</target>
@@ -2078,6 +2086,22 @@
         <source>No autorizado</source>
         <target>No autorizado</target>
       </trans-unit>
+      <trans-unit id="errors.DOCUMENT_TYPE_DEFAULT_SERVICE_REQUIRED" datatype="html">
+        <source>Debe seleccionar un servicio de procesamiento predeterminado</source>
+        <target>Debe seleccionar un servicio de procesamiento predeterminado</target>
+      </trans-unit>
+      <trans-unit id="errors.DOCUMENT_TYPE_INVALID_DEFAULT_SERVICE" datatype="html">
+        <source>El servicio predeterminado debe estar entre los servicios seleccionados</source>
+        <target>El servicio predeterminado debe estar entre los servicios seleccionados</target>
+      </trans-unit>
+      <trans-unit id="errors.DOCUMENT_TYPE_EXTENSION_INVALID" datatype="html">
+        <source>La extensión de archivo seleccionada no es válida</source>
+        <target>La extensión de archivo seleccionada no es válida</target>
+      </trans-unit>
+      <trans-unit id="errors.DOCUMENT_TYPE_PROCESSING_SERVICE_INVALID" datatype="html">
+        <source>El servicio de procesamiento seleccionado no es válido</source>
+        <target>El servicio de procesamiento seleccionado no es válido</target>
+      </trans-unit>
       <trans-unit id="errors.generic" datatype="html">
         <source>Ocurrió un error. Intente de nuevo.</source>
         <target>Ocurrió un error. Intente de nuevo.</target>
@@ -2121,6 +2145,38 @@
       <trans-unit id="catalogs.field.allCountries" datatype="html">
         <source>Todos los países</source>
         <target>Todos los países</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.processingServices" datatype="html">
+        <source>Servicios de procesamiento</source>
+        <target>Servicios de procesamiento</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.defaultProcessingService" datatype="html">
+        <source>Servicio predeterminado</source>
+        <target>Servicio predeterminado</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.none" datatype="html">
+        <source>Ninguno</source>
+        <target>Ninguno</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.allowedExtensions" datatype="html">
+        <source>Extensiones permitidas</source>
+        <target>Extensiones permitidas</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.mimeType" datatype="html">
+        <source>MIME type</source>
+        <target>MIME type</target>
+      </trans-unit>
+      <trans-unit id="catalogs.fileExtension.newButton" datatype="html">
+        <source>Nueva extensión</source>
+        <target>Nueva extensión</target>
+      </trans-unit>
+      <trans-unit id="catalogs.fileExtension.editTitle" datatype="html">
+        <source>Editar extensión de archivo</source>
+        <target>Editar extensión de archivo</target>
+      </trans-unit>
+      <trans-unit id="catalogs.fileExtension.newTitle" datatype="html">
+        <source>Nueva extensión de archivo</source>
+        <target>Nueva extensión de archivo</target>
       </trans-unit>
       <trans-unit id="catalogs.field.manpowerIdShort" datatype="html">
         <source>Id MP</source>
@@ -3171,6 +3227,42 @@
       <trans-unit id="questionnaires.exams.title" datatype="html">
         <source>Exámenes</source>
         <target>Exámenes</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.csv.knowledgeCategories" datatype="html">
+        <source>Categorías de conocimiento</source>
+        <target>Categorías de conocimiento</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.csv.tags" datatype="html">
+        <source>Tags</source>
+        <target>Tags</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.csv.questions" datatype="html">
+        <source>Preguntas</source>
+        <target>Preguntas</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.csv.questionOptions" datatype="html">
+        <source>Opciones de pregunta</source>
+        <target>Opciones de pregunta</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.csv.questionTags" datatype="html">
+        <source>Tags de pregunta</source>
+        <target>Tags de pregunta</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.csv.questionnaires" datatype="html">
+        <source>Cuestionarios</source>
+        <target>Cuestionarios</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.csv.questionnaireQuestions" datatype="html">
+        <source>Preguntas del cuestionario</source>
+        <target>Preguntas del cuestionario</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.csv.exams" datatype="html">
+        <source>Exámenes</source>
+        <target>Exámenes</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.csv.publish" datatype="html">
+        <source>Publicar cuestionarios</source>
+        <target>Publicar cuestionarios</target>
       </trans-unit>
       <trans-unit id="nav.settings.requisitionFormConfig" datatype="html">
         <source>Formulario requisición</source>

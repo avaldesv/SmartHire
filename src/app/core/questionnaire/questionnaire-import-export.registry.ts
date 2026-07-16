@@ -6,38 +6,38 @@ export interface QuestionnaireCsvPanelConfig {
 export const QUESTIONNAIRE_CSV_PANELS = {
   knowledgeCategories: {
     catalogKey: 'questionnaire-knowledge-categories',
-    label: 'Categorías de conocimiento',
+    label: $localize`:@@questionnaires.csv.knowledgeCategories:Categorías de conocimiento`,
   },
   tags: {
     catalogKey: 'questionnaire-tags',
-    label: 'Tags',
+    label: $localize`:@@questionnaires.csv.tags:Tags`,
   },
   questions: {
     catalogKey: 'questionnaire-questions',
-    label: 'Preguntas',
+    label: $localize`:@@questionnaires.csv.questions:Preguntas`,
   },
   questionOptions: {
     catalogKey: 'questionnaire-question-options',
-    label: 'Opciones de pregunta',
+    label: $localize`:@@questionnaires.csv.questionOptions:Opciones de pregunta`,
   },
   questionTags: {
     catalogKey: 'questionnaire-question-tags',
-    label: 'Tags de pregunta',
+    label: $localize`:@@questionnaires.csv.questionTags:Tags de pregunta`,
   },
   questionnaires: {
     catalogKey: 'questionnaire-questionnaires',
-    label: 'Cuestionarios',
+    label: $localize`:@@questionnaires.csv.questionnaires:Cuestionarios`,
   },
   questionnaireQuestions: {
     catalogKey: 'questionnaire-questionnaire-questions',
-    label: 'Preguntas del cuestionario',
+    label: $localize`:@@questionnaires.csv.questionnaireQuestions:Preguntas del cuestionario`,
   },
   exams: {
     catalogKey: 'questionnaire-exams',
-    label: 'Exámenes',
+    label: $localize`:@@questionnaires.csv.exams:Exámenes`,
   },
   publish: {
     catalogKey: 'questionnaire-questionnaire-publish',
-    label: 'Publicar cuestionarios',
+    label: $localize`:@@questionnaires.csv.publish:Publicar cuestionarios`,
   },
 } as const satisfies Record<string, QuestionnaireCsvPanelConfig>;
