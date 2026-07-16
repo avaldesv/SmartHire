@@ -7,7 +7,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatStepper, MatStepperModule } from '@angular/material/stepper';
+import { MatStepper, MatStepperModule, StepperSelectionEvent } from '@angular/material/stepper';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -111,6 +111,7 @@ export class PositionWizardComponent implements OnInit {
   loadingPosition = false;
   editPositionId: number | null = null;
   requisitionNo: string | null = null;
+  dynamicSelectedIndex = 0;
   private suppressCountryCascade = false;
   private suppressScopeResolve = false;
   private activeScopeKey: string | null = null;
@@ -411,15 +412,45 @@ export class PositionWizardComponent implements OnInit {
     return resolveWizardStepLabel(stepKey, labelI18nKey);
   }
 
+  get currentDynamicStepTitle(): string {
+    const steps = this.resolvedConfig?.steps;
+    if (!steps?.length) {
+      return '';
+    }
+    const step = steps[this.dynamicSelectedIndex] ?? steps[0];
+    return this.stepTitle(step.stepKey, step.labelI18nKey);
+  }
+
   goToDynamicStep(index: number): void {
     if (!this.dynamicStepper || index < 0 || index >= this.dynamicStepper.steps.length) {
       return;
     }
     this.dynamicStepper.selectedIndex = index;
+    this.dynamicSelectedIndex = index;
   }
 
   isDynamicStepActive(index: number): boolean {
-    return this.dynamicStepper?.selectedIndex === index;
+    return this.dynamicSelectedIndex === index;
+  }
+
+  isDynamicStepCompleted(index: number): boolean {
+    return index < this.dynamicSelectedIndex;
+  }
+
+  onDynamicStepSelectionChange(event: StepperSelectionEvent): void {
+    this.dynamicSelectedIndex = event.selectedIndex;
+  }
+
+  stepProgressAriaLabel(index: number, stepKey: string, labelI18nKey: string): string {
+    const title = this.stepTitle(stepKey, labelI18nKey);
+    const total = this.resolvedConfig?.steps.length ?? 0;
+    if (this.isDynamicStepCompleted(index)) {
+      return `Paso ${index + 1} de ${total}: ${title} (completado)`;
+    }
+    if (this.isDynamicStepActive(index)) {
+      return `Paso ${index + 1} de ${total}: ${title} (actual)`;
+    }
+    return `Paso ${index + 1} de ${total}: ${title}`;
   }
 
   dynamicStepForm(stepKey: string): FormGroup {
@@ -497,6 +528,7 @@ export class PositionWizardComponent implements OnInit {
     this.useDynamicWizard = true;
     this.resolvedConfig = config;
     this.dynamicForm = this.dynamicWizardService.buildForm(config);
+    this.dynamicSelectedIndex = 0;
     patchDynamicForm(this.dynamicForm, preservedValues, config);
     this.dynamicWizardService.refreshValidators(this.dynamicForm, config);
     this.bindDynamicScopeWatch();
