@@ -1,0 +1,22 @@
+.scope-hint {
+  margin: 0 0 16px;
+  font-size: 0.9rem;
+  color: #475569;
+}
+
+.scope-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: min(420px, 85vw);
+}
+
+.full-width {
+  width: 100%;
+}
+
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 24px 0;
+}

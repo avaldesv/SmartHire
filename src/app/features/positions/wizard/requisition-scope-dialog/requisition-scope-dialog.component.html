@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>Nueva requisición</h2>
+
+<mat-dialog-content>
+  <p class="scope-hint">
+    Selecciona el país y el tipo de cobertura para cargar el formulario correspondiente.
+  </p>
+
+  @if (loadingCountries || loadingTenant) {
+    <div class="loading-wrap"><mat-spinner diameter="32" /></div>
+  } @else {
+    <form [formGroup]="form" class="scope-form" (ngSubmit)="continue()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>País</mat-label>
+        <mat-select formControlName="countryId">
+          @for (country of countries; track country.id) {
+            <mat-option [value]="country.id">{{ country.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Tipo de cobertura</mat-label>
+        <mat-select formControlName="coverageTypeId">
+          @if (loadingCoverage) {
+            <mat-option disabled>Cargando...</mat-option>
+          } @else {
+            @for (item of coverageTypes; track item.id) {
+              <mat-option [value]="item.id">{{ item.name }}</mat-option>
+            }
+          }
+        </mat-select>
+      </mat-form-field>
+    </form>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="cancel()">Cancelar</button>
+  <button
+    mat-flat-button
+    color="primary"
+    type="button"
+    (click)="continue()"
+    [disabled]="form.invalid || loadingCountries || loadingTenant || loadingCoverage"
+  >
+    Continuar
+  </button>
+</mat-dialog-actions>

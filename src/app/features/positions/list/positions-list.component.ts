@@ -1,8 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -15,6 +16,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { debounceTime } from 'rxjs';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { PositionService } from '../../../core/services/position.service';
+import {
+  RequisitionScopeDialogComponent,
+  RequisitionScopeDialogResult,
+} from '../wizard/requisition-scope-dialog/requisition-scope-dialog.component';
 import {
   POSITIONS_ACTION_APPROVE_CANCELLATION,
   POSITIONS_ACTION_CANCEL_DIRECT,
@@ -93,6 +98,7 @@ import { TableRowActionsComponent } from '../../../shared/components/table-row-a
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatMenuModule,
+    MatDialogModule,
     PageHeaderComponent,
     StatusBadgeComponent,
     TableRowActionsComponent,
@@ -105,6 +111,8 @@ export class PositionsListComponent implements OnInit {
   private readonly geographyService = inject(CatalogGeographyService);
   private readonly snack = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
+  private readonly dialog = inject(MatDialog);
+  private readonly router = inject(Router);
 
   readonly pageTitle = POSITIONS_PAGE_TITLE;
   readonly pageSubtitle = POSITIONS_PAGE_SUBTITLE;
@@ -196,6 +204,27 @@ export class PositionsListComponent implements OnInit {
       this.pageIndex = 0;
       this.load();
     });
+  }
+
+  openNewRequisition(): void {
+    this.dialog
+      .open(RequisitionScopeDialogComponent, {
+        width: '480px',
+        disableClose: true,
+        data: {},
+      })
+      .afterClosed()
+      .subscribe((result: RequisitionScopeDialogResult | null | undefined) => {
+        if (!result) {
+          return;
+        }
+        void this.router.navigate(['/positions/new'], {
+          queryParams: {
+            countryId: result.countryId,
+            coverageTypeId: result.coverageTypeId,
+          },
+        });
+      });
   }
 
   load(): void {

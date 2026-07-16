@@ -1,6 +1,6 @@
 <div class="sh-page">
   <sh-page-header [title]="pageTitle" [subtitle]="pageSubtitle">
-    <button mat-flat-button color="primary" routerLink="/positions/new">
+    <button mat-flat-button color="primary" type="button" (click)="openNewRequisition()">
       <mat-icon>add</mat-icon> {{ newButton }}
     </button>
   </sh-page-header>
