@@ -50,6 +50,9 @@ export function isFieldRequired(
   if (!isFieldVisible(field, formValues)) {
     return false;
   }
+  if (isFieldReadOnly(field)) {
+    return false;
+  }
   if (field.isRequired) {
     return true;
   }
@@ -58,6 +61,17 @@ export function isFieldRequired(
     return false;
   }
   return evaluateFieldCondition(rules.requiredWhen, formValues);
+}
+
+export function isFieldReadOnly(field: ResolvedRequisitionFormField): boolean {
+  const rules = parseFieldRules(field.rulesJson);
+  return !!rules?.readOnly;
+}
+
+export function fieldValueFrom(field: ResolvedRequisitionFormField): string | null {
+  const rules = parseFieldRules(field.rulesJson);
+  const source = rules?.valueFrom?.trim();
+  return source ? source : null;
 }
 
 export function isPeopleInChargeRuleField(fieldKey: string): boolean {

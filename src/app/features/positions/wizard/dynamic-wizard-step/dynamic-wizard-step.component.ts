@@ -22,7 +22,7 @@ import {
   WizardDocumentRequirementRow,
   WizardFieldOption,
 } from '../../../../shared/models/requisition-wizard.model';
-import { isFieldVisible } from '../dynamic-wizard-rules.util';
+import { isFieldReadOnly, isFieldVisible, fieldValueFrom } from '../dynamic-wizard-rules.util';
 import { resolveWizardFieldLabel } from '../requisition-wizard-labels';
 import { DynamicWizardFieldComponent } from '../dynamic-wizard-field/dynamic-wizard-field.component';
 
@@ -69,7 +69,11 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
     this.rootForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.flatValues = this.flattenRootValues();
       this.visibleFields = this.step.fields.filter((f) => isFieldVisible(f, this.flatValues));
+      this.syncMirroredFields();
     });
+    this.flatValues = this.flattenRootValues();
+    this.visibleFields = this.step.fields.filter((f) => isFieldVisible(f, this.flatValues));
+    this.syncMirroredFields();
 
     const langField = this.step.fields.find((f) => f.uiType === 'language-grid');
     if (langField) {
@@ -121,6 +125,30 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
     return this.stepForm.get(fieldKey) as FormControl;
   }
 
+  isReadOnly(field: ResolvedRequisitionFormField): boolean {
+    return isFieldReadOnly(field) || field.fieldKey === 'brandId';
+  }
+
+  private syncMirroredFields(): void {
+    for (const field of this.step.fields) {
+      const sourceKey = fieldValueFrom(field);
+      if (!sourceKey) {
+        continue;
+      }
+      const control = this.stepForm.get(field.fieldKey);
+      if (!control) {
+        continue;
+      }
+      const sourceValue = this.flatValues[sourceKey] ?? '';
+      if (control.value !== sourceValue) {
+        control.setValue(sourceValue, { emitEvent: false });
+      }
+      if (isFieldReadOnly(field) && control.enabled) {
+        control.disable({ emitEvent: false });
+      }
+    }
+  }
+
   languageArray(fieldKey: string): FormArray {
     return this.stepForm.get(fieldKey) as FormArray;
   }
@@ -132,6 +160,7 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
   private refreshVisibleFields(): void {
     this.flatValues = this.flattenRootValues();
     this.visibleFields = this.step.fields.filter((f) => isFieldVisible(f, this.flatValues));
+    this.syncMirroredFields();
   }
 
   private flattenRootValues(): Record<string, unknown> {

@@ -22,7 +22,7 @@ import {
   WizardLanguageRow,
   WizardQuestionnaireValue,
 } from '../../../shared/models/requisition-wizard.model';
-import { isFieldRequired, isFieldVisible } from './dynamic-wizard-rules.util';
+import { isFieldRequired, isFieldVisible, isFieldReadOnly } from './dynamic-wizard-rules.util';
 
 const PAYLOAD_FIELD_ALIASES: Record<string, keyof CreatePositionRequest> = {
   addressLine: 'address',
@@ -209,6 +209,9 @@ export function buildDynamicCreatePayload(
   for (const step of config.steps) {
     for (const field of step.fields) {
       if (!isFieldVisible(field, formValues)) {
+        continue;
+      }
+      if (isFieldReadOnly(field) || field.fieldKey === 'orderId') {
         continue;
       }
       const raw = formValues[field.fieldKey];
