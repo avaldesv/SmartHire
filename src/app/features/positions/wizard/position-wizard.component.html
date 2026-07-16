@@ -8,24 +8,50 @@
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else if (useDynamicWizard && dynamicForm && resolvedConfig) {
   <div class="sh-card">
-    <nav class="wizard-step-nav" aria-label="Pasos del wizard">
-      @for (step of resolvedConfig.steps; track step.stepKey; let i = $index) {
-        <button
-          type="button"
-          class="wizard-step-nav__item"
-          [class.wizard-step-nav__item--active]="isDynamicStepActive(i)"
-          (click)="goToDynamicStep(i)"
-        >
-          <span class="wizard-step-nav__index">{{ i + 1 }}</span>
-          <span class="wizard-step-nav__label">{{ stepTitle(step.stepKey, step.labelI18nKey) }}</span>
-        </button>
-      }
+    <nav class="wizard-progress" aria-label="Pasos del wizard">
+      <ol class="wizard-progress__track">
+        @for (step of resolvedConfig.steps; track step.stepKey; let i = $index; let last = $last) {
+          <li class="wizard-progress__node">
+            <button
+              type="button"
+              class="wizard-progress__dot"
+              [class.wizard-progress__dot--done]="isDynamicStepCompleted(i)"
+              [class.wizard-progress__dot--active]="isDynamicStepActive(i)"
+              [attr.aria-current]="isDynamicStepActive(i) ? 'step' : null"
+              [attr.aria-label]="stepProgressAriaLabel(i, step.stepKey, step.labelI18nKey)"
+              (click)="goToDynamicStep(i)"
+            >
+              @if (isDynamicStepCompleted(i)) {
+                <mat-icon class="wizard-progress__check">check</mat-icon>
+              } @else {
+                <span>{{ i + 1 }}</span>
+              }
+            </button>
+            @if (!last) {
+              <span
+                class="wizard-progress__connector"
+                [class.wizard-progress__connector--done]="isDynamicStepCompleted(i)"
+                aria-hidden="true"
+              ></span>
+            }
+          </li>
+        }
+      </ol>
+      <p class="wizard-progress__caption">
+        Paso {{ dynamicSelectedIndex + 1 }} de {{ resolvedConfig.steps.length }}
+        <span class="wizard-progress__caption-sep" aria-hidden="true">—</span>
+        {{ currentDynamicStepTitle }}
+      </p>
     </nav>
-    <mat-stepper linear #dynamicStepper class="wizard-stepper wizard-stepper--compact">
+    <mat-stepper
+      linear
+      #dynamicStepper
+      class="wizard-stepper wizard-stepper--compact"
+      (selectionChange)="onDynamicStepSelectionChange($event)"
+    >
       @for (step of resolvedConfig.steps; track step.stepKey) {
         <mat-step [stepControl]="dynamicStepForm(step.stepKey)" [label]="stepLabel(step.stepKey, step.labelI18nKey)">
           <form [formGroup]="dynamicStepForm(step.stepKey)" class="step-form">
-            <h3 class="step-title">{{ stepTitle(step.stepKey, step.labelI18nKey) }}</h3>
             <sh-dynamic-wizard-step
               [step]="step"
               [stepForm]="dynamicStepForm(step.stepKey)"
