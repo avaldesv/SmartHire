@@ -133,7 +133,7 @@
         [control]="fieldControl(field.fieldKey)"
         [options]="optionsByField[field.fieldKey] ?? []"
         [loadingOptions]="loadingByField[field.fieldKey] ?? false"
-        [disabled]="field.fieldKey === 'brandId'"
+        [disabled]="isReadOnly(field)"
       />
     }
   }

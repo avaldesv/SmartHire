@@ -42,6 +42,10 @@ export interface RequisitionFormFieldRuleCondition {
 export interface RequisitionFormFieldRules {
   visibleWhen?: RequisitionFormFieldRuleCondition;
   requiredWhen?: RequisitionFormFieldRuleCondition;
+  /** When true, the control is disabled in the wizard. */
+  readOnly?: boolean;
+  /** Copies value from another field key (e.g. orderId mirrors ot). */
+  valueFrom?: string;
 }
 
 export interface RequisitionFormConfigSummary {
