@@ -34,6 +34,7 @@ export function defaultValueForUiType(uiType: string): unknown {
     case 'checkbox':
       return false;
     case 'number':
+    case 'date':
       return null;
     case 'select':
     case 'user-picker':
@@ -201,17 +202,16 @@ export function refreshDynamicValidators(
 
 export function buildDynamicCreatePayload(
   formValues: Record<string, unknown>,
-  brandId: number,
   config: ResolvedRequisitionFormConfig,
 ): CreatePositionRequest {
-  const payload: Record<string, unknown> = { brandId };
+  const payload: Record<string, unknown> = { brandId: null };
 
   for (const step of config.steps) {
     for (const field of step.fields) {
       if (!isFieldVisible(field, formValues)) {
         continue;
       }
-      if (isFieldReadOnly(field) || field.fieldKey === 'orderId') {
+      if (isFieldReadOnly(field) || field.fieldKey === 'orderId' || field.fieldKey === 'brandId') {
         continue;
       }
       const raw = formValues[field.fieldKey];
@@ -285,10 +285,34 @@ function assignPayloadField(
       payload[targetKey] = !!raw;
       break;
     }
+    case 'date': {
+      payload[targetKey] = formatDatePayload(raw);
+      break;
+    }
+    case 'time': {
+      payload[targetKey] = typeof raw === 'string' && raw.trim() ? raw : null;
+      break;
+    }
     default: {
       payload[targetKey] = raw === '' ? null : raw;
     }
   }
+}
+
+function formatDatePayload(raw: unknown): string | null {
+  if (raw == null || raw === '') {
+    return null;
+  }
+  if (raw instanceof Date && !Number.isNaN(raw.getTime())) {
+    const y = raw.getFullYear();
+    const m = String(raw.getMonth() + 1).padStart(2, '0');
+    const d = String(raw.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  }
+  if (typeof raw === 'string') {
+    return raw.length >= 10 ? raw.slice(0, 10) : raw;
+  }
+  return null;
 }
 
 function mapLegacyLanguageFields(payload: Record<string, unknown>, formValues: Record<string, unknown>): void {
@@ -389,12 +413,27 @@ function resolveHydratedValue(
       return defaultValueForUiType(field.uiType);
     default: {
       const alias = PAYLOAD_FIELD_ALIASES[field.fieldKey];
-      if (alias) {
-        return positionRecord[alias as string] ?? positionRecord[field.fieldKey] ?? defaultValueForUiType(field.uiType);
+      let value =
+        (alias ? positionRecord[alias as string] : undefined) ??
+        positionRecord[field.fieldKey] ??
+        defaultValueForUiType(field.uiType);
+      if (field.uiType === 'date') {
+        value = parseDateControlValue(value);
       }
-      return positionRecord[field.fieldKey] ?? defaultValueForUiType(field.uiType);
+      return value;
     }
   }
+}
+
+function parseDateControlValue(value: unknown): Date | null {
+  if (value instanceof Date) {
+    return Number.isNaN(value.getTime()) ? null : value;
+  }
+  if (typeof value === 'string' && value.trim()) {
+    const parsed = new Date(`${value.slice(0, 10)}T00:00:00`);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+  }
+  return null;
 }
 
 export function patchDynamicForm(

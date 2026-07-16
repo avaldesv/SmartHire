@@ -36,11 +36,19 @@ export function isFieldVisible(
   if (!field.isVisible) {
     return false;
   }
+  if (field.fieldKey === 'brandId') {
+    return false;
+  }
   const rules = parseFieldRules(field.rulesJson);
-  if (!rules?.visibleWhen) {
+  const visibleWhen =
+    rules?.visibleWhen ??
+    (field.fieldKey === PEOPLE_IN_CHARGE_COUNT_FIELD_KEY
+      ? { fieldKey: PEOPLE_IN_CHARGE_FIELD_KEY, equals: true }
+      : undefined);
+  if (!visibleWhen) {
     return true;
   }
-  return evaluateFieldCondition(rules.visibleWhen, formValues);
+  return evaluateFieldCondition(visibleWhen, formValues);
 }
 
 export function isFieldRequired(
@@ -57,10 +65,15 @@ export function isFieldRequired(
     return true;
   }
   const rules = parseFieldRules(field.rulesJson);
-  if (!rules?.requiredWhen) {
+  const requiredWhen =
+    rules?.requiredWhen ??
+    (field.fieldKey === PEOPLE_IN_CHARGE_COUNT_FIELD_KEY
+      ? { fieldKey: PEOPLE_IN_CHARGE_FIELD_KEY, equals: true }
+      : undefined);
+  if (!requiredWhen) {
     return false;
   }
-  return evaluateFieldCondition(rules.requiredWhen, formValues);
+  return evaluateFieldCondition(requiredWhen, formValues);
 }
 
 export function isFieldReadOnly(field: ResolvedRequisitionFormField): boolean {

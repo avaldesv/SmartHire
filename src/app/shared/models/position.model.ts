@@ -18,7 +18,7 @@ export interface PositionQuestionnaireItem {
 
 export interface CreatePositionRequest {
   countryId: number;
-  brandId: number;
+  brandId?: number | null;
   requisitionTypeId: number;
   coverageTypeId: number;
   ot: string;
