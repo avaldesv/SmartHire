@@ -10,22 +10,24 @@
 .wizard-progress {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   gap: 14px;
-  padding: 8px 8px 20px;
+  width: 100%;
+  padding: 4px 0 20px;
   margin-bottom: 4px;
+  box-sizing: border-box;
 }
 
 .wizard-progress__track {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: stretch;
   flex-wrap: nowrap;
   width: 100%;
-  max-width: 720px;
   margin: 0;
-  padding: 0;
+  padding: 0 4px;
   list-style: none;
+  box-sizing: border-box;
 }
 
 .wizard-progress__node {
@@ -98,8 +100,8 @@
   display: block;
   flex: 1 1 auto;
   height: 2px;
-  margin: 0 4px;
-  min-width: 8px;
+  margin: 0 6px;
+  min-width: 12px;
   background: #e2e8f0;
   border-radius: 999px;
 }
@@ -123,12 +125,20 @@
 }
 
 .wizard-page {
-  ::ng-deep .wizard-stepper--compact .mat-horizontal-stepper-header-container {
-    display: none !important;
-  }
+  ::ng-deep .wizard-stepper--compact {
+    .mat-horizontal-stepper-header-container,
+    .mat-stepper-horizontal-line {
+      display: none !important;
+      height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      visibility: hidden !important;
+    }
 
-  ::ng-deep .wizard-stepper--compact .mat-horizontal-content-container {
-    padding: 0;
+    .mat-horizontal-content-container {
+      padding: 0;
+    }
   }
 }
 
@@ -184,9 +194,7 @@
   .span-2 { grid-column: span 1; }
 
   .wizard-progress__track {
-    max-width: 100%;
     overflow-x: auto;
-    justify-content: flex-start;
     padding-bottom: 4px;
   }
 
@@ -197,7 +205,7 @@
   }
 
   .wizard-progress__connector {
-    min-width: 6px;
-    margin: 0 2px;
+    min-width: 8px;
+    margin: 0 3px;
   }
 }
