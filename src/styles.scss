@@ -85,3 +85,10 @@ a:hover { text-decoration: underline; }
 }
 
 .mono-id { font-family: sh.$sh-font-mono; font-size: 13px; color: sh.$sh-brand-teal; }
+
+/* Dynamic requisition wizard: hide Material header; custom progress line is used instead */
+.wizard-stepper--compact > .mat-horizontal-stepper-wrapper > .mat-horizontal-stepper-header-container,
+.wizard-stepper.wizard-stepper--compact .mat-horizontal-stepper-header-container {
+  display: none !important;
+}
+

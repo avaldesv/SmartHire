@@ -1,0 +1,161 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+
+<mat-dialog-content class="form-config-dialog-content">
+  @if (loading) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else if (config) {
+    <div class="scope-banner" role="status">
+      <p class="scope-hint">{{ scopeHint }}</p>
+      <p class="scope-value">
+        <strong>{{ scopeLabel }}:</strong>
+        {{ fieldCountry }}: {{ countryName }}
+        <span class="scope-sep" aria-hidden="true">·</span>
+        {{ fieldCoverage }}: {{ coverageTypeName }}
+      </p>
+    </div>
+
+    <div class="meta-row">
+      <mat-form-field appearance="outline" class="name-field">
+        <mat-label>{{ fieldNameLabel }}</mat-label>
+        <input
+          matInput
+          [(ngModel)]="configName"
+          [disabled]="isReadOnly()"
+          maxlength="150"
+          autocomplete="off"
+        />
+      </mat-form-field>
+      <span><strong>{{ statusLabel }}:</strong> {{ statusLabelFor(config.status) }}</span>
+      <span><strong>{{ versionLabel }}:</strong> {{ config.version }}</span>
+      @if (isReadOnly()) {
+        <span class="read-only-hint">{{ readOnlyHint }}</span>
+      }
+    </div>
+
+    <div class="editor-layout">
+      <section class="tree-panel">
+        <h4>{{ treeTitle }}</h4>
+        <div class="tree-header">
+          <span class="col-expand"></span>
+          <span class="col-check">{{ fieldVisible }}</span>
+          <span class="col-check">{{ fieldRequired }}</span>
+          <span class="col-label">Elemento</span>
+          <span class="col-actions">{{ columnReorder }}</span>
+        </div>
+
+        <div class="tree-body">
+          @for (step of steps; track step.stepKey) {
+            <div class="tree-step">
+              <div class="tree-row tree-row-tab" [class.inactive]="!step.isVisible">
+                <button
+                  type="button"
+                  class="expand-btn"
+                  [attr.aria-expanded]="isStepExpanded(step.stepKey)"
+                  (click)="toggleStepExpanded(step.stepKey)"
+                >
+                  <mat-icon>{{ isStepExpanded(step.stepKey) ? 'expand_more' : 'chevron_right' }}</mat-icon>
+                </button>
+                <mat-checkbox
+                  class="col-check"
+                  [checked]="step.isVisible"
+                  [disabled]="isReadOnly()"
+                  (change)="toggleStepVisible(step, $event.checked)"
+                  (click)="$event.stopPropagation()"
+                />
+                <span class="col-check col-check-empty" aria-hidden="true"></span>
+                <span class="col-label tab-label">{{ stepDisplayLabel(step.stepKey) }}</span>
+                <span class="col-actions">
+                  @if (canWrite() && !isReadOnly()) {
+                    <button mat-icon-button type="button" [attr.aria-label]="moveUpLabel" (click)="moveStep(step.stepKey, -1)">
+                      <mat-icon>arrow_upward</mat-icon>
+                    </button>
+                    <button mat-icon-button type="button" [attr.aria-label]="moveDownLabel" (click)="moveStep(step.stepKey, 1)">
+                      <mat-icon>arrow_downward</mat-icon>
+                    </button>
+                  }
+                </span>
+              </div>
+
+              @if (isStepExpanded(step.stepKey)) {
+                @for (field of fieldsForStep(step.stepKey); track field.fieldDefId) {
+                  <div
+                    class="tree-row tree-row-field"
+                    [class.inactive]="!field.isVisible"
+                    [class.selected]="isFieldSelected(field)"
+                    (click)="selectField(field)"
+                  >
+                    <span class="col-expand"></span>
+                    <mat-checkbox
+                      class="col-check"
+                      [checked]="field.isVisible"
+                      [disabled]="isReadOnly() || !step.isVisible"
+                      (change)="toggleFieldVisible(field, $event.checked)"
+                      (click)="$event.stopPropagation()"
+                    />
+                    <mat-checkbox
+                      class="col-check"
+                      [checked]="field.isRequired"
+                      [disabled]="isReadOnly() || !field.isVisible || !step.isVisible"
+                      (change)="toggleFieldRequired(field, $event.checked)"
+                      (click)="$event.stopPropagation()"
+                    />
+                    <span class="col-label">{{ fieldDefLabel(field.fieldDefId) }}</span>
+                    <span class="col-actions"></span>
+                  </div>
+                }
+              }
+            </div>
+          }
+        </div>
+      </section>
+
+      <aside class="detail-panel">
+        <h4>{{ detailTitle }}</h4>
+        @if (!selectedField) {
+          <p class="hint">{{ noRulesHint }}</p>
+        } @else {
+          <p class="selected-field-name">{{ fieldDefLabel(selectedField.fieldDefId) }}</p>
+          @if (supportsConditionalRules(selectedField.fieldDefId)) {
+            <div class="rules-block">
+              <h5>{{ rulesTitle }}</h5>
+              <mat-checkbox
+                [(ngModel)]="ruleVisibleWhen"
+                [ngModelOptions]="{ standalone: true }"
+                [disabled]="isReadOnly()"
+                (change)="applyPeopleInChargeRules()"
+              >
+                {{ ruleVisibleLabel }}
+              </mat-checkbox>
+              <mat-checkbox
+                [(ngModel)]="ruleRequiredWhen"
+                [ngModelOptions]="{ standalone: true }"
+                [disabled]="isReadOnly()"
+                (change)="applyPeopleInChargeRules()"
+              >
+                {{ ruleRequiredLabel }}
+              </mat-checkbox>
+            </div>
+          } @else {
+            <p class="hint">{{ noRulesHint }}</p>
+          }
+        }
+      </aside>
+    </div>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="close()" [disabled]="saving || publishing">
+    {{ closeLabel }}
+  </button>
+  @if (config && canWrite() && !isReadOnly()) {
+    <button mat-flat-button color="primary" type="button" (click)="saveDraft()" [disabled]="saving || publishing || loading">
+      {{ saving ? savingLabel : saveDraftLabel }}
+    </button>
+  }
+  @if (config && canPublish() && config.status === 'DRAFT') {
+    <button mat-stroked-button color="primary" type="button" (click)="publishConfig()" [disabled]="saving || publishing || loading">
+      {{ publishing ? publishingLabel : publishLabel }}
+    </button>
+  }
+</mat-dialog-actions>

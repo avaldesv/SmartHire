@@ -12,6 +12,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
+import { ApiErrorTranslationService } from '../../../core/services/api-error-translation.service';
 import { CatalogCareerService } from '../../../core/services/catalog-career.service';
 import { CatalogBenefitService } from '../../../core/services/catalog-benefit.service';
 import { CatalogBrandService } from '../../../core/services/catalog-brand.service';
@@ -64,6 +65,8 @@ import { CatalogRequisitionTypeService } from '../../../core/services/catalog-re
 import { CatalogCoverageTypeService } from '../../../core/services/catalog-coverage-type.service';
 import { CatalogCurrencyService } from '../../../core/services/catalog-currency.service';
 import { CatalogDocumentTypeService } from '../../../core/services/catalog-document-type.service';
+import { CatalogFileExtensionService } from '../../../core/services/catalog-file-extension.service';
+import { CatalogDocumentProcessingServiceService } from '../../../core/services/catalog-document-processing-service.service';
 import { CatalogGenderService } from '../../../core/services/catalog-gender.service';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { UserSettingsApiService } from '../../../core/services/user-settings-api.service';
@@ -83,6 +86,8 @@ import { CatalogRequisitionType } from '../../../shared/models/catalog-requisiti
 import { CatalogCoverageType } from '../../../shared/models/catalog-coverage-type.model';
 import { CatalogCurrency } from '../../../shared/models/catalog-currency.model';
 import { CatalogDocumentType } from '../../../shared/models/catalog-document-type.model';
+import { CatalogFileExtension } from '../../../shared/models/catalog-file-extension.model';
+import { CatalogDocumentProcessingService } from '../../../shared/models/catalog-document-processing-service.model';
 import { CatalogCountry, CatalogMunicipality, CatalogNeighborhood, CatalogState } from '../../../shared/models/catalog-geography.model';
 import { CatalogGender } from '../../../shared/models/catalog-gender.model';
 import { CatalogKinship } from '../../../shared/models/catalog-kinship.model';
@@ -296,9 +301,12 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly positionTypeService = inject(CatalogPositionTypeService);
   private readonly coverageTypeService = inject(CatalogCoverageTypeService);
   private readonly documentTypeService = inject(CatalogDocumentTypeService);
+  private readonly fileExtensionService = inject(CatalogFileExtensionService);
+  private readonly documentProcessingServiceService = inject(CatalogDocumentProcessingServiceService);
   private readonly geographyService = inject(CatalogGeographyService);
   private readonly userSettingsApi = inject(UserSettingsApiService);
   private readonly snack = inject(MatSnackBar);
+  private readonly apiError = inject(ApiErrorTranslationService);
   private readonly fb = inject(FormBuilder);
 
   readonly createScopeForm = this.fb.nonNullable.group({
@@ -426,6 +434,9 @@ export class CatalogsAdminComponent implements OnInit {
       case 'documentType':
         this.loadDocumentTypes();
         break;
+      case 'fileExtension':
+        this.loadFileExtensions();
+        break;
       case 'country':
         this.loadCountryRecords();
         this.reloadCountryDropdown();
@@ -532,6 +543,9 @@ export class CatalogsAdminComponent implements OnInit {
         break;
       case 'documentType':
         this.loadDocumentTypes();
+        break;
+      case 'fileExtension':
+        this.loadFileExtensions();
         break;
       case 'brand':
         this.loadBrands();
@@ -929,6 +943,8 @@ export class CatalogsAdminComponent implements OnInit {
   savingDocumentType = false;
   editingDocumentTypeId: number | null = null;
   showDocumentTypeForm = false;
+  fileExtensionOptions: CatalogFileExtension[] = [];
+  processingServiceOptions: CatalogDocumentProcessingService[] = [];
 
   brands: CatalogBrand[] = [];
   brandTotal = 0;
@@ -947,6 +963,15 @@ export class CatalogsAdminComponent implements OnInit {
   savingContractType = false;
   editingContractTypeId: number | null = null;
   showContractTypeForm = false;
+
+  fileExtensions: CatalogFileExtension[] = [];
+  fileExtensionTotal = 0;
+  fileExtensionPageIndex = 0;
+  fileExtensionPageSize = 10;
+  loadingFileExtensions = false;
+  savingFileExtension = false;
+  editingFileExtensionId: number | null = null;
+  showFileExtensionForm = false;
 
   coverageTypes: CatalogCoverageType[] = [];
   coverageTypeTotal = 0;
@@ -1042,9 +1067,20 @@ export class CatalogsAdminComponent implements OnInit {
   readonly languageColumns = ['code', 'name', 'active', 'scope', 'actions'];
   readonly shiftColumns = ['code', 'name', 'active', 'scope', 'actions'];
   readonly benefitColumns = ['code', 'name', 'active', 'scope', 'actions'];
-  readonly documentTypeColumns = ['code', 'name', 'documentType', 'validatesWithAi', 'active', 'scope', 'actions'];
+  readonly documentTypeColumns = [
+    'code',
+    'name',
+    'documentType',
+    'description',
+    'defaultProcessingService',
+    'validatesWithAi',
+    'active',
+    'scope',
+    'actions',
+  ];
   readonly brandColumns = ['code', 'name', 'active', 'scope', 'actions'];
   readonly contractTypeColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
+  readonly fileExtensionColumns = ['code', 'name', 'mimeType', 'description', 'active', 'scope', 'actions'];
   readonly coverageTypeColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
   readonly educationLevelColumns = ['code', 'name', 'description', 'requiresCareer', 'active', 'scope', 'actions'];
   readonly languageLevelColumns = ['code', 'name', 'appliesToCareer', 'active', 'scope', 'actions'];
@@ -1292,8 +1328,12 @@ export class CatalogsAdminComponent implements OnInit {
     countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
+    description: [''],
     documentType: ['', Validators.required],
     validatesWithAi: [false],
+    allowedExtensionIds: [[] as number[]],
+    processingServiceIds: [[] as number[]],
+    defaultProcessingServiceId: [null as number | null],
     isActive: [true],
   });
 
@@ -1308,6 +1348,15 @@ export class CatalogsAdminComponent implements OnInit {
     countryId: [null as number | null],
     code: ['', Validators.required],
     name: ['', Validators.required],
+    description: [''],
+    isActive: [true],
+  });
+
+  readonly fileExtensionForm = this.fb.nonNullable.group({
+    countryId: [null as number | null],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    mimeType: [''],
     description: [''],
     isActive: [true],
   });
@@ -1424,6 +1473,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.cancelBrandForm();
     this.cancelDocumentTypeForm();
     this.cancelContractTypeForm();
+    this.cancelFileExtensionForm();
     this.cancelCoverageTypeForm();
     this.cancelEducationLevelForm();
     this.cancelLanguageLevelForm();
@@ -1519,6 +1569,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.loadDocumentTypes();
     this.loadBrands();
     this.loadContractTypes();
+    this.loadFileExtensions();
     this.loadCoverageTypes();
     this.loadEducationLevels();
     this.loadLanguageLevels();
@@ -1557,6 +1608,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.documentTypePageIndex = 0;
     this.brandPageIndex = 0;
     this.contractTypePageIndex = 0;
+    this.fileExtensionPageIndex = 0;
     this.coverageTypePageIndex = 0;
     this.educationLevelPageIndex = 0;
     this.languageLevelPageIndex = 0;
@@ -1591,6 +1643,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.cancelDocumentTypeForm();
     this.cancelBrandForm();
     this.cancelContractTypeForm();
+    this.cancelFileExtensionForm();
     this.cancelCoverageTypeForm();
     this.cancelEducationLevelForm();
     this.cancelLanguageLevelForm();
@@ -2216,6 +2269,32 @@ export class CatalogsAdminComponent implements OnInit {
     this.contractTypePageIndex = e.pageIndex;
     this.contractTypePageSize = e.pageSize;
     this.loadContractTypes();
+  }
+
+  loadFileExtensions(): void {
+    if (this.selectedCountryId == null) return;
+    this.loadingFileExtensions = true;
+    this.fileExtensionService
+      .list(this.selectedCountryId, this.fileExtensionPageIndex, this.fileExtensionPageSize)
+      .subscribe({
+        next: (res) => {
+          this.fileExtensions = res.items;
+          this.fileExtensionTotal = res.total;
+          this.loadingFileExtensions = false;
+        },
+        error: () => {
+          this.loadingFileExtensions = false;
+          this.snack.open(catalogLoadListError(getCatalogEntryLabel('fileExtension')), CATALOG_MSG_SNACK_CLOSE, {
+            duration: 4000,
+          });
+        },
+      });
+  }
+
+  onFileExtensionPage(e: PageEvent): void {
+    this.fileExtensionPageIndex = e.pageIndex;
+    this.fileExtensionPageSize = e.pageSize;
+    this.loadFileExtensions();
   }
 
   onCoverageTypePage(e: PageEvent): void {
@@ -4177,23 +4256,36 @@ export class CatalogsAdminComponent implements OnInit {
       countryId: this.selectedCountryId,
       code: '',
       name: '',
+      description: '',
       documentType: '',
       validatesWithAi: false,
+      allowedExtensionIds: [],
+      processingServiceIds: [],
+      defaultProcessingServiceId: null,
       isActive: true,
     });
+    this.loadDocumentTypeAssociationOptions(this.selectedCountryId);
   }
 
   openEditDocumentType(row: CatalogDocumentType): void {
     this.editingDocumentTypeId = row.id;
     this.showDocumentTypeForm = true;
+    const processingServiceIds = (row.processingServices ?? []).map((service) => service.id);
+    const defaultProcessingServiceId =
+      (row.processingServices ?? []).find((service) => service.isDefault)?.id ?? null;
     this.documentTypeForm.patchValue({
       countryId: row.countryId,
       code: row.code,
       name: row.name,
+      description: row.description ?? '',
       documentType: row.documentType,
       validatesWithAi: row.validatesWithAi,
+      allowedExtensionIds: row.allowedExtensionIds ?? [],
+      processingServiceIds,
+      defaultProcessingServiceId,
       isActive: row.isActive,
     });
+    this.loadDocumentTypeAssociationOptions(row.countryId);
   }
 
   cancelDocumentTypeForm(): void {
@@ -4207,12 +4299,28 @@ export class CatalogsAdminComponent implements OnInit {
       return;
     }
     const value = this.documentTypeForm.getRawValue();
+    const processingServiceIds = value.processingServiceIds ?? [];
+    let defaultProcessingServiceId = value.defaultProcessingServiceId ?? null;
+    if (processingServiceIds.length === 0) {
+      defaultProcessingServiceId = null;
+    } else if (
+      defaultProcessingServiceId != null &&
+      !processingServiceIds.includes(defaultProcessingServiceId)
+    ) {
+      defaultProcessingServiceId = null;
+    } else if (processingServiceIds.length === 1 && defaultProcessingServiceId == null) {
+      defaultProcessingServiceId = processingServiceIds[0];
+    }
     const payload = {
       countryId: value.countryId ?? null,
       code: value.code,
       name: value.name,
+      description: value.description || undefined,
       documentType: value.documentType,
       validatesWithAi: value.validatesWithAi,
+      allowedExtensionIds: value.allowedExtensionIds ?? [],
+      processingServiceIds,
+      defaultProcessingServiceId,
       isActive: value.isActive,
     };
     this.savingDocumentType = true;
@@ -4227,11 +4335,73 @@ export class CatalogsAdminComponent implements OnInit {
         this.loadDocumentTypes();
         this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('documentType')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
       },
-      error: () => {
+      error: (err: unknown) => {
         this.savingDocumentType = false;
-        this.snack.open(catalogSaveError(getCatalogEntryLabel('documentType')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
+        this.snack.open(this.apiError.translate(err), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
     });
+  }
+
+  loadDocumentTypeAssociationOptions(countryId: number | null): void {
+    this.fileExtensionService.list(countryId, 0, 200).subscribe({
+      next: (res) => {
+        this.fileExtensionOptions = res.items;
+      },
+      error: () => {
+        this.fileExtensionOptions = [];
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('fileExtension')), CATALOG_MSG_SNACK_CLOSE, {
+          duration: 4000,
+        });
+      },
+    });
+    this.documentProcessingServiceService.list(countryId, 0, 200).subscribe({
+      next: (res) => {
+        this.processingServiceOptions = res.items;
+      },
+      error: () => {
+        this.processingServiceOptions = [];
+        this.snack.open(
+          catalogLoadListError($localize`:@@catalogs.entry.documentProcessingService:Servicio de procesamiento`),
+          CATALOG_MSG_SNACK_CLOSE,
+          { duration: 4000 },
+        );
+      },
+    });
+  }
+
+  get selectedProcessingServiceOptions(): CatalogDocumentProcessingService[] {
+    const selectedIds = this.documentTypeForm.controls.processingServiceIds.value ?? [];
+    return this.processingServiceOptions.filter((option) => selectedIds.includes(option.id));
+  }
+
+  onDocumentTypeFormCountryChange(countryId: number | null): void {
+    this.documentTypeForm.patchValue({
+      countryId,
+      allowedExtensionIds: [],
+      processingServiceIds: [],
+      defaultProcessingServiceId: null,
+    });
+    this.loadDocumentTypeAssociationOptions(countryId);
+  }
+
+  onProcessingServiceIdsChange(): void {
+    const selectedIds = this.documentTypeForm.controls.processingServiceIds.value ?? [];
+    const currentDefault = this.documentTypeForm.controls.defaultProcessingServiceId.value;
+    if (currentDefault != null && !selectedIds.includes(currentDefault)) {
+      this.documentTypeForm.controls.defaultProcessingServiceId.setValue(null);
+    }
+  }
+
+  truncateText(value: string | null | undefined, max = 60): string {
+    if (!value) {
+      return '—';
+    }
+    return value.length > max ? `${value.slice(0, max)}…` : value;
+  }
+
+  defaultProcessingServiceName(row: CatalogDocumentType): string {
+    const service = (row.processingServices ?? []).find((item) => item.isDefault);
+    return service?.name ?? '—';
   }
 
   openCreateBrand(): void {
@@ -4346,6 +4516,75 @@ export class CatalogsAdminComponent implements OnInit {
       error: () => {
         this.savingContractType = false;
         this.snack.open(catalogSaveError(getCatalogEntryLabel('contractType')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
+      },
+    });
+  }
+
+  openCreateFileExtension(): void {
+    this.resetCreateScope();
+    this.editingFileExtensionId = null;
+    this.showFileExtensionForm = true;
+    this.fileExtensionForm.reset({
+      countryId: this.selectedCountryId,
+      code: '',
+      name: '',
+      mimeType: '',
+      description: '',
+      isActive: true,
+    });
+  }
+
+  openEditFileExtension(row: CatalogFileExtension): void {
+    this.editingFileExtensionId = row.id;
+    this.showFileExtensionForm = true;
+    this.fileExtensionForm.patchValue({
+      countryId: row.countryId,
+      code: row.code,
+      name: row.name,
+      mimeType: row.mimeType ?? '',
+      description: row.description ?? '',
+      isActive: row.isActive,
+    });
+  }
+
+  cancelFileExtensionForm(): void {
+    this.showFileExtensionForm = false;
+    this.editingFileExtensionId = null;
+  }
+
+  saveFileExtension(): void {
+    if (this.fileExtensionForm.invalid) {
+      this.fileExtensionForm.markAllAsTouched();
+      return;
+    }
+    const value = this.fileExtensionForm.getRawValue();
+    const payload = {
+      countryId: value.countryId ?? null,
+      code: value.code,
+      name: value.name,
+      mimeType: value.mimeType || undefined,
+      description: value.description || undefined,
+      isActive: value.isActive,
+    };
+    this.savingFileExtension = true;
+    const request$ =
+      this.editingFileExtensionId != null
+        ? this.fileExtensionService.update(this.editingFileExtensionId, payload)
+        : this.fileExtensionService.create(this.withCreateScope(payload));
+    request$.subscribe({
+      next: () => {
+        this.savingFileExtension = false;
+        this.cancelFileExtensionForm();
+        this.loadFileExtensions();
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('fileExtension')), CATALOG_MSG_SNACK_CLOSE, {
+          duration: 3000,
+        });
+      },
+      error: () => {
+        this.savingFileExtension = false;
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('fileExtension')), CATALOG_MSG_SNACK_CLOSE, {
+          duration: 4000,
+        });
       },
     });
   }
@@ -5293,6 +5532,17 @@ export class CatalogsAdminComponent implements OnInit {
       () => this.loadContractTypes(),
       this.editingContractTypeId,
       () => this.cancelContractTypeForm(),
+    );
+  }
+
+  deleteFileExtension(row: CatalogFileExtension): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.fileExtensionService.delete(row.id),
+      () => this.loadFileExtensions(),
+      this.editingFileExtensionId,
+      () => this.cancelFileExtensionForm(),
     );
   }
 

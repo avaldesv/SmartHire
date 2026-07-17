@@ -6958,6 +6958,744 @@
           <context context-type="sourcefile">src/app/core/i18n/questionnaires-labels.ts</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="nav.settings.requisitionFormConfig" datatype="html">
+        <source>Formulario requisición</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.pageTitle" datatype="html">
+        <source>Configuración del formulario de requisición</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.field.coverageType" datatype="html">
+        <source>Tipo de cobertura</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.load" datatype="html">
+        <source>Cargar borrador</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.status" datatype="html">
+        <source>Estado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.version" datatype="html">
+        <source>Versión</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.statusDraft" datatype="html">
+        <source>Borrador</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.statusPublished" datatype="html">
+        <source>Publicado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.stepsTitle" datatype="html">
+        <source>Pasos del wizard</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.fieldsTitle" datatype="html">
+        <source>Campos del paso</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.field.stepKey" datatype="html">
+        <source>Clave del paso</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.field.labelKey" datatype="html">
+        <source>Clave i18n de etiqueta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.field.fieldKey" datatype="html">
+        <source>Campo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.field.visible" datatype="html">
+        <source>Visible</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.field.required" datatype="html">
+        <source>Obligatorio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.column.reorder" datatype="html">
+        <source>Reordenar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.moveUp" datatype="html">
+        <source>Subir</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.moveDown" datatype="html">
+        <source>Bajar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.addStep" datatype="html">
+        <source>Agregar paso</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.addField" datatype="html">
+        <source>Agregar campo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.remove" datatype="html">
+        <source>Quitar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.saveDraft" datatype="html">
+        <source>Guardar borrador</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.publish" datatype="html">
+        <source>Publicar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.publishing" datatype="html">
+        <source>Publicando...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.selectStep" datatype="html">
+        <source>Seleccione un paso para editar sus campos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.rulesTitle" datatype="html">
+        <source>Reglas condicionales</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.rule.visibleWhen" datatype="html">
+        <source>Visible cuando "Tiene personas a cargo" está activo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.rule.requiredWhen" datatype="html">
+        <source>Obligatorio cuando "Tiene personas a cargo" está activo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.selectorsHint" datatype="html">
+        <source>Seleccione país y tipo de cobertura para cargar o crear el borrador de configuración</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.errors.load" datatype="html">
+        <source>No se pudo cargar la configuración</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.success.saved" datatype="html">
+        <source>Borrador guardado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.errors.save" datatype="html">
+        <source>No se pudo guardar el borrador</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.success.published" datatype="html">
+        <source>Configuración publicada</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.errors.publish" datatype="html">
+        <source>No se pudo publicar la configuración</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.errors.selectCountryCoverage" datatype="html">
+        <source>Seleccione país y tipo de cobertura</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.step.client" datatype="html">
+        <source>Datos Cliente</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.step.general" datatype="html">
+        <source>Generales</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.step.manpower" datatype="html">
+        <source>Manpower</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.step.hiring" datatype="html">
+        <source>Contratación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.step.languages" datatype="html">
+        <source>Idiomas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.step.address" datatype="html">
+        <source>Dirección</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.step.recruitment" datatype="html">
+        <source>Reclutamiento</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.step.clientDescription" datatype="html">
+        <source>Descripción del cliente</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.step.extraBenefits" datatype="html">
+        <source>Beneficios adicionales</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.step.preselection" datatype="html">
+        <source>Preselección</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.step.documents" datatype="html">
+        <source>Documentos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.brandId" datatype="html">
+        <source>Marca</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.countryId" datatype="html">
+        <source>País</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.requisitionTypeId" datatype="html">
+        <source>Tipo de requisición</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.coverageTypeId" datatype="html">
+        <source>Tipo de cobertura</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.ot" datatype="html">
+        <source>OT</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.clientKey" datatype="html">
+        <source>Clave cliente</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.legalName" datatype="html">
+        <source>Razón social</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.tradeName" datatype="html">
+        <source>Nombre comercial</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.contactName" datatype="html">
+        <source>Nombre de contacto</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.contactPhone" datatype="html">
+        <source>Teléfono de contacto</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.contactEmail" datatype="html">
+        <source>Correo de contacto</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.clientContactPosition" datatype="html">
+        <source>Puesto del contacto</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.clientPositionKey" datatype="html">
+        <source>Clave puesto cliente</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.positionName" datatype="html">
+        <source>Nombre del puesto</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.serviceNumber" datatype="html">
+        <source>Número de servicio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.genderId" datatype="html">
+        <source>Género</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.maritalStatusId" datatype="html">
+        <source>Estado civil</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.careerId" datatype="html">
+        <source>Carrera</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.educationLevelId" datatype="html">
+        <source>Escolaridad</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.experienceIn" datatype="html">
+        <source>Experiencia en</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.experienceLevelId" datatype="html">
+        <source>Nivel de experiencia</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.minAge" datatype="html">
+        <source>Edad mínima</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.maxAge" datatype="html">
+        <source>Edad máxima</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.hasPeopleInCharge" datatype="html">
+        <source>Tiene personas a cargo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.peopleInChargeCount" datatype="html">
+        <source>Total personas a cargo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.travelAvailability" datatype="html">
+        <source>Disponibilidad para viajar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.relocationAvailability" datatype="html">
+        <source>Disponibilidad para reubicación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.requirementsMandatory" datatype="html">
+        <source>Requisitos obligatorios</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.requirementsOptional" datatype="html">
+        <source>Requisitos opcionales</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.requirementsDesirable" datatype="html">
+        <source>Requisitos deseables</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.contractTypeId" datatype="html">
+        <source>Tipo de contrato</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.shiftId" datatype="html">
+        <source>Turno</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.salary" datatype="html">
+        <source>Salario</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.serviceFee" datatype="html">
+        <source>Tarifa de servicio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.currencyId" datatype="html">
+        <source>Moneda</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.hasAdvancePayment" datatype="html">
+        <source>Anticipo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.workdayStartTime" datatype="html">
+        <source>Hora inicio jornada</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.workdayEndTime" datatype="html">
+        <source>Hora fin jornada</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.lunchStartTime" datatype="html">
+        <source>Hora inicio comida</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.lunchEndTime" datatype="html">
+        <source>Hora fin comida</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.rotatingShifts" datatype="html">
+        <source>Turnos rotativos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.commitmentDate" datatype="html">
+        <source>Fecha compromiso</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.hiringDate" datatype="html">
+        <source>Fecha de contratación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.hiringRequirements" datatype="html">
+        <source>Requisitos de contratación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.tools" datatype="html">
+        <source>Herramientas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.recruiterGroupId" datatype="html">
+        <source>Grupo reclutador</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.careResponsibleUserId" datatype="html">
+        <source>Responsable CARE</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.careResponsibleAts" datatype="html">
+        <source>ATS responsable CARE</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.disabilityTypeId" datatype="html">
+        <source>Tipo de discapacidad</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.hasLinkage" datatype="html">
+        <source>Vinculación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.seniorCitizen" datatype="html">
+        <source>Adulto mayor</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.languages" datatype="html">
+        <source>Idiomas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.addressLine" datatype="html">
+        <source>Dirección</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.stateId" datatype="html">
+        <source>Entidad federativa</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.municipalityId" datatype="html">
+        <source>Municipio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.neighborhoodId" datatype="html">
+        <source>Colonia</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.subregion" datatype="html">
+        <source>Subregión</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.postalCode" datatype="html">
+        <source>Código postal</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.city" datatype="html">
+        <source>Ciudad</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.recruiterEmail" datatype="html">
+        <source>Correo del reclutador</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.generalCategoryId" datatype="html">
+        <source>Categoría general</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.jobDescription" datatype="html">
+        <source>Descripción del puesto</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.workplaceId" datatype="html">
+        <source>Lugar de trabajo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.responsibilityLevelId" datatype="html">
+        <source>Nivel de responsabilidad</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.publishSalaryMin" datatype="html">
+        <source>Salario mínimo publicado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.publishSalaryMax" datatype="html">
+        <source>Salario máximo publicado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.hasCommission" datatype="html">
+        <source>Comisión</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.hideSalary" datatype="html">
+        <source>Ocultar salario</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.jobPortalId" datatype="html">
+        <source>Portal de empleo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.includeSoftSkills" datatype="html">
+        <source>Incluir habilidades blandas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.includeExtraBenefits" datatype="html">
+        <source>Incluir beneficios adicionales</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.includeProfessionalDevelopment" datatype="html">
+        <source>Incluir desarrollo profesional</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.includeKeywords" datatype="html">
+        <source>Incluir palabras clave</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.clientExpansionDescription" datatype="html">
+        <source>Descripción expansión cliente</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.extraBenefitsText" datatype="html">
+        <source>Texto beneficios adicionales</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.questionnaire" datatype="html">
+        <source>Cuestionario</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.documentRequirements" datatype="html">
+        <source>Documentos requeridos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

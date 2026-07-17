@@ -1,0 +1,147 @@
+<div class="sh-page requisition-form-config-page">
+<h3>{{ pageTitle }}</h3>
+<p class="hint">{{ selectorsHint }}</p>
+
+<div class="sh-card selector-card" [formGroup]="selectorForm">
+  <div class="selector-row">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ fieldCountry }}</mat-label>
+      <mat-select formControlName="countryId">
+        <mat-option [value]="null">{{ filterAllLabel }}</mat-option>
+        @for (country of countries; track country.id) {
+          <mat-option [value]="country.id">{{ country.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{ fieldCoverage }}</mat-label>
+      <mat-select formControlName="coverageTypeId" [disabled]="!selectorForm.controls.countryId.value">
+        <mat-option [value]="null">{{ filterAllLabel }}</mat-option>
+        @for (coverage of coverageTypes; track coverage.id) {
+          <mat-option [value]="coverage.id">{{ coverage.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{ fieldStatus }}</mat-label>
+      <mat-select formControlName="status">
+        <mat-option [value]="null">{{ filterAllLabel }}</mat-option>
+        <mat-option value="DRAFT">{{ statusDraft }}</mat-option>
+        <mat-option value="PUBLISHED">{{ statusPublished }}</mat-option>
+        <mat-option value="DEPRECATED">{{ statusDeprecated }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    @if (canWrite()) {
+      <button mat-flat-button color="primary" type="button" (click)="createDraft()" [disabled]="openingEditor">
+        {{ createDraftLabel }}
+      </button>
+    }
+    <button mat-stroked-button type="button" (click)="loadConfigsList()" [disabled]="loadingList">
+      {{ refreshListLabel }}
+    </button>
+  </div>
+</div>
+
+<section class="sh-card list-card">
+  <div class="list-card-header">
+    <h4>{{ listTitle }}</h4>
+    @if (!loadingList) {
+      <span class="list-count">{{ configListTotal }} registro(s)</span>
+    }
+  </div>
+
+  @if (loadingList) {
+    <div class="loading-wrap"><mat-spinner diameter="32" /></div>
+  } @else {
+    @if (listLoadError) {
+      <p class="list-error">{{ listErrorLabel }}</p>
+    }
+    <div class="sh-table-wrap">
+      <table mat-table [dataSource]="configList">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>{{ colName }}</th>
+          <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+        </ng-container>
+        <ng-container matColumnDef="country">
+          <th mat-header-cell *matHeaderCellDef>{{ colCountry }}</th>
+          <td mat-cell *matCellDef="let row">{{ countryName(row.countryId) }}</td>
+        </ng-container>
+        <ng-container matColumnDef="coverage">
+          <th mat-header-cell *matHeaderCellDef>{{ colCoverage }}</th>
+          <td mat-cell *matCellDef="let row">{{ coverageName(row.countryId, row.coverageTypeId) }}</td>
+        </ng-container>
+        <ng-container matColumnDef="version">
+          <th mat-header-cell *matHeaderCellDef>{{ colVersion }}</th>
+          <td mat-cell *matCellDef="let row">{{ row.version }}</td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>{{ colStatus }}</th>
+          <td mat-cell *matCellDef="let row">{{ statusLabelFor(row.status) }}</td>
+        </ng-container>
+        <ng-container matColumnDef="publishedAt">
+          <th mat-header-cell *matHeaderCellDef>{{ colPublishedAt }}</th>
+          <td mat-cell *matCellDef="let row">
+            @if (row.publishedAt) {
+              {{ row.publishedAt | date: 'short' }}
+            } @else {
+              —
+            }
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>{{ colActions }}</th>
+          <td mat-cell *matCellDef="let row" (click)="$event.stopPropagation()">
+            <div class="row-actions">
+              @if (canClone(row)) {
+                <button
+                  mat-icon-button
+                  type="button"
+                  [attr.aria-label]="cloneLabel"
+                  [disabled]="cloningId === row.id || openingEditor"
+                  (click)="cloneConfig(row)"
+                >
+                  <mat-icon>content_copy</mat-icon>
+                </button>
+              }
+              <sh-table-row-actions
+                [showView]="isViewOnly(row)"
+                [showEdit]="row.status === 'DRAFT' && canWrite()"
+                [showDelete]="row.status === 'DRAFT' && canWrite()"
+                [editDisabled]="openingEditor"
+                [viewDisabled]="openingEditor"
+                [deleteDisabled]="deletingId === row.id || openingEditor"
+                (viewClick)="openConfig(row)"
+                (editClick)="openConfig(row)"
+                (deleteClick)="deleteConfig(row)"
+              />
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="listColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: listColumns"
+          class="config-row"
+          (click)="openConfig(row)"
+        ></tr>
+        <tr class="mat-row empty-row" *matNoDataRow>
+          <td class="mat-cell empty-cell" [attr.colspan]="listColumns.length">
+            {{ emptyListLabel }}
+          </td>
+        </tr>
+      </table>
+    </div>
+    <mat-paginator
+      [length]="configListTotal"
+      [pageIndex]="listPageIndex"
+      [pageSize]="listPageSize"
+      [pageSizeOptions]="[10, 20, 50]"
+      (page)="onListPageChange($event)"
+    />
+  }
+</section>
+
+@if (openingEditor) {
+  <div class="loading-wrap opening-editor"><mat-spinner diameter="36" /></div>
+}
+</div>

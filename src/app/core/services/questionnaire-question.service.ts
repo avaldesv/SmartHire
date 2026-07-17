@@ -19,7 +19,7 @@ export class QuestionnaireQuestionService {
     page = 0,
     size = 20,
   ): Observable<{ items: QuestionnaireQuestion[]; total: number }> {
-    const body = { countryId, isActive: null, filters: [], ordersBy: ['questionText:asc'] as string[] };
+    const body = { countryId, isActive: null, filters: [], ordersBy: ['text:asc'] as string[] };
     return this.http
       .post<QuestionnaireQuestionListResponse>(
         this.api.apiUrl('/api/v1/questionnaire-questions/list'),

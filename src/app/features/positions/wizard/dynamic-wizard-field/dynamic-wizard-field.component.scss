@@ -1,0 +1,40 @@
+:host {
+  display: contents;
+}
+
+mat-form-field {
+  width: 100%;
+  min-width: 0;
+}
+
+mat-checkbox {
+  align-self: center;
+}
+
+.span-2,
+.textarea-field {
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+.textarea-field {
+  textarea {
+    min-height: 140px;
+    resize: vertical;
+    line-height: 1.45;
+  }
+}
+
+.time-field {
+  cursor: pointer;
+
+  input[type='time'] {
+    min-height: 1.5rem;
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+  }
+
+  .time-field__toggle {
+    color: rgba(0, 0, 0, 0.54);
+  }
+}

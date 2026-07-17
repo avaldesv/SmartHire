@@ -1,0 +1,80 @@
+@if (isCheckbox) {
+  <mat-checkbox [formControl]="control" [disabled]="disabled">{{ label }}</mat-checkbox>
+} @else if (isSelect) {
+  <mat-form-field appearance="outline" subscriptSizing="dynamic">
+    <mat-label>{{ label }}</mat-label>
+    <mat-select [formControl]="control" [disabled]="disabled || loadingOptions">
+      @if (loadingOptions) {
+        <mat-option disabled>Cargando...</mat-option>
+      } @else {
+        <mat-option [value]="null">—</mat-option>
+        @for (opt of options; track opt.id) {
+          <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
+        }
+      }
+    </mat-select>
+  </mat-form-field>
+} @else if (isMultiselect) {
+  <mat-form-field appearance="outline" class="multiselect-field" subscriptSizing="dynamic">
+    <mat-label>{{ label }}</mat-label>
+    <mat-select [formControl]="control" [disabled]="disabled || loadingOptions" multiple>
+      @if (loadingOptions) {
+        <mat-option disabled>Cargando...</mat-option>
+      } @else {
+        @for (opt of options; track opt.id) {
+          <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
+        }
+      }
+    </mat-select>
+  </mat-form-field>
+} @else if (isDate) {
+  <mat-form-field appearance="outline" subscriptSizing="dynamic">
+    <mat-label>{{ label }}</mat-label>
+    <input matInput [matDatepicker]="picker" [formControl]="control" [disabled]="disabled" />
+    <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="disabled"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+} @else if (isTime) {
+  <mat-form-field appearance="outline" class="time-field" subscriptSizing="dynamic" (click)="openTimePicker($event)">
+    <mat-label>{{ label }}</mat-label>
+    <input
+      #timeInput
+      matInput
+      type="time"
+      step="60"
+      [formControl]="control"
+      [disabled]="disabled"
+      (click)="openTimePicker($event)"
+    />
+    <button
+      mat-icon-button
+      matIconSuffix
+      type="button"
+      class="time-field__toggle"
+      [disabled]="disabled"
+      (click)="openTimePicker($event)"
+      aria-label="Abrir selector de hora"
+    >
+      <mat-icon>schedule</mat-icon>
+    </button>
+  </mat-form-field>
+} @else if (isSimpleInput) {
+  <mat-form-field
+    appearance="outline"
+    subscriptSizing="dynamic"
+    [class.span-2]="isTextarea"
+    [class.textarea-field]="isTextarea"
+  >
+    <mat-label>{{ label }}</mat-label>
+    @if (isTextarea) {
+      <textarea matInput rows="6" [formControl]="control" [disabled]="disabled"></textarea>
+    } @else {
+      <input
+        matInput
+        [type]="isNumber ? 'number' : 'text'"
+        [formControl]="control"
+        [disabled]="disabled"
+      />
+    }
+  </mat-form-field>
+}

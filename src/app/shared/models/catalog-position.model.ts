@@ -16,6 +16,7 @@ export interface CatalogBrand {
   code: string;
   name: string;
   isActive: boolean;
+  companyId?: number | null;
 }
 
 export interface CatalogCoverageType {

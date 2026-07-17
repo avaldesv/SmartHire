@@ -11,8 +11,27 @@ const url = require('url');
 const ROOT = path.join(__dirname, '..', 'dist', 'smarthire-recruiter-portal', 'browser');
 const DEFAULT_LOCALE = 'es-MX';
 const SUPPORTED = new Set(['es-MX', 'es-ES', 'en-US']);
-const PORT = Number(process.env.PORT || 8080);
+const PORT = Number(process.env.PORT || 4200);
 const LOCALE_COOKIE = 'sh_portal_locale';
+
+/** Map API/CLDR short codes to Angular build subfolders. */
+const LOCALE_ALIASES = {
+  en: 'en-US',
+  'en-GB': 'en-US',
+  es: 'es-MX',
+};
+
+function normalizeLocale(value) {
+  if (!value) {
+    return DEFAULT_LOCALE;
+  }
+  const trimmed = value.trim();
+  if (SUPPORTED.has(trimmed)) {
+    return trimmed;
+  }
+  const aliased = LOCALE_ALIASES[trimmed] || LOCALE_ALIASES[trimmed.split('-')[0]];
+  return aliased && SUPPORTED.has(aliased) ? aliased : DEFAULT_LOCALE;
+}
 
 function readLocaleFromCookie(cookieHeader) {
   if (!cookieHeader) {
@@ -22,8 +41,7 @@ function readLocaleFromCookie(cookieHeader) {
   for (const part of parts) {
     const [name, ...rest] = part.trim().split('=');
     if (name === LOCALE_COOKIE) {
-      const value = decodeURIComponent(rest.join('=')).trim();
-      return SUPPORTED.has(value) ? value : DEFAULT_LOCALE;
+      return normalizeLocale(decodeURIComponent(rest.join('=')));
     }
   }
   return DEFAULT_LOCALE;

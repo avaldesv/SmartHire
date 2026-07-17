@@ -1,0 +1,152 @@
+import { ResolvedRequisitionFormConfig } from '../../../shared/models/requisition-wizard.model';
+
+function field(
+  fieldKey: string,
+  uiType: string,
+  labelI18nKey: string,
+  dataSourceKey?: string | null,
+  isRequired = true,
+  rulesJson?: string | null,
+): ResolvedRequisitionFormConfig['steps'][number]['fields'][number] {
+  return {
+    fieldKey,
+    uiType,
+    dataSourceKey: dataSourceKey ?? null,
+    labelI18nKey,
+    isVisible: true,
+    isRequired,
+    rulesJson: rulesJson ?? null,
+  };
+}
+
+/** Mirrors the legacy 8-step static wizard for fallback parity. */
+export const DEFAULT_REQUISITION_WIZARD_SCHEMA: ResolvedRequisitionFormConfig = {
+  configId: 0,
+  version: 0,
+  steps: [
+    {
+      stepKey: 'client',
+      labelI18nKey: 'requisition.step.client',
+      orderIndex: 1,
+      fields: [
+        field('countryId', 'select', 'requisition.field.countryId', 'countries'),
+        field('coverageTypeId', 'select', 'requisition.field.coverageTypeId', 'coverage-types'),
+        field('ot', 'text', 'requisition.field.ot'),
+        field('clientKey', 'text', 'requisition.field.clientKey'),
+        field('legalName', 'text', 'requisition.field.legalName'),
+        field('contactName', 'text', 'requisition.field.contactName'),
+        field('clientPosition', 'text', 'requisition.field.clientContactPosition'),
+      ],
+    },
+    {
+      stepKey: 'general',
+      labelI18nKey: 'requisition.step.general',
+      orderIndex: 2,
+      fields: [
+        field('positionName', 'text', 'requisition.field.positionName'),
+        field('serviceNumber', 'text', 'requisition.field.serviceNumber', null, false),
+        field('genderId', 'select', 'requisition.field.genderId', 'gender'),
+        field('maritalStatusId', 'select', 'requisition.field.maritalStatusId', 'marital-status'),
+        field('educationLevelId', 'select', 'requisition.field.educationLevelId', 'education-levels'),
+        field('careerId', 'select', 'requisition.field.careerId', 'careers', false),
+        field('experienceIn', 'text', 'requisition.field.experienceIn'),
+        field('experienceLevelId', 'select', 'requisition.field.experienceLevelId', 'experience-levels'),
+        field('minAge', 'number', 'requisition.field.minAge', null, false),
+        field('maxAge', 'number', 'requisition.field.maxAge', null, false),
+        field('hasPeopleInCharge', 'checkbox', 'requisition.field.hasPeopleInCharge', null, false),
+        field('travelAvailability', 'checkbox', 'requisition.field.travelAvailability', null, false),
+        field('relocationAvailability', 'checkbox', 'requisition.field.relocationAvailability', null, false),
+        field('requirementsMandatory', 'textarea', 'requisition.field.requirementsMandatory'),
+        field('requirementsOptional', 'textarea', 'requisition.field.requirementsOptional'),
+        field('requirementsDesirable', 'textarea', 'requisition.field.requirementsDesirable'),
+      ],
+    },
+    {
+      stepKey: 'manpower',
+      labelI18nKey: 'requisition.step.manpower',
+      orderIndex: 3,
+      fields: [
+        field('requisitionTypeId', 'select', 'requisition.field.requisitionTypeId', 'requisition-types'),
+        field(
+          'orderId',
+          'text',
+          'requisition.field.orderId',
+          null,
+          false,
+          JSON.stringify({ readOnly: true, valueFrom: 'ot' }),
+        ),
+        field('serviceFee', 'number', 'requisition.field.serviceFee', null, false),
+        field('currencyId', 'select', 'requisition.field.currencyId', 'currencies'),
+        field('hasAdvancePayment', 'checkbox', 'requisition.field.hasAdvancePayment', null, false),
+      ],
+    },
+    {
+      stepKey: 'hiring',
+      labelI18nKey: 'requisition.step.hiring',
+      orderIndex: 4,
+      fields: [
+        field('contractTypeId', 'select', 'requisition.field.contractTypeId', 'contract-types'),
+        field('shiftId', 'select', 'requisition.field.shiftId', 'shifts'),
+        field('salary', 'number', 'requisition.field.salary'),
+        field('workdayStartTime', 'time', 'requisition.field.workdayStartTime', null, false),
+        field('workdayEndTime', 'time', 'requisition.field.workdayEndTime', null, false),
+        field('lunchStartTime', 'time', 'requisition.field.lunchStartTime', null, false),
+        field('lunchEndTime', 'time', 'requisition.field.lunchEndTime', null, false),
+        field('rotatingShifts', 'checkbox', 'requisition.field.rotatingShifts', null, false),
+        field('commitmentDate', 'date', 'requisition.field.commitmentDate', null, false),
+        field('hiringDate', 'date', 'requisition.field.hiringDate', null, false),
+      ],
+    },
+    {
+      stepKey: 'languages',
+      labelI18nKey: 'requisition.step.languages',
+      orderIndex: 5,
+      fields: [
+        field('primaryLanguageId', 'select', 'requisition.field.primaryLanguageId', 'languages'),
+        field('secondaryLanguageId', 'select', 'requisition.field.secondaryLanguageId', 'languages', false),
+        field('languageLevelId', 'select', 'requisition.field.languageLevelId', 'language-levels'),
+      ],
+    },
+    {
+      stepKey: 'address',
+      labelI18nKey: 'requisition.step.address',
+      orderIndex: 6,
+      fields: [
+        field('address', 'text', 'requisition.field.addressLine'),
+        field('stateId', 'select', 'requisition.field.stateId', 'states'),
+        field('municipalityId', 'select', 'requisition.field.municipalityId', 'municipalities'),
+        field('postalCode', 'text', 'requisition.field.postalCode'),
+        field('neighborhoodId', 'select', 'requisition.field.neighborhoodId', 'neighborhoods'),
+        field('city', 'text', 'requisition.field.city'),
+      ],
+    },
+    {
+      stepKey: 'requirements',
+      labelI18nKey: 'requisition.step.requirements',
+      orderIndex: 7,
+      fields: [
+        field('requirements', 'textarea', 'requisition.field.requirements'),
+        field('educationLevelId', 'select', 'requisition.field.educationLevelId', 'education-levels'),
+        field('experienceYears', 'number', 'requisition.field.experienceYears'),
+        field('hasPeopleInCharge', 'checkbox', 'requisition.field.hasPeopleInCharge', null, false),
+        field(
+          'peopleInChargeCount',
+          'number',
+          'requisition.field.peopleInChargeCount',
+          null,
+          false,
+          JSON.stringify({
+            visibleWhen: { fieldKey: 'hasPeopleInCharge', equals: true },
+            requiredWhen: { fieldKey: 'hasPeopleInCharge', equals: true },
+          }),
+        ),
+      ],
+    },
+    {
+      stepKey: 'documents',
+      labelI18nKey: 'requisition.step.documents',
+      orderIndex: 8,
+      fields: [field('documentTypeIds', 'document-grid', 'requisition.field.documentRequirements', 'document-types', false)],
+    },
+  ],
+};
