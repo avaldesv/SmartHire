@@ -40,7 +40,24 @@ import {
   hydrateDynamicFormValues,
   patchDynamicForm,
 } from './dynamic-wizard-payload.util';
-import { resolveWizardStepLabel } from './requisition-wizard-labels';
+import {
+  REQUISITION_WIZARD_CANCEL,
+  REQUISITION_WIZARD_CONTINUE,
+  REQUISITION_WIZARD_CREATE,
+  REQUISITION_WIZARD_CREATING,
+  REQUISITION_WIZARD_EDIT_TITLE,
+  REQUISITION_WIZARD_LOADING,
+  REQUISITION_WIZARD_NEW_TITLE,
+  REQUISITION_WIZARD_PREVIOUS,
+  REQUISITION_WIZARD_PROGRESS_ARIA,
+  REQUISITION_WIZARD_SAVE,
+  REQUISITION_WIZARD_SAVING,
+  resolveWizardStepLabel,
+  requisitionWizardCreateSubtitle,
+  requisitionWizardEditSubtitle,
+  requisitionWizardStepAria,
+  requisitionWizardStepOf,
+} from './requisition-wizard-labels';
 import { DynamicWizardStepComponent } from './dynamic-wizard-step/dynamic-wizard-step.component';
 import {
   RequisitionScopeDialogComponent,
@@ -209,12 +226,37 @@ export class PositionWizardComponent implements OnInit {
 
   readonly selectedDocumentTypeIds = this.fb.nonNullable.control<number[]>([]);
 
+  readonly labels = {
+    newTitle: REQUISITION_WIZARD_NEW_TITLE,
+    editTitle: REQUISITION_WIZARD_EDIT_TITLE,
+    continue: REQUISITION_WIZARD_CONTINUE,
+    previous: REQUISITION_WIZARD_PREVIOUS,
+    cancel: REQUISITION_WIZARD_CANCEL,
+    save: REQUISITION_WIZARD_SAVE,
+    create: REQUISITION_WIZARD_CREATE,
+    saving: REQUISITION_WIZARD_SAVING,
+    creating: REQUISITION_WIZARD_CREATING,
+    loading: REQUISITION_WIZARD_LOADING,
+    progressAria: REQUISITION_WIZARD_PROGRESS_ARIA,
+  };
+
+  get wizardTitle(): string {
+    return this.isEditMode ? this.labels.editTitle : this.labels.newTitle;
+  }
+
   get wizardSubtitle(): string {
     const steps = this.useDynamicWizard
       ? (this.resolvedConfig?.steps.length ?? 0)
       : 8;
-    const suffix = `Asistente en ${steps} pasos`;
-    return this.isEditMode && this.requisitionNo ? `${this.requisitionNo} — ${suffix}` : `Asistente de creación en ${steps} pasos`;
+    const suffix = requisitionWizardEditSubtitle(steps);
+    return this.isEditMode && this.requisitionNo
+      ? `${this.requisitionNo} — ${suffix}`
+      : requisitionWizardCreateSubtitle(steps);
+  }
+
+  get wizardStepOfCaption(): string {
+    const total = this.resolvedConfig?.steps.length ?? 0;
+    return requisitionWizardStepOf(this.dynamicSelectedIndex + 1, total);
   }
 
   get dynamicCountryId(): number | null {
@@ -439,13 +481,12 @@ export class PositionWizardComponent implements OnInit {
   stepProgressAriaLabel(index: number, stepKey: string, labelI18nKey: string): string {
     const title = this.stepTitle(stepKey, labelI18nKey);
     const total = this.resolvedConfig?.steps.length ?? 0;
-    if (this.isDynamicStepCompleted(index)) {
-      return `Paso ${index + 1} de ${total}: ${title} (completado)`;
-    }
-    if (this.isDynamicStepActive(index)) {
-      return `Paso ${index + 1} de ${total}: ${title} (actual)`;
-    }
-    return `Paso ${index + 1} de ${total}: ${title}`;
+    const state = this.isDynamicStepCompleted(index)
+      ? 'done'
+      : this.isDynamicStepActive(index)
+        ? 'current'
+        : 'pending';
+    return requisitionWizardStepAria(index + 1, total, title, state);
   }
 
   dynamicStepForm(stepKey: string): FormGroup {

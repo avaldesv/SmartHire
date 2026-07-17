@@ -3756,6 +3756,142 @@
         <source>Documentos requeridos</source>
         <target>Documentos requeridos</target>
       </trans-unit>
+      <trans-unit id="requisition.wizard.newTitle" datatype="html">
+        <source>Nueva requisición</source>
+        <target>Nueva requisición</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.editTitle" datatype="html">
+        <source>Editar requisición</source>
+        <target>Editar requisición</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.continue" datatype="html">
+        <source>Continuar</source>
+        <target>Continuar</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.previous" datatype="html">
+        <source>Anterior</source>
+        <target>Anterior</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.save" datatype="html">
+        <source>Guardar</source>
+        <target>Guardar</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.create" datatype="html">
+        <source>Crear</source>
+        <target>Crear</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.saving" datatype="html">
+        <source>Guardando...</source>
+        <target>Guardando...</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.creating" datatype="html">
+        <source>Creando...</source>
+        <target>Creando...</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.loading" datatype="html">
+        <source>Cargando formulario de requisición…</source>
+        <target>Cargando formulario de requisición…</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.progressAria" datatype="html">
+        <source>Pasos del wizard</source>
+        <target>Pasos del wizard</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.scopeHint" datatype="html">
+        <source>Selecciona el país y el tipo de cobertura para cargar el formulario correspondiente.</source>
+        <target>Selecciona el país y el tipo de cobertura para cargar el formulario correspondiente.</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.scopeCountry" datatype="html">
+        <source>País</source>
+        <target>País</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.scopeCoverage" datatype="html">
+        <source>Tipo de cobertura</source>
+        <target>Tipo de cobertura</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.scopeLoading" datatype="html">
+        <source>Cargando...</source>
+        <target>Cargando...</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.createSubtitle" datatype="html">
+        <source>Asistente de creación en <x id="steps" equiv-text="steps"/> pasos</source>
+        <target>Asistente de creación en <x id="steps" equiv-text="steps"/> pasos</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.editSubtitle" datatype="html">
+        <source>Asistente en <x id="steps" equiv-text="steps"/> pasos</source>
+        <target>Asistente en <x id="steps" equiv-text="steps"/> pasos</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.stepOf" datatype="html">
+        <source>Paso <x id="current" equiv-text="current"/> de <x id="total" equiv-text="total"/></source>
+        <target>Paso <x id="current" equiv-text="current"/> de <x id="total" equiv-text="total"/></target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.stepAriaDone" datatype="html">
+        <source>Paso <x id="current" equiv-text="current"/> de <x id="total" equiv-text="total"/>: <x id="title" equiv-text="title"/> (completado)</source>
+        <target>Paso <x id="current" equiv-text="current"/> de <x id="total" equiv-text="total"/>: <x id="title" equiv-text="title"/> (completado)</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.stepAriaCurrent" datatype="html">
+        <source>Paso <x id="current" equiv-text="current"/> de <x id="total" equiv-text="total"/>: <x id="title" equiv-text="title"/> (actual)</source>
+        <target>Paso <x id="current" equiv-text="current"/> de <x id="total" equiv-text="total"/>: <x id="title" equiv-text="title"/> (actual)</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.stepAria" datatype="html">
+        <source>Paso <x id="current" equiv-text="current"/> de <x id="total" equiv-text="total"/>: <x id="title" equiv-text="title"/></source>
+        <target>Paso <x id="current" equiv-text="current"/> de <x id="total" equiv-text="total"/>: <x id="title" equiv-text="title"/></target>
+      </trans-unit>
+      <trans-unit id="requisition.step.client.stepper" datatype="html">
+        <source>Datos cliente</source>
+        <target>Datos cliente</target>
+      </trans-unit>
+      <trans-unit id="requisition.step.general.stepper" datatype="html">
+        <source>Datos generales</source>
+        <target>Datos generales</target>
+      </trans-unit>
+      <trans-unit id="requisition.step.manpower.stepper" datatype="html">
+        <source>Datos Manpower</source>
+        <target>Datos Manpower</target>
+      </trans-unit>
+      <trans-unit id="requisition.step.hiring.stepper" datatype="html">
+        <source>Contratación</source>
+        <target>Contratación</target>
+      </trans-unit>
+      <trans-unit id="requisition.step.languages.stepper" datatype="html">
+        <source>Idiomas</source>
+        <target>Idiomas</target>
+      </trans-unit>
+      <trans-unit id="requisition.step.address.stepper" datatype="html">
+        <source>Dirección</source>
+        <target>Dirección</target>
+      </trans-unit>
+      <trans-unit id="requisition.step.recruitment.stepper" datatype="html">
+        <source>Reclutamiento</source>
+        <target>Reclutamiento</target>
+      </trans-unit>
+      <trans-unit id="requisition.step.clientDescription.stepper" datatype="html">
+        <source>Desc. cliente</source>
+        <target>Desc. cliente</target>
+      </trans-unit>
+      <trans-unit id="requisition.step.extraBenefits.stepper" datatype="html">
+        <source>Beneficios</source>
+        <target>Beneficios</target>
+      </trans-unit>
+      <trans-unit id="requisition.step.preselection.stepper" datatype="html">
+        <source>Preselección</source>
+        <target>Preselección</target>
+      </trans-unit>
+      <trans-unit id="requisition.step.documents.stepper" datatype="html">
+        <source>Documentos</source>
+        <target>Documentos</target>
+      </trans-unit>
+      <trans-unit id="requisition.step.requirements.stepper" datatype="html">
+        <source>Requisitos</source>
+        <target>Requisitos</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.orderId" datatype="html">
+        <source>Id de Orden</source>
+        <target>Id de Orden</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.disabilityTypeIds" datatype="html">
+        <source>Tipo de discapacidad</source>
+        <target>Tipo de discapacidad</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

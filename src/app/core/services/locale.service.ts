@@ -13,17 +13,41 @@ export const X_LANGUAGE_HEADER = 'X-Language';
 
 const LEGACY_LOCALE_PREFIXES = ['es-ES', 'en-US'] as const;
 
-/** Build bundles use CLDR base codes (es/en); portal/API keep regional codes (es-MX/es-ES/en-US). */
-const LOCALE_EQUIVALENCE_GROUPS: readonly (readonly string[])[] = [
-  ['es', 'es-ES', 'es-MX'],
-  ['en', 'en-US'],
-];
-
-function localesEquivalent(a: string, b: string): boolean {
-  if (a === b) {
-    return true;
+/**
+ * Maps portal/API locales and Angular `document.lang` (CLDR codes es/en vs es-MX)
+ * to the serve-spa / dist folder that must be loaded. es-MX and es-ES are distinct bundles.
+ * Note: bare `es` in document.lang is the Angular id for the es-ES build (subPath es-ES).
+ */
+function toBundleLocale(locale: string): string {
+  const trimmed = locale.trim();
+  if (!trimmed) {
+    return DEFAULT_LOGIN_LOCALE;
   }
-  return LOCALE_EQUIVALENCE_GROUPS.some((group) => group.includes(a) && group.includes(b));
+  if (trimmed === 'en' || trimmed.startsWith('en-')) {
+    return 'en-US';
+  }
+  if (trimmed === 'es' || trimmed === 'es-ES') {
+    return 'es-ES';
+  }
+  if (trimmed === 'es-MX' || trimmed.startsWith('es-')) {
+    return 'es-MX';
+  }
+  return trimmed;
+}
+
+/** Cookie/session codes for serve-spa: bare `es` defaults to product locale es-MX. */
+function normalizeStoredLocale(locale: string): string {
+  const trimmed = locale.trim() || DEFAULT_LOGIN_LOCALE;
+  if (trimmed === 'en' || trimmed.startsWith('en-')) {
+    return 'en-US';
+  }
+  if (trimmed === 'es-ES') {
+    return 'es-ES';
+  }
+  if (trimmed === 'es' || trimmed === 'es-MX' || trimmed.startsWith('es-')) {
+    return 'es-MX';
+  }
+  return trimmed;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -78,8 +102,9 @@ export class LocaleService {
   }
 
   needsLocaleReload(locale?: string | null): boolean {
-    const preferred = locale?.trim() || DEFAULT_LOGIN_LOCALE;
-    if (localesEquivalent(this.getBuildLocale(), preferred)) {
+    const preferred = normalizeStoredLocale(locale?.trim() || DEFAULT_LOGIN_LOCALE);
+    // Compare bundle folders: document.lang may be Angular CLDR ("es"/"en").
+    if (toBundleLocale(this.getBuildLocale()) === toBundleLocale(preferred)) {
       sessionStorage.removeItem(LOCALE_RELOAD_GUARD_KEY);
       return false;
     }
@@ -87,7 +112,7 @@ export class LocaleService {
   }
 
   reloadForLocale(locale: string): void {
-    const normalized = locale.trim() || DEFAULT_LOGIN_LOCALE;
+    const normalized = normalizeStoredLocale(locale);
     sessionStorage.setItem(LOCALE_RELOAD_GUARD_KEY, normalized);
     this.persistLocale(normalized);
     window.location.reload();
@@ -132,7 +157,7 @@ export class LocaleService {
   }
 
   private persistLocale(locale: string): void {
-    const normalized = locale.trim() || DEFAULT_LOGIN_LOCALE;
+    const normalized = normalizeStoredLocale(locale);
     this.activeLocale.set(normalized);
     sessionStorage.setItem(LOCALE_SESSION_KEY, normalized);
     this.writeLocaleCookie(normalized);

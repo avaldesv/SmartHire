@@ -13,6 +13,15 @@ import { CatalogPositionService } from '../../../../core/services/catalog-positi
 import { ReferenceDataService } from '../../../../core/services/reference-data.service';
 import { CatalogCountry } from '../../../../shared/models/catalog-geography.model';
 import { CatalogCoverageType } from '../../../../shared/models/catalog-position.model';
+import {
+  REQUISITION_SCOPE_COUNTRY,
+  REQUISITION_SCOPE_COVERAGE,
+  REQUISITION_SCOPE_HINT,
+  REQUISITION_SCOPE_LOADING,
+  REQUISITION_WIZARD_CANCEL,
+  REQUISITION_WIZARD_CONTINUE,
+  REQUISITION_WIZARD_NEW_TITLE,
+} from '../requisition-wizard-labels';
 
 export interface RequisitionScopeDialogData {
   countryId?: number | null;
@@ -56,6 +65,16 @@ export class RequisitionScopeDialogComponent implements OnInit {
   loadingCountries = false;
   loadingCoverage = false;
   loadingTenant = false;
+
+  readonly labels = {
+    newTitle: REQUISITION_WIZARD_NEW_TITLE,
+    hint: REQUISITION_SCOPE_HINT,
+    country: REQUISITION_SCOPE_COUNTRY,
+    coverage: REQUISITION_SCOPE_COVERAGE,
+    loading: REQUISITION_SCOPE_LOADING,
+    cancel: REQUISITION_WIZARD_CANCEL,
+    continue: REQUISITION_WIZARD_CONTINUE,
+  };
 
   readonly form = this.fb.nonNullable.group({
     countryId: [null as number | null, Validators.required],
