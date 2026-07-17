@@ -1,8 +1,8 @@
-<h2 mat-dialog-title>Nueva requisición</h2>
+<h2 mat-dialog-title>{{ labels.newTitle }}</h2>
 
 <mat-dialog-content>
   <p class="scope-hint">
-    Selecciona el país y el tipo de cobertura para cargar el formulario correspondiente.
+    {{ labels.hint }}
   </p>
 
   @if (loadingCountries || loadingTenant) {
@@ -10,7 +10,7 @@
   } @else {
     <form [formGroup]="form" class="scope-form" (ngSubmit)="continue()">
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>País</mat-label>
+        <mat-label>{{ labels.country }}</mat-label>
         <mat-select formControlName="countryId">
           @for (country of countries; track country.id) {
             <mat-option [value]="country.id">{{ country.name }}</mat-option>
@@ -19,10 +19,10 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Tipo de cobertura</mat-label>
+        <mat-label>{{ labels.coverage }}</mat-label>
         <mat-select formControlName="coverageTypeId">
           @if (loadingCoverage) {
-            <mat-option disabled>Cargando...</mat-option>
+            <mat-option disabled>{{ labels.loading }}</mat-option>
           } @else {
             @for (item of coverageTypes; track item.id) {
               <mat-option [value]="item.id">{{ item.name }}</mat-option>
@@ -35,7 +35,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button type="button" (click)="cancel()">Cancelar</button>
+  <button mat-button type="button" (click)="cancel()">{{ labels.cancel }}</button>
   <button
     mat-flat-button
     color="primary"
@@ -43,6 +43,6 @@
     (click)="continue()"
     [disabled]="form.invalid || loadingCountries || loadingTenant || loadingCoverage"
   >
-    Continuar
+    {{ labels.continue }}
   </button>
 </mat-dialog-actions>

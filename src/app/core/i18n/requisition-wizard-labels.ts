@@ -158,3 +158,46 @@ export function resolveRequisitionStepStepperLabel(stepKeyOrI18nKey: string, lab
 }
 
 export const REQUISITION_STEP_LABEL_KEY_PLACEHOLDER = 'requisition.step.general';
+
+export const REQUISITION_WIZARD_NEW_TITLE = $localize`:@@requisition.wizard.newTitle:Nueva requisición`;
+export const REQUISITION_WIZARD_EDIT_TITLE = $localize`:@@requisition.wizard.editTitle:Editar requisición`;
+export const REQUISITION_WIZARD_CONTINUE = $localize`:@@requisition.wizard.continue:Continuar`;
+export const REQUISITION_WIZARD_PREVIOUS = $localize`:@@requisition.wizard.previous:Anterior`;
+export const REQUISITION_WIZARD_CANCEL = $localize`:@@common.cancel:Cancelar`;
+export const REQUISITION_WIZARD_SAVE = $localize`:@@requisition.wizard.save:Guardar`;
+export const REQUISITION_WIZARD_CREATE = $localize`:@@requisition.wizard.create:Crear`;
+export const REQUISITION_WIZARD_SAVING = $localize`:@@requisition.wizard.saving:Guardando...`;
+export const REQUISITION_WIZARD_CREATING = $localize`:@@requisition.wizard.creating:Creando...`;
+export const REQUISITION_WIZARD_LOADING = $localize`:@@requisition.wizard.loading:Cargando formulario de requisición…`;
+export const REQUISITION_WIZARD_PROGRESS_ARIA = $localize`:@@requisition.wizard.progressAria:Pasos del wizard`;
+export const REQUISITION_SCOPE_HINT = $localize`:@@requisition.wizard.scopeHint:Selecciona el país y el tipo de cobertura para cargar el formulario correspondiente.`;
+export const REQUISITION_SCOPE_COUNTRY = $localize`:@@requisition.wizard.scopeCountry:País`;
+export const REQUISITION_SCOPE_COVERAGE = $localize`:@@requisition.wizard.scopeCoverage:Tipo de cobertura`;
+export const REQUISITION_SCOPE_LOADING = $localize`:@@requisition.wizard.scopeLoading:Cargando...`;
+
+export function requisitionWizardCreateSubtitle(steps: number): string {
+  return $localize`:@@requisition.wizard.createSubtitle:Asistente de creación en ${steps}:steps: pasos`;
+}
+
+export function requisitionWizardEditSubtitle(steps: number): string {
+  return $localize`:@@requisition.wizard.editSubtitle:Asistente en ${steps}:steps: pasos`;
+}
+
+export function requisitionWizardStepOf(current: number, total: number): string {
+  return $localize`:@@requisition.wizard.stepOf:Paso ${current}:current: de ${total}:total:`;
+}
+
+export function requisitionWizardStepAria(
+  current: number,
+  total: number,
+  title: string,
+  state: 'done' | 'current' | 'pending',
+): string {
+  if (state === 'done') {
+    return $localize`:@@requisition.wizard.stepAriaDone:Paso ${current}:current: de ${total}:total:: ${title}:title: (completado)`;
+  }
+  if (state === 'current') {
+    return $localize`:@@requisition.wizard.stepAriaCurrent:Paso ${current}:current: de ${total}:total:: ${title}:title: (actual)`;
+  }
+  return $localize`:@@requisition.wizard.stepAria:Paso ${current}:current: de ${total}:total:: ${title}:title:`;
+}
