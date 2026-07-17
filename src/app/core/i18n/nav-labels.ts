@@ -26,12 +26,13 @@ export const MAIN_NAV_ITEMS: MainNavItem[] = [
     icon: 'home',
     authority: AppPermissions.HOME_READ,
   },
- /* {
+  {
     label: $localize`:@@nav.main.positions:Posiciones`,
     path: '/positions',
     icon: 'work',
     authority: AppPermissions.REQUISITION_READ,
   },
+  /*
   {
     label: $localize`:@@nav.main.candidates:Candidatos`,
     path: '/candidates',
