@@ -136,6 +136,8 @@ export interface PositionListItem {
   state?: string | null;
   requisitionType?: string | null;
   coverageType?: string | null;
+  contactEmail?: string | null;
+  contactPhone?: string | null;
 }
 
 export interface PositionDetail extends CreatePositionRequest {

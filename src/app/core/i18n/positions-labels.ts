@@ -54,3 +54,5 @@ export const POSITIONS_COL_STATUS = $localize`:@@positions.column.status:Estado`
 export const POSITIONS_COL_CREATED_AT = $localize`:@@positions.column.createdAt:Creación`;
 export const POSITIONS_ACTION_GO_SELECTION_ARIA = $localize`:@@positions.action.goSelectionAria:Ir a selección`;
 export const POSITIONS_ACTION_MORE_ARIA = $localize`:@@positions.action.moreAria:Más acciones`;
+export const POSITIONS_ACTION_GENERATE_PUBLICATION = $localize`:@@positions.action.generatePublication:Generar publicación`;
+export const POSITIONS_GENERATE_PUBLICATION_LOAD_ERROR = $localize`:@@positions.errors.generatePublicationLoad:No se pudo obtener la información de contacto de la posición`;

@@ -97,6 +97,11 @@
                   <mat-icon>undo</mat-icon> {{ actionRejectCancellation }}
                 </button>
               }
+              @if (row.status === 'ACTIVE') {
+                <button mat-menu-item (click)="generatePublication(row)">
+                  <mat-icon>campaign</mat-icon> {{ actionGeneratePublication }}
+                </button>
+              }
               <button mat-menu-item (click)="cancelPosition(row)">
                 <mat-icon>cancel</mat-icon> {{ actionCancelDirect }}
               </button>
