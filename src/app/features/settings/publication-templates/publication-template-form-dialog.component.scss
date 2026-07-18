@@ -1,7 +1,6 @@
 :host {
   display: flex;
   flex-direction: column;
-  /* Nearly full viewport; ~2× the previous capped height (~860px → use 95vh). */
   height: min(95vh, 1700px);
   max-height: 95vh;
 }
@@ -12,7 +11,6 @@
   padding: 32px;
 }
 
-/* Override Material dialog content scroll — only inner panes scroll. */
 :host ::ng-deep .mat-mdc-dialog-content.dialog-body,
 .dialog-body {
   display: flex !important;
@@ -28,8 +26,9 @@
 
 .template-form {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 0.75fr);
-  gap: 12px 20px;
+  /* Col 1 = inputs; cols 2–3 = preview (same as Generar publicación) */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0 20px;
   align-items: stretch;
   width: 100%;
   max-width: 100%;
@@ -41,18 +40,20 @@
 }
 
 .form-main {
+  grid-column: 1;
   display: flex;
   flex-direction: column;
   gap: 8px;
   min-width: 0;
   min-height: 0;
+  height: 100%;
   overflow: hidden;
 }
 
 .form-row {
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(120px, 1fr);
-  gap: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   flex: 0 0 auto;
   padding-top: 4px;
 }
@@ -60,12 +61,28 @@
 .name-field,
 .locale-field {
   width: 100%;
+  min-width: 0;
+
+  /* Keep hint space out of the field; hint is rendered as .locale-hint below. */
+  ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+}
+
+.locale-hint {
+  margin: 0 0 12px;
+  padding: 0 4px;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  color: rgba(0, 0, 0, 0.6);
+  flex: 0 0 auto;
 }
 
 .html-field {
   width: 100%;
   flex: 1 1 auto;
-  min-height: 320px;
+  min-height: 0;
+  max-height: 560px;
   display: flex;
   flex-direction: column;
 
@@ -83,7 +100,8 @@
   ::ng-deep .mat-mdc-form-field-infix {
     display: flex;
     flex-direction: column;
-    min-height: 320px !important;
+    min-height: 240px !important;
+    max-height: 520px !important;
     padding-top: 12px !important;
     padding-bottom: 8px !important;
     box-sizing: border-box;
@@ -93,8 +111,8 @@
     flex: 1 1 auto;
     resize: none;
     overflow: auto;
-    min-height: 280px;
-    max-height: 100%;
+    min-height: 200px;
+    max-height: 440px;
     box-sizing: border-box;
   }
 }
@@ -108,6 +126,7 @@
 }
 
 .preview-panel {
+  grid-column: 2 / 4;
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -140,11 +159,25 @@
   color: rgba(0, 0, 0, 0.6);
 }
 
-.preview-frame {
+.preview-frame-wrap {
   flex: 1 1 auto;
-  width: 100%;
   min-height: 0;
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  background: #fafafa;
+  box-sizing: border-box;
+  padding: 2.5%;
+}
+
+.preview-frame {
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 4px;
   background: #fff;
   box-sizing: border-box;
@@ -171,6 +204,11 @@
   .template-form {
     grid-template-columns: 1fr;
     overflow: auto;
+  }
+
+  .form-main,
+  .preview-panel {
+    grid-column: 1;
   }
 
   .dialog-body {

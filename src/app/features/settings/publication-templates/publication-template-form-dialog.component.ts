@@ -23,6 +23,7 @@ import {
   PUBTEMPLATES_DIALOG_EDIT,
   PUBTEMPLATES_DIALOG_NEW,
   PUBTEMPLATES_ERRORS_LOAD,
+  PUBTEMPLATES_ERRORS_NO_LOCALES,
   PUBTEMPLATES_ERRORS_PREVIEW,
   PUBTEMPLATES_ERRORS_SAVE,
   PUBTEMPLATES_FIELD_ACTIVE,
@@ -32,6 +33,8 @@ import {
   PUBTEMPLATES_FIELD_NAME,
   PUBTEMPLATES_LOCALE_EN,
   PUBTEMPLATES_LOCALE_ES,
+  PUBTEMPLATES_LOCALE_HINT_CREATE,
+  PUBTEMPLATES_LOCALE_HINT_EDIT,
   PUBTEMPLATES_LOCALE_PT,
   PUBTEMPLATES_PREVIEW_EMPTY,
   PUBTEMPLATES_PREVIEW_LOADING,
@@ -45,7 +48,15 @@ import { PublicationTemplateItem } from '../../../shared/models/publication-temp
 
 export interface PublicationTemplateFormDialogData {
   templateId?: number;
+  /** Locales that already have a template (create mode only). */
+  usedLocales?: string[];
 }
+
+const ALL_LOCALES = [
+  { value: 'es', label: PUBTEMPLATES_LOCALE_ES },
+  { value: 'en', label: PUBTEMPLATES_LOCALE_EN },
+  { value: 'pt', label: PUBTEMPLATES_LOCALE_PT },
+] as const;
 
 @Component({
   selector: 'sh-publication-template-form-dialog',
@@ -71,17 +82,15 @@ export class PublicationTemplateFormDialogComponent implements OnInit, OnDestroy
   private readonly fb = inject(FormBuilder);
   private readonly sanitizer = inject(DomSanitizer);
 
-  readonly localeOptions = [
-    { value: 'es', label: PUBTEMPLATES_LOCALE_ES },
-    { value: 'en', label: PUBTEMPLATES_LOCALE_EN },
-    { value: 'pt', label: PUBTEMPLATES_LOCALE_PT },
-  ];
+  readonly localeOptions: { value: string; label: string }[] = [...ALL_LOCALES];
+  localeHint = '';
 
   loading = true;
   saving = false;
   previewing = false;
   previewHtml: SafeHtml | null = null;
   editingId: number | null = this.data.templateId ?? null;
+  readonly localeReadonly = !!this.data.templateId;
 
   readonly dialogNew = PUBTEMPLATES_DIALOG_NEW;
   readonly dialogEdit = PUBTEMPLATES_DIALOG_EDIT;
@@ -114,13 +123,14 @@ export class PublicationTemplateFormDialogComponent implements OnInit, OnDestroy
 
   ngOnInit(): void {
     if (!this.editingId) {
-      this.loading = false;
-      this.enableLivePreview();
+      this.setupCreateLocales();
       return;
     }
+    this.localeHint = PUBTEMPLATES_LOCALE_HINT_EDIT;
     this.api.getById(this.editingId).subscribe({
       next: (template) => {
         this.patchForm(template);
+        this.form.controls.locale.disable({ emitEvent: false });
         this.loading = false;
         this.enableLivePreview();
       },
@@ -130,6 +140,23 @@ export class PublicationTemplateFormDialogComponent implements OnInit, OnDestroy
         this.enableLivePreview();
       },
     });
+  }
+
+  private setupCreateLocales(): void {
+    this.localeHint = PUBTEMPLATES_LOCALE_HINT_CREATE;
+    const used = new Set((this.data.usedLocales ?? []).map((l) => l.trim().toLowerCase()));
+    const available = ALL_LOCALES.filter((opt) => !used.has(opt.value));
+    this.localeOptions.length = 0;
+    this.localeOptions.push(...available);
+    if (available.length === 0) {
+      this.loading = false;
+      this.snack.open(PUBTEMPLATES_ERRORS_NO_LOCALES, PUBTEMPLATES_SNACK_CLOSE, { duration: 4000 });
+      this.dialogRef.close(false);
+      return;
+    }
+    this.form.controls.locale.setValue(available[0].value, { emitEvent: false });
+    this.loading = false;
+    this.enableLivePreview();
   }
 
   ngOnDestroy(): void {

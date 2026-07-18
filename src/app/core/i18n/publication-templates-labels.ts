@@ -28,6 +28,10 @@ export const PUBTEMPLATES_FIELD_ACTIVE = $localize`:@@publicationTemplates.field
 
 export const PUBTEMPLATES_DIALOG_NEW = $localize`:@@publicationTemplates.dialog.new:Nueva plantilla de publicación`;
 export const PUBTEMPLATES_DIALOG_EDIT = $localize`:@@publicationTemplates.dialog.edit:Editar plantilla de publicación`;
+export const PUBTEMPLATES_LOCALE_HINT_EDIT = $localize`:@@publicationTemplates.locale.editHint:El idioma identifica esta plantilla; para otro idioma cree una plantilla nueva.`;
+export const PUBTEMPLATES_LOCALE_HINT_CREATE = $localize`:@@publicationTemplates.locale.createHint:Solo se listan idiomas sin plantilla. Si el idioma ya existe, edite esa plantilla.`;
+export const PUBTEMPLATES_ERRORS_ALL_LOCALES_USED = $localize`:@@publicationTemplates.errors.allLocalesUsed:Ya existen plantillas para todos los idiomas. Edite una plantilla existente.`;
+export const PUBTEMPLATES_ERRORS_NO_LOCALES = $localize`:@@publicationTemplates.errors.noLocalesAvailable:No hay idiomas disponibles para crear una plantilla`;
 
 export const PUBTEMPLATES_LOCALE_ES = $localize`:@@publicationTemplates.locale.es:Español`;
 export const PUBTEMPLATES_LOCALE_EN = $localize`:@@publicationTemplates.locale.en:Inglés`;
