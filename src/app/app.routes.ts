@@ -249,6 +249,15 @@ export const routes: Routes = [
             loadComponent: () => import('./features/settings/prompts/prompts-admin.component').then((m) => m.PromptsAdminComponent),
           },
           {
+            path: 'publication-templates',
+            canActivate: [permissionGuard],
+            data: { authorities: [AppPermissions.SETTINGS_PUBLICATION_READ] },
+            loadComponent: () =>
+              import('./features/settings/publication-templates/publication-templates-admin.component').then(
+                (m) => m.PublicationTemplatesAdminComponent,
+              ),
+          },
+          {
             path: 'cvs',
             canActivate: [permissionGuard],
             data: { authorities: [AppPermissions.SETTINGS_SYSTEM_READ] },

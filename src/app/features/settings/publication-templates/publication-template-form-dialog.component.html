@@ -1,0 +1,62 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+
+<mat-dialog-content>
+  @if (loading) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else {
+    <form [formGroup]="form" class="template-form">
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="name-field">
+          <mat-label>{{ fieldName }}</mat-label>
+          <input matInput formControlName="name" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="locale-field">
+          <mat-label>{{ fieldLocale }}</mat-label>
+          <mat-select formControlName="locale">
+            @for (option of localeOptions; track option.value) {
+              <mat-option [value]="option.value">{{ option.label }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ fieldHtmlBody }}</mat-label>
+        <textarea matInput rows="14" formControlName="htmlBody"></textarea>
+      </mat-form-field>
+
+      <div class="checkbox-row">
+        <mat-checkbox formControlName="isDefault">{{ fieldDefault }}</mat-checkbox>
+        <mat-checkbox formControlName="isActive">{{ fieldActive }}</mat-checkbox>
+      </div>
+
+      <div class="preview-actions">
+        <button mat-stroked-button type="button" [disabled]="previewing" (click)="preview()">
+          @if (previewing) {
+            <mat-spinner diameter="16" />
+          } @else {
+            <mat-icon>visibility</mat-icon>
+          }
+          {{ previewButtonLabel }}
+        </button>
+      </div>
+
+      <div class="preview-panel">
+        <h4>{{ previewTitle }}</h4>
+        @if (previewHtml) {
+          <iframe class="preview-frame" [srcdoc]="previewHtml" sandbox=""></iframe>
+        } @else {
+          <p class="preview-empty">{{ previewEmptyLabel }}</p>
+        }
+      </div>
+    </form>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="cancel()" [disabled]="saving">{{ cancelLabel }}</button>
+  <button mat-flat-button color="primary" type="button" (click)="save()" [disabled]="saving || loading">
+    {{ saving ? savingLabel : saveLabel }}
+  </button>
+</mat-dialog-actions>

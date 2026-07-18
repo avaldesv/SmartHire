@@ -46,6 +46,7 @@ export class PermissionService {
       AppPermissions.SETTINGS_CATALOGS_READ,
       AppPermissions.SETTINGS_NOTIFICATIONS_READ,
       AppPermissions.SETTINGS_PROMPTS_READ,
+      AppPermissions.SETTINGS_PUBLICATION_READ,
       AppPermissions.SETTINGS_SYSTEM_READ,
       AppPermissions.REQUISITION_FORM_CONFIG_READ,
     ]);
