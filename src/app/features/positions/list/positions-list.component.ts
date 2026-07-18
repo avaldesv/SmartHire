@@ -21,9 +21,14 @@ import {
   RequisitionScopeDialogResult,
 } from '../wizard/requisition-scope-dialog/requisition-scope-dialog.component';
 import {
+  PublicationGenerateDialogComponent,
+  PublicationGenerateDialogData,
+} from './publication-generate-dialog/publication-generate-dialog.component';
+import {
   POSITIONS_ACTION_APPROVE_CANCELLATION,
   POSITIONS_ACTION_CANCEL_DIRECT,
   POSITIONS_ACTION_DUPLICATE,
+  POSITIONS_ACTION_GENERATE_PUBLICATION,
   POSITIONS_ACTION_GO_SELECTION_ARIA,
   POSITIONS_ACTION_MORE_ARIA,
   POSITIONS_ACTION_REJECT_CANCELLATION,
@@ -58,6 +63,7 @@ import {
   POSITIONS_FILTER_RECRUITER_PLACEHOLDER,
   POSITIONS_FILTER_STATUS,
   POSITIONS_FILTERS_CLEARED,
+  POSITIONS_GENERATE_PUBLICATION_LOAD_ERROR,
   POSITIONS_LOAD_ERROR,
   POSITIONS_NEW_BUTTON,
   POSITIONS_PAGE_SUBTITLE,
@@ -148,6 +154,7 @@ export class PositionsListComponent implements OnInit {
   readonly actionApproveCancellation = POSITIONS_ACTION_APPROVE_CANCELLATION;
   readonly actionRejectCancellation = POSITIONS_ACTION_REJECT_CANCELLATION;
   readonly actionCancelDirect = POSITIONS_ACTION_CANCEL_DIRECT;
+  readonly actionGeneratePublication = POSITIONS_ACTION_GENERATE_PUBLICATION;
   readonly goSelectionAria = POSITIONS_ACTION_GO_SELECTION_ARIA;
   readonly moreActionsAria = POSITIONS_ACTION_MORE_ARIA;
 
@@ -346,6 +353,32 @@ export class PositionsListComponent implements OnInit {
       error: () => {
         this.snack.open(POSITIONS_REJECT_CANCELLATION_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
       },
+    });
+  }
+
+  generatePublication(row: PositionListItem): void {
+    if (row.status !== 'ACTIVE') {
+      return;
+    }
+    if (row.contactEmail && row.contactPhone) {
+      this.openPublicationGenerateDialog(row.id, row.contactEmail, row.contactPhone);
+      return;
+    }
+    this.positionService.getById(row.id).subscribe({
+      next: (detail) => {
+        this.openPublicationGenerateDialog(row.id, detail.contactEmail ?? '', detail.contactPhone ?? '');
+      },
+      error: () => {
+        this.snack.open(POSITIONS_GENERATE_PUBLICATION_LOAD_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
+      },
+    });
+  }
+
+  private openPublicationGenerateDialog(positionId: number, contactEmail: string, contactPhone: string): void {
+    this.dialog.open(PublicationGenerateDialogComponent, {
+      width: '720px',
+      maxWidth: '95vw',
+      data: { positionId, contactEmail, contactPhone } as PublicationGenerateDialogData,
     });
   }
 }

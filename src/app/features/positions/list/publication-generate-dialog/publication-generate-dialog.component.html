@@ -1,0 +1,66 @@
+@if (step === 1) {
+  <h2 mat-dialog-title>{{ step1Title }}</h2>
+
+  <mat-dialog-content>
+    <form [formGroup]="configForm" class="config-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ fieldEmail }}</mat-label>
+        <input matInput type="email" formControlName="contactEmail" readonly />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ fieldPhone }}</mat-label>
+        <input matInput formControlName="contactPhone" />
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="close()">{{ cancelLabel }}</button>
+    <button mat-flat-button color="primary" type="button" (click)="goToStep2()">{{ acceptLabel }}</button>
+  </mat-dialog-actions>
+} @else {
+  <h2 mat-dialog-title>{{ step2Title }}</h2>
+
+  <mat-dialog-content>
+    <form [formGroup]="formatForm" class="format-form">
+      <mat-form-field appearance="outline" class="format-field">
+        <mat-label>{{ fieldFormat }}</mat-label>
+        <mat-select formControlName="format" (selectionChange)="onFormatChange()">
+          @for (option of formatOptions; track option.value) {
+            <mat-option [value]="option.value">{{ option.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <button
+        mat-stroked-button
+        type="button"
+        [disabled]="generating || (!previewImageSrc && !previewPdfUrl)"
+        (click)="download()"
+      >
+        <mat-icon>download</mat-icon>
+        {{ downloadLabel }}
+      </button>
+    </form>
+
+    <div class="preview-panel">
+      @if (generating) {
+        <div class="loading-wrap">
+          <mat-spinner diameter="36" />
+          <span>{{ previewLoadingLabel }}</span>
+        </div>
+      } @else if (previewImageSrc || previewPdfUrl) {
+        @if (isPdf && previewPdfUrl) {
+          <iframe class="preview-frame" [src]="previewPdfUrl" title="PDF"></iframe>
+        } @else if (previewImageSrc) {
+          <img class="preview-image" [src]="previewImageSrc" alt="" />
+        }
+      }
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="close()">{{ closeLabel }}</button>
+  </mat-dialog-actions>
+}
