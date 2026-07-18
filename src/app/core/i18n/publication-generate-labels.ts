@@ -13,6 +13,18 @@ export const PUBGEN_ACCEPT = $localize`:@@publicationGenerate.accept:Aceptar`;
 export const PUBGEN_CLOSE = $localize`:@@publicationGenerate.close:Cerrar`;
 export const PUBGEN_DOWNLOAD = $localize`:@@publicationGenerate.download:Descargar`;
 
+export const PUBGEN_SHARE_SECTION = $localize`:@@publicationGenerate.share.section:Compartir / Enviar`;
+export const PUBGEN_FIELD_SHARE_PREFIX = $localize`:@@publicationGenerate.field.sharePrefix:Prefijo país`;
+export const PUBGEN_FIELD_SHARE_PHONE = $localize`:@@publicationGenerate.field.sharePhone:Teléfono destino`;
+export const PUBGEN_FIELD_SHARE_EMAIL = $localize`:@@publicationGenerate.field.shareEmail:Correo destino`;
+export const PUBGEN_SHARE_WHATSAPP = $localize`:@@publicationGenerate.share.whatsapp:Compartir`;
+export const PUBGEN_SEND_EMAIL = $localize`:@@publicationGenerate.share.email:Enviar`;
+export const PUBGEN_SHARE_JPG_HINT = $localize`:@@publicationGenerate.share.jpgHint:WhatsApp solo envía JPG; cambia el tipo de documento a JPG`;
+export const PUBGEN_SHARE_EMAIL_SOON = $localize`:@@publicationGenerate.share.emailSoon:El envío por correo estará disponible pronto`;
+export const PUBGEN_SHARE_SUCCESS = $localize`:@@publicationGenerate.share.success:Publicación enviada por WhatsApp`;
+export const PUBGEN_SHARE_ERROR = $localize`:@@publicationGenerate.share.error:No se pudo compartir por WhatsApp`;
+export const PUBGEN_SHARE_LOADING = $localize`:@@publicationGenerate.share.loading:Enviando por WhatsApp…`;
+
 export const PUBGEN_PREVIEW_EMPTY = $localize`:@@publicationGenerate.preview.empty:Generando la vista previa…`;
 export const PUBGEN_PREVIEW_LOADING = $localize`:@@publicationGenerate.preview.loading:Generando anuncio…`;
 
