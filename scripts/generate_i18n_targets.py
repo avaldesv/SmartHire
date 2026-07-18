@@ -625,6 +625,7 @@ EN_BY_SOURCE: dict[str, str] = {
     ),
     "No se pudo generar el anuncio": "Could not generate the announcement",
     "Generar publicación": "Generate publication",
+    "Contacto en el anuncio": "Contact on the announcement",
     # Requisition form config (list / create)
     "Nombre de configuración": "Configuration name",
     "Ámbito": "Scope",

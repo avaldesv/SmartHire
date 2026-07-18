@@ -4,12 +4,19 @@
   padding: 32px;
 }
 
+.dialog-body {
+  /* Keep outline labels fully visible under mat-dialog overflow. */
+  padding-top: 8px;
+}
+
 .template-form {
   display: flex;
   flex-direction: column;
   gap: 8px;
   min-width: 560px;
   max-width: 760px;
+  /* Space for Material outline floating labels (clipped by dialog overflow otherwise). */
+  padding-top: 12px;
 }
 
 .full-width {
@@ -19,7 +26,8 @@
 .form-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 8px 12px;
+  padding-top: 4px;
 
   .name-field {
     flex: 2 1 260px;

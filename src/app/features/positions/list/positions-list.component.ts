@@ -376,7 +376,7 @@ export class PositionsListComponent implements OnInit {
 
   private openPublicationGenerateDialog(positionId: number, contactEmail: string, contactPhone: string): void {
     this.dialog.open(PublicationGenerateDialogComponent, {
-      width: '720px',
+      width: '760px',
       maxWidth: '95vw',
       data: { positionId, contactEmail, contactPhone } as PublicationGenerateDialogData,
     });

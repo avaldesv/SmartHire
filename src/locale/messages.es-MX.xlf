@@ -5813,6 +5813,20 @@
           <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="publicationGenerate.dialogTitle" datatype="html">
+        <source>Generar publicación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="publicationGenerate.contact.section" datatype="html">
+        <source>Contacto en el anuncio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="publicationGenerate.step1.title" datatype="html">
         <source>Configurar publicación</source>
         <context-group purpose="location">
