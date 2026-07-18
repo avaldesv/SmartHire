@@ -122,7 +122,14 @@ export class PublicationTemplatesAdminComponent implements OnInit {
   private openDialog(data: PublicationTemplateFormDialogData): void {
     const ref = this.dialog.open<PublicationTemplateFormDialogComponent, PublicationTemplateFormDialogData, boolean>(
       PublicationTemplateFormDialogComponent,
-      { width: '820px', maxWidth: '95vw', data },
+      {
+        width: '1176px',
+        maxWidth: '98vw',
+        maxHeight: '95vh',
+        height: '95vh',
+        autoFocus: 'first-heading',
+        data,
+      },
     );
     ref
       .afterClosed()

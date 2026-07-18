@@ -5,51 +5,51 @@
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else {
     <form [formGroup]="form" class="template-form">
-      <div class="form-row">
-        <mat-form-field appearance="outline" class="name-field">
-          <mat-label>{{ fieldName }}</mat-label>
-          <input matInput formControlName="name" />
+      <div class="form-main">
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="name-field">
+            <mat-label>{{ fieldName }}</mat-label>
+            <input matInput formControlName="name" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="locale-field">
+            <mat-label>{{ fieldLocale }}</mat-label>
+            <mat-select formControlName="locale">
+              @for (option of localeOptions; track option.value) {
+                <mat-option [value]="option.value">{{ option.label }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline" class="html-field">
+          <mat-label>{{ fieldHtmlBody }}</mat-label>
+          <textarea matInput rows="8" formControlName="htmlBody"></textarea>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="locale-field">
-          <mat-label>{{ fieldLocale }}</mat-label>
-          <mat-select formControlName="locale">
-            @for (option of localeOptions; track option.value) {
-              <mat-option [value]="option.value">{{ option.label }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
+        <div class="checkbox-row">
+          <mat-checkbox formControlName="isDefault">{{ fieldDefault }}</mat-checkbox>
+          <mat-checkbox formControlName="isActive">{{ fieldActive }}</mat-checkbox>
+        </div>
       </div>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>{{ fieldHtmlBody }}</mat-label>
-        <textarea matInput rows="14" formControlName="htmlBody"></textarea>
-      </mat-form-field>
-
-      <div class="checkbox-row">
-        <mat-checkbox formControlName="isDefault">{{ fieldDefault }}</mat-checkbox>
-        <mat-checkbox formControlName="isActive">{{ fieldActive }}</mat-checkbox>
-      </div>
-
-      <div class="preview-actions">
-        <button mat-stroked-button type="button" [disabled]="previewing" (click)="preview()">
+      <aside class="preview-panel" aria-live="polite">
+        <div class="preview-header">
+          <h4>{{ previewTitle }}</h4>
           @if (previewing) {
-            <mat-spinner diameter="16" />
-          } @else {
-            <mat-icon>visibility</mat-icon>
+            <span class="preview-status">
+              <mat-spinner diameter="16" />
+              {{ previewLoadingLabel }}
+            </span>
           }
-          {{ previewButtonLabel }}
-        </button>
-      </div>
+        </div>
 
-      <div class="preview-panel">
-        <h4>{{ previewTitle }}</h4>
         @if (previewHtml) {
-          <iframe class="preview-frame" [srcdoc]="previewHtml" sandbox=""></iframe>
+          <iframe class="preview-frame" [srcdoc]="previewHtml" sandbox="" title="preview"></iframe>
         } @else {
           <p class="preview-empty">{{ previewEmptyLabel }}</p>
         }
-      </div>
+      </aside>
     </form>
   }
 </mat-dialog-content>

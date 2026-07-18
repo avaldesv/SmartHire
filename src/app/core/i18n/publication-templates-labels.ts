@@ -35,7 +35,7 @@ export const PUBTEMPLATES_LOCALE_PT = $localize`:@@publicationTemplates.locale.p
 
 export const PUBTEMPLATES_PREVIEW_BUTTON = $localize`:@@publicationTemplates.preview.button:Vista previa`;
 export const PUBTEMPLATES_PREVIEW_TITLE = $localize`:@@publicationTemplates.preview.title:Vista previa de la plantilla`;
-export const PUBTEMPLATES_PREVIEW_EMPTY = $localize`:@@publicationTemplates.preview.empty:Genera la vista previa para ver el resultado aquí`;
+export const PUBTEMPLATES_PREVIEW_EMPTY = $localize`:@@publicationTemplates.preview.empty:Escribe el HTML para ver la vista previa aquí`;
 export const PUBTEMPLATES_PREVIEW_LOADING = $localize`:@@publicationTemplates.preview.loading:Generando vista previa...`;
 export const PUBTEMPLATES_PREVIEW_CLOSE = $localize`:@@publicationTemplates.preview.close:Cerrar vista previa`;
 
