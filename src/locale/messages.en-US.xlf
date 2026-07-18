@@ -1880,6 +1880,14 @@
         <source>¿Eliminar el prompt "<x id="clave" equiv-text="clave" />"? Esta acción no se puede deshacer.</source>
         <target>Delete prompt "<x id="clave" equiv-text="clave" />"? This action cannot be undone.</target>
       </trans-unit>
+      <trans-unit id="publicationGenerate.dialogTitle" datatype="html">
+        <source>Generar publicación</source>
+        <target>Generate publication</target>
+      </trans-unit>
+      <trans-unit id="publicationGenerate.contact.section" datatype="html">
+        <source>Contacto en el anuncio</source>
+        <target>Contact on the announcement</target>
+      </trans-unit>
       <trans-unit id="publicationGenerate.step1.title" datatype="html">
         <source>Configurar publicación</source>
         <target>Configure publication</target>

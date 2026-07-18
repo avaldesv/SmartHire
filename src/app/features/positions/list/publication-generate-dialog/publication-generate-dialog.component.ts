@@ -1,4 +1,4 @@
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -10,11 +10,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { Subscription } from 'rxjs';
+import { Subscription, debounceTime, distinctUntilChanged } from 'rxjs';
 import {
-  PUBGEN_ACCEPT,
-  PUBGEN_CANCEL,
   PUBGEN_CLOSE,
+  PUBGEN_CONTACT_SECTION,
+  PUBGEN_DIALOG_TITLE,
   PUBGEN_DOWNLOAD,
   PUBGEN_ERROR_GENERATE,
   PUBGEN_FIELD_EMAIL,
@@ -27,7 +27,6 @@ import {
   PUBGEN_FORMAT_PDF,
   PUBGEN_PREVIEW_LOADING,
   PUBGEN_SEND_EMAIL,
-  PUBGEN_SHARE_EMAIL_SOON,
   PUBGEN_SHARE_ERROR,
   PUBGEN_SHARE_JPG_HINT,
   PUBGEN_SHARE_LOADING,
@@ -38,8 +37,6 @@ import {
   PUBGEN_EMAIL_LOADING,
   PUBGEN_EMAIL_SUCCESS,
   PUBGEN_SNACK_CLOSE,
-  PUBGEN_STEP1_TITLE,
-  PUBGEN_STEP2_TITLE,
 } from '../../../../core/i18n/publication-generate-labels';
 import {
   PublicationDocumentFormat,
@@ -69,7 +66,7 @@ export interface PublicationGenerateDialogData {
   templateUrl: './publication-generate-dialog.component.html',
   styleUrl: './publication-generate-dialog.component.scss',
 })
-export class PublicationGenerateDialogComponent implements OnDestroy {
+export class PublicationGenerateDialogComponent implements OnInit, OnDestroy {
   private readonly dialogRef = inject(MatDialogRef<PublicationGenerateDialogComponent>);
   readonly data = inject<PublicationGenerateDialogData>(MAT_DIALOG_DATA);
   private readonly api = inject(PublicationGenerateApiService);
@@ -77,13 +74,11 @@ export class PublicationGenerateDialogComponent implements OnDestroy {
   private readonly fb = inject(FormBuilder);
   private readonly sanitizer = inject(DomSanitizer);
 
-  readonly step1Title = PUBGEN_STEP1_TITLE;
-  readonly step2Title = PUBGEN_STEP2_TITLE;
+  readonly dialogTitle = PUBGEN_DIALOG_TITLE;
+  readonly contactSectionLabel = PUBGEN_CONTACT_SECTION;
   readonly fieldEmail = PUBGEN_FIELD_EMAIL;
   readonly fieldPhone = PUBGEN_FIELD_PHONE;
   readonly fieldFormat = PUBGEN_FIELD_FORMAT;
-  readonly cancelLabel = PUBGEN_CANCEL;
-  readonly acceptLabel = PUBGEN_ACCEPT;
   readonly closeLabel = PUBGEN_CLOSE;
   readonly downloadLabel = PUBGEN_DOWNLOAD;
   readonly previewLoadingLabel = PUBGEN_PREVIEW_LOADING;
@@ -102,7 +97,6 @@ export class PublicationGenerateDialogComponent implements OnDestroy {
     { value: 'PDF', label: PUBGEN_FORMAT_PDF },
   ];
 
-  step: 1 | 2 = 1;
   generating = false;
   sharing = false;
   sendingEmail = false;
@@ -115,6 +109,7 @@ export class PublicationGenerateDialogComponent implements OnDestroy {
   private generateSub: Subscription | null = null;
   private shareSub: Subscription | null = null;
   private emailSub: Subscription | null = null;
+  private contactSub: Subscription | null = null;
 
   readonly configForm = this.fb.nonNullable.group({
     contactEmail: [this.data.contactEmail, [Validators.required, Validators.email]],
@@ -131,10 +126,27 @@ export class PublicationGenerateDialogComponent implements OnDestroy {
     email: ['', [Validators.email]],
   });
 
+  ngOnInit(): void {
+    this.contactSub = this.configForm.controls.contactPhone.valueChanges
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe(() => {
+        if (this.configForm.valid) {
+          this.generate();
+        }
+      });
+
+    if (this.configForm.valid) {
+      this.generate();
+    } else {
+      this.configForm.markAllAsTouched();
+    }
+  }
+
   ngOnDestroy(): void {
     this.generateSub?.unsubscribe();
     this.shareSub?.unsubscribe();
     this.emailSub?.unsubscribe();
+    this.contactSub?.unsubscribe();
     this.revokeObjectUrl();
   }
 
@@ -162,16 +174,11 @@ export class PublicationGenerateDialogComponent implements OnDestroy {
     );
   }
 
-  goToStep2(): void {
+  onFormatChange(): void {
     if (this.configForm.invalid) {
       this.configForm.markAllAsTouched();
       return;
     }
-    this.step = 2;
-    this.generate();
-  }
-
-  onFormatChange(): void {
     this.generate();
   }
 
@@ -193,6 +200,10 @@ export class PublicationGenerateDialogComponent implements OnDestroy {
       if (this.formatForm.controls.format.value !== 'JPG') {
         this.snack.open(PUBGEN_SHARE_JPG_HINT, PUBGEN_SNACK_CLOSE, { duration: 4000 });
       }
+      return;
+    }
+    if (this.configForm.invalid) {
+      this.configForm.markAllAsTouched();
       return;
     }
     const phone = this.buildSharePhone();
@@ -223,6 +234,10 @@ export class PublicationGenerateDialogComponent implements OnDestroy {
   sendEmail(): void {
     if (!this.canSendEmail) {
       this.shareForm.controls.email.markAsTouched();
+      return;
+    }
+    if (this.configForm.invalid) {
+      this.configForm.markAllAsTouched();
       return;
     }
     const toEmail = this.shareForm.controls.email.value.trim();
@@ -260,6 +275,9 @@ export class PublicationGenerateDialogComponent implements OnDestroy {
   }
 
   private generate(): void {
+    if (this.configForm.invalid) {
+      return;
+    }
     this.generateSub?.unsubscribe();
     this.generating = true;
     this.previewImageSrc = null;

@@ -1,12 +1,26 @@
 .config-form {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
   min-width: 420px;
 }
 
-.full-width {
-  width: 100%;
+.section-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.7);
+  margin-bottom: 4px;
+}
+
+.contact-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.contact-email,
+.contact-phone {
+  flex: 1 1 200px;
 }
 
 .format-form {
@@ -14,6 +28,7 @@
   align-items: flex-start;
   gap: 16px;
   min-width: 420px;
+  margin-top: 4px;
 }
 
 .format-field {
@@ -21,19 +36,12 @@
 }
 
 .share-form {
-  margin-top: 16px;
+  margin-top: 8px;
   padding-top: 12px;
   border-top: 1px solid rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   gap: 4px;
-}
-
-.share-title {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: rgba(0, 0, 0, 0.7);
-  margin-bottom: 4px;
 }
 
 .share-row {
@@ -62,7 +70,7 @@
 
 .preview-panel {
   margin-top: 12px;
-  min-height: 320px;
+  min-height: 280px;
 }
 
 .loading-wrap {

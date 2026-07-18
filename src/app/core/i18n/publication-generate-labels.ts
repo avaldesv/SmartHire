@@ -1,5 +1,9 @@
+/** @deprecated Kept for XLF compatibility; dialog is a single screen (D2). */
 export const PUBGEN_STEP1_TITLE = $localize`:@@publicationGenerate.step1.title:Configurar publicación`;
+/** @deprecated Kept for XLF compatibility; dialog is a single screen (D2). */
 export const PUBGEN_STEP2_TITLE = $localize`:@@publicationGenerate.step2.title:Anuncio`;
+export const PUBGEN_DIALOG_TITLE = $localize`:@@publicationGenerate.dialogTitle:Generar publicación`;
+export const PUBGEN_CONTACT_SECTION = $localize`:@@publicationGenerate.contact.section:Contacto en el anuncio`;
 
 export const PUBGEN_FIELD_EMAIL = $localize`:@@publicationGenerate.field.email:Correo de contacto`;
 export const PUBGEN_FIELD_PHONE = $localize`:@@publicationGenerate.field.phone:Teléfono de contacto`;
