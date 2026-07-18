@@ -20,6 +20,46 @@
   flex: 1 1 200px;
 }
 
+.share-form {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.share-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.7);
+  margin-bottom: 4px;
+}
+
+.share-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.prefix-field {
+  flex: 0 0 110px;
+}
+
+.phone-field {
+  flex: 1 1 160px;
+}
+
+.email-field {
+  flex: 1 1 240px;
+}
+
+.share-row button mat-spinner {
+  display: inline-block;
+  margin-right: 8px;
+}
+
 .preview-panel {
   margin-top: 12px;
   min-height: 320px;

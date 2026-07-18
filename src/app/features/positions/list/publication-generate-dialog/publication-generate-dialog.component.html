@@ -44,6 +44,56 @@
       </button>
     </form>
 
+    <form [formGroup]="shareForm" class="share-form">
+      <div class="share-title">{{ shareSectionLabel }}</div>
+
+      <div class="share-row">
+        <mat-form-field appearance="outline" class="prefix-field">
+          <mat-label>{{ fieldSharePrefix }}</mat-label>
+          <input matInput formControlName="countryPrefix" inputmode="numeric" autocomplete="tel-country-code" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="phone-field">
+          <mat-label>{{ fieldSharePhone }}</mat-label>
+          <input matInput formControlName="phoneNumber" inputmode="tel" autocomplete="tel-national" />
+        </mat-form-field>
+
+        <button
+          mat-flat-button
+          color="primary"
+          type="button"
+          [disabled]="!canShareWhatsApp"
+          [matTooltip]="formatForm.controls.format.value !== 'JPG' ? shareJpgHint : ''"
+          (click)="shareWhatsApp()"
+        >
+          @if (sharing) {
+            <mat-spinner diameter="18" />
+          } @else {
+            <mat-icon>share</mat-icon>
+          }
+          {{ sharing ? shareLoadingLabel : shareWhatsAppLabel }}
+        </button>
+      </div>
+
+      <div class="share-row">
+        <mat-form-field appearance="outline" class="email-field">
+          <mat-label>{{ fieldShareEmail }}</mat-label>
+          <input matInput type="email" formControlName="email" />
+        </mat-form-field>
+
+        <button
+          mat-stroked-button
+          type="button"
+          [disabled]="!canSendEmail"
+          [matTooltip]="shareEmailSoon"
+          (click)="sendEmailSoon()"
+        >
+          <mat-icon>email</mat-icon>
+          {{ sendEmailLabel }}
+        </button>
+      </div>
+    </form>
+
     <div class="preview-panel">
       @if (generating) {
         <div class="loading-wrap">

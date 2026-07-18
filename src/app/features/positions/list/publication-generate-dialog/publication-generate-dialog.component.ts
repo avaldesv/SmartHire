@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import {
@@ -19,9 +20,20 @@ import {
   PUBGEN_FIELD_EMAIL,
   PUBGEN_FIELD_FORMAT,
   PUBGEN_FIELD_PHONE,
+  PUBGEN_FIELD_SHARE_EMAIL,
+  PUBGEN_FIELD_SHARE_PHONE,
+  PUBGEN_FIELD_SHARE_PREFIX,
   PUBGEN_FORMAT_JPG,
   PUBGEN_FORMAT_PDF,
   PUBGEN_PREVIEW_LOADING,
+  PUBGEN_SEND_EMAIL,
+  PUBGEN_SHARE_EMAIL_SOON,
+  PUBGEN_SHARE_ERROR,
+  PUBGEN_SHARE_JPG_HINT,
+  PUBGEN_SHARE_LOADING,
+  PUBGEN_SHARE_SECTION,
+  PUBGEN_SHARE_SUCCESS,
+  PUBGEN_SHARE_WHATSAPP,
   PUBGEN_SNACK_CLOSE,
   PUBGEN_STEP1_TITLE,
   PUBGEN_STEP2_TITLE,
@@ -49,6 +61,7 @@ export interface PublicationGenerateDialogData {
     MatSelectModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    MatTooltipModule,
   ],
   templateUrl: './publication-generate-dialog.component.html',
   styleUrl: './publication-generate-dialog.component.scss',
@@ -71,6 +84,15 @@ export class PublicationGenerateDialogComponent implements OnDestroy {
   readonly closeLabel = PUBGEN_CLOSE;
   readonly downloadLabel = PUBGEN_DOWNLOAD;
   readonly previewLoadingLabel = PUBGEN_PREVIEW_LOADING;
+  readonly shareSectionLabel = PUBGEN_SHARE_SECTION;
+  readonly fieldSharePrefix = PUBGEN_FIELD_SHARE_PREFIX;
+  readonly fieldSharePhone = PUBGEN_FIELD_SHARE_PHONE;
+  readonly fieldShareEmail = PUBGEN_FIELD_SHARE_EMAIL;
+  readonly shareWhatsAppLabel = PUBGEN_SHARE_WHATSAPP;
+  readonly sendEmailLabel = PUBGEN_SEND_EMAIL;
+  readonly shareJpgHint = PUBGEN_SHARE_JPG_HINT;
+  readonly shareEmailSoon = PUBGEN_SHARE_EMAIL_SOON;
+  readonly shareLoadingLabel = PUBGEN_SHARE_LOADING;
 
   readonly formatOptions: { value: PublicationDocumentFormat; label: string }[] = [
     { value: 'JPG', label: PUBGEN_FORMAT_JPG },
@@ -79,6 +101,7 @@ export class PublicationGenerateDialogComponent implements OnDestroy {
 
   step: 1 | 2 = 1;
   generating = false;
+  sharing = false;
   previewImageSrc: string | null = null;
   previewPdfUrl: SafeResourceUrl | null = null;
   isPdf = false;
@@ -86,6 +109,7 @@ export class PublicationGenerateDialogComponent implements OnDestroy {
   private currentBlob: Blob | null = null;
   private objectUrl: string | null = null;
   private generateSub: Subscription | null = null;
+  private shareSub: Subscription | null = null;
 
   readonly configForm = this.fb.nonNullable.group({
     contactEmail: [this.data.contactEmail, [Validators.required, Validators.email]],
@@ -96,9 +120,31 @@ export class PublicationGenerateDialogComponent implements OnDestroy {
     format: ['JPG' as PublicationDocumentFormat, Validators.required],
   });
 
+  readonly shareForm = this.fb.nonNullable.group({
+    countryPrefix: [''],
+    phoneNumber: [''],
+    email: ['', Validators.email],
+  });
+
   ngOnDestroy(): void {
     this.generateSub?.unsubscribe();
+    this.shareSub?.unsubscribe();
     this.revokeObjectUrl();
+  }
+
+  get canShareWhatsApp(): boolean {
+    const phone = this.buildSharePhone();
+    return (
+      !!phone &&
+      this.formatForm.controls.format.value === 'JPG' &&
+      !this.generating &&
+      !this.sharing &&
+      !!this.previewImageSrc
+    );
+  }
+
+  get canSendEmail(): boolean {
+    return false;
   }
 
   goToStep2(): void {
@@ -127,8 +173,51 @@ export class PublicationGenerateDialogComponent implements OnDestroy {
     URL.revokeObjectURL(url);
   }
 
+  shareWhatsApp(): void {
+    if (!this.canShareWhatsApp) {
+      if (this.formatForm.controls.format.value !== 'JPG') {
+        this.snack.open(PUBGEN_SHARE_JPG_HINT, PUBGEN_SNACK_CLOSE, { duration: 4000 });
+      }
+      return;
+    }
+    const phone = this.buildSharePhone();
+    if (!phone) {
+      return;
+    }
+    this.sharing = true;
+    this.shareSub?.unsubscribe();
+    this.shareSub = this.api
+      .shareWhatsApp(this.data.positionId, {
+        phone,
+        contactEmail: this.configForm.controls.contactEmail.value,
+        contactPhone: this.configForm.controls.contactPhone.value,
+        descripcion: `publicacion-${this.data.positionId}.jpg`,
+      })
+      .subscribe({
+        next: () => {
+          this.sharing = false;
+          this.snack.open(PUBGEN_SHARE_SUCCESS, PUBGEN_SNACK_CLOSE, { duration: 3000 });
+        },
+        error: () => {
+          this.sharing = false;
+          this.snack.open(PUBGEN_SHARE_ERROR, PUBGEN_SNACK_CLOSE, { duration: 4000 });
+        },
+      });
+  }
+
+  sendEmailSoon(): void {
+    this.snack.open(PUBGEN_SHARE_EMAIL_SOON, PUBGEN_SNACK_CLOSE, { duration: 3000 });
+  }
+
   close(): void {
     this.dialogRef.close();
+  }
+
+  private buildSharePhone(): string {
+    const prefix = (this.shareForm.controls.countryPrefix.value ?? '').replace(/\D+/g, '');
+    const number = (this.shareForm.controls.phoneNumber.value ?? '').replace(/\D+/g, '');
+    const combined = `${prefix}${number}`;
+    return combined.length >= 8 ? combined : '';
   }
 
   private generate(): void {
