@@ -100,6 +100,7 @@ export interface CreatePositionRequest {
   publishSalaryMax?: number | null;
   hasCommission?: boolean | null;
   hideSalary?: boolean | null;
+  publishedOnPortal?: boolean | null;
   jobPortalId?: number | null;
   includeSoftSkills?: boolean | null;
   includeExtraBenefits?: boolean | null;
