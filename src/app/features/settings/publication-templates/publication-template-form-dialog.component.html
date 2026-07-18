@@ -20,11 +20,14 @@
               }
             </mat-select>
           </mat-form-field>
+          @if (localeHint) {
+            <p class="locale-hint">{{ localeHint }}</p>
+          }
         </div>
 
         <mat-form-field appearance="outline" class="html-field">
           <mat-label>{{ fieldHtmlBody }}</mat-label>
-          <textarea matInput rows="8" formControlName="htmlBody"></textarea>
+          <textarea matInput rows="6" formControlName="htmlBody"></textarea>
         </mat-form-field>
 
         <div class="checkbox-row">
@@ -45,7 +48,9 @@
         </div>
 
         @if (previewHtml) {
-          <iframe class="preview-frame" [srcdoc]="previewHtml" sandbox="" title="preview"></iframe>
+          <div class="preview-frame-wrap">
+            <iframe class="preview-frame" [srcdoc]="previewHtml" sandbox="" title="preview"></iframe>
+          </div>
         } @else {
           <p class="preview-empty">{{ previewEmptyLabel }}</p>
         }

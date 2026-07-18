@@ -14,6 +14,7 @@ import {
   PUBTEMPLATES_COL_LOCALE,
   PUBTEMPLATES_COL_NAME,
   PUBTEMPLATES_EMPTY,
+  PUBTEMPLATES_ERRORS_ALL_LOCALES_USED,
   PUBTEMPLATES_ERRORS_DELETE,
   PUBTEMPLATES_ERRORS_LIST,
   PUBTEMPLATES_NEW_BUTTON,
@@ -109,7 +110,23 @@ export class PublicationTemplatesAdminComponent implements OnInit {
   }
 
   openCreate(): void {
-    this.openDialog({});
+    if (!this.canCreate()) {
+      return;
+    }
+    this.api.list(0, 100).subscribe({
+      next: ({ items }) => {
+        const usedLocales = [...new Set(items.map((item) => item.locale.trim().toLowerCase()))];
+        const available = ['es', 'en', 'pt'].filter((locale) => !usedLocales.includes(locale));
+        if (available.length === 0) {
+          this.snack.open(PUBTEMPLATES_ERRORS_ALL_LOCALES_USED, PUBTEMPLATES_SNACK_CLOSE, { duration: 4000 });
+          return;
+        }
+        this.openDialog({ usedLocales });
+      },
+      error: () => {
+        this.snack.open(PUBTEMPLATES_ERRORS_LIST, PUBTEMPLATES_SNACK_CLOSE, { duration: 3500 });
+      },
+    });
   }
 
   openEdit(row: PublicationTemplateItem): void {

@@ -1812,6 +1812,26 @@
         <source>No se pudo obtener la información de contacto de la posición</source>
         <target>Could not load the position contact information</target>
       </trans-unit>
+      <trans-unit id="positions.publication.noTemplate.title" datatype="html">
+        <source>Plantilla de publicación requerida</source>
+        <target>Publication template required</target>
+      </trans-unit>
+      <trans-unit id="positions.publication.noTemplate.message" datatype="html">
+        <source>No hay plantilla de publicación para el idioma seleccionado. Cree una plantilla en Configuración para poder generar el anuncio.</source>
+        <target>There is no publication template for the selected language. Create a template in Settings to generate the announcement.</target>
+      </trans-unit>
+      <trans-unit id="positions.publication.noTemplate.ok" datatype="html">
+        <source>OK</source>
+        <target>OK</target>
+      </trans-unit>
+      <trans-unit id="positions.publication.noTemplate.create" datatype="html">
+        <source>Crear publicación</source>
+        <target>Create publication</target>
+      </trans-unit>
+      <trans-unit id="positions.publication.noTemplate.checkError" datatype="html">
+        <source>No se pudo verificar si existen plantillas de publicación</source>
+        <target>Could not verify whether publication templates exist</target>
+      </trans-unit>
       <trans-unit id="prompts.pageTitle" datatype="html">
         <source>Prompts IA</source>
         <target>AI Prompts</target>
@@ -1896,14 +1916,6 @@
         <source>¿Eliminar el prompt "<x id="clave" equiv-text="clave" />"? Esta acción no se puede deshacer.</source>
         <target>Delete prompt "<x id="clave" equiv-text="clave" />"? This action cannot be undone.</target>
       </trans-unit>
-      <trans-unit id="publicationGenerate.dialogTitle" datatype="html">
-        <source>Generar publicación</source>
-        <target>Generate publication</target>
-      </trans-unit>
-      <trans-unit id="publicationGenerate.contact.section" datatype="html">
-        <source>Contacto en el anuncio</source>
-        <target>Contact on the announcement</target>
-      </trans-unit>
       <trans-unit id="publicationGenerate.step1.title" datatype="html">
         <source>Configurar publicación</source>
         <target>Configure publication</target>
@@ -1911,6 +1923,14 @@
       <trans-unit id="publicationGenerate.step2.title" datatype="html">
         <source>Anuncio</source>
         <target>Announcement</target>
+      </trans-unit>
+      <trans-unit id="publicationGenerate.dialogTitle" datatype="html">
+        <source>Generar publicación</source>
+        <target>Generate publication</target>
+      </trans-unit>
+      <trans-unit id="publicationGenerate.contact.section" datatype="html">
+        <source>Contacto en el anuncio</source>
+        <target>Contact on the announcement</target>
       </trans-unit>
       <trans-unit id="publicationGenerate.field.email" datatype="html">
         <source>Correo de contacto</source>
@@ -1923,6 +1943,30 @@
       <trans-unit id="publicationGenerate.field.format" datatype="html">
         <source>Tipo de documento</source>
         <target>Document type</target>
+      </trans-unit>
+      <trans-unit id="publicationGenerate.field.locale" datatype="html">
+        <source>Idioma</source>
+        <target>Language</target>
+      </trans-unit>
+      <trans-unit id="publicationGenerate.locale.es" datatype="html">
+        <source>Español</source>
+        <target>Spanish</target>
+      </trans-unit>
+      <trans-unit id="publicationGenerate.locale.en" datatype="html">
+        <source>English</source>
+        <target>English</target>
+      </trans-unit>
+      <trans-unit id="publicationGenerate.locale.pt" datatype="html">
+        <source>Português</source>
+        <target>Portuguese</target>
+      </trans-unit>
+      <trans-unit id="publicationGenerate.errors.dialCodes" datatype="html">
+        <source>No se pudieron cargar los prefijos telefónicos</source>
+        <target>Could not load phone country prefixes</target>
+      </trans-unit>
+      <trans-unit id="publicationGenerate.errors.templatesCheck" datatype="html">
+        <source>No se pudo verificar las plantillas de publicación</source>
+        <target>Could not verify publication templates</target>
       </trans-unit>
       <trans-unit id="publicationGenerate.format.jpg" datatype="html">
         <source>JPG</source>
@@ -1951,6 +1995,14 @@
       <trans-unit id="publicationGenerate.share.section" datatype="html">
         <source>Compartir / Enviar</source>
         <target>Share / Send</target>
+      </trans-unit>
+      <trans-unit id="publicationGenerate.whatsapp.section" datatype="html">
+        <source>Compartir</source>
+        <target>Share</target>
+      </trans-unit>
+      <trans-unit id="publicationGenerate.email.section" datatype="html">
+        <source>Enviar</source>
+        <target>Send</target>
       </trans-unit>
       <trans-unit id="publicationGenerate.field.sharePrefix" datatype="html">
         <source>Prefijo país</source>
@@ -2003,6 +2055,10 @@
       <trans-unit id="publicationGenerate.email.loading" datatype="html">
         <source>Enviando por correo…</source>
         <target>Sending by email…</target>
+      </trans-unit>
+      <trans-unit id="publicationGenerate.preview.title" datatype="html">
+        <source>Vista previa</source>
+        <target>Preview</target>
       </trans-unit>
       <trans-unit id="publicationGenerate.preview.empty" datatype="html">
         <source>Generando la vista previa…</source>
@@ -2128,6 +2184,22 @@
         <source>Editar plantilla de publicación</source>
         <target>Edit publication template</target>
       </trans-unit>
+      <trans-unit id="publicationTemplates.locale.editHint" datatype="html">
+        <source>El idioma identifica esta plantilla; para otro idioma cree una plantilla nueva.</source>
+        <target>The language identifies this template; to use another language, create a new template.</target>
+      </trans-unit>
+      <trans-unit id="publicationTemplates.locale.createHint" datatype="html">
+        <source>Solo se listan idiomas sin plantilla. Si el idioma ya existe, edite esa plantilla.</source>
+        <target>Only languages without a template are listed. If the language already exists, edit that template.</target>
+      </trans-unit>
+      <trans-unit id="publicationTemplates.errors.allLocalesUsed" datatype="html">
+        <source>Ya existen plantillas para todos los idiomas. Edite una plantilla existente.</source>
+        <target>Templates already exist for all languages. Edit an existing template.</target>
+      </trans-unit>
+      <trans-unit id="publicationTemplates.errors.noLocalesAvailable" datatype="html">
+        <source>No hay idiomas disponibles para crear una plantilla</source>
+        <target>No languages available to create a template</target>
+      </trans-unit>
       <trans-unit id="publicationTemplates.locale.es" datatype="html">
         <source>Español</source>
         <target>Spanish</target>
@@ -2149,8 +2221,8 @@
         <target>Template preview</target>
       </trans-unit>
       <trans-unit id="publicationTemplates.preview.empty" datatype="html">
-        <source>Genera la vista previa para ver el resultado aquí</source>
-        <target>Generate the preview to see the result here</target>
+        <source>Escribe el HTML para ver la vista previa aquí</source>
+        <target>Escribe el HTML para ver la vista previa aquí</target>
       </trans-unit>
       <trans-unit id="publicationTemplates.preview.loading" datatype="html">
         <source>Generando vista previa...</source>

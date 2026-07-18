@@ -8,6 +8,14 @@ export const PUBGEN_CONTACT_SECTION = $localize`:@@publicationGenerate.contact.s
 export const PUBGEN_FIELD_EMAIL = $localize`:@@publicationGenerate.field.email:Correo de contacto`;
 export const PUBGEN_FIELD_PHONE = $localize`:@@publicationGenerate.field.phone:Teléfono de contacto`;
 export const PUBGEN_FIELD_FORMAT = $localize`:@@publicationGenerate.field.format:Tipo de documento`;
+export const PUBGEN_FIELD_LOCALE = $localize`:@@publicationGenerate.field.locale:Idioma`;
+
+export const PUBGEN_LOCALE_ES = $localize`:@@publicationGenerate.locale.es:Español`;
+export const PUBGEN_LOCALE_EN = $localize`:@@publicationGenerate.locale.en:English`;
+export const PUBGEN_LOCALE_PT = $localize`:@@publicationGenerate.locale.pt:Português`;
+
+export const PUBGEN_DIAL_CODES_ERROR = $localize`:@@publicationGenerate.errors.dialCodes:No se pudieron cargar los prefijos telefónicos`;
+export const PUBGEN_TEMPLATES_CHECK_ERROR = $localize`:@@publicationGenerate.errors.templatesCheck:No se pudo verificar las plantillas de publicación`;
 
 export const PUBGEN_FORMAT_JPG = $localize`:@@publicationGenerate.format.jpg:JPG`;
 export const PUBGEN_FORMAT_PDF = $localize`:@@publicationGenerate.format.pdf:PDF`;
@@ -18,6 +26,8 @@ export const PUBGEN_CLOSE = $localize`:@@publicationGenerate.close:Cerrar`;
 export const PUBGEN_DOWNLOAD = $localize`:@@publicationGenerate.download:Descargar`;
 
 export const PUBGEN_SHARE_SECTION = $localize`:@@publicationGenerate.share.section:Compartir / Enviar`;
+export const PUBGEN_WHATSAPP_SECTION = $localize`:@@publicationGenerate.whatsapp.section:Compartir`;
+export const PUBGEN_EMAIL_SECTION = $localize`:@@publicationGenerate.email.section:Enviar`;
 export const PUBGEN_FIELD_SHARE_PREFIX = $localize`:@@publicationGenerate.field.sharePrefix:Prefijo país`;
 export const PUBGEN_FIELD_SHARE_PHONE = $localize`:@@publicationGenerate.field.sharePhone:Teléfono destino`;
 export const PUBGEN_FIELD_SHARE_EMAIL = $localize`:@@publicationGenerate.field.shareEmail:Correo destino`;
@@ -32,6 +42,7 @@ export const PUBGEN_EMAIL_SUCCESS = $localize`:@@publicationGenerate.email.succe
 export const PUBGEN_EMAIL_ERROR = $localize`:@@publicationGenerate.email.error:No se pudo enviar la publicación por correo`;
 export const PUBGEN_EMAIL_LOADING = $localize`:@@publicationGenerate.email.loading:Enviando por correo…`;
 
+export const PUBGEN_PREVIEW_TITLE = $localize`:@@publicationGenerate.preview.title:Vista previa`;
 export const PUBGEN_PREVIEW_EMPTY = $localize`:@@publicationGenerate.preview.empty:Generando la vista previa…`;
 export const PUBGEN_PREVIEW_LOADING = $localize`:@@publicationGenerate.preview.loading:Generando anuncio…`;
 

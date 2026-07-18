@@ -578,6 +578,27 @@ EN_BY_SOURCE: dict[str, str] = {
     "Editar plantilla": "Edit template",
     "Predeterminada": "Default",
     "No hay plantillas de publicación configuradas": "No publication templates configured",
+    "El idioma identifica esta plantilla; para otro idioma cree una plantilla nueva.": (
+        "The language identifies this template; to use another language, create a new template."
+    ),
+    "Solo se listan idiomas sin plantilla. Si el idioma ya existe, edite esa plantilla.": (
+        "Only languages without a template are listed. If the language already exists, edit that template."
+    ),
+    "Ya existen plantillas para todos los idiomas. Edite una plantilla existente.": (
+        "Templates already exist for all languages. Edit an existing template."
+    ),
+    "No hay idiomas disponibles para crear una plantilla": "No languages available to create a template",
+    "Plantilla de publicación requerida": "Publication template required",
+    "No hay plantilla de publicación para el idioma seleccionado. Cree una plantilla en Configuración para poder generar el anuncio.": (
+        "There is no publication template for the selected language. Create a template in Settings to generate the announcement."
+    ),
+    "Crear publicación": "Create publication",
+    "No se pudo verificar si existen plantillas de publicación": (
+        "Could not verify whether publication templates exist"
+    ),
+    "No se pudieron cargar los prefijos telefónicos": "Could not load phone country prefixes",
+    "No se pudo verificar las plantillas de publicación": "Could not verify publication templates",
+    "Português": "Portuguese",
     "No se pudieron cargar las plantillas": "Could not load templates",
     "No se pudo guardar la plantilla": "Could not save the template",
     "No se pudo eliminar la plantilla": "Could not delete the template",

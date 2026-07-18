@@ -43,12 +43,16 @@ export class PublicationGenerateApiService {
   private readonly http = inject(HttpClient);
   private readonly api = inject(ApiClientService);
 
-  generate(positionId: number, request: GeneratePublicationRequest): Observable<Blob> {
+  generate(
+    positionId: number,
+    request: GeneratePublicationRequest,
+    language: string,
+  ): Observable<Blob> {
     return this.http.post(
       this.api.apiUrl(`/api/v1/positions/${positionId}/publications/generate`),
       request,
       {
-        headers: this.api.buildHeaders(),
+        headers: this.api.buildHeaders().set('language', language),
         responseType: 'blob',
       },
     );
@@ -57,22 +61,24 @@ export class PublicationGenerateApiService {
   shareWhatsApp(
     positionId: number,
     request: SharePublicationWhatsAppRequest,
+    language: string,
   ): Observable<SharePublicationWhatsAppResponse> {
     return this.http.post<SharePublicationWhatsAppResponse>(
       this.api.apiUrl(`/api/v1/positions/${positionId}/publications/share-whatsapp`),
       request,
-      { headers: this.api.buildHeaders() },
+      { headers: this.api.buildHeaders().set('language', language) },
     );
   }
 
   sendEmail(
     positionId: number,
     request: SharePublicationEmailRequest,
+    language: string,
   ): Observable<SharePublicationEmailResponse> {
     return this.http.post<SharePublicationEmailResponse>(
       this.api.apiUrl(`/api/v1/positions/${positionId}/publications/send-email`),
       request,
-      { headers: this.api.buildHeaders() },
+      { headers: this.api.buildHeaders().set('language', language) },
     );
   }
 }

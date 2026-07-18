@@ -936,7 +936,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">37</context>
+          <context context-type="linenumber">52</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-templates-labels.ts</context>
@@ -5694,6 +5694,41 @@
           <context context-type="linenumber">58</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="positions.publication.noTemplate.title" datatype="html">
+        <source>Plantilla de publicación requerida</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="positions.publication.noTemplate.message" datatype="html">
+        <source>No hay plantilla de publicación para el idioma seleccionado. Cree una plantilla en Configuración para poder generar el anuncio.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="positions.publication.noTemplate.ok" datatype="html">
+        <source>OK</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="positions.publication.noTemplate.create" datatype="html">
+        <source>Crear publicación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="positions.publication.noTemplate.checkError" datatype="html">
+        <source>No se pudo verificar si existen plantillas de publicación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">63</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="prompts.pageTitle" datatype="html">
         <source>Prompts IA</source>
         <context-group purpose="location">
@@ -5841,6 +5876,20 @@
           <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="publicationGenerate.step1.title" datatype="html">
+        <source>Configurar publicación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="publicationGenerate.step2.title" datatype="html">
+        <source>Anuncio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="publicationGenerate.dialogTitle" datatype="html">
         <source>Generar publicación</source>
         <context-group purpose="location">
@@ -5855,207 +5904,256 @@
           <context context-type="linenumber">6</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="publicationGenerate.step1.title" datatype="html">
-        <source>Configurar publicación</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">1</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="publicationGenerate.step2.title" datatype="html">
-        <source>Anuncio</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">2</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="publicationGenerate.field.email" datatype="html">
         <source>Correo de contacto</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">4</context>
+          <context context-type="linenumber">8</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.field.phone" datatype="html">
         <source>Teléfono de contacto</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">5</context>
+          <context context-type="linenumber">9</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.field.format" datatype="html">
         <source>Tipo de documento</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">6</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="publicationGenerate.field.locale" datatype="html">
+        <source>Idioma</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="publicationGenerate.locale.es" datatype="html">
+        <source>Español</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="publicationGenerate.locale.en" datatype="html">
+        <source>English</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="publicationGenerate.locale.pt" datatype="html">
+        <source>Português</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="publicationGenerate.errors.dialCodes" datatype="html">
+        <source>No se pudieron cargar los prefijos telefónicos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="publicationGenerate.errors.templatesCheck" datatype="html">
+        <source>No se pudo verificar las plantillas de publicación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
+          <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.format.jpg" datatype="html">
         <source>JPG</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">8</context>
+          <context context-type="linenumber">20</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.format.pdf" datatype="html">
         <source>PDF</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">9</context>
+          <context context-type="linenumber">21</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.cancel" datatype="html">
         <source>Cancelar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">11</context>
+          <context context-type="linenumber">23</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.accept" datatype="html">
         <source>Aceptar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">12</context>
+          <context context-type="linenumber">24</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.close" datatype="html">
         <source>Cerrar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">13</context>
+          <context context-type="linenumber">25</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.download" datatype="html">
         <source>Descargar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">14</context>
+          <context context-type="linenumber">26</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.share.section" datatype="html">
         <source>Compartir / Enviar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">16</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="publicationGenerate.whatsapp.section" datatype="html">
+        <source>Compartir</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="publicationGenerate.email.section" datatype="html">
+        <source>Enviar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
+          <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.field.sharePrefix" datatype="html">
         <source>Prefijo país</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">17</context>
+          <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.field.sharePhone" datatype="html">
         <source>Teléfono destino</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">18</context>
+          <context context-type="linenumber">32</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.field.shareEmail" datatype="html">
         <source>Correo destino</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">19</context>
+          <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.share.whatsapp" datatype="html">
         <source>Compartir</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">20</context>
+          <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.share.email" datatype="html">
         <source>Enviar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">21</context>
+          <context context-type="linenumber">35</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.share.jpgHint" datatype="html">
         <source>WhatsApp solo envía JPG; cambia el tipo de documento a JPG</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">22</context>
+          <context context-type="linenumber">36</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.share.emailSoon" datatype="html">
         <source>El envío por correo estará disponible pronto</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">23</context>
+          <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.share.success" datatype="html">
         <source>Publicación enviada por WhatsApp</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">24</context>
+          <context context-type="linenumber">38</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.share.error" datatype="html">
         <source>No se pudo compartir por WhatsApp</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">25</context>
+          <context context-type="linenumber">39</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.share.loading" datatype="html">
         <source>Enviando por WhatsApp…</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">26</context>
+          <context context-type="linenumber">40</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.email.success" datatype="html">
         <source>Publicación enviada por correo</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">27</context>
+          <context context-type="linenumber">41</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.email.error" datatype="html">
         <source>No se pudo enviar la publicación por correo</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">28</context>
+          <context context-type="linenumber">42</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.email.loading" datatype="html">
         <source>Enviando por correo…</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">29</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="publicationGenerate.preview.title" datatype="html">
+        <source>Vista previa</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
+          <context context-type="linenumber">45</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.preview.empty" datatype="html">
         <source>Generando la vista previa…</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">31</context>
+          <context context-type="linenumber">46</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.preview.loading" datatype="html">
         <source>Generando anuncio…</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">32</context>
+          <context context-type="linenumber">47</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.errors.loadContact" datatype="html">
         <source>No se pudo obtener la información de contacto de la posición</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">34</context>
+          <context context-type="linenumber">49</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.errors.generate" datatype="html">
         <source>No se pudo generar el anuncio</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">35</context>
+          <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationTemplates.pageTitle" datatype="html">
@@ -6247,67 +6345,95 @@
           <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="publicationTemplates.locale.editHint" datatype="html">
+        <source>El idioma identifica esta plantilla; para otro idioma cree una plantilla nueva.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/publication-templates-labels.ts</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="publicationTemplates.locale.createHint" datatype="html">
+        <source>Solo se listan idiomas sin plantilla. Si el idioma ya existe, edite esa plantilla.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/publication-templates-labels.ts</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="publicationTemplates.errors.allLocalesUsed" datatype="html">
+        <source>Ya existen plantillas para todos los idiomas. Edite una plantilla existente.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/publication-templates-labels.ts</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="publicationTemplates.errors.noLocalesAvailable" datatype="html">
+        <source>No hay idiomas disponibles para crear una plantilla</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/publication-templates-labels.ts</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="publicationTemplates.locale.es" datatype="html">
         <source>Español</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-templates-labels.ts</context>
-          <context context-type="linenumber">32</context>
+          <context context-type="linenumber">36</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationTemplates.locale.en" datatype="html">
         <source>Inglés</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-templates-labels.ts</context>
-          <context context-type="linenumber">33</context>
+          <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationTemplates.locale.pt" datatype="html">
         <source>Portugués</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-templates-labels.ts</context>
-          <context context-type="linenumber">34</context>
+          <context context-type="linenumber">38</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationTemplates.preview.button" datatype="html">
         <source>Vista previa</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-templates-labels.ts</context>
-          <context context-type="linenumber">36</context>
+          <context context-type="linenumber">40</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationTemplates.preview.title" datatype="html">
         <source>Vista previa de la plantilla</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-templates-labels.ts</context>
-          <context context-type="linenumber">37</context>
+          <context context-type="linenumber">41</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationTemplates.preview.empty" datatype="html">
-        <source>Genera la vista previa para ver el resultado aquí</source>
+        <source>Escribe el HTML para ver la vista previa aquí</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-templates-labels.ts</context>
-          <context context-type="linenumber">38</context>
+          <context context-type="linenumber">42</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationTemplates.preview.loading" datatype="html">
         <source>Generando vista previa...</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-templates-labels.ts</context>
-          <context context-type="linenumber">39</context>
+          <context context-type="linenumber">43</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationTemplates.preview.close" datatype="html">
         <source>Cerrar vista previa</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-templates-labels.ts</context>
-          <context context-type="linenumber">40</context>
+          <context context-type="linenumber">44</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationTemplates.deleteConfirm" datatype="html">
         <source>¿Eliminar la plantilla &quot;<x id="name" equiv-text="name"/>&quot;? Esta acción no se puede deshacer.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-templates-labels.ts</context>
-          <context context-type="linenumber">43</context>
+          <context context-type="linenumber">47</context>
         </context-group>
       </trans-unit>
       <trans-unit id="questionnaires.categories.tab.categories" datatype="html">
