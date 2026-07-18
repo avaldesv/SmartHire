@@ -85,11 +85,14 @@
           mat-stroked-button
           type="button"
           [disabled]="!canSendEmail"
-          [matTooltip]="shareEmailSoon"
-          (click)="sendEmailSoon()"
+          (click)="sendEmail()"
         >
-          <mat-icon>email</mat-icon>
-          {{ sendEmailLabel }}
+          @if (sendingEmail) {
+            <mat-spinner diameter="18" />
+          } @else {
+            <mat-icon>email</mat-icon>
+          }
+          {{ sendingEmail ? emailLoadingLabel : sendEmailLabel }}
         </button>
       </div>
     </form>
