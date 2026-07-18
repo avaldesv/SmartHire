@@ -572,6 +572,84 @@ EN_BY_SOURCE: dict[str, str] = {
     "Incluir palabras clave": "Include keywords",
     "Descripción expansión cliente": "Client expansion description",
     "Texto beneficios adicionales": "Additional benefits text",
+    # Publication templates / generate (Compartir QR)
+    "Plantillas de publicación": "Publication templates",
+    "Nueva plantilla": "New template",
+    "Editar plantilla": "Edit template",
+    "Predeterminada": "Default",
+    "No hay plantillas de publicación configuradas": "No publication templates configured",
+    "No se pudieron cargar las plantillas": "Could not load templates",
+    "No se pudo guardar la plantilla": "Could not save the template",
+    "No se pudo eliminar la plantilla": "Could not delete the template",
+    "No se pudo cargar la plantilla": "Could not load the template",
+    "No se pudo generar la vista previa": "Could not generate the preview",
+    "Plantilla guardada": "Template saved",
+    "Plantilla eliminada": "Template deleted",
+    "Contenido HTML": "HTML content",
+    "Plantilla predeterminada": "Default template",
+    "Nueva plantilla de publicación": "New publication template",
+    "Editar plantilla de publicación": "Edit publication template",
+    "Español": "Spanish",
+    "Inglés": "English",
+    "Portugués": "Portuguese",
+    "Vista previa": "Preview",
+    "Vista previa de la plantilla": "Template preview",
+    "Genera la vista previa para ver el resultado aquí": "Generate the preview to see the result here",
+    "Generando vista previa...": "Generating preview...",
+    "Cerrar vista previa": "Close preview",
+    "Configurar publicación": "Configure publication",
+    "Anuncio": "Announcement",
+    "Tipo de documento": "Document type",
+    "Aceptar": "Accept",
+    "Descargar": "Download",
+    "Compartir / Enviar": "Share / Send",
+    "Prefijo país": "Country prefix",
+    "Teléfono destino": "Destination phone",
+    "Correo destino": "Destination email",
+    "Compartir": "Share",
+    "Enviar": "Send",
+    "WhatsApp solo envía JPG; cambia el tipo de documento a JPG": (
+        "WhatsApp only sends JPG; change the document type to JPG"
+    ),
+    "El envío por correo estará disponible pronto": "Email send will be available soon",
+    "Publicación enviada por WhatsApp": "Publication sent via WhatsApp",
+    "No se pudo compartir por WhatsApp": "Could not share via WhatsApp",
+    "Enviando por WhatsApp…": "Sending via WhatsApp…",
+    "Publicación enviada por correo": "Publication sent by email",
+    "No se pudo enviar la publicación por correo": "Could not send the publication by email",
+    "Enviando por correo…": "Sending by email…",
+    "Generando la vista previa…": "Generating preview…",
+    "Generando anuncio…": "Generating announcement…",
+    "No se pudo obtener la información de contacto de la posición": (
+        "Could not load the position contact information"
+    ),
+    "No se pudo generar el anuncio": "Could not generate the announcement",
+    "Generar publicación": "Generate publication",
+    # Requisition form config (list / create)
+    "Nombre de configuración": "Configuration name",
+    "Ámbito": "Scope",
+    "Esta configuración aplica a la siguiente combinación de país y cobertura:": (
+        "This configuration applies to the following country and coverage combination:"
+    ),
+    "Ingrese el nombre de la configuración": "Enter the configuration name",
+    "Nueva configuración": "New configuration",
+    "Crear": "Create",
+    "Crear borrador": "Create draft",
+    "Actualizar listado": "Refresh list",
+    "No hay configuraciones para los filtros seleccionados.": (
+        "There are no configurations for the selected filters."
+    ),
+    "No se pudo cargar el listado de configuraciones. Verifique permisos y conexión con el API.": (
+        "Could not load the configuration list. Check permissions and API connectivity."
+    ),
+    "Cobertura": "Coverage",
+    "Versión": "Version",
+    "Acciones": "Actions",
+    "Configuración publicada o deprecada (solo lectura). Use el icono de copiar para crear un borrador desde plantilla.": (
+        "Published or deprecated configuration (read-only). Use the copy icon to create a draft from the template."
+    ),
+    "Configuración eliminada": "Configuration deleted",
+    "No se pudo eliminar la configuración": "Could not delete the configuration",
 }
 
 
@@ -584,6 +662,10 @@ def translate_en(source: str) -> str:
         )
     if "Eliminar la plantilla" in source:
         return source.replace("¿Eliminar la plantilla", "Delete template").replace(
+            "Esta acción no se puede deshacer.", "This action cannot be undone."
+        )
+    if "Eliminar la configuración v" in source:
+        return source.replace("¿Eliminar la configuración v", "Delete configuration v").replace(
             "Esta acción no se puede deshacer.", "This action cannot be undone."
         )
     if "Eliminar la etapa" in source:

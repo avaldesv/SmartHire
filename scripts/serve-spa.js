@@ -6,7 +6,6 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
-const url = require('url');
 
 const ROOT = path.join(__dirname, '..', 'dist', 'smarthire-recruiter-portal', 'browser');
 const DEFAULT_LOCALE = 'es-MX';
@@ -90,7 +89,7 @@ function resolveRequestLocale(req, reqPath) {
 }
 
 const server = http.createServer((req, res) => {
-  const parsed = url.parse(req.url || '/');
+  const parsed = new URL(req.url || '/', 'http://localhost');
   let reqPath = decodeURIComponent(parsed.pathname || '/');
   if (reqPath === '/') {
     reqPath = '/index.html';

@@ -54,8 +54,8 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
   @Input() countryId: number | null = null;
 
   visibleFields: ResolvedRequisitionFormField[] = [];
-  optionsByField: Record<string, WizardFieldOption[]> = {};
-  loadingByField: Record<string, boolean> = {};
+  optionsByField: Partial<Record<string, WizardFieldOption[]>> = {};
+  loadingByField: Partial<Record<string, boolean>> = {};
 
   states: WizardFieldOption[] = [];
   municipalities: WizardFieldOption[] = [];
