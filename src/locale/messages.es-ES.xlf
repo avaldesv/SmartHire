@@ -3604,6 +3604,10 @@
         <source>Ocultar salario</source>
         <target>Ocultar salario</target>
       </trans-unit>
+      <trans-unit id="requisition.field.publishedOnPortal" datatype="html">
+        <source>Publicar en portal candidatos</source>
+        <target>Publicar en portal candidatos</target>
+      </trans-unit>
       <trans-unit id="requisition.field.jobPortalId" datatype="html">
         <source>Portal de empleo</source>
         <target>Portal de empleo</target>

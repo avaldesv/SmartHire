@@ -83,6 +83,7 @@ const REQUISITION_FIELD_LABELS: Record<string, string> = {
   publishSalaryMax: $localize`:@@requisition.field.publishSalaryMax:Salario máximo publicado`,
   hasCommission: $localize`:@@requisition.field.hasCommission:Comisión`,
   hideSalary: $localize`:@@requisition.field.hideSalary:Ocultar salario`,
+  publishedOnPortal: $localize`:@@requisition.field.publishedOnPortal:Publicar en portal candidatos`,
   jobPortalId: $localize`:@@requisition.field.jobPortalId:Portal de empleo`,
   includeSoftSkills: $localize`:@@requisition.field.includeSoftSkills:Incluir habilidades blandas`,
   includeExtraBenefits: $localize`:@@requisition.field.includeExtraBenefits:Incluir beneficios adicionales`,
