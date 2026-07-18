@@ -29,6 +29,7 @@ import {
   POSITIONS_ACTION_CANCEL_DIRECT,
   POSITIONS_ACTION_DUPLICATE,
   POSITIONS_ACTION_GENERATE_PUBLICATION,
+  POSITIONS_ACTION_PUBLISH_ON_PORTAL,
   POSITIONS_ACTION_GO_SELECTION_ARIA,
   POSITIONS_ACTION_MORE_ARIA,
   POSITIONS_ACTION_REJECT_CANCELLATION,
@@ -68,6 +69,9 @@ import {
   POSITIONS_NEW_BUTTON,
   POSITIONS_PAGE_SUBTITLE,
   POSITIONS_PAGE_TITLE,
+  POSITIONS_PUBLISH_ON_PORTAL_CONFIRM,
+  POSITIONS_PUBLISH_ON_PORTAL_ERROR,
+  POSITIONS_PUBLISH_ON_PORTAL_SUCCESS,
   POSITIONS_REJECT_CANCELLATION_ERROR,
   POSITIONS_REJECT_CANCELLATION_SUCCESS,
   POSITIONS_REQUEST_CANCELLATION_ERROR,
@@ -155,6 +159,7 @@ export class PositionsListComponent implements OnInit {
   readonly actionRejectCancellation = POSITIONS_ACTION_REJECT_CANCELLATION;
   readonly actionCancelDirect = POSITIONS_ACTION_CANCEL_DIRECT;
   readonly actionGeneratePublication = POSITIONS_ACTION_GENERATE_PUBLICATION;
+  readonly actionPublishOnPortal = POSITIONS_ACTION_PUBLISH_ON_PORTAL;
   readonly goSelectionAria = POSITIONS_ACTION_GO_SELECTION_ARIA;
   readonly moreActionsAria = POSITIONS_ACTION_MORE_ARIA;
 
@@ -283,6 +288,20 @@ export class PositionsListComponent implements OnInit {
       },
       error: () => {
         this.snack.open(POSITIONS_DUPLICATE_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
+      },
+    });
+  }
+
+  publishOnPortal(row: PositionListItem): void {
+    if (!confirm(POSITIONS_PUBLISH_ON_PORTAL_CONFIRM)) {
+      return;
+    }
+    this.positionService.publishOnPortal(row.id).subscribe({
+      next: () => {
+        this.snack.open(POSITIONS_PUBLISH_ON_PORTAL_SUCCESS, POSITIONS_SNACK_CLOSE, { duration: 3500 });
+      },
+      error: () => {
+        this.snack.open(POSITIONS_PUBLISH_ON_PORTAL_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
       },
     });
   }

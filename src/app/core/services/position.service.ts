@@ -96,6 +96,14 @@ export class PositionService {
     );
   }
 
+  publishOnPortal(id: number): Observable<{ id: number; publishedOnPortal: boolean; publishedOnPortalAt: string | null }> {
+    return this.http.post<{ id: number; publishedOnPortal: boolean; publishedOnPortalAt: string | null }>(
+      this.api.apiUrl(`/api/v1/positions/${id}/publish-on-portal`),
+      {},
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
   delete(id: number): Observable<void> {
     return this.http.delete<void>(this.api.apiUrl(`/api/v1/positions/${id}`), {
       headers: this.api.buildHeaders(),
