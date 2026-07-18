@@ -24,6 +24,9 @@ export const PUBGEN_SHARE_EMAIL_SOON = $localize`:@@publicationGenerate.share.em
 export const PUBGEN_SHARE_SUCCESS = $localize`:@@publicationGenerate.share.success:Publicación enviada por WhatsApp`;
 export const PUBGEN_SHARE_ERROR = $localize`:@@publicationGenerate.share.error:No se pudo compartir por WhatsApp`;
 export const PUBGEN_SHARE_LOADING = $localize`:@@publicationGenerate.share.loading:Enviando por WhatsApp…`;
+export const PUBGEN_EMAIL_SUCCESS = $localize`:@@publicationGenerate.email.success:Publicación enviada por correo`;
+export const PUBGEN_EMAIL_ERROR = $localize`:@@publicationGenerate.email.error:No se pudo enviar la publicación por correo`;
+export const PUBGEN_EMAIL_LOADING = $localize`:@@publicationGenerate.email.loading:Enviando por correo…`;
 
 export const PUBGEN_PREVIEW_EMPTY = $localize`:@@publicationGenerate.preview.empty:Generando la vista previa…`;
 export const PUBGEN_PREVIEW_LOADING = $localize`:@@publicationGenerate.preview.loading:Generando anuncio…`;

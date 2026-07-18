@@ -24,6 +24,20 @@ export interface SharePublicationWhatsAppResponse {
   destination: string;
 }
 
+export interface SharePublicationEmailRequest {
+  toEmail: string;
+  format: PublicationDocumentFormat;
+  contactEmail: string;
+  contactPhone: string;
+  subject?: string;
+}
+
+export interface SharePublicationEmailResponse {
+  success: boolean;
+  channel: string;
+  destination: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class PublicationGenerateApiService {
   private readonly http = inject(HttpClient);
@@ -46,6 +60,17 @@ export class PublicationGenerateApiService {
   ): Observable<SharePublicationWhatsAppResponse> {
     return this.http.post<SharePublicationWhatsAppResponse>(
       this.api.apiUrl(`/api/v1/positions/${positionId}/publications/share-whatsapp`),
+      request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  sendEmail(
+    positionId: number,
+    request: SharePublicationEmailRequest,
+  ): Observable<SharePublicationEmailResponse> {
+    return this.http.post<SharePublicationEmailResponse>(
+      this.api.apiUrl(`/api/v1/positions/${positionId}/publications/send-email`),
       request,
       { headers: this.api.buildHeaders() },
     );
