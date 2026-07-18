@@ -6,8 +6,9 @@ export interface CatalogCsvPanelConfig {
   usesCountryFilter: boolean;
 }
 
-/** Catalog admin panels with CSV import/export backend support (excludes company). */
+/** Catalog admin panels with CSV import/export backend support. */
 export const CATALOG_CSV_PANELS: Partial<Record<CatalogPanelKey, CatalogCsvPanelConfig>> = {
+  company: { catalogKey: 'companies', label: 'Empresas', usesCountryFilter: true },
   gender: { catalogKey: 'genders', label: 'Género', usesCountryFilter: true },
   career: { catalogKey: 'careers', label: 'Carrera', usesCountryFilter: true },
   currency: { catalogKey: 'currencies', label: 'Moneda', usesCountryFilter: true },
