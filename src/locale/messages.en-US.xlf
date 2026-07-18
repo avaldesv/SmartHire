@@ -1792,6 +1792,22 @@
         <source>Generar publicación</source>
         <target>Generate publication</target>
       </trans-unit>
+      <trans-unit id="positions.action.publishOnPortal" datatype="html">
+        <source>Publicar en portal candidatos</source>
+        <target>Publish on candidate portal</target>
+      </trans-unit>
+      <trans-unit id="positions.success.publishOnPortal" datatype="html">
+        <source>Vacante publicada en el portal candidatos</source>
+        <target>Vacancy published on candidate portal</target>
+      </trans-unit>
+      <trans-unit id="positions.errors.publishOnPortal" datatype="html">
+        <source>No se pudo publicar la vacante en el portal</source>
+        <target>Could not publish vacancy on the portal</target>
+      </trans-unit>
+      <trans-unit id="positions.confirm.publishOnPortal" datatype="html">
+        <source>¿Publicar esta vacante en el portal de candidatos?</source>
+        <target>Publish this vacancy on the candidate portal?</target>
+      </trans-unit>
       <trans-unit id="positions.errors.generatePublicationLoad" datatype="html">
         <source>No se pudo obtener la información de contacto de la posición</source>
         <target>Could not load the position contact information</target>
