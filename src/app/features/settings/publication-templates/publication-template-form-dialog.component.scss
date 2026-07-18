@@ -1,0 +1,75 @@
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 32px;
+}
+
+.template-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 560px;
+  max-width: 760px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  .name-field {
+    flex: 2 1 260px;
+  }
+
+  .locale-field {
+    flex: 1 1 160px;
+  }
+}
+
+.checkbox-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin: 4px 0;
+}
+
+.preview-actions {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 4px;
+
+  button mat-spinner {
+    display: inline-block;
+    margin-right: 6px;
+  }
+}
+
+.preview-panel {
+  margin-top: 8px;
+
+  h4 {
+    margin: 0 0 8px;
+    font-size: 0.95rem;
+  }
+}
+
+.preview-frame {
+  width: 100%;
+  min-height: 320px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  background: #fff;
+}
+
+.preview-empty {
+  margin: 0;
+  padding: 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.875rem;
+}

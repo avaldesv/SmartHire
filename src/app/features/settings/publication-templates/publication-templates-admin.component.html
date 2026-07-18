@@ -1,0 +1,71 @@
+<h3>{{ pageTitle }}</h3>
+
+@if (canCreate()) {
+  <div class="toolbar">
+    <button mat-flat-button color="primary" type="button" (click)="openCreate()">
+      <mat-icon>add</mat-icon> {{ newButton }}
+    </button>
+  </div>
+}
+
+@if (loading) {
+  <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+} @else {
+  <div class="sh-card sh-table-wrap">
+    @if (!data.length) {
+      <p class="empty-state">{{ emptyLabel }}</p>
+    } @else {
+      <table mat-table [dataSource]="data">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>{{ columnName }}</th>
+          <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+        </ng-container>
+        <ng-container matColumnDef="locale">
+          <th mat-header-cell *matHeaderCellDef>{{ columnLocale }}</th>
+          <td mat-cell *matCellDef="let row"><code>{{ row.locale }}</code></td>
+        </ng-container>
+        <ng-container matColumnDef="isDefault">
+          <th mat-header-cell *matHeaderCellDef>{{ columnDefault }}</th>
+          <td mat-cell *matCellDef="let row">
+            @if (row.isDefault) {
+              <mat-icon class="flag-yes">check_circle</mat-icon>
+            } @else {
+              <mat-icon class="flag-no">remove_circle_outline</mat-icon>
+            }
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="isActive">
+          <th mat-header-cell *matHeaderCellDef>{{ columnActive }}</th>
+          <td mat-cell *matCellDef="let row">
+            @if (row.isActive) {
+              <mat-icon class="flag-yes">check_circle</mat-icon>
+            } @else {
+              <mat-icon class="flag-no">remove_circle_outline</mat-icon>
+            }
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let row">
+            <sh-table-row-actions
+              [showEdit]="canEdit()"
+              (editClick)="openEdit(row)"
+              [showDelete]="canDelete()"
+              [deleteDisabled]="deletingId === row.id"
+              (deleteClick)="deleteTemplate(row)"
+            />
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns"></tr>
+      </table>
+    }
+    <mat-paginator
+      [length]="total"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      [pageSizeOptions]="[10, 25, 50]"
+      (page)="onPage($event)"
+    />
+  </div>
+}
