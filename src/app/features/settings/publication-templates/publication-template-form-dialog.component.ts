@@ -1,15 +1,23 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import {
+  Subscription,
+  catchError,
+  combineLatest,
+  debounceTime,
+  of,
+  startWith,
+  switchMap,
+} from 'rxjs';
 import {
   PUBTEMPLATES_CANCEL,
   PUBTEMPLATES_DIALOG_EDIT,
@@ -25,8 +33,8 @@ import {
   PUBTEMPLATES_LOCALE_EN,
   PUBTEMPLATES_LOCALE_ES,
   PUBTEMPLATES_LOCALE_PT,
-  PUBTEMPLATES_PREVIEW_BUTTON,
   PUBTEMPLATES_PREVIEW_EMPTY,
+  PUBTEMPLATES_PREVIEW_LOADING,
   PUBTEMPLATES_PREVIEW_TITLE,
   PUBTEMPLATES_SAVE,
   PUBTEMPLATES_SAVING,
@@ -50,13 +58,12 @@ export interface PublicationTemplateFormDialogData {
     MatInputModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatIconModule,
     MatProgressSpinnerModule,
   ],
   templateUrl: './publication-template-form-dialog.component.html',
   styleUrl: './publication-template-form-dialog.component.scss',
 })
-export class PublicationTemplateFormDialogComponent implements OnInit {
+export class PublicationTemplateFormDialogComponent implements OnInit, OnDestroy {
   private readonly dialogRef = inject(MatDialogRef<PublicationTemplateFormDialogComponent, boolean>);
   readonly data = inject<PublicationTemplateFormDialogData>(MAT_DIALOG_DATA);
   private readonly api = inject(PublicationTemplateApiService);
@@ -83,9 +90,9 @@ export class PublicationTemplateFormDialogComponent implements OnInit {
   readonly fieldHtmlBody = PUBTEMPLATES_FIELD_HTML_BODY;
   readonly fieldDefault = PUBTEMPLATES_FIELD_DEFAULT;
   readonly fieldActive = PUBTEMPLATES_FIELD_ACTIVE;
-  readonly previewButtonLabel = PUBTEMPLATES_PREVIEW_BUTTON;
   readonly previewTitle = PUBTEMPLATES_PREVIEW_TITLE;
   readonly previewEmptyLabel = PUBTEMPLATES_PREVIEW_EMPTY;
+  readonly previewLoadingLabel = PUBTEMPLATES_PREVIEW_LOADING;
   readonly cancelLabel = PUBTEMPLATES_CANCEL;
   readonly savingLabel = PUBTEMPLATES_SAVING;
   readonly saveLabel = PUBTEMPLATES_SAVE;
@@ -98,6 +105,9 @@ export class PublicationTemplateFormDialogComponent implements OnInit {
     isActive: [true],
   });
 
+  private previewSub: Subscription | null = null;
+  private livePreviewEnabled = false;
+
   get title(): string {
     return this.editingId ? this.dialogEdit : this.dialogNew;
   }
@@ -105,18 +115,62 @@ export class PublicationTemplateFormDialogComponent implements OnInit {
   ngOnInit(): void {
     if (!this.editingId) {
       this.loading = false;
+      this.enableLivePreview();
       return;
     }
     this.api.getById(this.editingId).subscribe({
       next: (template) => {
         this.patchForm(template);
         this.loading = false;
+        this.enableLivePreview();
       },
       error: () => {
         this.loading = false;
         this.snack.open(PUBTEMPLATES_ERRORS_LOAD, PUBTEMPLATES_SNACK_CLOSE, { duration: 3500 });
+        this.enableLivePreview();
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this.previewSub?.unsubscribe();
+  }
+
+  private enableLivePreview(): void {
+    if (this.livePreviewEnabled) {
+      return;
+    }
+    this.livePreviewEnabled = true;
+    this.previewSub = combineLatest([
+      this.form.controls.htmlBody.valueChanges.pipe(startWith(this.form.controls.htmlBody.value)),
+      this.form.controls.locale.valueChanges.pipe(startWith(this.form.controls.locale.value)),
+    ])
+      .pipe(
+        debounceTime(450),
+        switchMap(([htmlBody, locale]) => {
+          const trimmed = (htmlBody ?? '').trim();
+          if (!trimmed) {
+            this.previewHtml = null;
+            this.previewing = false;
+            return of(null);
+          }
+          this.previewing = true;
+          return this.api.preview({ htmlBody: trimmed, locale }).pipe(
+            catchError(() => {
+              this.snack.open(PUBTEMPLATES_ERRORS_PREVIEW, PUBTEMPLATES_SNACK_CLOSE, { duration: 3500 });
+              return of(null);
+            }),
+          );
+        }),
+      )
+      .subscribe({
+        next: (result) => {
+          this.previewing = false;
+          if (result?.html != null) {
+            this.previewHtml = this.sanitizer.bypassSecurityTrustHtml(result.html);
+          }
+        },
+      });
   }
 
   private patchForm(template: PublicationTemplateItem): void {
@@ -127,29 +181,6 @@ export class PublicationTemplateFormDialogComponent implements OnInit {
       isDefault: template.isDefault,
       isActive: template.isActive,
     });
-  }
-
-  preview(): void {
-    const htmlBody = this.form.controls.htmlBody.value?.trim();
-    if (!htmlBody) {
-      return;
-    }
-    this.previewing = true;
-    this.api
-      .preview({
-        htmlBody,
-        locale: this.form.controls.locale.value,
-      })
-      .subscribe({
-        next: ({ html }) => {
-          this.previewHtml = this.sanitizer.bypassSecurityTrustHtml(html ?? '');
-          this.previewing = false;
-        },
-        error: () => {
-          this.previewing = false;
-          this.snack.open(PUBTEMPLATES_ERRORS_PREVIEW, PUBTEMPLATES_SNACK_CLOSE, { duration: 3500 });
-        },
-      });
   }
 
   save(): void {
