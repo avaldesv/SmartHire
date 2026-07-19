@@ -73,6 +73,9 @@ const LOCALE_OPTIONS = [
 
 const DEFAULT_DIAL_CODE = '+52';
 
+/** Temporary share default while Resend only delivers to the Resend account mailbox. */
+const DEV_DEFAULT_SHARE_EMAIL = 'smarthirebtech@gmail.com';
+
 @Component({
   selector: 'sh-publication-generate-dialog',
   standalone: true,
@@ -160,7 +163,7 @@ export class PublicationGenerateDialogComponent implements OnInit, OnDestroy {
   readonly shareForm = this.fb.nonNullable.group({
     countryPrefix: [DEFAULT_DIAL_CODE, Validators.required],
     phoneNumber: [''],
-    email: ['', [Validators.email]],
+    email: [DEV_DEFAULT_SHARE_EMAIL, [Validators.email]],
   });
 
   ngOnInit(): void {
