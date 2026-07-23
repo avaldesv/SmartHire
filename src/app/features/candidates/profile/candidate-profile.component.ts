@@ -1,6 +1,7 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { forkJoin } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -8,8 +9,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CandidateApiService } from '../../../core/services/candidate-api.service';
+import { CandidateProfileSectionApiService } from '../../../core/services/candidate-profile-section-api.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { CandidateDetail } from '../../../shared/models/candidate.model';
+import {
+  CandidateCourseCertification,
+  CandidateEducation,
+  CandidateExperience,
+  CandidateLanguage,
+} from '../../../shared/models/candidate-profile-section.model';
 
 @Component({
   selector: 'sh-candidate-profile',
@@ -32,11 +40,18 @@ import { CandidateDetail } from '../../../shared/models/candidate.model';
 export class CandidateProfileComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly candidateService = inject(CandidateApiService);
+  private readonly profileSectionsApi = inject(CandidateProfileSectionApiService);
   private readonly snack = inject(MatSnackBar);
 
   loading = true;
+  sectionsLoading = false;
   candidate: CandidateDetail | null = null;
   backToPreselectionLink: string[] | null = null;
+
+  experiences: CandidateExperience[] = [];
+  educations: CandidateEducation[] = [];
+  courses: CandidateCourseCertification[] = [];
+  languages: CandidateLanguage[] = [];
 
   ngOnInit(): void {
     const from = this.route.snapshot.queryParamMap.get('from');
@@ -49,10 +64,57 @@ export class CandidateProfileComponent implements OnInit {
       next: (c) => {
         this.candidate = c;
         this.loading = false;
+        this.loadProfileSections(id);
       },
       error: () => {
         this.loading = false;
         this.snack.open('No se pudo cargar el candidato', 'Cerrar', { duration: 4000 });
+      },
+    });
+  }
+
+  formatDate(value: string | null | undefined): string {
+    if (!value) return '—';
+    const d = new Date(value);
+    if (Number.isNaN(d.getTime())) return value;
+    return d.toLocaleDateString('es-MX', { year: 'numeric', month: 'short', day: '2-digit' });
+  }
+
+  formatDateRange(start: string | null | undefined, end: string | null | undefined): string {
+    return `${this.formatDate(start)} – ${end ? this.formatDate(end) : 'Actual'}`;
+  }
+
+  kindLabel(kind: string | null | undefined): string {
+    switch (kind) {
+      case 'COURSE':
+        return 'Curso';
+      case 'CERTIFICATION':
+        return 'Certificación';
+      case 'OTHER':
+        return 'Otro';
+      default:
+        return '—';
+    }
+  }
+
+  private loadProfileSections(candidateId: number): void {
+    this.sectionsLoading = true;
+    forkJoin({
+      experiences: this.profileSectionsApi.listExperiences(candidateId),
+      educations: this.profileSectionsApi.listEducations(candidateId),
+      courses: this.profileSectionsApi.listCourseCertifications(candidateId),
+      languages: this.profileSectionsApi.listLanguages(candidateId),
+    }).subscribe({
+      next: (res) => {
+        this.experiences = res.experiences.items;
+        this.educations = res.educations.items;
+        this.courses = res.courses.items;
+        this.languages = res.languages.items;
+        this.sectionsLoading = false;
+      },
+      error: () => {
+        this.sectionsLoading = false;
+        this.snack.open('No se pudieron cargar las secciones del perfil', 'Cerrar', { duration: 4000 });
       },
     });
   }
