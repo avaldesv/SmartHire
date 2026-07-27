@@ -174,6 +174,34 @@
             }
           </mat-card-content>
         </mat-card>
+
+        <mat-card class="info-card section-card">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>psychology</mat-icon>
+              Habilidades
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            @if (skills.length === 0) {
+              <p class="empty-state">Sin habilidades registradas.</p>
+            } @else {
+              <ul class="item-list">
+                @for (item of skills; track item.id) {
+                  <li class="item-row">
+                    <strong>{{ item.name }}</strong>
+                    <span class="item-sub">
+                      {{ skillLevelLabel(item.level) }}
+                      @if (item.yearsExperience != null) {
+                        · {{ item.yearsExperience }} {{ item.yearsExperience === 1 ? 'año' : 'años' }}
+                      }
+                    </span>
+                  </li>
+                }
+              </ul>
+            }
+          </mat-card-content>
+        </mat-card>
       }
     </div>
   } @else {

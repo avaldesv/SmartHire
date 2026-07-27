@@ -17,6 +17,7 @@ import {
   CandidateEducation,
   CandidateExperience,
   CandidateLanguage,
+  CandidateSkill,
 } from '../../../shared/models/candidate-profile-section.model';
 
 @Component({
@@ -52,6 +53,7 @@ export class CandidateProfileComponent implements OnInit {
   educations: CandidateEducation[] = [];
   courses: CandidateCourseCertification[] = [];
   languages: CandidateLanguage[] = [];
+  skills: CandidateSkill[] = [];
 
   ngOnInit(): void {
     const from = this.route.snapshot.queryParamMap.get('from');
@@ -97,6 +99,21 @@ export class CandidateProfileComponent implements OnInit {
     }
   }
 
+  skillLevelLabel(level: string | null | undefined): string {
+    switch (level) {
+      case 'BASIC':
+        return 'Básico';
+      case 'INTERMEDIATE':
+        return 'Intermedio';
+      case 'ADVANCED':
+        return 'Avanzado';
+      case 'EXPERT':
+        return 'Experto';
+      default:
+        return level || '—';
+    }
+  }
+
   private loadProfileSections(candidateId: number): void {
     this.sectionsLoading = true;
     forkJoin({
@@ -104,12 +121,14 @@ export class CandidateProfileComponent implements OnInit {
       educations: this.profileSectionsApi.listEducations(candidateId),
       courses: this.profileSectionsApi.listCourseCertifications(candidateId),
       languages: this.profileSectionsApi.listLanguages(candidateId),
+      skills: this.profileSectionsApi.listSkills(candidateId),
     }).subscribe({
       next: (res) => {
         this.experiences = res.experiences.items;
         this.educations = res.educations.items;
         this.courses = res.courses.items;
         this.languages = res.languages.items;
+        this.skills = res.skills.items;
         this.sectionsLoading = false;
       },
       error: () => {

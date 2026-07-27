@@ -10,6 +10,8 @@ import {
   CandidateExperienceListResponse,
   CandidateLanguage,
   CandidateLanguageListResponse,
+  CandidateSkill,
+  CandidateSkillListResponse,
 } from '../../shared/models/candidate-profile-section.model';
 import { ApiClientService } from './api-client.service';
 
@@ -68,6 +70,20 @@ export class CandidateProfileSectionApiService {
     return this.http
       .post<CandidateLanguageListResponse>(
         this.api.apiUrl(`/api/v1/candidates/${candidateId}/languages/list`),
+        { isActive: null, filters: [], ordersBy: [] },
+        { headers: this.api.buildHeaders(page, size) },
+      )
+      .pipe(map((res) => ({ items: res.data ?? [], total: res.pagination?.total ?? 0 })));
+  }
+
+  listSkills(
+    candidateId: number,
+    page = 0,
+    size = 50,
+  ): Observable<{ items: CandidateSkill[]; total: number }> {
+    return this.http
+      .post<CandidateSkillListResponse>(
+        this.api.apiUrl(`/api/v1/candidates/${candidateId}/skills/list`),
         { isActive: null, filters: [], ordersBy: [] },
         { headers: this.api.buildHeaders(page, size) },
       )
