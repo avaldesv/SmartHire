@@ -43,7 +43,17 @@ export interface CandidateLanguage {
   extractJobId: number | null;
 }
 
+export interface CandidateSkill {
+  id: number;
+  name: string;
+  level: string | null;
+  yearsExperience: number | null;
+  source: string;
+  extractJobId: number | null;
+}
+
 export type CandidateExperienceListResponse = ApiPageResponse<CandidateExperience>;
 export type CandidateEducationListResponse = ApiPageResponse<CandidateEducation>;
 export type CandidateCourseCertificationListResponse = ApiPageResponse<CandidateCourseCertification>;
 export type CandidateLanguageListResponse = ApiPageResponse<CandidateLanguage>;
+export type CandidateSkillListResponse = ApiPageResponse<CandidateSkill>;
