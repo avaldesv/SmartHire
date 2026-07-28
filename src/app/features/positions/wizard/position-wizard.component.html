@@ -11,7 +11,7 @@
           </button>
         }
         @if (!isLastDynamicStep) {
-          <button mat-flat-button color="primary" type="button" (click)="nextDynamicStep()">
+          <button mat-stroked-button type="button" (click)="nextDynamicStep()">
             {{ labels.continue }}
           </button>
         } @else {
