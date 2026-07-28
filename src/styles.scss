@@ -48,6 +48,14 @@ a:hover { text-decoration: underline; }
 @media (max-width: 900px) { .sh-grid-3 { grid-template-columns: 1fr; } }
 
 .mat-mdc-table { width: 100%; }
+
+/* Row highlight on hover — all recruiter portal list tables (incl. sticky cells) */
+.mat-mdc-table .mat-mdc-row:hover > .mat-mdc-cell,
+.mat-mdc-table .mat-mdc-row:hover > .mat-mdc-footer-cell {
+  background-color: #f1f5f9 !important;
+  transition: background-color 0.12s ease;
+}
+
 .mat-column-select { width: 48px; }
 .mat-column-actions {
   width: auto;
