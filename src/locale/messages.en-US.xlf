@@ -3374,11 +3374,11 @@
       </trans-unit>
       <trans-unit id="requisition.step.general" datatype="html">
         <source>Datos generales</source>
-        <target>Datos generales</target>
+        <target>General data</target>
       </trans-unit>
       <trans-unit id="requisition.step.manpower" datatype="html">
         <source>Datos Manpower</source>
-        <target>Datos Manpower</target>
+        <target>Manpower data</target>
       </trans-unit>
       <trans-unit id="requisition.step.hiring" datatype="html">
         <source>Contratación</source>
@@ -3386,7 +3386,7 @@
       </trans-unit>
       <trans-unit id="requisition.step.languages" datatype="html">
         <source>Idiomas</source>
-        <target>Idiomas</target>
+        <target>Languages</target>
       </trans-unit>
       <trans-unit id="requisition.step.address" datatype="html">
         <source>Dirección</source>
