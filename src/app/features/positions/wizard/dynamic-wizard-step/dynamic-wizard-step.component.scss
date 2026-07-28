@@ -40,11 +40,34 @@
   width: 100%;
 }
 
+.document-grid__header,
 .document-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 160px;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+}
+
+.document-grid__header {
+  padding: 0 0 4px;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.document-grid__col-req,
+.document-row__required {
   display: flex;
   align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
+  min-height: 40px;
+}
+
+.document-row__doc {
+  min-width: 0;
 }
 
 .questionnaire-fields {
@@ -67,6 +90,12 @@
   .language-row mat-form-field:first-child {
     grid-column: 1 / -1;
   }
+
+  .document-grid__header,
+  .document-row {
+    grid-template-columns: minmax(0, 1fr) 140px;
+    gap: 12px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -76,5 +105,20 @@
 
   .language-row button {
     justify-self: end;
+  }
+
+  .document-grid__header,
+  .document-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .document-grid__col-req {
+    display: none;
+  }
+
+  .document-row__required {
+    padding-left: 28px;
+    min-height: 0;
   }
 }

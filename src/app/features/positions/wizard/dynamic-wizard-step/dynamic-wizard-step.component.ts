@@ -49,6 +49,9 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
   private readonly fb = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
 
+  readonly documentColumnLabel = $localize`:@@requisition.documents.columnDocument:Documento`;
+  readonly documentRequiredLabel = $localize`:@@requisition.documents.required:Obligatorio`;
+
   @Input({ required: true }) step!: ResolvedRequisitionFormStep;
   @Input({ required: true }) stepForm!: FormGroup;
   @Input({ required: true }) rootForm!: FormGroup;

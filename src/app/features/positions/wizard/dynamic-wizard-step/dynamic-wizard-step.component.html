@@ -40,22 +40,29 @@
         } @else if (!documentTypeOptions.length) {
           <p>Sin tipos de documento para el país seleccionado.</p>
         } @else {
+          <div class="document-grid__header" aria-hidden="true">
+            <span class="document-grid__col-doc">{{ documentColumnLabel }}</span>
+            <span class="document-grid__col-req">{{ documentRequiredLabel }}</span>
+          </div>
           @for (doc of documentTypeOptions; track doc.id) {
             <div class="document-row">
               <mat-checkbox
+                class="document-row__doc"
                 [checked]="isDocumentSelected(field.fieldKey, doc.id)"
                 (change)="toggleDocumentSelected(field.fieldKey, doc.id, $event.checked)"
               >
                 {{ doc.label }}
               </mat-checkbox>
-              @if (isDocumentSelected(field.fieldKey, doc.id)) {
-                <mat-checkbox
-                  [checked]="isDocumentRequired(field.fieldKey, doc.id)"
-                  (change)="toggleDocumentRequired(field.fieldKey, doc.id, $event.checked)"
-                >
-                  Obligatorio
-                </mat-checkbox>
-              }
+              <div class="document-row__required">
+                @if (isDocumentSelected(field.fieldKey, doc.id)) {
+                  <mat-checkbox
+                    [checked]="isDocumentRequired(field.fieldKey, doc.id)"
+                    (change)="toggleDocumentRequired(field.fieldKey, doc.id, $event.checked)"
+                  >
+                    {{ documentRequiredLabel }}
+                  </mat-checkbox>
+                }
+              </div>
             </div>
           }
         }
