@@ -63,7 +63,6 @@ export const REQUISITION_FIELDS_BY_STEP: Record<(typeof REQUISITION_FORM_DEFAULT
   recruitment: [
     'recruiterEmail',
     'generalCategoryId',
-    'jobDescription',
     'workplaceId',
     'responsibilityLevelId',
     'publishSalaryMin',
@@ -76,6 +75,7 @@ export const REQUISITION_FIELDS_BY_STEP: Record<(typeof REQUISITION_FORM_DEFAULT
     'includeExtraBenefits',
     'includeProfessionalDevelopment',
     'includeKeywords',
+    'jobDescription',
   ],
   clientDescription: ['clientExpansionDescription'],
   extraBenefits: ['extraBenefitsText'],

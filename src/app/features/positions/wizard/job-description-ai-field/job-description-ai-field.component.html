@@ -1,0 +1,38 @@
+<section class="job-description-ai">
+  <h4 class="grid-title">{{ sectionTitle }}</h4>
+
+  <mat-form-field appearance="outline" class="textarea-field" subscriptSizing="dynamic">
+    <mat-label>{{ fieldLabel }}</mat-label>
+    <textarea matInput rows="6" [formControl]="control" [disabled]="disabled || generating"></textarea>
+  </mat-form-field>
+
+  <div class="actions-row">
+    <button
+      mat-flat-button
+      color="primary"
+      type="button"
+      (click)="onGenerate()"
+      [disabled]="disabled || generating"
+    >
+      @if (generating) {
+        <mat-spinner diameter="18"></mat-spinner>
+      } @else {
+        <mat-icon>auto_awesome</mat-icon>
+      }
+      {{ generateLabel }}
+    </button>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="language-select">
+      <mat-label>{{ languageLabel }}</mat-label>
+      <mat-select [(value)]="selectedLanguage" [disabled]="disabled">
+        <mat-option value="es">Español</mat-option>
+        <mat-option value="en">English</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-stroked-button type="button" disabled>
+      <mat-icon>translate</mat-icon>
+      {{ translateLabel }}
+    </button>
+  </div>
+</section>
