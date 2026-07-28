@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, inject } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,6 +8,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { GenerateJobDescriptionApiService } from '../../../../core/services/generate-job-description-api.service';
+import { LocaleService } from '../../../../core/services/locale.service';
+
+/** UI codes for the language selector used when generating job descriptions. */
+export type JobDescriptionOutputLanguage = 'es' | 'en';
 
 @Component({
   selector: 'sh-job-description-ai-field',
@@ -25,9 +29,10 @@ import { GenerateJobDescriptionApiService } from '../../../../core/services/gene
   templateUrl: './job-description-ai-field.component.html',
   styleUrl: './job-description-ai-field.component.scss',
 })
-export class JobDescriptionAiFieldComponent implements OnDestroy {
+export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
   private readonly api = inject(GenerateJobDescriptionApiService);
   private readonly snackBar = inject(MatSnackBar);
+  private readonly localeService = inject(LocaleService);
 
   @Input({ required: true }) control!: FormControl<string | null>;
   @Input() disabled = false;
@@ -40,9 +45,13 @@ export class JobDescriptionAiFieldComponent implements OnDestroy {
   readonly emptyPromptMessage = $localize`:@@requisition.jobDescription.emptyPrompt:Escribe una instrucción o borrador en el campo antes de generar.`;
   readonly generateErrorMessage = $localize`:@@requisition.jobDescription.generateError:No se pudo generar la descripción. Intenta de nuevo.`;
 
-  selectedLanguage = 'es';
+  selectedLanguage: JobDescriptionOutputLanguage = 'es';
   generating = false;
   private conversationThreadId: string | null = null;
+
+  ngOnInit(): void {
+    this.selectedLanguage = this.resolveDefaultLanguage(this.localeService.activeLocale());
+  }
 
   ngOnDestroy(): void {
     this.conversationThreadId = null;
@@ -52,11 +61,13 @@ export class JobDescriptionAiFieldComponent implements OnDestroy {
     if (this.disabled || this.generating) {
       return;
     }
-    const pregunta = (this.control.value ?? '').trim();
-    if (!pregunta) {
+    const basePregunta = (this.control.value ?? '').trim();
+    if (!basePregunta) {
       this.snackBar.open(this.emptyPromptMessage, undefined, { duration: 4000 });
       return;
     }
+
+    const pregunta = this.appendLanguageInstruction(basePregunta, this.selectedLanguage);
 
     this.generating = true;
     this.api
@@ -76,5 +87,27 @@ export class JobDescriptionAiFieldComponent implements OnDestroy {
           this.snackBar.open(this.generateErrorMessage, undefined, { duration: 5000 });
         },
       });
+  }
+
+  /** Maps authenticated user locale (es-MX, en-US, …) to selector value. */
+  resolveDefaultLanguage(locale: string | null | undefined): JobDescriptionOutputLanguage {
+    const normalized = (locale ?? '').trim().toLowerCase();
+    if (normalized === 'en' || normalized.startsWith('en-')) {
+      return 'en';
+    }
+    return 'es';
+  }
+
+  /**
+   * External chat expects the target language in the prompt text, e.g.
+   * "mejorar redaccion. En idioma inglés."
+   */
+  appendLanguageInstruction(
+    pregunta: string,
+    language: JobDescriptionOutputLanguage,
+  ): string {
+    const trimmed = pregunta.trim().replace(/\.?\s*$/, '');
+    const languageName = language === 'en' ? 'inglés' : 'español';
+    return `${trimmed}. En idioma ${languageName}.`;
   }
 }
