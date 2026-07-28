@@ -40,6 +40,8 @@ export {
   dashboardDuplicateSuccess as positionsDuplicateSuccess,
   dashboardRejectCancellationConfirm as positionsRejectCancellationConfirm,
   dashboardRequestCancellationConfirm as positionsRequestCancellationConfirm,
+  buildDuplicatedPositionName as buildDuplicatedPositionName,
+  POSITION_DUPLICATE_NAME_SUFFIX as POSITION_DUPLICATE_NAME_SUFFIX,
 } from './dashboard-labels';
 
 export const POSITIONS_PAGE_TITLE = $localize`:@@positions.pageTitle:Posiciones`;

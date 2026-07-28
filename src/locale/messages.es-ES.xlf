@@ -1324,6 +1324,14 @@
         <target>Posición duplicada: REQ-<x id="id" equiv-text="id" />
         </target>
       </trans-unit>
+      <trans-unit id="positions.duplicate.nameSuffix" datatype="html">
+        <source> (Duplicado)</source>
+        <target> (Duplicado)</target>
+      </trans-unit>
+      <trans-unit id="positions.duplicate.fallbackName" datatype="html">
+        <source>Posición</source>
+        <target>Posición</target>
+      </trans-unit>
       <trans-unit id="dashboard.confirm.cancel" datatype="html">
         <source>¿Cancelar directamente la requisición <x id="requisitionNo" equiv-text="requisitionNo" />? Esta acción no se puede deshacer.</source>
         <target>¿Cancelar directamente la requisición <x id="requisitionNo" equiv-text="requisitionNo" />? Esta acción no se puede deshacer.</target>

@@ -87,6 +87,7 @@ import {
   positionsDuplicateSuccess,
   positionsRejectCancellationConfirm,
   positionsRequestCancellationConfirm,
+  buildDuplicatedPositionName,
 } from '../../../core/i18n/positions-labels';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
@@ -290,10 +291,12 @@ export class PositionsListComponent implements OnInit {
   }
 
   duplicatePosition(row: PositionListItem): void {
-    this.positionService.duplicate(row.id).subscribe({
+    const positionName = buildDuplicatedPositionName(row.name);
+    this.positionService.duplicate(row.id, positionName).subscribe({
       next: (res) => {
         this.load();
         this.snack.open(positionsDuplicateSuccess(res.id), POSITIONS_SNACK_CLOSE, { duration: 4000 });
+        void this.router.navigate(['/positions', res.id, 'edit']);
       },
       error: () => {
         this.snack.open(POSITIONS_DUPLICATE_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });

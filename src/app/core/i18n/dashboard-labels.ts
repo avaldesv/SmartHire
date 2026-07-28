@@ -68,6 +68,14 @@ export function dashboardDuplicateSuccess(id: number): string {
   return $localize`:@@dashboard.success.duplicated:Posición duplicada: REQ-${id}:id:`;
 }
 
+/** Localized suffix appended to positionName when duplicating (ES: " (Duplicado)", EN: " (Copy)"). */
+export const POSITION_DUPLICATE_NAME_SUFFIX = $localize`:@@positions.duplicate.nameSuffix: (Duplicado)`;
+
+export function buildDuplicatedPositionName(sourceName: string | null | undefined): string {
+  const base = (sourceName ?? '').trim() || $localize`:@@positions.duplicate.fallbackName:Posición`;
+  return `${base}${POSITION_DUPLICATE_NAME_SUFFIX}`;
+}
+
 export function dashboardCancelConfirm(requisitionNo: string): string {
   return $localize`:@@dashboard.confirm.cancel:¿Cancelar directamente la requisición ${requisitionNo}:requisitionNo:? Esta acción no se puede deshacer.`;
 }
