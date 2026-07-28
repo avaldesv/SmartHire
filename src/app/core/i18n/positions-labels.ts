@@ -14,7 +14,6 @@ export {
   DASHBOARD_COL_CITY as POSITIONS_COL_CITY,
   DASHBOARD_COL_CLIENT as POSITIONS_COL_CLIENT,
   DASHBOARD_COL_COUNTRY as POSITIONS_COL_COUNTRY,
-  DASHBOARD_COL_OT as POSITIONS_COL_OT,
   DASHBOARD_COL_POSITION as POSITIONS_COL_POSITION,
   DASHBOARD_COL_POSITIONS_COUNT as POSITIONS_COL_POSITIONS_COUNT,
   DASHBOARD_COL_RECRUITER as POSITIONS_COL_RECRUITER,
@@ -52,7 +51,8 @@ export const POSITIONS_LOAD_ERROR = $localize`:@@positions.errors.load:No se pud
 export const POSITIONS_COL_CLIENT_KEY = $localize`:@@positions.column.clientKey:Clave`;
 export const POSITIONS_COL_STATUS = $localize`:@@positions.column.status:Estatus`;
 export const POSITIONS_COL_CREATED_AT = $localize`:@@positions.column.createdAt:Fecha de creación`;
-export const POSITIONS_COL_NAME = $localize`:@@positions.column.name:Posición`;
+export const POSITIONS_COL_NAME = $localize`:@@positions.column.name:Nombre`;
+export const POSITIONS_COL_OT = $localize`:@@positions.column.ot:Orden de Trabajo`;
 export const POSITIONS_COL_POSITIONS = $localize`:@@positions.column.positions:Posiciones`;
 export const POSITIONS_COL_APPLICANTS = $localize`:@@positions.column.applicants:Postulados`;
 export const POSITIONS_COL_PRESELECTION = $localize`:@@positions.column.preselection:Preselección`;
