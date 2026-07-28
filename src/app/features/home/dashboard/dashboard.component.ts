@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -83,6 +83,7 @@ import {
   dashboardDuplicateSuccess,
   dashboardRejectCancellationConfirm,
   dashboardRequestCancellationConfirm,
+  buildDuplicatedPositionName,
 } from '../../../core/i18n/dashboard-labels';
 import { getRequisitionStatusLabel } from '../../../core/i18n/common-labels';
 import { KpiCardComponent } from '../../../shared/components/kpi-card/kpi-card.component';
@@ -128,6 +129,7 @@ export class DashboardComponent implements OnInit {
   private readonly snack = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
   private readonly dialog = inject(MatDialog);
+  private readonly router = inject(Router);
 
   readonly user = this.auth.currentUser;
   readonly welcomeLabel = DASHBOARD_WELCOME;
@@ -297,11 +299,13 @@ export class DashboardComponent implements OnInit {
   }
 
   duplicatePosition(row: PositionListItem): void {
-    this.positionService.duplicate(row.id).subscribe({
+    const positionName = buildDuplicatedPositionName(row.name);
+    this.positionService.duplicate(row.id, positionName).subscribe({
       next: (res) => {
         this.loadKpis();
         this.loadData();
         this.snack.open(dashboardDuplicateSuccess(res.id), DASHBOARD_SNACK_CLOSE, { duration: 4000 });
+        void this.router.navigate(['/positions', res.id, 'edit']);
       },
       error: () => {
         this.snack.open(DASHBOARD_DUPLICATE_ERROR, DASHBOARD_SNACK_CLOSE, { duration: 4000 });

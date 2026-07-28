@@ -88,10 +88,10 @@ export class PositionService {
     });
   }
 
-  duplicate(id: number): Observable<DuplicatePositionResponse> {
+  duplicate(id: number, positionName: string): Observable<DuplicatePositionResponse> {
     return this.http.post<DuplicatePositionResponse>(
       this.api.apiUrl(`/api/v1/positions/${id}/duplicate`),
-      {},
+      { positionName },
       { headers: this.api.buildHeaders() },
     );
   }
