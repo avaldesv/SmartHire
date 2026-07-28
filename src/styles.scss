@@ -28,7 +28,13 @@ html, body {
 a { color: sh.$sh-brand-blue; text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-.sh-page { padding: 24px; max-width: 1600px; margin: 0 auto; }
+.sh-page {
+  padding: 24px;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+}
 .sh-card {
   background: sh.$sh-bg-surface;
   border: 1px solid sh.$sh-border;
