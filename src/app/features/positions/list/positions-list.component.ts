@@ -46,12 +46,15 @@ import {
   POSITIONS_COL_CLIENT_KEY,
   POSITIONS_COL_COUNTRY,
   POSITIONS_COL_CREATED_AT,
+  POSITIONS_COL_APPLICANTS,
+  POSITIONS_COL_FIRST_DAY,
+  POSITIONS_COL_GROUP,
+  POSITIONS_COL_NAME,
   POSITIONS_COL_OT,
-  POSITIONS_COL_POSITION,
-  POSITIONS_COL_POSITIONS_COUNT,
+  POSITIONS_COL_POSITIONS,
+  POSITIONS_COL_PRESELECTION,
   POSITIONS_COL_RECRUITER,
   POSITIONS_COL_REQUISITION,
-  POSITIONS_COL_START_DATE,
   POSITIONS_COL_STATE,
   POSITIONS_COL_STATUS,
   POSITIONS_COL_TYPE,
@@ -138,18 +141,21 @@ export class PositionsListComponent implements OnInit {
   readonly filterDateTo = POSITIONS_FILTER_DATE_TO;
   readonly clearFiltersLabel = POSITIONS_CLEAR_FILTERS;
   readonly colRequisition = POSITIONS_COL_REQUISITION;
-  readonly colPosition = POSITIONS_COL_POSITION;
+  readonly colName = POSITIONS_COL_NAME;
   readonly colOt = POSITIONS_COL_OT;
   readonly colClient = POSITIONS_COL_CLIENT;
   readonly colClientKey = POSITIONS_COL_CLIENT_KEY;
-  readonly colPositionsCount = POSITIONS_COL_POSITIONS_COUNT;
+  readonly colPositionsCount = POSITIONS_COL_POSITIONS;
+  readonly colApplicants = POSITIONS_COL_APPLICANTS;
+  readonly colPreselection = POSITIONS_COL_PRESELECTION;
+  readonly colFirstDay = POSITIONS_COL_FIRST_DAY;
   readonly colCity = POSITIONS_COL_CITY;
   readonly colState = POSITIONS_COL_STATE;
   readonly colBrand = POSITIONS_COL_BRAND;
   readonly colType = POSITIONS_COL_TYPE;
   readonly colCategory = POSITIONS_COL_CATEGORY;
   readonly colCountry = POSITIONS_COL_COUNTRY;
-  readonly colStartDate = POSITIONS_COL_START_DATE;
+  readonly colGroup = POSITIONS_COL_GROUP;
   readonly colStatus = POSITIONS_COL_STATUS;
   readonly colRecruiter = POSITIONS_COL_RECRUITER;
   readonly colCreatedAt = POSITIONS_COL_CREATED_AT;
@@ -182,23 +188,26 @@ export class PositionsListComponent implements OnInit {
   });
 
   readonly columns = [
+    'actions',
     'requisitionNo',
     'name',
     'ot',
-    'client',
-    'clientKey',
+    'createdAt',
     'positionsCount',
-    'city',
-    'state',
-    'brand',
+    'applicantsCount',
+    'preselectedCount',
+    'hiredCount',
+    'recruiter',
+    'recruiterGroup',
     'type',
     'category',
+    'brand',
+    'client',
+    'clientKey',
     'country',
-    'startDate',
+    'city',
+    'state',
     'status',
-    'recruiter',
-    'createdAt',
-    'actions',
   ];
 
   statusLabel(status: string): string {

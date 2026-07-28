@@ -139,6 +139,11 @@ export interface PositionListItem {
   coverageType?: string | null;
   contactEmail?: string | null;
   contactPhone?: string | null;
+  applicantsCount?: number | null;
+  preselectedCount?: number | null;
+  hiredCount?: number | null;
+  recruiterGroupId?: number | null;
+  recruiterGroup?: string | null;
 }
 
 export interface PositionDetail extends CreatePositionRequest {
