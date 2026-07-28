@@ -188,7 +188,6 @@ export class PositionsListComponent implements OnInit {
   });
 
   readonly columns = [
-    'actions',
     'requisitionNo',
     'name',
     'ot',
@@ -208,6 +207,7 @@ export class PositionsListComponent implements OnInit {
     'city',
     'state',
     'status',
+    'actions',
   ];
 
   statusLabel(status: string): string {
