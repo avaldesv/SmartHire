@@ -22,7 +22,7 @@ export const DASHBOARD_FILTER_DATE_TO = $localize`:@@dashboard.filter.dateTo:Fec
 export const DASHBOARD_CLEAR_FILTERS = $localize`:@@dashboard.clearFilters:Limpiar filtros`;
 
 export const DASHBOARD_COL_REQUISITION = $localize`:@@dashboard.column.requisition:Requisición`;
-export const DASHBOARD_COL_POSITION = $localize`:@@dashboard.column.position:Puesto`;
+export const DASHBOARD_COL_POSITION = $localize`:@@dashboard.column.position:Posición`;
 export const DASHBOARD_COL_OT = $localize`:@@dashboard.column.ot:OT`;
 export const DASHBOARD_COL_CLIENT = $localize`:@@dashboard.column.client:Cliente`;
 export const DASHBOARD_COL_CLIENT_KEY = $localize`:@@dashboard.column.clientKey:Clave Cliente`;
