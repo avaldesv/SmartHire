@@ -48,6 +48,14 @@
   }
 }
 
+.wizard-header-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .wizard-progress {
   display: flex;
   flex-direction: column;
@@ -249,6 +257,14 @@
 }
 
 @media (max-width: 700px) {
+  .wizard-header-nav {
+    width: 100%;
+  }
+
+  .wizard-header-nav button {
+    flex: 1 1 auto;
+  }
+
   .wizard-progress__track {
     overflow-x: auto;
     padding-bottom: 4px;

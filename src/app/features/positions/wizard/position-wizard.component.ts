@@ -466,6 +466,34 @@ export class PositionWizardComponent implements OnInit {
     this.dynamicSelectedIndex = index;
   }
 
+  get showDynamicHeaderNav(): boolean {
+    return (
+      !this.loadingPosition &&
+      !this.resolvingConfig &&
+      this.useDynamicWizard &&
+      this.dynamicForm != null &&
+      this.resolvedConfig != null &&
+      (this.resolvedConfig.steps?.length ?? 0) > 0
+    );
+  }
+
+  get isFirstDynamicStep(): boolean {
+    return this.dynamicSelectedIndex <= 0;
+  }
+
+  get isLastDynamicStep(): boolean {
+    const total = this.resolvedConfig?.steps.length ?? 0;
+    return total === 0 || this.dynamicSelectedIndex >= total - 1;
+  }
+
+  previousDynamicStep(): void {
+    this.dynamicStepper?.previous();
+  }
+
+  nextDynamicStep(): void {
+    this.dynamicStepper?.next();
+  }
+
   isDynamicStepActive(index: number): boolean {
     return this.dynamicSelectedIndex === index;
   }
