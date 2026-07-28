@@ -66,17 +66,17 @@
     @if (loading) {
       <div class="loading-wrap"><mat-spinner diameter="36" /></div>
     } @else {
-      <div class="sh-table-wrap">
+      <div class="sh-table-wrap dashboard-table-wrap">
         <table mat-table [dataSource]="data" class="req-table">
-          <ng-container matColumnDef="requisitionNo">
-            <th mat-header-cell *matHeaderCellDef>{{ colRequisition }}</th>
-            <td mat-cell *matCellDef="let row">
+          <ng-container matColumnDef="requisitionNo" sticky>
+            <th mat-header-cell *matHeaderCellDef class="col-sticky-start col-sticky-start--first">{{ colRequisition }}</th>
+            <td mat-cell *matCellDef="let row" class="col-sticky-start col-sticky-start--first">
               <a [routerLink]="['/selection', row.id, 'ai']" class="mono-id">{{ row.requisitionNo }}</a>
             </td>
           </ng-container>
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef>{{ colPosition }}</th>
-            <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+          <ng-container matColumnDef="name" sticky>
+            <th mat-header-cell *matHeaderCellDef class="col-sticky-start col-sticky-start--second">{{ colPosition }}</th>
+            <td mat-cell *matCellDef="let row" class="col-sticky-start col-sticky-start--second">{{ row.name }}</td>
           </ng-container>
           <ng-container matColumnDef="ot">
             <th mat-header-cell *matHeaderCellDef>{{ colOt }}</th>
@@ -134,9 +134,9 @@
             <th mat-header-cell *matHeaderCellDef>{{ colCreatedAt }}</th>
             <td mat-cell *matCellDef="let row">{{ row.createdAt | date:'dd/MM/yyyy' }}</td>
           </ng-container>
-          <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef></th>
-            <td mat-cell *matCellDef="let row" class="mat-column-actions">
+          <ng-container matColumnDef="actions" stickyEnd>
+            <th mat-header-cell *matHeaderCellDef class="col-sticky-end"></th>
+            <td mat-cell *matCellDef="let row" class="mat-column-actions col-sticky-end">
               <button mat-icon-button [matMenuTriggerFor]="rowMenu"><mat-icon>more_vert</mat-icon></button>
               <mat-menu #rowMenu="matMenu">
                 <button mat-menu-item [routerLink]="['/positions', row.id, 'edit']">
