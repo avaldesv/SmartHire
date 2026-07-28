@@ -14,12 +14,12 @@ import { Component, Input } from '@angular/core';
   `,
   styles: `
     .page-header {
-      display: flex; justify-content: space-between; align-items: flex-start;
+      display: flex; justify-content: space-between; align-items: center;
       margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
     }
     h2 { margin: 0; font-size: 1.35rem; font-weight: 600; }
     p { margin: 4px 0 0; color: #64748b; font-size: 14px; }
-    .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-left: auto; justify-content: flex-end; }
   `,
 })
 export class PageHeaderComponent {

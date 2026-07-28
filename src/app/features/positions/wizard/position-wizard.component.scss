@@ -48,107 +48,23 @@
   }
 }
 
+.wizard-header-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .wizard-progress {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 14px;
+  gap: 12px;
   width: 100%;
-  padding: 4px 0 20px;
+  padding: 4px 0 16px;
   margin-bottom: 4px;
   box-sizing: border-box;
-}
-
-.wizard-progress__track {
-  display: flex;
-  align-items: center;
-  justify-content: stretch;
-  flex-wrap: nowrap;
-  width: 100%;
-  margin: 0;
-  padding: 0 4px;
-  list-style: none;
-  box-sizing: border-box;
-}
-
-.wizard-progress__node {
-  display: flex;
-  align-items: center;
-  flex: 1 1 0;
-  min-width: 0;
-}
-
-.wizard-progress__node:last-child {
-  flex: 0 0 auto;
-}
-
-.wizard-progress__dot {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-  width: 1.75rem;
-  height: 1.75rem;
-  padding: 0;
-  border: 2px solid #cbd5e1;
-  border-radius: 999px;
-  background: #fff;
-  color: #64748b;
-  font-size: 0.75rem;
-  font-weight: 700;
-  line-height: 1;
-  cursor: pointer;
-  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
-
-  &:hover {
-    border-color: #5eead4;
-    color: #0f766e;
-  }
-}
-
-.wizard-progress__dot--active {
-  border-color: #0f766e;
-  background: #0f766e;
-  color: #fff;
-  box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.15);
-
-  &:hover {
-    border-color: #0f766e;
-    color: #fff;
-  }
-}
-
-.wizard-progress__dot--done {
-  border-color: #0f766e;
-  background: #0f766e;
-  color: #fff;
-
-  &:hover {
-    border-color: #0d9488;
-    background: #0d9488;
-    color: #fff;
-  }
-}
-
-.wizard-progress__check {
-  width: 1rem;
-  height: 1rem;
-  font-size: 1rem;
-  line-height: 1;
-}
-
-.wizard-progress__connector {
-  display: block;
-  flex: 1 1 auto;
-  height: 2px;
-  margin: 0 6px;
-  min-width: 12px;
-  background: #e2e8f0;
-  border-radius: 999px;
-}
-
-.wizard-progress__connector--done {
-  background: #0f766e;
 }
 
 .wizard-progress__caption {
@@ -156,7 +72,7 @@
   font-size: 0.95rem;
   font-weight: 600;
   color: #0f172a;
-  text-align: center;
+  text-align: left;
   word-break: break-word;
 }
 
@@ -164,6 +80,85 @@
   margin: 0 0.35rem;
   color: #94a3b8;
   font-weight: 500;
+}
+
+.wizard-progress__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0;
+  width: 100%;
+  border-bottom: 1px solid #e2e8f0;
+  box-sizing: border-box;
+}
+
+.wizard-progress__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 1 auto;
+  max-width: 100%;
+  margin: 0;
+  padding: 10px 14px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  background: transparent;
+  color: #64748b;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+
+  &:hover {
+    color: #0f766e;
+    background: rgba(15, 118, 110, 0.04);
+  }
+}
+
+.wizard-progress__tab-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  color: #475569;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.wizard-progress__tab-label {
+  white-space: nowrap;
+}
+
+.wizard-progress__tab--active {
+  color: #0f766e;
+  border-bottom-color: #0f766e;
+  font-weight: 600;
+
+  .wizard-progress__tab-index {
+    background: #0f766e;
+    color: #fff;
+  }
+
+  &:hover {
+    color: #0f766e;
+  }
+}
+
+.wizard-progress__tab--done:not(.wizard-progress__tab--active) {
+  color: #0f766e;
+
+  .wizard-progress__tab-index {
+    background: #ccfbf1;
+    color: #0f766e;
+  }
 }
 
 .step-title {
@@ -249,26 +244,25 @@
 }
 
 @media (max-width: 700px) {
-  .wizard-progress__track {
-    overflow-x: auto;
-    padding-bottom: 4px;
-    -webkit-overflow-scrolling: touch;
+  .wizard-header-nav {
+    width: 100%;
   }
 
-  .wizard-progress__dot {
-    width: 1.5rem;
-    height: 1.5rem;
-    font-size: 0.7rem;
+  .wizard-header-nav button {
+    flex: 1 1 auto;
   }
 
-  .wizard-progress__connector {
-    min-width: 8px;
-    margin: 0 3px;
+  .wizard-progress__tab {
+    padding: 8px 10px;
+    font-size: 0.75rem;
+  }
+
+  .wizard-progress__tab-label {
+    white-space: normal;
   }
 
   .wizard-progress__caption {
     font-size: 0.85rem;
-    text-align: left;
   }
 
   .step-actions,

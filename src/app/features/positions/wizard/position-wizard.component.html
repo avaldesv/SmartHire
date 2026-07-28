@@ -2,7 +2,27 @@
   <sh-page-header
     [title]="wizardTitle"
     [subtitle]="wizardSubtitle"
-  />
+  >
+    @if (showDynamicHeaderNav) {
+      <div class="wizard-header-nav">
+        @if (!isFirstDynamicStep) {
+          <button mat-stroked-button type="button" (click)="previousDynamicStep()">
+            {{ labels.previous }}
+          </button>
+        }
+        @if (!isLastDynamicStep) {
+          <button mat-stroked-button type="button" (click)="nextDynamicStep()">
+            {{ labels.continue }}
+          </button>
+        } @else {
+          <button mat-flat-button color="primary" type="button" [disabled]="creating" (click)="save()">
+            <mat-icon>check</mat-icon>
+            {{ creating ? (isEditMode ? labels.saving : labels.creating) : (isEditMode ? labels.save : labels.create) }}
+          </button>
+        }
+      </div>
+    }
+  </sh-page-header>
 
   @if (loadingPosition || resolvingConfig) {
     <div class="loading-wrap" role="status" aria-live="polite">
@@ -12,39 +32,29 @@
   } @else if (useDynamicWizard && dynamicForm && resolvedConfig) {
   <div class="sh-card">
     <nav class="wizard-progress" [attr.aria-label]="labels.progressAria">
-      <ol class="wizard-progress__track">
-        @for (step of resolvedConfig.steps; track step.stepKey; let i = $index; let last = $last) {
-          <li class="wizard-progress__node">
-            <button
-              type="button"
-              class="wizard-progress__dot"
-              [class.wizard-progress__dot--done]="isDynamicStepCompleted(i)"
-              [class.wizard-progress__dot--active]="isDynamicStepActive(i)"
-              [attr.aria-current]="isDynamicStepActive(i) ? 'step' : null"
-              [attr.aria-label]="stepProgressAriaLabel(i, step.stepKey, step.labelI18nKey)"
-              (click)="goToDynamicStep(i)"
-            >
-              @if (isDynamicStepCompleted(i)) {
-                <mat-icon class="wizard-progress__check">check</mat-icon>
-              } @else {
-                <span>{{ i + 1 }}</span>
-              }
-            </button>
-            @if (!last) {
-              <span
-                class="wizard-progress__connector"
-                [class.wizard-progress__connector--done]="isDynamicStepCompleted(i)"
-                aria-hidden="true"
-              ></span>
-            }
-          </li>
-        }
-      </ol>
       <p class="wizard-progress__caption">
         {{ wizardStepOfCaption }}
         <span class="wizard-progress__caption-sep" aria-hidden="true">—</span>
         {{ currentDynamicStepTitle }}
       </p>
+      <div class="wizard-progress__tabs" role="tablist">
+        @for (step of resolvedConfig.steps; track step.stepKey; let i = $index) {
+          <button
+            type="button"
+            role="tab"
+            class="wizard-progress__tab"
+            [class.wizard-progress__tab--done]="isDynamicStepCompleted(i)"
+            [class.wizard-progress__tab--active]="isDynamicStepActive(i)"
+            [attr.aria-selected]="isDynamicStepActive(i)"
+            [attr.aria-current]="isDynamicStepActive(i) ? 'step' : null"
+            [attr.aria-label]="stepProgressAriaLabel(i, step.stepKey, step.labelI18nKey)"
+            (click)="goToDynamicStep(i)"
+          >
+            <span class="wizard-progress__tab-index" aria-hidden="true">{{ i + 1 }}</span>
+            <span class="wizard-progress__tab-label">{{ stepTitle(step.stepKey, step.labelI18nKey) }}</span>
+          </button>
+        }
+      </div>
     </nav>
     <mat-stepper
       linear
@@ -62,19 +72,6 @@
               [config]="resolvedConfig"
               [countryId]="dynamicCountryId"
             />
-            <div class="step-actions">
-              @if (!$first) {
-                <button mat-button matStepperPrevious type="button">{{ labels.previous }}</button>
-              }
-              @if (!$last) {
-                <button mat-button matStepperNext type="button">{{ labels.continue }}</button>
-              } @else {
-                <button mat-flat-button color="primary" type="button" [disabled]="creating" (click)="save()">
-                  <mat-icon>check</mat-icon>
-                  {{ creating ? (isEditMode ? labels.saving : labels.creating) : (isEditMode ? labels.save : labels.create) }}
-                </button>
-              }
-            </div>
           </form>
         </mat-step>
       }
