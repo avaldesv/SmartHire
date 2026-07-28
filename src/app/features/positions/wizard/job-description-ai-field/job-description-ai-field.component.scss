@@ -1,0 +1,46 @@
+.job-description-ai {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+}
+
+.grid-title {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e3a5f;
+}
+
+.textarea-field {
+  width: 100%;
+}
+
+.actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.actions-row button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.language-select {
+  width: 160px;
+  min-width: 140px;
+}
+
+@media (max-width: 600px) {
+  .language-select {
+    width: 100%;
+  }
+
+  .actions-row button {
+    width: 100%;
+  }
+}

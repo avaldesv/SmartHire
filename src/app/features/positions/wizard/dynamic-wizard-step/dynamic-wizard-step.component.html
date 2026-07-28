@@ -129,6 +129,14 @@
           }
         </mat-select>
       </mat-form-field>
+    } @else if (field.fieldKey === 'jobDescription') {
+      <div class="span-2 field-full">
+        <sh-job-description-ai-field
+          [control]="$any(fieldControl(field.fieldKey))"
+          [disabled]="isReadOnly(field)"
+          [fieldLabel]="fieldLabel(field)"
+        />
+      </div>
     } @else if (field.uiType === 'textarea') {
       <div class="span-2 field-full">
         <sh-dynamic-wizard-field

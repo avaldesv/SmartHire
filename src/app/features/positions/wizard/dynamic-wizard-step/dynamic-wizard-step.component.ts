@@ -25,6 +25,7 @@ import {
 import { isFieldReadOnly, isFieldVisible, fieldValueFrom } from '../dynamic-wizard-rules.util';
 import { resolveWizardFieldLabel } from '../requisition-wizard-labels';
 import { DynamicWizardFieldComponent } from '../dynamic-wizard-field/dynamic-wizard-field.component';
+import { JobDescriptionAiFieldComponent } from '../job-description-ai-field/job-description-ai-field.component';
 
 @Component({
   selector: 'sh-dynamic-wizard-step',
@@ -38,6 +39,7 @@ import { DynamicWizardFieldComponent } from '../dynamic-wizard-field/dynamic-wiz
     MatButtonModule,
     MatIconModule,
     DynamicWizardFieldComponent,
+    JobDescriptionAiFieldComponent,
   ],
   templateUrl: './dynamic-wizard-step.component.html',
   styleUrl: './dynamic-wizard-step.component.scss',
