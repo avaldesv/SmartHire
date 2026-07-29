@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -16,6 +17,8 @@ import { Subscription } from 'rxjs';
 import { UserNotificationApiService } from '../../services/user-notification-api.service';
 import { UserNotificationStompService } from '../../services/user-notification-stomp.service';
 import { UserNotificationItem } from '../../../shared/models/user-notification.model';
+import { CvBulkNotificationPayload } from '../../../shared/models/cv-bulk-upload.model';
+import { CvBulkProgressDialogComponent } from '../../../features/positions/list/cv-bulk-progress-dialog/cv-bulk-progress-dialog.component';
 
 @Component({
   selector: 'sh-notification-bell',
@@ -36,6 +39,7 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
   private readonly api = inject(UserNotificationApiService);
   private readonly stomp = inject(UserNotificationStompService);
   private readonly snack = inject(MatSnackBar);
+  private readonly dialog = inject(MatDialog);
 
   readonly portal = 'RECRUITER' as const;
   readonly loading = signal(false);
@@ -71,8 +75,21 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
     this.loadInbox();
   }
 
-  markRead(item: UserNotificationItem, event: Event): void {
+  onItemClick(item: UserNotificationItem, event: Event): void {
     event.stopPropagation();
+    this.markRead(item);
+    if ((item.type ?? '').toUpperCase() === 'CV_BULK_DONE') {
+      const payload = this.parseBulkPayload(item.payloadJson);
+      if (payload?.jobId && payload?.positionId) {
+        this.dialog.open(CvBulkProgressDialogComponent, {
+          width: '720px',
+          data: { positionId: payload.positionId, jobId: payload.jobId },
+        });
+      }
+    }
+  }
+
+  private markRead(item: UserNotificationItem): void {
     if (item.read) {
       return;
     }
@@ -85,6 +102,17 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
       },
       error: () => undefined,
     });
+  }
+
+  private parseBulkPayload(payloadJson: string | null): CvBulkNotificationPayload | null {
+    if (!payloadJson) {
+      return null;
+    }
+    try {
+      return JSON.parse(payloadJson) as CvBulkNotificationPayload;
+    } catch {
+      return null;
+    }
   }
 
   private refreshUnread(): void {

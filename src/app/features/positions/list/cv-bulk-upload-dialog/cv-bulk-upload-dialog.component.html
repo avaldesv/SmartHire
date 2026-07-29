@@ -1,0 +1,51 @@
+<h2 mat-dialog-title>{{ labels.title }} — {{ positionName }}</h2>
+
+<mat-dialog-content>
+  <p class="hint">{{ labels.hint }}</p>
+
+  <div class="checks">
+    <mat-checkbox [(ngModel)]="notifyEmail">{{ labels.email }}</mat-checkbox>
+    <mat-checkbox [(ngModel)]="notifyWhatsapp">{{ labels.wa }}</mat-checkbox>
+  </div>
+
+  <div class="pickers">
+    <label class="file-btn">
+      <input type="file" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg" (change)="onFilesSelected($event)" hidden />
+      <button mat-stroked-button type="button" tabindex="-1">{{ labels.pickFiles }}</button>
+    </label>
+    <label class="file-btn">
+      <input type="file" multiple webkitdirectory directory (change)="onFilesSelected($event)" hidden />
+      <button mat-stroked-button type="button" tabindex="-1">{{ labels.pickFolder }}</button>
+    </label>
+    @if (selectedCount() > 0) {
+      <button mat-button type="button" (click)="clearFiles()">{{ labels.clear }}</button>
+    }
+  </div>
+
+  @if (selectedCount() > 0) {
+    <p class="count">{{ selectedCount() }} archivo(s) listos</p>
+  }
+  @if (invalidSummary()) {
+    <p class="warn">{{ invalidSummary() }}</p>
+  }
+  @if (error()) {
+    <p class="err">{{ error() }}</p>
+  }
+  @if (uploading()) {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <p class="upload-label">{{ uploadLabel() }}</p>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" [disabled]="uploading()" (click)="cancel()">{{ labels.cancel }}</button>
+  <button
+    mat-flat-button
+    color="primary"
+    type="button"
+    [disabled]="uploading() || selectedCount() === 0"
+    (click)="startUpload()"
+  >
+    {{ labels.start }}
+  </button>
+</mat-dialog-actions>

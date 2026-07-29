@@ -17,6 +17,11 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { PositionService } from '../../../core/services/position.service';
+import { CV_BULK_ACTION } from '../../../core/i18n/cv-bulk-labels';
+import {
+  CvBulkUploadDialogComponent,
+  CvBulkUploadDialogData,
+} from '../../positions/list/cv-bulk-upload-dialog/cv-bulk-upload-dialog.component';
 import {
   DASHBOARD_ACTION_APPLY_CANDIDATES,
   DASHBOARD_ACTION_APPROVE_CANCELLATION,
@@ -173,6 +178,7 @@ export class DashboardComponent implements OnInit {
   readonly actionApplyCandidates = DASHBOARD_ACTION_APPLY_CANDIDATES;
   readonly actionViewApplicants = DASHBOARD_ACTION_VIEW_APPLICANTS;
   readonly actionDuplicate = DASHBOARD_ACTION_DUPLICATE;
+  readonly actionCvBulk = CV_BULK_ACTION;
   readonly actionRequestCancellation = DASHBOARD_ACTION_REQUEST_CANCELLATION;
   readonly actionApproveCancellation = DASHBOARD_ACTION_APPROVE_CANCELLATION;
   readonly actionRejectCancellation = DASHBOARD_ACTION_REJECT_CANCELLATION;
@@ -418,5 +424,15 @@ export class DashboardComponent implements OnInit {
         },
       },
     );
+  }
+
+  openCvBulkUpload(row: PositionListItem): void {
+    this.dialog.open(CvBulkUploadDialogComponent, {
+      width: '560px',
+      data: {
+        positionId: row.id,
+        positionName: row.name ?? `#${row.id}`,
+      } as CvBulkUploadDialogData,
+    });
   }
 }
