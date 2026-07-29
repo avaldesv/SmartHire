@@ -88,6 +88,9 @@
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu #rowMenu="matMenu">
+                <button mat-menu-item (click)="openCvBulkUpload(row)">
+                  <mat-icon>upload_file</mat-icon> {{ actionCvBulk }}
+                </button>
                 <button mat-menu-item (click)="duplicatePosition(row)">
                   <mat-icon>content_copy</mat-icon> {{ actionDuplicate }}
                 </button>

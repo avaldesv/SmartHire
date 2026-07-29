@@ -26,7 +26,7 @@
     </div>
   } @else {
     @for (item of items(); track item.id) {
-      <button mat-menu-item class="inbox-item" [class.unread]="!item.read" (click)="markRead(item, $event)">
+      <button mat-menu-item class="inbox-item" [class.unread]="!item.read" (click)="onItemClick(item, $event)">
         <div class="inbox-item-title">{{ item.title }}</div>
         <div class="inbox-item-body">{{ item.body }}</div>
         <div class="inbox-item-meta">{{ item.createAt | date: 'short' }}</div>

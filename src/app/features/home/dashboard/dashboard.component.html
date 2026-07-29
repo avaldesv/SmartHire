@@ -151,6 +151,9 @@
                 <button mat-menu-item (click)="openApplicationsDialog(row)">
                   <mat-icon>groups</mat-icon> {{ actionViewApplicants }}
                 </button>
+                <button mat-menu-item (click)="openCvBulkUpload(row)">
+                  <mat-icon>upload_file</mat-icon> {{ actionCvBulk }}
+                </button>
                 <button mat-menu-item (click)="duplicatePosition(row)">
                   <mat-icon>content_copy</mat-icon> {{ actionDuplicate }}
                 </button>

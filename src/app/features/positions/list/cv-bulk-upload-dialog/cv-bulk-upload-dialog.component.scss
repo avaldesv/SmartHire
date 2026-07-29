@@ -1,0 +1,54 @@
+.hint {
+  margin: 0 0 12px;
+  opacity: 0.75;
+  font-size: 0.875rem;
+}
+
+.checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin-bottom: 16px;
+}
+
+.pickers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.file-btn {
+  cursor: pointer;
+  display: inline-flex;
+}
+
+.file-btn span {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 16px;
+  height: 36px;
+  border: 1px solid rgba(0, 0, 0, 0.24);
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+.count {
+  font-weight: 500;
+}
+
+.warn {
+  color: #b26a00;
+  font-size: 0.85rem;
+}
+
+.err {
+  color: #c62828;
+  font-size: 0.85rem;
+}
+
+.upload-label {
+  margin-top: 8px;
+  font-size: 0.85rem;
+}

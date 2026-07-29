@@ -25,6 +25,11 @@ import {
   PublicationGenerateDialogData,
 } from './publication-generate-dialog/publication-generate-dialog.component';
 import {
+  CvBulkUploadDialogComponent,
+  CvBulkUploadDialogData,
+} from './cv-bulk-upload-dialog/cv-bulk-upload-dialog.component';
+import { CV_BULK_ACTION } from '../../../core/i18n/cv-bulk-labels';
+import {
   POSITIONS_ACTION_APPROVE_CANCELLATION,
   POSITIONS_ACTION_CANCEL_DIRECT,
   POSITIONS_ACTION_DUPLICATE,
@@ -167,6 +172,7 @@ export class PositionsListComponent implements OnInit {
   readonly actionCancelDirect = POSITIONS_ACTION_CANCEL_DIRECT;
   readonly actionGeneratePublication = POSITIONS_ACTION_GENERATE_PUBLICATION;
   readonly actionPublishOnPortal = POSITIONS_ACTION_PUBLISH_ON_PORTAL;
+  readonly actionCvBulk = CV_BULK_ACTION;
   readonly goSelectionAria = POSITIONS_ACTION_GO_SELECTION_ARIA;
   readonly moreActionsAria = POSITIONS_ACTION_MORE_ARIA;
 
@@ -402,6 +408,16 @@ export class PositionsListComponent implements OnInit {
       error: () => {
         this.snack.open(POSITIONS_GENERATE_PUBLICATION_LOAD_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
       },
+    });
+  }
+
+  openCvBulkUpload(row: PositionListItem): void {
+    this.dialog.open(CvBulkUploadDialogComponent, {
+      width: '560px',
+      data: {
+        positionId: row.id,
+        positionName: row.name ?? `#${row.id}`,
+      } as CvBulkUploadDialogData,
     });
   }
 
