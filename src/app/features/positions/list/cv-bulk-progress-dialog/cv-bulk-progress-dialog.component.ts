@@ -12,9 +12,9 @@ import {
   CV_BULK_REPORT_SUCCESS,
   CV_BULK_STATUS_DONE,
   CV_BULK_STATUS_RUNNING,
-} from '../../../core/i18n/cv-bulk-labels';
-import { CvBulkUploadApiService } from '../../../core/services/cv-bulk-upload-api.service';
-import { CvBulkUploadStatusResponse } from '../../../shared/models/cv-bulk-upload.model';
+} from '../../../../core/i18n/cv-bulk-labels';
+import { CvBulkUploadApiService } from '../../../../core/services/cv-bulk-upload-api.service';
+import { CvBulkUploadStatusResponse } from '../../../../shared/models/cv-bulk-upload.model';
 
 export interface CvBulkProgressDialogData {
   positionId: number;

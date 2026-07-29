@@ -18,10 +18,11 @@ import {
   CV_BULK_PICK_FOLDER,
   CV_BULK_START,
   CV_BULK_UPLOAD_ERROR,
-} from '../../../core/i18n/cv-bulk-labels';
-import { CvBulkUploadApiService } from '../../../core/services/cv-bulk-upload-api.service';
-import { packCvBulkFiles } from '../../../core/utils/cv-bulk-packer';
+} from '../../../../core/i18n/cv-bulk-labels';
+import { CvBulkUploadApiService } from '../../../../core/services/cv-bulk-upload-api.service';
+import { packCvBulkFiles } from '../../../../core/utils/cv-bulk-packer';
 import { CvBulkProgressDialogComponent } from '../cv-bulk-progress-dialog/cv-bulk-progress-dialog.component';
+import { CvBulkUploadCreateResponse } from '../../../../shared/models/cv-bulk-upload.model';
 
 export interface CvBulkUploadDialogData {
   positionId: number;
@@ -103,7 +104,7 @@ export class CvBulkUploadDialogComponent {
     try {
       for (let i = 0; i < packed.chunks.length; i++) {
         this.uploadLabel.set(`Subiendo lote ${i + 1} de ${packed.chunks.length}…`);
-        const res = await firstValueFrom(
+        const res: CvBulkUploadCreateResponse = await firstValueFrom(
           this.api.uploadChunk(this.positionId, packed.chunks[i], {
             jobId,
             notifyEmail: this.notifyEmail,
