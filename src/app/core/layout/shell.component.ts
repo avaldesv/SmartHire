@@ -16,6 +16,7 @@ import { CatalogCompany } from '../../shared/models/catalog-company.model';
 import { PortalLanguage } from '../../shared/models/portal-language.model';
 import { AppPermissions } from '../auth/app-permissions';
 import { MAIN_NAV_ITEMS } from '../i18n/nav-labels';
+import { NotificationBellComponent } from './notification-bell/notification-bell.component';
 
 @Component({
   selector: 'sh-shell',
@@ -30,6 +31,7 @@ import { MAIN_NAV_ITEMS } from '../i18n/nav-labels';
     MatBadgeModule,
     MatFormFieldModule,
     MatSelectModule,
+    NotificationBellComponent,
   ],
   templateUrl: './shell.component.html',
   styleUrl: './shell.component.scss',

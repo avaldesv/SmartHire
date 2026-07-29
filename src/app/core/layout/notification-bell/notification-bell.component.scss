@@ -1,0 +1,45 @@
+.inbox-header {
+  padding: 12px 16px 8px;
+  font-size: 0.875rem;
+}
+
+.inbox-loading,
+.inbox-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 72px;
+  padding: 16px;
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 0.875rem;
+}
+
+.inbox-item {
+  display: block;
+  height: auto !important;
+  line-height: 1.35 !important;
+  white-space: normal !important;
+  max-width: 360px;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+.inbox-item.unread .inbox-item-title {
+  font-weight: 600;
+}
+
+.inbox-item-title {
+  font-size: 0.875rem;
+}
+
+.inbox-item-body {
+  font-size: 0.75rem;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+.inbox-item-meta {
+  font-size: 0.7rem;
+  opacity: 0.55;
+  margin-top: 4px;
+}

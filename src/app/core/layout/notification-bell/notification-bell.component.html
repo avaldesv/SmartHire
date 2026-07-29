@@ -1,0 +1,36 @@
+<button
+  mat-icon-button
+  [matMenuTriggerFor]="inboxMenu"
+  [matBadge]="unreadCount() > 0 ? unreadCount() : null"
+  matBadgeColor="primary"
+  matBadgeSize="small"
+  i18n-aria-label="@@shell.notifications"
+  aria-label="Notificaciones"
+  (menuOpened)="onMenuOpened()"
+>
+  <mat-icon>notifications</mat-icon>
+</button>
+
+<mat-menu #inboxMenu="matMenu" class="notification-inbox-menu" xPosition="before">
+  <div class="inbox-header" (click)="$event.stopPropagation()">
+    <strong i18n="@@shell.notifications">Notificaciones</strong>
+  </div>
+
+  @if (loading()) {
+    <div class="inbox-loading" (click)="$event.stopPropagation()">
+      <mat-spinner diameter="28"></mat-spinner>
+    </div>
+  } @else if (items().length === 0) {
+    <div class="inbox-empty" (click)="$event.stopPropagation()" i18n="@@shell.notifications.empty">
+      Sin notificaciones
+    </div>
+  } @else {
+    @for (item of items(); track item.id) {
+      <button mat-menu-item class="inbox-item" [class.unread]="!item.read" (click)="markRead(item, $event)">
+        <div class="inbox-item-title">{{ item.title }}</div>
+        <div class="inbox-item-body">{{ item.body }}</div>
+        <div class="inbox-item-meta">{{ item.createAt | date: 'short' }}</div>
+      </button>
+    }
+  }
+</mat-menu>
