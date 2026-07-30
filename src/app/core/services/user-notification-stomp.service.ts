@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy, inject } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Client, IMessage } from '@stomp/stompjs';
 import { Observable, Subject } from 'rxjs';
 import SockJS from 'sockjs-client';
@@ -7,6 +7,8 @@ import { UserNotificationItem } from '../../shared/models/user-notification.mode
 
 /**
  * STOMP client for /ws/notifications — subscribe /user/queue/notifications.
+ * SockJS + remote API: prefer xhr/websocket transports (avoid iframe.html 404)
+ * and pass JWT as access_token query (handshake interceptor).
  */
 @Injectable({ providedIn: 'root' })
 export class UserNotificationStompService implements OnDestroy {
@@ -21,9 +23,16 @@ export class UserNotificationStompService implements OnDestroy {
       return;
     }
 
-    const wsUrl = `${environment.apiBaseUrl}/ws/notifications`;
+    const base = `${environment.apiBaseUrl}/ws/notifications`;
+    const sep = base.includes('?') ? '&' : '?';
+    const wsUrl = `${base}${sep}access_token=${encodeURIComponent(accessToken)}`;
+
     const client = new Client({
-      webSocketFactory: () => new SockJS(wsUrl) as WebSocket,
+      webSocketFactory: () =>
+        new SockJS(wsUrl, undefined, {
+          // Cross-origin SockJS often falls back to iframe.html → 404 behind reverse proxies.
+          transports: ['websocket', 'xhr-streaming', 'xhr-polling'],
+        }) as WebSocket,
       connectHeaders: {
         Authorization: `Bearer ${accessToken}`,
       },
