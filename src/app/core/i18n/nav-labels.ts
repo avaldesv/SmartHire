@@ -62,6 +62,12 @@ export const MAIN_NAV_ITEMS: MainNavItem[] = [
     icon: 'settings',
     authority: AppPermissions.SETTINGS_USERS_READ,
   },
+  {
+    label: $localize`:@@nav.main.candidateAccounts:Cuentas de candidatos`,
+    path: '/candidate-accounts',
+    icon: 'manage_accounts',
+    authority: AppPermissions.CANDIDATE_ACCOUNT_READ,
+  },
 ];
 
 export const QUESTIONNAIRES_NAV_ITEMS: QuestionnairesNavItem[] = [

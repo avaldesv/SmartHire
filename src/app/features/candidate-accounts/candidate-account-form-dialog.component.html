@@ -1,0 +1,29 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="form" class="form" (ngSubmit)="save()">
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>{{ fieldEmail }}</mat-label>
+      <input matInput type="email" formControlName="email" />
+    </mat-form-field>
+
+    @if (!isEdit) {
+      <mat-checkbox formControlName="sendRegisterEmail">{{ fieldSendMail }}</mat-checkbox>
+    } @else {
+      <mat-checkbox formControlName="mustChangePassword">{{ fieldMustChange }}</mat-checkbox>
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>{{ fieldRegisterStatus }}</mat-label>
+        <mat-select formControlName="registerStatusId">
+          @for (opt of statusOptions; track opt.value) {
+            <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    }
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button type="button" [mat-dialog-close]="false" [disabled]="saving">{{ cancelLabel }}</button>
+  <button mat-flat-button color="primary" type="button" (click)="save()" [disabled]="saving">
+    {{ saving ? savingLabel : saveLabel }}
+  </button>
+</mat-dialog-actions>

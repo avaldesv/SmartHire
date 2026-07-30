@@ -1472,6 +1472,10 @@
         <source>Configuraciones</source>
         <target>Configuraciones</target>
       </trans-unit>
+      <trans-unit id="nav.main.candidateAccounts" datatype="html">
+        <source>Cuentas de candidatos</source>
+        <target>Cuentas de candidatos</target>
+      </trans-unit>
       <trans-unit id="questionnaires.nav.questions" datatype="html">
         <source>Preguntas</source>
         <target>Preguntas</target>
