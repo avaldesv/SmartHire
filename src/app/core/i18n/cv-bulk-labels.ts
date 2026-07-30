@@ -1,5 +1,5 @@
 export const CV_BULK_ACTION = $localize`:@@cvBulk.action:Cargar CVs`;
-export const CV_BULK_DIALOG_TITLE = $localize`:@@cvBulk.dialogTitle:Carga masiva de CVs`;
+export const CV_BULK_DIALOG_TITLE = $localize`:@@cvBulk.dialogTitle:Carga masiva de Currículo`;
 export const CV_BULK_NOTIFY_EMAIL = $localize`:@@cvBulk.notifyEmail:Notificar por Email`;
 export const CV_BULK_NOTIFY_WA = $localize`:@@cvBulk.notifyWhatsapp:Notificar por WhatsApp`;
 export const CV_BULK_PICK_FILES = $localize`:@@cvBulk.pickFiles:Seleccionar archivos`;
