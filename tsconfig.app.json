@@ -8,6 +8,7 @@
   },
   "files": [
     "src/main.ts",
+    "src/global-polyfill.ts",
     "src/locale/register-locale-data.ts"
   ],
   "include": [
