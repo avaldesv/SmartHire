@@ -1,6 +1,9 @@
-<h2 mat-dialog-title>{{ labels.title }} — {{ positionName }}</h2>
+<h2 mat-dialog-title>{{ labels.title }}</h2>
 
 <mat-dialog-content>
+  @if (positionName) {
+    <p class="position-line">{{ positionName }}</p>
+  }
   <p class="hint">{{ labels.hint }}</p>
 
   <div class="checks">
@@ -9,16 +12,31 @@
   </div>
 
   <div class="pickers">
-    <label class="file-btn">
-      <input type="file" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg" (change)="onFilesSelected($event)" hidden />
-      <button mat-stroked-button type="button" tabindex="-1">{{ labels.pickFiles }}</button>
-    </label>
-    <label class="file-btn">
-      <input type="file" multiple webkitdirectory directory (change)="onFilesSelected($event)" hidden />
-      <button mat-stroked-button type="button" tabindex="-1">{{ labels.pickFolder }}</button>
-    </label>
+    <input
+      #filesInput
+      type="file"
+      multiple
+      accept=".pdf,.doc,.docx,.jpg,.jpeg"
+      (change)="onFilesSelected($event)"
+      hidden
+    />
+    <input
+      #folderInput
+      type="file"
+      multiple
+      webkitdirectory
+      directory
+      (change)="onFilesSelected($event)"
+      hidden
+    />
+    <button mat-stroked-button type="button" [disabled]="uploading()" (click)="pickFiles()">
+      {{ labels.pickFiles }}
+    </button>
+    <button mat-stroked-button type="button" [disabled]="uploading()" (click)="pickFolder()">
+      {{ labels.pickFolder }}
+    </button>
     @if (selectedCount() > 0) {
-      <button mat-button type="button" (click)="clearFiles()">{{ labels.clear }}</button>
+      <button mat-button type="button" [disabled]="uploading()" (click)="clearFiles()">{{ labels.clear }}</button>
     }
   </div>
 

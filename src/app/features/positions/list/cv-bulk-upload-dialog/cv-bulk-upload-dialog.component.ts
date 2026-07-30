@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -49,6 +49,9 @@ export class CvBulkUploadDialogComponent {
   private readonly api = inject(CvBulkUploadApiService);
   private readonly dialog = inject(MatDialog);
 
+  @ViewChild('filesInput') private filesInput?: ElementRef<HTMLInputElement>;
+  @ViewChild('folderInput') private folderInput?: ElementRef<HTMLInputElement>;
+
   readonly labels = {
     title: CV_BULK_DIALOG_TITLE,
     hint: CV_BULK_HINT,
@@ -62,7 +65,7 @@ export class CvBulkUploadDialogComponent {
   };
 
   readonly positionId = this.data.positionId;
-  readonly positionName = this.data.positionName ?? `#${this.data.positionId}`;
+  readonly positionName = this.data.positionName ?? '';
 
   notifyEmail = true;
   notifyWhatsapp = true;
@@ -74,6 +77,14 @@ export class CvBulkUploadDialogComponent {
   readonly error = signal<string | null>(null);
 
   private files: File[] = [];
+
+  pickFiles(): void {
+    this.filesInput?.nativeElement.click();
+  }
+
+  pickFolder(): void {
+    this.folderInput?.nativeElement.click();
+  }
 
   onFilesSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
