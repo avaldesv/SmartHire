@@ -298,6 +298,15 @@ export const routes: Routes = [
           },
         ],
       },
+      {
+        path: 'candidate-accounts',
+        canActivate: [permissionGuard],
+        data: { authorities: [AppPermissions.CANDIDATE_ACCOUNT_READ] },
+        loadComponent: () =>
+          import('./features/candidate-accounts/candidate-accounts-admin.component').then(
+            (m) => m.CandidateAccountsAdminComponent,
+          ),
+      },
     ],
   },
   { path: '**', redirectTo: 'home' },
