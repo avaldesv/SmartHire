@@ -3,6 +3,7 @@ import { AuthService } from '../services/auth.service';
 import { AppPermissions } from '../auth/app-permissions';
 
 const SETTINGS_PREFIX = 'SETTINGS_';
+const CANDIDATE_ACCOUNT_PREFIX = 'CANDIDATE_ACCOUNT_';
 
 @Injectable({ providedIn: 'root' })
 export class PermissionService {
@@ -13,6 +14,14 @@ export class PermissionService {
     const user = this.auth.currentUser();
     if (!user) {
       return false;
+    }
+    // Align with backend SecurityAuthorities ADMIN_OR_CANDIDATE_ACCOUNT_*:
+    // hasRole('GLOBAL_ADMIN') or hasRole('ADMIN') or hasAuthority(...)
+    if (
+      normalized.startsWith(CANDIDATE_ACCOUNT_PREFIX) &&
+      (user.roles.includes('GLOBAL_ADMIN') || user.roles.includes('ADMIN'))
+    ) {
+      return true;
     }
     if (user.roles.includes('GLOBAL_ADMIN')) {
       if (normalized.startsWith(SETTINGS_PREFIX)) {
