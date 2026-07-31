@@ -28,7 +28,12 @@ import {
   CvBulkUploadDialogComponent,
   CvBulkUploadDialogData,
 } from './cv-bulk-upload-dialog/cv-bulk-upload-dialog.component';
+import {
+  ExcelBulkUploadDialogComponent,
+  ExcelBulkUploadDialogData,
+} from './excel-bulk-upload-dialog/excel-bulk-upload-dialog.component';
 import { CV_BULK_ACTION } from '../../../core/i18n/cv-bulk-labels';
+import { EXCEL_BULK_ACTION } from '../../../core/i18n/excel-bulk-labels';
 import {
   POSITIONS_ACTION_APPROVE_CANCELLATION,
   POSITIONS_ACTION_CANCEL_DIRECT,
@@ -173,6 +178,7 @@ export class PositionsListComponent implements OnInit {
   readonly actionGeneratePublication = POSITIONS_ACTION_GENERATE_PUBLICATION;
   readonly actionPublishOnPortal = POSITIONS_ACTION_PUBLISH_ON_PORTAL;
   readonly actionCvBulk = CV_BULK_ACTION;
+  readonly actionExcelBulk = EXCEL_BULK_ACTION;
   readonly goSelectionAria = POSITIONS_ACTION_GO_SELECTION_ARIA;
   readonly moreActionsAria = POSITIONS_ACTION_MORE_ARIA;
 
@@ -418,6 +424,17 @@ export class PositionsListComponent implements OnInit {
         positionId: row.id,
         positionName: row.name ?? `#${row.id}`,
       } as CvBulkUploadDialogData,
+    });
+  }
+
+  openExcelBulkUpload(row: PositionListItem): void {
+    this.dialog.open(ExcelBulkUploadDialogComponent, {
+      width: '860px',
+      maxWidth: '96vw',
+      data: {
+        positionId: row.id,
+        positionName: row.name ?? `#${row.id}`,
+      } as ExcelBulkUploadDialogData,
     });
   }
 

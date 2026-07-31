@@ -1,0 +1,107 @@
+<h2 mat-dialog-title>{{ labels.title }}</h2>
+
+<mat-dialog-content>
+  @if (positionName) {
+    <p class="position-line">{{ positionName }}</p>
+  }
+  <p class="hint">{{ labels.hint }}</p>
+
+  <a class="template-link" [href]="templateUrl" download="Plantilla_Carga_Masiva.xlsx">
+    <mat-icon>download</mat-icon> {{ labels.template }}
+  </a>
+
+  <div class="checks">
+    <mat-checkbox [(ngModel)]="notifyEmail">{{ labels.email }}</mat-checkbox>
+    <mat-checkbox [(ngModel)]="notifyWhatsapp">{{ labels.wa }}</mat-checkbox>
+  </div>
+
+  <div class="pickers">
+    <input #fileInput type="file" accept=".xlsx,.xls" (change)="onFileSelected($event)" hidden />
+    <button mat-stroked-button type="button" [disabled]="busy()" (click)="pickFile()">
+      {{ labels.pickFile }}
+    </button>
+    @if (fileName()) {
+      <span class="file-name">{{ fileName() }}</span>
+      <button mat-button type="button" [disabled]="busy()" (click)="clearFile()">{{ labels.clear }}</button>
+    }
+  </div>
+
+  @if (error()) {
+    <p class="err">{{ error() }}</p>
+  }
+
+  @if (preview(); as p) {
+    <div class="counters">
+      <span>{{ labels.totalRows }}: {{ p.totalRows }}</span>
+      <span class="ok">{{ labels.validRows }}: {{ p.validCount }}</span>
+      <span class="ko">{{ labels.invalidRows }}: {{ p.invalidCount }}</span>
+    </div>
+    <p class="hint">{{ labels.onlyValidHint }}</p>
+
+    <mat-tab-group>
+      <mat-tab [label]="labels.validRows + ' (' + p.validCount + ')'">
+        <table class="preview-table">
+          <thead>
+            <tr>
+              <th>{{ labels.colRow }}</th>
+              <th>{{ labels.colName }}</th>
+              <th>{{ labels.colEmail }}</th>
+              <th>{{ labels.colPhone }}</th>
+              <th>{{ labels.colGender }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of p.validRows; track row.rowNumber) {
+              <tr>
+                <td>{{ row.rowNumber }}</td>
+                <td>{{ row.firstName }} {{ row.lastName }} {{ row.maternalLastName }}</td>
+                <td>{{ row.email }}</td>
+                <td>{{ row.dialCode }} {{ row.phone }}</td>
+                <td>{{ row.genderCode }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </mat-tab>
+      <mat-tab [label]="labels.invalidRows + ' (' + p.invalidCount + ')'">
+        <table class="preview-table">
+          <thead>
+            <tr>
+              <th>{{ labels.colRow }}</th>
+              <th>{{ labels.colName }}</th>
+              <th>{{ labels.colEmail }}</th>
+              <th>{{ labels.colErrors }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of p.invalidRows; track row.rowNumber) {
+              <tr>
+                <td>{{ row.rowNumber }}</td>
+                <td>{{ row.firstName }} {{ row.lastName }} {{ row.maternalLastName }}</td>
+                <td>{{ row.email }}</td>
+                <td class="ko">{{ errorSummary(row.errors) }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </mat-tab>
+    </mat-tab-group>
+  }
+
+  @if (busy()) {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" [disabled]="busy()" (click)="cancel()">{{ labels.cancel }}</button>
+  @if (!preview()) {
+    <button mat-flat-button color="primary" type="button" [disabled]="!canValidate()" (click)="validateFile()">
+      {{ labels.validate }}
+    </button>
+  } @else {
+    <button mat-flat-button color="primary" type="button" [disabled]="!canConfirm()" (click)="confirmUpload()">
+      {{ labels.confirm }}
+    </button>
+  }
+</mat-dialog-actions>

@@ -1,0 +1,55 @@
+<h2 mat-dialog-title>{{ labels.title }} #{{ jobId }}</h2>
+
+<mat-dialog-content>
+  <p class="hint">{{ labels.hint }}</p>
+
+  @if (!done()) {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <p class="status-line">{{ labels.running }}…</p>
+  } @else {
+    <p class="status-line done">{{ labels.done }}</p>
+  }
+
+  @if (status(); as s) {
+    <div class="counters">
+      <span>{{ labels.success }}: {{ s.successCount }}</span>
+      <span>{{ labels.failed }}: {{ s.failedCount }}</span>
+      <span>{{ labels.pending }}: {{ s.pendingCount + s.processingCount }}</span>
+      <span>Total: {{ s.totalCount }}</span>
+    </div>
+
+    @if (s.failures.length > 0) {
+      <h3>{{ labels.failed }}</h3>
+      <ul class="fail-list">
+        @for (f of s.failures; track f.itemId) {
+          <li>
+            <strong>#{{ f.rowNumber }} {{ f.email || (f.firstName + ' ' + f.lastName) }}</strong>
+            — {{ f.reportLabel || f.errorCode }}
+            @if (f.errorMessage) {
+              <small>{{ f.errorMessage }}</small>
+            }
+          </li>
+        }
+      </ul>
+    }
+
+    @if (s.successes.length > 0) {
+      <h3>{{ labels.success }}</h3>
+      <ul class="ok-list">
+        @for (ok of s.successes; track ok.itemId) {
+          <li>
+            <strong>#{{ ok.rowNumber }} {{ ok.email }}</strong>
+            — {{ ok.reportLabel || ok.outcome }}
+            @if (ok.whatsappSent === false) {
+              <small>{{ labels.waNotSent }}{{ ok.whatsappSkipReason ? ' (' + ok.whatsappSkipReason + ')' : '' }}</small>
+            }
+          </li>
+        }
+      </ul>
+    }
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-flat-button color="primary" type="button" (click)="close()">{{ labels.close }}</button>
+</mat-dialog-actions>
