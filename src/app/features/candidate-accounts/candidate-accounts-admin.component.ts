@@ -25,6 +25,7 @@ import {
   CANDIDATE_ACCOUNTS_FILTER_EMAIL,
   CANDIDATE_ACCOUNTS_HARD_BUTTON,
   CANDIDATE_ACCOUNTS_NEW_BUTTON,
+  CANDIDATE_ACCOUNTS_PAGE_SUBTITLE,
   CANDIDATE_ACCOUNTS_PAGE_TITLE,
   CANDIDATE_ACCOUNTS_SNACK_CLOSE,
   CANDIDATE_ACCOUNTS_SUCCESS_DELETED,
@@ -35,6 +36,7 @@ import {
 } from '../../core/i18n/candidate-accounts-labels';
 import { CandidateAccountApiService } from '../../core/services/candidate-account-api.service';
 import { PermissionService } from '../../core/services/permission.service';
+import { PageHeaderComponent } from '../../shared/components/page-header/page-header.component';
 import { TableRowActionsComponent } from '../../shared/components/table-row-actions/table-row-actions.component';
 import { CandidateAccountItem } from '../../shared/models/candidate-account.model';
 import {
@@ -61,6 +63,7 @@ import {
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
+    PageHeaderComponent,
     TableRowActionsComponent,
   ],
   templateUrl: './candidate-accounts-admin.component.html',
@@ -84,6 +87,7 @@ export class CandidateAccountsAdminComponent implements OnInit {
   readonly columns = ['email', 'candidate', 'status', 'active', 'lastLogin', 'actions'];
 
   readonly pageTitle = CANDIDATE_ACCOUNTS_PAGE_TITLE;
+  readonly pageSubtitle = CANDIDATE_ACCOUNTS_PAGE_SUBTITLE;
   readonly newButton = CANDIDATE_ACCOUNTS_NEW_BUTTON;
   readonly filterEmail = CANDIDATE_ACCOUNTS_FILTER_EMAIL;
   readonly columnEmail = CANDIDATE_ACCOUNTS_COL_EMAIL;
