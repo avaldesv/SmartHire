@@ -86,12 +86,14 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
 
   onMenuOpened(): void {
     this.expanded.set(false);
+    this.items.set([]);
     this.loadInbox(NotificationBellComponent.PREVIEW_SIZE);
   }
 
   onShowAll(event: Event): void {
     event.stopPropagation();
     this.expanded.set(true);
+    this.items.set([]);
     this.loadInbox(NotificationBellComponent.ALL_SIZE);
   }
 
