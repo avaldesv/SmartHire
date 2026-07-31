@@ -31,6 +31,13 @@ export const routes: Routes = [
         loadComponent: () => import('./features/home/dashboard/dashboard.component').then((m) => m.DashboardComponent),
       },
       {
+        path: 'inbox',
+        loadComponent: () =>
+          import('./features/notifications/inbox/notification-inbox-list.component').then(
+            (m) => m.NotificationInboxListComponent,
+          ),
+      },
+      {
         path: 'positions',
         canActivate: [permissionGuard],
         data: { authorities: [AppPermissions.REQUISITION_READ] },

@@ -44,10 +44,24 @@
   margin-top: 4px;
 }
 
+.inbox-show-all-wrap {
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 4px 8px 8px;
+  text-align: center;
+}
+
 .inbox-show-all {
-  justify-content: center;
+  appearance: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 12px;
   font-size: 0.8125rem;
   font-weight: 500;
   color: var(--mat-sys-primary, #1565c0);
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  text-decoration: underline;
+}
+
+.inbox-show-all:hover {
+  opacity: 0.85;
 }
