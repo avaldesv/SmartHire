@@ -38,52 +38,56 @@
     </div>
     <p class="hint">{{ labels.onlyValidHint }}</p>
 
-    <mat-tab-group>
+    <mat-tab-group dynamicHeight animationDuration="0ms" class="preview-tabs">
       <mat-tab [label]="labels.validRows + ' (' + p.validCount + ')'">
-        <table class="preview-table">
-          <thead>
-            <tr>
-              <th>{{ labels.colRow }}</th>
-              <th>{{ labels.colName }}</th>
-              <th>{{ labels.colEmail }}</th>
-              <th>{{ labels.colPhone }}</th>
-              <th>{{ labels.colGender }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (row of p.validRows; track row.rowNumber) {
+        <div class="preview-scroll">
+          <table class="preview-table">
+            <thead>
               <tr>
-                <td>{{ row.rowNumber }}</td>
-                <td>{{ row.firstName }} {{ row.lastName }} {{ row.maternalLastName }}</td>
-                <td>{{ row.email }}</td>
-                <td>{{ row.dialCode }} {{ row.phone }}</td>
-                <td>{{ row.genderCode }}</td>
+                <th>{{ labels.colRow }}</th>
+                <th>{{ labels.colName }}</th>
+                <th>{{ labels.colEmail }}</th>
+                <th>{{ labels.colPhone }}</th>
+                <th>{{ labels.colGender }}</th>
               </tr>
-            }
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              @for (row of p.validRows; track row.rowNumber) {
+                <tr>
+                  <td>{{ row.rowNumber }}</td>
+                  <td>{{ displayName(row) }}</td>
+                  <td>{{ row.email }}</td>
+                  <td>{{ displayPhone(row) }}</td>
+                  <td>{{ row.genderCode }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
       </mat-tab>
       <mat-tab [label]="labels.invalidRows + ' (' + p.invalidCount + ')'">
-        <table class="preview-table">
-          <thead>
-            <tr>
-              <th>{{ labels.colRow }}</th>
-              <th>{{ labels.colName }}</th>
-              <th>{{ labels.colEmail }}</th>
-              <th>{{ labels.colErrors }}</th>
-            </tr>
-          </thead>
-          <tbody>
+        <div class="preview-scroll">
+          <ul class="invalid-list">
             @for (row of p.invalidRows; track row.rowNumber) {
-              <tr>
-                <td>{{ row.rowNumber }}</td>
-                <td>{{ row.firstName }} {{ row.lastName }} {{ row.maternalLastName }}</td>
-                <td>{{ row.email }}</td>
-                <td class="ko">{{ errorSummary(row.errors) }}</td>
-              </tr>
+              <li class="invalid-item">
+                <div class="invalid-head">
+                  <span class="row-num">{{ labels.colRow }} {{ row.rowNumber }}</span>
+                  <span class="row-name">{{ displayName(row) || '—' }}</span>
+                  @if (row.email) {
+                    <span class="row-email">{{ row.email }}</span>
+                  }
+                </div>
+                <ul class="error-list">
+                  @for (err of row.errors ?? []; track $index) {
+                    <li>{{ err.message || err.code || 'Error' }}</li>
+                  } @empty {
+                    <li>{{ labels.colErrors }}</li>
+                  }
+                </ul>
+              </li>
             }
-          </tbody>
-        </table>
+          </ul>
+        </div>
       </mat-tab>
     </mat-tab-group>
   }
