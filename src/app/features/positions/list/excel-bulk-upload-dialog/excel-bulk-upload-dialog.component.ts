@@ -214,8 +214,23 @@ export class ExcelBulkUploadDialogComponent {
     }
   }
 
-  errorSummary(errors: { code: string | null; message: string | null }[]): string {
+  errorSummary(errors: { code: string | null; message: string | null }[] | null | undefined): string {
+    if (!errors?.length) {
+      return '';
+    }
     return errors.map((e) => e.message || e.code).filter(Boolean).join(' · ');
+  }
+
+  displayName(row: {
+    firstName: string | null;
+    lastName: string | null;
+    maternalLastName: string | null;
+  }): string {
+    return [row.firstName, row.lastName, row.maternalLastName].filter((p) => !!p?.trim()).join(' ');
+  }
+
+  displayPhone(row: { dialCode: string | null; phone: string | null }): string {
+    return [row.dialCode, row.phone].filter((p) => !!p?.trim()).join(' ');
   }
 
   private serverMessage(err: unknown): string | null {

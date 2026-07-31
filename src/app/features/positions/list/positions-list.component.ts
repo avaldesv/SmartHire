@@ -429,7 +429,7 @@ export class PositionsListComponent implements OnInit {
 
   openExcelBulkUpload(row: PositionListItem): void {
     this.dialog.open(ExcelBulkUploadDialogComponent, {
-      width: '860px',
+      width: '920px',
       maxWidth: '96vw',
       data: {
         positionId: row.id,
