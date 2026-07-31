@@ -1,5 +1,6 @@
 <button
   mat-icon-button
+  #menuTrigger="matMenuTrigger"
   [matMenuTriggerFor]="inboxMenu"
   [matBadge]="unreadCount() > 0 ? unreadCount() : null"
   matBadgeColor="primary"
@@ -12,8 +13,18 @@
 </button>
 
 <mat-menu #inboxMenu="matMenu" class="notification-inbox-menu" xPosition="before">
-  <div class="inbox-header" (click)="$event.stopPropagation()">
+  <div class="inbox-header" (click)="$event.stopPropagation()" (mousedown)="$event.stopPropagation()">
     <strong i18n="@@shell.notifications">Notificaciones</strong>
+    @if (canShowAll()) {
+      <button
+        type="button"
+        class="inbox-show-all"
+        (click)="onShowAll($event)"
+        i18n="@@shell.notifications.showAll"
+      >
+        [Mostrar más]
+      </button>
+    }
   </div>
 
   @if (loading()) {
@@ -31,18 +42,6 @@
         <div class="inbox-item-body">{{ item.body }}</div>
         <div class="inbox-item-meta">{{ item.createAt | date: 'short' }}</div>
       </button>
-    }
-    @if (canShowAll()) {
-      <div class="inbox-show-all-wrap" (click)="$event.stopPropagation()" (mousedown)="$event.stopPropagation()">
-        <button
-          type="button"
-          class="inbox-show-all"
-          (click)="onShowAll($event)"
-          i18n="@@shell.notifications.showAll"
-        >
-          [Mostrar más]
-        </button>
-      </div>
     }
   }
 </mat-menu>
