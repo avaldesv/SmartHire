@@ -1,0 +1,41 @@
+.hint {
+  opacity: 0.75;
+  font-size: 0.875rem;
+}
+
+.status-line {
+  margin: 12px 0;
+  font-weight: 500;
+}
+
+.status-line.done {
+  color: #2e7d32;
+}
+
+.counters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+}
+
+h3 {
+  margin: 12px 0 6px;
+  font-size: 0.95rem;
+}
+
+.fail-list,
+.ok-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  max-height: 220px;
+  overflow: auto;
+  font-size: 0.85rem;
+}
+
+.fail-list small,
+.ok-list small {
+  display: block;
+  opacity: 0.7;
+}

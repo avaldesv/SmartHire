@@ -21,6 +21,7 @@ import { UserNotificationStompService } from '../../services/user-notification-s
 import { UserNotificationItem } from '../../../shared/models/user-notification.model';
 import { CvBulkNotificationPayload } from '../../../shared/models/cv-bulk-upload.model';
 import { CvBulkProgressDialogComponent } from '../../../features/positions/list/cv-bulk-progress-dialog/cv-bulk-progress-dialog.component';
+import { ExcelBulkProgressDialogComponent } from '../../../features/positions/list/excel-bulk-progress-dialog/excel-bulk-progress-dialog.component';
 
 @Component({
   selector: 'sh-notification-bell',
@@ -101,14 +102,22 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
   onItemClick(item: UserNotificationItem, event: Event): void {
     event.stopPropagation();
     this.markRead(item);
-    if ((item.type ?? '').toUpperCase() === 'CV_BULK_DONE') {
-      const payload = this.parseBulkPayload(item.payloadJson);
-      if (payload?.jobId && payload?.positionId) {
-        this.dialog.open(CvBulkProgressDialogComponent, {
-          width: '720px',
-          data: { positionId: payload.positionId, jobId: payload.jobId },
-        });
-      }
+    const type = (item.type ?? '').toUpperCase();
+    if (type !== 'CV_BULK_DONE' && type !== 'EXCEL_BULK_DONE') {
+      return;
+    }
+    const payload = this.parseBulkPayload(item.payloadJson);
+    if (!payload?.jobId || !payload?.positionId) {
+      return;
+    }
+    const config = {
+      width: '720px',
+      data: { positionId: payload.positionId, jobId: payload.jobId },
+    };
+    if (type === 'EXCEL_BULK_DONE') {
+      this.dialog.open(ExcelBulkProgressDialogComponent, config);
+    } else {
+      this.dialog.open(CvBulkProgressDialogComponent, config);
     }
   }
 

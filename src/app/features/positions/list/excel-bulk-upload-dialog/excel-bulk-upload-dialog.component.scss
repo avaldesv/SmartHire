@@ -1,0 +1,97 @@
+.position-line {
+  margin: 0 0 8px;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.hint {
+  margin: 0 0 12px;
+  opacity: 0.75;
+  font-size: 0.875rem;
+}
+
+.template-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 16px;
+  font-size: 0.875rem;
+  text-decoration: none;
+  color: var(--mat-sys-primary, #1565c0);
+}
+
+.template-link mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin-bottom: 16px;
+}
+
+.pickers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.file-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.err {
+  color: #c62828;
+  font-size: 0.85rem;
+}
+
+.counters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  margin: 12px 0 4px;
+  font-size: 0.9rem;
+}
+
+.counters .ok {
+  color: #2e7d32;
+}
+
+.counters .ko,
+.preview-table .ko {
+  color: #c62828;
+}
+
+.preview-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+  font-size: 0.8rem;
+}
+
+.preview-table th,
+.preview-table td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 6px 8px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.preview-table th {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+mat-dialog-content {
+  max-height: 70vh;
+}
+
+mat-progress-bar {
+  margin-top: 12px;
+}
