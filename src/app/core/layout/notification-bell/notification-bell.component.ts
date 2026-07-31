@@ -3,6 +3,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  ViewChild,
   inject,
   signal,
 } from '@angular/core';
@@ -10,7 +11,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -38,6 +39,8 @@ import { CvBulkProgressDialogComponent } from '../../../features/positions/list/
 })
 export class NotificationBellComponent implements OnInit, OnDestroy {
   private static readonly PREVIEW_SIZE = 5;
+
+  @ViewChild('menuTrigger') private menuTrigger?: MatMenuTrigger;
 
   private readonly api = inject(UserNotificationApiService);
   private readonly stomp = inject(UserNotificationStompService);
@@ -91,6 +94,7 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
   onShowAll(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
+    this.menuTrigger?.closeMenu();
     void this.router.navigate(['/inbox']);
   }
 
