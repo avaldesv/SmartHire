@@ -43,3 +43,11 @@
   opacity: 0.55;
   margin-top: 4px;
 }
+
+.inbox-show-all {
+  justify-content: center;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--mat-sys-primary, #1565c0);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}

@@ -32,5 +32,15 @@
         <div class="inbox-item-meta">{{ item.createAt | date: 'short' }}</div>
       </button>
     }
+    @if (canShowAll()) {
+      <button
+        mat-menu-item
+        class="inbox-show-all"
+        (click)="onShowAll($event)"
+        i18n="@@shell.notifications.showAll"
+      >
+        Mostrar todas
+      </button>
+    }
   }
 </mat-menu>

@@ -36,6 +36,9 @@ import { CvBulkProgressDialogComponent } from '../../../features/positions/list/
   styleUrl: './notification-bell.component.scss',
 })
 export class NotificationBellComponent implements OnInit, OnDestroy {
+  private static readonly PREVIEW_SIZE = 5;
+  private static readonly ALL_SIZE = 50;
+
   private readonly api = inject(UserNotificationApiService);
   private readonly stomp = inject(UserNotificationStompService);
   private readonly snack = inject(MatSnackBar);
@@ -45,6 +48,8 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
   readonly loading = signal(false);
   readonly unreadCount = signal(0);
   readonly items = signal<UserNotificationItem[]>([]);
+  readonly expanded = signal(false);
+  readonly totalElements = signal(0);
 
   private pushSub?: Subscription;
 
@@ -56,7 +61,11 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
       if ((n.portal ?? '').toUpperCase() !== this.portal) {
         return;
       }
-      this.items.update((list) => [n, ...list.filter((x) => x.id !== n.id)].slice(0, 20));
+      const cap = this.expanded()
+        ? NotificationBellComponent.ALL_SIZE
+        : NotificationBellComponent.PREVIEW_SIZE;
+      this.items.update((list) => [n, ...list.filter((x) => x.id !== n.id)].slice(0, cap));
+      this.totalElements.update((t) => t + 1);
       if (!n.read) {
         this.unreadCount.update((c) => c + 1);
       }
@@ -71,8 +80,19 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
     this.stomp.disconnect();
   }
 
+  canShowAll(): boolean {
+    return !this.expanded() && this.totalElements() > NotificationBellComponent.PREVIEW_SIZE;
+  }
+
   onMenuOpened(): void {
-    this.loadInbox();
+    this.expanded.set(false);
+    this.loadInbox(NotificationBellComponent.PREVIEW_SIZE);
+  }
+
+  onShowAll(event: Event): void {
+    event.stopPropagation();
+    this.expanded.set(true);
+    this.loadInbox(NotificationBellComponent.ALL_SIZE);
   }
 
   onItemClick(item: UserNotificationItem, event: Event): void {
@@ -122,11 +142,12 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
     });
   }
 
-  private loadInbox(): void {
+  private loadInbox(size: number): void {
     this.loading.set(true);
-    this.api.list(this.portal, 0, 20).subscribe({
+    this.api.list(this.portal, 0, size).subscribe({
       next: (res) => {
         this.items.set(res.data ?? []);
+        this.totalElements.set(res.pagination?.total ?? res.data?.length ?? 0);
         this.loading.set(false);
         this.refreshUnread();
       },
