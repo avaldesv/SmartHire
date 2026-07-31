@@ -7,16 +7,6 @@ Produces public/templates/Plantilla_Carga_Masiva.xlsx with the header row only.
 import os
 import zipfile
 
-HEADERS = [
-    "Nombres",
-    "Apellido Paterno",
-    "Apellido Materno",
-    "Correo",
-    "Prefijo",
-    "Telefono",
-    "Genero",
-]
-
 HEADER_LABELS = [
     "Nombres",
     "Apellido Paterno",
@@ -26,8 +16,6 @@ HEADER_LABELS = [
     "Tel\u00e9fono",
     "G\u00e9nero",
 ]
-
-SAMPLE_ROW = ["Ana", "Perez", "Lopez", "ana.perez@example.com", "+52", "5512345678", "F"]
 
 CONTENT_TYPES = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
@@ -88,13 +76,13 @@ def row_xml(index, values, style):
 def sheet_xml():
     cols = "".join(
         '<col min="%d" max="%d" width="22" customWidth="1"/>' % (i + 1, i + 1)
-        for i in range(len(HEADERS))
+        for i in range(len(HEADER_LABELS))
     )
-    rows = row_xml(1, HEADER_LABELS, 1) + row_xml(2, SAMPLE_ROW, 0)
+    rows = row_xml(1, HEADER_LABELS, 1)
     return (
         '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'
         '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'
-        '<dimension ref="A1:G2"/><sheetViews><sheetView workbookViewId="0"/></sheetViews>'
+        '<dimension ref="A1:G1"/><sheetViews><sheetView workbookViewId="0"/></sheetViews>'
         '<sheetFormatPr defaultRowHeight="15"/>'
         "<cols>%s</cols><sheetData>%s</sheetData></worksheet>" % (cols, rows)
     )
