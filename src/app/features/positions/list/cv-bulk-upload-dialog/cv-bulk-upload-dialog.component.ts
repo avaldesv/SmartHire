@@ -107,29 +107,61 @@ export class CvBulkUploadDialogComponent {
     const packed = packCvBulkFiles(this.files);
     if (packed.chunks.length === 0) {
       this.error.set(CV_BULK_NO_VALID);
+      console.warn('[cv-bulk] start blocked: no valid files', {
+        positionId: this.positionId,
+        selected: this.files.length,
+      });
       return;
     }
+    console.info('[cv-bulk] upload start', {
+      positionId: this.positionId,
+      files: packed.valid.length,
+      chunks: packed.chunks.length,
+      invalid: packed.invalid.length,
+      notifyEmail: this.notifyEmail,
+      notifyWhatsapp: this.notifyWhatsapp,
+      fileNames: packed.valid.map((f) => f.name),
+    });
     this.uploading.set(true);
     this.error.set(null);
     let jobId: number | null = null;
     try {
       for (let i = 0; i < packed.chunks.length; i++) {
         this.uploadLabel.set(`Subiendo lote ${i + 1} de ${packed.chunks.length}…`);
+        const chunk = packed.chunks[i];
+        console.info('[cv-bulk] chunk POST', {
+          positionId: this.positionId,
+          chunkIndex: i + 1,
+          chunkTotal: packed.chunks.length,
+          filesInChunk: chunk.length,
+          jobId,
+        });
+        const t0 = performance.now();
         const res: CvBulkUploadCreateResponse = await firstValueFrom(
-          this.api.uploadChunk(this.positionId, packed.chunks[i], {
+          this.api.uploadChunk(this.positionId, chunk, {
             jobId,
             notifyEmail: this.notifyEmail,
             notifyWhatsapp: this.notifyWhatsapp,
           }),
         );
         jobId = res.jobId;
+        console.info('[cv-bulk] chunk OK', {
+          jobId: res.jobId,
+          status: res.status,
+          accepted: res.acceptedCount,
+          totalCount: res.totalCount,
+          items: res.items?.map((i) => ({ itemId: i.itemId, fileName: i.fileName })),
+          elapsedMs: Math.round(performance.now() - t0),
+        });
       }
+      console.info('[cv-bulk] upload complete → open progress', { positionId: this.positionId, jobId });
       this.dialogRef.close({ started: true, jobId, positionId: this.positionId });
       this.dialog.open(CvBulkProgressDialogComponent, {
         width: '720px',
         data: { positionId: this.positionId, jobId: jobId! },
       });
-    } catch {
+    } catch (err) {
+      console.error('[cv-bulk] upload error', { positionId: this.positionId, jobId, err });
       this.error.set(CV_BULK_UPLOAD_ERROR);
       this.uploading.set(false);
     }

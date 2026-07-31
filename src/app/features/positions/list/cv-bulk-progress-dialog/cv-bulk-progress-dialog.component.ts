@@ -52,21 +52,72 @@ export class CvBulkProgressDialogComponent implements OnInit, OnDestroy {
   private sub?: Subscription;
 
   ngOnInit(): void {
+    console.info('[cv-bulk] progress poll start', {
+      positionId: this.positionId,
+      jobId: this.jobId,
+      intervalMs: 4000,
+    });
     this.sub = timer(0, 4000)
       .pipe(switchMap(() => this.api.getStatus(this.positionId, this.jobId)))
       .subscribe({
         next: (res) => {
+          const prev = this.status();
           this.status.set(res);
+          const changed =
+            !prev ||
+            prev.status !== res.status ||
+            prev.successCount !== res.successCount ||
+            prev.failedCount !== res.failedCount ||
+            prev.pendingCount !== res.pendingCount ||
+            prev.processingCount !== res.processingCount;
+          if (changed) {
+            console.info('[cv-bulk] progress status', {
+              jobId: res.jobId,
+              status: res.status,
+              success: res.successCount,
+              failed: res.failedCount,
+              pending: res.pendingCount,
+              processing: res.processingCount,
+              total: res.totalCount,
+            });
+          }
           if (res.status === 'DONE' || res.status === 'ERROR') {
+            console.info('[cv-bulk] progress finished', {
+              jobId: res.jobId,
+              status: res.status,
+              successes: res.successes?.map((s) => ({
+                file: s.fileName,
+                outcome: s.outcome,
+                label: s.reportLabel,
+                email: s.email,
+                candidateId: s.candidateId,
+              })),
+              failures: res.failures?.map((f) => ({
+                file: f.fileName,
+                code: f.errorCode,
+                msg: f.errorMessage,
+              })),
+            });
             this.done.set(true);
             this.sub?.unsubscribe();
           }
         },
-        error: () => undefined,
+        error: (err) => {
+          console.error('[cv-bulk] progress poll error', {
+            positionId: this.positionId,
+            jobId: this.jobId,
+            err,
+          });
+        },
       });
   }
 
   ngOnDestroy(): void {
+    console.info('[cv-bulk] progress dialog destroy', {
+      positionId: this.positionId,
+      jobId: this.jobId,
+      done: this.done(),
+    });
     this.sub?.unsubscribe();
   }
 
