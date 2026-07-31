@@ -1,0 +1,28 @@
+<div class="sh-page">
+  <sh-page-header [title]="pageTitle" [subtitle]="pageSubtitle" />
+
+  @if (loading) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else if (data.length === 0) {
+    <div class="inbox-empty sh-card" i18n="@@shell.notifications.empty">Sin notificaciones</div>
+  } @else {
+    <div class="sh-card inbox-list">
+      @for (item of data; track item.id) {
+        <button type="button" class="inbox-row" [class.unread]="!item.read" (click)="onItemClick(item)">
+          <div class="inbox-row-main">
+            <div class="inbox-row-title">{{ item.title }}</div>
+            <div class="inbox-row-body">{{ item.body }}</div>
+          </div>
+          <div class="inbox-row-meta">{{ item.createAt | date: 'short' }}</div>
+        </button>
+      }
+      <mat-paginator
+        [length]="total"
+        [pageSize]="pageSize"
+        [pageIndex]="pageIndex"
+        [pageSizeOptions]="[10, 20, 50]"
+        (page)="onPage($event)"
+      />
+    </div>
+  }
+</div>

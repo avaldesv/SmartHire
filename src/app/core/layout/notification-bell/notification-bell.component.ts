@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserNotificationApiService } from '../../services/user-notification-api.service';
 import { UserNotificationStompService } from '../../services/user-notification-stomp.service';
@@ -37,18 +38,17 @@ import { CvBulkProgressDialogComponent } from '../../../features/positions/list/
 })
 export class NotificationBellComponent implements OnInit, OnDestroy {
   private static readonly PREVIEW_SIZE = 5;
-  private static readonly ALL_SIZE = 50;
 
   private readonly api = inject(UserNotificationApiService);
   private readonly stomp = inject(UserNotificationStompService);
   private readonly snack = inject(MatSnackBar);
   private readonly dialog = inject(MatDialog);
+  private readonly router = inject(Router);
 
   readonly portal = 'RECRUITER' as const;
   readonly loading = signal(false);
   readonly unreadCount = signal(0);
   readonly items = signal<UserNotificationItem[]>([]);
-  readonly expanded = signal(false);
   readonly totalElements = signal(0);
 
   private pushSub?: Subscription;
@@ -61,10 +61,9 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
       if ((n.portal ?? '').toUpperCase() !== this.portal) {
         return;
       }
-      const cap = this.expanded()
-        ? NotificationBellComponent.ALL_SIZE
-        : NotificationBellComponent.PREVIEW_SIZE;
-      this.items.update((list) => [n, ...list.filter((x) => x.id !== n.id)].slice(0, cap));
+      this.items.update((list) =>
+        [n, ...list.filter((x) => x.id !== n.id)].slice(0, NotificationBellComponent.PREVIEW_SIZE),
+      );
       this.totalElements.update((t) => t + 1);
       if (!n.read) {
         this.unreadCount.update((c) => c + 1);
@@ -81,18 +80,18 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
   }
 
   canShowAll(): boolean {
-    return !this.expanded() && this.totalElements() > NotificationBellComponent.PREVIEW_SIZE;
+    return this.totalElements() > NotificationBellComponent.PREVIEW_SIZE;
   }
 
   onMenuOpened(): void {
-    this.expanded.set(false);
+    this.items.set([]);
     this.loadInbox(NotificationBellComponent.PREVIEW_SIZE);
   }
 
   onShowAll(event: Event): void {
+    event.preventDefault();
     event.stopPropagation();
-    this.expanded.set(true);
-    this.loadInbox(NotificationBellComponent.ALL_SIZE);
+    void this.router.navigate(['/inbox']);
   }
 
   onItemClick(item: UserNotificationItem, event: Event): void {
