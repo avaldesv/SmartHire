@@ -2,12 +2,20 @@ export {
   DASHBOARD_ACTION_APPROVE_CANCELLATION as POSITIONS_ACTION_APPROVE_CANCELLATION,
   DASHBOARD_ACTION_CANCEL_DIRECT as POSITIONS_ACTION_CANCEL_DIRECT,
   DASHBOARD_ACTION_DUPLICATE as POSITIONS_ACTION_DUPLICATE,
+  DASHBOARD_ACTION_EXECUTE_CANCELLATION as POSITIONS_ACTION_EXECUTE_CANCELLATION,
+  DASHBOARD_ACTION_HISTORY as POSITIONS_ACTION_HISTORY,
+  DASHBOARD_ACTION_REASSIGN as POSITIONS_ACTION_REASSIGN,
   DASHBOARD_ACTION_REJECT_CANCELLATION as POSITIONS_ACTION_REJECT_CANCELLATION,
   DASHBOARD_ACTION_REQUEST_CANCELLATION as POSITIONS_ACTION_REQUEST_CANCELLATION,
   DASHBOARD_APPROVE_CANCELLATION_ERROR as POSITIONS_APPROVE_CANCELLATION_ERROR,
   DASHBOARD_APPROVE_CANCELLATION_SUCCESS as POSITIONS_APPROVE_CANCELLATION_SUCCESS,
   DASHBOARD_CANCEL_ERROR as POSITIONS_CANCEL_ERROR,
   DASHBOARD_CANCEL_SUCCESS as POSITIONS_CANCEL_SUCCESS,
+  DASHBOARD_EXECUTE_CANCELLATION_ERROR as POSITIONS_EXECUTE_CANCELLATION_ERROR,
+  DASHBOARD_EXECUTE_CANCELLATION_SUCCESS as POSITIONS_EXECUTE_CANCELLATION_SUCCESS,
+  DASHBOARD_HISTORY_LOAD_ERROR as POSITIONS_HISTORY_LOAD_ERROR,
+  DASHBOARD_REASSIGN_ERROR as POSITIONS_REASSIGN_ERROR,
+  DASHBOARD_REASSIGN_SUCCESS as POSITIONS_REASSIGN_SUCCESS,
   DASHBOARD_CLEAR_FILTERS as POSITIONS_CLEAR_FILTERS,
   DASHBOARD_COL_BRAND as POSITIONS_COL_BRAND,
   DASHBOARD_COL_CATEGORY as POSITIONS_COL_CATEGORY,
@@ -38,6 +46,7 @@ export {
   dashboardApproveCancellationConfirm as positionsApproveCancellationConfirm,
   dashboardCancelConfirm as positionsCancelConfirm,
   dashboardDuplicateSuccess as positionsDuplicateSuccess,
+  dashboardExecuteCancellationConfirm as positionsExecuteCancellationConfirm,
   dashboardRejectCancellationConfirm as positionsRejectCancellationConfirm,
   dashboardRequestCancellationConfirm as positionsRequestCancellationConfirm,
   buildDuplicatedPositionName as buildDuplicatedPositionName,
@@ -60,6 +69,20 @@ export const POSITIONS_COL_APPLICANTS = $localize`:@@positions.column.applicants
 export const POSITIONS_COL_PRESELECTION = $localize`:@@positions.column.preselection:Preselección`;
 export const POSITIONS_COL_FIRST_DAY = $localize`:@@positions.column.firstDay:Primer día`;
 export const POSITIONS_COL_GROUP = $localize`:@@positions.column.group:Grupo`;
+export const POSITIONS_COL_SUPERVISOR = $localize`:@@positions.column.supervisor:Supervisor`;
+export const POSITIONS_COL_SCOPE = $localize`:@@positions.column.cancellationScope:Alcance cancelación`;
+export const POSITIONS_REASON_DIALOG_TITLE = $localize`:@@positions.reasonDialog.title:Motivo`;
+export const POSITIONS_REASON_DIALOG_LABEL = $localize`:@@positions.reasonDialog.label:Motivo de la acción`;
+export const POSITIONS_REASON_DIALOG_REQUIRED = $localize`:@@positions.reasonDialog.required:El motivo es obligatorio`;
+export const POSITIONS_REASON_DIALOG_CONFIRM = $localize`:@@positions.reasonDialog.confirm:Confirmar`;
+export const POSITIONS_REASON_DIALOG_CANCEL = $localize`:@@positions.reasonDialog.cancel:Cancelar`;
+export const POSITIONS_HISTORY_TITLE = $localize`:@@positions.history.title:Historial de la requisición`;
+export const POSITIONS_HISTORY_EMPTY = $localize`:@@positions.history.empty:Sin eventos registrados`;
+export const POSITIONS_HISTORY_CLOSE = $localize`:@@positions.history.close:Cerrar`;
+export const POSITIONS_REASSIGN_TITLE = $localize`:@@positions.reassign.title:Reasignar reclutador`;
+export const POSITIONS_REASSIGN_USER = $localize`:@@positions.reassign.user:Nuevo reclutador`;
+export const POSITIONS_REASSIGN_REASON = $localize`:@@positions.reassign.reason:Motivo (opcional)`;
+export const POSITIONS_REASSIGN_CONFIRM = $localize`:@@positions.reassign.confirm:Reasignar`;
 export const POSITIONS_ACTION_GO_SELECTION_ARIA = $localize`:@@positions.action.goSelectionAria:Ir a selección`;
 export const POSITIONS_ACTION_MORE_ARIA = $localize`:@@positions.action.moreAria:Más acciones`;
 export const POSITIONS_ACTION_GENERATE_PUBLICATION = $localize`:@@positions.action.generatePublication:Generar publicación`;

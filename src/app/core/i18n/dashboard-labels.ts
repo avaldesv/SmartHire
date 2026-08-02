@@ -44,9 +44,12 @@ export const DASHBOARD_ACTION_APPLY_CANDIDATES = $localize`:@@dashboard.action.a
 export const DASHBOARD_ACTION_VIEW_APPLICANTS = $localize`:@@dashboard.action.viewApplicants:Ver postulados`;
 export const DASHBOARD_ACTION_DUPLICATE = $localize`:@@dashboard.action.duplicate:Duplicar`;
 export const DASHBOARD_ACTION_REQUEST_CANCELLATION = $localize`:@@dashboard.action.requestCancellation:Solicitar cancelación`;
-export const DASHBOARD_ACTION_APPROVE_CANCELLATION = $localize`:@@dashboard.action.approveCancellation:Aprobar cancelación`;
+export const DASHBOARD_ACTION_APPROVE_CANCELLATION = $localize`:@@dashboard.action.approveCancellation:Autorizar cancelación`;
 export const DASHBOARD_ACTION_REJECT_CANCELLATION = $localize`:@@dashboard.action.rejectCancellation:Rechazar solicitud`;
+export const DASHBOARD_ACTION_EXECUTE_CANCELLATION = $localize`:@@dashboard.action.executeCancellation:Ejecutar cancelación`;
 export const DASHBOARD_ACTION_CANCEL_DIRECT = $localize`:@@dashboard.action.cancelDirect:Cancelar directamente`;
+export const DASHBOARD_ACTION_REASSIGN = $localize`:@@dashboard.action.reassign:Reasignar reclutador`;
+export const DASHBOARD_ACTION_HISTORY = $localize`:@@dashboard.action.history:Ver historial`;
 
 export const DASHBOARD_PAGINATOR_ARIA = $localize`:@@dashboard.paginatorAria:Paginación de solicitudes`;
 export const DASHBOARD_SNACK_CLOSE = $localize`:@@common.close:Cerrar`;
@@ -59,10 +62,15 @@ export const DASHBOARD_CANCEL_SUCCESS = $localize`:@@dashboard.success.cancelled
 export const DASHBOARD_CANCEL_ERROR = $localize`:@@dashboard.errors.cancel:No se pudo cancelar la requisición`;
 export const DASHBOARD_REQUEST_CANCELLATION_SUCCESS = $localize`:@@dashboard.success.requestCancellation:Solicitud de cancelación enviada`;
 export const DASHBOARD_REQUEST_CANCELLATION_ERROR = $localize`:@@dashboard.errors.requestCancellation:No se pudo solicitar la cancelación`;
-export const DASHBOARD_APPROVE_CANCELLATION_SUCCESS = $localize`:@@dashboard.success.approveCancellation:Cancelación aprobada`;
-export const DASHBOARD_APPROVE_CANCELLATION_ERROR = $localize`:@@dashboard.errors.approveCancellation:No se pudo aprobar la cancelación`;
+export const DASHBOARD_APPROVE_CANCELLATION_SUCCESS = $localize`:@@dashboard.success.approveCancellation:Cancelación autorizada`;
+export const DASHBOARD_APPROVE_CANCELLATION_ERROR = $localize`:@@dashboard.errors.approveCancellation:No se pudo autorizar la cancelación`;
+export const DASHBOARD_EXECUTE_CANCELLATION_SUCCESS = $localize`:@@dashboard.success.executeCancellation:Cancelación ejecutada`;
+export const DASHBOARD_EXECUTE_CANCELLATION_ERROR = $localize`:@@dashboard.errors.executeCancellation:No se pudo ejecutar la cancelación`;
 export const DASHBOARD_REJECT_CANCELLATION_SUCCESS = $localize`:@@dashboard.success.rejectCancellation:Solicitud de cancelación rechazada`;
 export const DASHBOARD_REJECT_CANCELLATION_ERROR = $localize`:@@dashboard.errors.rejectCancellation:No se pudo rechazar la solicitud`;
+export const DASHBOARD_REASSIGN_SUCCESS = $localize`:@@dashboard.success.reassign:Reclutador reasignado`;
+export const DASHBOARD_REASSIGN_ERROR = $localize`:@@dashboard.errors.reassign:No se pudo reasignar el reclutador`;
+export const DASHBOARD_HISTORY_LOAD_ERROR = $localize`:@@dashboard.errors.historyLoad:No se pudo cargar el historial`;
 
 export function dashboardDuplicateSuccess(id: number): string {
   return $localize`:@@dashboard.success.duplicated:Posición duplicada: REQ-${id}:id:`;
@@ -85,11 +93,15 @@ export function dashboardRequestCancellationConfirm(requisitionNo: string): stri
 }
 
 export function dashboardApproveCancellationConfirm(requisitionNo: string): string {
-  return $localize`:@@dashboard.confirm.approveCancellation:¿Aprobar cancelación de ${requisitionNo}:requisitionNo:? La requisición será eliminada.`;
+  return $localize`:@@dashboard.confirm.approveCancellation:¿Autorizar cancelación de ${requisitionNo}:requisitionNo:? Quedará pendiente de ejecución.`;
 }
 
 export function dashboardRejectCancellationConfirm(requisitionNo: string): string {
-  return $localize`:@@dashboard.confirm.rejectCancellation:¿Rechazar solicitud de cancelación de ${requisitionNo}:requisitionNo:? Volverá a borrador.`;
+  return $localize`:@@dashboard.confirm.rejectCancellation:¿Rechazar solicitud de cancelación de ${requisitionNo}:requisitionNo:? Volverá al estado anterior.`;
+}
+
+export function dashboardExecuteCancellationConfirm(requisitionNo: string): string {
+  return $localize`:@@dashboard.confirm.executeCancellation:¿Ejecutar la cancelación autorizada de ${requisitionNo}:requisitionNo:?`;
 }
 
 export function dashboardCandidatesApplied(count: number, requisitionNo: string): string {

@@ -15,7 +15,10 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
 import { debounceTime } from 'rxjs';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { PermissionService } from '../../../core/services/permission.service';
 import { PositionService } from '../../../core/services/position.service';
+import { AppPermissions } from '../../../core/auth/app-permissions';
 import {
   RequisitionScopeDialogComponent,
   RequisitionScopeDialogResult,
@@ -38,10 +41,13 @@ import {
   POSITIONS_ACTION_APPROVE_CANCELLATION,
   POSITIONS_ACTION_CANCEL_DIRECT,
   POSITIONS_ACTION_DUPLICATE,
+  POSITIONS_ACTION_EXECUTE_CANCELLATION,
   POSITIONS_ACTION_GENERATE_PUBLICATION,
+  POSITIONS_ACTION_HISTORY,
   POSITIONS_ACTION_PUBLISH_ON_PORTAL,
   POSITIONS_ACTION_GO_SELECTION_ARIA,
   POSITIONS_ACTION_MORE_ARIA,
+  POSITIONS_ACTION_REASSIGN,
   POSITIONS_ACTION_REJECT_CANCELLATION,
   POSITIONS_ACTION_REQUEST_CANCELLATION,
   POSITIONS_APPROVE_CANCELLATION_ERROR,
@@ -65,10 +71,14 @@ import {
   POSITIONS_COL_PRESELECTION,
   POSITIONS_COL_RECRUITER,
   POSITIONS_COL_REQUISITION,
+  POSITIONS_COL_SCOPE,
   POSITIONS_COL_STATE,
   POSITIONS_COL_STATUS,
+  POSITIONS_COL_SUPERVISOR,
   POSITIONS_COL_TYPE,
   POSITIONS_DUPLICATE_ERROR,
+  POSITIONS_EXECUTE_CANCELLATION_ERROR,
+  POSITIONS_EXECUTE_CANCELLATION_SUCCESS,
   POSITIONS_FILTER_ALL,
   POSITIONS_FILTER_COUNTRY,
   POSITIONS_FILTER_DATE_FROM,
@@ -85,6 +95,8 @@ import {
   POSITIONS_PUBLISH_ON_PORTAL_CONFIRM,
   POSITIONS_PUBLISH_ON_PORTAL_ERROR,
   POSITIONS_PUBLISH_ON_PORTAL_SUCCESS,
+  POSITIONS_REASSIGN_ERROR,
+  POSITIONS_REASSIGN_SUCCESS,
   POSITIONS_REJECT_CANCELLATION_ERROR,
   POSITIONS_REJECT_CANCELLATION_SUCCESS,
   POSITIONS_REQUEST_CANCELLATION_ERROR,
@@ -95,6 +107,7 @@ import {
   positionsApproveCancellationConfirm,
   positionsCancelConfirm,
   positionsDuplicateSuccess,
+  positionsExecuteCancellationConfirm,
   positionsRejectCancellationConfirm,
   positionsRequestCancellationConfirm,
   buildDuplicatedPositionName,
@@ -102,8 +115,14 @@ import {
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
-import { PositionListItem } from '../../../shared/models/position.model';
+import { PositionListItem, PositionUserSummary } from '../../../shared/models/position.model';
 import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
+import { PositionEventsDialogComponent } from './position-events-dialog.component';
+import { PositionReasonDialogComponent } from './position-reason-dialog.component';
+import {
+  ReassignPositionDialogComponent,
+  ReassignPositionDialogResult,
+} from './reassign-position-dialog.component';
 
 @Component({
   selector: 'sh-positions-list',
@@ -137,6 +156,8 @@ export class PositionsListComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
+  private readonly permissions = inject(PermissionService);
+  private readonly auth = inject(AuthService);
 
   readonly pageTitle = POSITIONS_PAGE_TITLE;
   readonly pageSubtitle = POSITIONS_PAGE_SUBTITLE;
@@ -167,6 +188,8 @@ export class PositionsListComponent implements OnInit {
   readonly colCategory = POSITIONS_COL_CATEGORY;
   readonly colCountry = POSITIONS_COL_COUNTRY;
   readonly colGroup = POSITIONS_COL_GROUP;
+  readonly colSupervisor = POSITIONS_COL_SUPERVISOR;
+  readonly colScope = POSITIONS_COL_SCOPE;
   readonly colStatus = POSITIONS_COL_STATUS;
   readonly colRecruiter = POSITIONS_COL_RECRUITER;
   readonly colCreatedAt = POSITIONS_COL_CREATED_AT;
@@ -174,7 +197,10 @@ export class PositionsListComponent implements OnInit {
   readonly actionRequestCancellation = POSITIONS_ACTION_REQUEST_CANCELLATION;
   readonly actionApproveCancellation = POSITIONS_ACTION_APPROVE_CANCELLATION;
   readonly actionRejectCancellation = POSITIONS_ACTION_REJECT_CANCELLATION;
+  readonly actionExecuteCancellation = POSITIONS_ACTION_EXECUTE_CANCELLATION;
   readonly actionCancelDirect = POSITIONS_ACTION_CANCEL_DIRECT;
+  readonly actionReassign = POSITIONS_ACTION_REASSIGN;
+  readonly actionHistory = POSITIONS_ACTION_HISTORY;
   readonly actionGeneratePublication = POSITIONS_ACTION_GENERATE_PUBLICATION;
   readonly actionPublishOnPortal = POSITIONS_ACTION_PUBLISH_ON_PORTAL;
   readonly actionCvBulk = CV_BULK_ACTION;
@@ -189,7 +215,14 @@ export class PositionsListComponent implements OnInit {
   pageIndex = 0;
   pageSize = 10;
 
-  readonly statusOptions = ['Todos', 'DRAFT', 'PENDING_CANCELLATION'];
+  readonly statusOptions = [
+    'Todos',
+    'DRAFT',
+    'ACTIVE',
+    'PENDING_CANCELLATION',
+    'CANCELLATION_AUTHORIZED',
+    'CANCELLED',
+  ];
 
   readonly filters = this.fb.nonNullable.group({
     search: [''],
@@ -210,6 +243,7 @@ export class PositionsListComponent implements OnInit {
     'preselectedCount',
     'hiredCount',
     'recruiter',
+    'supervisor',
     'recruiterGroup',
     'type',
     'category',
@@ -220,8 +254,49 @@ export class PositionsListComponent implements OnInit {
     'city',
     'state',
     'status',
+    'cancellationScope',
     'actions',
   ];
+
+  canRequestCancellation(): boolean {
+    return this.isTenantAdmin() || this.permissions.hasAny([
+      AppPermissions.REQUISITION_CANCELLATION_REQUEST,
+      AppPermissions.REQUISITION_EDIT,
+    ]);
+  }
+
+  canExecuteCancellation(): boolean {
+    return (
+      this.isTenantAdmin() || this.permissions.hasAuthority(AppPermissions.REQUISITION_CANCEL_EXECUTE)
+    );
+  }
+
+  canDirectCancel(): boolean {
+    return this.isTenantAdmin() || this.permissions.hasAny([
+      AppPermissions.REQUISITION_CANCEL_DIRECT,
+      AppPermissions.REQUISITION_DELETE,
+    ]);
+  }
+
+  canEdit(): boolean {
+    return this.isTenantAdmin() || this.permissions.hasAuthority(AppPermissions.REQUISITION_EDIT);
+  }
+
+  private isTenantAdmin(): boolean {
+    if (this.permissions.isGlobalAdmin()) {
+      return true;
+    }
+    const roles = this.auth.currentUser()?.roles ?? [];
+    return roles.includes('ADMIN') || roles.includes('GLOBAL_ADMIN');
+  }
+
+  userDisplayName(user?: PositionUserSummary | null): string {
+    if (!user) {
+      return '—';
+    }
+    const name = `${user.name ?? ''} ${user.lastName ?? ''}`.trim();
+    return name || user.email || '—';
+  }
 
   statusLabel(status: string): string {
     return status === 'Todos' ? this.filterAll : status;
@@ -331,40 +406,68 @@ export class PositionsListComponent implements OnInit {
   }
 
   cancelPosition(row: PositionListItem): void {
+    if (!this.canDirectCancel() || row.status === 'CANCELLED') {
+      return;
+    }
     if (!confirm(positionsCancelConfirm(row.requisitionNo))) {
       return;
     }
-    this.positionService.delete(row.id).subscribe({
-      next: () => {
-        this.load();
-        this.snack.open(POSITIONS_CANCEL_SUCCESS, POSITIONS_SNACK_CLOSE, { duration: 3000 });
-      },
-      error: () => {
-        this.snack.open(POSITIONS_CANCEL_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
-      },
-    });
+    this.dialog
+      .open(PositionReasonDialogComponent, {
+        width: '480px',
+        data: { required: false, title: this.actionCancelDirect },
+      })
+      .afterClosed()
+      .subscribe((reason: string | null | undefined) => {
+        if (reason === undefined) {
+          return;
+        }
+        this.positionService.delete(row.id, reason).subscribe({
+          next: () => {
+            this.load();
+            this.snack.open(POSITIONS_CANCEL_SUCCESS, POSITIONS_SNACK_CLOSE, { duration: 3000 });
+          },
+          error: () => {
+            this.snack.open(POSITIONS_CANCEL_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
+          },
+        });
+      });
   }
 
   requestCancellation(row: PositionListItem): void {
-    if (row.status !== 'DRAFT') {
+    if (!this.canRequestCancellation()) {
+      return;
+    }
+    if (row.status !== 'DRAFT' && row.status !== 'ACTIVE') {
       return;
     }
     if (!confirm(positionsRequestCancellationConfirm(row.requisitionNo))) {
       return;
     }
-    this.positionService.requestCancellation(row.id).subscribe({
-      next: () => {
-        this.load();
-        this.snack.open(POSITIONS_REQUEST_CANCELLATION_SUCCESS, POSITIONS_SNACK_CLOSE, { duration: 3000 });
-      },
-      error: () => {
-        this.snack.open(POSITIONS_REQUEST_CANCELLATION_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
-      },
-    });
+    this.dialog
+      .open(PositionReasonDialogComponent, {
+        width: '480px',
+        data: { required: true, title: this.actionRequestCancellation },
+      })
+      .afterClosed()
+      .subscribe((reason: string | null | undefined) => {
+        if (!reason) {
+          return;
+        }
+        this.positionService.requestCancellation(row.id, reason).subscribe({
+          next: () => {
+            this.load();
+            this.snack.open(POSITIONS_REQUEST_CANCELLATION_SUCCESS, POSITIONS_SNACK_CLOSE, { duration: 3000 });
+          },
+          error: () => {
+            this.snack.open(POSITIONS_REQUEST_CANCELLATION_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
+          },
+        });
+      });
   }
 
   approveCancellation(row: PositionListItem): void {
-    if (row.status !== 'PENDING_CANCELLATION') {
+    if (!this.canEdit() || row.status !== 'PENDING_CANCELLATION') {
       return;
     }
     if (!confirm(positionsApproveCancellationConfirm(row.requisitionNo))) {
@@ -382,21 +485,83 @@ export class PositionsListComponent implements OnInit {
   }
 
   rejectCancellation(row: PositionListItem): void {
-    if (row.status !== 'PENDING_CANCELLATION') {
+    if (!this.canEdit() || row.status !== 'PENDING_CANCELLATION') {
       return;
     }
     if (!confirm(positionsRejectCancellationConfirm(row.requisitionNo))) {
       return;
     }
-    this.positionService.rejectCancellation(row.id).subscribe({
+    this.dialog
+      .open(PositionReasonDialogComponent, {
+        width: '480px',
+        data: { required: false, title: this.actionRejectCancellation },
+      })
+      .afterClosed()
+      .subscribe((reason: string | null | undefined) => {
+        if (reason === undefined) {
+          return;
+        }
+        this.positionService.rejectCancellation(row.id, reason).subscribe({
+          next: () => {
+            this.load();
+            this.snack.open(POSITIONS_REJECT_CANCELLATION_SUCCESS, POSITIONS_SNACK_CLOSE, { duration: 3000 });
+          },
+          error: () => {
+            this.snack.open(POSITIONS_REJECT_CANCELLATION_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
+          },
+        });
+      });
+  }
+
+  executeCancellation(row: PositionListItem): void {
+    if (!this.canExecuteCancellation() || row.status !== 'CANCELLATION_AUTHORIZED') {
+      return;
+    }
+    if (!confirm(positionsExecuteCancellationConfirm(row.requisitionNo))) {
+      return;
+    }
+    this.positionService.executeCancellation(row.id).subscribe({
       next: () => {
         this.load();
-        this.snack.open(POSITIONS_REJECT_CANCELLATION_SUCCESS, POSITIONS_SNACK_CLOSE, { duration: 3000 });
+        this.snack.open(POSITIONS_EXECUTE_CANCELLATION_SUCCESS, POSITIONS_SNACK_CLOSE, { duration: 3000 });
       },
       error: () => {
-        this.snack.open(POSITIONS_REJECT_CANCELLATION_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
+        this.snack.open(POSITIONS_EXECUTE_CANCELLATION_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
       },
     });
+  }
+
+  openHistory(row: PositionListItem): void {
+    this.dialog.open(PositionEventsDialogComponent, {
+      width: '560px',
+      data: { positionId: row.id, requisitionNo: row.requisitionNo },
+    });
+  }
+
+  reassignPosition(row: PositionListItem): void {
+    if (!this.canEdit() || row.status === 'CANCELLED') {
+      return;
+    }
+    this.dialog
+      .open(ReassignPositionDialogComponent, {
+        width: '480px',
+        data: { currentAssignedUserId: row.assignedUserId },
+      })
+      .afterClosed()
+      .subscribe((result: ReassignPositionDialogResult | null | undefined) => {
+        if (!result) {
+          return;
+        }
+        this.positionService.reassign(row.id, result).subscribe({
+          next: () => {
+            this.load();
+            this.snack.open(POSITIONS_REASSIGN_SUCCESS, POSITIONS_SNACK_CLOSE, { duration: 3000 });
+          },
+          error: () => {
+            this.snack.open(POSITIONS_REASSIGN_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
+          },
+        });
+      });
   }
 
   generatePublication(row: PositionListItem): void {

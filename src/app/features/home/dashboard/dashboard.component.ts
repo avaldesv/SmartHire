@@ -22,6 +22,7 @@ import {
   CvBulkUploadDialogComponent,
   CvBulkUploadDialogData,
 } from '../../positions/list/cv-bulk-upload-dialog/cv-bulk-upload-dialog.component';
+import { PositionReasonDialogComponent } from '../../positions/list/position-reason-dialog.component';
 import {
   DASHBOARD_ACTION_APPLY_CANDIDATES,
   DASHBOARD_ACTION_APPROVE_CANCELLATION,
@@ -194,7 +195,7 @@ export class DashboardComponent implements OnInit {
 
   kpis = { totalPositions: 0, preselected: 0, interested: 0 };
 
-  readonly statusOptions = ['Todos', 'DRAFT', 'PENDING_CANCELLATION'];
+  readonly statusOptions = ['Todos', 'DRAFT', 'ACTIVE', 'PENDING_CANCELLATION', 'CANCELLATION_AUTHORIZED', 'CANCELLED'];
 
   readonly displayedColumns = [
     'requisitionNo',
@@ -320,37 +321,62 @@ export class DashboardComponent implements OnInit {
   }
 
   cancelPosition(row: PositionListItem): void {
+    if (row.status === 'CANCELLED') {
+      return;
+    }
     if (!confirm(dashboardCancelConfirm(row.requisitionNo))) {
       return;
     }
-    this.positionService.delete(row.id).subscribe({
-      next: () => {
-        this.loadKpis();
-        this.loadData();
-        this.snack.open(DASHBOARD_CANCEL_SUCCESS, DASHBOARD_SNACK_CLOSE, { duration: 3000 });
-      },
-      error: () => {
-        this.snack.open(DASHBOARD_CANCEL_ERROR, DASHBOARD_SNACK_CLOSE, { duration: 4000 });
-      },
-    });
+    this.dialog
+      .open(PositionReasonDialogComponent, {
+        width: '480px',
+        data: { required: false, title: DASHBOARD_ACTION_CANCEL_DIRECT },
+      })
+      .afterClosed()
+      .subscribe((reason: string | null | undefined) => {
+        if (reason === undefined) {
+          return;
+        }
+        this.positionService.delete(row.id, reason).subscribe({
+          next: () => {
+            this.loadKpis();
+            this.loadData();
+            this.snack.open(DASHBOARD_CANCEL_SUCCESS, DASHBOARD_SNACK_CLOSE, { duration: 3000 });
+          },
+          error: () => {
+            this.snack.open(DASHBOARD_CANCEL_ERROR, DASHBOARD_SNACK_CLOSE, { duration: 4000 });
+          },
+        });
+      });
   }
 
   requestCancellation(row: PositionListItem): void {
-    if (row.status !== 'DRAFT') {
+    if (row.status !== 'DRAFT' && row.status !== 'ACTIVE') {
       return;
     }
     if (!confirm(dashboardRequestCancellationConfirm(row.requisitionNo))) {
       return;
     }
-    this.positionService.requestCancellation(row.id).subscribe({
-      next: () => {
-        this.loadData();
-        this.snack.open(DASHBOARD_REQUEST_CANCELLATION_SUCCESS, DASHBOARD_SNACK_CLOSE, { duration: 3000 });
-      },
-      error: () => {
-        this.snack.open(DASHBOARD_REQUEST_CANCELLATION_ERROR, DASHBOARD_SNACK_CLOSE, { duration: 4000 });
-      },
-    });
+    this.dialog
+      .open(PositionReasonDialogComponent, {
+        width: '480px',
+        data: { required: true, title: DASHBOARD_ACTION_REQUEST_CANCELLATION },
+      })
+      .afterClosed()
+      .subscribe((reason: string | null | undefined) => {
+        if (!reason) {
+          return;
+        }
+        this.positionService.requestCancellation(row.id, reason).subscribe({
+          next: () => {
+            this.loadData();
+            this.snack.open(DASHBOARD_REQUEST_CANCELLATION_SUCCESS, DASHBOARD_SNACK_CLOSE, { duration: 3000 });
+          },
+          error: () => {
+            this.snack.open(DASHBOARD_REQUEST_CANCELLATION_ERROR, DASHBOARD_SNACK_CLOSE, { duration: 4000 });
+          },
+        });
+      });
   }
 
   approveCancellation(row: PositionListItem): void {
