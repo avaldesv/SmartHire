@@ -106,18 +106,40 @@ a:hover { text-decoration: underline; }
   display: none !important;
 }
 
-/* Catalog create/edit dialogs: full-bleed teal title bar + room for outline labels */
+/* Catalog create/edit dialogs — header bar + spacing (panelClass on overlay pane) */
 .sh-catalog-form-dialog-panel .mat-mdc-dialog-surface {
   padding-top: 0 !important;
   overflow: hidden;
 }
 
-.sh-catalog-form-dialog-panel .mat-mdc-dialog-title {
+.sh-catalog-form-dialog-panel .sh-catalog-dialog-header.mat-mdc-dialog-title,
+.sh-catalog-form-dialog-panel .mat-mdc-dialog-title.sh-catalog-dialog-header {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
   margin: 0 !important;
-  padding: 16px 24px !important;
+  padding: 18px 24px !important;
+  background: #ccfbf1 !important; /* teal-100 — claramente distinto del blanco */
+  border-bottom: 1px solid #99f6e4 !important;
+  color: #0f172a !important;
+  font-size: 1.125rem !important;
+  font-weight: 600 !important;
+  line-height: 1.35 !important;
 }
 
-.sh-catalog-form-dialog-panel .mat-mdc-dialog-content {
-  padding-top: 24px !important;
+.sh-catalog-form-dialog-panel .sh-catalog-dialog-header__text {
+  display: block;
 }
+
+/* Material zeroes padding-top when title precedes content — force space for outline labels */
+.sh-catalog-form-dialog-panel .mat-mdc-dialog-content.sh-catalog-dialog-body,
+.sh-catalog-form-dialog-panel .mat-mdc-dialog-title + .mat-mdc-dialog-content {
+  padding-top: 28px !important;
+}
+
+.sh-catalog-form-dialog-panel .sh-catalog-dialog-body {
+  min-width: min(640px, 92vw);
+  max-width: 920px;
+}
+
 
