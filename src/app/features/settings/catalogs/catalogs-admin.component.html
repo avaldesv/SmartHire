@@ -45,9 +45,7 @@
         </button>
       </div>
 
-      @if (showGenderForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingGenderId ? panelUi('gender').editTitle : panelUi('gender').newTitle }}</h4>
+      <ng-template catalogFormTpl="gender">
             @if (isGlobalAdmin() && !editingGenderId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -88,8 +86,7 @@
               </button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
 
       @if (loadingGenders) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
@@ -153,9 +150,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('kinship').newButton }}
         </button>
       </div>
-      @if (showKinshipForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingKinshipId ? panelUi('kinship').editTitle : panelUi('kinship').newTitle }}</h4>
+      <ng-template catalogFormTpl="kinship">
             @if (isGlobalAdmin() && !editingKinshipId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -175,8 +170,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingKinship">{{ savingKinship ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingKinships) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -223,9 +217,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('company').newButton }}
         </button>
       </div>
-      @if (showCompanyForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingCompanyId ? panelUi('company').editTitle : panelUi('company').newTitle }}</h4>
+      <ng-template catalogFormTpl="company">
           @if (loadingCompanyDetail) {
             <div class="loading-wrap"><mat-spinner diameter="28" /></div>
           } @else {
@@ -269,8 +261,7 @@
             </div>
           </form>
           }
-        </div>
-      }
+      </ng-template>
       @if (loadingCompanies) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -315,9 +306,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('currency').newButton }}
         </button>
       </div>
-      @if (showCurrencyForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingCurrencyId ? panelUi('currency').editTitle : panelUi('currency').newTitle }}</h4>
+      <ng-template catalogFormTpl="currency">
             @if (isGlobalAdmin() && !editingCurrencyId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -348,8 +337,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingCurrency">{{ savingCurrency ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingCurrencies) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -398,9 +386,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('career').newButton }}
         </button>
       </div>
-      @if (showCareerForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingCareerId ? panelUi('career').editTitle : panelUi('career').newTitle }}</h4>
+      <ng-template catalogFormTpl="career">
             @if (isGlobalAdmin() && !editingCareerId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -429,8 +415,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingCareer">{{ savingCareer ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingCareers) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -469,9 +454,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('language').newButton }}
         </button>
       </div>
-      @if (showLanguageForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingLanguageId ? panelUi('language').editTitle : panelUi('language').newTitle }}</h4>
+      <ng-template catalogFormTpl="language">
             @if (isGlobalAdmin() && !editingLanguageId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -500,8 +483,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingLanguage">{{ savingLanguage ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingLanguages) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -548,9 +530,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('shift').newButton }}
         </button>
       </div>
-      @if (showShiftForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingShiftId ? panelUi('shift').editTitle : panelUi('shift').newTitle }}</h4>
+      <ng-template catalogFormTpl="shift">
             @if (isGlobalAdmin() && !editingShiftId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -579,8 +559,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingShift">{{ savingShift ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingShifts) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -627,9 +606,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('benefit').newButton }}
         </button>
       </div>
-      @if (showBenefitForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingBenefitId ? panelUi('benefit').editTitle : panelUi('benefit').newTitle }}</h4>
+      <ng-template catalogFormTpl="benefit">
             @if (isGlobalAdmin() && !editingBenefitId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -658,8 +635,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingBenefit">{{ savingBenefit ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingBenefits) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -706,9 +682,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('documentType').newButton }}
         </button>
       </div>
-      @if (showDocumentTypeForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingDocumentTypeId ? panelUi('documentType').editTitle : panelUi('documentType').newTitle }}</h4>
+      <ng-template catalogFormTpl="documentType">
             @if (isGlobalAdmin() && !editingDocumentTypeId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -783,8 +757,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingDocumentType">{{ savingDocumentType ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingDocumentTypes) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -835,9 +808,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('fileExtension').newButton }}
         </button>
       </div>
-      @if (showFileExtensionForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingFileExtensionId ? panelUi('fileExtension').editTitle : panelUi('fileExtension').newTitle }}</h4>
+      <ng-template catalogFormTpl="fileExtension">
             @if (isGlobalAdmin() && !editingFileExtensionId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -868,8 +839,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingFileExtension">{{ savingFileExtension ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingFileExtensions) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -918,9 +888,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('brand').newButton }}
         </button>
       </div>
-      @if (showBrandForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingBrandId ? panelUi('brand').editTitle : panelUi('brand').newTitle }}</h4>
+      <ng-template catalogFormTpl="brand">
             @if (isGlobalAdmin() && !editingBrandId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -949,8 +917,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingBrand">{{ savingBrand ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingBrands) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -997,9 +964,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('documentType').newButton }} de contrato
         </button>
       </div>
-      @if (showContractTypeForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingContractTypeId ? panelUi('contractType').editTitle : panelUi('contractType').newTitle }}</h4>
+      <ng-template catalogFormTpl="contractType">
             @if (isGlobalAdmin() && !editingContractTypeId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1029,8 +994,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingContractType">{{ savingContractType ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingContractTypes) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -1079,15 +1043,7 @@
           {{ panelUi('coverageType').newButton }}
         </button>
       </div>
-      @if (showCoverageTypeForm) {
-        <div class="sh-card form-card">
-          <h4>
-            @if (editingCoverageTypeId) {
-              {{ panelUi('coverageType').editTitle }}
-            } @else {
-              {{ panelUi('coverageType').newTitle }}
-            }
-          </h4>
+      <ng-template catalogFormTpl="coverageType">
             @if (isGlobalAdmin() && !editingCoverageTypeId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1123,8 +1079,7 @@
               </button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingCoverageTypes) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -1172,9 +1127,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('educationLevel').newButton }}
         </button>
       </div>
-      @if (showEducationLevelForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingEducationLevelId ? panelUi('educationLevel').editTitle : panelUi('educationLevel').newTitle }}</h4>
+      <ng-template catalogFormTpl="educationLevel">
             @if (isGlobalAdmin() && !editingEducationLevelId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1205,8 +1158,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingEducationLevel">{{ savingEducationLevel ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingEducationLevels) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -1255,9 +1207,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('languageLevel').newButton }}
         </button>
       </div>
-      @if (showLanguageLevelForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingLanguageLevelId ? panelUi('languageLevel').editTitle : panelUi('languageLevel').newTitle }}</h4>
+      <ng-template catalogFormTpl="languageLevel">
             @if (isGlobalAdmin() && !editingLanguageLevelId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1287,8 +1237,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingLanguageLevel">{{ savingLanguageLevel ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingLanguageLevels) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -1336,9 +1285,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('documentType').newButton }} de requisición
         </button>
       </div>
-      @if (showRequisitionTypeForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingRequisitionTypeId ? panelUi('requisitionType').editTitle : panelUi('requisitionType').newTitle }}</h4>
+      <ng-template catalogFormTpl="requisitionType">
             @if (isGlobalAdmin() && !editingRequisitionTypeId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1368,8 +1315,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingRequisitionType">{{ savingRequisitionType ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingRequisitionTypes) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -1418,9 +1364,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('companyArea').newButton }}
         </button>
       </div>
-      @if (showCompanyAreaForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingCompanyAreaId ? panelUi('companyArea').editTitle : panelUi('companyArea').newTitle }}</h4>
+      <ng-template catalogFormTpl="companyArea">
           @if (isGlobalAdmin() && !editingCompanyAreaId) {
             <div class="scope-selector" [formGroup]="createScopeForm">
               <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1453,8 +1397,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingCompanyArea">{{ savingCompanyArea ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingCompanyAreas) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -1498,9 +1441,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('companyDepartment').newButton }}
         </button>
       </div>
-      @if (showCompanyDepartmentForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingCompanyDepartmentId ? panelUi('companyDepartment').editTitle : panelUi('companyDepartment').newTitle }}</h4>
+      <ng-template catalogFormTpl="companyDepartment">
           @if (isGlobalAdmin() && !editingCompanyDepartmentId) {
             <div class="scope-selector" [formGroup]="createScopeForm">
               <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1533,8 +1474,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingCompanyDepartment">{{ savingCompanyDepartment ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingCompanyDepartments) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -1578,9 +1518,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('branch').newButton }}
         </button>
       </div>
-      @if (showBranchForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingBranchId ? panelUi('branch').editTitle : panelUi('branch').newTitle }}</h4>
+      <ng-template catalogFormTpl="branch">
           @if (isGlobalAdmin() && !editingBranchId) {
             <div class="scope-selector" [formGroup]="createScopeForm">
               <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1615,8 +1553,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingBranch">{{ savingBranch ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingBranches) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -1669,9 +1606,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('questionnaireCategory').newButton }}
         </button>
       </div>
-      @if (showQuestionnaireCategoryForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingQuestionnaireCategoryId ? panelUi('questionnaireCategory').editTitle : panelUi('questionnaireCategory').newTitle }}</h4>
+      <ng-template catalogFormTpl="questionnaireCategory">
           <form [formGroup]="questionnaireCategoryForm" class="gender-form" (ngSubmit)="saveQuestionnaireCategory()">
             <mat-form-field appearance="outline">
               <mat-label i18n="@@catalogs.field.country">País</mat-label>
@@ -1691,8 +1626,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingQuestionnaireCategory">{{ savingQuestionnaireCategory ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingQuestionnaireCategories) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -1735,9 +1669,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('questionnaireQuestion').newButton }}
         </button>
       </div>
-      @if (showQuestionnaireQuestionForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingQuestionnaireQuestionId ? panelUi('questionnaireQuestion').editTitle : panelUi('questionnaireQuestion').newTitle }}</h4>
+      <ng-template catalogFormTpl="questionnaireQuestion">
           <form [formGroup]="questionnaireQuestionForm" class="gender-form" (ngSubmit)="saveQuestionnaireQuestion()">
             <mat-form-field appearance="outline">
               <mat-label>{{ colCategory }}</mat-label>
@@ -1756,8 +1688,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingQuestionnaireQuestion">{{ savingQuestionnaireQuestion ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingQuestionnaireQuestions) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -1850,9 +1781,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('jobPortal').newButton }}
         </button>
       </div>
-      @if (showJobPortalForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingJobPortalId ? panelUi('jobPortal').editTitle : panelUi('jobPortal').newTitle }}</h4>
+      <ng-template catalogFormTpl="jobPortal">
           @if (isGlobalAdmin() && !editingJobPortalId) {
             <div class="scope-selector" [formGroup]="createScopeForm">
               <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1881,8 +1810,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingJobPortal">{{ savingJobPortal ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingJobPortals) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -1920,15 +1848,7 @@
           {{ panelUi('country').newButton }}
         </button>
       </div>
-      @if (showCountryForm) {
-        <div class="sh-card form-card">
-          <h4>
-            @if (editingCountryId) {
-              {{ panelUi('country').editTitle }}
-            } @else {
-              {{ panelUi('country').newTitle }}
-            }
-          </h4>
+      <ng-template catalogFormTpl="country">
             @if (isGlobalAdmin() && !editingCountryId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1968,8 +1888,7 @@
               </button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingCountryRecords) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -2020,9 +1939,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('state').newButton }}
         </button>
       </div>
-      @if (showStateForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingStateId ? panelUi('state').editTitle : panelUi('state').newTitle }}</h4>
+      <ng-template catalogFormTpl="state">
             @if (isGlobalAdmin() && !editingStateId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2043,8 +1960,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingState">{{ savingState ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingStates) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -2100,9 +2016,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('municipality').newButton }}
         </button>
       </div>
-      @if (showMunicipalityForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingMunicipalityId ? panelUi('municipality').editTitle : panelUi('municipality').newTitle }}</h4>
+      <ng-template catalogFormTpl="municipality">
             @if (isGlobalAdmin() && !editingMunicipalityId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2122,8 +2036,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingMunicipality">{{ savingMunicipality ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingMunicipalities) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -2186,9 +2099,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('neighborhood').newButton }}
         </button>
       </div>
-      @if (showNeighborhoodForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingNeighborhoodId ? panelUi('neighborhood').editTitle : panelUi('neighborhood').newTitle }}</h4>
+      <ng-template catalogFormTpl="neighborhood">
             @if (isGlobalAdmin() && !editingNeighborhoodId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2208,8 +2119,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingNeighborhood">{{ savingNeighborhood ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingNeighborhoods) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -2257,9 +2167,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('coverageCategory').newButton }}
         </button>
       </div>
-      @if (showCoverageCategoryForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingCoverageCategoryId ? panelUi('coverageCategory').editTitle : panelUi('coverageCategory').newTitle }}</h4>
+      <ng-template catalogFormTpl="coverageCategory">
             @if (isGlobalAdmin() && !editingCoverageCategoryId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2289,8 +2197,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingCoverageCategory">{{ savingCoverageCategory ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingCoverageCategories) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -2337,9 +2244,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('characteristic').newButton }}
         </button>
       </div>
-      @if (showCharacteristicForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingCharacteristicId ? panelUi('characteristic').editTitle : panelUi('characteristic').newTitle }}</h4>
+      <ng-template catalogFormTpl="characteristic">
             @if (isGlobalAdmin() && !editingCharacteristicId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2369,8 +2274,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingCharacteristic">{{ savingCharacteristic ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingCharacteristics) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -2417,9 +2321,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('category').newButton }}
         </button>
       </div>
-      @if (showCategoryForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingCategoryId ? panelUi('category').editTitle : panelUi('category').newTitle }}</h4>
+      <ng-template catalogFormTpl="category">
             @if (isGlobalAdmin() && !editingCategoryId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2448,8 +2350,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingCategory">{{ savingCategory ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingCategories) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -2496,9 +2397,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('maritalStatus').newButton }}
         </button>
       </div>
-      @if (showMaritalStatusForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingMaritalStatusId ? panelUi('maritalStatus').editTitle : panelUi('maritalStatus').newTitle }}</h4>
+      <ng-template catalogFormTpl="maritalStatus">
             @if (isGlobalAdmin() && !editingMaritalStatusId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2528,8 +2427,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingMaritalStatus">{{ savingMaritalStatus ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingMaritalStatuses) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -2576,9 +2474,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('experienceLevel').newButton }}
         </button>
       </div>
-      @if (showExperienceLevelForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingExperienceLevelId ? panelUi('experienceLevel').editTitle : panelUi('experienceLevel').newTitle }}</h4>
+      <ng-template catalogFormTpl="experienceLevel">
             @if (isGlobalAdmin() && !editingExperienceLevelId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2608,8 +2504,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingExperienceLevel">{{ savingExperienceLevel ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingExperienceLevels) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -2656,9 +2551,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('tool').newButton }}
         </button>
       </div>
-      @if (showToolForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingToolId ? panelUi('tool').editTitle : panelUi('tool').newTitle }}</h4>
+      <ng-template catalogFormTpl="tool">
             @if (isGlobalAdmin() && !editingToolId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2688,8 +2581,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingTool">{{ savingTool ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingTools) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -2736,9 +2628,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('workSchedule').newButton }}
         </button>
       </div>
-      @if (showWorkScheduleForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingWorkScheduleId ? panelUi('workSchedule').editTitle : panelUi('workSchedule').newTitle }}</h4>
+      <ng-template catalogFormTpl="workSchedule">
             @if (isGlobalAdmin() && !editingWorkScheduleId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2768,8 +2658,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingWorkSchedule">{{ savingWorkSchedule ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingWorkSchedules) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -2816,9 +2705,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('workplace').newButton }}
         </button>
       </div>
-      @if (showWorkplaceForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingWorkplaceId ? panelUi('workplace').editTitle : panelUi('workplace').newTitle }}</h4>
+      <ng-template catalogFormTpl="workplace">
             @if (isGlobalAdmin() && !editingWorkplaceId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2848,8 +2735,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingWorkplace">{{ savingWorkplace ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingWorkplaces) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -2896,9 +2782,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('requirement').newButton }}
         </button>
       </div>
-      @if (showRequirementForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingRequirementId ? panelUi('requirement').editTitle : panelUi('requirement').newTitle }}</h4>
+      <ng-template catalogFormTpl="requirement">
             @if (isGlobalAdmin() && !editingRequirementId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2928,8 +2812,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingRequirement">{{ savingRequirement ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingRequirements) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -2976,9 +2859,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('responsibilityLevel').newButton }}
         </button>
       </div>
-      @if (showResponsibilityLevelForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingResponsibilityLevelId ? panelUi('responsibilityLevel').editTitle : panelUi('responsibilityLevel').newTitle }}</h4>
+      <ng-template catalogFormTpl="responsibilityLevel">
             @if (isGlobalAdmin() && !editingResponsibilityLevelId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -3008,8 +2889,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingResponsibilityLevel">{{ savingResponsibilityLevel ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingResponsibilityLevels) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -3056,9 +2936,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('documentType').newButton }} discapacidad
         </button>
       </div>
-      @if (showDisabilityTypeForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingDisabilityTypeId ? panelUi('disabilityType').editTitle : panelUi('disabilityType').newTitle }}</h4>
+      <ng-template catalogFormTpl="disabilityType">
             @if (isGlobalAdmin() && !editingDisabilityTypeId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -3088,8 +2966,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingDisabilityType">{{ savingDisabilityType ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingDisabilityTypes) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -3136,9 +3013,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('businessUnit').newButton }}
         </button>
       </div>
-      @if (showBusinessUnitForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingBusinessUnitId ? panelUi('businessUnit').editTitle : panelUi('businessUnit').newTitle }}</h4>
+      <ng-template catalogFormTpl="businessUnit">
             @if (isGlobalAdmin() && !editingBusinessUnitId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -3168,8 +3043,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingBusinessUnit">{{ savingBusinessUnit ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingBusinessUnits) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -3216,9 +3090,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('positionType').newButton }}
         </button>
       </div>
-      @if (showPositionTypeForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingPositionTypeId ? panelUi('positionType').editTitle : panelUi('positionType').newTitle }}</h4>
+      <ng-template catalogFormTpl="positionType">
             @if (isGlobalAdmin() && !editingPositionTypeId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -3248,8 +3120,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingPositionType">{{ savingPositionType ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingPositionTypes) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -3288,9 +3159,7 @@
           <mat-icon>add</mat-icon> {{ panelUi('client').newButton }}
         </button>
       </div>
-      @if (showClientForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingClientId ? panelUi('client').editTitle : panelUi('client').newTitle }}</h4>
+      <ng-template catalogFormTpl="client">
             @if (isGlobalAdmin() && !editingClientId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -3324,8 +3193,7 @@
               <button mat-flat-button color="primary" type="submit" [disabled]="savingClient">{{ savingClient ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
-        </div>
-      }
+      </ng-template>
       @if (loadingClients) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {

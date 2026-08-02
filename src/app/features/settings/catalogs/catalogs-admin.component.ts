@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, OnInit } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -10,7 +10,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ApiErrorTranslationService } from '../../../core/services/api-error-translation.service';
@@ -59,6 +59,11 @@ import {
   RecruiterGroupFormDialogComponent,
   RecruiterGroupFormDialogData,
 } from './recruiter-group-form-dialog.component';
+import { CatalogFormTplDirective } from './catalog-form-tpl.directive';
+import {
+  CatalogFormDialogShellComponent,
+  CatalogFormDialogData,
+} from './catalog-form-dialog-shell.component';
 import { CatalogJobPortalService } from '../../../core/services/catalog-job-portal.service';
 import { CatalogJobPortal } from '../../../shared/models/catalog-job-portal.model';
 import { QuestionnaireQuestionService } from '../../../core/services/questionnaire-question.service';
@@ -201,6 +206,7 @@ import { catalogPanelUi } from '../../../core/i18n/catalog-panel-ui-labels';
     NotificationsAdminComponent,
     CatalogListActionsComponent,
     CatalogTableImportExportActionsComponent,
+    CatalogFormTplDirective,
   ],
   templateUrl: './catalogs-admin.component.html',
   styleUrl: './catalogs-admin.component.scss',
@@ -313,6 +319,9 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly userSettingsApi = inject(UserSettingsApiService);
   private readonly snack = inject(MatSnackBar);
   private readonly dialog = inject(MatDialog);
+  @ViewChildren(CatalogFormTplDirective) private readonly catalogFormTpls!: QueryList<CatalogFormTplDirective>;
+  private activeCatalogFormDialog: MatDialogRef<CatalogFormDialogShellComponent, boolean> | null = null;
+
   private readonly apiError = inject(ApiErrorTranslationService);
   private readonly fb = inject(FormBuilder);
 
@@ -1455,7 +1464,43 @@ export class CatalogsAdminComponent implements OnInit {
     this.reloadCountryDropdown();
   }
 
+
+  private openCatalogFormDialog(key: string, mode: 'new' | 'edit'): void {
+    const tpl = this.catalogFormTpls?.find((t) => t.key === key);
+    if (!tpl) {
+      return;
+    }
+    const ui = this.panelUi(key);
+    if (!ui) {
+      return;
+    }
+    const title = mode === 'edit' ? ui.editTitle : ui.newTitle;
+    const previous = this.activeCatalogFormDialog;
+    this.activeCatalogFormDialog = null;
+    previous?.close(false);
+
+    const ref = this.dialog.open(CatalogFormDialogShellComponent, {
+      width: '720px',
+      maxWidth: '95vw',
+      autoFocus: 'first-tabbable',
+      data: { title, content: tpl.template } satisfies CatalogFormDialogData,
+    });
+    this.activeCatalogFormDialog = ref;
+    ref.afterClosed().subscribe(() => {
+      if (this.activeCatalogFormDialog === ref) {
+        this.activeCatalogFormDialog = null;
+      }
+    });
+  }
+
+  private closeCatalogFormDialog(): void {
+    const ref = this.activeCatalogFormDialog;
+    this.activeCatalogFormDialog = null;
+    ref?.close(false);
+  }
+
   private cancelAllForms(): void {
+    this.closeCatalogFormDialog();
     this.cancelGenderForm();
     this.cancelKinshipForm();
     this.cancelCompanyForm();
@@ -1486,6 +1531,12 @@ export class CatalogsAdminComponent implements OnInit {
     this.cancelDisabilityTypeForm();
     this.cancelBusinessUnitForm();
     this.cancelPositionTypeForm();
+    this.cancelCompanyAreaForm();
+    this.cancelCompanyDepartmentForm();
+    this.cancelBranchForm();
+    this.cancelQuestionnaireCategoryForm();
+    this.cancelQuestionnaireQuestionForm();
+    this.cancelJobPortalForm();
     this.cancelCountryForm();
     this.cancelStateForm();
     this.cancelMunicipalityForm();
@@ -2543,7 +2594,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateJobPortal(): void {
     this.resetCreateScope();
     this.editingJobPortalId = null;
-    this.showJobPortalForm = true;
+    this.openCatalogFormDialog('jobPortal', 'new');
     this.jobPortalForm.reset({
       countryId: this.selectedCountryId,
       code: '',
@@ -2555,7 +2606,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditJobPortal(row: CatalogJobPortal): void {
     this.editingJobPortalId = row.id;
-    this.showJobPortalForm = true;
+    this.openCatalogFormDialog('jobPortal', 'edit');
     this.jobPortalForm.patchValue({
       countryId: row.countryId ?? this.selectedCountryId,
       code: row.code,
@@ -2566,6 +2617,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelJobPortalForm(): void {
+    this.closeCatalogFormDialog();
     this.showJobPortalForm = false;
     this.editingJobPortalId = null;
   }
@@ -2633,12 +2685,12 @@ export class CatalogsAdminComponent implements OnInit {
       isActive: true,
     });
     this.editingQuestionnaireCategoryId = null;
-    this.showQuestionnaireCategoryForm = true;
+    this.openCatalogFormDialog('questionnaireCategory', 'new');
   }
 
   openEditQuestionnaireCategory(row: CatalogCategory): void {
     this.editingQuestionnaireCategoryId = row.id;
-    this.showQuestionnaireCategoryForm = true;
+    this.openCatalogFormDialog('questionnaireCategory', 'edit');
     this.questionnaireCategoryForm.patchValue({
       countryId: row.countryId ?? this.selectedCountryId,
       code: row.code,
@@ -2649,6 +2701,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelQuestionnaireCategoryForm(): void {
+    this.closeCatalogFormDialog();
     this.showQuestionnaireCategoryForm = false;
     this.editingQuestionnaireCategoryId = null;
   }
@@ -2738,7 +2791,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateQuestionnaireQuestion(): void {
     if (this.selectedCountryId == null) return;
     this.editingQuestionnaireQuestionId = null;
-    this.showQuestionnaireQuestionForm = true;
+    this.openCatalogFormDialog('questionnaireQuestion', 'new');
     this.catalogCategoryService.list(this.selectedCountryId, 0, 500).subscribe({
       next: (res) => {
         this.questionnaireCategoryOptions = res.items;
@@ -2757,7 +2810,7 @@ export class CatalogsAdminComponent implements OnInit {
   openEditQuestionnaireQuestion(row: QuestionnaireQuestion): void {
     if (this.selectedCountryId == null) return;
     this.editingQuestionnaireQuestionId = row.id;
-    this.showQuestionnaireQuestionForm = true;
+    this.openCatalogFormDialog('questionnaireQuestion', 'edit');
     this.catalogCategoryService.list(this.selectedCountryId, 0, 500).subscribe({
       next: (res) => {
         this.questionnaireCategoryOptions = res.items;
@@ -2774,6 +2827,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelQuestionnaireQuestionForm(): void {
+    this.closeCatalogFormDialog();
     this.showQuestionnaireQuestionForm = false;
     this.editingQuestionnaireQuestionId = null;
   }
@@ -2858,13 +2912,13 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateGender(): void {
     this.resetCreateScope();
     this.editingGenderId = null;
-    this.showGenderForm = true;
+    this.openCatalogFormDialog('gender', 'new');
     this.genderForm.reset({ countryId: this.selectedCountryId, code: '', name: '', value: '', isActive: true });
   }
 
   openEditGender(row: CatalogGender): void {
     this.editingGenderId = row.id;
-    this.showGenderForm = true;
+    this.openCatalogFormDialog('gender', 'edit');
     this.genderForm.patchValue({
       countryId: row.countryId,
       code: row.code,
@@ -2875,6 +2929,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelGenderForm(): void {
+    this.closeCatalogFormDialog();
     this.showGenderForm = false;
     this.editingGenderId = null;
   }
@@ -2914,17 +2969,18 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateKinship(): void {
     this.resetCreateScope();
     this.editingKinshipId = null;
-    this.showKinshipForm = true;
+    this.openCatalogFormDialog('kinship', 'new');
     this.kinshipForm.reset({ code: '', name: '', isActive: true });
   }
 
   openEditKinship(row: CatalogKinship): void {
     this.editingKinshipId = row.id;
-    this.showKinshipForm = true;
+    this.openCatalogFormDialog('kinship', 'edit');
     this.kinshipForm.patchValue({ code: row.code, name: row.name, isActive: row.isActive });
   }
 
   cancelKinshipForm(): void {
+    this.closeCatalogFormDialog();
     this.showKinshipForm = false;
     this.editingKinshipId = null;
   }
@@ -2957,7 +3013,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateCoverageCategory(): void {
     this.resetCreateScope();
     this.editingCoverageCategoryId = null;
-    this.showCoverageCategoryForm = true;
+    this.openCatalogFormDialog('coverageCategory', 'new');
     this.coverageCategoryForm.reset({
       countryId: this.selectedCountryId,
       code: '',
@@ -2970,7 +3026,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditCoverageCategory(row: CatalogCoverageCategory): void {
     this.editingCoverageCategoryId = row.id;
-    this.showCoverageCategoryForm = true;
+    this.openCatalogFormDialog('coverageCategory', 'edit');
     this.coverageCategoryForm.patchValue({
       countryId: row.countryId ?? this.selectedCountryId,
       code: row.code,
@@ -2982,6 +3038,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelCoverageCategoryForm(): void {
+    this.closeCatalogFormDialog();
     this.showCoverageCategoryForm = false;
     this.editingCoverageCategoryId = null;
   }
@@ -3021,7 +3078,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateCharacteristic(): void {
     this.resetCreateScope();
     this.editingCharacteristicId = null;
-    this.showCharacteristicForm = true;
+    this.openCatalogFormDialog('characteristic', 'new');
     this.characteristicForm.reset({
       countryId: this.selectedCountryId,
       code: '',
@@ -3034,7 +3091,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditCharacteristic(row: CatalogCharacteristic): void {
     this.editingCharacteristicId = row.id;
-    this.showCharacteristicForm = true;
+    this.openCatalogFormDialog('characteristic', 'edit');
     this.characteristicForm.patchValue({
       countryId: row.countryId ?? this.selectedCountryId,
       code: row.code,
@@ -3046,6 +3103,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelCharacteristicForm(): void {
+    this.closeCatalogFormDialog();
     this.showCharacteristicForm = false;
     this.editingCharacteristicId = null;
   }
@@ -3085,7 +3143,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateCategory(): void {
     this.resetCreateScope();
     this.editingCategoryId = null;
-    this.showCategoryForm = true;
+    this.openCatalogFormDialog('category', 'new');
     this.categoryForm.reset({
       countryId: this.selectedCountryId,
       code: '',
@@ -3097,7 +3155,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditCategory(row: CatalogGeneralCategory): void {
     this.editingCategoryId = row.id;
-    this.showCategoryForm = true;
+    this.openCatalogFormDialog('category', 'edit');
     this.categoryForm.patchValue({
       countryId: row.countryId ?? this.selectedCountryId,
       code: row.code,
@@ -3108,6 +3166,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelCategoryForm(): void {
+    this.closeCatalogFormDialog();
     this.showCategoryForm = false;
     this.editingCategoryId = null;
   }
@@ -3146,7 +3205,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateMaritalStatus(): void {
     this.resetCreateScope();
     this.editingMaritalStatusId = null;
-    this.showMaritalStatusForm = true;
+    this.openCatalogFormDialog('maritalStatus', 'new');
     this.maritalStatusForm.reset({
       countryId: this.selectedCountryId,
       code: '',
@@ -3159,7 +3218,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditMaritalStatus(row: CatalogMaritalStatus): void {
     this.editingMaritalStatusId = row.id;
-    this.showMaritalStatusForm = true;
+    this.openCatalogFormDialog('maritalStatus', 'edit');
     this.maritalStatusForm.patchValue({
       countryId: row.countryId ?? this.selectedCountryId,
       code: row.code,
@@ -3171,6 +3230,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelMaritalStatusForm(): void {
+    this.closeCatalogFormDialog();
     this.showMaritalStatusForm = false;
     this.editingMaritalStatusId = null;
   }
@@ -3210,7 +3270,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateExperienceLevel(): void {
     this.resetCreateScope();
     this.editingExperienceLevelId = null;
-    this.showExperienceLevelForm = true;
+    this.openCatalogFormDialog('experienceLevel', 'new');
     this.experienceLevelForm.reset({
       countryId: this.selectedCountryId,
       code: '',
@@ -3223,7 +3283,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditExperienceLevel(row: CatalogExperienceLevel): void {
     this.editingExperienceLevelId = row.id;
-    this.showExperienceLevelForm = true;
+    this.openCatalogFormDialog('experienceLevel', 'edit');
     this.experienceLevelForm.patchValue({
       countryId: row.countryId ?? this.selectedCountryId,
       code: row.code,
@@ -3235,6 +3295,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelExperienceLevelForm(): void {
+    this.closeCatalogFormDialog();
     this.showExperienceLevelForm = false;
     this.editingExperienceLevelId = null;
   }
@@ -3274,7 +3335,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateTool(): void {
     this.resetCreateScope();
     this.editingToolId = null;
-    this.showToolForm = true;
+    this.openCatalogFormDialog('tool', 'new');
     this.toolForm.reset({
       countryId: this.selectedCountryId,
       code: '',
@@ -3287,7 +3348,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditTool(row: CatalogTool): void {
     this.editingToolId = row.id;
-    this.showToolForm = true;
+    this.openCatalogFormDialog('tool', 'edit');
     this.toolForm.patchValue({
       countryId: row.countryId ?? this.selectedCountryId,
       code: row.code,
@@ -3299,6 +3360,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelToolForm(): void {
+    this.closeCatalogFormDialog();
     this.showToolForm = false;
     this.editingToolId = null;
   }
@@ -3338,7 +3400,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateWorkSchedule(): void {
     this.resetCreateScope();
     this.editingWorkScheduleId = null;
-    this.showWorkScheduleForm = true;
+    this.openCatalogFormDialog('workSchedule', 'new');
     this.workScheduleForm.reset({
       countryId: this.selectedCountryId,
       code: '',
@@ -3351,7 +3413,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditWorkSchedule(row: CatalogWorkSchedule): void {
     this.editingWorkScheduleId = row.id;
-    this.showWorkScheduleForm = true;
+    this.openCatalogFormDialog('workSchedule', 'edit');
     this.workScheduleForm.patchValue({
       countryId: row.countryId ?? this.selectedCountryId,
       code: row.code,
@@ -3363,6 +3425,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelWorkScheduleForm(): void {
+    this.closeCatalogFormDialog();
     this.showWorkScheduleForm = false;
     this.editingWorkScheduleId = null;
   }
@@ -3402,7 +3465,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateWorkplace(): void {
     this.resetCreateScope();
     this.editingWorkplaceId = null;
-    this.showWorkplaceForm = true;
+    this.openCatalogFormDialog('workplace', 'new');
     this.workplaceForm.reset({
       countryId: this.selectedCountryId,
       code: '',
@@ -3415,7 +3478,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditWorkplace(row: CatalogWorkplace): void {
     this.editingWorkplaceId = row.id;
-    this.showWorkplaceForm = true;
+    this.openCatalogFormDialog('workplace', 'edit');
     this.workplaceForm.patchValue({
       countryId: row.countryId ?? this.selectedCountryId,
       code: row.code,
@@ -3427,6 +3490,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelWorkplaceForm(): void {
+    this.closeCatalogFormDialog();
     this.showWorkplaceForm = false;
     this.editingWorkplaceId = null;
   }
@@ -3466,7 +3530,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateRequirement(): void {
     this.resetCreateScope();
     this.editingRequirementId = null;
-    this.showRequirementForm = true;
+    this.openCatalogFormDialog('requirement', 'new');
     this.requirementForm.reset({
       countryId: this.selectedCountryId,
       code: '',
@@ -3479,7 +3543,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditRequirement(row: CatalogRequirement): void {
     this.editingRequirementId = row.id;
-    this.showRequirementForm = true;
+    this.openCatalogFormDialog('requirement', 'edit');
     this.requirementForm.patchValue({
       countryId: row.countryId ?? this.selectedCountryId,
       code: row.code,
@@ -3491,6 +3555,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelRequirementForm(): void {
+    this.closeCatalogFormDialog();
     this.showRequirementForm = false;
     this.editingRequirementId = null;
   }
@@ -3530,7 +3595,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateResponsibilityLevel(): void {
     this.resetCreateScope();
     this.editingResponsibilityLevelId = null;
-    this.showResponsibilityLevelForm = true;
+    this.openCatalogFormDialog('responsibilityLevel', 'new');
     this.responsibilityLevelForm.reset({
       countryId: this.selectedCountryId,
       code: '',
@@ -3543,7 +3608,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditResponsibilityLevel(row: CatalogResponsibilityLevel): void {
     this.editingResponsibilityLevelId = row.id;
-    this.showResponsibilityLevelForm = true;
+    this.openCatalogFormDialog('responsibilityLevel', 'edit');
     this.responsibilityLevelForm.patchValue({
       countryId: row.countryId ?? this.selectedCountryId,
       code: row.code,
@@ -3555,6 +3620,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelResponsibilityLevelForm(): void {
+    this.closeCatalogFormDialog();
     this.showResponsibilityLevelForm = false;
     this.editingResponsibilityLevelId = null;
   }
@@ -3594,7 +3660,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateDisabilityType(): void {
     this.resetCreateScope();
     this.editingDisabilityTypeId = null;
-    this.showDisabilityTypeForm = true;
+    this.openCatalogFormDialog('disabilityType', 'new');
     this.disabilityTypeForm.reset({
       countryId: this.selectedCountryId,
       code: '',
@@ -3607,7 +3673,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditDisabilityType(row: CatalogDisabilityType): void {
     this.editingDisabilityTypeId = row.id;
-    this.showDisabilityTypeForm = true;
+    this.openCatalogFormDialog('disabilityType', 'edit');
     this.disabilityTypeForm.patchValue({
       countryId: row.countryId ?? this.selectedCountryId,
       code: row.code,
@@ -3619,6 +3685,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelDisabilityTypeForm(): void {
+    this.closeCatalogFormDialog();
     this.showDisabilityTypeForm = false;
     this.editingDisabilityTypeId = null;
   }
@@ -3658,7 +3725,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateBusinessUnit(): void {
     this.resetCreateScope();
     this.editingBusinessUnitId = null;
-    this.showBusinessUnitForm = true;
+    this.openCatalogFormDialog('businessUnit', 'new');
     this.businessUnitForm.reset({
       countryId: this.selectedCountryId,
       code: '',
@@ -3671,7 +3738,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditBusinessUnit(row: CatalogBusinessUnit): void {
     this.editingBusinessUnitId = row.id;
-    this.showBusinessUnitForm = true;
+    this.openCatalogFormDialog('businessUnit', 'edit');
     this.businessUnitForm.patchValue({
       countryId: row.countryId ?? this.selectedCountryId,
       code: row.code,
@@ -3683,6 +3750,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelBusinessUnitForm(): void {
+    this.closeCatalogFormDialog();
     this.showBusinessUnitForm = false;
     this.editingBusinessUnitId = null;
   }
@@ -3722,7 +3790,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreatePositionType(): void {
     this.resetCreateScope();
     this.editingPositionTypeId = null;
-    this.showPositionTypeForm = true;
+    this.openCatalogFormDialog('positionType', 'new');
     this.positionTypeForm.reset({
       countryId: this.selectedCountryId,
       code: '',
@@ -3735,7 +3803,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditPositionType(row: CatalogPositionType): void {
     this.editingPositionTypeId = row.id;
-    this.showPositionTypeForm = true;
+    this.openCatalogFormDialog('positionType', 'edit');
     this.positionTypeForm.patchValue({
       countryId: row.countryId ?? this.selectedCountryId,
       code: row.code,
@@ -3747,6 +3815,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelPositionTypeForm(): void {
+    this.closeCatalogFormDialog();
     this.showPositionTypeForm = false;
     this.editingPositionTypeId = null;
   }
@@ -3787,7 +3856,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateClient(): void {
     this.resetCreateScope();
     this.editingClientId = null;
-    this.showClientForm = true;
+    this.openCatalogFormDialog('client', 'new');
     this.clientForm.reset({
       countryId: this.selectedCountryId,
       code: '',
@@ -3804,7 +3873,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditClient(row: CatalogClient): void {
     this.editingClientId = row.id;
-    this.showClientForm = true;
+    this.openCatalogFormDialog('client', 'edit');
     this.clientForm.patchValue({
       countryId: row.countryId ?? null,
       code: row.code,
@@ -3820,6 +3889,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelClientForm(): void {
+    this.closeCatalogFormDialog();
     this.showClientForm = false;
     this.editingClientId = null;
   }
@@ -3851,7 +3921,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openCreateCompany(): void {
     this.editingCompanyId = null;
-    this.showCompanyForm = true;
+    this.openCatalogFormDialog('company', 'new');
     this.loadingCompanyDetail = false;
     this.companyForm.reset({
       code: '',
@@ -3878,7 +3948,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditCompany(row: CatalogCompany): void {
     this.editingCompanyId = row.id;
-    this.showCompanyForm = true;
+    this.openCatalogFormDialog('company', 'edit');
     this.loadingCompanyDetail = true;
     this.companyService.getById(row.id).subscribe({
       next: (company) => {
@@ -3907,7 +3977,8 @@ export class CatalogsAdminComponent implements OnInit {
       },
       error: () => {
         this.loadingCompanyDetail = false;
-        this.showCompanyForm = false;
+        this.closeCatalogFormDialog();
+    this.showCompanyForm = false;
         this.editingCompanyId = null;
         this.snack.open(CATALOG_MSG_LOAD_SINGLE_COMPANY, CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
       },
@@ -3915,6 +3986,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelCompanyForm(): void {
+    this.closeCatalogFormDialog();
     this.showCompanyForm = false;
     this.editingCompanyId = null;
     this.loadingCompanyDetail = false;
@@ -3955,7 +4027,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateCurrency(): void {
     this.resetCreateScope();
     this.editingCurrencyId = null;
-    this.showCurrencyForm = true;
+    this.openCatalogFormDialog('currency', 'new');
     this.currencyForm.reset({
       countryId: this.selectedCountryId,
       code: '',
@@ -3968,7 +4040,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditCurrency(row: CatalogCurrency): void {
     this.editingCurrencyId = row.id;
-    this.showCurrencyForm = true;
+    this.openCatalogFormDialog('currency', 'edit');
     this.currencyForm.patchValue({
       countryId: row.countryId,
       code: row.code,
@@ -3980,6 +4052,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelCurrencyForm(): void {
+    this.closeCatalogFormDialog();
     this.showCurrencyForm = false;
     this.editingCurrencyId = null;
   }
@@ -4020,13 +4093,13 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateCareer(): void {
     this.resetCreateScope();
     this.editingCareerId = null;
-    this.showCareerForm = true;
+    this.openCatalogFormDialog('career', 'new');
     this.careerForm.reset({ countryId: this.selectedCountryId, code: '', name: '', isActive: true });
   }
 
   openEditCareer(row: CatalogCareer): void {
     this.editingCareerId = row.id;
-    this.showCareerForm = true;
+    this.openCatalogFormDialog('career', 'edit');
     this.careerForm.patchValue({
       countryId: row.countryId,
       code: row.code,
@@ -4036,6 +4109,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelCareerForm(): void {
+    this.closeCatalogFormDialog();
     this.showCareerForm = false;
     this.editingCareerId = null;
   }
@@ -4074,17 +4148,18 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateLanguage(): void {
     this.resetCreateScope();
     this.editingLanguageId = null;
-    this.showLanguageForm = true;
+    this.openCatalogFormDialog('language', 'new');
     this.languageForm.reset({ code: '', name: '', isActive: true });
   }
 
   openEditLanguage(row: CatalogLanguage): void {
     this.editingLanguageId = row.id;
-    this.showLanguageForm = true;
+    this.openCatalogFormDialog('language', 'edit');
     this.languageForm.patchValue({ code: row.code, name: row.name, isActive: row.isActive });
   }
 
   cancelLanguageForm(): void {
+    this.closeCatalogFormDialog();
     this.showLanguageForm = false;
     this.editingLanguageId = null;
   }
@@ -4117,13 +4192,13 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateShift(): void {
     this.resetCreateScope();
     this.editingShiftId = null;
-    this.showShiftForm = true;
+    this.openCatalogFormDialog('shift', 'new');
     this.shiftForm.reset({ countryId: this.selectedCountryId, code: '', name: '', isActive: true });
   }
 
   openEditShift(row: CatalogShift): void {
     this.editingShiftId = row.id;
-    this.showShiftForm = true;
+    this.openCatalogFormDialog('shift', 'edit');
     this.shiftForm.patchValue({
       countryId: row.countryId,
       code: row.code,
@@ -4133,6 +4208,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelShiftForm(): void {
+    this.closeCatalogFormDialog();
     this.showShiftForm = false;
     this.editingShiftId = null;
   }
@@ -4171,13 +4247,13 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateBenefit(): void {
     this.resetCreateScope();
     this.editingBenefitId = null;
-    this.showBenefitForm = true;
+    this.openCatalogFormDialog('benefit', 'new');
     this.benefitForm.reset({ countryId: this.selectedCountryId, code: '', name: '', isActive: true });
   }
 
   openEditBenefit(row: CatalogBenefit): void {
     this.editingBenefitId = row.id;
-    this.showBenefitForm = true;
+    this.openCatalogFormDialog('benefit', 'edit');
     this.benefitForm.patchValue({
       countryId: row.countryId,
       code: row.code,
@@ -4187,6 +4263,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelBenefitForm(): void {
+    this.closeCatalogFormDialog();
     this.showBenefitForm = false;
     this.editingBenefitId = null;
   }
@@ -4225,7 +4302,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateDocumentType(): void {
     this.resetCreateScope();
     this.editingDocumentTypeId = null;
-    this.showDocumentTypeForm = true;
+    this.openCatalogFormDialog('documentType', 'new');
     this.documentTypeForm.reset({
       countryId: this.selectedCountryId,
       code: '',
@@ -4243,7 +4320,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditDocumentType(row: CatalogDocumentType): void {
     this.editingDocumentTypeId = row.id;
-    this.showDocumentTypeForm = true;
+    this.openCatalogFormDialog('documentType', 'edit');
     const processingServiceIds = (row.processingServices ?? []).map((service) => service.id);
     const defaultProcessingServiceId =
       (row.processingServices ?? []).find((service) => service.isDefault)?.id ?? null;
@@ -4263,6 +4340,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelDocumentTypeForm(): void {
+    this.closeCatalogFormDialog();
     this.showDocumentTypeForm = false;
     this.editingDocumentTypeId = null;
   }
@@ -4381,13 +4459,13 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateBrand(): void {
     this.resetCreateScope();
     this.editingBrandId = null;
-    this.showBrandForm = true;
+    this.openCatalogFormDialog('brand', 'new');
     this.brandForm.reset({ countryId: this.selectedCountryId, code: '', name: '', isActive: true });
   }
 
   openEditBrand(row: CatalogBrand): void {
     this.editingBrandId = row.id;
-    this.showBrandForm = true;
+    this.openCatalogFormDialog('brand', 'edit');
     this.brandForm.patchValue({
       countryId: row.countryId,
       code: row.code,
@@ -4397,6 +4475,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelBrandForm(): void {
+    this.closeCatalogFormDialog();
     this.showBrandForm = false;
     this.editingBrandId = null;
   }
@@ -4435,7 +4514,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateContractType(): void {
     this.resetCreateScope();
     this.editingContractTypeId = null;
-    this.showContractTypeForm = true;
+    this.openCatalogFormDialog('contractType', 'new');
     this.contractTypeForm.reset({
       countryId: this.selectedCountryId,
       code: '',
@@ -4447,7 +4526,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditContractType(row: CatalogContractType): void {
     this.editingContractTypeId = row.id;
-    this.showContractTypeForm = true;
+    this.openCatalogFormDialog('contractType', 'edit');
     this.contractTypeForm.patchValue({
       countryId: row.countryId,
       code: row.code,
@@ -4458,6 +4537,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelContractTypeForm(): void {
+    this.closeCatalogFormDialog();
     this.showContractTypeForm = false;
     this.editingContractTypeId = null;
   }
@@ -4497,7 +4577,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateFileExtension(): void {
     this.resetCreateScope();
     this.editingFileExtensionId = null;
-    this.showFileExtensionForm = true;
+    this.openCatalogFormDialog('fileExtension', 'new');
     this.fileExtensionForm.reset({
       countryId: this.selectedCountryId,
       code: '',
@@ -4510,7 +4590,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditFileExtension(row: CatalogFileExtension): void {
     this.editingFileExtensionId = row.id;
-    this.showFileExtensionForm = true;
+    this.openCatalogFormDialog('fileExtension', 'edit');
     this.fileExtensionForm.patchValue({
       countryId: row.countryId,
       code: row.code,
@@ -4522,6 +4602,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelFileExtensionForm(): void {
+    this.closeCatalogFormDialog();
     this.showFileExtensionForm = false;
     this.editingFileExtensionId = null;
   }
@@ -4566,7 +4647,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateCoverageType(): void {
     this.resetCreateScope();
     this.editingCoverageTypeId = null;
-    this.showCoverageTypeForm = true;
+    this.openCatalogFormDialog('coverageType', 'new');
     this.coverageTypeForm.reset({
       countryId: this.selectedCountryId,
       code: '',
@@ -4578,7 +4659,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditCoverageType(row: CatalogCoverageType): void {
     this.editingCoverageTypeId = row.id;
-    this.showCoverageTypeForm = true;
+    this.openCatalogFormDialog('coverageType', 'edit');
     this.coverageTypeForm.patchValue({
       countryId: row.countryId,
       code: row.code,
@@ -4589,6 +4670,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelCoverageTypeForm(): void {
+    this.closeCatalogFormDialog();
     this.showCoverageTypeForm = false;
     this.editingCoverageTypeId = null;
   }
@@ -4628,7 +4710,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateEducationLevel(): void {
     this.resetCreateScope();
     this.editingEducationLevelId = null;
-    this.showEducationLevelForm = true;
+    this.openCatalogFormDialog('educationLevel', 'new');
     this.educationLevelForm.reset({
       countryId: this.selectedCountryId,
       code: '',
@@ -4641,7 +4723,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditEducationLevel(row: CatalogEducationLevel): void {
     this.editingEducationLevelId = row.id;
-    this.showEducationLevelForm = true;
+    this.openCatalogFormDialog('educationLevel', 'edit');
     this.educationLevelForm.patchValue({
       countryId: row.countryId,
       code: row.code,
@@ -4653,6 +4735,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelEducationLevelForm(): void {
+    this.closeCatalogFormDialog();
     this.showEducationLevelForm = false;
     this.editingEducationLevelId = null;
   }
@@ -4693,7 +4776,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateLanguageLevel(): void {
     this.resetCreateScope();
     this.editingLanguageLevelId = null;
-    this.showLanguageLevelForm = true;
+    this.openCatalogFormDialog('languageLevel', 'new');
     this.languageLevelForm.reset({
       countryId: this.selectedCountryId,
       code: '',
@@ -4705,7 +4788,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditLanguageLevel(row: CatalogLanguageLevel): void {
     this.editingLanguageLevelId = row.id;
-    this.showLanguageLevelForm = true;
+    this.openCatalogFormDialog('languageLevel', 'edit');
     this.languageLevelForm.patchValue({
       countryId: row.countryId,
       code: row.code,
@@ -4716,6 +4799,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelLanguageLevelForm(): void {
+    this.closeCatalogFormDialog();
     this.showLanguageLevelForm = false;
     this.editingLanguageLevelId = null;
   }
@@ -4755,7 +4839,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateRequisitionType(): void {
     this.resetCreateScope();
     this.editingRequisitionTypeId = null;
-    this.showRequisitionTypeForm = true;
+    this.openCatalogFormDialog('requisitionType', 'new');
     this.requisitionTypeForm.reset({
       countryId: this.selectedCountryId,
       code: '',
@@ -4767,7 +4851,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditRequisitionType(row: CatalogRequisitionType): void {
     this.editingRequisitionTypeId = row.id;
-    this.showRequisitionTypeForm = true;
+    this.openCatalogFormDialog('requisitionType', 'edit');
     this.requisitionTypeForm.patchValue({
       countryId: row.countryId,
       code: row.code,
@@ -4778,6 +4862,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelRequisitionTypeForm(): void {
+    this.closeCatalogFormDialog();
     this.showRequisitionTypeForm = false;
     this.editingRequisitionTypeId = null;
   }
@@ -4830,7 +4915,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateCompanyArea(): void {
     this.resetCreateScope();
     this.editingCompanyAreaId = null;
-    this.showCompanyAreaForm = true;
+    this.openCatalogFormDialog('companyArea', 'new');
     this.companyAreaForm.reset({
       catalogCompanyId: this.selectedCatalogCompanyId,
       countryId: this.selectedCountryId,
@@ -4842,7 +4927,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditCompanyArea(row: CatalogCompanyArea): void {
     this.editingCompanyAreaId = row.id;
-    this.showCompanyAreaForm = true;
+    this.openCatalogFormDialog('companyArea', 'edit');
     this.companyAreaForm.patchValue({
       catalogCompanyId: row.catalogCompanyId ?? this.selectedCatalogCompanyId,
       countryId: row.countryId ?? this.selectedCountryId,
@@ -4853,6 +4938,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelCompanyAreaForm(): void {
+    this.closeCatalogFormDialog();
     this.showCompanyAreaForm = false;
     this.editingCompanyAreaId = null;
   }
@@ -4891,7 +4977,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateCompanyDepartment(): void {
     this.resetCreateScope();
     this.editingCompanyDepartmentId = null;
-    this.showCompanyDepartmentForm = true;
+    this.openCatalogFormDialog('companyDepartment', 'new');
     this.companyDepartmentForm.reset({
       catalogCompanyId: this.selectedCatalogCompanyId,
       countryId: this.selectedCountryId,
@@ -4903,7 +4989,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditCompanyDepartment(row: CatalogCompanyDepartment): void {
     this.editingCompanyDepartmentId = row.id;
-    this.showCompanyDepartmentForm = true;
+    this.openCatalogFormDialog('companyDepartment', 'edit');
     this.companyDepartmentForm.patchValue({
       catalogCompanyId: row.catalogCompanyId ?? this.selectedCatalogCompanyId,
       countryId: row.countryId ?? this.selectedCountryId,
@@ -4914,6 +5000,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelCompanyDepartmentForm(): void {
+    this.closeCatalogFormDialog();
     this.showCompanyDepartmentForm = false;
     this.editingCompanyDepartmentId = null;
   }
@@ -4952,7 +5039,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateBranch(): void {
     this.resetCreateScope();
     this.editingBranchId = null;
-    this.showBranchForm = true;
+    this.openCatalogFormDialog('branch', 'new');
     this.branchForm.reset({
       catalogCompanyId: null,
       countryId: this.selectedCountryId,
@@ -4965,7 +5052,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditBranch(row: CatalogBranch): void {
     this.editingBranchId = row.id;
-    this.showBranchForm = true;
+    this.openCatalogFormDialog('branch', 'edit');
     this.branchForm.patchValue({
       catalogCompanyId: row.catalogCompanyId ?? null,
       countryId: row.countryId ?? this.selectedCountryId,
@@ -4977,6 +5064,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelBranchForm(): void {
+    this.closeCatalogFormDialog();
     this.showBranchForm = false;
     this.editingBranchId = null;
   }
@@ -5060,7 +5148,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateCountry(): void {
     this.resetCreateScope();
     this.editingCountryId = null;
-    this.showCountryForm = true;
+    this.openCatalogFormDialog('country', 'new');
     this.countryForm.reset({
       code: '',
       secondaryCode: '',
@@ -5077,7 +5165,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditCountry(row: CatalogCountry): void {
     this.editingCountryId = row.id;
-    this.showCountryForm = true;
+    this.openCatalogFormDialog('country', 'edit');
     this.countryForm.patchValue({
       code: row.code,
       secondaryCode: row.secondaryCode ?? '',
@@ -5093,6 +5181,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelCountryForm(): void {
+    this.closeCatalogFormDialog();
     this.showCountryForm = false;
     this.editingCountryId = null;
   }
@@ -5138,7 +5227,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateState(): void {
     this.resetCreateScope();
     this.editingStateId = null;
-    this.showStateForm = true;
+    this.openCatalogFormDialog('state', 'new');
     this.stateForm.reset({
       countryId: this.selectedCountryId,
       code: '',
@@ -5150,7 +5239,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditState(row: CatalogState): void {
     this.editingStateId = row.id;
-    this.showStateForm = true;
+    this.openCatalogFormDialog('state', 'edit');
     this.stateForm.patchValue({
       countryId: row.countryId,
       code: row.code,
@@ -5161,6 +5250,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelStateForm(): void {
+    this.closeCatalogFormDialog();
     this.showStateForm = false;
     this.editingStateId = null;
   }
@@ -5248,13 +5338,13 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateMunicipality(): void {
     this.resetCreateScope();
     this.editingMunicipalityId = null;
-    this.showMunicipalityForm = true;
+    this.openCatalogFormDialog('municipality', 'new');
     this.municipalityForm.reset({ stateId: this.selectedStateId, code: '', name: '', isActive: true });
   }
 
   openEditMunicipality(row: CatalogMunicipality): void {
     this.editingMunicipalityId = row.id;
-    this.showMunicipalityForm = true;
+    this.openCatalogFormDialog('municipality', 'edit');
     this.municipalityForm.patchValue({
       stateId: row.stateId,
       code: row.code ?? '',
@@ -5264,6 +5354,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelMunicipalityForm(): void {
+    this.closeCatalogFormDialog();
     this.showMunicipalityForm = false;
     this.editingMunicipalityId = null;
   }
@@ -5303,7 +5394,7 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateNeighborhood(): void {
     this.resetCreateScope();
     this.editingNeighborhoodId = null;
-    this.showNeighborhoodForm = true;
+    this.openCatalogFormDialog('neighborhood', 'new');
     this.neighborhoodForm.reset({
       municipalityId: this.selectedMunicipalityId,
       name: '',
@@ -5314,7 +5405,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditNeighborhood(row: CatalogNeighborhood): void {
     this.editingNeighborhoodId = row.id;
-    this.showNeighborhoodForm = true;
+    this.openCatalogFormDialog('neighborhood', 'edit');
     this.neighborhoodForm.patchValue({
       municipalityId: row.municipalityId,
       name: row.name,
@@ -5324,6 +5415,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancelNeighborhoodForm(): void {
+    this.closeCatalogFormDialog();
     this.showNeighborhoodForm = false;
     this.editingNeighborhoodId = null;
   }
