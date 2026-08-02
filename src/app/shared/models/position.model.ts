@@ -111,12 +111,21 @@ export interface CreatePositionRequest {
   languages?: PositionLanguageItem[];
   questionnaire?: PositionQuestionnaireItem | null;
   documentRequirements?: PositionDocumentRequirementItem[];
+  assignedUserId?: number | null;
 }
 
 export interface CreatePositionResponse {
   id: number;
   status: string;
   companyId: number;
+  cancellationScope?: string | null;
+}
+
+export interface PositionUserSummary {
+  id: number;
+  name: string | null;
+  lastName: string | null;
+  email: string | null;
 }
 
 export interface PositionListItem {
@@ -144,6 +153,11 @@ export interface PositionListItem {
   hiredCount?: number | null;
   recruiterGroupId?: number | null;
   recruiterGroup?: string | null;
+  assignedUserId?: number | null;
+  assignedUser?: PositionUserSummary | null;
+  supervisorUserId?: number | null;
+  supervisorUser?: PositionUserSummary | null;
+  cancellationScope?: string | null;
 }
 
 export interface PositionDetail extends CreatePositionRequest {
@@ -153,6 +167,10 @@ export interface PositionDetail extends CreatePositionRequest {
   companyId: number;
   formConfigId?: number | null;
   formConfigVersion?: number | null;
+  assignedUser?: PositionUserSummary | null;
+  supervisorUserId?: number | null;
+  supervisorUser?: PositionUserSummary | null;
+  cancellationScope?: string | null;
 }
 
 export type UpdatePositionRequest = CreatePositionRequest;
@@ -160,6 +178,32 @@ export type UpdatePositionResponse = CreatePositionResponse;
 export type DuplicatePositionResponse = CreatePositionResponse;
 export type RequestPositionCancellationResponse = CreatePositionResponse;
 export type RejectPositionCancellationResponse = CreatePositionResponse;
+export type ExecutePositionCancellationResponse = CreatePositionResponse;
+export type DirectCancelPositionResponse = CreatePositionResponse;
+
+export interface ReassignPositionRequest {
+  assignedUserId: number;
+  reason?: string | null;
+}
+
+export interface ReassignPositionResponse {
+  id: number;
+  assignedUserId: number | null;
+  supervisorUserId: number | null;
+}
+
+export interface PositionEventItem {
+  id: number;
+  eventType: string;
+  fromStatus: string | null;
+  toStatus: string | null;
+  actorUserId: number | null;
+  payloadJson: string | null;
+  cancellationRequestId: number | null;
+  createdAt: string | null;
+}
+
+export type PositionEventListResponse = ApiPageResponse<PositionEventItem>;
 
 export type PositionListResponse = ApiPageResponse<PositionListItem>;
 

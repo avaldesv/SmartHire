@@ -66,7 +66,8 @@
           <ng-container matColumnDef="applicantsCount"><th mat-header-cell *matHeaderCellDef>{{ colApplicants }}</th><td mat-cell *matCellDef="let row">{{ row.applicantsCount ?? 0 }}</td></ng-container>
           <ng-container matColumnDef="preselectedCount"><th mat-header-cell *matHeaderCellDef>{{ colPreselection }}</th><td mat-cell *matCellDef="let row">{{ row.preselectedCount ?? 0 }}</td></ng-container>
           <ng-container matColumnDef="hiredCount"><th mat-header-cell *matHeaderCellDef>{{ colFirstDay }}</th><td mat-cell *matCellDef="let row">{{ row.hiredCount ?? 0 }}</td></ng-container>
-          <ng-container matColumnDef="recruiter"><th mat-header-cell *matHeaderCellDef>{{ colRecruiter }}</th><td mat-cell *matCellDef="let row">{{ row.recruiter || '—' }}</td></ng-container>
+          <ng-container matColumnDef="recruiter"><th mat-header-cell *matHeaderCellDef>{{ colRecruiter }}</th><td mat-cell *matCellDef="let row">{{ row.recruiter || userDisplayName(row.assignedUser) }}</td></ng-container>
+          <ng-container matColumnDef="supervisor"><th mat-header-cell *matHeaderCellDef>{{ colSupervisor }}</th><td mat-cell *matCellDef="let row">{{ userDisplayName(row.supervisorUser) }}</td></ng-container>
           <ng-container matColumnDef="recruiterGroup"><th mat-header-cell *matHeaderCellDef>{{ colGroup }}</th><td mat-cell *matCellDef="let row">{{ row.recruiterGroup || '—' }}</td></ng-container>
           <ng-container matColumnDef="type"><th mat-header-cell *matHeaderCellDef>{{ colType }}</th><td mat-cell *matCellDef="let row">{{ row.requisitionType || '—' }}</td></ng-container>
           <ng-container matColumnDef="category"><th mat-header-cell *matHeaderCellDef>{{ colCategory }}</th><td mat-cell *matCellDef="let row">{{ row.coverageType || '—' }}</td></ng-container>
@@ -77,6 +78,7 @@
           <ng-container matColumnDef="city"><th mat-header-cell *matHeaderCellDef>{{ colCity }}</th><td mat-cell *matCellDef="let row">{{ row.city || '—' }}</td></ng-container>
           <ng-container matColumnDef="state"><th mat-header-cell *matHeaderCellDef>{{ colState }}</th><td mat-cell *matCellDef="let row">{{ row.state || '—' }}</td></ng-container>
           <ng-container matColumnDef="status"><th mat-header-cell *matHeaderCellDef>{{ colStatus }}</th><td mat-cell *matCellDef="let row"><sh-status-badge [status]="row.status" /></td></ng-container>
+          <ng-container matColumnDef="cancellationScope"><th mat-header-cell *matHeaderCellDef>{{ colScope }}</th><td mat-cell *matCellDef="let row">{{ row.cancellationScope || '—' }}</td></ng-container>
           <ng-container matColumnDef="actions" stickyEnd>
             <th mat-header-cell *matHeaderCellDef class="col-sticky-end"></th>
             <td mat-cell *matCellDef="let row" class="mat-column-actions col-sticky-end">
@@ -88,6 +90,14 @@
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu #rowMenu="matMenu">
+                <button mat-menu-item (click)="openHistory(row)">
+                  <mat-icon>history</mat-icon> {{ actionHistory }}
+                </button>
+                @if (canEdit() && row.status !== 'CANCELLED') {
+                  <button mat-menu-item (click)="reassignPosition(row)">
+                    <mat-icon>swap_horiz</mat-icon> {{ actionReassign }}
+                  </button>
+                }
                 <button mat-menu-item (click)="openCvBulkUpload(row)">
                   <mat-icon>upload_file</mat-icon> {{ actionCvBulk }}
                 </button>
@@ -100,12 +110,12 @@
                 <button mat-menu-item (click)="publishOnPortal(row)">
                   <mat-icon>public</mat-icon> {{ actionPublishOnPortal }}
                 </button>
-                @if (row.status === 'DRAFT') {
+                @if (canRequestCancellation() && (row.status === 'DRAFT' || row.status === 'ACTIVE')) {
                   <button mat-menu-item (click)="requestCancellation(row)">
                     <mat-icon>pending_actions</mat-icon> {{ actionRequestCancellation }}
                   </button>
                 }
-                @if (row.status === 'PENDING_CANCELLATION') {
+                @if (canEdit() && row.status === 'PENDING_CANCELLATION') {
                   <button mat-menu-item (click)="approveCancellation(row)">
                     <mat-icon>check_circle</mat-icon> {{ actionApproveCancellation }}
                   </button>
@@ -113,14 +123,21 @@
                     <mat-icon>undo</mat-icon> {{ actionRejectCancellation }}
                   </button>
                 }
+                @if (canExecuteCancellation() && row.status === 'CANCELLATION_AUTHORIZED') {
+                  <button mat-menu-item (click)="executeCancellation(row)">
+                    <mat-icon>done_all</mat-icon> {{ actionExecuteCancellation }}
+                  </button>
+                }
                 @if (row.status === 'ACTIVE') {
                   <button mat-menu-item (click)="generatePublication(row)">
                     <mat-icon>campaign</mat-icon> {{ actionGeneratePublication }}
                   </button>
                 }
-                <button mat-menu-item (click)="cancelPosition(row)">
-                  <mat-icon>cancel</mat-icon> {{ actionCancelDirect }}
-                </button>
+                @if (canDirectCancel() && row.status !== 'CANCELLED') {
+                  <button mat-menu-item (click)="cancelPosition(row)">
+                    <mat-icon>cancel</mat-icon> {{ actionCancelDirect }}
+                  </button>
+                }
               </mat-menu>
             </td>
           </ng-container>

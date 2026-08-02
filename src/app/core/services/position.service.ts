@@ -4,13 +4,19 @@ import { Observable, map } from 'rxjs';
 import {
   CreatePositionRequest,
   CreatePositionResponse,
+  DirectCancelPositionResponse,
   DuplicatePositionResponse,
-  RequestPositionCancellationResponse,
-  RejectPositionCancellationResponse,
+  ExecutePositionCancellationResponse,
   PositionDetail,
   PositionDashboardKpis,
+  PositionEventItem,
+  PositionEventListResponse,
   PositionListItem,
   PositionListResponse,
+  ReassignPositionRequest,
+  ReassignPositionResponse,
+  RejectPositionCancellationResponse,
+  RequestPositionCancellationResponse,
   UpdatePositionRequest,
   UpdatePositionResponse,
 } from '../../shared/models/position.model';
@@ -104,31 +110,61 @@ export class PositionService {
     );
   }
 
-  delete(id: number): Observable<void> {
-    return this.http.delete<void>(this.api.apiUrl(`/api/v1/positions/${id}`), {
+  delete(id: number, reason?: string | null): Observable<DirectCancelPositionResponse> {
+    return this.http.delete<DirectCancelPositionResponse>(this.api.apiUrl(`/api/v1/positions/${id}`), {
       headers: this.api.buildHeaders(),
+      body: { reason: reason ?? null },
     });
   }
 
-  requestCancellation(id: number): Observable<RequestPositionCancellationResponse> {
-    return this.http.post<RequestPositionCancellationResponse>(
-      this.api.apiUrl(`/api/v1/positions/${id}/request-cancellation`),
-      {},
+  reassign(id: number, request: ReassignPositionRequest): Observable<ReassignPositionResponse> {
+    return this.http.post<ReassignPositionResponse>(
+      this.api.apiUrl(`/api/v1/positions/${id}/reassign`),
+      request,
       { headers: this.api.buildHeaders() },
     );
   }
 
-  approveCancellation(id: number): Observable<void> {
-    return this.http.post<void>(
+  listEvents(id: number, page = 0, size = 50): Observable<{ items: PositionEventItem[]; total: number }> {
+    return this.http
+      .get<PositionEventListResponse>(this.api.apiUrl(`/api/v1/positions/${id}/events`), {
+        headers: this.api.buildHeaders(page, size),
+      })
+      .pipe(
+        map((res) => ({
+          items: res.data ?? [],
+          total: res.pagination?.total ?? 0,
+        })),
+      );
+  }
+
+  requestCancellation(id: number, reason: string): Observable<RequestPositionCancellationResponse> {
+    return this.http.post<RequestPositionCancellationResponse>(
+      this.api.apiUrl(`/api/v1/positions/${id}/request-cancellation`),
+      { reason },
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  approveCancellation(id: number): Observable<{ id: number; status: string; companyId: number }> {
+    return this.http.post<{ id: number; status: string; companyId: number }>(
       this.api.apiUrl(`/api/v1/positions/${id}/approve-cancellation`),
       {},
       { headers: this.api.buildHeaders() },
     );
   }
 
-  rejectCancellation(id: number): Observable<RejectPositionCancellationResponse> {
+  rejectCancellation(id: number, reason?: string | null): Observable<RejectPositionCancellationResponse> {
     return this.http.post<RejectPositionCancellationResponse>(
       this.api.apiUrl(`/api/v1/positions/${id}/reject-cancellation`),
+      { reason: reason ?? null },
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  executeCancellation(id: number): Observable<ExecutePositionCancellationResponse> {
+    return this.http.post<ExecutePositionCancellationResponse>(
+      this.api.apiUrl(`/api/v1/positions/${id}/execute-cancellation`),
       {},
       { headers: this.api.buildHeaders() },
     );
