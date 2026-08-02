@@ -106,20 +106,21 @@ a:hover { text-decoration: underline; }
   display: none !important;
 }
 
-/* Catalog create/edit dialogs — header bar + spacing */
+/* Catalog create/edit dialogs — primary header bar (same as Guardar) + compact height */
 .sh-catalog-dialog-header.mat-mdc-dialog-title,
 .mat-mdc-dialog-title.sh-catalog-dialog-header {
   display: block !important;
   box-sizing: border-box;
   width: 100%;
   margin: 0 !important;
-  padding: 18px 24px !important;
-  background: #ccfbf1 !important;
-  border-bottom: 1px solid #99f6e4 !important;
-  color: #0f172a !important;
-  font-size: 1.125rem !important;
+  /* ~50% of previous 18px vertical padding */
+  padding: 9px 24px !important;
+  background: var(--mat-sys-primary, #0d9488) !important;
+  border-bottom: none !important;
+  color: var(--mat-sys-on-primary, #ffffff) !important;
+  font-size: 1rem !important;
   font-weight: 600 !important;
-  line-height: 1.35 !important;
+  line-height: 1.3 !important;
 }
 
 .sh-catalog-dialog-header__text {
@@ -131,10 +132,16 @@ a:hover { text-decoration: underline; }
   overflow: hidden;
 }
 
-/* Material zeroes padding-top when title precedes content — force space for outline labels */
+/* Space for Mat outline floating labels under the compact header */
 .mat-mdc-dialog-content.sh-catalog-dialog-body,
 .mat-mdc-dialog-title + .mat-mdc-dialog-content.sh-catalog-dialog-body {
-  padding-top: 28px !important;
+  padding-top: 8px !important;
+}
+
+/* Structural gap — survives Material zeroing content padding-top */
+.sh-catalog-dialog-gap {
+  height: 16px;
+  flex-shrink: 0;
 }
 
 .sh-catalog-dialog-body {

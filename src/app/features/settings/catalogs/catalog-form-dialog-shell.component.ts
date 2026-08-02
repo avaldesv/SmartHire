@@ -16,14 +16,11 @@ export const CATALOG_FORM_DIALOG_PANEL_CLASS = 'sh-catalog-form-dialog-panel';
   imports: [MatDialogModule, NgTemplateOutlet],
   encapsulation: ViewEncapsulation.None,
   template: `
-    <div
-      class="sh-catalog-dialog-header"
-      mat-dialog-title
-      style="margin:0;padding:18px 24px;background:#ccfbf1;border-bottom:1px solid #99f6e4;font-size:1.125rem;font-weight:600;line-height:1.35;color:#0f172a;box-sizing:border-box;width:100%;"
-    >
+    <div class="sh-catalog-dialog-header" mat-dialog-title>
       <span class="sh-catalog-dialog-header__text">{{ data.title }}</span>
     </div>
-    <mat-dialog-content class="sh-catalog-dialog-body" style="padding-top:28px;display:block;">
+    <mat-dialog-content class="sh-catalog-dialog-body">
+      <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
       <ng-container *ngTemplateOutlet="data.content" />
     </mat-dialog-content>
   `,
