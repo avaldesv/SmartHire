@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, inject, TemplateRef } from '@angular/core';
+import { Component, ViewEncapsulation, inject, TemplateRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 export interface CatalogFormDialogData {
@@ -7,62 +7,47 @@ export interface CatalogFormDialogData {
   content: TemplateRef<unknown>;
 }
 
-/** Shared MatDialog panel class for catalog create/edit shells (header bar bleed). */
+/** Applied to MatDialog overlay pane — styles live in styles.scss (global). */
 export const CATALOG_FORM_DIALOG_PANEL_CLASS = 'sh-catalog-form-dialog-panel';
 
 @Component({
   selector: 'sh-catalog-form-dialog-shell',
   standalone: true,
   imports: [MatDialogModule, NgTemplateOutlet],
+  encapsulation: ViewEncapsulation.None,
   template: `
-    <h2 mat-dialog-title class="catalog-dialog-title">{{ data.title }}</h2>
-    <mat-dialog-content class="catalog-form-dialog-body">
+    <div class="sh-catalog-dialog-header" mat-dialog-title>
+      <span class="sh-catalog-dialog-header__text">{{ data.title }}</span>
+    </div>
+    <mat-dialog-content class="sh-catalog-dialog-body">
       <ng-container *ngTemplateOutlet="data.content" />
     </mat-dialog-content>
   `,
   styles: [
     `
-      :host {
+      sh-catalog-form-dialog-shell {
         display: block;
       }
 
-      .catalog-dialog-title {
-        margin: 0;
-        padding: 16px 24px;
-        background: color-mix(in srgb, #0d9488 14%, #f8fafc);
-        border-bottom: 1px solid color-mix(in srgb, #0d9488 28%, #e2e8f0);
-        color: #0f172a;
-        font-size: 1.125rem;
-        font-weight: 600;
-        line-height: 1.35;
-      }
-
-      .catalog-form-dialog-body {
-        min-width: min(640px, 92vw);
-        max-width: 920px;
-        /* Keep outline floating labels clear of the title bar */
-        padding-top: 24px !important;
-      }
-
-      :host ::ng-deep .gender-form,
-      :host ::ng-deep .doc-type-form,
-      :host ::ng-deep form.gender-form,
-      :host ::ng-deep form.doc-type-form {
+      sh-catalog-form-dialog-shell .sh-catalog-dialog-body .gender-form,
+      sh-catalog-form-dialog-shell .sh-catalog-dialog-body .doc-type-form,
+      sh-catalog-form-dialog-shell .sh-catalog-dialog-body form.gender-form,
+      sh-catalog-form-dialog-shell .sh-catalog-dialog-body form.doc-type-form {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 8px 12px;
         align-items: start;
       }
 
-      :host ::ng-deep .gender-form > .form-actions,
-      :host ::ng-deep .doc-type-form > .form-actions,
-      :host ::ng-deep .gender-form > mat-checkbox,
-      :host ::ng-deep .doc-type-form > mat-checkbox,
-      :host ::ng-deep .scope-selector {
+      sh-catalog-form-dialog-shell .sh-catalog-dialog-body .gender-form > .form-actions,
+      sh-catalog-form-dialog-shell .sh-catalog-dialog-body .doc-type-form > .form-actions,
+      sh-catalog-form-dialog-shell .sh-catalog-dialog-body .gender-form > mat-checkbox,
+      sh-catalog-form-dialog-shell .sh-catalog-dialog-body .doc-type-form > mat-checkbox,
+      sh-catalog-form-dialog-shell .sh-catalog-dialog-body .scope-selector {
         grid-column: 1 / -1;
       }
 
-      :host ::ng-deep .form-actions {
+      sh-catalog-form-dialog-shell .sh-catalog-dialog-body .form-actions {
         display: flex;
         justify-content: flex-end;
         gap: 8px;
@@ -70,10 +55,10 @@ export const CATALOG_FORM_DIALOG_PANEL_CLASS = 'sh-catalog-form-dialog-panel';
       }
 
       @media (max-width: 700px) {
-        :host ::ng-deep .gender-form,
-        :host ::ng-deep .doc-type-form,
-        :host ::ng-deep form.gender-form,
-        :host ::ng-deep form.doc-type-form {
+        sh-catalog-form-dialog-shell .sh-catalog-dialog-body .gender-form,
+        sh-catalog-form-dialog-shell .sh-catalog-dialog-body .doc-type-form,
+        sh-catalog-form-dialog-shell .sh-catalog-dialog-body form.gender-form,
+        sh-catalog-form-dialog-shell .sh-catalog-dialog-body form.doc-type-form {
           grid-template-columns: 1fr;
         }
       }
