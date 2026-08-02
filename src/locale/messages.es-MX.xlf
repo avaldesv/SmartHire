@@ -1632,6 +1632,21 @@
           <context context-type="linenumber">116</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="catalogs.field.responsibleManager" datatype="html">
+        <source>Gerente responsable</source>
+      </trans-unit>
+      <trans-unit id="catalogs.field.recruiters" datatype="html">
+        <source>Reclutadores</source>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.loadingUsers" datatype="html">
+        <source>Cargando usuarios…</source>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.validation.managerRequired" datatype="html">
+        <source>Seleccione un gerente responsable</source>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.validation.managerNotInRecruiters" datatype="html">
+        <source>El gerente no puede estar en la lista de reclutadores</source>
+      </trans-unit>
       <trans-unit id="catalogs.jobPortal.newButton" datatype="html">
         <source>Nuevo portal</source>
         <context-group purpose="location">

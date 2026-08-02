@@ -23,6 +23,12 @@ export class SecurityRecruiterGroupService {
       .pipe(map((res) => ({ items: res.data ?? [], total: res.pagination?.total ?? 0 })));
   }
 
+  getById(id: number): Observable<SecurityRecruiterGroup> {
+    return this.http.get<SecurityRecruiterGroup>(this.api.apiUrl(`/api/v1/recruiter-groups/${id}`), {
+      headers: this.api.buildHeaders(),
+    });
+  }
+
   create(request: CreateRecruiterGroupRequest): Observable<SecurityRecruiterGroup> {
     return this.http.post<SecurityRecruiterGroup>(this.api.apiUrl('/api/v1/recruiter-groups'), request, {
       headers: this.api.buildHeaders(),
