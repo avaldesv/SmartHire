@@ -106,3 +106,18 @@ a:hover { text-decoration: underline; }
   display: none !important;
 }
 
+/* Catalog create/edit dialogs: full-bleed teal title bar + room for outline labels */
+.sh-catalog-form-dialog-panel .mat-mdc-dialog-surface {
+  padding-top: 0 !important;
+  overflow: hidden;
+}
+
+.sh-catalog-form-dialog-panel .mat-mdc-dialog-title {
+  margin: 0 !important;
+  padding: 16px 24px !important;
+}
+
+.sh-catalog-form-dialog-panel .mat-mdc-dialog-content {
+  padding-top: 24px !important;
+}
+
