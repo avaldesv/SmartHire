@@ -63,6 +63,7 @@ import { CatalogFormTplDirective } from './catalog-form-tpl.directive';
 import {
   CatalogFormDialogShellComponent,
   CatalogFormDialogData,
+  CATALOG_FORM_DIALOG_PANEL_CLASS,
 } from './catalog-form-dialog-shell.component';
 import { CatalogJobPortalService } from '../../../core/services/catalog-job-portal.service';
 import { CatalogJobPortal } from '../../../shared/models/catalog-job-portal.model';
@@ -1483,6 +1484,7 @@ export class CatalogsAdminComponent implements OnInit {
       width: '720px',
       maxWidth: '95vw',
       autoFocus: 'first-tabbable',
+      panelClass: CATALOG_FORM_DIALOG_PANEL_CLASS,
       data: { title, content: tpl.template } satisfies CatalogFormDialogData,
     });
     this.activeCatalogFormDialog = ref;
@@ -2530,6 +2532,7 @@ export class CatalogsAdminComponent implements OnInit {
         width: '960px',
         maxWidth: '96vw',
         autoFocus: 'first-heading',
+        panelClass: CATALOG_FORM_DIALOG_PANEL_CLASS,
         data,
       })
       .afterClosed()

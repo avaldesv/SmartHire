@@ -1,29 +1,47 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, TemplateRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { TemplateRef } from '@angular/core';
 
 export interface CatalogFormDialogData {
   title: string;
   content: TemplateRef<unknown>;
 }
 
+/** Shared MatDialog panel class for catalog create/edit shells (header bar bleed). */
+export const CATALOG_FORM_DIALOG_PANEL_CLASS = 'sh-catalog-form-dialog-panel';
+
 @Component({
   selector: 'sh-catalog-form-dialog-shell',
   standalone: true,
   imports: [MatDialogModule, NgTemplateOutlet],
   template: `
-    <h2 mat-dialog-title>{{ data.title }}</h2>
+    <h2 mat-dialog-title class="catalog-dialog-title">{{ data.title }}</h2>
     <mat-dialog-content class="catalog-form-dialog-body">
       <ng-container *ngTemplateOutlet="data.content" />
     </mat-dialog-content>
   `,
   styles: [
     `
+      :host {
+        display: block;
+      }
+
+      .catalog-dialog-title {
+        margin: 0;
+        padding: 16px 24px;
+        background: color-mix(in srgb, #0d9488 14%, #f8fafc);
+        border-bottom: 1px solid color-mix(in srgb, #0d9488 28%, #e2e8f0);
+        color: #0f172a;
+        font-size: 1.125rem;
+        font-weight: 600;
+        line-height: 1.35;
+      }
+
       .catalog-form-dialog-body {
         min-width: min(640px, 92vw);
         max-width: 920px;
-        padding-top: 8px;
+        /* Keep outline floating labels clear of the title bar */
+        padding-top: 24px !important;
       }
 
       :host ::ng-deep .gender-form,
