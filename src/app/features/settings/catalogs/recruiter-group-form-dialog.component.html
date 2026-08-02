@@ -1,11 +1,13 @@
-<h2 mat-dialog-title>{{ title }}</h2>
+<div class="sh-catalog-dialog-header" mat-dialog-title>
+  <span class="sh-catalog-dialog-header__text">{{ title }}</span>
+</div>
 
 @if (loadingDetail) {
   <mat-dialog-content class="loading-wrap">
     <mat-spinner diameter="36" />
   </mat-dialog-content>
 } @else {
-  <mat-dialog-content class="dialog-body">
+  <mat-dialog-content class="dialog-body sh-catalog-dialog-body">
     @if (data.isGlobalAdmin && !isEdit) {
       <div class="scope-selector" [formGroup]="scopeForm">
         <span class="scope-label">{{ labels.scopeLabel }}</span>

@@ -106,3 +106,40 @@ a:hover { text-decoration: underline; }
   display: none !important;
 }
 
+/* Catalog create/edit dialogs — header bar + spacing */
+.sh-catalog-dialog-header.mat-mdc-dialog-title,
+.mat-mdc-dialog-title.sh-catalog-dialog-header {
+  display: block !important;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 !important;
+  padding: 18px 24px !important;
+  background: #ccfbf1 !important;
+  border-bottom: 1px solid #99f6e4 !important;
+  color: #0f172a !important;
+  font-size: 1.125rem !important;
+  font-weight: 600 !important;
+  line-height: 1.35 !important;
+}
+
+.sh-catalog-dialog-header__text {
+  display: block;
+}
+
+.sh-catalog-form-dialog-panel .mat-mdc-dialog-surface {
+  padding-top: 0 !important;
+  overflow: hidden;
+}
+
+/* Material zeroes padding-top when title precedes content — force space for outline labels */
+.mat-mdc-dialog-content.sh-catalog-dialog-body,
+.mat-mdc-dialog-title + .mat-mdc-dialog-content.sh-catalog-dialog-body {
+  padding-top: 28px !important;
+}
+
+.sh-catalog-dialog-body {
+  min-width: min(640px, 92vw);
+  max-width: 920px;
+}
+
+
