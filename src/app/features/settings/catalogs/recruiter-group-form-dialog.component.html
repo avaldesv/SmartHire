@@ -1,0 +1,198 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+
+@if (loadingDetail) {
+  <mat-dialog-content class="loading-wrap">
+    <mat-spinner diameter="36" />
+  </mat-dialog-content>
+} @else {
+  <mat-dialog-content class="dialog-body">
+    @if (data.isGlobalAdmin && !isEdit) {
+      <div class="scope-selector" [formGroup]="scopeForm">
+        <span class="scope-label">{{ labels.scopeLabel }}</span>
+        <mat-radio-group formControlName="scope">
+          <mat-radio-button value="TENANT">{{ labels.scopeTenant }}</mat-radio-button>
+          <mat-radio-button value="GLOBAL">{{ labels.scopeGlobal }}</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    }
+
+    <form [formGroup]="form" class="form" (ngSubmit)="save()">
+      <h3 class="section-title">{{ labels.sectionGroup }}</h3>
+      <div class="grid-2">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ labels.country }}</mat-label>
+          <mat-select formControlName="countryId">
+            <mat-option [value]="null">{{ labels.allCountries }}</mat-option>
+            @for (country of data.countries; track country.id) {
+              <mat-option [value]="country.id">{{ country.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ labels.code }}</mat-label>
+          <input matInput formControlName="code" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="span-2">
+          <mat-label>{{ labels.description }}</mat-label>
+          <input matInput formControlName="description" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ labels.mp }}</mat-label>
+          <input matInput type="number" formControlName="legacyManpowerId" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ labels.coreAts }}</mat-label>
+          <input matInput formControlName="coreAts" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ labels.coreAppian }}</mat-label>
+          <input matInput formControlName="coreAppian" />
+        </mat-form-field>
+        <div class="active-wrap">
+          <mat-checkbox formControlName="isActive">{{ labels.active }}</mat-checkbox>
+        </div>
+      </div>
+
+      <h3 class="section-title">{{ labels.sectionPeople }}</h3>
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>{{ labels.manager }}</mat-label>
+        <input
+          matInput
+          formControlName="managerSearch"
+          [matAutocomplete]="managerAuto"
+          [placeholder]="labels.managerPh"
+          (input)="onManagerInput($any($event.target).value)"
+        />
+        @if (selectedManager) {
+          <button
+            matSuffix
+            mat-icon-button
+            type="button"
+            [attr.aria-label]="labels.clearManager"
+            (click)="clearManager()"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        }
+        @if (searchingManager) {
+          <mat-spinner matSuffix diameter="18" />
+        }
+        <mat-autocomplete
+          #managerAuto="matAutocomplete"
+          [displayWith]="displayManagerFn"
+          (optionSelected)="onManagerSelected($event)"
+        >
+          @for (opt of managerOptions; track opt.id) {
+            <mat-option [value]="opt">{{ opt.label }}</mat-option>
+          }
+        </mat-autocomplete>
+        <mat-hint>{{ labels.managerHint }}</mat-hint>
+      </mat-form-field>
+
+      <div class="recruiters-header">
+        <span class="recruiters-label">{{ labels.recruiters }}</span>
+        <span class="recruiters-count">{{ selectedRecruiters.length }}</span>
+      </div>
+
+      <div class="dual-list">
+        <section class="panel">
+          <header class="panel-header">
+            <strong>{{ labels.available }}</strong>
+            @if (searchingAvailable) {
+              <mat-spinner diameter="16" />
+            }
+          </header>
+          <mat-form-field appearance="outline" class="panel-search" subscriptSizing="dynamic">
+            <mat-label>{{ labels.availablePh }}</mat-label>
+            <input
+              matInput
+              formControlName="availableSearch"
+              (input)="onAvailableInput($any($event.target).value)"
+            />
+            <mat-icon matPrefix>search</mat-icon>
+          </mat-form-field>
+          <div class="panel-list" role="listbox">
+            @if (availableUsers.length === 0) {
+              <p class="empty">{{ labels.noAvailable }}</p>
+            } @else {
+              @for (user of availableUsers; track user.id) {
+                <div class="user-row" role="option">
+                  <mat-checkbox
+                    [checked]="isAvailableChecked(user.id)"
+                    (change)="toggleAvailable(user.id, $event.checked)"
+                  >
+                    {{ user.label }}
+                  </mat-checkbox>
+                  <button mat-button type="button" color="primary" (click)="addOne(user)">
+                    {{ labels.add }}
+                  </button>
+                </div>
+              }
+            }
+          </div>
+        </section>
+
+        <div class="transfer-actions">
+          <button
+            mat-stroked-button
+            type="button"
+            color="primary"
+            [disabled]="checkedAvailableIds.size === 0"
+            (click)="addChecked()"
+          >
+            {{ labels.addSelected }}
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+          <button
+            mat-stroked-button
+            type="button"
+            [disabled]="checkedSelectedIds.size === 0"
+            (click)="removeChecked()"
+          >
+            <mat-icon>chevron_left</mat-icon>
+            {{ labels.removeSelected }}
+          </button>
+        </div>
+
+        <section class="panel">
+          <header class="panel-header">
+            <strong>{{ labels.selected }} ({{ selectedRecruiters.length }})</strong>
+          </header>
+          <div class="panel-list selected-list" role="listbox">
+            @if (selectedRecruiters.length === 0) {
+              <p class="empty">{{ labels.noSelected }}</p>
+            } @else {
+              @for (user of selectedRecruiters; track user.id) {
+                <div class="user-row" role="option">
+                  <mat-checkbox
+                    [checked]="isSelectedChecked(user.id)"
+                    (change)="toggleSelected(user.id, $event.checked)"
+                  >
+                    {{ user.label }}
+                  </mat-checkbox>
+                  <button mat-button type="button" (click)="removeOne(user)">
+                    {{ labels.remove }}
+                  </button>
+                </div>
+              }
+            }
+          </div>
+        </section>
+      </div>
+    </form>
+  </mat-dialog-content>
+}
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" [mat-dialog-close]="false" [disabled]="saving">{{ labels.cancel }}</button>
+  <button
+    mat-flat-button
+    color="primary"
+    type="button"
+    (click)="save()"
+    [disabled]="saving || loadingDetail"
+  >
+    {{ saving ? labels.saving : labels.save }}
+  </button>
+</mat-dialog-actions>

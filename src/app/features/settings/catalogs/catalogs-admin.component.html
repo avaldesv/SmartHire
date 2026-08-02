@@ -1801,65 +1801,6 @@
           <mat-icon>add</mat-icon> {{ panelUi('recruiterGroup').newButton }}
         </button>
       </div>
-      @if (showRecruiterGroupForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingRecruiterGroupId ? panelUi('recruiterGroup').editTitle : panelUi('recruiterGroup').newTitle }}</h4>
-          @if (isGlobalAdmin() && !editingRecruiterGroupId) {
-            <div class="scope-selector" [formGroup]="createScopeForm">
-              <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
-              <mat-radio-group formControlName="scope">
-                <mat-radio-button value="TENANT" i18n="@@catalogs.common.scopeTenant">Tenant actual</mat-radio-button>
-                <mat-radio-button value="GLOBAL" i18n="@@catalogs.common.scopeGlobal">Global</mat-radio-button>
-              </mat-radio-group>
-            </div>
-          }
-          <form [formGroup]="recruiterGroupForm" class="gender-form" (ngSubmit)="saveRecruiterGroup()">
-            <mat-form-field appearance="outline">
-              <mat-label i18n="@@catalogs.field.country">País</mat-label>
-              <mat-select formControlName="countryId">
-                <mat-option [value]="null" i18n="@@catalogs.field.allCountries">Todos los países</mat-option>
-                @for (country of countries; track country.id) {
-                  <mat-option [value]="country.id">{{ country.name }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label i18n="@@catalogs.field.responsibleManager">Gerente responsable</mat-label>
-              <mat-select formControlName="responsibleManagerUserId" (selectionChange)="onRecruiterGroupManagerChange($event.value)">
-                @if (loadingRecruiterGroupUsers) {
-                  <mat-option disabled i18n="@@catalogs.recruiterGroup.loadingUsers">Cargando usuarios…</mat-option>
-                } @else {
-                  @for (user of recruiterGroupManagerOptions(); track user.id) {
-                    <mat-option [value]="user.id">{{ formatRecruiterGroupUserFromSecurity(user) }}</mat-option>
-                  }
-                }
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label i18n="@@catalogs.field.recruiters">Reclutadores</mat-label>
-              <mat-select formControlName="recruiterUserIds" multiple (selectionChange)="onRecruiterGroupMembersChange($event.value)">
-                @if (loadingRecruiterGroupUsers) {
-                  <mat-option disabled i18n="@@catalogs.recruiterGroup.loadingUsers">Cargando usuarios…</mat-option>
-                } @else {
-                  @for (user of recruiterGroupMemberOptions(); track user.id) {
-                    <mat-option [value]="user.id">{{ formatRecruiterGroupUserFromSecurity(user) }}</mat-option>
-                  }
-                }
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.manpowerIdShort">Id MP</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>{{ colCoreAts }}</mat-label><input matInput formControlName="coreAts" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>{{ colCoreAppian }}</mat-label><input matInput formControlName="coreAppian" /></mat-form-field>
-            <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelRecruiterGroupForm()" i18n="@@common.cancel">Cancelar</button>
-              <button mat-flat-button color="primary" type="submit" [disabled]="savingRecruiterGroup">{{ savingRecruiterGroup ? catalogsSaving : catalogsSave }}</button>
-            </div>
-          </form>
-        </div>
-      }
       @if (loadingRecruiterGroups) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {

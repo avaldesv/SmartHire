@@ -1647,6 +1647,51 @@
       <trans-unit id="catalogs.recruiterGroup.validation.managerNotInRecruiters" datatype="html">
         <source>El gerente no puede estar en la lista de reclutadores</source>
       </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.section.groupData" datatype="html">
+        <source>Datos del grupo</source>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.section.people" datatype="html">
+        <source>Personas</source>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.managerSearchPlaceholder" datatype="html">
+        <source>Buscar gerente por nombre o email</source>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.managerHint" datatype="html">
+        <source>Escribe al menos 2 caracteres para buscar</source>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.clearManager" datatype="html">
+        <source>Quitar gerente</source>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.available" datatype="html">
+        <source>Disponibles</source>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.selected" datatype="html">
+        <source>Seleccionados</source>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.availableSearchPlaceholder" datatype="html">
+        <source>Buscar usuarios para agregar</source>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.add" datatype="html">
+        <source>Agregar</source>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.remove" datatype="html">
+        <source>Quitar</source>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.addSelected" datatype="html">
+        <source>Agregar seleccionados</source>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.removeSelected" datatype="html">
+        <source>Quitar seleccionados</source>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.noAvailable" datatype="html">
+        <source>No hay resultados. Ajusta la búsqueda.</source>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.noSelected" datatype="html">
+        <source>Sin reclutadores seleccionados</source>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.saveError" datatype="html">
+        <source>No se pudo guardar el grupo</source>
+      </trans-unit>
       <trans-unit id="catalogs.jobPortal.newButton" datatype="html">
         <source>Nuevo portal</source>
         <context-group purpose="location">
