@@ -10,6 +10,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ApiErrorTranslationService } from '../../../core/services/api-error-translation.service';
@@ -54,8 +55,10 @@ import { CatalogBranchService } from '../../../core/services/catalog-branch.serv
 import { CatalogBranch } from '../../../shared/models/catalog-branch.model';
 import { SecurityRecruiterGroupService } from '../../../core/services/security-recruiter-group.service';
 import { SecurityRecruiterGroup, RecruiterGroupUserSummary } from '../../../shared/models/security-recruiter-group.model';
-import { SecurityUserService } from '../../../core/services/security-user.service';
-import { SecurityUser } from '../../../shared/models/security-user.model';
+import {
+  RecruiterGroupFormDialogComponent,
+  RecruiterGroupFormDialogData,
+} from './recruiter-group-form-dialog.component';
 import { CatalogJobPortalService } from '../../../core/services/catalog-job-portal.service';
 import { CatalogJobPortal } from '../../../shared/models/catalog-job-portal.model';
 import { QuestionnaireQuestionService } from '../../../core/services/questionnaire-question.service';
@@ -176,9 +179,6 @@ import {
 
 import { catalogPanelUi } from '../../../core/i18n/catalog-panel-ui-labels';
 
-const RECRUITER_GROUP_MANAGER_CONFLICT_MSG = $localize`:@@catalogs.recruiterGroup.validation.managerNotInRecruiters:El gerente no puede estar en la lista de reclutadores`;
-const RECRUITER_GROUP_MANAGER_REQUIRED_MSG = $localize`:@@catalogs.recruiterGroup.validation.managerRequired:Seleccione un gerente responsable`;
-
 @Component({
   selector: 'sh-catalogs-admin',
   standalone: true,
@@ -196,6 +196,7 @@ const RECRUITER_GROUP_MANAGER_REQUIRED_MSG = $localize`:@@catalogs.recruiterGrou
     MatSelectModule,
     MatSnackBarModule,
     MatRadioModule,
+    MatDialogModule,
     ScopeBadgeComponent,
     NotificationsAdminComponent,
     CatalogListActionsComponent,
@@ -284,7 +285,6 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly requisitionTypeService = inject(CatalogRequisitionTypeService);
   private readonly clientService = inject(CatalogClientService);
   private readonly recruiterGroupService = inject(SecurityRecruiterGroupService);
-  private readonly userService = inject(SecurityUserService);
   private readonly jobPortalService = inject(CatalogJobPortalService);
   private readonly contractTypeService = inject(CatalogContractTypeService);
   private readonly companyAreaService = inject(CatalogCompanyAreaService);
@@ -312,6 +312,7 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly geographyService = inject(CatalogGeographyService);
   private readonly userSettingsApi = inject(UserSettingsApiService);
   private readonly snack = inject(MatSnackBar);
+  private readonly dialog = inject(MatDialog);
   private readonly apiError = inject(ApiErrorTranslationService);
   private readonly fb = inject(FormBuilder);
 
@@ -852,11 +853,6 @@ export class CatalogsAdminComponent implements OnInit {
   recruiterGroupPageIndex = 0;
   recruiterGroupPageSize = 10;
   loadingRecruiterGroups = false;
-  savingRecruiterGroup = false;
-  editingRecruiterGroupId: number | null = null;
-  showRecruiterGroupForm = false;
-  loadingRecruiterGroupUsers = false;
-  recruiterGroupTenantUsers: SecurityUser[] = [];
 
   jobPortals: CatalogJobPortal[] = [];
   jobPortalTotal = 0;
@@ -1097,18 +1093,6 @@ export class CatalogsAdminComponent implements OnInit {
   readonly companyDepartmentColumns = ['name', 'description', 'active', 'scope', 'actions'];
   readonly branchColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
   readonly recruiterGroupColumns = ['code', 'description', 'responsibleManager', 'recruitersCount', 'legacyManpowerId', 'coreAts', 'coreAppian', 'active', 'scope', 'actions'];
-
-  readonly recruiterGroupForm = this.fb.nonNullable.group({
-    countryId: [null as number | null],
-    code: ['', Validators.required],
-    description: ['', Validators.required],
-    legacyManpowerId: [null as number | null, Validators.required],
-    coreAts: [''],
-    coreAppian: ['', Validators.required],
-    isActive: [true],
-    responsibleManagerUserId: [null as number | null, Validators.required],
-    recruiterUserIds: [[] as number[]],
-  });
 
   readonly jobPortalColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
 
@@ -2476,89 +2460,36 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   openCreateRecruiterGroup(): void {
-    this.resetCreateScope();
-    this.editingRecruiterGroupId = null;
-    this.showRecruiterGroupForm = true;
-    this.loadRecruiterGroupTenantUsers();
-    this.recruiterGroupForm.reset({
-      countryId: this.selectedCountryId,
-      code: '',
-      description: '',
-      legacyManpowerId: null,
-      coreAts: '',
-      coreAppian: '',
-      isActive: true,
-      responsibleManagerUserId: null,
-      recruiterUserIds: [],
-    });
+    this.openRecruiterGroupDialog(null);
   }
 
   openEditRecruiterGroup(row: SecurityRecruiterGroup): void {
-    this.editingRecruiterGroupId = row.id;
-    this.showRecruiterGroupForm = true;
-    this.loadRecruiterGroupTenantUsers();
-    this.recruiterGroupService.getById(row.id).subscribe({
-      next: (detail) => {
-        this.recruiterGroupForm.patchValue({
-          countryId: detail.countryId ?? this.selectedCountryId,
-          code: detail.code,
-          description: detail.description,
-          legacyManpowerId: detail.legacyManpowerId,
-          coreAts: detail.coreAts ?? '',
-          coreAppian: detail.coreAppian,
-          isActive: detail.isActive,
-          responsibleManagerUserId: detail.responsibleManager?.id ?? null,
-          recruiterUserIds: detail.recruiters?.map((recruiter) => recruiter.id) ?? [],
-        });
-      },
-      error: () => {
-        this.snack.open(catalogLoadListError(getCatalogEntryLabel('recruiterGroup')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
-        this.cancelRecruiterGroupForm();
-      },
-    });
+    this.openRecruiterGroupDialog(row.id);
   }
 
-  loadRecruiterGroupTenantUsers(): void {
-    this.loadingRecruiterGroupUsers = true;
-    this.userService.list(0, 500).subscribe({
-      next: (res) => {
-        this.recruiterGroupTenantUsers = (res.items ?? []).filter((user) => user.isActive);
-        this.loadingRecruiterGroupUsers = false;
-      },
-      error: () => {
-        this.recruiterGroupTenantUsers = [];
-        this.loadingRecruiterGroupUsers = false;
-      },
-    });
-  }
-
-  recruiterGroupManagerOptions(): SecurityUser[] {
-    const selectedRecruiterIds = new Set(this.recruiterGroupForm.controls.recruiterUserIds.value ?? []);
-    return this.recruiterGroupTenantUsers.filter((user) => !selectedRecruiterIds.has(user.id));
-  }
-
-  recruiterGroupMemberOptions(): SecurityUser[] {
-    const managerId = this.recruiterGroupForm.controls.responsibleManagerUserId.value;
-    return this.recruiterGroupTenantUsers.filter((user) => user.id !== managerId);
-  }
-
-  onRecruiterGroupManagerChange(managerId: number | null): void {
-    const recruiterIds = [...(this.recruiterGroupForm.controls.recruiterUserIds.value ?? [])];
-    if (managerId != null) {
-      const filtered = recruiterIds.filter((id) => id !== managerId);
-      if (filtered.length !== recruiterIds.length) {
-        this.recruiterGroupForm.patchValue({ recruiterUserIds: filtered });
-      }
-    }
-  }
-
-  onRecruiterGroupMembersChange(recruiterUserIds: number[]): void {
-    const managerId = this.recruiterGroupForm.controls.responsibleManagerUserId.value;
-    if (managerId != null && recruiterUserIds.includes(managerId)) {
-      this.recruiterGroupForm.patchValue({
-        recruiterUserIds: recruiterUserIds.filter((id) => id !== managerId),
+  private openRecruiterGroupDialog(groupId: number | null): void {
+    const data: RecruiterGroupFormDialogData = {
+      groupId,
+      selectedCountryId: this.selectedCountryId,
+      countries: this.countries,
+      isGlobalAdmin: this.isGlobalAdmin(),
+    };
+    this.dialog
+      .open(RecruiterGroupFormDialogComponent, {
+        width: '960px',
+        maxWidth: '96vw',
+        autoFocus: 'first-heading',
+        data,
+      })
+      .afterClosed()
+      .subscribe((saved) => {
+        if (saved) {
+          this.loadRecruiterGroups();
+          this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('recruiterGroup')), CATALOG_MSG_SNACK_CLOSE, {
+            duration: 3000,
+          });
+        }
       });
-    }
   }
 
   formatRecruiterGroupUser(user?: RecruiterGroupUserSummary | null): string {
@@ -2572,65 +2503,8 @@ export class CatalogsAdminComponent implements OnInit {
     return user.email ?? fullName ?? '—';
   }
 
-  formatRecruiterGroupUserFromSecurity(user: SecurityUser): string {
-    const fullName = [user.name, user.lastName].filter(Boolean).join(' ').trim();
-    if (fullName && user.email) {
-      return `${fullName} (${user.email})`;
-    }
-    return user.email ?? fullName ?? user.username;
-  }
-
   cancelRecruiterGroupForm(): void {
-    this.showRecruiterGroupForm = false;
-    this.editingRecruiterGroupId = null;
-  }
-
-  saveRecruiterGroup(): void {
-    if (this.recruiterGroupForm.invalid) {
-      this.recruiterGroupForm.markAllAsTouched();
-      if (this.recruiterGroupForm.controls.responsibleManagerUserId.invalid) {
-        this.snack.open(RECRUITER_GROUP_MANAGER_REQUIRED_MSG, CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
-      }
-      return;
-    }
-    const value = this.recruiterGroupForm.getRawValue();
-    if (value.responsibleManagerUserId == null) {
-      this.snack.open(RECRUITER_GROUP_MANAGER_REQUIRED_MSG, CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
-      return;
-    }
-    const recruiterUserIds = value.recruiterUserIds ?? [];
-    if (recruiterUserIds.includes(value.responsibleManagerUserId)) {
-      this.snack.open(RECRUITER_GROUP_MANAGER_CONFLICT_MSG, CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
-      return;
-    }
-    const payload = {
-      countryId: value.countryId ?? null,
-      code: value.code,
-      description: value.description,
-      legacyManpowerId: value.legacyManpowerId!,
-      coreAts: value.coreAts || undefined,
-      coreAppian: value.coreAppian,
-      isActive: value.isActive,
-      responsibleManagerUserId: value.responsibleManagerUserId,
-      recruiterUserIds,
-    };
-    this.savingRecruiterGroup = true;
-    const request$ =
-      this.editingRecruiterGroupId != null
-        ? this.recruiterGroupService.update(this.editingRecruiterGroupId, payload)
-        : this.recruiterGroupService.create(this.withCreateScope(payload));
-    request$.subscribe({
-      next: () => {
-        this.savingRecruiterGroup = false;
-        this.cancelRecruiterGroupForm();
-        this.loadRecruiterGroups();
-        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('recruiterGroup')), CATALOG_MSG_SNACK_CLOSE, { duration: 3000 });
-      },
-      error: () => {
-        this.savingRecruiterGroup = false;
-        this.snack.open(catalogSaveError(getCatalogEntryLabel('recruiterGroup')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
-      },
-    });
+    // No inline form; kept for cancelAllForms compatibility.
   }
 
   deleteRecruiterGroup(row: SecurityRecruiterGroup): void {
@@ -2639,7 +2513,7 @@ export class CatalogsAdminComponent implements OnInit {
       row.description || row.code,
       this.recruiterGroupService.delete(row.id),
       () => this.loadRecruiterGroups(),
-      this.editingRecruiterGroupId,
+      null,
       () => this.cancelRecruiterGroupForm(),
     );
   }
