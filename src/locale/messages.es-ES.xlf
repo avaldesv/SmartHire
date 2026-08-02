@@ -834,6 +834,26 @@
         <source>Nuevo grupo</source>
         <target>Nuevo grupo</target>
       </trans-unit>
+      <trans-unit id="catalogs.field.responsibleManager" datatype="html">
+        <source>Gerente responsable</source>
+        <target>Gerente responsable</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.recruiters" datatype="html">
+        <source>Reclutadores</source>
+        <target>Reclutadores</target>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.loadingUsers" datatype="html">
+        <source>Cargando usuarios…</source>
+        <target>Cargando usuarios…</target>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.validation.managerRequired" datatype="html">
+        <source>Seleccione un gerente responsable</source>
+        <target>Seleccione un gerente responsable</target>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.validation.managerNotInRecruiters" datatype="html">
+        <source>El gerente no puede estar en la lista de reclutadores</source>
+        <target>El gerente no puede estar en la lista de reclutadores</target>
+      </trans-unit>
       <trans-unit id="catalogs.jobPortal.newButton" datatype="html">
         <source>Nuevo portal</source>
         <target>Nuevo portal</target>

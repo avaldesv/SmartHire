@@ -1,6 +1,13 @@
 import { TenantDataScope } from './tenant-data-scope.model';
 import { ApiPageResponse } from './catalog-position.model';
 
+export interface RecruiterGroupUserSummary {
+  id: number;
+  name?: string | null;
+  lastName?: string | null;
+  email?: string | null;
+}
+
 export interface SecurityRecruiterGroup {
   id: number;
   countryId?: number | null;
@@ -11,6 +18,9 @@ export interface SecurityRecruiterGroup {
   coreAppian: string;
   isActive: boolean;
   companyId?: number | null;
+  responsibleManager?: RecruiterGroupUserSummary | null;
+  recruiters?: RecruiterGroupUserSummary[];
+  recruitersCount?: number;
 }
 
 export interface CreateRecruiterGroupRequest {
@@ -22,6 +32,8 @@ export interface CreateRecruiterGroupRequest {
   coreAppian: string;
   isActive?: boolean;
   scope?: TenantDataScope;
+  responsibleManagerUserId: number;
+  recruiterUserIds?: number[];
 }
 
 export type UpdateRecruiterGroupRequest = Omit<CreateRecruiterGroupRequest, 'scope'>;
