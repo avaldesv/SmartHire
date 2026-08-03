@@ -25,12 +25,23 @@
             </mat-form-field>
 
             @if (selectedActionMeta()?.variablesSchema?.length) {
-              <p class="action-hint">
-                {{ actionHintLabel }}:
-                @for (v of selectedActionMeta()!.variablesSchema; track v) {
-                  <code>{{ '{{' + v + '}}' }}</code>
-                }
-              </p>
+              <div class="variables-panel">
+                <p class="action-hint">{{ actionHintLabel }}</p>
+                <p class="variables-hint">{{ variablesHintLabel }}</p>
+                <div class="variable-chips">
+                  @for (v of selectedActionMeta()!.variablesSchema; track v) {
+                    <button
+                      type="button"
+                      mat-stroked-button
+                      class="variable-chip"
+                      [attr.aria-label]="insertVariableLabel + ' ' + v"
+                      (click)="insertVariable(v, 'message')"
+                    >
+                      <code>{{ '{{' + v + '}}' }}</code>
+                    </button>
+                  }
+                </div>
+              </div>
             }
 
             <mat-form-field appearance="outline">

@@ -26,7 +26,11 @@ code { font-size: 12px; background: #f1f5f9; padding: 2px 6px; border-radius: 4p
 }
 .form-actions { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
 .tab-body { padding-top: 16px; }
-.action-hint { font-size: 12px; color: #64748b; margin: 0 0 8px; }
+.action-hint { font-size: 12px; color: #64748b; margin: 0 0 4px; }
+.variables-hint { font-size: 12px; color: #64748b; margin: 0 0 8px; }
+.variables-panel { margin-bottom: 8px; }
+.variable-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.variable-chip code { background: transparent; padding: 0; }
 .action-hint code { margin-right: 6px; }
 .preview-card {
   margin-top: 16px;

@@ -25,6 +25,8 @@ import { TableRowActionsComponent } from '../../../shared/components/table-row-a
 import { CatalogTableImportExportActionsComponent } from '../catalogs/catalog-table-import-export-actions.component';
 import {
   NOTIFICATIONS_ACTION_HINT,
+  NOTIFICATIONS_INSERT_VARIABLE,
+  NOTIFICATIONS_VARIABLES_HINT,
   NOTIFICATIONS_CANCEL,
   NOTIFICATIONS_CHANNELS_REQUIRED,
   NOTIFICATIONS_COLUMN_ACTION,
@@ -177,6 +179,8 @@ export class NotificationsAdminComponent implements OnInit {
   readonly messagePreviewLength = 30;
   readonly selectActionLabel = NOTIFICATIONS_SELECT_ACTION;
   readonly actionHintLabel = NOTIFICATIONS_ACTION_HINT;
+  readonly variablesHintLabel = NOTIFICATIONS_VARIABLES_HINT;
+  readonly insertVariableLabel = NOTIFICATIONS_INSERT_VARIABLE;
   readonly previewButton = NOTIFICATIONS_PREVIEW_BUTTON;
   readonly previewTitle = NOTIFICATIONS_PREVIEW_TITLE;
 
@@ -388,19 +392,19 @@ export class NotificationsAdminComponent implements OnInit {
     const meta = this.actions.find((a) => a.code === actionCode);
     const payload: Record<string, unknown> = {};
     for (const variable of meta?.variablesSchema ?? []) {
-      const parts = variable.split('.');
-      let cursor: Record<string, unknown> = payload;
-      for (let i = 0; i < parts.length; i++) {
-        const key = parts[i];
-        if (i === parts.length - 1) {
-          cursor[key] = `[${variable}]`;
-        } else {
-          cursor[key] = (cursor[key] as Record<string, unknown>) ?? {};
-          cursor = cursor[key] as Record<string, unknown>;
-        }
-      }
+      payload[variable] = `[${variable}]`;
     }
     return payload;
+  }
+
+  insertVariable(variable: string, field: 'message' | 'emailSubject' | 'inboxTitle'): void {
+    const token = `{{${variable}}}`;
+    const controlName = field === 'message' ? 'message' : field === 'emailSubject' ? 'emailSubject' : 'inboxTitle';
+    const control = this.templateForm.controls[controlName];
+    const current = control.value ?? '';
+    const spacer = current.length > 0 && !current.endsWith(' ') ? ' ' : '';
+    control.setValue(`${current}${spacer}${token}`);
+    control.markAsDirty();
   }
 
   saveForm(): void {
