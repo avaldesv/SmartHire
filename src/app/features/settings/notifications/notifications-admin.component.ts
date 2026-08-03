@@ -11,17 +11,28 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
 import { NotificationTemplateApiService } from '../../../core/services/notification-template-api.service';
-import { NotificationTemplateItem } from '../../../shared/models/notification-template.model';
+import {
+  NotificationActionItem,
+  NotificationLogItem,
+  NotificationTemplateItem,
+  PreviewNotificationTemplateResponse,
+} from '../../../shared/models/notification-template.model';
 import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 import { CatalogTableImportExportActionsComponent } from '../catalogs/catalog-table-import-export-actions.component';
 import {
+  NOTIFICATIONS_ACTION_HINT,
   NOTIFICATIONS_CANCEL,
   NOTIFICATIONS_CHANNELS_REQUIRED,
   NOTIFICATIONS_COLUMN_ACTION,
   NOTIFICATIONS_COLUMN_ACTIVE,
   NOTIFICATIONS_COLUMN_CHANNELS,
+  NOTIFICATIONS_COLUMN_DATE,
   NOTIFICATIONS_COLUMN_MESSAGE,
+  NOTIFICATIONS_COLUMN_CHANNEL,
+  NOTIFICATIONS_COLUMN_RECIPIENT,
+  NOTIFICATIONS_COLUMN_STATUS,
   NOTIFICATIONS_COLUMN_TEMPLATE,
   NOTIFICATIONS_SHOW_MORE,
   NOTIFICATIONS_DELETE_ERROR,
@@ -29,20 +40,28 @@ import {
   NOTIFICATIONS_EDIT_TITLE,
   NOTIFICATIONS_FIELD_ACTIVE,
   NOTIFICATIONS_FIELD_CHANNELS,
+  NOTIFICATIONS_FIELD_EMAIL_SUBJECT,
   NOTIFICATIONS_FIELD_EXTERNAL_TEMPLATE_ID,
+  NOTIFICATIONS_FIELD_INBOX_TITLE,
   NOTIFICATIONS_FIELD_MESSAGE,
   NOTIFICATIONS_FIELD_SYSTEM_ACTION,
   NOTIFICATIONS_LOAD_ERROR,
+  NOTIFICATIONS_LOGS_LOAD_ERROR,
   NOTIFICATIONS_NEW_BUTTON,
   NOTIFICATIONS_NEW_TITLE,
   NOTIFICATIONS_PAGE_TITLE,
-  NOTIFICATIONS_PLACEHOLDER_ACTION,
   NOTIFICATIONS_PLACEHOLDER_TEMPLATE_ID,
+  NOTIFICATIONS_PREVIEW_BUTTON,
+  NOTIFICATIONS_PREVIEW_ERROR,
+  NOTIFICATIONS_PREVIEW_TITLE,
   NOTIFICATIONS_SAVE,
   NOTIFICATIONS_SAVE_ERROR,
   NOTIFICATIONS_SAVE_SUCCESS,
   NOTIFICATIONS_SAVING,
+  NOTIFICATIONS_SELECT_ACTION,
   NOTIFICATIONS_SNACK_CLOSE,
+  NOTIFICATIONS_TAB_LOGS,
+  NOTIFICATIONS_TAB_TEMPLATES,
   NOTIFICATIONS_UPDATE_ERROR,
   NOTIFICATION_CHANNEL_OPTIONS,
   NOTIFICATIONS_CHANNEL_EMAIL_VALUE,
@@ -67,6 +86,7 @@ import {
     MatInputModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatTabsModule,
     TableRowActionsComponent,
     CatalogTableImportExportActionsComponent,
   ],
@@ -79,17 +99,26 @@ export class NotificationsAdminComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
 
   loading = true;
+  logsLoading = false;
   saving = false;
+  previewLoading = false;
   savingId: number | null = null;
   deletingId: number | null = null;
   showForm = false;
   editingId: number | null = null;
   data: NotificationTemplateItem[] = [];
+  actions: NotificationActionItem[] = [];
+  logs: NotificationLogItem[] = [];
+  preview: PreviewNotificationTemplateResponse | null = null;
+  selectedTabIndex = 0;
   readonly columns = ['action', 'channels', 'templateId', 'message', 'active', 'actions'];
+  readonly logColumns = ['action', 'channel', 'recipient', 'status', 'renderedPreview', 'createAt'];
   readonly channelOptions = NOTIFICATION_CHANNEL_OPTIONS;
   readonly channelLabel = notificationChannelLabel;
 
   readonly pageTitle = NOTIFICATIONS_PAGE_TITLE;
+  readonly tabTemplates = NOTIFICATIONS_TAB_TEMPLATES;
+  readonly tabLogs = NOTIFICATIONS_TAB_LOGS;
   readonly newButton = NOTIFICATIONS_NEW_BUTTON;
   readonly editTitle = NOTIFICATIONS_EDIT_TITLE;
   readonly newTitle = NOTIFICATIONS_NEW_TITLE;
@@ -97,20 +126,29 @@ export class NotificationsAdminComponent implements OnInit {
   readonly fieldChannels = NOTIFICATIONS_FIELD_CHANNELS;
   readonly fieldExternalTemplateId = NOTIFICATIONS_FIELD_EXTERNAL_TEMPLATE_ID;
   readonly fieldMessage = NOTIFICATIONS_FIELD_MESSAGE;
+  readonly fieldEmailSubject = NOTIFICATIONS_FIELD_EMAIL_SUBJECT;
+  readonly fieldInboxTitle = NOTIFICATIONS_FIELD_INBOX_TITLE;
   readonly fieldActive = NOTIFICATIONS_FIELD_ACTIVE;
   readonly columnAction = NOTIFICATIONS_COLUMN_ACTION;
   readonly columnChannels = NOTIFICATIONS_COLUMN_CHANNELS;
   readonly columnTemplate = NOTIFICATIONS_COLUMN_TEMPLATE;
   readonly columnMessage = NOTIFICATIONS_COLUMN_MESSAGE;
+  readonly columnChannel = NOTIFICATIONS_COLUMN_CHANNEL;
+  readonly columnRecipient = NOTIFICATIONS_COLUMN_RECIPIENT;
+  readonly columnStatus = NOTIFICATIONS_COLUMN_STATUS;
+  readonly columnDate = NOTIFICATIONS_COLUMN_DATE;
   readonly showMoreLabel = NOTIFICATIONS_SHOW_MORE;
   readonly columnActive = NOTIFICATIONS_COLUMN_ACTIVE;
   readonly messagePreviewLength = 30;
+  readonly selectActionLabel = NOTIFICATIONS_SELECT_ACTION;
+  readonly actionHintLabel = NOTIFICATIONS_ACTION_HINT;
+  readonly previewButton = NOTIFICATIONS_PREVIEW_BUTTON;
+  readonly previewTitle = NOTIFICATIONS_PREVIEW_TITLE;
 
   private readonly expandedMessageIds = new Set<number>();
   readonly cancelLabel = NOTIFICATIONS_CANCEL;
   readonly savingLabel = NOTIFICATIONS_SAVING;
   readonly saveLabel = NOTIFICATIONS_SAVE;
-  readonly placeholderAction = NOTIFICATIONS_PLACEHOLDER_ACTION;
   readonly placeholderTemplateId = NOTIFICATIONS_PLACEHOLDER_TEMPLATE_ID;
 
   readonly templateForm = this.fb.nonNullable.group({
@@ -118,11 +156,25 @@ export class NotificationsAdminComponent implements OnInit {
     channels: [[] as string[], Validators.required],
     templateId: [''],
     message: ['', Validators.required],
+    emailSubject: [''],
+    inboxTitle: [''],
     isActive: [true],
   });
 
   ngOnInit(): void {
+    this.loadActions();
     this.load();
+  }
+
+  loadActions(): void {
+    this.notificationApi.listActions().subscribe({
+      next: (items) => {
+        this.actions = items;
+      },
+      error: () => {
+        this.actions = [];
+      },
+    });
   }
 
   load(): void {
@@ -140,26 +192,68 @@ export class NotificationsAdminComponent implements OnInit {
     });
   }
 
+  loadLogs(): void {
+    this.logsLoading = true;
+    this.notificationApi.listLogs({}, 0, 50).subscribe({
+      next: ({ items }) => {
+        this.logs = items;
+        this.logsLoading = false;
+      },
+      error: () => {
+        this.logsLoading = false;
+        this.snack.open(NOTIFICATIONS_LOGS_LOAD_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
+      },
+    });
+  }
+
+  onTabChange(index: number): void {
+    this.selectedTabIndex = index;
+    if (index === 1 && !this.logs.length && !this.logsLoading) {
+      this.loadLogs();
+    }
+  }
+
+  selectedActionMeta(): NotificationActionItem | undefined {
+    const code = this.templateForm.controls.action.value;
+    return this.actions.find((a) => a.code === code);
+  }
+
+  onActionSelected(code: string): void {
+    const action = this.actions.find((a) => a.code === code);
+    if (!action) {
+      return;
+    }
+    if (!this.editingId && action.defaultChannels?.length) {
+      this.templateForm.patchValue({ channels: [...action.defaultChannels] });
+    }
+  }
+
   openCreate(): void {
     this.editingId = null;
+    this.preview = null;
     this.showForm = true;
     this.templateForm.reset({
       action: '',
       channels: [NOTIFICATIONS_CHANNEL_EMAIL_VALUE],
       templateId: '',
       message: '',
+      emailSubject: '',
+      inboxTitle: '',
       isActive: true,
     });
   }
 
   openEdit(row: NotificationTemplateItem): void {
     this.editingId = row.id;
+    this.preview = null;
     this.showForm = true;
     this.templateForm.reset({
       action: row.action,
       channels: [...row.channels],
       templateId: row.templateId ?? '',
       message: row.message,
+      emailSubject: row.emailSubject ?? '',
+      inboxTitle: row.inboxTitle ?? '',
       isActive: row.active,
     });
   }
@@ -167,6 +261,54 @@ export class NotificationsAdminComponent implements OnInit {
   cancelForm(): void {
     this.showForm = false;
     this.editingId = null;
+    this.preview = null;
+  }
+
+  runPreview(): void {
+    const value = this.templateForm.getRawValue();
+    if (!value.action.trim()) {
+      this.templateForm.controls.action.markAsTouched();
+      return;
+    }
+    this.previewLoading = true;
+    this.notificationApi
+      .preview({
+        action: value.action.trim(),
+        message: value.message.trim() || undefined,
+        emailSubject: value.emailSubject.trim() || undefined,
+        inboxTitle: value.inboxTitle.trim() || undefined,
+        templateId: value.templateId.trim() || undefined,
+        samplePayload: this.buildSamplePayload(value.action.trim()),
+      })
+      .subscribe({
+        next: (result) => {
+          this.preview = result;
+          this.previewLoading = false;
+        },
+        error: () => {
+          this.previewLoading = false;
+          this.snack.open(NOTIFICATIONS_PREVIEW_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
+        },
+      });
+  }
+
+  private buildSamplePayload(actionCode: string): Record<string, unknown> {
+    const meta = this.actions.find((a) => a.code === actionCode);
+    const payload: Record<string, unknown> = {};
+    for (const variable of meta?.variablesSchema ?? []) {
+      const parts = variable.split('.');
+      let cursor: Record<string, unknown> = payload;
+      for (let i = 0; i < parts.length; i++) {
+        const key = parts[i];
+        if (i === parts.length - 1) {
+          cursor[key] = `[${variable}]`;
+        } else {
+          cursor[key] = (cursor[key] as Record<string, unknown>) ?? {};
+          cursor = cursor[key] as Record<string, unknown>;
+        }
+      }
+    }
+    return payload;
   }
 
   saveForm(): void {
@@ -185,6 +327,8 @@ export class NotificationsAdminComponent implements OnInit {
       channels: value.channels,
       templateId: value.templateId.trim() || undefined,
       message: value.message.trim(),
+      emailSubject: value.emailSubject.trim() || undefined,
+      inboxTitle: value.inboxTitle.trim() || undefined,
       isActive: value.isActive,
     };
 
@@ -198,6 +342,7 @@ export class NotificationsAdminComponent implements OnInit {
         this.saving = false;
         this.showForm = false;
         this.editingId = null;
+        this.preview = null;
         this.snack.open(NOTIFICATIONS_SAVE_SUCCESS, NOTIFICATIONS_SNACK_CLOSE, { duration: 2500 });
         this.load();
       },
@@ -218,6 +363,8 @@ export class NotificationsAdminComponent implements OnInit {
         channels: row.channels,
         templateId: row.templateId,
         message: row.message,
+        emailSubject: row.emailSubject,
+        inboxTitle: row.inboxTitle,
         isActive: active,
       })
       .subscribe({
@@ -232,8 +379,8 @@ export class NotificationsAdminComponent implements OnInit {
           row.active = previous;
           this.savingId = null;
           this.snack.open(NOTIFICATIONS_UPDATE_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
-      },
-    });
+        },
+      });
   }
 
   isMessageTruncated(message: string): boolean {

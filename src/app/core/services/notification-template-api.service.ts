@@ -3,8 +3,15 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import {
   CreateNotificationTemplateRequest,
+  ListNotificationLogsRequest,
+  NotificationActionItem,
+  NotificationActionListResponse,
+  NotificationLogItem,
+  NotificationLogListResponse,
   NotificationTemplateItem,
   NotificationTemplateListResponse,
+  PreviewNotificationTemplateRequest,
+  PreviewNotificationTemplateResponse,
   UpdateNotificationTemplateRequest,
 } from '../../shared/models/notification-template.model';
 import { ApiClientService } from './api-client.service';
@@ -18,6 +25,40 @@ export class NotificationTemplateApiService {
     const body = { isActive: null, filters: [], ordersBy: ['actionCode:asc'] as string[] };
     return this.http
       .post<NotificationTemplateListResponse>(this.api.apiUrl('/api/v1/notification-templates/list'), body, {
+        headers: this.api.buildHeaders(page, size),
+      })
+      .pipe(
+        map((res) => ({
+          items: res.data ?? [],
+          total: res.pagination?.total ?? 0,
+        })),
+      );
+  }
+
+  listActions(page = 0, size = 200): Observable<NotificationActionItem[]> {
+    const body = { isActive: true, filters: [], ordersBy: ['code:ASC'] as string[] };
+    return this.http
+      .post<NotificationActionListResponse>(this.api.apiUrl('/api/v1/notification-actions/list'), body, {
+        headers: this.api.buildHeaders(page, size),
+      })
+      .pipe(map((res) => res.data ?? []));
+  }
+
+  preview(request: PreviewNotificationTemplateRequest): Observable<PreviewNotificationTemplateResponse> {
+    return this.http.post<PreviewNotificationTemplateResponse>(
+      this.api.apiUrl('/api/v1/notification-templates/preview'),
+      request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  listLogs(
+    request: ListNotificationLogsRequest = {},
+    page = 0,
+    size = 20,
+  ): Observable<{ items: NotificationLogItem[]; total: number }> {
+    return this.http
+      .post<NotificationLogListResponse>(this.api.apiUrl('/api/v1/notification-logs/list'), request, {
         headers: this.api.buildHeaders(page, size),
       })
       .pipe(
