@@ -58,3 +58,18 @@ export function notificationsToggleMessage(action: string, active: boolean): str
 export function notificationsDeleteConfirm(action: string): string {
   return $localize`:@@notifications.confirm.delete:¿Eliminar la plantilla "${action}:action:"? Esta acción no se puede deshacer.`;
 }
+
+export const NOTIFICATIONS_FIELD_EMAIL_SUBJECT = $localize`:@@notifications.field.emailSubject:Asunto correo`;
+export const NOTIFICATIONS_FIELD_INBOX_TITLE = $localize`:@@notifications.field.inboxTitle:Título bandeja`;
+export const NOTIFICATIONS_TAB_TEMPLATES = $localize`:@@notifications.tab.templates:Plantillas`;
+export const NOTIFICATIONS_TAB_LOGS = $localize`:@@notifications.tab.logs:Log de envíos`;
+export const NOTIFICATIONS_PREVIEW_BUTTON = $localize`:@@notifications.preview.button:Vista previa`;
+export const NOTIFICATIONS_PREVIEW_TITLE = $localize`:@@notifications.preview.title:Vista previa renderizada`;
+export const NOTIFICATIONS_PREVIEW_ERROR = $localize`:@@notifications.preview.error:No se pudo generar la vista previa`;
+export const NOTIFICATIONS_LOGS_LOAD_ERROR = $localize`:@@notifications.logs.loadError:No se pudo cargar el log de envíos`;
+export const NOTIFICATIONS_COLUMN_CHANNEL = $localize`:@@notifications.column.channel:Canal`;
+export const NOTIFICATIONS_COLUMN_RECIPIENT = $localize`:@@notifications.column.recipient:Destinatario`;
+export const NOTIFICATIONS_COLUMN_STATUS = $localize`:@@notifications.column.status:Estado`;
+export const NOTIFICATIONS_COLUMN_DATE = $localize`:@@notifications.column.date:Fecha`;
+export const NOTIFICATIONS_ACTION_HINT = $localize`:@@notifications.field.actionHint:Variables disponibles`;
+export const NOTIFICATIONS_SELECT_ACTION = $localize`:@@notifications.placeholder.selectAction:Selecciona una acción`;
