@@ -31,6 +31,7 @@ import { CatalogGeographyService } from '../../../core/services/catalog-geograph
 import { CatalogPositionService } from '../../../core/services/catalog-position.service';
 import { DynamicRequisitionWizardService } from '../../../core/services/dynamic-requisition-wizard.service';
 import { PositionService } from '../../../core/services/position.service';
+import { SecurityRecruiterGroupService } from '../../../core/services/security-recruiter-group.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { CreatePositionRequest, PositionDetail } from '../../../shared/models/position.model';
 import { ResolvedRequisitionFormConfig } from '../../../shared/models/requisition-wizard.model';
@@ -111,6 +112,7 @@ export class PositionWizardComponent implements OnInit {
   private readonly geographyService = inject(CatalogGeographyService);
   private readonly catalogService = inject(CatalogPositionService);
   private readonly positionService = inject(PositionService);
+  private readonly recruiterGroupService = inject(SecurityRecruiterGroupService);
   private readonly dynamicWizardService = inject(DynamicRequisitionWizardService);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -608,7 +610,40 @@ export class PositionWizardComponent implements OnInit {
     if (countryId != null) {
       this.loadCountryCatalogs(countryId);
     }
+    if (!this.isEditMode) {
+      this.applyDefaultRecruiterGroup(preservedValues, countryId);
+    }
     this.suppressScopeResolve = false;
+  }
+
+  /** Preselect lowest-id recruiter group membership for create flow. */
+  private applyDefaultRecruiterGroup(
+    preservedValues: Record<string, unknown>,
+    countryId: number | null | undefined,
+  ): void {
+    const existing = preservedValues['recruiterGroupId'];
+    if (existing != null && existing !== '') {
+      return;
+    }
+    const control = this.findDynamicControl('recruiterGroupId');
+    if (!control || (control.value != null && control.value !== '')) {
+      return;
+    }
+    this.recruiterGroupService
+      .listMine(countryId ?? null)
+      .pipe(
+        catchError(() => of([] as { id: number }[])),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe((groups) => {
+        if (!groups.length || !this.dynamicForm) {
+          return;
+        }
+        const target = this.findDynamicControl('recruiterGroupId');
+        if (target && (target.value == null || target.value === '')) {
+          target.setValue(groups[0].id);
+        }
+      });
   }
 
   private deactivateDynamicWizard(preservedValues: Record<string, unknown> = {}): void {
