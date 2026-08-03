@@ -54,6 +54,7 @@ import { CatalogCompanyDepartment } from '../../../shared/models/catalog-company
 import { CatalogBranchService } from '../../../core/services/catalog-branch.service';
 import { CatalogBranch } from '../../../shared/models/catalog-branch.model';
 import { SecurityRecruiterGroupService } from '../../../core/services/security-recruiter-group.service';
+import { WizardFieldCatalogService } from '../../../core/services/wizard-field-catalog.service';
 import { SecurityRecruiterGroup, RecruiterGroupUserSummary } from '../../../shared/models/security-recruiter-group.model';
 import {
   RecruiterGroupFormDialogComponent,
@@ -292,6 +293,7 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly requisitionTypeService = inject(CatalogRequisitionTypeService);
   private readonly clientService = inject(CatalogClientService);
   private readonly recruiterGroupService = inject(SecurityRecruiterGroupService);
+  private readonly wizardFieldCatalogService = inject(WizardFieldCatalogService);
   private readonly jobPortalService = inject(CatalogJobPortalService);
   private readonly contractTypeService = inject(CatalogContractTypeService);
   private readonly companyAreaService = inject(CatalogCompanyAreaService);
@@ -363,6 +365,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   reloadCatalogAfterImport(panel: CatalogPanelKey): void {
+    this.wizardFieldCatalogService.clearCache();
     switch (panel) {
       case 'gender':
         this.loadGenders();

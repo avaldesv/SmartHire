@@ -325,7 +325,6 @@ export class PositionWizardComponent implements OnInit {
     this.resolvingConfig = true;
     this.suppressCountryCascade = true;
     this.clientForm.patchValue({ countryId, coverageTypeId }, { emitEvent: false });
-    this.loadCountryCatalogs(countryId);
     this.loadAddressStates(countryId);
     this.suppressCountryCascade = false;
     this.requestScopeResolve(countryId, coverageTypeId, false);
@@ -609,9 +608,6 @@ export class PositionWizardComponent implements OnInit {
       });
     const countryId =
       (preservedValues['countryId'] as number | null | undefined) ?? this.dynamicCountryId;
-    if (countryId != null) {
-      this.loadCountryCatalogs(countryId);
-    }
     if (!this.isEditMode) {
       this.applyDefaultRecruiterGroup(preservedValues, countryId);
     }
@@ -905,6 +901,10 @@ export class PositionWizardComponent implements OnInit {
   }
 
   private loadCountryCatalogs(countryId: number): void {
+    // Dynamic wizard loads options per field via WizardFieldCatalogService (cached).
+    if (this.useDynamicWizard) {
+      return;
+    }
     this.loadCoverageTypes(countryId);
     this.loadShifts(countryId);
     this.loadBenefits(countryId);
@@ -1066,7 +1066,6 @@ export class PositionWizardComponent implements OnInit {
     }
     const values = hydrateDynamicFormValues(position, config);
     patchDynamicForm(this.dynamicForm, values, config);
-    this.loadCountryCatalogs(position.countryId);
     this.suppressCountryCascade = false;
     this.loadingPosition = false;
   }
