@@ -136,6 +136,8 @@ export class PositionWizardComponent implements OnInit {
     preserveValues: boolean;
   }>();
   private readonly dynamicUiStop$ = new Subject<void>();
+  /** Cached default group for create payload when the form field is absent. */
+  private defaultRecruiterGroupId: number | null = null;
 
   get isEditMode(): boolean {
     return this.editPositionId != null;
@@ -623,10 +625,12 @@ export class PositionWizardComponent implements OnInit {
   ): void {
     const existing = preservedValues['recruiterGroupId'];
     if (existing != null && existing !== '') {
+      this.defaultRecruiterGroupId = typeof existing === 'number' ? existing : Number(existing);
       return;
     }
     const control = this.findDynamicControl('recruiterGroupId');
-    if (!control || (control.value != null && control.value !== '')) {
+    if (control && control.value != null && control.value !== '') {
+      this.defaultRecruiterGroupId = Number(control.value);
       return;
     }
     this.recruiterGroupService
@@ -636,12 +640,14 @@ export class PositionWizardComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((groups) => {
-        if (!groups.length || !this.dynamicForm) {
+        if (!groups.length) {
           return;
         }
+        const defaultId = groups[0].id;
+        this.defaultRecruiterGroupId = defaultId;
         const target = this.findDynamicControl('recruiterGroupId');
         if (target && (target.value == null || target.value === '')) {
-          target.setValue(groups[0].id);
+          target.setValue(defaultId);
         }
       });
   }
@@ -1185,10 +1191,14 @@ export class PositionWizardComponent implements OnInit {
     if (!this.dynamicForm || !this.resolvedConfig) {
       throw new Error('Dynamic wizard not ready');
     }
-    return buildDynamicCreatePayload(
+    const payload = buildDynamicCreatePayload(
       this.dynamicWizardService.getFlatValues(this.dynamicForm),
       this.resolvedConfig,
     );
+    if (!this.isEditMode && payload.recruiterGroupId == null && this.defaultRecruiterGroupId != null) {
+      return { ...payload, recruiterGroupId: this.defaultRecruiterGroupId };
+    }
+    return payload;
   }
 
   private buildCreatePayload(): CreatePositionRequest {

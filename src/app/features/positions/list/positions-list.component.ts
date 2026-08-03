@@ -298,6 +298,18 @@ export class PositionsListComponent implements OnInit {
     return name || user.email || '—';
   }
 
+  displayRecruiter(row: PositionListItem): string {
+    const fromAssigned = this.userDisplayName(row.assignedUser);
+    if (fromAssigned !== '—') {
+      return fromAssigned;
+    }
+    const raw = row.recruiter?.trim();
+    if (raw && raw !== '—') {
+      return raw;
+    }
+    return '—';
+  }
+
   statusLabel(status: string): string {
     return status === 'Todos' ? this.filterAll : status;
   }

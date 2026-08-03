@@ -57,7 +57,6 @@ export class PositionService {
         map((res) => ({
           items: (res.data ?? []).map((item) => ({
             ...item,
-            recruiter: item.recruiter ?? '—',
             brand: item.brand ?? '—',
             country: item.country ?? '—',
             state: item.state ?? '—',

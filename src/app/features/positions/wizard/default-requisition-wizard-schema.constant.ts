@@ -95,6 +95,7 @@ export const DEFAULT_REQUISITION_WIZARD_SCHEMA: ResolvedRequisitionFormConfig = 
         field('rotatingShifts', 'checkbox', 'requisition.field.rotatingShifts', null, false),
         field('commitmentDate', 'date', 'requisition.field.commitmentDate', null, false),
         field('hiringDate', 'date', 'requisition.field.hiringDate', null, false),
+        field('recruiterGroupId', 'select', 'requisition.field.recruiterGroupId', 'recruiter-groups', false),
       ],
     },
     {
