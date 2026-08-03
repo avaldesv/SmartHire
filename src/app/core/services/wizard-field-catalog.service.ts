@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, map, of } from 'rxjs';
+import { Observable, catchError, map, of, shareReplay, throwError } from 'rxjs';
 import { WizardFieldOption } from '../../shared/models/requisition-wizard.model';
 import { CatalogBrandService } from './catalog-brand.service';
 import { CatalogCareerService } from './catalog-career.service';
@@ -63,10 +63,48 @@ export class WizardFieldCatalogService {
   private readonly userService = inject(SecurityUserService);
   private readonly questionnaireService = inject(QuestionnaireQuestionnaireApiService);
 
+  /** In-flight / completed option lists keyed by datasource + context. */
+  private readonly optionsCache = new Map<string, Observable<WizardFieldOption[]>>();
+
   loadOptions(dataSourceKey: string | null | undefined, context: WizardCatalogContext = {}): Observable<WizardFieldOption[]> {
     if (!dataSourceKey) {
       return of([]);
     }
+    const cacheKey = this.buildCacheKey(dataSourceKey, context);
+    const cached = this.optionsCache.get(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
+    const request$ = this.fetchOptions(dataSourceKey, context).pipe(
+      catchError((err) => {
+        this.optionsCache.delete(cacheKey);
+        return throwError(() => err);
+      }),
+      shareReplay({ bufferSize: 1, refCount: false }),
+    );
+    this.optionsCache.set(cacheKey, request$);
+    return request$;
+  }
+
+  /** Drop cached options (all, or keys for one datasource). Call after catalog CRUD. */
+  clearCache(dataSourceKey?: string): void {
+    if (!dataSourceKey) {
+      this.optionsCache.clear();
+      return;
+    }
+    for (const key of [...this.optionsCache.keys()]) {
+      if (key === dataSourceKey || key.startsWith(`${dataSourceKey}|`)) {
+        this.optionsCache.delete(key);
+      }
+    }
+  }
+
+  private buildCacheKey(dataSourceKey: string, context: WizardCatalogContext): string {
+    return [dataSourceKey, context.countryId ?? '', context.stateId ?? '', context.postalCode ?? ''].join('|');
+  }
+
+  private fetchOptions(dataSourceKey: string, context: WizardCatalogContext): Observable<WizardFieldOption[]> {
     const countryId = context.countryId ?? undefined;
 
     switch (dataSourceKey) {
