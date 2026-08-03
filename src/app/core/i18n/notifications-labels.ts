@@ -90,4 +90,6 @@ export const NOTIFICATIONS_COLUMN_RECIPIENT = $localize`:@@notifications.column.
 export const NOTIFICATIONS_COLUMN_STATUS = $localize`:@@notifications.column.status:Estado`;
 export const NOTIFICATIONS_COLUMN_DATE = $localize`:@@notifications.column.date:Fecha`;
 export const NOTIFICATIONS_ACTION_HINT = $localize`:@@notifications.field.actionHint:Variables disponibles`;
+export const NOTIFICATIONS_VARIABLES_HINT = $localize`:@@notifications.field.variablesHint:Haz clic en una variable para insertarla en el mensaje`;
+export const NOTIFICATIONS_INSERT_VARIABLE = $localize`:@@notifications.insertVariable:Insertar variable`;
 export const NOTIFICATIONS_SELECT_ACTION = $localize`:@@notifications.placeholder.selectAction:Selecciona una acción`;
