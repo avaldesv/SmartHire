@@ -15,7 +15,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { NotificationTemplateApiService } from '../../../core/services/notification-template-api.service';
 import {
   NotificationActionItem,
+  NotificationCoverageItem,
   NotificationLogItem,
+  NotificationOutboxItem,
   NotificationTemplateItem,
   PreviewNotificationTemplateResponse,
 } from '../../../shared/models/notification-template.model';
@@ -61,6 +63,21 @@ import {
   NOTIFICATIONS_SELECT_ACTION,
   NOTIFICATIONS_SNACK_CLOSE,
   NOTIFICATIONS_TAB_LOGS,
+  NOTIFICATIONS_TAB_COVERAGE,
+  NOTIFICATIONS_TAB_FAILED,
+  NOTIFICATIONS_COVERAGE_MISSING,
+  NOTIFICATIONS_COVERAGE_OK,
+  NOTIFICATIONS_COVERAGE_LOAD_ERROR,
+  NOTIFICATIONS_COLUMN_MODULE,
+  NOTIFICATIONS_COLUMN_DESCRIPTION,
+  NOTIFICATIONS_COLUMN_COVERAGE,
+  NOTIFICATIONS_COLUMN_ATTEMPTS,
+  NOTIFICATIONS_COLUMN_ERROR,
+  NOTIFICATIONS_FAILED_LOAD_ERROR,
+  NOTIFICATIONS_RETRY_BUTTON,
+  NOTIFICATIONS_RETRY_SUCCESS,
+  NOTIFICATIONS_RETRY_ERROR,
+  notificationsCoverageSummary,
   NOTIFICATIONS_TAB_TEMPLATES,
   NOTIFICATIONS_UPDATE_ERROR,
   NOTIFICATION_CHANNEL_OPTIONS,
@@ -100,6 +117,9 @@ export class NotificationsAdminComponent implements OnInit {
 
   loading = true;
   logsLoading = false;
+  coverageLoading = false;
+  failedLoading = false;
+  retryingOutboxId: number | null = null;
   saving = false;
   previewLoading = false;
   savingId: number | null = null;
@@ -109,16 +129,23 @@ export class NotificationsAdminComponent implements OnInit {
   data: NotificationTemplateItem[] = [];
   actions: NotificationActionItem[] = [];
   logs: NotificationLogItem[] = [];
+  coverageItems: NotificationCoverageItem[] = [];
+  coverageSummary = '';
+  failedOutbox: NotificationOutboxItem[] = [];
   preview: PreviewNotificationTemplateResponse | null = null;
   selectedTabIndex = 0;
   readonly columns = ['action', 'channels', 'templateId', 'message', 'active', 'actions'];
   readonly logColumns = ['action', 'channel', 'recipient', 'status', 'renderedPreview', 'createAt'];
+  readonly coverageColumns = ['actionCode', 'module', 'description', 'coverage', 'templateChannels'];
+  readonly failedColumns = ['actionCode', 'attempts', 'lastError', 'createAt', 'actions'];
   readonly channelOptions = NOTIFICATION_CHANNEL_OPTIONS;
   readonly channelLabel = notificationChannelLabel;
 
   readonly pageTitle = NOTIFICATIONS_PAGE_TITLE;
   readonly tabTemplates = NOTIFICATIONS_TAB_TEMPLATES;
   readonly tabLogs = NOTIFICATIONS_TAB_LOGS;
+  readonly tabCoverage = NOTIFICATIONS_TAB_COVERAGE;
+  readonly tabFailed = NOTIFICATIONS_TAB_FAILED;
   readonly newButton = NOTIFICATIONS_NEW_BUTTON;
   readonly editTitle = NOTIFICATIONS_EDIT_TITLE;
   readonly newTitle = NOTIFICATIONS_NEW_TITLE;
@@ -137,6 +164,14 @@ export class NotificationsAdminComponent implements OnInit {
   readonly columnRecipient = NOTIFICATIONS_COLUMN_RECIPIENT;
   readonly columnStatus = NOTIFICATIONS_COLUMN_STATUS;
   readonly columnDate = NOTIFICATIONS_COLUMN_DATE;
+  readonly columnModule = NOTIFICATIONS_COLUMN_MODULE;
+  readonly columnDescription = NOTIFICATIONS_COLUMN_DESCRIPTION;
+  readonly columnCoverage = NOTIFICATIONS_COLUMN_COVERAGE;
+  readonly columnAttempts = NOTIFICATIONS_COLUMN_ATTEMPTS;
+  readonly columnError = NOTIFICATIONS_COLUMN_ERROR;
+  readonly coverageMissingLabel = NOTIFICATIONS_COVERAGE_MISSING;
+  readonly coverageOkLabel = NOTIFICATIONS_COVERAGE_OK;
+  readonly retryButton = NOTIFICATIONS_RETRY_BUTTON;
   readonly showMoreLabel = NOTIFICATIONS_SHOW_MORE;
   readonly columnActive = NOTIFICATIONS_COLUMN_ACTIVE;
   readonly messagePreviewLength = 30;
@@ -211,6 +246,63 @@ export class NotificationsAdminComponent implements OnInit {
     if (index === 1 && !this.logs.length && !this.logsLoading) {
       this.loadLogs();
     }
+    if (index === 2 && !this.coverageItems.length && !this.coverageLoading) {
+      this.loadCoverage();
+    }
+    if (index === 3 && !this.failedOutbox.length && !this.failedLoading) {
+      this.loadFailedOutbox();
+    }
+  }
+
+  loadCoverage(): void {
+    this.coverageLoading = true;
+    this.notificationApi.getCoverage().subscribe({
+      next: (res) => {
+        this.coverageItems = res.items ?? [];
+        this.coverageSummary = notificationsCoverageSummary(res.coveredActions, res.totalActions);
+        this.coverageLoading = false;
+      },
+      error: () => {
+        this.coverageLoading = false;
+        this.snack.open(NOTIFICATIONS_COVERAGE_LOAD_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
+      },
+    });
+  }
+
+  loadFailedOutbox(): void {
+    this.failedLoading = true;
+    this.notificationApi.listFailedOutbox(0, 50).subscribe({
+      next: ({ items }) => {
+        this.failedOutbox = items;
+        this.failedLoading = false;
+      },
+      error: () => {
+        this.failedLoading = false;
+        this.snack.open(NOTIFICATIONS_FAILED_LOAD_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
+      },
+    });
+  }
+
+  retryOutbox(row: NotificationOutboxItem): void {
+    this.retryingOutboxId = row.id;
+    this.notificationApi.retryOutbox(row.id).subscribe({
+      next: () => {
+        this.retryingOutboxId = null;
+        this.snack.open(NOTIFICATIONS_RETRY_SUCCESS, NOTIFICATIONS_SNACK_CLOSE, { duration: 2500 });
+        this.loadFailedOutbox();
+      },
+      error: () => {
+        this.retryingOutboxId = null;
+        this.snack.open(NOTIFICATIONS_RETRY_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
+      },
+    });
+  }
+
+  createTemplateForAction(actionCode: string): void {
+    this.openCreate();
+    this.templateForm.patchValue({ action: actionCode });
+    this.onActionSelected(actionCode);
+    this.selectedTabIndex = 0;
   }
 
   selectedActionMeta(): NotificationActionItem | undefined {

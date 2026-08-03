@@ -156,4 +156,61 @@
       }
     </div>
   </mat-tab>
+
+  <mat-tab [label]="tabCoverage">
+    <div class="tab-body">
+      @if (coverageLoading) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <p class="coverage-summary">{{ coverageSummary }}</p>
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="coverageItems">
+            <ng-container matColumnDef="actionCode"><th mat-header-cell *matHeaderCellDef>{{ columnAction }}</th><td mat-cell *matCellDef="let row"><code>{{ row.actionCode }}</code></td></ng-container>
+            <ng-container matColumnDef="module"><th mat-header-cell *matHeaderCellDef>{{ columnModule }}</th><td mat-cell *matCellDef="let row">{{ row.module }}</td></ng-container>
+            <ng-container matColumnDef="description"><th mat-header-cell *matHeaderCellDef>{{ columnDescription }}</th><td mat-cell *matCellDef="let row">{{ row.description }}</td></ng-container>
+            <ng-container matColumnDef="coverage">
+              <th mat-header-cell *matHeaderCellDef>{{ columnCoverage }}</th>
+              <td mat-cell *matCellDef="let row">
+                @if (row.hasActiveTemplate) {
+                  <mat-chip>{{ coverageOkLabel }}</mat-chip>
+                } @else {
+                  <button mat-stroked-button type="button" (click)="createTemplateForAction(row.actionCode)">{{ coverageMissingLabel }}</button>
+                }
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="templateChannels"><th mat-header-cell *matHeaderCellDef>{{ columnChannels }}</th><td mat-cell *matCellDef="let row">@for (ch of row.templateChannels; track ch) { <mat-chip>{{ channelLabel(ch) }}</mat-chip> }</td></ng-container>
+            <tr mat-header-row *matHeaderRowDef="coverageColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: coverageColumns"></tr>
+          </table>
+        </div>
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab [label]="tabFailed">
+    <div class="tab-body">
+      @if (failedLoading) {
+        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+      } @else {
+        <div class="sh-card sh-table-wrap">
+          <table mat-table [dataSource]="failedOutbox">
+            <ng-container matColumnDef="actionCode"><th mat-header-cell *matHeaderCellDef>{{ columnAction }}</th><td mat-cell *matCellDef="let row"><code>{{ row.actionCode }}</code></td></ng-container>
+            <ng-container matColumnDef="attempts"><th mat-header-cell *matHeaderCellDef>{{ columnAttempts }}</th><td mat-cell *matCellDef="let row">{{ row.attempts ?? 0 }}</td></ng-container>
+            <ng-container matColumnDef="lastError"><th mat-header-cell *matHeaderCellDef>{{ columnError }}</th><td mat-cell *matCellDef="let row">{{ row.lastError || '—' }}</td></ng-container>
+            <ng-container matColumnDef="createAt"><th mat-header-cell *matHeaderCellDef>{{ columnDate }}</th><td mat-cell *matCellDef="let row">{{ row.createAt || '—' }}</td></ng-container>
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let row">
+                <button mat-stroked-button type="button" [disabled]="retryingOutboxId === row.id" (click)="retryOutbox(row)">
+                  {{ retryButton }}
+                </button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="failedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: failedColumns"></tr>
+          </table>
+        </div>
+      }
+    </div>
+  </mat-tab>
 </mat-tab-group>

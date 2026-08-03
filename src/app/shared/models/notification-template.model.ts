@@ -75,3 +75,44 @@ export interface ListNotificationLogsRequest {
   filters?: string[];
   ordersBy?: string[];
 }
+
+export interface NotificationCoverageItem {
+  actionCode: string;
+  module: string;
+  description: string;
+  actionActive: boolean;
+  hasActiveTemplate: boolean;
+  templateId?: number | null;
+  templateChannels: string[];
+}
+
+export interface NotificationCoverageResponse {
+  totalActions: number;
+  coveredActions: number;
+  missingActions: number;
+  items: NotificationCoverageItem[];
+}
+
+export interface NotificationOutboxItem {
+  id: number;
+  actionCode: string;
+  status: string;
+  attempts?: number;
+  nextRetryAt?: string;
+  lastError?: string;
+  createAt?: string;
+  processedAt?: string;
+}
+
+export type NotificationOutboxListResponse = ApiPageResponse<NotificationOutboxItem>;
+
+export interface ListNotificationOutboxRequest {
+  status?: string;
+}
+
+export interface RetryNotificationOutboxResponse {
+  id: number;
+  status: string;
+  attempts?: number;
+  nextRetryAt?: string;
+}

@@ -6,12 +6,16 @@ import {
   ListNotificationLogsRequest,
   NotificationActionItem,
   NotificationActionListResponse,
+  NotificationCoverageResponse,
   NotificationLogItem,
   NotificationLogListResponse,
+  NotificationOutboxItem,
+  NotificationOutboxListResponse,
   NotificationTemplateItem,
   NotificationTemplateListResponse,
   PreviewNotificationTemplateRequest,
   PreviewNotificationTemplateResponse,
+  RetryNotificationOutboxResponse,
   UpdateNotificationTemplateRequest,
 } from '../../shared/models/notification-template.model';
 import { ApiClientService } from './api-client.service';
@@ -85,5 +89,36 @@ export class NotificationTemplateApiService {
     return this.http.delete<void>(this.api.apiUrl(`/api/v1/notification-templates/${id}`), {
       headers: this.api.buildHeaders(),
     });
+  }
+
+  getCoverage(): Observable<NotificationCoverageResponse> {
+    return this.http.post<NotificationCoverageResponse>(
+      this.api.apiUrl('/api/v1/notification-templates/coverage'),
+      {},
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  listFailedOutbox(page = 0, size = 20): Observable<{ items: NotificationOutboxItem[]; total: number }> {
+    return this.http
+      .post<NotificationOutboxListResponse>(
+        this.api.apiUrl('/api/v1/notification-outbox/list'),
+        { status: 'FAILED' },
+        { headers: this.api.buildHeaders(page, size) },
+      )
+      .pipe(
+        map((res) => ({
+          items: res.data ?? [],
+          total: res.pagination?.total ?? 0,
+        })),
+      );
+  }
+
+  retryOutbox(id: number): Observable<RetryNotificationOutboxResponse> {
+    return this.http.post<RetryNotificationOutboxResponse>(
+      this.api.apiUrl(`/api/v1/notification-outbox/${id}/retry`),
+      {},
+      { headers: this.api.buildHeaders() },
+    );
   }
 }
