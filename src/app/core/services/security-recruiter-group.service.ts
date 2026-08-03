@@ -23,6 +23,18 @@ export class SecurityRecruiterGroupService {
       .pipe(map((res) => ({ items: res.data ?? [], total: res.pagination?.total ?? 0 })));
   }
 
+  /** Groups where the logged-in user is a member, ordered by id ascending. */
+  listMine(countryId?: number | null): Observable<SecurityRecruiterGroup[]> {
+    const params =
+      countryId != null && Number.isFinite(countryId)
+        ? { countryId: String(countryId) }
+        : undefined;
+    return this.http.get<SecurityRecruiterGroup[]>(this.api.apiUrl('/api/v1/recruiter-groups/mine'), {
+      headers: this.api.buildHeaders(),
+      params,
+    });
+  }
+
   getById(id: number): Observable<SecurityRecruiterGroup> {
     return this.http.get<SecurityRecruiterGroup>(this.api.apiUrl(`/api/v1/recruiter-groups/${id}`), {
       headers: this.api.buildHeaders(),
