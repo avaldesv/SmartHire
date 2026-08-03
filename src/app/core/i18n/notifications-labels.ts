@@ -63,6 +63,24 @@ export const NOTIFICATIONS_FIELD_EMAIL_SUBJECT = $localize`:@@notifications.fiel
 export const NOTIFICATIONS_FIELD_INBOX_TITLE = $localize`:@@notifications.field.inboxTitle:Título bandeja`;
 export const NOTIFICATIONS_TAB_TEMPLATES = $localize`:@@notifications.tab.templates:Plantillas`;
 export const NOTIFICATIONS_TAB_LOGS = $localize`:@@notifications.tab.logs:Log de envíos`;
+export const NOTIFICATIONS_TAB_COVERAGE = $localize`:@@notifications.tab.coverage:Cobertura`;
+export const NOTIFICATIONS_TAB_FAILED = $localize`:@@notifications.tab.failed:Fallidos`;
+
+export function notificationsCoverageSummary(covered: number, total: number): string {
+  return $localize`:@@notifications.coverage.summary:Cobertura: ${covered}:covered:/${total}:total: acciones con plantilla activa`;
+}
+export const NOTIFICATIONS_COVERAGE_MISSING = $localize`:@@notifications.coverage.missing:Sin plantilla`;
+export const NOTIFICATIONS_COVERAGE_OK = $localize`:@@notifications.coverage.ok:Con plantilla`;
+export const NOTIFICATIONS_COVERAGE_LOAD_ERROR = $localize`:@@notifications.coverage.loadError:No se pudo cargar la cobertura de plantillas`;
+export const NOTIFICATIONS_COLUMN_MODULE = $localize`:@@notifications.column.module:Módulo`;
+export const NOTIFICATIONS_COLUMN_DESCRIPTION = $localize`:@@notifications.column.description:Descripción`;
+export const NOTIFICATIONS_COLUMN_COVERAGE = $localize`:@@notifications.column.coverage:Cobertura`;
+export const NOTIFICATIONS_COLUMN_ATTEMPTS = $localize`:@@notifications.column.attempts:Intentos`;
+export const NOTIFICATIONS_COLUMN_ERROR = $localize`:@@notifications.column.error:Error`;
+export const NOTIFICATIONS_FAILED_LOAD_ERROR = $localize`:@@notifications.failed.loadError:No se pudieron cargar los envíos fallidos`;
+export const NOTIFICATIONS_RETRY_BUTTON = $localize`:@@notifications.failed.retry:Reintentar`;
+export const NOTIFICATIONS_RETRY_SUCCESS = $localize`:@@notifications.failed.retrySuccess:Envío encolado para reintento`;
+export const NOTIFICATIONS_RETRY_ERROR = $localize`:@@notifications.failed.retryError:No se pudo reintentar el envío`;
 export const NOTIFICATIONS_PREVIEW_BUTTON = $localize`:@@notifications.preview.button:Vista previa`;
 export const NOTIFICATIONS_PREVIEW_TITLE = $localize`:@@notifications.preview.title:Vista previa renderizada`;
 export const NOTIFICATIONS_PREVIEW_ERROR = $localize`:@@notifications.preview.error:No se pudo generar la vista previa`;
