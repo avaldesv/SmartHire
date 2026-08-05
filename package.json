@@ -4,8 +4,9 @@
   "scripts": {
     "ng": "ng",
     "start": "node scripts/start.js",
-    "start:dev": "ng serve",
-    "start:remote": "node ./node_modules/@angular/cli/bin/ng.js serve --configuration=production --port 4200",
+    "start:local": "ng serve --configuration development --host localhost --port 4200",
+    "start:dev": "npm run start:local",
+    "start:remote": "ng serve --configuration remote --host localhost --port 4300",
     "start:es-MX": "ng serve --configuration=development",
     "start:es-ES": "ng serve --configuration=development,es-ES",
     "start:en-US": "ng serve --configuration=development,en-US",
