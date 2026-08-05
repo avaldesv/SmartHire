@@ -91,6 +91,21 @@ export interface NotificationCoverageResponse {
   coveredActions: number;
   missingActions: number;
   items: NotificationCoverageItem[];
+  pagination?: { page: number; pageSize: number; total: number };
+}
+
+export interface ListNotificationCoverageRequest {
+  module?: string | null;
+  actionCode?: string | null;
+  hasActiveTemplate?: boolean | null;
+  ordersBy?: string[];
+}
+
+export interface ListNotificationTemplatesRequest {
+  action?: string | null;
+  isActive?: boolean | null;
+  filters?: string[];
+  ordersBy?: string[];
 }
 
 export interface NotificationOutboxItem {
@@ -108,6 +123,7 @@ export type NotificationOutboxListResponse = ApiPageResponse<NotificationOutboxI
 
 export interface ListNotificationOutboxRequest {
   status?: string;
+  actionCode?: string | null;
 }
 
 export interface RetryNotificationOutboxResponse {

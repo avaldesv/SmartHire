@@ -3,7 +3,10 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import {
   CreateNotificationTemplateRequest,
+  ListNotificationCoverageRequest,
   ListNotificationLogsRequest,
+  ListNotificationOutboxRequest,
+  ListNotificationTemplatesRequest,
   NotificationActionItem,
   NotificationActionListResponse,
   NotificationCoverageResponse,
@@ -25,8 +28,17 @@ export class NotificationTemplateApiService {
   private readonly http = inject(HttpClient);
   private readonly api = inject(ApiClientService);
 
-  list(page = 0, size = 50): Observable<{ items: NotificationTemplateItem[]; total: number }> {
-    const body = { isActive: null, filters: [], ordersBy: ['actionCode:asc'] as string[] };
+  list(
+    page = 0,
+    size = 25,
+    request: ListNotificationTemplatesRequest = {},
+  ): Observable<{ items: NotificationTemplateItem[]; total: number }> {
+    const body = {
+      action: request.action?.trim() || null,
+      isActive: request.isActive ?? null,
+      filters: request.filters ?? [],
+      ordersBy: request.ordersBy ?? (['actionCode:asc'] as string[]),
+    };
     return this.http
       .post<NotificationTemplateListResponse>(this.api.apiUrl('/api/v1/notification-templates/list'), body, {
         headers: this.api.buildHeaders(page, size),
@@ -59,7 +71,7 @@ export class NotificationTemplateApiService {
   listLogs(
     request: ListNotificationLogsRequest = {},
     page = 0,
-    size = 20,
+    size = 25,
   ): Observable<{ items: NotificationLogItem[]; total: number }> {
     return this.http
       .post<NotificationLogListResponse>(this.api.apiUrl('/api/v1/notification-logs/list'), request, {
@@ -91,21 +103,37 @@ export class NotificationTemplateApiService {
     });
   }
 
-  getCoverage(): Observable<NotificationCoverageResponse> {
+  getCoverage(
+    request: ListNotificationCoverageRequest = {},
+    page = 0,
+    size = 25,
+  ): Observable<NotificationCoverageResponse> {
+    const body = {
+      module: request.module?.trim() || null,
+      actionCode: request.actionCode?.trim() || null,
+      hasActiveTemplate: request.hasActiveTemplate ?? null,
+      ordersBy: request.ordersBy ?? ['actionCode:asc'],
+    };
     return this.http.post<NotificationCoverageResponse>(
       this.api.apiUrl('/api/v1/notification-templates/coverage'),
-      {},
-      { headers: this.api.buildHeaders() },
+      body,
+      { headers: this.api.buildHeaders(page, size) },
     );
   }
 
-  listFailedOutbox(page = 0, size = 20): Observable<{ items: NotificationOutboxItem[]; total: number }> {
+  listFailedOutbox(
+    page = 0,
+    size = 25,
+    actionCode?: string | null,
+  ): Observable<{ items: NotificationOutboxItem[]; total: number }> {
+    const body: ListNotificationOutboxRequest = {
+      status: 'FAILED',
+      actionCode: actionCode?.trim() || null,
+    };
     return this.http
-      .post<NotificationOutboxListResponse>(
-        this.api.apiUrl('/api/v1/notification-outbox/list'),
-        { status: 'FAILED' },
-        { headers: this.api.buildHeaders(page, size) },
-      )
+      .post<NotificationOutboxListResponse>(this.api.apiUrl('/api/v1/notification-outbox/list'), body, {
+        headers: this.api.buildHeaders(page, size),
+      })
       .pipe(
         map((res) => ({
           items: res.data ?? [],
