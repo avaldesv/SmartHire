@@ -13,7 +13,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
-import { debounceTime } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { AppPermissions } from '../../../../core/auth/app-permissions';
 import { getRequisitionStatusLabel } from '../../../../core/i18n/common-labels';
 import { CV_BULK_ACTION } from '../../../../core/i18n/cv-bulk-labels';
@@ -64,13 +64,31 @@ import {
   POSITIONS_EXECUTE_CANCELLATION_ERROR,
   POSITIONS_EXECUTE_CANCELLATION_SUCCESS,
   POSITIONS_FILTER_ALL,
+  POSITIONS_FILTER_BRAND,
+  POSITIONS_FILTER_CLIENT,
+  POSITIONS_FILTER_CLIENT_POSITION,
+  POSITIONS_FILTER_CONTRACT_TYPE,
+  POSITIONS_FILTER_COORDINATOR,
   POSITIONS_FILTER_COUNTRY,
+  POSITIONS_FILTER_COVERAGE_TYPE,
+  POSITIONS_FILTER_CREATED_BY,
   POSITIONS_FILTER_DATE_FROM,
   POSITIONS_FILTER_DATE_TO,
+  POSITIONS_FILTER_EDUCATION,
+  POSITIONS_FILTER_GENERAL_CATEGORY,
+  POSITIONS_FILTER_QUESTIONNAIRE,
   POSITIONS_FILTER_RECRUITER,
+  POSITIONS_FILTER_RECRUITER_ATS,
   POSITIONS_FILTER_RECRUITER_PLACEHOLDER,
+  POSITIONS_FILTER_REQUISITION_TYPE,
+  POSITIONS_FILTER_RESPONSIBILITY,
+  POSITIONS_FILTER_SHIFT,
+  POSITIONS_FILTER_STATE,
   POSITIONS_FILTER_STATUS,
+  POSITIONS_FILTER_WORKPLACE,
   POSITIONS_FILTERS_CLEARED,
+  POSITIONS_LESS_FILTERS,
+  POSITIONS_MORE_FILTERS,
   POSITIONS_GENERATE_PUBLICATION_LOAD_ERROR,
   POSITIONS_LOAD_ERROR,
   POSITIONS_PUBLISH_ON_PORTAL_CONFIRM,
@@ -95,13 +113,32 @@ import {
   positionsRequestCancellationConfirm,
 } from '../../../../core/i18n/positions-labels';
 import { AuthService } from '../../../../core/services/auth.service';
+import { CatalogGeneralCategoryService } from '../../../../core/services/catalog-general-category.service';
 import { CatalogGeographyService } from '../../../../core/services/catalog-geography.service';
+import { CatalogPositionService } from '../../../../core/services/catalog-position.service';
+import { CatalogResponsibilityLevelService } from '../../../../core/services/catalog-responsibility-level.service';
+import { CatalogWorkplaceService } from '../../../../core/services/catalog-workplace.service';
 import { PermissionService } from '../../../../core/services/permission.service';
 import { PositionService } from '../../../../core/services/position.service';
+import { QuestionnaireQuestionnaireApiService } from '../../../../core/services/questionnaire-questionnaire-api.service';
+import { SecurityUserService } from '../../../../core/services/security-user.service';
 import { StatusBadgeComponent } from '../../../../shared/components/status-badge/status-badge.component';
 import { TableRowActionsComponent } from '../../../../shared/components/table-row-actions/table-row-actions.component';
-import { CatalogCountry } from '../../../../shared/models/catalog-geography.model';
+import { CatalogGeneralCategory } from '../../../../shared/models/catalog-general-category.model';
+import { CatalogCountry, CatalogState } from '../../../../shared/models/catalog-geography.model';
+import {
+  CatalogBrand,
+  CatalogContractType,
+  CatalogCoverageType,
+  CatalogEducationLevel,
+  CatalogRequisitionType,
+  CatalogShift,
+} from '../../../../shared/models/catalog-position.model';
+import { CatalogResponsibilityLevel } from '../../../../shared/models/catalog-responsibility-level.model';
+import { CatalogWorkplace } from '../../../../shared/models/catalog-workplace.model';
 import { PositionListItem, PositionUserSummary } from '../../../../shared/models/position.model';
+import { QuestionnaireItem } from '../../../../shared/models/questionnaire-v2.model';
+import { SecurityUser } from '../../../../shared/models/security-user.model';
 import {
   CandidatePoolDialogComponent,
   CandidatePoolDialogData,
@@ -163,6 +200,12 @@ export class PositionsTableComponent implements OnInit {
 
   private readonly positionService = inject(PositionService);
   private readonly geographyService = inject(CatalogGeographyService);
+  private readonly catalogPositionService = inject(CatalogPositionService);
+  private readonly workplaceService = inject(CatalogWorkplaceService);
+  private readonly responsibilityLevelService = inject(CatalogResponsibilityLevelService);
+  private readonly generalCategoryService = inject(CatalogGeneralCategoryService);
+  private readonly userService = inject(SecurityUserService);
+  private readonly questionnaireService = inject(QuestionnaireQuestionnaireApiService);
   private readonly snack = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
   private readonly dialog = inject(MatDialog);
@@ -180,6 +223,24 @@ export class PositionsTableComponent implements OnInit {
   readonly filterDateFrom = POSITIONS_FILTER_DATE_FROM;
   readonly filterDateTo = POSITIONS_FILTER_DATE_TO;
   readonly clearFiltersLabel = POSITIONS_CLEAR_FILTERS;
+  readonly moreFiltersLabel = POSITIONS_MORE_FILTERS;
+  readonly lessFiltersLabel = POSITIONS_LESS_FILTERS;
+  readonly filterClient = POSITIONS_FILTER_CLIENT;
+  readonly filterRequisitionType = POSITIONS_FILTER_REQUISITION_TYPE;
+  readonly filterCoverageType = POSITIONS_FILTER_COVERAGE_TYPE;
+  readonly filterBrand = POSITIONS_FILTER_BRAND;
+  readonly filterWorkplace = POSITIONS_FILTER_WORKPLACE;
+  readonly filterShift = POSITIONS_FILTER_SHIFT;
+  readonly filterContractType = POSITIONS_FILTER_CONTRACT_TYPE;
+  readonly filterEducation = POSITIONS_FILTER_EDUCATION;
+  readonly filterResponsibility = POSITIONS_FILTER_RESPONSIBILITY;
+  readonly filterClientPosition = POSITIONS_FILTER_CLIENT_POSITION;
+  readonly filterCreatedBy = POSITIONS_FILTER_CREATED_BY;
+  readonly filterCoordinator = POSITIONS_FILTER_COORDINATOR;
+  readonly filterRecruiterAts = POSITIONS_FILTER_RECRUITER_ATS;
+  readonly filterState = POSITIONS_FILTER_STATE;
+  readonly filterGeneralCategory = POSITIONS_FILTER_GENERAL_CATEGORY;
+  readonly filterQuestionnaire = POSITIONS_FILTER_QUESTIONNAIRE;
   readonly colRequisition = POSITIONS_COL_REQUISITION;
   readonly colName = POSITIONS_COL_NAME;
   readonly colOt = POSITIONS_COL_OT;
@@ -220,8 +281,22 @@ export class PositionsTableComponent implements OnInit {
   readonly moreActionsAria = POSITIONS_ACTION_MORE_ARIA;
 
   loading = true;
+  advancedFiltersOpen = false;
   data: PositionListItem[] = [];
   countryOptions: CatalogCountry[] = [];
+  brandOptions: CatalogBrand[] = [];
+  coverageTypeOptions: CatalogCoverageType[] = [];
+  shiftOptions: CatalogShift[] = [];
+  educationLevelOptions: CatalogEducationLevel[] = [];
+  contractTypeOptions: CatalogContractType[] = [];
+  requisitionTypeOptions: CatalogRequisitionType[] = [];
+  workplaceOptions: CatalogWorkplace[] = [];
+  responsibilityLevelOptions: CatalogResponsibilityLevel[] = [];
+  generalCategoryOptions: CatalogGeneralCategory[] = [];
+  stateOptions: CatalogState[] = [];
+  creatorUserOptions: SecurityUser[] = [];
+  coordinatorUserOptions: SecurityUser[] = [];
+  questionnaireOptions: QuestionnaireItem[] = [];
   total = 0;
   pageIndex = 0;
   pageSize = 10;
@@ -242,7 +317,25 @@ export class PositionsTableComponent implements OnInit {
     recruiter: [''],
     dateFrom: [''],
     dateTo: [''],
+    client: [''],
+    requisitionTypeId: [0],
+    coverageTypeId: [0],
+    brandId: [0],
+    workplaceId: [0],
+    shiftId: [0],
+    contractTypeId: [0],
+    educationLevelId: [0],
+    responsibilityLevelId: [0],
+    clientPosition: [''],
+    createdByIds: [[] as number[]],
+    careResponsibleUserId: [0],
+    careResponsibleAts: [''],
+    stateId: [0],
+    generalCategoryId: [0],
+    questionnaireId: [0],
   });
+
+  private readonly defaultFilterValues = this.filters.getRawValue();
 
   readonly columns = [
     'requisitionNo',
@@ -334,11 +427,140 @@ export class PositionsTableComponent implements OnInit {
         this.countryOptions = countries.filter((c) => c.isActive);
       },
     });
+    this.loadUsers();
+    this.questionnaireService.list({ isActive: true }, 0, 200).subscribe({
+      next: (res) => {
+        this.questionnaireOptions = res.items;
+      },
+    });
+    this.filters.controls.countryId.valueChanges.pipe(distinctUntilChanged()).subscribe((countryId) => {
+      this.onCountryChanged(countryId);
+    });
     this.load();
     this.filters.valueChanges.pipe(debounceTime(300)).subscribe(() => {
       this.pageIndex = 0;
       this.load();
     });
+  }
+
+  toggleAdvancedFilters(): void {
+    this.advancedFiltersOpen = !this.advancedFiltersOpen;
+  }
+
+  userDisplayNameFromSecurityUser(user: SecurityUser): string {
+    const name = `${user.name ?? ''} ${user.lastName ?? ''}`.trim();
+    return name || user.email || user.username;
+  }
+
+  private loadUsers(): void {
+    this.userService.list(0, 200).subscribe({
+      next: (res) => {
+        const activeUsers = res.items.filter((u) => u.isActive);
+        this.coordinatorUserOptions = activeUsers;
+        const creatorRoles = new Set(['ADMIN', 'GLOBAL_ADMIN', 'RECRUITER']);
+        const roleFiltered = activeUsers.filter((u) =>
+          u.roles?.some((r) => creatorRoles.has(r.name)),
+        );
+        this.creatorUserOptions = roleFiltered.length ? roleFiltered : activeUsers;
+      },
+    });
+  }
+
+  private onCountryChanged(countryId: number): void {
+    this.resetCountryDependentFilters();
+    if (countryId <= 0) {
+      this.clearCountryDependentOptions();
+      return;
+    }
+    this.loadCountryDependentOptions(countryId);
+  }
+
+  private resetCountryDependentFilters(): void {
+    this.filters.patchValue(
+      {
+        requisitionTypeId: 0,
+        coverageTypeId: 0,
+        brandId: 0,
+        workplaceId: 0,
+        shiftId: 0,
+        contractTypeId: 0,
+        educationLevelId: 0,
+        responsibilityLevelId: 0,
+        stateId: 0,
+        generalCategoryId: 0,
+      },
+      { emitEvent: false },
+    );
+  }
+
+  private clearCountryDependentOptions(): void {
+    this.brandOptions = [];
+    this.coverageTypeOptions = [];
+    this.shiftOptions = [];
+    this.educationLevelOptions = [];
+    this.contractTypeOptions = [];
+    this.requisitionTypeOptions = [];
+    this.workplaceOptions = [];
+    this.responsibilityLevelOptions = [];
+    this.generalCategoryOptions = [];
+    this.stateOptions = [];
+  }
+
+  private loadCountryDependentOptions(countryId: number): void {
+    this.catalogPositionService.listBrands(countryId, 0, 200).subscribe({
+      next: (items) => {
+        this.brandOptions = items;
+      },
+    });
+    this.catalogPositionService.listCoverageTypes(countryId, 0, 200).subscribe({
+      next: (items) => {
+        this.coverageTypeOptions = items;
+      },
+    });
+    this.catalogPositionService.listShifts(countryId, 0, 200).subscribe({
+      next: (items) => {
+        this.shiftOptions = items;
+      },
+    });
+    this.catalogPositionService.listEducationLevels(countryId, 0, 200).subscribe({
+      next: (items) => {
+        this.educationLevelOptions = items;
+      },
+    });
+    this.catalogPositionService.listContractTypes(countryId, 0, 200).subscribe({
+      next: (items) => {
+        this.contractTypeOptions = items;
+      },
+    });
+    this.catalogPositionService.listRequisitionTypes(countryId, 0, 200).subscribe({
+      next: (items) => {
+        this.requisitionTypeOptions = items;
+      },
+    });
+    this.workplaceService.list(countryId, 0, 200).subscribe({
+      next: (res) => {
+        this.workplaceOptions = res.items;
+      },
+    });
+    this.responsibilityLevelService.list(countryId, 0, 200).subscribe({
+      next: (res) => {
+        this.responsibilityLevelOptions = res.items;
+      },
+    });
+    this.generalCategoryService.list(countryId, 0, 200).subscribe({
+      next: (res) => {
+        this.generalCategoryOptions = res.items;
+      },
+    });
+    this.geographyService.listStates(countryId, 0, 200).subscribe({
+      next: (items) => {
+        this.stateOptions = items;
+      },
+    });
+  }
+
+  private positiveIdOrNull(id: number): number | null {
+    return id > 0 ? id : null;
   }
 
   openNewRequisition(): void {
@@ -364,21 +586,36 @@ export class PositionsTableComponent implements OnInit {
 
   load(): void {
     this.loading = true;
-    const status = this.filters.controls.status.value;
-    const countryId = this.filters.controls.countryId.value;
-    const dateFrom = this.filters.controls.dateFrom.value || null;
-    const dateTo = this.filters.controls.dateTo.value || null;
+    const f = this.filters.getRawValue();
+    const status = f.status;
+    const countryId = f.countryId;
+    const dateFrom = f.dateFrom || null;
+    const dateTo = f.dateTo || null;
     this.positionService
-      .list(
-        this.pageIndex,
-        this.pageSize,
-        status !== 'Todos' ? status : null,
-        this.filters.controls.search.value,
-        dateFrom,
-        dateTo,
-        countryId > 0 ? countryId : null,
-        this.filters.controls.recruiter.value,
-      )
+      .list(this.pageIndex, this.pageSize, {
+        status: status !== 'Todos' ? status : null,
+        search: f.search,
+        createdFrom: dateFrom,
+        createdTo: dateTo,
+        countryId: countryId > 0 ? countryId : null,
+        recruiter: f.recruiter,
+        client: f.client,
+        requisitionTypeId: this.positiveIdOrNull(f.requisitionTypeId),
+        coverageTypeId: this.positiveIdOrNull(f.coverageTypeId),
+        brandId: this.positiveIdOrNull(f.brandId),
+        workplaceId: this.positiveIdOrNull(f.workplaceId),
+        shiftId: this.positiveIdOrNull(f.shiftId),
+        contractTypeId: this.positiveIdOrNull(f.contractTypeId),
+        educationLevelId: this.positiveIdOrNull(f.educationLevelId),
+        responsibilityLevelId: this.positiveIdOrNull(f.responsibilityLevelId),
+        clientPosition: f.clientPosition,
+        createdByIds: f.createdByIds.length ? f.createdByIds : null,
+        careResponsibleUserId: this.positiveIdOrNull(f.careResponsibleUserId),
+        careResponsibleAts: f.careResponsibleAts,
+        stateId: this.positiveIdOrNull(f.stateId),
+        generalCategoryId: this.positiveIdOrNull(f.generalCategoryId),
+        questionnaireId: this.positiveIdOrNull(f.questionnaireId),
+      })
       .subscribe({
         next: (res) => {
           this.data = res.items;
@@ -399,7 +636,9 @@ export class PositionsTableComponent implements OnInit {
   }
 
   clearFilters(): void {
-    this.filters.reset({ search: '', status: 'Todos', countryId: 0, recruiter: '', dateFrom: '', dateTo: '' });
+    this.filters.reset(this.defaultFilterValues);
+    this.advancedFiltersOpen = false;
+    this.clearCountryDependentOptions();
     this.snack.open(POSITIONS_FILTERS_CLEARED, POSITIONS_SNACK_CLOSE, { duration: 2500 });
   }
 

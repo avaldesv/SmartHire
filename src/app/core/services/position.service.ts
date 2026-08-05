@@ -22,6 +22,31 @@ import {
 } from '../../shared/models/position.model';
 import { ApiClientService } from './api-client.service';
 
+export interface PositionListFilters {
+  status?: string | null;
+  search?: string | null;
+  createdFrom?: string | null;
+  createdTo?: string | null;
+  countryId?: number | null;
+  recruiter?: string | null;
+  client?: string | null;
+  requisitionTypeId?: number | null;
+  coverageTypeId?: number | null;
+  brandId?: number | null;
+  workplaceId?: number | null;
+  shiftId?: number | null;
+  contractTypeId?: number | null;
+  educationLevelId?: number | null;
+  responsibilityLevelId?: number | null;
+  clientPosition?: string | null;
+  createdByIds?: number[] | null;
+  careResponsibleUserId?: number | null;
+  careResponsibleAts?: string | null;
+  stateId?: number | null;
+  generalCategoryId?: number | null;
+  questionnaireId?: number | null;
+}
+
 @Injectable({ providedIn: 'root' })
 export class PositionService {
   private readonly http = inject(HttpClient);
@@ -30,22 +55,48 @@ export class PositionService {
   list(
     page = 0,
     size = 20,
-    status?: string | null,
+    statusOrFilters?: string | null | PositionListFilters,
     search?: string,
     createdFrom?: string | null,
     createdTo?: string | null,
     countryId?: number | null,
     recruiter?: string | null,
   ): Observable<{ items: PositionListItem[]; total: number }> {
-    const term = search?.trim();
-    const recruiterTerm = recruiter?.trim();
+    const filters: PositionListFilters =
+      statusOrFilters && typeof statusOrFilters === 'object'
+        ? statusOrFilters
+        : {
+            status: statusOrFilters as string | null | undefined,
+            search,
+            createdFrom,
+            createdTo,
+            countryId,
+            recruiter,
+          };
+
     const body = {
-      status: status ?? null,
-      search: term || null,
-      createdFrom: createdFrom || null,
-      createdTo: createdTo || null,
-      countryId: countryId ?? null,
-      recruiter: recruiterTerm || null,
+      status: filters.status ?? null,
+      search: filters.search?.trim() || null,
+      createdFrom: filters.createdFrom || null,
+      createdTo: filters.createdTo || null,
+      countryId: filters.countryId ?? null,
+      recruiter: filters.recruiter?.trim() || null,
+      client: filters.client?.trim() || null,
+      requisitionTypeId: filters.requisitionTypeId ?? null,
+      coverageTypeId: filters.coverageTypeId ?? null,
+      brandId: filters.brandId ?? null,
+      workplaceId: filters.workplaceId ?? null,
+      shiftId: filters.shiftId ?? null,
+      contractTypeId: filters.contractTypeId ?? null,
+      educationLevelId: filters.educationLevelId ?? null,
+      responsibilityLevelId: filters.responsibilityLevelId ?? null,
+      clientPosition: filters.clientPosition?.trim() || null,
+      createdByIds: filters.createdByIds?.length ? filters.createdByIds : [],
+      careResponsibleUserId: filters.careResponsibleUserId ?? null,
+      careResponsibleAts: filters.careResponsibleAts?.trim() || null,
+      stateId: filters.stateId ?? null,
+      generalCategoryId: filters.generalCategoryId ?? null,
+      questionnaireId: filters.questionnaireId ?? null,
       filters: [],
       ordersBy: ['createAt:desc'] as string[],
     };
