@@ -150,4 +150,44 @@ a:hover { text-decoration: underline; }
   max-width: 920px;
 }
 
+/* Notification template create/edit dialog — same primary header pattern as catalogs */
+.sh-notification-dialog-header.mat-mdc-dialog-title,
+.mat-mdc-dialog-title.sh-notification-dialog-header {
+  display: block !important;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 !important;
+  padding: 9px 24px !important;
+  background: var(--mat-sys-primary, #0d9488) !important;
+  border-bottom: none !important;
+  color: var(--mat-sys-on-primary, #ffffff) !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+}
+
+.sh-notification-dialog-header__text {
+  display: block;
+}
+
+.sh-notification-form-dialog-panel .mat-mdc-dialog-surface {
+  padding-top: 0 !important;
+  overflow: hidden;
+}
+
+.mat-mdc-dialog-content.sh-notification-dialog-body,
+.mat-mdc-dialog-title + .mat-mdc-dialog-content.sh-notification-dialog-body {
+  padding-top: 8px !important;
+}
+
+.sh-notification-dialog-gap {
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.sh-notification-dialog-body {
+  min-width: min(720px, 92vw);
+  max-width: 920px;
+}
+
 

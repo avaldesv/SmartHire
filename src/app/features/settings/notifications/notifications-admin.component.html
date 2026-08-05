@@ -1,5 +1,92 @@
 <h3>{{ pageTitle }}</h3>
 
+<ng-template #templateFormTpl>
+  <form [formGroup]="templateForm" class="template-form" (ngSubmit)="saveForm()">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ fieldSystemAction }}</mat-label>
+      <mat-select formControlName="action" (selectionChange)="onActionSelected($event.value)">
+        @for (action of actions; track action.code) {
+          <mat-option [value]="action.code">
+            {{ action.code }} — {{ action.description }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    @if (selectedActionMeta()?.variablesSchema?.length) {
+      <div class="variables-panel">
+        <p class="action-hint">{{ actionHintLabel }}</p>
+        <p class="variables-hint">{{ variablesHintLabel }}</p>
+        <div class="variable-chips">
+          @for (v of selectedActionMeta()!.variablesSchema; track v) {
+            <button
+              type="button"
+              mat-stroked-button
+              class="variable-chip"
+              [attr.aria-label]="insertVariableLabel + ' ' + v"
+              (click)="insertVariable(v, 'message')"
+            >
+              <code>{{ '{{' + v + '}}' }}</code>
+            </button>
+          }
+        </div>
+      </div>
+    }
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ fieldChannels }}</mat-label>
+      <mat-select formControlName="channels" multiple>
+        @for (ch of channelOptions; track ch.value) {
+          <mat-option [value]="ch.value">{{ ch.label }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ fieldExternalTemplateId }}</mat-label>
+      <input matInput formControlName="templateId" [placeholder]="placeholderTemplateId" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ fieldEmailSubject }}</mat-label>
+      <input matInput formControlName="emailSubject" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ fieldInboxTitle }}</mat-label>
+      <input matInput formControlName="inboxTitle" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="message-field">
+      <mat-label>{{ fieldMessage }}</mat-label>
+      <textarea matInput rows="5" formControlName="message"></textarea>
+    </mat-form-field>
+
+    <mat-checkbox formControlName="isActive">{{ fieldActive }}</mat-checkbox>
+
+    <div class="form-actions">
+      <button mat-stroked-button type="button" (click)="runPreview()" [disabled]="previewLoading || saving">
+        {{ previewButton }}
+      </button>
+      <button mat-button type="button" (click)="cancelForm()" [disabled]="saving">{{ cancelLabel }}</button>
+      <button mat-flat-button color="primary" type="submit" [disabled]="saving">
+        {{ saving ? savingLabel : saveLabel }}
+      </button>
+    </div>
+  </form>
+
+  @if (previewLoading) {
+    <div class="loading-wrap"><mat-spinner diameter="28" /></div>
+  } @else if (preview) {
+    <div class="preview-card">
+      <h5>{{ previewTitle }}</h5>
+      <p><strong>{{ fieldEmailSubject }}:</strong> {{ preview.emailSubject || '—' }}</p>
+      <p><strong>{{ fieldInboxTitle }}:</strong> {{ preview.inboxTitle || '—' }}</p>
+      <pre class="preview-body">{{ preview.body }}</pre>
+    </div>
+  }
+</ng-template>
+
 <mat-tab-group [selectedIndex]="selectedTabIndex" (selectedIndexChange)="onTabChange($event)">
   <mat-tab [label]="tabTemplates">
     <div class="tab-body">
@@ -9,95 +96,30 @@
         </button>
       </div>
 
-      @if (showForm) {
-        <div class="sh-card form-card">
-          <h4>{{ editingId ? editTitle : newTitle }}</h4>
-          <form [formGroup]="templateForm" class="template-form" (ngSubmit)="saveForm()">
-            <mat-form-field appearance="outline">
-              <mat-label>{{ fieldSystemAction }}</mat-label>
-              <mat-select formControlName="action" (selectionChange)="onActionSelected($event.value)">
-                @for (action of actions; track action.code) {
-                  <mat-option [value]="action.code">
-                    {{ action.code }} — {{ action.description }}
-                  </mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-
-            @if (selectedActionMeta()?.variablesSchema?.length) {
-              <div class="variables-panel">
-                <p class="action-hint">{{ actionHintLabel }}</p>
-                <p class="variables-hint">{{ variablesHintLabel }}</p>
-                <div class="variable-chips">
-                  @for (v of selectedActionMeta()!.variablesSchema; track v) {
-                    <button
-                      type="button"
-                      mat-stroked-button
-                      class="variable-chip"
-                      [attr.aria-label]="insertVariableLabel + ' ' + v"
-                      (click)="insertVariable(v, 'message')"
-                    >
-                      <code>{{ '{{' + v + '}}' }}</code>
-                    </button>
-                  }
-                </div>
-              </div>
+      <form class="filters-bar" [formGroup]="templatesFilterForm" (ngSubmit)="onTemplatesFilterChange()">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>{{ filterAction }}</mat-label>
+          <mat-select formControlName="action" (selectionChange)="onTemplatesFilterChange()">
+            <mat-option value="">{{ filterActiveAll }}</mat-option>
+            @for (action of actions; track action.code) {
+              <mat-option [value]="action.code">{{ action.code }}</mat-option>
             }
-
-            <mat-form-field appearance="outline">
-              <mat-label>{{ fieldChannels }}</mat-label>
-              <mat-select formControlName="channels" multiple>
-                @for (ch of channelOptions; track ch.value) {
-                  <mat-option [value]="ch.value">{{ ch.label }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>{{ fieldExternalTemplateId }}</mat-label>
-              <input matInput formControlName="templateId" [placeholder]="placeholderTemplateId" />
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>{{ fieldEmailSubject }}</mat-label>
-              <input matInput formControlName="emailSubject" />
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>{{ fieldInboxTitle }}</mat-label>
-              <input matInput formControlName="inboxTitle" />
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="message-field">
-              <mat-label>{{ fieldMessage }}</mat-label>
-              <textarea matInput rows="4" formControlName="message"></textarea>
-            </mat-form-field>
-
-            <mat-checkbox formControlName="isActive">{{ fieldActive }}</mat-checkbox>
-
-            <div class="form-actions">
-              <button mat-stroked-button type="button" (click)="runPreview()" [disabled]="previewLoading || saving">
-                {{ previewButton }}
-              </button>
-              <button mat-button type="button" (click)="cancelForm()" [disabled]="saving">{{ cancelLabel }}</button>
-              <button mat-flat-button color="primary" type="submit" [disabled]="saving">
-                {{ saving ? savingLabel : saveLabel }}
-              </button>
-            </div>
-          </form>
-
-          @if (previewLoading) {
-            <div class="loading-wrap"><mat-spinner diameter="28" /></div>
-          } @else if (preview) {
-            <div class="preview-card">
-              <h5>{{ previewTitle }}</h5>
-              <p><strong>{{ fieldEmailSubject }}:</strong> {{ preview.emailSubject || '—' }}</p>
-              <p><strong>{{ fieldInboxTitle }}:</strong> {{ preview.inboxTitle || '—' }}</p>
-              <pre class="preview-body">{{ preview.body }}</pre>
-            </div>
-          }
-        </div>
-      }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>{{ filterActive }}</mat-label>
+          <mat-select formControlName="active" (selectionChange)="onTemplatesFilterChange()">
+            <mat-option value="all">{{ filterActiveAll }}</mat-option>
+            <mat-option value="yes">{{ filterActiveYes }}</mat-option>
+            <mat-option value="no">{{ filterActiveNo }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="filters-search">
+          <mat-label>{{ filterSearch }}</mat-label>
+          <input matInput formControlName="search" [placeholder]="filterSearchAction" />
+        </mat-form-field>
+        <button mat-button type="button" (click)="clearTemplatesFilters()">{{ filterClear }}</button>
+      </form>
 
       @if (loading) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
@@ -142,6 +164,13 @@
             <tr mat-header-row *matHeaderRowDef="columns"></tr>
             <tr mat-row *matRowDef="let row; columns: columns"></tr>
           </table>
+          <mat-paginator
+            [length]="templatesTotal"
+            [pageIndex]="templatesPageIndex"
+            [pageSize]="templatesPageSize"
+            [pageSizeOptions]="pageSizeOptions"
+            (page)="onTemplatesPage($event)"
+          />
         </div>
       }
     </div>
@@ -149,6 +178,28 @@
 
   <mat-tab [label]="tabLogs">
     <div class="tab-body">
+      <form class="filters-bar" [formGroup]="logsFilterForm">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>{{ filterAction }}</mat-label>
+          <mat-select formControlName="action" (selectionChange)="onLogsFilterChange()">
+            <mat-option value="">{{ filterActiveAll }}</mat-option>
+            @for (action of actions; track action.code) {
+              <mat-option [value]="action.code">{{ action.code }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>{{ filterChannel }}</mat-label>
+          <mat-select formControlName="channel" (selectionChange)="onLogsFilterChange()">
+            <mat-option value="">{{ filterActiveAll }}</mat-option>
+            @for (ch of logChannelOptions; track ch.value) {
+              <mat-option [value]="ch.value">{{ ch.label }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-button type="button" (click)="clearLogsFilters()">{{ filterClear }}</button>
+      </form>
+
       @if (logsLoading) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -163,6 +214,13 @@
             <tr mat-header-row *matHeaderRowDef="logColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: logColumns"></tr>
           </table>
+          <mat-paginator
+            [length]="logsTotal"
+            [pageIndex]="logsPageIndex"
+            [pageSize]="logsPageSize"
+            [pageSizeOptions]="pageSizeOptions"
+            (page)="onLogsPage($event)"
+          />
         </div>
       }
     </div>
@@ -170,6 +228,31 @@
 
   <mat-tab [label]="tabCoverage">
     <div class="tab-body">
+      <form class="filters-bar" [formGroup]="coverageFilterForm">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>{{ filterModule }}</mat-label>
+          <mat-select formControlName="module" (selectionChange)="onCoverageFilterChange()">
+            <mat-option value="">{{ filterActiveAll }}</mat-option>
+            @for (mod of coverageModules; track mod) {
+              <mat-option [value]="mod">{{ mod }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>{{ filterCoverage }}</mat-label>
+          <mat-select formControlName="coverage" (selectionChange)="onCoverageFilterChange()">
+            <mat-option value="all">{{ filterCoverageAll }}</mat-option>
+            <mat-option value="ok">{{ filterCoverageOk }}</mat-option>
+            <mat-option value="missing">{{ filterCoverageMissing }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="filters-search">
+          <mat-label>{{ filterSearch }}</mat-label>
+          <input matInput formControlName="search" [placeholder]="filterSearchAction" />
+        </mat-form-field>
+        <button mat-button type="button" (click)="clearCoverageFilters()">{{ filterClear }}</button>
+      </form>
+
       @if (coverageLoading) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -193,6 +276,13 @@
             <tr mat-header-row *matHeaderRowDef="coverageColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: coverageColumns"></tr>
           </table>
+          <mat-paginator
+            [length]="coverageTotal"
+            [pageIndex]="coveragePageIndex"
+            [pageSize]="coveragePageSize"
+            [pageSizeOptions]="pageSizeOptions"
+            (page)="onCoveragePage($event)"
+          />
         </div>
       }
     </div>
@@ -200,6 +290,19 @@
 
   <mat-tab [label]="tabFailed">
     <div class="tab-body">
+      <form class="filters-bar" [formGroup]="failedFilterForm">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>{{ filterAction }}</mat-label>
+          <mat-select formControlName="action" (selectionChange)="onFailedFilterChange()">
+            <mat-option value="">{{ filterActiveAll }}</mat-option>
+            @for (action of actions; track action.code) {
+              <mat-option [value]="action.code">{{ action.code }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-button type="button" (click)="clearFailedFilters()">{{ filterClear }}</button>
+      </form>
+
       @if (failedLoading) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
@@ -220,6 +323,13 @@
             <tr mat-header-row *matHeaderRowDef="failedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: failedColumns"></tr>
           </table>
+          <mat-paginator
+            [length]="failedTotal"
+            [pageIndex]="failedPageIndex"
+            [pageSize]="failedPageSize"
+            [pageSizeOptions]="pageSizeOptions"
+            (page)="onFailedPage($event)"
+          />
         </div>
       }
     </div>

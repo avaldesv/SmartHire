@@ -1,17 +1,20 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
+import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { NotificationTemplateApiService } from '../../../core/services/notification-template-api.service';
 import {
   NotificationActionItem,
@@ -23,6 +26,10 @@ import {
 } from '../../../shared/models/notification-template.model';
 import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 import { CatalogTableImportExportActionsComponent } from '../catalogs/catalog-table-import-export-actions.component';
+import {
+  NotificationFormDialogShellComponent,
+  NOTIFICATION_FORM_DIALOG_PANEL_CLASS,
+} from './notification-form-dialog-shell.component';
 import {
   NOTIFICATIONS_ACTION_HINT,
   NOTIFICATIONS_INSERT_VARIABLE,
@@ -84,9 +91,25 @@ import {
   NOTIFICATIONS_UPDATE_ERROR,
   NOTIFICATION_CHANNEL_OPTIONS,
   NOTIFICATIONS_CHANNEL_EMAIL_VALUE,
+  NOTIFICATIONS_CHANNEL_INBOX,
+  NOTIFICATIONS_CHANNEL_INBOX_VALUE,
   notificationChannelLabel,
   notificationsDeleteConfirm,
   notificationsToggleMessage,
+  NOTIFICATIONS_FILTER_ACTION,
+  NOTIFICATIONS_FILTER_ACTIVE,
+  NOTIFICATIONS_FILTER_ACTIVE_ALL,
+  NOTIFICATIONS_FILTER_ACTIVE_YES,
+  NOTIFICATIONS_FILTER_ACTIVE_NO,
+  NOTIFICATIONS_FILTER_SEARCH,
+  NOTIFICATIONS_FILTER_SEARCH_ACTION,
+  NOTIFICATIONS_FILTER_CHANNEL,
+  NOTIFICATIONS_FILTER_MODULE,
+  NOTIFICATIONS_FILTER_COVERAGE,
+  NOTIFICATIONS_FILTER_COVERAGE_ALL,
+  NOTIFICATIONS_FILTER_COVERAGE_OK,
+  NOTIFICATIONS_FILTER_COVERAGE_MISSING,
+  NOTIFICATIONS_FILTER_CLEAR,
 } from '../../../core/i18n/notifications-labels';
 
 @Component({
@@ -106,16 +129,23 @@ import {
     MatSelectModule,
     MatCheckboxModule,
     MatTabsModule,
+    MatPaginatorModule,
+    MatDialogModule,
     TableRowActionsComponent,
     CatalogTableImportExportActionsComponent,
   ],
   templateUrl: './notifications-admin.component.html',
   styleUrl: './notifications-admin.component.scss',
 })
-export class NotificationsAdminComponent implements OnInit {
+export class NotificationsAdminComponent implements OnInit, OnDestroy {
+  @ViewChild('templateFormTpl') templateFormTpl!: TemplateRef<unknown>;
+
   private readonly notificationApi = inject(NotificationTemplateApiService);
   private readonly snack = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
+  private readonly dialog = inject(MatDialog);
+  private readonly destroy$ = new Subject<void>();
+  private formDialogRef: MatDialogRef<NotificationFormDialogShellComponent, boolean> | null = null;
 
   loading = true;
   logsLoading = false;
@@ -126,21 +156,38 @@ export class NotificationsAdminComponent implements OnInit {
   previewLoading = false;
   savingId: number | null = null;
   deletingId: number | null = null;
-  showForm = false;
   editingId: number | null = null;
   data: NotificationTemplateItem[] = [];
+  templatesTotal = 0;
+  templatesPageIndex = 0;
+  templatesPageSize = 25;
   actions: NotificationActionItem[] = [];
   logs: NotificationLogItem[] = [];
+  logsTotal = 0;
+  logsPageIndex = 0;
+  logsPageSize = 25;
   coverageItems: NotificationCoverageItem[] = [];
+  coverageTotal = 0;
+  coveragePageIndex = 0;
+  coveragePageSize = 25;
   coverageSummary = '';
+  coverageModules: string[] = [];
   failedOutbox: NotificationOutboxItem[] = [];
+  failedTotal = 0;
+  failedPageIndex = 0;
+  failedPageSize = 25;
   preview: PreviewNotificationTemplateResponse | null = null;
   selectedTabIndex = 0;
+  readonly pageSizeOptions = [10, 25, 50];
   readonly columns = ['action', 'channels', 'templateId', 'message', 'active', 'actions'];
   readonly logColumns = ['action', 'channel', 'recipient', 'status', 'renderedPreview', 'createAt'];
   readonly coverageColumns = ['actionCode', 'module', 'description', 'coverage', 'templateChannels'];
   readonly failedColumns = ['actionCode', 'attempts', 'lastError', 'createAt', 'actions'];
   readonly channelOptions = NOTIFICATION_CHANNEL_OPTIONS;
+  readonly logChannelOptions = [
+    ...NOTIFICATION_CHANNEL_OPTIONS,
+    { value: NOTIFICATIONS_CHANNEL_INBOX_VALUE, label: NOTIFICATIONS_CHANNEL_INBOX },
+  ];
   readonly channelLabel = notificationChannelLabel;
 
   readonly pageTitle = NOTIFICATIONS_PAGE_TITLE;
@@ -183,6 +230,20 @@ export class NotificationsAdminComponent implements OnInit {
   readonly insertVariableLabel = NOTIFICATIONS_INSERT_VARIABLE;
   readonly previewButton = NOTIFICATIONS_PREVIEW_BUTTON;
   readonly previewTitle = NOTIFICATIONS_PREVIEW_TITLE;
+  readonly filterAction = NOTIFICATIONS_FILTER_ACTION;
+  readonly filterActive = NOTIFICATIONS_FILTER_ACTIVE;
+  readonly filterActiveAll = NOTIFICATIONS_FILTER_ACTIVE_ALL;
+  readonly filterActiveYes = NOTIFICATIONS_FILTER_ACTIVE_YES;
+  readonly filterActiveNo = NOTIFICATIONS_FILTER_ACTIVE_NO;
+  readonly filterSearch = NOTIFICATIONS_FILTER_SEARCH;
+  readonly filterSearchAction = NOTIFICATIONS_FILTER_SEARCH_ACTION;
+  readonly filterChannel = NOTIFICATIONS_FILTER_CHANNEL;
+  readonly filterModule = NOTIFICATIONS_FILTER_MODULE;
+  readonly filterCoverage = NOTIFICATIONS_FILTER_COVERAGE;
+  readonly filterCoverageAll = NOTIFICATIONS_FILTER_COVERAGE_ALL;
+  readonly filterCoverageOk = NOTIFICATIONS_FILTER_COVERAGE_OK;
+  readonly filterCoverageMissing = NOTIFICATIONS_FILTER_COVERAGE_MISSING;
+  readonly filterClear = NOTIFICATIONS_FILTER_CLEAR;
 
   private readonly expandedMessageIds = new Set<number>();
   readonly cancelLabel = NOTIFICATIONS_CANCEL;
@@ -200,18 +261,59 @@ export class NotificationsAdminComponent implements OnInit {
     isActive: [true],
   });
 
+  readonly templatesFilterForm = this.fb.nonNullable.group({
+    action: [''],
+    active: ['all' as 'all' | 'yes' | 'no'],
+    search: [''],
+  });
+
+  readonly logsFilterForm = this.fb.nonNullable.group({
+    action: [''],
+    channel: [''],
+  });
+
+  readonly coverageFilterForm = this.fb.nonNullable.group({
+    module: [''],
+    coverage: ['all' as 'all' | 'ok' | 'missing'],
+    search: [''],
+  });
+
+  readonly failedFilterForm = this.fb.nonNullable.group({
+    action: [''],
+  });
+
   ngOnInit(): void {
     this.loadActions();
     this.load();
+    this.templatesFilterForm.controls.search.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.templatesPageIndex = 0;
+        this.load();
+      });
+    this.coverageFilterForm.controls.search.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.coveragePageIndex = 0;
+        this.loadCoverage();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.formDialogRef?.close(false);
   }
 
   loadActions(): void {
     this.notificationApi.listActions().subscribe({
       next: (items) => {
         this.actions = items;
+        this.coverageModules = [...new Set(items.map((a) => a.module).filter(Boolean))].sort();
       },
       error: () => {
         this.actions = [];
+        this.coverageModules = [];
       },
     });
   }
@@ -219,65 +321,156 @@ export class NotificationsAdminComponent implements OnInit {
   load(): void {
     this.loading = true;
     this.expandedMessageIds.clear();
-    this.notificationApi.list().subscribe({
-      next: ({ items }) => {
-        this.data = items;
-        this.loading = false;
-      },
-      error: () => {
-        this.loading = false;
-        this.snack.open(NOTIFICATIONS_LOAD_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
-      },
-    });
+    const f = this.templatesFilterForm.getRawValue();
+    const filters: string[] = [];
+    const search = f.search.trim();
+    if (search && !f.action) {
+      filters.push(`actionCode:CONTAINS:${search.toUpperCase()}`);
+    }
+    this.notificationApi
+      .list(this.templatesPageIndex, this.templatesPageSize, {
+        action: f.action || null,
+        isActive: f.active === 'all' ? null : f.active === 'yes',
+        filters,
+      })
+      .subscribe({
+        next: ({ items, total }) => {
+          this.data = items;
+          this.templatesTotal = total;
+          this.loading = false;
+        },
+        error: () => {
+          this.loading = false;
+          this.snack.open(NOTIFICATIONS_LOAD_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
+        },
+      });
+  }
+
+  onTemplatesFilterChange(): void {
+    this.templatesPageIndex = 0;
+    this.load();
+  }
+
+  clearTemplatesFilters(): void {
+    this.templatesFilterForm.reset({ action: '', active: 'all', search: '' });
+    this.templatesPageIndex = 0;
+    this.load();
+  }
+
+  onTemplatesPage(event: PageEvent): void {
+    this.templatesPageIndex = event.pageIndex;
+    this.templatesPageSize = event.pageSize;
+    this.load();
   }
 
   loadLogs(): void {
     this.logsLoading = true;
-    this.notificationApi.listLogs({}, 0, 50).subscribe({
-      next: ({ items }) => {
-        this.logs = items;
-        this.logsLoading = false;
-      },
-      error: () => {
-        this.logsLoading = false;
-        this.snack.open(NOTIFICATIONS_LOGS_LOAD_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
-      },
-    });
+    const f = this.logsFilterForm.getRawValue();
+    this.notificationApi
+      .listLogs(
+        {
+          action: f.action || undefined,
+          channel: f.channel || undefined,
+        },
+        this.logsPageIndex,
+        this.logsPageSize,
+      )
+      .subscribe({
+        next: ({ items, total }) => {
+          this.logs = items;
+          this.logsTotal = total;
+          this.logsLoading = false;
+        },
+        error: () => {
+          this.logsLoading = false;
+          this.snack.open(NOTIFICATIONS_LOGS_LOAD_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
+        },
+      });
+  }
+
+  onLogsFilterChange(): void {
+    this.logsPageIndex = 0;
+    this.loadLogs();
+  }
+
+  clearLogsFilters(): void {
+    this.logsFilterForm.reset({ action: '', channel: '' });
+    this.logsPageIndex = 0;
+    this.loadLogs();
+  }
+
+  onLogsPage(event: PageEvent): void {
+    this.logsPageIndex = event.pageIndex;
+    this.logsPageSize = event.pageSize;
+    this.loadLogs();
   }
 
   onTabChange(index: number): void {
     this.selectedTabIndex = index;
-    if (index === 1 && !this.logs.length && !this.logsLoading) {
+    if (index === 1) {
       this.loadLogs();
     }
-    if (index === 2 && !this.coverageItems.length && !this.coverageLoading) {
+    if (index === 2) {
       this.loadCoverage();
     }
-    if (index === 3 && !this.failedOutbox.length && !this.failedLoading) {
+    if (index === 3) {
       this.loadFailedOutbox();
     }
   }
 
   loadCoverage(): void {
     this.coverageLoading = true;
-    this.notificationApi.getCoverage().subscribe({
-      next: (res) => {
-        this.coverageItems = res.items ?? [];
-        this.coverageSummary = notificationsCoverageSummary(res.coveredActions, res.totalActions);
-        this.coverageLoading = false;
-      },
-      error: () => {
-        this.coverageLoading = false;
-        this.snack.open(NOTIFICATIONS_COVERAGE_LOAD_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
-      },
-    });
+    const f = this.coverageFilterForm.getRawValue();
+    const hasActiveTemplate =
+      f.coverage === 'all' ? null : f.coverage === 'ok';
+    this.notificationApi
+      .getCoverage(
+        {
+          module: f.module || null,
+          actionCode: f.search.trim() || null,
+          hasActiveTemplate,
+        },
+        this.coveragePageIndex,
+        this.coveragePageSize,
+      )
+      .subscribe({
+        next: (res) => {
+          this.coverageItems = res.items ?? [];
+          this.coverageTotal = res.pagination?.total ?? res.items?.length ?? 0;
+          this.coverageSummary = notificationsCoverageSummary(res.coveredActions, res.totalActions);
+          this.coverageLoading = false;
+        },
+        error: () => {
+          this.coverageLoading = false;
+          this.snack.open(NOTIFICATIONS_COVERAGE_LOAD_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
+        },
+      });
+  }
+
+  onCoverageFilterChange(): void {
+    this.coveragePageIndex = 0;
+    this.loadCoverage();
+  }
+
+  clearCoverageFilters(): void {
+    this.coverageFilterForm.reset({ module: '', coverage: 'all', search: '' });
+    this.coveragePageIndex = 0;
+    this.loadCoverage();
+  }
+
+  onCoveragePage(event: PageEvent): void {
+    this.coveragePageIndex = event.pageIndex;
+    this.coveragePageSize = event.pageSize;
+    this.loadCoverage();
   }
 
   loadFailedOutbox(): void {
     this.failedLoading = true;
-    this.notificationApi.listFailedOutbox(0, 50).subscribe({
-      next: ({ items }) => {
+    const action = this.failedFilterForm.controls.action.value;
+    this.notificationApi.listFailedOutbox(this.failedPageIndex, this.failedPageSize, action || null).subscribe({
+      next: ({ items, total }) => {
         this.failedOutbox = items;
+        this.failedTotal = total;
         this.failedLoading = false;
       },
       error: () => {
@@ -285,6 +478,23 @@ export class NotificationsAdminComponent implements OnInit {
         this.snack.open(NOTIFICATIONS_FAILED_LOAD_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
       },
     });
+  }
+
+  onFailedFilterChange(): void {
+    this.failedPageIndex = 0;
+    this.loadFailedOutbox();
+  }
+
+  clearFailedFilters(): void {
+    this.failedFilterForm.reset({ action: '' });
+    this.failedPageIndex = 0;
+    this.loadFailedOutbox();
+  }
+
+  onFailedPage(event: PageEvent): void {
+    this.failedPageIndex = event.pageIndex;
+    this.failedPageSize = event.pageSize;
+    this.loadFailedOutbox();
   }
 
   retryOutbox(row: NotificationOutboxItem): void {
@@ -303,10 +513,12 @@ export class NotificationsAdminComponent implements OnInit {
   }
 
   createTemplateForAction(actionCode: string): void {
-    this.openCreate();
-    this.templateForm.patchValue({ action: actionCode });
-    this.onActionSelected(actionCode);
     this.selectedTabIndex = 0;
+    this.openCreate();
+    queueMicrotask(() => {
+      this.templateForm.patchValue({ action: actionCode });
+      this.onActionSelected(actionCode);
+    });
   }
 
   selectedActionMeta(): NotificationActionItem | undefined {
@@ -327,7 +539,6 @@ export class NotificationsAdminComponent implements OnInit {
   openCreate(): void {
     this.editingId = null;
     this.preview = null;
-    this.showForm = true;
     this.templateForm.reset({
       action: '',
       channels: [NOTIFICATIONS_CHANNEL_EMAIL_VALUE],
@@ -337,12 +548,12 @@ export class NotificationsAdminComponent implements OnInit {
       inboxTitle: '',
       isActive: true,
     });
+    this.openFormDialog(this.newTitle);
   }
 
   openEdit(row: NotificationTemplateItem): void {
     this.editingId = row.id;
     this.preview = null;
-    this.showForm = true;
     this.templateForm.reset({
       action: row.action,
       channels: [...row.channels],
@@ -352,12 +563,35 @@ export class NotificationsAdminComponent implements OnInit {
       inboxTitle: row.inboxTitle ?? '',
       isActive: row.active,
     });
+    this.openFormDialog(this.editTitle);
+  }
+
+  private openFormDialog(title: string): void {
+    this.formDialogRef?.close(false);
+    queueMicrotask(() => {
+      if (!this.templateFormTpl) {
+        return;
+      }
+      this.formDialogRef = this.dialog.open(NotificationFormDialogShellComponent, {
+        width: '800px',
+        maxWidth: '95vw',
+        autoFocus: 'first-tabbable',
+        panelClass: NOTIFICATION_FORM_DIALOG_PANEL_CLASS,
+        data: { title, content: this.templateFormTpl },
+      });
+      this.formDialogRef.afterClosed().subscribe((saved) => {
+        this.formDialogRef = null;
+        this.editingId = null;
+        this.preview = null;
+        if (saved) {
+          this.load();
+        }
+      });
+    });
   }
 
   cancelForm(): void {
-    this.showForm = false;
-    this.editingId = null;
-    this.preview = null;
+    this.formDialogRef?.close(false);
   }
 
   runPreview(): void {
@@ -436,11 +670,8 @@ export class NotificationsAdminComponent implements OnInit {
     request$.subscribe({
       next: () => {
         this.saving = false;
-        this.showForm = false;
-        this.editingId = null;
-        this.preview = null;
         this.snack.open(NOTIFICATIONS_SAVE_SUCCESS, NOTIFICATIONS_SNACK_CLOSE, { duration: 2500 });
-        this.load();
+        this.formDialogRef?.close(true);
       },
       error: () => {
         this.saving = false;
