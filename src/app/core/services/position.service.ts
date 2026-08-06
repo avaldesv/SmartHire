@@ -45,6 +45,17 @@ export interface PositionListFilters {
   stateId?: number | null;
   generalCategoryId?: number | null;
   questionnaireId?: number | null;
+  /** CONTAINS by name when countryId is null / Todos */
+  brandName?: string | null;
+  workplaceName?: string | null;
+  contractTypeName?: string | null;
+  educationLevelName?: string | null;
+  responsibilityLevelName?: string | null;
+  coverageTypeName?: string | null;
+  requisitionTypeName?: string | null;
+  stateName?: string | null;
+  generalCategoryName?: string | null;
+  shiftName?: string | null;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -97,6 +108,16 @@ export class PositionService {
       stateId: filters.stateId ?? null,
       generalCategoryId: filters.generalCategoryId ?? null,
       questionnaireId: filters.questionnaireId ?? null,
+      brandName: filters.brandName?.trim() || null,
+      workplaceName: filters.workplaceName?.trim() || null,
+      contractTypeName: filters.contractTypeName?.trim() || null,
+      educationLevelName: filters.educationLevelName?.trim() || null,
+      responsibilityLevelName: filters.responsibilityLevelName?.trim() || null,
+      coverageTypeName: filters.coverageTypeName?.trim() || null,
+      requisitionTypeName: filters.requisitionTypeName?.trim() || null,
+      stateName: filters.stateName?.trim() || null,
+      generalCategoryName: filters.generalCategoryName?.trim() || null,
+      shiftName: filters.shiftName?.trim() || null,
       filters: [],
       ordersBy: ['createAt:desc'] as string[],
     };

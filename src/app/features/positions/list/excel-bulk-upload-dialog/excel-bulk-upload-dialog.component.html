@@ -78,7 +78,7 @@
                   }
                 </div>
                 <ul class="error-list">
-                  @for (err of row.errors ?? []; track $index) {
+                  @for (err of row.errors; track $index) {
                     <li>{{ err.message || err.code || 'Error' }}</li>
                   } @empty {
                     <li>{{ labels.colErrors }}</li>

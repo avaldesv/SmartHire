@@ -27,6 +27,20 @@
   }
 }
 
+.section-header-actions {
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  align-items: stretch;
+  gap: 8px;
+  margin-left: auto;
+
+  > button {
+    width: 100%;
+    white-space: nowrap;
+  }
+}
+
 .solicitudes-section {
   padding-left: 0;
   padding-right: 0;

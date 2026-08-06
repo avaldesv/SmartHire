@@ -4,6 +4,10 @@
     "secure": true,
     "changeOrigin": true,
     "logLevel": "info",
-    "ws": true
+    "ws": true,
+    "headers": {
+      "Origin": "https://smarthire-production-504c.up.railway.app",
+      "Referer": "https://smarthire-production-504c.up.railway.app/"
+    }
   }
 }

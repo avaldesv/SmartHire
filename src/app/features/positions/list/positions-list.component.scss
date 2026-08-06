@@ -1,0 +1,12 @@
+.header-filter-actions {
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  align-items: stretch;
+  gap: 8px;
+
+  > button {
+    width: 100%;
+    white-space: nowrap;
+  }
+}

@@ -18,6 +18,11 @@ import {
   DASHBOARD_SUBTITLE,
   DASHBOARD_WELCOME,
 } from '../../../core/i18n/dashboard-labels';
+import {
+  POSITIONS_CLEAR_FILTERS,
+  POSITIONS_LESS_FILTERS,
+  POSITIONS_MORE_FILTERS,
+} from '../../../core/i18n/positions-labels';
 import { KpiCardComponent } from '../../../shared/components/kpi-card/kpi-card.component';
 import { PositionsTableComponent } from '../../positions/shared/positions-table/positions-table.component';
 
@@ -50,6 +55,9 @@ export class DashboardComponent implements OnInit {
   readonly kpiInterestedSub = DASHBOARD_KPI_INTERESTED_SUB;
   readonly sectionRequests = DASHBOARD_SECTION_REQUESTS;
   readonly newRequisition = DASHBOARD_NEW_REQUISITION;
+  readonly clearFiltersLabel = POSITIONS_CLEAR_FILTERS;
+  readonly moreFiltersLabel = POSITIONS_MORE_FILTERS;
+  readonly lessFiltersLabel = POSITIONS_LESS_FILTERS;
 
   kpis = { totalPositions: 0, preselected: 0, interested: 0 };
 
