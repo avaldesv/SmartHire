@@ -152,7 +152,14 @@ export class PositionCancelDialogComponent implements OnInit {
       types: this.typeService.list(0, 200),
     }).subscribe({
       next: ({ impact, types }) => {
-        this.impact = impact;
+        this.impact = {
+          ...impact,
+          positionsCount: impact.positionsCount ?? 0,
+          applicantsCount: impact.applicantsCount ?? 0,
+          preselectionCount: impact.preselectionCount ?? 0,
+          firstDayCount: impact.firstDayCount ?? 0,
+          candidates: impact.candidates ?? [],
+        };
         this.types = types.items.filter((t) => t.isActive);
         this.loading = false;
       },

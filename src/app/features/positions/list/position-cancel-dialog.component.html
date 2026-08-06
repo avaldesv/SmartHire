@@ -1,6 +1,9 @@
-<h2 mat-dialog-title>{{ title }}</h2>
+<div class="sh-catalog-dialog-header" mat-dialog-title>
+  <span class="sh-catalog-dialog-header__text">{{ title }}</span>
+</div>
 
-<mat-dialog-content>
+<mat-dialog-content class="sh-position-cancel-dialog-body">
+  <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
   @if (loading) {
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else if (loadError) {
@@ -14,19 +17,19 @@
       </p>
       <div class="totals">
         <div class="total-item">
-          <span class="total-value">{{ impact.positionsCount }}</span>
+          <span class="total-value">{{ impact.positionsCount ?? 0 }}</span>
           <span class="total-label">{{ colPositions }}</span>
         </div>
         <div class="total-item">
-          <span class="total-value">{{ impact.applicantsCount }}</span>
+          <span class="total-value">{{ impact.applicantsCount ?? 0 }}</span>
           <span class="total-label">{{ colApplicants }}</span>
         </div>
         <div class="total-item">
-          <span class="total-value">{{ impact.preselectionCount }}</span>
+          <span class="total-value">{{ impact.preselectionCount ?? 0 }}</span>
           <span class="total-label">{{ colPreselection }}</span>
         </div>
         <div class="total-item">
-          <span class="total-value">{{ impact.firstDayCount }}</span>
+          <span class="total-value">{{ impact.firstDayCount ?? 0 }}</span>
           <span class="total-label">{{ colFirstDay }}</span>
         </div>
       </div>
@@ -93,7 +96,7 @@
 
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>{{ descriptionLabel }}</mat-label>
-        <textarea matInput rows="3" formControlName="description"></textarea>
+        <textarea matInput rows="2" formControlName="description"></textarea>
       </mat-form-field>
 
       <div class="evidence-block">
