@@ -1,4 +1,5 @@
 <form [formGroup]="filters" [class]="embedded ? 'sh-filters' : 'sh-filters sh-card'">
+  <!-- Fila 1 — siempre visible -->
   <div class="primary-filters-grid">
     <mat-form-field appearance="outline" class="filter-search">
       <mat-label>{{ searchLabel }}</mat-label>
@@ -43,220 +44,73 @@
     </mat-form-field>
   </div>
 
-  <div class="primary-filters-grid">
-    <mat-form-field appearance="outline">
-      <mat-label>{{ filterQuestionnaire }}</mat-label>
-      <mat-select formControlName="questionnaireId">
-        <mat-option [value]="0">{{ filterAll }}</mat-option>
-        @for (item of questionnaireOptions; track item.id) {
-          <mat-option [value]="item.id">{{ item.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>{{ filterContractType }}</mat-label>
-      @if (hasCountrySelected) {
-        <mat-select formControlName="contractTypeId">
-          <mat-option [value]="0">{{ filterAll }}</mat-option>
-          @for (item of contractTypeOptions; track item.id) {
-            <mat-option [value]="item.id">{{ item.name }}</mat-option>
-          }
-        </mat-select>
-      } @else {
-        <input matInput formControlName="contractTypeName" />
-      }
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>{{ filterEducation }}</mat-label>
-      @if (hasCountrySelected) {
-        <mat-select formControlName="educationLevelId">
-          <mat-option [value]="0">{{ filterAll }}</mat-option>
-          @for (item of educationLevelOptions; track item.id) {
-            <mat-option [value]="item.id">{{ item.name }}</mat-option>
-          }
-        </mat-select>
-      } @else {
-        <input matInput formControlName="educationLevelName" />
-      }
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>{{ filterResponsibility }}</mat-label>
-      @if (hasCountrySelected) {
-        <mat-select formControlName="responsibilityLevelId">
-          <mat-option [value]="0">{{ filterAll }}</mat-option>
-          @for (item of responsibilityLevelOptions; track item.id) {
-            <mat-option [value]="item.id">{{ item.name }}</mat-option>
-          }
-        </mat-select>
-      } @else {
-        <input matInput formControlName="responsibilityLevelName" />
-      }
-    </mat-form-field>
-  </div>
-
-  <div class="primary-filters-grid">
-    <mat-form-field appearance="outline">
-      <mat-label>{{ filterWorkplace }}</mat-label>
-      @if (hasCountrySelected) {
-        <mat-select formControlName="workplaceId">
-          <mat-option [value]="0">{{ filterAll }}</mat-option>
-          @for (item of workplaceOptions; track item.id) {
-            <mat-option [value]="item.id">{{ item.name }}</mat-option>
-          }
-        </mat-select>
-      } @else {
-        <input matInput formControlName="workplaceName" />
-      }
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>{{ filterShift }}</mat-label>
-      @if (hasCountrySelected) {
-        <mat-select formControlName="shiftId">
-          <mat-option [value]="0">{{ filterAll }}</mat-option>
-          @for (item of shiftOptions; track item.id) {
-            <mat-option [value]="item.id">{{ item.name }}</mat-option>
-          }
-        </mat-select>
-      } @else {
-        <input matInput formControlName="shiftName" />
-      }
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>{{ filterCreatedBy }}</mat-label>
-      <mat-select formControlName="createdByIds" multiple>
-        @for (user of creatorUserOptions; track user.id) {
-          <mat-option [value]="user.id">{{ userDisplayNameFromSecurityUser(user) }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>{{ filterCoverageType }}</mat-label>
-      @if (hasCountrySelected) {
-        <mat-select formControlName="coverageTypeId">
-          <mat-option [value]="0">{{ filterAll }}</mat-option>
-          @for (item of coverageTypeOptions; track item.id) {
-            <mat-option [value]="item.id">{{ item.name }}</mat-option>
-          }
-        </mat-select>
-      } @else {
-        <input matInput formControlName="coverageTypeName" />
-      }
-    </mat-form-field>
-  </div>
-
-  <div class="primary-filters-grid">
-    <mat-form-field appearance="outline">
-      <mat-label>{{ filterClientPosition }}</mat-label>
-      <input matInput formControlName="clientPosition" />
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>{{ filterCoordinator }}</mat-label>
-      <mat-select formControlName="careResponsibleUserId">
-        <mat-option [value]="0">{{ filterAll }}</mat-option>
-        @for (user of coordinatorUserOptions; track user.id) {
-          <mat-option [value]="user.id">{{ userDisplayNameFromSecurityUser(user) }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>{{ filterRecruiterAts }}</mat-label>
-      <input matInput formControlName="careResponsibleAts" />
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>{{ filterCoordinatorAppian }}</mat-label>
-      <mat-select disabled>
-        <mat-option [value]="0">{{ filterAppianUnavailable }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-
-  <div class="primary-filters-grid">
-    <mat-form-field appearance="outline">
-      <mat-label>{{ filterRecruiterAppian }}</mat-label>
-      <mat-select disabled>
-        <mat-option [value]="0">{{ filterAppianUnavailable }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>{{ filterCloserAppian }}</mat-label>
-      <mat-select disabled>
-        <mat-option [value]="0">{{ filterAppianUnavailable }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>{{ filterBrand }}</mat-label>
-      @if (hasCountrySelected) {
-        <mat-select formControlName="brandId">
-          <mat-option [value]="0">{{ filterAll }}</mat-option>
-          @for (item of brandOptions; track item.id) {
-            <mat-option [value]="item.id">{{ item.name }}</mat-option>
-          }
-        </mat-select>
-      } @else {
-        <input matInput formControlName="brandName" />
-      }
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>{{ filterRequestType }}</mat-label>
-      <mat-select disabled>
-        <mat-option [value]="0">{{ filterDeferredUnavailable }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-
-  <div class="primary-filters-grid">
-    <mat-form-field appearance="outline">
-      <mat-label>{{ filterCountry }}</mat-label>
-      <mat-select formControlName="countryId">
-        <mat-option [value]="0">{{ filterAll }}</mat-option>
-        @for (country of countryOptions; track country.id) {
-          <mat-option [value]="country.id">{{ country.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>{{ filterState }}</mat-label>
-      @if (hasCountrySelected) {
-        <mat-select formControlName="stateId">
-          <mat-option [value]="0">{{ filterAll }}</mat-option>
-          @for (item of stateOptions; track item.id) {
-            <mat-option [value]="item.id">{{ item.name }}</mat-option>
-          }
-        </mat-select>
-      } @else {
-        <input matInput formControlName="stateName" />
-      }
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>{{ filterGeneralCategory }}</mat-label>
-      @if (hasCountrySelected) {
-        <mat-select formControlName="generalCategoryId">
-          <mat-option [value]="0">{{ filterAll }}</mat-option>
-          @for (item of generalCategoryOptions; track item.id) {
-            <mat-option [value]="item.id">{{ item.name }}</mat-option>
-          }
-        </mat-select>
-      } @else {
-        <input matInput formControlName="generalCategoryName" />
-      }
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>{{ filterRequisitionType }}</mat-label>
-      @if (hasCountrySelected) {
-        <mat-select formControlName="requisitionTypeId">
-          <mat-option [value]="0">{{ filterAll }}</mat-option>
-          @for (item of requisitionTypeOptions; track item.id) {
-            <mat-option [value]="item.id">{{ item.name }}</mat-option>
-          }
-        </mat-select>
-      } @else {
-        <input matInput formControlName="requisitionTypeName" />
-      }
-    </mat-form-field>
-  </div>
-
   @if (advancedFiltersOpen) {
-    <div class="advanced-filters-grid">
+    <!-- Bloque A — independientes de país -->
+    <div class="primary-filters-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ filterQuestionnaire }}</mat-label>
+        <mat-select formControlName="questionnaireId">
+          <mat-option [value]="0">{{ filterAll }}</mat-option>
+          @for (item of questionnaireOptions; track item.id) {
+            <mat-option [value]="item.id">{{ item.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{ filterCreatedBy }}</mat-label>
+        <mat-select formControlName="createdByIds" multiple>
+          @for (user of creatorUserOptions; track user.id) {
+            <mat-option [value]="user.id">{{ userDisplayNameFromSecurityUser(user) }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{ filterClientPosition }}</mat-label>
+        <input matInput formControlName="clientPosition" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{ filterCoordinator }}</mat-label>
+        <mat-select formControlName="careResponsibleUserId">
+          <mat-option [value]="0">{{ filterAll }}</mat-option>
+          @for (user of coordinatorUserOptions; track user.id) {
+            <mat-option [value]="user.id">{{ userDisplayNameFromSecurityUser(user) }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="primary-filters-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ filterRecruiterAts }}</mat-label>
+        <input matInput formControlName="careResponsibleAts" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{ filterRecruiterAppian }}</mat-label>
+        <mat-select disabled>
+          <mat-option [value]="0">{{ filterAppianUnavailable }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{ filterCloserAppian }}</mat-label>
+        <mat-select disabled>
+          <mat-option [value]="0">{{ filterAppianUnavailable }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{ filterCoordinatorAppian }}</mat-label>
+        <mat-select disabled>
+          <mat-option [value]="0">{{ filterAppianUnavailable }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="primary-filters-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ filterRequestType }}</mat-label>
+        <mat-select disabled>
+          <mat-option [value]="0">{{ filterDeferredUnavailable }}</mat-option>
+        </mat-select>
+      </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>{{ filterRecruiter }}</mat-label>
         <mat-select formControlName="recruiter">
@@ -267,8 +121,156 @@
         </mat-select>
       </mat-form-field>
     </div>
-  }
 
+    <!-- Bloque B — empieza por País -->
+    <div class="primary-filters-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ filterCountry }}</mat-label>
+        <mat-select formControlName="countryId">
+          <mat-option [value]="0">{{ filterAll }}</mat-option>
+          @for (country of countryOptions; track country.id) {
+            <mat-option [value]="country.id">{{ country.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{ filterState }}</mat-label>
+        @if (hasCountrySelected) {
+          <mat-select formControlName="stateId">
+            <mat-option [value]="0">{{ filterAll }}</mat-option>
+            @for (item of stateOptions; track item.id) {
+              <mat-option [value]="item.id">{{ item.name }}</mat-option>
+            }
+          </mat-select>
+        } @else {
+          <input matInput formControlName="stateName" />
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{ filterContractType }}</mat-label>
+        @if (hasCountrySelected) {
+          <mat-select formControlName="contractTypeId">
+            <mat-option [value]="0">{{ filterAll }}</mat-option>
+            @for (item of contractTypeOptions; track item.id) {
+              <mat-option [value]="item.id">{{ item.name }}</mat-option>
+            }
+          </mat-select>
+        } @else {
+          <input matInput formControlName="contractTypeName" />
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{ filterEducation }}</mat-label>
+        @if (hasCountrySelected) {
+          <mat-select formControlName="educationLevelId">
+            <mat-option [value]="0">{{ filterAll }}</mat-option>
+            @for (item of educationLevelOptions; track item.id) {
+              <mat-option [value]="item.id">{{ item.name }}</mat-option>
+            }
+          </mat-select>
+        } @else {
+          <input matInput formControlName="educationLevelName" />
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="primary-filters-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ filterResponsibility }}</mat-label>
+        @if (hasCountrySelected) {
+          <mat-select formControlName="responsibilityLevelId">
+            <mat-option [value]="0">{{ filterAll }}</mat-option>
+            @for (item of responsibilityLevelOptions; track item.id) {
+              <mat-option [value]="item.id">{{ item.name }}</mat-option>
+            }
+          </mat-select>
+        } @else {
+          <input matInput formControlName="responsibilityLevelName" />
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{ filterWorkplace }}</mat-label>
+        @if (hasCountrySelected) {
+          <mat-select formControlName="workplaceId">
+            <mat-option [value]="0">{{ filterAll }}</mat-option>
+            @for (item of workplaceOptions; track item.id) {
+              <mat-option [value]="item.id">{{ item.name }}</mat-option>
+            }
+          </mat-select>
+        } @else {
+          <input matInput formControlName="workplaceName" />
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{ filterShift }}</mat-label>
+        @if (hasCountrySelected) {
+          <mat-select formControlName="shiftId">
+            <mat-option [value]="0">{{ filterAll }}</mat-option>
+            @for (item of shiftOptions; track item.id) {
+              <mat-option [value]="item.id">{{ item.name }}</mat-option>
+            }
+          </mat-select>
+        } @else {
+          <input matInput formControlName="shiftName" />
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{ filterCoverageType }}</mat-label>
+        @if (hasCountrySelected) {
+          <mat-select formControlName="coverageTypeId">
+            <mat-option [value]="0">{{ filterAll }}</mat-option>
+            @for (item of coverageTypeOptions; track item.id) {
+              <mat-option [value]="item.id">{{ item.name }}</mat-option>
+            }
+          </mat-select>
+        } @else {
+          <input matInput formControlName="coverageTypeName" />
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="primary-filters-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ filterBrand }}</mat-label>
+        @if (hasCountrySelected) {
+          <mat-select formControlName="brandId">
+            <mat-option [value]="0">{{ filterAll }}</mat-option>
+            @for (item of brandOptions; track item.id) {
+              <mat-option [value]="item.id">{{ item.name }}</mat-option>
+            }
+          </mat-select>
+        } @else {
+          <input matInput formControlName="brandName" />
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{ filterGeneralCategory }}</mat-label>
+        @if (hasCountrySelected) {
+          <mat-select formControlName="generalCategoryId">
+            <mat-option [value]="0">{{ filterAll }}</mat-option>
+            @for (item of generalCategoryOptions; track item.id) {
+              <mat-option [value]="item.id">{{ item.name }}</mat-option>
+            }
+          </mat-select>
+        } @else {
+          <input matInput formControlName="generalCategoryName" />
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{ filterRequisitionType }}</mat-label>
+        @if (hasCountrySelected) {
+          <mat-select formControlName="requisitionTypeId">
+            <mat-option [value]="0">{{ filterAll }}</mat-option>
+            @for (item of requisitionTypeOptions; track item.id) {
+              <mat-option [value]="item.id">{{ item.name }}</mat-option>
+            }
+          </mat-select>
+        } @else {
+          <input matInput formControlName="requisitionTypeName" />
+        }
+      </mat-form-field>
+    </div>
+  }
 </form>
 
 @if (loading) {
