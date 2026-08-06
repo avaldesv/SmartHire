@@ -301,7 +301,8 @@ export class PositionsTableComponent implements OnInit {
   readonly moreActionsAria = POSITIONS_ACTION_MORE_ARIA;
 
   loading = true;
-  advancedFiltersOpen = false;
+  /** Q1-B: filas 2–7 abiertas por defecto; Fila 1 siempre visible. */
+  advancedFiltersOpen = true;
   data: PositionListItem[] = [];
   countryOptions: CatalogCountry[] = [];
   clientOptions: ClientOption[] = [];
@@ -946,7 +947,6 @@ export class PositionsTableComponent implements OnInit {
     this.filters.reset(this.defaultFilterValues);
     this.clientSearch.setValue('', { emitEvent: false });
     this.clientOptions = [];
-    this.advancedFiltersOpen = false;
     this.stateOptions = [];
     this.clearCountryDependentCatalogs();
     this.snack.open(POSITIONS_FILTERS_CLEARED, POSITIONS_SNACK_CLOSE, { duration: 2500 });
