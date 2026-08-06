@@ -310,7 +310,7 @@ export class PositionsTableComponent implements OnInit {
 
   loading = true;
   /** Q1-B: filas 2–7 abiertas por defecto; Fila 1 siempre visible. */
-  advancedFiltersOpen = true;
+  advancedFiltersOpen = false;
   data: PositionListItem[] = [];
   countryOptions: CatalogCountry[] = [];
   clientOptions: ClientOption[] = [];
@@ -1021,6 +1021,9 @@ export class PositionsTableComponent implements OnInit {
       .open(PositionCancelDialogComponent, {
         width: '720px',
         maxWidth: '95vw',
+        maxHeight: '92vh',
+        panelClass: 'sh-position-cancel-dialog-panel',
+        autoFocus: 'first-tabbable',
         data: {
           positionId: row.id,
           title: mode === 'request' ? this.actionRequestCancellation : this.actionCancelDirect,

@@ -77,12 +77,22 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
   min-width: min(560px, 100%);
 }
 
 .full-width {
   width: 100%;
+}
+
+/* Tighten outline fields so collapsed dialog fits without scroll */
+:host ::ng-deep .form .mat-mdc-form-field {
+  margin-bottom: -0.35em;
+}
+
+:host ::ng-deep .form textarea {
+  min-height: 2.5rem;
+  resize: vertical;
 }
 
 .evidence-block {
