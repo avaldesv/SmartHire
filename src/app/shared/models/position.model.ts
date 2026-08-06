@@ -181,6 +181,41 @@ export type RejectPositionCancellationResponse = CreatePositionResponse;
 export type ExecutePositionCancellationResponse = CreatePositionResponse;
 export type DirectCancelPositionResponse = CreatePositionResponse;
 
+export interface PositionCancellationRequest {
+  cancellationTypeId: number;
+  cancellationReasonId: number;
+  description?: string | null;
+  evidenceStorageKey?: string | null;
+  evidenceFileName?: string | null;
+  evidenceContentType?: string | null;
+}
+
+export interface PositionCancellationImpactCandidate {
+  applicationId: number;
+  candidateId: number;
+  fullName: string | null;
+  email: string | null;
+  phone: string | null;
+  status: string | null;
+}
+
+export interface PositionCancellationImpact {
+  requisitionId: number;
+  requisitionNumber: string;
+  requisitionName: string;
+  positionsCount: number;
+  applicantsCount: number;
+  preselectionCount: number;
+  firstDayCount: number;
+  candidates: PositionCancellationImpactCandidate[];
+}
+
+export interface UploadCancellationEvidenceResponse {
+  storageKey: string;
+  fileName: string;
+  contentType: string;
+}
+
 export interface ReassignPositionRequest {
   assignedUserId: number;
   reason?: string | null;

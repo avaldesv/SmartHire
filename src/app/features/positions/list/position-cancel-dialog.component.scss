@@ -1,0 +1,135 @@
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 32px;
+}
+
+.header-block {
+  margin-bottom: 16px;
+}
+
+.requisition-line {
+  margin: 0 0 12px;
+  font-size: 0.95rem;
+}
+
+.requisition-line .label {
+  opacity: 0.75;
+  margin-right: 4px;
+}
+
+.totals {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.total-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 4px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 6px;
+  text-align: center;
+}
+
+.total-value {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.total-label {
+  font-size: 0.75rem;
+  opacity: 0.75;
+  margin-top: 2px;
+}
+
+.candidates-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.candidates-table-wrap {
+  max-height: 220px;
+  overflow: auto;
+  margin-bottom: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 6px;
+}
+
+.candidates-table {
+  width: 100%;
+}
+
+.empty-candidates {
+  margin: 0 0 12px;
+  font-size: 0.875rem;
+  opacity: 0.75;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: min(560px, 100%);
+}
+
+.full-width {
+  width: 100%;
+}
+
+.evidence-block {
+  margin-top: 4px;
+}
+
+.evidence-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 8px;
+}
+
+.evidence-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.evidence-hint {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+.evidence-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.evidence-file-name {
+  font-size: 0.875rem;
+  word-break: break-all;
+}
+
+.error-text {
+  color: var(--mat-form-field-error-text-color, #b3261e);
+  font-size: 0.8rem;
+  margin: 8px 0 0;
+}
+
+@media (max-width: 600px) {
+  .totals {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .form {
+    min-width: 0;
+  }
+}

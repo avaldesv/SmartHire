@@ -38,6 +38,7 @@ import {
   POSITIONS_APPROVE_CANCELLATION_ERROR,
   POSITIONS_APPROVE_CANCELLATION_SUCCESS,
   POSITIONS_CANCEL_ERROR,
+  POSITIONS_CANCEL_EVIDENCE_UPLOAD_ERROR,
   POSITIONS_CANCEL_SUCCESS,
   POSITIONS_CLEAR_FILTERS,
   POSITIONS_COL_APPLICANTS,
@@ -110,12 +111,10 @@ import {
   POSITIONS_SNACK_CLOSE,
   buildDuplicatedPositionName,
   positionsApproveCancellationConfirm,
-  positionsCancelConfirm,
   positionsCandidatesApplied,
   positionsDuplicateSuccess,
   positionsExecuteCancellationConfirm,
   positionsRejectCancellationConfirm,
-  positionsRequestCancellationConfirm,
 } from '../../../../core/i18n/positions-labels';
 import { AuthService } from '../../../../core/services/auth.service';
 import { CatalogClientService } from '../../../../core/services/catalog-client.service';
@@ -143,7 +142,12 @@ import {
 } from '../../../../shared/models/catalog-position.model';
 import { CatalogResponsibilityLevel } from '../../../../shared/models/catalog-responsibility-level.model';
 import { CatalogWorkplace } from '../../../../shared/models/catalog-workplace.model';
-import { PositionListItem, PositionUserSummary } from '../../../../shared/models/position.model';
+import {
+  PositionCancellationRequest,
+  PositionListItem,
+  PositionUserSummary,
+  UploadCancellationEvidenceResponse,
+} from '../../../../shared/models/position.model';
 import { QuestionnaireItem } from '../../../../shared/models/questionnaire-v2.model';
 import { SecurityUser } from '../../../../shared/models/security-user.model';
 import {
@@ -162,6 +166,10 @@ import {
   ExcelBulkUploadDialogComponent,
   ExcelBulkUploadDialogData,
 } from '../../list/excel-bulk-upload-dialog/excel-bulk-upload-dialog.component';
+import {
+  PositionCancelDialogComponent,
+  PositionCancelDialogResult,
+} from '../../list/position-cancel-dialog.component';
 import { PositionEventsDialogComponent } from '../../list/position-events-dialog.component';
 import { PositionReasonDialogComponent } from '../../list/position-reason-dialog.component';
 import {
@@ -995,29 +1003,7 @@ export class PositionsTableComponent implements OnInit {
     if (!this.canDirectCancel() || row.status === 'CANCELLED') {
       return;
     }
-    if (!confirm(positionsCancelConfirm(row.requisitionNo))) {
-      return;
-    }
-    this.dialog
-      .open(PositionReasonDialogComponent, {
-        width: '480px',
-        data: { required: false, title: this.actionCancelDirect },
-      })
-      .afterClosed()
-      .subscribe((reason: string | null | undefined) => {
-        if (reason === undefined) {
-          return;
-        }
-        this.positionService.delete(row.id, reason).subscribe({
-          next: () => {
-            this.reloadAndNotify();
-            this.snack.open(POSITIONS_CANCEL_SUCCESS, POSITIONS_SNACK_CLOSE, { duration: 3000 });
-          },
-          error: () => {
-            this.snack.open(POSITIONS_CANCEL_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
-          },
-        });
-      });
+    this.openEnrichedCancelDialog(row, 'direct');
   }
 
   requestCancellation(row: PositionListItem): void {
@@ -1027,29 +1013,77 @@ export class PositionsTableComponent implements OnInit {
     if (row.status !== 'DRAFT' && row.status !== 'ACTIVE') {
       return;
     }
-    if (!confirm(positionsRequestCancellationConfirm(row.requisitionNo))) {
-      return;
-    }
+    this.openEnrichedCancelDialog(row, 'request');
+  }
+
+  private openEnrichedCancelDialog(row: PositionListItem, mode: 'request' | 'direct'): void {
     this.dialog
-      .open(PositionReasonDialogComponent, {
-        width: '480px',
-        data: { required: true, title: this.actionRequestCancellation },
+      .open(PositionCancelDialogComponent, {
+        width: '720px',
+        maxWidth: '95vw',
+        data: {
+          positionId: row.id,
+          title: mode === 'request' ? this.actionRequestCancellation : this.actionCancelDirect,
+        },
       })
       .afterClosed()
-      .subscribe((reason: string | null | undefined) => {
-        if (!reason) {
+      .subscribe((result: PositionCancelDialogResult | null | undefined) => {
+        if (!result) {
           return;
         }
-        this.positionService.requestCancellation(row.id, reason).subscribe({
-          next: () => {
-            this.reloadAndNotify();
-            this.snack.open(POSITIONS_REQUEST_CANCELLATION_SUCCESS, POSITIONS_SNACK_CLOSE, { duration: 3000 });
-          },
-          error: () => {
-            this.snack.open(POSITIONS_REQUEST_CANCELLATION_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
-          },
-        });
+        this.submitEnrichedCancellation(row.id, mode, result);
       });
+  }
+
+  private submitEnrichedCancellation(
+    positionId: number,
+    mode: 'request' | 'direct',
+    result: PositionCancelDialogResult,
+  ): void {
+    const buildBody = (evidence?: UploadCancellationEvidenceResponse): PositionCancellationRequest => ({
+      cancellationTypeId: result.cancellationTypeId,
+      cancellationReasonId: result.cancellationReasonId,
+      description: result.description,
+      evidenceStorageKey: evidence?.storageKey ?? null,
+      evidenceFileName: evidence?.fileName ?? null,
+      evidenceContentType: evidence?.contentType ?? null,
+    });
+
+    const callApi = (body: PositionCancellationRequest): void => {
+      const request$ =
+        mode === 'request'
+          ? this.positionService.requestCancellation(positionId, body)
+          : this.positionService.delete(positionId, body);
+      request$.subscribe({
+        next: () => {
+          this.reloadAndNotify();
+          this.snack.open(
+            mode === 'request' ? POSITIONS_REQUEST_CANCELLATION_SUCCESS : POSITIONS_CANCEL_SUCCESS,
+            POSITIONS_SNACK_CLOSE,
+            { duration: 3000 },
+          );
+        },
+        error: () => {
+          this.snack.open(
+            mode === 'request' ? POSITIONS_REQUEST_CANCELLATION_ERROR : POSITIONS_CANCEL_ERROR,
+            POSITIONS_SNACK_CLOSE,
+            { duration: 4000 },
+          );
+        },
+      });
+    };
+
+    if (result.evidenceFile) {
+      this.positionService.uploadCancellationEvidence(positionId, result.evidenceFile).subscribe({
+        next: (evidence) => callApi(buildBody(evidence)),
+        error: () => {
+          this.snack.open(POSITIONS_CANCEL_EVIDENCE_UPLOAD_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
+        },
+      });
+      return;
+    }
+
+    callApi(buildBody());
   }
 
   approveCancellation(row: PositionListItem): void {

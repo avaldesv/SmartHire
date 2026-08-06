@@ -1,0 +1,143 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+
+<mat-dialog-content>
+  @if (loading) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else if (loadError) {
+    <p class="error-text">{{ loadError }}</p>
+  } @else if (impact) {
+    <section class="header-block">
+      <p class="requisition-line">
+        <span class="label">{{ requisitionLabel }}:</span>
+        <strong>{{ impact.requisitionNumber }}</strong>
+        — {{ impact.requisitionName }}
+      </p>
+      <div class="totals">
+        <div class="total-item">
+          <span class="total-value">{{ impact.positionsCount }}</span>
+          <span class="total-label">{{ colPositions }}</span>
+        </div>
+        <div class="total-item">
+          <span class="total-value">{{ impact.applicantsCount }}</span>
+          <span class="total-label">{{ colApplicants }}</span>
+        </div>
+        <div class="total-item">
+          <span class="total-value">{{ impact.preselectionCount }}</span>
+          <span class="total-label">{{ colPreselection }}</span>
+        </div>
+        <div class="total-item">
+          <span class="total-value">{{ impact.firstDayCount }}</span>
+          <span class="total-label">{{ colFirstDay }}</span>
+        </div>
+      </div>
+      <div class="candidates-toolbar">
+        <span>{{ candidatesLabel }} ({{ candidates.length }})</span>
+        <button mat-stroked-button type="button" (click)="toggleCandidates()">
+          {{ showCandidates ? hideLabel : showLabel }}
+        </button>
+      </div>
+      @if (showCandidates) {
+        @if (candidates.length === 0) {
+          <p class="empty-candidates">{{ noCandidates }}</p>
+        } @else {
+          <div class="candidates-table-wrap">
+            <table mat-table [dataSource]="candidates" class="candidates-table">
+              <ng-container matColumnDef="fullName">
+                <th mat-header-cell *matHeaderCellDef>{{ colName }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.fullName || '—' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef>{{ colEmail }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.email || '—' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="phone">
+                <th mat-header-cell *matHeaderCellDef>{{ colPhone }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.phone || '—' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>{{ colStatus }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.status || '—' }}</td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="candidateColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: candidateColumns"></tr>
+            </table>
+          </div>
+        }
+      }
+    </section>
+
+    <form [formGroup]="form" class="form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ typeLabel }}</mat-label>
+        <mat-select formControlName="cancellationTypeId">
+          @for (type of types; track type.id) {
+            <mat-option [value]="type.id">{{ type.name }}</mat-option>
+          }
+        </mat-select>
+        @if (form.controls.cancellationTypeId.hasError('required')) {
+          <mat-error>{{ requiredMsg }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ reasonLabel }}</mat-label>
+        <mat-select formControlName="cancellationReasonId">
+          @for (reason of reasons; track reason.id) {
+            <mat-option [value]="reason.id">{{ reason.name }}</mat-option>
+          }
+        </mat-select>
+        @if (form.controls.cancellationReasonId.hasError('required')) {
+          <mat-error>{{ requiredMsg }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ descriptionLabel }}</mat-label>
+        <textarea matInput rows="3" formControlName="description"></textarea>
+      </mat-form-field>
+
+      <div class="evidence-block">
+        <div class="evidence-header">
+          <span class="evidence-title">{{ evidenceLabel }}</span>
+          <span class="evidence-hint">{{ evidenceHint }}</span>
+        </div>
+        <input
+          #evidenceInput
+          type="file"
+          accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx"
+          (change)="onEvidenceSelected($event)"
+          hidden
+        />
+        <div class="evidence-actions">
+          <button mat-stroked-button type="button" (click)="pickEvidence()">
+            <mat-icon>attach_file</mat-icon>
+            {{ evidencePick }}
+          </button>
+          @if (evidenceFile) {
+            <span class="evidence-file-name">{{ evidenceFile.name }}</span>
+            <button mat-button type="button" (click)="clearEvidence()">{{ evidenceClear }}</button>
+          }
+        </div>
+        @if (evidenceError) {
+          <p class="error-text">{{ evidenceError }}</p>
+        }
+        @if (reasonsError) {
+          <p class="error-text">{{ reasonsError }}</p>
+        }
+      </div>
+    </form>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button type="button" (click)="dialogRef.close(null)">{{ cancelLabel }}</button>
+  <button
+    mat-flat-button
+    color="primary"
+    type="button"
+    [disabled]="loading || !!loadError || form.invalid || !!evidenceError || !!reasonsError || loadingReasons"
+    (click)="confirm()"
+  >
+    {{ confirmLabel }}
+  </button>
+</mat-dialog-actions>
