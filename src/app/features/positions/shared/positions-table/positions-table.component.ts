@@ -778,7 +778,13 @@ export class PositionsTableComponent implements OnInit {
     if (!trimmed) {
       return { [idKey]: 0, [nameKey]: '' };
     }
-    const match = options.find((o) => (o.name ?? '').trim().toLowerCase() === trimmed.toLowerCase());
+    const needle = trimmed.toLowerCase();
+    // Prefer exact name, then first partial (option name CONTAINS typed text).
+    const exact = options.find((o) => (o.name ?? '').trim().toLowerCase() === needle);
+    const partial = exact
+      ? undefined
+      : options.find((o) => (o.name ?? '').trim().toLowerCase().includes(needle));
+    const match = exact ?? partial;
     if (match) {
       return { [idKey]: match.id, [nameKey]: '' };
     }
