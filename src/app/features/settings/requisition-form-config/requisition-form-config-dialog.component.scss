@@ -124,6 +124,11 @@ h5 {
 
 .tree-row-tab {
   background: #f8fafc;
+  cursor: pointer;
+
+  &.selected {
+    background: #ccfbf1;
+  }
 }
 
 .tree-row-field {
@@ -182,6 +187,18 @@ h5 {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  margin-top: 16px;
+}
+
+.roles-block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.role-field {
+  width: 100%;
 }
 
 .loading-wrap {

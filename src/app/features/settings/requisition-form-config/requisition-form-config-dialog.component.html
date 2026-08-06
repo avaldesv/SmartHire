@@ -46,12 +46,17 @@
         <div class="tree-body">
           @for (step of steps; track step.stepKey) {
             <div class="tree-step">
-              <div class="tree-row tree-row-tab" [class.inactive]="!step.isVisible">
+              <div
+                class="tree-row tree-row-tab"
+                [class.inactive]="!step.isVisible"
+                [class.selected]="isStepSelected(step.stepKey)"
+                (click)="selectStep(step)"
+              >
                 <button
                   type="button"
                   class="expand-btn"
                   [attr.aria-expanded]="isStepExpanded(step.stepKey)"
-                  (click)="toggleStepExpanded(step.stepKey)"
+                  (click)="toggleStepExpanded(step.stepKey); $event.stopPropagation()"
                 >
                   <mat-icon>{{ isStepExpanded(step.stepKey) ? 'expand_more' : 'chevron_right' }}</mat-icon>
                 </button>
@@ -66,10 +71,10 @@
                 <span class="col-label tab-label">{{ stepDisplayLabel(step.stepKey) }}</span>
                 <span class="col-actions">
                   @if (canWrite() && !isReadOnly()) {
-                    <button mat-icon-button type="button" [attr.aria-label]="moveUpLabel" (click)="moveStep(step.stepKey, -1)">
+                    <button mat-icon-button type="button" [attr.aria-label]="moveUpLabel" (click)="moveStep(step.stepKey, -1); $event.stopPropagation()">
                       <mat-icon>arrow_upward</mat-icon>
                     </button>
-                    <button mat-icon-button type="button" [attr.aria-label]="moveDownLabel" (click)="moveStep(step.stepKey, 1)">
+                    <button mat-icon-button type="button" [attr.aria-label]="moveDownLabel" (click)="moveStep(step.stepKey, 1); $event.stopPropagation()">
                       <mat-icon>arrow_downward</mat-icon>
                     </button>
                   }
@@ -110,12 +115,56 @@
       </section>
 
       <aside class="detail-panel">
-        <h4>{{ detailTitle }}</h4>
-        @if (!selectedField) {
-          <p class="hint">{{ noRulesHint }}</p>
+        <h4>{{ isFieldSelection() ? detailTitle : stepDetailTitle }}</h4>
+        @if (!selectedStepKey) {
+          <p class="hint">{{ selectStepOrFieldHint }}</p>
         } @else {
-          <p class="selected-field-name">{{ fieldDefLabel(selectedField.fieldDefId) }}</p>
-          @if (supportsConditionalRules(selectedField.fieldDefId)) {
+          <p class="selected-field-name">
+            {{
+              isFieldSelection()
+                ? fieldDefLabel(selectedField!.fieldDefId)
+                : stepDisplayLabel(selectedStepKey)
+            }}
+          </p>
+
+          @if (isFieldSelection() && fieldInheritsRoles()) {
+            <p class="hint">{{ rolesInheritHint }}</p>
+          }
+          <p class="hint">{{ rolesAllHint }}</p>
+
+          <div class="roles-block">
+            <mat-form-field appearance="outline" class="role-field">
+              <mat-label>{{ rolesViewLabel }}</mat-label>
+              <mat-select
+                multiple
+                [ngModel]="viewRoleIds"
+                [ngModelOptions]="{ standalone: true }"
+                [disabled]="isReadOnly()"
+                (ngModelChange)="onViewRolesChange($event)"
+              >
+                @for (role of availableRoles; track role.id) {
+                  <mat-option [value]="role.id">{{ role.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="role-field">
+              <mat-label>{{ rolesEditLabel }}</mat-label>
+              <mat-select
+                multiple
+                [ngModel]="editRoleIds"
+                [ngModelOptions]="{ standalone: true }"
+                [disabled]="isReadOnly()"
+                (ngModelChange)="onEditRolesChange($event)"
+              >
+                @for (role of availableRoles; track role.id) {
+                  <mat-option [value]="role.id">{{ role.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          @if (isFieldSelection() && supportsConditionalRules(selectedField!.fieldDefId)) {
             <div class="rules-block">
               <h5>{{ rulesTitle }}</h5>
               <mat-checkbox
@@ -135,8 +184,6 @@
                 {{ ruleRequiredLabel }}
               </mat-checkbox>
             </div>
-          } @else {
-            <p class="hint">{{ noRulesHint }}</p>
           }
         }
       </aside>
