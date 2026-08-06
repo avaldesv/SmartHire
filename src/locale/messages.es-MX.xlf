@@ -10498,6 +10498,72 @@
           <context context-type="linenumber">88</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="positions.cancelDialog.requisition" datatype="html">
+        <source>Requisición</source>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.show" datatype="html">
+        <source>Mostrar</source>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.hide" datatype="html">
+        <source>Ocultar</source>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.candidates" datatype="html">
+        <source>Candidatos</source>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.col.name" datatype="html">
+        <source>Nombre completo</source>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.col.email" datatype="html">
+        <source>Correo</source>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.col.phone" datatype="html">
+        <source>Teléfono</source>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.col.status" datatype="html">
+        <source>Estado</source>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.type" datatype="html">
+        <source>Tipo de cancelación</source>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.reason" datatype="html">
+        <source>Motivos</source>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.description" datatype="html">
+        <source>Descripción (opcional)</source>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.evidence" datatype="html">
+        <source>Evidencia (opcional)</source>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.evidenceHint" datatype="html">
+        <source>PDF, JPG, PNG, DOC, DOCX, XLS o XLSX. Máximo 10 MB.</source>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.evidencePick" datatype="html">
+        <source>Seleccionar archivo</source>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.evidenceClear" datatype="html">
+        <source>Quitar</source>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.evidenceInvalid" datatype="html">
+        <source>Archivo no válido. Use PDF, JPG, PNG, DOC, DOCX, XLS o XLSX de hasta 10 MB.</source>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.required" datatype="html">
+        <source>Campo obligatorio</source>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.loadError" datatype="html">
+        <source>No se pudo cargar el impacto de cancelación</source>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.reasonsError" datatype="html">
+        <source>No se pudieron cargar los motivos</source>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.criticalWarning" datatype="html">
+        <source>Hay candidatos en Preselección o Primer día. ¿Desea continuar con la cancelación?</source>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.noCandidates" datatype="html">
+        <source>Sin candidatos asociados a esta posición</source>
+      </trans-unit>
+      <trans-unit id="positions.errors.cancelEvidenceUpload" datatype="html">
+        <source>No se pudo subir la evidencia de cancelación</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

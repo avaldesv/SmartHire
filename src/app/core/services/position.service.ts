@@ -1,12 +1,15 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import {
   CreatePositionRequest,
   CreatePositionResponse,
   DirectCancelPositionResponse,
   DuplicatePositionResponse,
   ExecutePositionCancellationResponse,
+  PositionCancellationImpact,
+  PositionCancellationRequest,
   PositionDetail,
   PositionDashboardKpis,
   PositionEventItem,
@@ -19,8 +22,10 @@ import {
   RequestPositionCancellationResponse,
   UpdatePositionRequest,
   UpdatePositionResponse,
+  UploadCancellationEvidenceResponse,
 } from '../../shared/models/position.model';
 import { ApiClientService } from './api-client.service';
+import { TenantContextService } from './tenant-context.service';
 
 export interface PositionListFilters {
   status?: string | null;
@@ -62,6 +67,7 @@ export interface PositionListFilters {
 export class PositionService {
   private readonly http = inject(HttpClient);
   private readonly api = inject(ApiClientService);
+  private readonly tenantContext = inject(TenantContextService);
 
   list(
     page = 0,
@@ -181,11 +187,28 @@ export class PositionService {
     );
   }
 
-  delete(id: number, reason?: string | null): Observable<DirectCancelPositionResponse> {
+  delete(id: number, request: PositionCancellationRequest): Observable<DirectCancelPositionResponse> {
     return this.http.delete<DirectCancelPositionResponse>(this.api.apiUrl(`/api/v1/positions/${id}`), {
       headers: this.api.buildHeaders(),
-      body: { reason: reason ?? null },
+      body: request,
     });
+  }
+
+  getCancellationImpact(id: number): Observable<PositionCancellationImpact> {
+    return this.http.get<PositionCancellationImpact>(
+      this.api.apiUrl(`/api/v1/positions/${id}/cancellation-impact`),
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  uploadCancellationEvidence(id: number, file: File): Observable<UploadCancellationEvidenceResponse> {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.http.post<UploadCancellationEvidenceResponse>(
+      this.api.apiUrl(`/api/v1/positions/${id}/cancellation-evidence`),
+      formData,
+      { headers: this.buildMultipartHeaders() },
+    );
   }
 
   reassign(id: number, request: ReassignPositionRequest): Observable<ReassignPositionResponse> {
@@ -209,10 +232,13 @@ export class PositionService {
       );
   }
 
-  requestCancellation(id: number, reason: string): Observable<RequestPositionCancellationResponse> {
+  requestCancellation(
+    id: number,
+    request: PositionCancellationRequest,
+  ): Observable<RequestPositionCancellationResponse> {
     return this.http.post<RequestPositionCancellationResponse>(
       this.api.apiUrl(`/api/v1/positions/${id}/request-cancellation`),
-      { reason },
+      request,
       { headers: this.api.buildHeaders() },
     );
   }
@@ -239,5 +265,14 @@ export class PositionService {
       {},
       { headers: this.api.buildHeaders() },
     );
+  }
+
+  private buildMultipartHeaders(): HttpHeaders {
+    const token = sessionStorage.getItem('sh_token') ?? '';
+    return new HttpHeaders({
+      applicationId: environment.applicationId,
+      companyId: String(this.tenantContext.getCompanyId()),
+      authorization: token ? `Bearer ${token}` : '',
+    });
   }
 }
