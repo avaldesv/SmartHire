@@ -83,6 +83,8 @@ import { CatalogGenderService } from '../../../core/services/catalog-gender.serv
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { UserSettingsApiService } from '../../../core/services/user-settings-api.service';
 import { CatalogKinshipService } from '../../../core/services/catalog-kinship.service';
+import { CatalogCancellationTypeService } from '../../../core/services/catalog-cancellation-type.service';
+import { CatalogCancellationReasonService } from '../../../core/services/catalog-cancellation-reason.service';
 import { CatalogLanguageService } from '../../../core/services/catalog-language.service';
 import { CatalogShiftService } from '../../../core/services/catalog-shift.service';
 import { CatalogCareer } from '../../../shared/models/catalog-career.model';
@@ -103,6 +105,8 @@ import { CatalogDocumentProcessingService } from '../../../shared/models/catalog
 import { CatalogCountry, CatalogMunicipality, CatalogNeighborhood, CatalogState } from '../../../shared/models/catalog-geography.model';
 import { CatalogGender } from '../../../shared/models/catalog-gender.model';
 import { CatalogKinship } from '../../../shared/models/catalog-kinship.model';
+import { CatalogCancellationType } from '../../../shared/models/catalog-cancellation-type.model';
+import { CatalogCancellationReason } from '../../../shared/models/catalog-cancellation-reason.model';
 import { CatalogLanguage } from '../../../shared/models/catalog-language.model';
 import { CatalogShift } from '../../../shared/models/catalog-shift.model';
 import { PermissionService } from '../../../core/services/permission.service';
@@ -131,6 +135,7 @@ import {
   CATALOG_COLUMN_CORE_ATS,
   CATALOG_COLUMN_DEFAULT_PORTAL_LANGUAGE,
   CATALOG_COLUMN_DENOMINATION,
+  CATALOG_COLUMN_CANCELLATION_TYPE,
   CATALOG_COLUMN_EMAIL,
   CATALOG_COLUMN_LEGAL_NAME,
   CATALOG_COLUMN_PHONE,
@@ -138,12 +143,15 @@ import {
   CATALOG_COLUMN_POSTAL_CODE,
   CATALOG_COLUMN_QUESTION,
   CATALOG_COLUMN_REQUIRES_CAREER,
+  CATALOG_COLUMN_SORT_ORDER,
   CATALOG_COLUMN_SYMBOL,
   CATALOG_COLUMN_TAX_ID,
   CATALOG_COLUMN_TRADE_NAME,
   CATALOG_COLUMN_TYPE,
+  CATALOG_FIELD_ALL_CANCELLATION_TYPES,
   CATALOG_FIELD_ATS_CODE,
   CATALOG_FIELD_BILLING_MESSAGE,
+  CATALOG_FIELD_CANCELLATION_TYPE,
   CATALOG_FIELD_COMPANY,
   CATALOG_FIELD_COMPANY_OPTIONAL,
   CATALOG_FIELD_DEFAULT_PORTAL_LANGUAGE,
@@ -158,6 +166,7 @@ import {
   CATALOG_FIELD_POSTAL_CODE,
   CATALOG_FIELD_R3_INTERFACE,
   CATALOG_FIELD_SHORT_DESCRIPTION,
+  CATALOG_FIELD_SORT_ORDER,
   CATALOG_FIELD_STATE,
   CATALOG_FIELD_STREET,
   CATALOG_FIELD_VALIDATES_AI,
@@ -244,6 +253,8 @@ export class CatalogsAdminComponent implements OnInit {
   readonly colPosition = CATALOG_COLUMN_POSITION;
   readonly colPhone = CATALOG_COLUMN_PHONE;
   readonly colEmail = CATALOG_COLUMN_EMAIL;
+  readonly colSortOrder = CATALOG_COLUMN_SORT_ORDER;
+  readonly colCancellationType = CATALOG_COLUMN_CANCELLATION_TYPE;
   readonly catalogsValue = CATALOGS_VALUE;
   readonly fieldDefaultPortalLanguage = CATALOG_FIELD_DEFAULT_PORTAL_LANGUAGE;
   readonly fieldBillingMessage = CATALOG_FIELD_BILLING_MESSAGE;
@@ -265,6 +276,9 @@ export class CatalogsAdminComponent implements OnInit {
   readonly fieldPostalCode = CATALOG_FIELD_POSTAL_CODE;
   readonly fieldManpowerId = CATALOG_FIELD_MANPOWER_ID;
   readonly fieldValidatesWithAi = CATALOG_FIELD_VALIDATES_AI;
+  readonly fieldSortOrder = CATALOG_FIELD_SORT_ORDER;
+  readonly fieldCancellationType = CATALOG_FIELD_CANCELLATION_TYPE;
+  readonly fieldAllCancellationTypes = CATALOG_FIELD_ALL_CANCELLATION_TYPES;
 
   readonly categories = CATALOG_CATEGORIES;
   readonly visibleCategories = computed(() => resolveVisibleCategories(this.isGlobalAdmin()));
@@ -281,6 +295,8 @@ export class CatalogsAdminComponent implements OnInit {
 
   private readonly genderService = inject(CatalogGenderService);
   private readonly kinshipService = inject(CatalogKinshipService);
+  private readonly cancellationTypeService = inject(CatalogCancellationTypeService);
+  private readonly cancellationReasonService = inject(CatalogCancellationReasonService);
   private readonly companyService = inject(CatalogCompanyService);
   private readonly currencyService = inject(CatalogCurrencyService);
   private readonly careerService = inject(CatalogCareerService);
@@ -448,6 +464,13 @@ export class CatalogsAdminComponent implements OnInit {
       case 'kinship':
         this.loadKinships();
         break;
+      case 'cancellationType':
+        this.loadCancellationTypes();
+        break;
+      case 'cancellationReason':
+        this.loadCancellationTypeOptions();
+        this.loadCancellationReasons();
+        break;
       case 'client':
         this.loadClients();
         break;
@@ -542,6 +565,13 @@ export class CatalogsAdminComponent implements OnInit {
         break;
       case 'kinship':
         this.loadKinships();
+        break;
+      case 'cancellationType':
+        this.loadCancellationTypes();
+        break;
+      case 'cancellationReason':
+        this.loadCancellationTypeOptions();
+        this.loadCancellationReasons();
         break;
       case 'company':
         this.loadCompanies();
@@ -720,6 +750,26 @@ export class CatalogsAdminComponent implements OnInit {
   savingKinship = false;
   editingKinshipId: number | null = null;
   showKinshipForm = false;
+
+  cancellationTypes: CatalogCancellationType[] = [];
+  cancellationTypeTotal = 0;
+  cancellationTypePageIndex = 0;
+  cancellationTypePageSize = 10;
+  loadingCancellationTypes = false;
+  savingCancellationType = false;
+  editingCancellationTypeId: number | null = null;
+  showCancellationTypeForm = false;
+  cancellationTypeOptions: CatalogCancellationType[] = [];
+
+  cancellationReasons: CatalogCancellationReason[] = [];
+  cancellationReasonTotal = 0;
+  cancellationReasonPageIndex = 0;
+  cancellationReasonPageSize = 10;
+  loadingCancellationReasons = false;
+  savingCancellationReason = false;
+  editingCancellationReasonId: number | null = null;
+  showCancellationReasonForm = false;
+  selectedCancellationTypeFilterId: number | null = null;
 
   clients: CatalogClient[] = [];
   clientTotal = 0;
@@ -1064,6 +1114,8 @@ export class CatalogsAdminComponent implements OnInit {
 
   readonly genderColumns = ['code', 'name', 'value', 'active', 'scope', 'actions'];
   readonly kinshipColumns = ['code', 'name', 'active', 'scope', 'actions'];
+  readonly cancellationTypeColumns = ['code', 'name', 'description', 'sortOrder', 'active', 'actions'];
+  readonly cancellationReasonColumns = ['cancellationType', 'code', 'name', 'description', 'sortOrder', 'active', 'actions'];
   readonly coverageCategoryColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
   readonly characteristicColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
   readonly categoryColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
@@ -1153,6 +1205,23 @@ export class CatalogsAdminComponent implements OnInit {
   readonly kinshipForm = this.fb.nonNullable.group({
     code: ['', Validators.required],
     name: ['', Validators.required],
+    isActive: [true],
+  });
+
+  readonly cancellationTypeForm = this.fb.nonNullable.group({
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
+    sortOrder: [0, [Validators.required, Validators.min(0)]],
+    isActive: [true],
+  });
+
+  readonly cancellationReasonForm = this.fb.nonNullable.group({
+    cancellationTypeId: [null as number | null, Validators.required],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
+    sortOrder: [0, [Validators.required, Validators.min(0)]],
     isActive: [true],
   });
 
@@ -1508,6 +1577,8 @@ export class CatalogsAdminComponent implements OnInit {
     this.closeCatalogFormDialog();
     this.cancelGenderForm();
     this.cancelKinshipForm();
+    this.cancelCancellationTypeForm();
+    this.cancelCancellationReasonForm();
     this.cancelCompanyForm();
     this.cancelCurrencyForm();
     this.cancelCareerForm();
@@ -1800,6 +1871,75 @@ export class CatalogsAdminComponent implements OnInit {
     this.kinshipPageIndex = e.pageIndex;
     this.kinshipPageSize = e.pageSize;
     this.loadKinships();
+  }
+
+  loadCancellationTypes(): void {
+    this.loadingCancellationTypes = true;
+    this.cancellationTypeService.list(this.cancellationTypePageIndex, this.cancellationTypePageSize).subscribe({
+      next: (res) => {
+        this.cancellationTypes = res.items;
+        this.cancellationTypeTotal = res.total;
+        this.loadingCancellationTypes = false;
+      },
+      error: () => {
+        this.loadingCancellationTypes = false;
+        this.snack.open(catalogLoadListError(getCatalogEntryLabel('cancellationType')), CATALOG_MSG_SNACK_CLOSE, {
+          duration: 4000,
+        });
+      },
+    });
+  }
+
+  loadCancellationTypeOptions(): void {
+    this.cancellationTypeService.list(0, 200).subscribe({
+      next: (res) => {
+        this.cancellationTypeOptions = res.items;
+      },
+      error: () => {
+        this.cancellationTypeOptions = [];
+      },
+    });
+  }
+
+  onCancellationTypePage(e: PageEvent): void {
+    this.cancellationTypePageIndex = e.pageIndex;
+    this.cancellationTypePageSize = e.pageSize;
+    this.loadCancellationTypes();
+  }
+
+  loadCancellationReasons(): void {
+    this.loadingCancellationReasons = true;
+    this.cancellationReasonService
+      .list(this.cancellationReasonPageIndex, this.cancellationReasonPageSize, this.selectedCancellationTypeFilterId)
+      .subscribe({
+        next: (res) => {
+          this.cancellationReasons = res.items;
+          this.cancellationReasonTotal = res.total;
+          this.loadingCancellationReasons = false;
+        },
+        error: () => {
+          this.loadingCancellationReasons = false;
+          this.snack.open(catalogLoadListError(getCatalogEntryLabel('cancellationReason')), CATALOG_MSG_SNACK_CLOSE, {
+            duration: 4000,
+          });
+        },
+      });
+  }
+
+  onCancellationReasonPage(e: PageEvent): void {
+    this.cancellationReasonPageIndex = e.pageIndex;
+    this.cancellationReasonPageSize = e.pageSize;
+    this.loadCancellationReasons();
+  }
+
+  onCancellationTypeFilterChange(typeId: number | null): void {
+    this.selectedCancellationTypeFilterId = typeId;
+    this.cancellationReasonPageIndex = 0;
+    this.loadCancellationReasons();
+  }
+
+  cancellationTypeName(typeId: number): string {
+    return this.cancellationTypeOptions.find((t) => t.id === typeId)?.name ?? String(typeId);
   }
 
   loadCoverageCategorys(): void {
@@ -3012,6 +3152,142 @@ export class CatalogsAdminComponent implements OnInit {
       error: () => {
         this.savingKinship = false;
         this.snack.open(catalogSaveError(getCatalogEntryLabel('kinship')), CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
+      },
+    });
+  }
+
+  openCreateCancellationType(): void {
+    this.editingCancellationTypeId = null;
+    this.openCatalogFormDialog('cancellationType', 'new');
+    this.cancellationTypeForm.reset({ code: '', name: '', description: '', sortOrder: 0, isActive: true });
+  }
+
+  openEditCancellationType(row: CatalogCancellationType): void {
+    this.editingCancellationTypeId = row.id;
+    this.openCatalogFormDialog('cancellationType', 'edit');
+    this.cancellationTypeForm.patchValue({
+      code: row.code,
+      name: row.name,
+      description: row.description ?? '',
+      sortOrder: row.sortOrder ?? 0,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelCancellationTypeForm(): void {
+    this.closeCatalogFormDialog();
+    this.showCancellationTypeForm = false;
+    this.editingCancellationTypeId = null;
+  }
+
+  saveCancellationType(): void {
+    if (this.cancellationTypeForm.invalid) {
+      this.cancellationTypeForm.markAllAsTouched();
+      return;
+    }
+    const value = this.cancellationTypeForm.getRawValue();
+    const payload = {
+      code: value.code.trim(),
+      name: value.name.trim(),
+      description: value.description.trim() || null,
+      sortOrder: value.sortOrder,
+      isActive: value.isActive,
+    };
+    this.savingCancellationType = true;
+    const request$ =
+      this.editingCancellationTypeId != null
+        ? this.cancellationTypeService.update(this.editingCancellationTypeId, payload)
+        : this.cancellationTypeService.create(payload);
+    request$.subscribe({
+      next: () => {
+        this.savingCancellationType = false;
+        this.cancelCancellationTypeForm();
+        this.loadCancellationTypes();
+        this.loadCancellationTypeOptions();
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('cancellationType')), CATALOG_MSG_SNACK_CLOSE, {
+          duration: 3000,
+        });
+      },
+      error: () => {
+        this.savingCancellationType = false;
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('cancellationType')), CATALOG_MSG_SNACK_CLOSE, {
+          duration: 4000,
+        });
+      },
+    });
+  }
+
+  openCreateCancellationReason(): void {
+    this.loadCancellationTypeOptions();
+    this.editingCancellationReasonId = null;
+    this.openCatalogFormDialog('cancellationReason', 'new');
+    this.cancellationReasonForm.reset({
+      cancellationTypeId: this.selectedCancellationTypeFilterId,
+      code: '',
+      name: '',
+      description: '',
+      sortOrder: 0,
+      isActive: true,
+    });
+  }
+
+  openEditCancellationReason(row: CatalogCancellationReason): void {
+    this.loadCancellationTypeOptions();
+    this.editingCancellationReasonId = row.id;
+    this.openCatalogFormDialog('cancellationReason', 'edit');
+    this.cancellationReasonForm.patchValue({
+      cancellationTypeId: row.cancellationTypeId,
+      code: row.code,
+      name: row.name,
+      description: row.description ?? '',
+      sortOrder: row.sortOrder ?? 0,
+      isActive: row.isActive,
+    });
+  }
+
+  cancelCancellationReasonForm(): void {
+    this.closeCatalogFormDialog();
+    this.showCancellationReasonForm = false;
+    this.editingCancellationReasonId = null;
+  }
+
+  saveCancellationReason(): void {
+    if (this.cancellationReasonForm.invalid) {
+      this.cancellationReasonForm.markAllAsTouched();
+      return;
+    }
+    const value = this.cancellationReasonForm.getRawValue();
+    if (value.cancellationTypeId == null) {
+      this.cancellationReasonForm.controls.cancellationTypeId.markAsTouched();
+      return;
+    }
+    const payload = {
+      cancellationTypeId: value.cancellationTypeId,
+      code: value.code.trim(),
+      name: value.name.trim(),
+      description: value.description.trim() || null,
+      sortOrder: value.sortOrder,
+      isActive: value.isActive,
+    };
+    this.savingCancellationReason = true;
+    const request$ =
+      this.editingCancellationReasonId != null
+        ? this.cancellationReasonService.update(this.editingCancellationReasonId, payload)
+        : this.cancellationReasonService.create(payload);
+    request$.subscribe({
+      next: () => {
+        this.savingCancellationReason = false;
+        this.cancelCancellationReasonForm();
+        this.loadCancellationReasons();
+        this.snack.open(catalogSaveSuccess(getCatalogEntryLabel('cancellationReason')), CATALOG_MSG_SNACK_CLOSE, {
+          duration: 3000,
+        });
+      },
+      error: () => {
+        this.savingCancellationReason = false;
+        this.snack.open(catalogSaveError(getCatalogEntryLabel('cancellationReason')), CATALOG_MSG_SNACK_CLOSE, {
+          duration: 4000,
+        });
       },
     });
   }
@@ -5505,6 +5781,31 @@ export class CatalogsAdminComponent implements OnInit {
       () => this.loadKinships(),
       this.editingKinshipId,
       () => this.cancelKinshipForm(),
+    );
+  }
+
+  deleteCancellationType(row: CatalogCancellationType): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.cancellationTypeService.delete(row.id),
+      () => {
+        this.loadCancellationTypes();
+        this.loadCancellationTypeOptions();
+      },
+      this.editingCancellationTypeId,
+      () => this.cancelCancellationTypeForm(),
+    );
+  }
+
+  deleteCancellationReason(row: CatalogCancellationReason): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.cancellationReasonService.delete(row.id),
+      () => this.loadCancellationReasons(),
+      this.editingCancellationReasonId,
+      () => this.cancelCancellationReasonForm(),
     );
   }
 

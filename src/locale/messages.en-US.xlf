@@ -218,6 +218,14 @@
         <source>Parentesco</source>
         <target>Kinship</target>
       </trans-unit>
+      <trans-unit id="catalogs.entry.cancellationType" datatype="html">
+        <source>Tipo de cancelación</source>
+        <target>Cancellation type</target>
+      </trans-unit>
+      <trans-unit id="catalogs.entry.cancellationReason" datatype="html">
+        <source>Motivos de cancelación</source>
+        <target>Cancellation reasons</target>
+      </trans-unit>
       <trans-unit id="catalogs.entry.brand" datatype="html">
         <source>Marca</source>
         <target>Brand</target>
@@ -346,6 +354,14 @@
         <source>Correo</source>
         <target>Email</target>
       </trans-unit>
+      <trans-unit id="catalogs.column.sortOrder" datatype="html">
+        <source>Orden</source>
+        <target>Order</target>
+      </trans-unit>
+      <trans-unit id="catalogs.column.cancellationType" datatype="html">
+        <source>Tipo de cancelación</source>
+        <target>Cancellation type</target>
+      </trans-unit>
       <trans-unit id="catalogs.field.defaultPortalLanguage" datatype="html">
         <source>Idioma default del portal</source>
         <target>Default portal language</target>
@@ -425,6 +441,18 @@
       <trans-unit id="catalogs.field.validatesWithAi" datatype="html">
         <source>Valida con IA</source>
         <target>AI validation</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.sortOrder" datatype="html">
+        <source>Orden</source>
+        <target>Order</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.cancellationType" datatype="html">
+        <source>Tipo de cancelación</source>
+        <target>Cancellation type</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.allCancellationTypes" datatype="html">
+        <source>Todos los tipos</source>
+        <target>All types</target>
       </trans-unit>
       <trans-unit id="catalogImport.title" datatype="html">
         <source>Importar <x id="catalogLabel" equiv-text="catalogLabel" />
@@ -593,6 +621,30 @@
       <trans-unit id="catalogs.kinship.newTitle" datatype="html">
         <source>Nuevo parentesco</source>
         <target>New kinship</target>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationType.newButton" datatype="html">
+        <source>Nuevo tipo de cancelación</source>
+        <target>New cancellation type</target>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationType.editTitle" datatype="html">
+        <source>Editar tipo de cancelación</source>
+        <target>Edit cancellation type</target>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationType.newTitle" datatype="html">
+        <source>Nuevo tipo de cancelación</source>
+        <target>New cancellation type</target>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.newButton" datatype="html">
+        <source>Nuevo motivo de cancelación</source>
+        <target>New cancellation reason</target>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.editTitle" datatype="html">
+        <source>Editar motivo de cancelación</source>
+        <target>Edit cancellation reason</target>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.newTitle" datatype="html">
+        <source>Nuevo motivo de cancelación</source>
+        <target>New cancellation reason</target>
       </trans-unit>
       <trans-unit id="catalogs.company.newButton" datatype="html">
         <source>Nueva empresa</source>

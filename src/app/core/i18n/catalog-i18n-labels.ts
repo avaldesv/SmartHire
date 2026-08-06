@@ -47,6 +47,8 @@ const ENTRY_LABELS: Record<string, string> = {
   mpCountry: $localize`:@@catalogs.entry.mpCountry:País`,
   mpCoverageType: $localize`:@@catalogs.entry.mpCoverageType:Tipo cubrimiento`,
   kinship: $localize`:@@catalogs.entry.kinship:Parentesco`,
+  cancellationType: $localize`:@@catalogs.entry.cancellationType:Tipo de cancelación`,
+  cancellationReason: $localize`:@@catalogs.entry.cancellationReason:Motivos de cancelación`,
   brand: $localize`:@@catalogs.entry.brand:Marca`,
   documentType: $localize`:@@catalogs.entry.documentType:Tipo documento`,
   fileExtension: $localize`:@@catalogs.entry.fileExtension:Extensión de archivo`,
@@ -91,6 +93,8 @@ export const CATALOG_COLUMN_DEFAULT_PORTAL_LANGUAGE = $localize`:@@catalogs.colu
 export const CATALOG_COLUMN_POSITION = $localize`:@@catalogs.column.position:Puesto`;
 export const CATALOG_COLUMN_PHONE = $localize`:@@catalogs.column.phone:Teléfono`;
 export const CATALOG_COLUMN_EMAIL = $localize`:@@catalogs.column.email:Correo`;
+export const CATALOG_COLUMN_SORT_ORDER = $localize`:@@catalogs.column.sortOrder:Orden`;
+export const CATALOG_COLUMN_CANCELLATION_TYPE = $localize`:@@catalogs.column.cancellationType:Tipo de cancelación`;
 
 export const CATALOG_FIELD_DEFAULT_PORTAL_LANGUAGE = $localize`:@@catalogs.field.defaultPortalLanguage:Idioma default del portal`;
 export const CATALOG_FIELD_BILLING_MESSAGE = $localize`:@@catalogs.field.billingMessage:Mensaje facturación`;
@@ -112,3 +116,6 @@ export const CATALOG_FIELD_FEDERAL_STATE = $localize`:@@catalogs.field.federalSt
 export const CATALOG_FIELD_POSTAL_CODE = $localize`:@@catalogs.field.postalCode:Código postal`;
 export const CATALOG_FIELD_MANPOWER_ID = $localize`:@@catalogs.field.manpowerIdLabel:ID Manpower`;
 export const CATALOG_FIELD_VALIDATES_AI = $localize`:@@catalogs.field.validatesWithAi:Valida con IA`;
+export const CATALOG_FIELD_SORT_ORDER = $localize`:@@catalogs.field.sortOrder:Orden`;
+export const CATALOG_FIELD_CANCELLATION_TYPE = $localize`:@@catalogs.field.cancellationType:Tipo de cancelación`;
+export const CATALOG_FIELD_ALL_CANCELLATION_TYPES = $localize`:@@catalogs.field.allCancellationTypes:Todos los tipos`;

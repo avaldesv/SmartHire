@@ -30,6 +30,12 @@ describe('catalog-admin.registry', () => {
       expect(generales?.catalogs.some((entry) => entry.id === 'coverageType')).toBeFalse();
       expect(smarthireOps?.catalogs.some((entry) => entry.id === 'neighborhood')).toBeTrue();
     });
+
+    it('exposes cancellation type and reason catalogs under SmartHire/Ops', () => {
+      const smarthireOps = resolveVisibleCategories(true).find((category) => category.id === 'smarthireOps');
+      expect(smarthireOps?.catalogs.some((entry) => entry.id === 'cancellationType' && entry.implemented)).toBeTrue();
+      expect(smarthireOps?.catalogs.some((entry) => entry.id === 'cancellationReason' && entry.implemented)).toBeTrue();
+    });
   });
 
   describe('ensureValidCatalogSelection', () => {
