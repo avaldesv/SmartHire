@@ -85,9 +85,12 @@
         <input matInput formControlName="careResponsibleAts" />
       </mat-form-field>
       <mat-form-field appearance="outline">
-        <mat-label>{{ filterRecruiterAppian }}</mat-label>
-        <mat-select disabled>
-          <mat-option [value]="0">{{ filterAppianUnavailable }}</mat-option>
+        <mat-label>{{ filterRecruiter }}</mat-label>
+        <mat-select formControlName="recruiter">
+          <mat-option value="">{{ filterAll }}</mat-option>
+          @for (user of recruiterUserOptions; track user.id) {
+            <mat-option [value]="'' + user.id">{{ userDisplayNameFromSecurityUser(user) }}</mat-option>
+          }
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="outline">
@@ -112,12 +115,9 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="outline">
-        <mat-label>{{ filterRecruiter }}</mat-label>
-        <mat-select formControlName="recruiter">
-          <mat-option value="">{{ filterAll }}</mat-option>
-          @for (user of recruiterUserOptions; track user.id) {
-            <mat-option [value]="'' + user.id">{{ userDisplayNameFromSecurityUser(user) }}</mat-option>
-          }
+        <mat-label>{{ filterRecruiterAppian }}</mat-label>
+        <mat-select disabled>
+          <mat-option [value]="0">{{ filterAppianUnavailable }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
