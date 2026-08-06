@@ -1,6 +1,7 @@
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -13,7 +14,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, forkJoin, map, of, switchMap } from 'rxjs';
 import { AppPermissions } from '../../../../core/auth/app-permissions';
 import { getRequisitionStatusLabel } from '../../../../core/i18n/common-labels';
 import { CV_BULK_ACTION } from '../../../../core/i18n/cv-bulk-labels';
@@ -69,17 +70,21 @@ import {
   POSITIONS_FILTER_CLIENT_POSITION,
   POSITIONS_FILTER_CONTRACT_TYPE,
   POSITIONS_FILTER_COORDINATOR,
+  POSITIONS_FILTER_COORDINATOR_APPIAN,
+  POSITIONS_FILTER_RECRUITER_APPIAN,
+  POSITIONS_FILTER_CLOSER_APPIAN,
+  POSITIONS_FILTER_REQUEST_TYPE,
+  POSITIONS_FILTER_APPIAN_UNAVAILABLE,
+  POSITIONS_FILTER_DEFERRED_UNAVAILABLE,
   POSITIONS_FILTER_COUNTRY,
   POSITIONS_FILTER_COVERAGE_TYPE,
   POSITIONS_FILTER_CREATED_BY,
   POSITIONS_FILTER_DATE_FROM,
-  POSITIONS_FILTER_DATE_TO,
   POSITIONS_FILTER_EDUCATION,
   POSITIONS_FILTER_GENERAL_CATEGORY,
   POSITIONS_FILTER_QUESTIONNAIRE,
   POSITIONS_FILTER_RECRUITER,
   POSITIONS_FILTER_RECRUITER_ATS,
-  POSITIONS_FILTER_RECRUITER_PLACEHOLDER,
   POSITIONS_FILTER_REQUISITION_TYPE,
   POSITIONS_FILTER_RESPONSIBILITY,
   POSITIONS_FILTER_SHIFT,
@@ -113,6 +118,7 @@ import {
   positionsRequestCancellationConfirm,
 } from '../../../../core/i18n/positions-labels';
 import { AuthService } from '../../../../core/services/auth.service';
+import { CatalogClientService } from '../../../../core/services/catalog-client.service';
 import { CatalogGeneralCategoryService } from '../../../../core/services/catalog-general-category.service';
 import { CatalogGeographyService } from '../../../../core/services/catalog-geography.service';
 import { CatalogPositionService } from '../../../../core/services/catalog-position.service';
@@ -124,6 +130,7 @@ import { QuestionnaireQuestionnaireApiService } from '../../../../core/services/
 import { SecurityUserService } from '../../../../core/services/security-user.service';
 import { StatusBadgeComponent } from '../../../../shared/components/status-badge/status-badge.component';
 import { TableRowActionsComponent } from '../../../../shared/components/table-row-actions/table-row-actions.component';
+import { CatalogClient } from '../../../../shared/models/catalog-client.model';
 import { CatalogGeneralCategory } from '../../../../shared/models/catalog-general-category.model';
 import { CatalogCountry, CatalogState } from '../../../../shared/models/catalog-geography.model';
 import {
@@ -170,6 +177,13 @@ import {
   RequisitionScopeDialogResult,
 } from '../../wizard/requisition-scope-dialog/requisition-scope-dialog.component';
 
+interface ClientOption {
+  id: number;
+  label: string;
+  /** Value used in positions list filter (companyArea / legalName / …). */
+  filterValue: string;
+}
+
 @Component({
   selector: 'sh-positions-table',
   standalone: true,
@@ -182,6 +196,7 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatAutocompleteModule,
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
@@ -201,6 +216,7 @@ export class PositionsTableComponent implements OnInit {
   private readonly positionService = inject(PositionService);
   private readonly geographyService = inject(CatalogGeographyService);
   private readonly catalogPositionService = inject(CatalogPositionService);
+  private readonly catalogClientService = inject(CatalogClientService);
   private readonly workplaceService = inject(CatalogWorkplaceService);
   private readonly responsibilityLevelService = inject(CatalogResponsibilityLevelService);
   private readonly generalCategoryService = inject(CatalogGeneralCategoryService);
@@ -217,11 +233,9 @@ export class PositionsTableComponent implements OnInit {
   readonly searchPlaceholder = POSITIONS_SEARCH_PLACEHOLDER;
   readonly filterStatus = POSITIONS_FILTER_STATUS;
   readonly filterRecruiter = POSITIONS_FILTER_RECRUITER;
-  readonly filterRecruiterPlaceholder = POSITIONS_FILTER_RECRUITER_PLACEHOLDER;
   readonly filterCountry = POSITIONS_FILTER_COUNTRY;
   readonly filterAll = POSITIONS_FILTER_ALL;
   readonly filterDateFrom = POSITIONS_FILTER_DATE_FROM;
-  readonly filterDateTo = POSITIONS_FILTER_DATE_TO;
   readonly clearFiltersLabel = POSITIONS_CLEAR_FILTERS;
   readonly moreFiltersLabel = POSITIONS_MORE_FILTERS;
   readonly lessFiltersLabel = POSITIONS_LESS_FILTERS;
@@ -237,6 +251,12 @@ export class PositionsTableComponent implements OnInit {
   readonly filterClientPosition = POSITIONS_FILTER_CLIENT_POSITION;
   readonly filterCreatedBy = POSITIONS_FILTER_CREATED_BY;
   readonly filterCoordinator = POSITIONS_FILTER_COORDINATOR;
+  readonly filterCoordinatorAppian = POSITIONS_FILTER_COORDINATOR_APPIAN;
+  readonly filterRecruiterAppian = POSITIONS_FILTER_RECRUITER_APPIAN;
+  readonly filterCloserAppian = POSITIONS_FILTER_CLOSER_APPIAN;
+  readonly filterRequestType = POSITIONS_FILTER_REQUEST_TYPE;
+  readonly filterAppianUnavailable = POSITIONS_FILTER_APPIAN_UNAVAILABLE;
+  readonly filterDeferredUnavailable = POSITIONS_FILTER_DEFERRED_UNAVAILABLE;
   readonly filterRecruiterAts = POSITIONS_FILTER_RECRUITER_ATS;
   readonly filterState = POSITIONS_FILTER_STATE;
   readonly filterGeneralCategory = POSITIONS_FILTER_GENERAL_CATEGORY;
@@ -284,6 +304,7 @@ export class PositionsTableComponent implements OnInit {
   advancedFiltersOpen = false;
   data: PositionListItem[] = [];
   countryOptions: CatalogCountry[] = [];
+  clientOptions: ClientOption[] = [];
   brandOptions: CatalogBrand[] = [];
   coverageTypeOptions: CatalogCoverageType[] = [];
   shiftOptions: CatalogShift[] = [];
@@ -294,6 +315,7 @@ export class PositionsTableComponent implements OnInit {
   responsibilityLevelOptions: CatalogResponsibilityLevel[] = [];
   generalCategoryOptions: CatalogGeneralCategory[] = [];
   stateOptions: CatalogState[] = [];
+  recruiterUserOptions: SecurityUser[] = [];
   creatorUserOptions: SecurityUser[] = [];
   coordinatorUserOptions: SecurityUser[] = [];
   questionnaireOptions: QuestionnaireItem[] = [];
@@ -316,26 +338,42 @@ export class PositionsTableComponent implements OnInit {
     countryId: [0],
     recruiter: [''],
     dateFrom: [''],
-    dateTo: [''],
     client: [''],
     requisitionTypeId: [0],
+    requisitionTypeName: [''],
     coverageTypeId: [0],
+    coverageTypeName: [''],
     brandId: [0],
+    brandName: [''],
     workplaceId: [0],
+    workplaceName: [''],
     shiftId: [0],
+    shiftName: [''],
     contractTypeId: [0],
+    contractTypeName: [''],
     educationLevelId: [0],
+    educationLevelName: [''],
     responsibilityLevelId: [0],
+    responsibilityLevelName: [''],
     clientPosition: [''],
     createdByIds: [[] as number[]],
     careResponsibleUserId: [0],
     careResponsibleAts: [''],
     stateId: [0],
+    stateName: [''],
     generalCategoryId: [0],
+    generalCategoryName: [''],
     questionnaireId: [0],
   });
 
   private readonly defaultFilterValues = this.filters.getRawValue();
+
+  /** Typeahead text; not part of filters group so typing does not reload the table. */
+  readonly clientSearch = new FormControl<string | ClientOption>('', { nonNullable: true });
+
+  get hasCountrySelected(): boolean {
+    return this.filters.controls.countryId.value > 0;
+  }
 
   readonly columns = [
     'requisitionNo',
@@ -361,6 +399,11 @@ export class PositionsTableComponent implements OnInit {
     'cancellationScope',
     'actions',
   ];
+
+  /** Nombre / Reclutador / Supervisor */
+  readonly cellMaxChars = 40;
+  /** Categoría ≈ "Con esfuerzo de reclutamiento" */
+  readonly categoryMaxChars = 'Con esfuerzo de reclutamiento'.length;
 
   canRequestCancellation(): boolean {
     return this.isTenantAdmin() || this.permissions.hasAny([
@@ -414,6 +457,15 @@ export class PositionsTableComponent implements OnInit {
     return '—';
   }
 
+  /** Visible cell text capped to max chars; full value stays in [title]. */
+  truncateCell(value: string | null | undefined, maxChars: number): string {
+    const text = (value ?? '').trim();
+    if (!text || text === '—') {
+      return '—';
+    }
+    return text.length > maxChars ? `${text.slice(0, maxChars)}…` : text;
+  }
+
   statusLabel(status: string): string {
     if (status === 'Todos') {
       return this.filterAll;
@@ -425,9 +477,14 @@ export class PositionsTableComponent implements OnInit {
     this.geographyService.listCountries(0, 200).subscribe({
       next: (countries) => {
         this.countryOptions = countries.filter((c) => c.isActive);
+        const selectedCountryId = this.filters.controls.countryId.value;
+        if (selectedCountryId > 0) {
+          this.loadCountryDependentCatalogs(selectedCountryId);
+        }
       },
     });
     this.loadUsers();
+    this.bindClientSearch();
     this.questionnaireService.list({ isActive: true }, 0, 200).subscribe({
       next: (res) => {
         this.questionnaireOptions = res.items;
@@ -452,11 +509,132 @@ export class PositionsTableComponent implements OnInit {
     return name || user.email || user.username;
   }
 
+  displayClient(option: ClientOption | string | null): string {
+    if (!option) {
+      return '';
+    }
+    return typeof option === 'string' ? option : option.label;
+  }
+
+  readonly displayClientFn = (option: ClientOption | string | null): string => this.displayClient(option);
+
+  onClientSearchFocus(): void {
+    const trimmed = this.clientSearchText(this.clientSearch.value);
+    if (trimmed.length > 0) {
+      return;
+    }
+    this.searchClients('').subscribe((options) => {
+      this.clientOptions = options;
+    });
+  }
+
+  onClientSelected(option: ClientOption): void {
+    this.clientSearch.setValue(option, { emitEvent: false });
+    this.clientOptions = [option];
+    this.filters.patchValue({ client: option.filterValue });
+  }
+
+  clearClientFilter(): void {
+    this.clientSearch.setValue('', { emitEvent: false });
+    this.clientOptions = [];
+    this.filters.patchValue({ client: '' });
+  }
+
+  private bindClientSearch(): void {
+    this.clientSearch.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged((a, b) => this.clientSearchText(a) === this.clientSearchText(b)),
+        switchMap((term) => {
+          const selected = this.parseClientOption(term);
+          if (selected) {
+            this.filters.patchValue({ client: selected.filterValue }, { emitEvent: false });
+            this.clientOptions = [selected];
+            return of([selected]);
+          }
+
+          const trimmed = typeof term === 'string' ? term.trim() : '';
+          if (!trimmed) {
+            if (this.filters.controls.client.value) {
+              this.filters.patchValue({ client: '' });
+            }
+            return of([] as ClientOption[]);
+          }
+
+          const currentFilter = this.filters.controls.client.value;
+          if (currentFilter) {
+            const current = this.clientOptions.find((o) => o.filterValue === currentFilter);
+            if (current?.label.trim() === trimmed) {
+              return of([current]);
+            }
+            this.filters.patchValue({ client: '' }, { emitEvent: false });
+          }
+          return this.searchClients(trimmed);
+        }),
+      )
+      .subscribe((options) => {
+        this.clientOptions = options;
+      });
+  }
+
+  private searchClients(term: string) {
+    return this.catalogClientService.searchByCompanyArea(term, 20).pipe(
+      map((items) =>
+        items
+          .filter((c) => !!this.clientDisplayName(c))
+          .map((c) => ({
+            id: c.id,
+            label: this.clientDisplayName(c),
+            filterValue: this.clientFilterValue(c),
+          })),
+      ),
+      catchError(() => of([] as ClientOption[])),
+    );
+  }
+
+  private parseClientOption(term: unknown): ClientOption | null {
+    if (term == null || typeof term !== 'object' || !('id' in term) || !('label' in term) || !('filterValue' in term)) {
+      return null;
+    }
+    const raw = term as ClientOption;
+    return typeof raw.id === 'number' && typeof raw.label === 'string' && typeof raw.filterValue === 'string'
+      ? raw
+      : null;
+  }
+
+  private clientSearchText(value: unknown): string {
+    const option = this.parseClientOption(value);
+    if (option) {
+      return option.label.trim();
+    }
+    return typeof value === 'string' ? value.trim() : '';
+  }
+
+  clientDisplayName(client: CatalogClient): string {
+    return (
+      client.companyArea?.trim() ||
+      client.tradeName?.trim() ||
+      client.legalName?.trim() ||
+      client.code
+    );
+  }
+
+  /** Prefer companyArea for list filter (matches UI label); fall back to legal/trade name. */
+  clientFilterValue(client: CatalogClient): string {
+    return (
+      client.companyArea?.trim() ||
+      client.legalName?.trim() ||
+      client.tradeName?.trim() ||
+      client.code
+    );
+  }
+
   private loadUsers(): void {
     this.userService.list(0, 200).subscribe({
       next: (res) => {
         const activeUsers = res.items.filter((u) => u.isActive);
         this.coordinatorUserOptions = activeUsers;
+        this.recruiterUserOptions = activeUsers;
         const creatorRoles = new Set(['ADMIN', 'GLOBAL_ADMIN', 'RECRUITER']);
         const roleFiltered = activeUsers.filter((u) =>
           u.roles?.some((r) => creatorRoles.has(r.name)),
@@ -467,15 +645,71 @@ export class PositionsTableComponent implements OnInit {
   }
 
   private onCountryChanged(countryId: number): void {
-    this.resetCountryDependentFilters();
-    if (countryId <= 0) {
-      this.clearCountryDependentOptions();
+    // Preserve selected option labels as *Name before clearing catalogs / ids (3B/4B).
+    this.captureSelectedNamesIntoNameControls();
+    this.clearCountryDependentIds();
+
+    if (countryId > 0) {
+      this.loadCountryDependentCatalogs(countryId, () => this.mapNameFiltersToIds());
       return;
     }
-    this.loadCountryDependentOptions(countryId);
+
+    this.clearCountryDependentCatalogs();
+    this.stateOptions = [];
   }
 
-  private resetCountryDependentFilters(): void {
+  /**
+   * When leaving select mode (or switching country), copy selected option names into *Name
+   * controls so text mode / remapping can use them.
+   */
+  private captureSelectedNamesIntoNameControls(): void {
+    const f = this.filters.getRawValue();
+    this.filters.patchValue(
+      {
+        brandName: this.nameFromSelectedId(f.brandId, this.brandOptions, f.brandName),
+        workplaceName: this.nameFromSelectedId(f.workplaceId, this.workplaceOptions, f.workplaceName),
+        contractTypeName: this.nameFromSelectedId(f.contractTypeId, this.contractTypeOptions, f.contractTypeName),
+        educationLevelName: this.nameFromSelectedId(
+          f.educationLevelId,
+          this.educationLevelOptions,
+          f.educationLevelName,
+        ),
+        responsibilityLevelName: this.nameFromSelectedId(
+          f.responsibilityLevelId,
+          this.responsibilityLevelOptions,
+          f.responsibilityLevelName,
+        ),
+        coverageTypeName: this.nameFromSelectedId(f.coverageTypeId, this.coverageTypeOptions, f.coverageTypeName),
+        requisitionTypeName: this.nameFromSelectedId(
+          f.requisitionTypeId,
+          this.requisitionTypeOptions,
+          f.requisitionTypeName,
+        ),
+        stateName: this.nameFromSelectedId(f.stateId, this.stateOptions, f.stateName),
+        generalCategoryName: this.nameFromSelectedId(
+          f.generalCategoryId,
+          this.generalCategoryOptions,
+          f.generalCategoryName,
+        ),
+        shiftName: this.nameFromSelectedId(f.shiftId, this.shiftOptions, f.shiftName),
+      },
+      { emitEvent: false },
+    );
+  }
+
+  private nameFromSelectedId(
+    id: number,
+    options: ReadonlyArray<{ id: number; name: string }>,
+    currentName: string,
+  ): string {
+    if (id > 0) {
+      const match = options.find((o) => o.id === id);
+      return match?.name?.trim() || currentName;
+    }
+    return currentName;
+  }
+
+  private clearCountryDependentIds(): void {
     this.filters.patchValue(
       {
         requisitionTypeId: 0,
@@ -493,7 +727,65 @@ export class PositionsTableComponent implements OnInit {
     );
   }
 
-  private clearCountryDependentOptions(): void {
+  /** Map *Name text → *Id after catalogs for the selected country are loaded (3B). */
+  private mapNameFiltersToIds(): void {
+    const f = this.filters.getRawValue();
+    this.filters.patchValue(
+      {
+        ...this.namedIdPatch('brandId', 'brandName', f.brandName, this.brandOptions),
+        ...this.namedIdPatch('workplaceId', 'workplaceName', f.workplaceName, this.workplaceOptions),
+        ...this.namedIdPatch('contractTypeId', 'contractTypeName', f.contractTypeName, this.contractTypeOptions),
+        ...this.namedIdPatch(
+          'educationLevelId',
+          'educationLevelName',
+          f.educationLevelName,
+          this.educationLevelOptions,
+        ),
+        ...this.namedIdPatch(
+          'responsibilityLevelId',
+          'responsibilityLevelName',
+          f.responsibilityLevelName,
+          this.responsibilityLevelOptions,
+        ),
+        ...this.namedIdPatch('coverageTypeId', 'coverageTypeName', f.coverageTypeName, this.coverageTypeOptions),
+        ...this.namedIdPatch(
+          'requisitionTypeId',
+          'requisitionTypeName',
+          f.requisitionTypeName,
+          this.requisitionTypeOptions,
+        ),
+        ...this.namedIdPatch('stateId', 'stateName', f.stateName, this.stateOptions),
+        ...this.namedIdPatch(
+          'generalCategoryId',
+          'generalCategoryName',
+          f.generalCategoryName,
+          this.generalCategoryOptions,
+        ),
+        ...this.namedIdPatch('shiftId', 'shiftName', f.shiftName, this.shiftOptions),
+      },
+      { emitEvent: true },
+    );
+  }
+
+  private namedIdPatch(
+    idKey: string,
+    nameKey: string,
+    nameValue: string,
+    options: ReadonlyArray<{ id: number; name: string }>,
+  ): Record<string, number | string> {
+    const trimmed = (nameValue ?? '').trim();
+    if (!trimmed) {
+      return { [idKey]: 0, [nameKey]: '' };
+    }
+    const match = options.find((o) => (o.name ?? '').trim().toLowerCase() === trimmed.toLowerCase());
+    if (match) {
+      return { [idKey]: match.id, [nameKey]: '' };
+    }
+    // No match → clear id and name (3B).
+    return { [idKey]: 0, [nameKey]: '' };
+  }
+
+  private clearCountryDependentCatalogs(): void {
     this.brandOptions = [];
     this.coverageTypeOptions = [];
     this.shiftOptions = [];
@@ -503,64 +795,69 @@ export class PositionsTableComponent implements OnInit {
     this.workplaceOptions = [];
     this.responsibilityLevelOptions = [];
     this.generalCategoryOptions = [];
-    this.stateOptions = [];
   }
 
-  private loadCountryDependentOptions(countryId: number): void {
-    this.catalogPositionService.listBrands(countryId, 0, 200).subscribe({
-      next: (items) => {
-        this.brandOptions = items;
-      },
-    });
-    this.catalogPositionService.listCoverageTypes(countryId, 0, 200).subscribe({
-      next: (items) => {
-        this.coverageTypeOptions = items;
-      },
-    });
-    this.catalogPositionService.listShifts(countryId, 0, 200).subscribe({
-      next: (items) => {
-        this.shiftOptions = items;
-      },
-    });
-    this.catalogPositionService.listEducationLevels(countryId, 0, 200).subscribe({
-      next: (items) => {
-        this.educationLevelOptions = items;
-      },
-    });
-    this.catalogPositionService.listContractTypes(countryId, 0, 200).subscribe({
-      next: (items) => {
-        this.contractTypeOptions = items;
-      },
-    });
-    this.catalogPositionService.listRequisitionTypes(countryId, 0, 200).subscribe({
-      next: (items) => {
-        this.requisitionTypeOptions = items;
-      },
-    });
-    this.workplaceService.list(countryId, 0, 200).subscribe({
+  private loadCountryDependentCatalogs(countryId: number, onReady?: () => void): void {
+    forkJoin({
+      brands: this.catalogPositionService.listBrands(countryId, 0, 200).pipe(catchError(() => of([] as CatalogBrand[]))),
+      coverageTypes: this.catalogPositionService
+        .listCoverageTypes(countryId, 0, 200)
+        .pipe(catchError(() => of([] as CatalogCoverageType[]))),
+      shifts: this.catalogPositionService.listShifts(countryId, 0, 200).pipe(catchError(() => of([] as CatalogShift[]))),
+      educationLevels: this.catalogPositionService
+        .listEducationLevels(countryId, 0, 200)
+        .pipe(catchError(() => of([] as CatalogEducationLevel[]))),
+      contractTypes: this.catalogPositionService
+        .listContractTypes(countryId, 0, 200)
+        .pipe(catchError(() => of([] as CatalogContractType[]))),
+      requisitionTypes: this.catalogPositionService
+        .listRequisitionTypes(countryId, 0, 200)
+        .pipe(catchError(() => of([] as CatalogRequisitionType[]))),
+      workplaces: this.workplaceService.list(countryId, 0, 200).pipe(
+        map((res) => res.items.filter((item) => item.isActive)),
+        catchError(() => of([] as CatalogWorkplace[])),
+      ),
+      responsibilityLevels: this.responsibilityLevelService.list(countryId, 0, 200).pipe(
+        map((res) => res.items.filter((item) => item.isActive)),
+        catchError(() => of([] as CatalogResponsibilityLevel[])),
+      ),
+      generalCategories: this.generalCategoryService.list(countryId, 0, 200).pipe(
+        map((res) => res.items.filter((item) => item.isActive)),
+        catchError(() => of([] as CatalogGeneralCategory[])),
+      ),
+      states: this.geographyService.listStates(countryId, 0, 500).pipe(
+        map((items) => items.filter((item) => item.isActive !== false)),
+        catchError(() => of([] as CatalogState[])),
+      ),
+    }).subscribe({
       next: (res) => {
-        this.workplaceOptions = res.items;
+        this.brandOptions = res.brands;
+        this.coverageTypeOptions = res.coverageTypes;
+        this.shiftOptions = res.shifts.filter((item) => item.isActive !== false);
+        this.educationLevelOptions = res.educationLevels;
+        this.contractTypeOptions = res.contractTypes;
+        this.requisitionTypeOptions = res.requisitionTypes;
+        this.workplaceOptions = res.workplaces;
+        this.responsibilityLevelOptions = res.responsibilityLevels;
+        this.generalCategoryOptions = res.generalCategories;
+        this.stateOptions = res.states;
+        onReady?.();
       },
-    });
-    this.responsibilityLevelService.list(countryId, 0, 200).subscribe({
-      next: (res) => {
-        this.responsibilityLevelOptions = res.items;
-      },
-    });
-    this.generalCategoryService.list(countryId, 0, 200).subscribe({
-      next: (res) => {
-        this.generalCategoryOptions = res.items;
-      },
-    });
-    this.geographyService.listStates(countryId, 0, 200).subscribe({
-      next: (items) => {
-        this.stateOptions = items;
+      error: () => {
+        this.clearCountryDependentCatalogs();
+        this.stateOptions = [];
+        onReady?.();
       },
     });
   }
 
   private positiveIdOrNull(id: number): number | null {
     return id > 0 ? id : null;
+  }
+
+  private trimOrNull(value: string): string | null {
+    const trimmed = value?.trim();
+    return trimmed ? trimmed : null;
   }
 
   openNewRequisition(): void {
@@ -589,31 +886,41 @@ export class PositionsTableComponent implements OnInit {
     const f = this.filters.getRawValue();
     const status = f.status;
     const countryId = f.countryId;
+    const hasCountry = countryId > 0;
     const dateFrom = f.dateFrom || null;
-    const dateTo = f.dateTo || null;
     this.positionService
       .list(this.pageIndex, this.pageSize, {
         status: status !== 'Todos' ? status : null,
         search: f.search,
         createdFrom: dateFrom,
-        createdTo: dateTo,
-        countryId: countryId > 0 ? countryId : null,
-        recruiter: f.recruiter,
+        createdTo: null,
+        countryId: hasCountry ? countryId : null,
+        recruiter: f.recruiter || null,
         client: f.client,
-        requisitionTypeId: this.positiveIdOrNull(f.requisitionTypeId),
-        coverageTypeId: this.positiveIdOrNull(f.coverageTypeId),
-        brandId: this.positiveIdOrNull(f.brandId),
-        workplaceId: this.positiveIdOrNull(f.workplaceId),
-        shiftId: this.positiveIdOrNull(f.shiftId),
-        contractTypeId: this.positiveIdOrNull(f.contractTypeId),
-        educationLevelId: this.positiveIdOrNull(f.educationLevelId),
-        responsibilityLevelId: this.positiveIdOrNull(f.responsibilityLevelId),
+        requisitionTypeId: hasCountry ? this.positiveIdOrNull(f.requisitionTypeId) : null,
+        requisitionTypeName: hasCountry ? null : this.trimOrNull(f.requisitionTypeName),
+        coverageTypeId: hasCountry ? this.positiveIdOrNull(f.coverageTypeId) : null,
+        coverageTypeName: hasCountry ? null : this.trimOrNull(f.coverageTypeName),
+        brandId: hasCountry ? this.positiveIdOrNull(f.brandId) : null,
+        brandName: hasCountry ? null : this.trimOrNull(f.brandName),
+        workplaceId: hasCountry ? this.positiveIdOrNull(f.workplaceId) : null,
+        workplaceName: hasCountry ? null : this.trimOrNull(f.workplaceName),
+        shiftId: hasCountry ? this.positiveIdOrNull(f.shiftId) : null,
+        shiftName: hasCountry ? null : this.trimOrNull(f.shiftName),
+        contractTypeId: hasCountry ? this.positiveIdOrNull(f.contractTypeId) : null,
+        contractTypeName: hasCountry ? null : this.trimOrNull(f.contractTypeName),
+        educationLevelId: hasCountry ? this.positiveIdOrNull(f.educationLevelId) : null,
+        educationLevelName: hasCountry ? null : this.trimOrNull(f.educationLevelName),
+        responsibilityLevelId: hasCountry ? this.positiveIdOrNull(f.responsibilityLevelId) : null,
+        responsibilityLevelName: hasCountry ? null : this.trimOrNull(f.responsibilityLevelName),
         clientPosition: f.clientPosition,
         createdByIds: f.createdByIds.length ? f.createdByIds : null,
         careResponsibleUserId: this.positiveIdOrNull(f.careResponsibleUserId),
         careResponsibleAts: f.careResponsibleAts,
-        stateId: this.positiveIdOrNull(f.stateId),
-        generalCategoryId: this.positiveIdOrNull(f.generalCategoryId),
+        stateId: hasCountry ? this.positiveIdOrNull(f.stateId) : null,
+        stateName: hasCountry ? null : this.trimOrNull(f.stateName),
+        generalCategoryId: hasCountry ? this.positiveIdOrNull(f.generalCategoryId) : null,
+        generalCategoryName: hasCountry ? null : this.trimOrNull(f.generalCategoryName),
         questionnaireId: this.positiveIdOrNull(f.questionnaireId),
       })
       .subscribe({
@@ -637,8 +944,11 @@ export class PositionsTableComponent implements OnInit {
 
   clearFilters(): void {
     this.filters.reset(this.defaultFilterValues);
+    this.clientSearch.setValue('', { emitEvent: false });
+    this.clientOptions = [];
     this.advancedFiltersOpen = false;
-    this.clearCountryDependentOptions();
+    this.stateOptions = [];
+    this.clearCountryDependentCatalogs();
     this.snack.open(POSITIONS_FILTERS_CLEARED, POSITIONS_SNACK_CLOSE, { duration: 2500 });
   }
 

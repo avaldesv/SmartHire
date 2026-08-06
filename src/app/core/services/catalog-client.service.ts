@@ -14,13 +14,27 @@ export class CatalogClientService {
   private readonly http = inject(HttpClient);
   private readonly api = inject(ApiClientService);
 
-  list(page = 0, size = 20): Observable<{ items: CatalogClient[]; total: number }> {
-    const body = { isActive: null, filters: [], ordersBy: ['tradeName:asc'] as string[] };
+  list(
+    page = 0,
+    size = 20,
+    ordersBy: string[] = ['tradeName:asc'],
+    filters: string[] = [],
+  ): Observable<{ items: CatalogClient[]; total: number }> {
+    const body = { isActive: true, filters, ordersBy };
     return this.http
       .post<ClientListResponse>(this.api.apiUrl('/api/v1/clients/list'), body, {
         headers: this.api.buildHeaders(page, size),
       })
       .pipe(map((res) => ({ items: res.data ?? [], total: res.pagination?.total ?? 0 })));
+  }
+
+  /** Typeahead for filters: search companyArea with small page size. */
+  searchByCompanyArea(term: string, size = 20): Observable<CatalogClient[]> {
+    const trimmed = term.trim();
+    const filters = trimmed
+      ? [`companyArea:CONTAINS:${trimmed.replaceAll(':', ' ')}`]
+      : [];
+    return this.list(0, size, ['companyArea:asc'], filters).pipe(map((res) => res.items));
   }
 
   create(request: CreateClientRequest): Observable<CatalogClient> {

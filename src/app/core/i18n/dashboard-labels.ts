@@ -17,7 +17,7 @@ export const DASHBOARD_FILTER_RECRUITER = $localize`:@@dashboard.filter.recruite
 export const DASHBOARD_FILTER_RECRUITER_PLACEHOLDER = $localize`:@@dashboard.filter.recruiterPlaceholder:Usuario creador`;
 export const DASHBOARD_FILTER_COUNTRY = $localize`:@@dashboard.filter.country:País`;
 export const DASHBOARD_FILTER_ALL = $localize`:@@dashboard.filter.all:Todos`;
-export const DASHBOARD_FILTER_DATE_FROM = $localize`:@@dashboard.filter.dateFrom:Fecha inicio`;
+export const DASHBOARD_FILTER_DATE_FROM = $localize`:@@dashboard.filter.dateFrom:Fecha de creación`;
 export const DASHBOARD_FILTER_DATE_TO = $localize`:@@dashboard.filter.dateTo:Fecha fin`;
 export const DASHBOARD_CLEAR_FILTERS = $localize`:@@dashboard.clearFilters:Limpiar filtros`;
 

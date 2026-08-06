@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {
+  POSITIONS_CLEAR_FILTERS,
+  POSITIONS_LESS_FILTERS,
+  POSITIONS_MORE_FILTERS,
   POSITIONS_NEW_BUTTON,
   POSITIONS_PAGE_SUBTITLE,
   POSITIONS_PAGE_TITLE,
@@ -20,4 +23,7 @@ export class PositionsListComponent {
   readonly pageTitle = POSITIONS_PAGE_TITLE;
   readonly pageSubtitle = POSITIONS_PAGE_SUBTITLE;
   readonly newButton = POSITIONS_NEW_BUTTON;
+  readonly clearFiltersLabel = POSITIONS_CLEAR_FILTERS;
+  readonly moreFiltersLabel = POSITIONS_MORE_FILTERS;
+  readonly lessFiltersLabel = POSITIONS_LESS_FILTERS;
 }
