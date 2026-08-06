@@ -29,6 +29,8 @@ export function buildFullCatalogState(
       labelI18nKey: stepLabelI18nKey(stepKey),
       orderIndex: saved?.orderIndex ?? index + 1,
       isVisible: saved?.isVisible ?? true,
+      viewRolesJson: saved?.viewRolesJson ?? null,
+      editRolesJson: saved?.editRolesJson ?? null,
     };
   }).sort((a, b) => a.orderIndex - b.orderIndex);
 
@@ -53,6 +55,8 @@ export function buildFullCatalogState(
         isRequired: saved?.isRequired ?? false,
         overridesJson: saved?.overridesJson ?? null,
         rulesJson: saved?.rulesJson ?? null,
+        viewRolesJson: saved?.viewRolesJson ?? null,
+        editRolesJson: saved?.editRolesJson ?? null,
       });
       defsByKey.delete(fieldKey);
     }
@@ -71,6 +75,8 @@ export function buildFullCatalogState(
       isRequired: saved?.isRequired ?? false,
       overridesJson: saved?.overridesJson ?? null,
       rulesJson: saved?.rulesJson ?? null,
+      viewRolesJson: saved?.viewRolesJson ?? null,
+      editRolesJson: saved?.editRolesJson ?? null,
     });
   }
 

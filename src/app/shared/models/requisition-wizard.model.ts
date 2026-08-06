@@ -6,6 +6,7 @@ export interface ResolvedRequisitionFormField {
   isVisible: boolean;
   isRequired: boolean;
   rulesJson?: string | null;
+  readOnly?: boolean;
 }
 
 export interface ResolvedRequisitionFormStep {

@@ -71,3 +71,9 @@ export const REQ_FORM_CONFIG_SAVE_ERROR = $localize`:@@requisitionFormConfig.err
 export const REQ_FORM_CONFIG_PUBLISH_SUCCESS = $localize`:@@requisitionFormConfig.success.published:Configuración publicada`;
 export const REQ_FORM_CONFIG_PUBLISH_ERROR = $localize`:@@requisitionFormConfig.errors.publish:No se pudo publicar la configuración`;
 export const REQ_FORM_CONFIG_SELECT_COUNTRY_COVERAGE = $localize`:@@requisitionFormConfig.errors.selectCountryCoverage:Seleccione país y tipo de cobertura`;
+export const REQ_FORM_CONFIG_ROLES_VIEW = $localize`:@@requisitionFormConfig.roles.view:Roles que pueden ver`;
+export const REQ_FORM_CONFIG_ROLES_EDIT = $localize`:@@requisitionFormConfig.roles.edit:Roles que pueden editar`;
+export const REQ_FORM_CONFIG_ROLES_ALL_HINT = $localize`:@@requisitionFormConfig.roles.allHint:Sin selección = todos los roles del tenant.`;
+export const REQ_FORM_CONFIG_ROLES_INHERIT_HINT = $localize`:@@requisitionFormConfig.roles.inheritHint:Vacío hereda permisos del tab padre.`;
+export const REQ_FORM_CONFIG_SELECT_STEP_OR_FIELD = $localize`:@@requisitionFormConfig.selectStepOrField:Seleccione un tab o campo en el árbol para configurar permisos por rol.`;
+export const REQ_FORM_CONFIG_STEP_DETAIL_TITLE = $localize`:@@requisitionFormConfig.stepDetailTitle:Permisos del tab`;

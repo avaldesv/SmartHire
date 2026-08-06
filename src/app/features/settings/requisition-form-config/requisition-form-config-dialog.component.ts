@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import {
   REQ_FORM_CONFIG_COLUMN_REORDER,
@@ -26,6 +27,10 @@ import {
   REQ_FORM_CONFIG_PUBLISH_SUCCESS,
   REQ_FORM_CONFIG_PUBLISHING,
   REQ_FORM_CONFIG_READ_ONLY_HINT,
+  REQ_FORM_CONFIG_ROLES_ALL_HINT,
+  REQ_FORM_CONFIG_ROLES_EDIT,
+  REQ_FORM_CONFIG_ROLES_INHERIT_HINT,
+  REQ_FORM_CONFIG_ROLES_VIEW,
   REQ_FORM_CONFIG_RULE_REQUIRED,
   REQ_FORM_CONFIG_RULE_VISIBLE,
   REQ_FORM_CONFIG_RULES_TITLE,
@@ -35,11 +40,13 @@ import {
   REQ_FORM_CONFIG_SAVING,
   REQ_FORM_CONFIG_SCOPE_HINT,
   REQ_FORM_CONFIG_SCOPE_LABEL,
+  REQ_FORM_CONFIG_SELECT_STEP_OR_FIELD,
   REQ_FORM_CONFIG_SNACK_CLOSE,
   REQ_FORM_CONFIG_STATUS,
   REQ_FORM_CONFIG_STATUS_DEPRECATED,
   REQ_FORM_CONFIG_STATUS_DRAFT,
   REQ_FORM_CONFIG_STATUS_PUBLISHED,
+  REQ_FORM_CONFIG_STEP_DETAIL_TITLE,
   REQ_FORM_CONFIG_TREE_TITLE,
   REQ_FORM_CONFIG_VERSION,
 } from '../../../core/i18n/requisition-form-config-labels';
@@ -51,6 +58,7 @@ import { AppPermissions } from '../../../core/auth/app-permissions';
 import { PermissionService } from '../../../core/services/permission.service';
 import { RequisitionFormConfigService } from '../../../core/services/requisition-form-config.service';
 import { RequisitionFormFieldService } from '../../../core/services/requisition-form-field.service';
+import { SecurityRoleService } from '../../../core/services/security-role.service';
 import { REQUISITION_FORM_DEFAULT_STEP_KEYS } from '../../../shared/models/requisition-form.model';
 import {
   PEOPLE_IN_CHARGE_COUNT_FIELD_KEY,
@@ -62,6 +70,8 @@ import {
   RequisitionFormStepConfig,
 } from '../../../shared/models/requisition-form.model';
 import { buildFullCatalogState } from '../../../shared/utils/requisition-form-catalog.util';
+import { parseFormRoleIds, serializeFormRoleIds } from '../../../shared/utils/requisition-form-role.util';
+import { SecurityRole } from '../../../shared/models/security-role.model';
 
 export interface RequisitionFormConfigDialogData {
   config: RequisitionFormConfigDetail;
@@ -85,6 +95,7 @@ interface SelectedFieldRef {
     MatCheckboxModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
   ],
@@ -96,6 +107,7 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
   private readonly data = inject<RequisitionFormConfigDialogData>(MAT_DIALOG_DATA);
   private readonly configService = inject(RequisitionFormConfigService);
   private readonly fieldService = inject(RequisitionFormFieldService);
+  private readonly roleService = inject(SecurityRoleService);
   private readonly permissions = inject(PermissionService);
   private readonly snack = inject(MatSnackBar);
 
@@ -115,6 +127,12 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
   readonly ruleRequiredLabel = REQ_FORM_CONFIG_RULE_REQUIRED;
   readonly noRulesHint = REQ_FORM_CONFIG_NO_RULES;
   readonly readOnlyHint = REQ_FORM_CONFIG_READ_ONLY_HINT;
+  readonly rolesViewLabel = REQ_FORM_CONFIG_ROLES_VIEW;
+  readonly rolesEditLabel = REQ_FORM_CONFIG_ROLES_EDIT;
+  readonly rolesAllHint = REQ_FORM_CONFIG_ROLES_ALL_HINT;
+  readonly rolesInheritHint = REQ_FORM_CONFIG_ROLES_INHERIT_HINT;
+  readonly selectStepOrFieldHint = REQ_FORM_CONFIG_SELECT_STEP_OR_FIELD;
+  readonly stepDetailTitle = REQ_FORM_CONFIG_STEP_DETAIL_TITLE;
   readonly fieldNameLabel = REQ_FORM_CONFIG_FIELD_NAME;
   readonly fieldCountry = REQ_FORM_CONFIG_FIELD_COUNTRY;
   readonly fieldCoverage = REQ_FORM_CONFIG_FIELD_COVERAGE;
@@ -149,11 +167,20 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
   steps: RequisitionFormStepConfig[] = [];
   fields: RequisitionFormFieldConfig[] = [];
   expandedSteps = new Set<string>([...REQUISITION_FORM_DEFAULT_STEP_KEYS]);
+  selectedStepKey: string | null = null;
   selectedField: SelectedFieldRef | null = null;
+  availableRoles: SecurityRole[] = [];
+  viewRoleIds: number[] = [];
+  editRoleIds: number[] = [];
   ruleVisibleWhen = false;
   ruleRequiredWhen = false;
 
   ngOnInit(): void {
+    this.roleService.list(0, 200).subscribe({
+      next: ({ items }) => {
+        this.availableRoles = items;
+      },
+    });
     this.fieldService.list().subscribe({
       next: (defs) => {
         this.fieldDefs = defs.filter((d) => d.isBuiltin);
@@ -271,8 +298,20 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
     this.patchField(field, { isRequired: required, isVisible: required ? true : field.isVisible });
   }
 
+  selectStep(step: RequisitionFormStepConfig): void {
+    this.selectedStepKey = step.stepKey;
+    this.selectedField = null;
+    this.syncRoleSelection();
+  }
+
+  isStepSelected(stepKey: string): boolean {
+    return this.selectedStepKey === stepKey && !this.selectedField;
+  }
+
   selectField(field: RequisitionFormFieldConfig): void {
+    this.selectedStepKey = field.stepKey;
     this.selectedField = { stepKey: field.stepKey, fieldDefId: field.fieldDefId };
+    this.syncRoleSelection();
     if (this.fieldDefKey(field.fieldDefId) === PEOPLE_IN_CHARGE_COUNT_FIELD_KEY) {
       const rules = this.parseRules(field.rulesJson);
       this.ruleVisibleWhen =
@@ -305,6 +344,41 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
 
   supportsConditionalRules(fieldDefId: number): boolean {
     return this.fieldDefKey(fieldDefId) === PEOPLE_IN_CHARGE_COUNT_FIELD_KEY;
+  }
+
+  isFieldSelection(): boolean {
+    return this.selectedField != null;
+  }
+
+  selectedStepConfig(): RequisitionFormStepConfig | null {
+    if (!this.selectedStepKey) {
+      return null;
+    }
+    return this.steps.find((step) => step.stepKey === this.selectedStepKey) ?? null;
+  }
+
+  fieldInheritsRoles(): boolean {
+    const field = this.selectedFieldConfig();
+    if (!field) {
+      return false;
+    }
+    return !field.viewRolesJson && !field.editRolesJson;
+  }
+
+  onViewRolesChange(roleIds: number[]): void {
+    if (this.isReadOnly()) {
+      return;
+    }
+    this.viewRoleIds = roleIds;
+    this.persistRoleSelection(roleIds, this.editRoleIds);
+  }
+
+  onEditRolesChange(roleIds: number[]): void {
+    if (this.isReadOnly()) {
+      return;
+    }
+    this.editRoleIds = roleIds;
+    this.persistRoleSelection(this.viewRoleIds, roleIds);
   }
 
   applyPeopleInChargeRules(): void {
@@ -386,6 +460,33 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
     const catalog = buildFullCatalogState(this.fieldDefs, detail.steps ?? [], detail.fields ?? []);
     this.steps = catalog.steps;
     this.fields = catalog.fields;
+    this.syncRoleSelection();
+  }
+
+  private syncRoleSelection(): void {
+    const field = this.selectedFieldConfig();
+    const step = this.selectedStepConfig();
+    const target = field ?? step;
+    this.viewRoleIds = parseFormRoleIds(target?.viewRolesJson) ?? [];
+    this.editRoleIds = parseFormRoleIds(target?.editRolesJson) ?? [];
+  }
+
+  private persistRoleSelection(viewRoleIds: number[], editRoleIds: number[]): void {
+    const patch = {
+      viewRolesJson: serializeFormRoleIds(viewRoleIds),
+      editRolesJson: serializeFormRoleIds(editRoleIds),
+    };
+    const field = this.selectedFieldConfig();
+    if (field) {
+      this.patchField(field, patch);
+      return;
+    }
+    const step = this.selectedStepConfig();
+    if (step) {
+      this.steps = this.steps.map((item) =>
+        item.stepKey === step.stepKey ? { ...item, ...patch } : item,
+      );
+    }
   }
 
   private patchField(field: RequisitionFormFieldConfig, patch: Partial<RequisitionFormFieldConfig>): void {

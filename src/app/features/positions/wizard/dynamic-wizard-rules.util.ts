@@ -77,6 +77,9 @@ export function isFieldRequired(
 }
 
 export function isFieldReadOnly(field: ResolvedRequisitionFormField): boolean {
+  if (field.readOnly) {
+    return true;
+  }
   const rules = parseFieldRules(field.rulesJson);
   return !!rules?.readOnly;
 }

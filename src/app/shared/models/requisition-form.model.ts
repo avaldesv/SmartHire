@@ -22,6 +22,8 @@ export interface RequisitionFormStepConfig {
   labelI18nKey: string;
   orderIndex: number;
   isVisible: boolean;
+  viewRolesJson?: string | null;
+  editRolesJson?: string | null;
 }
 
 export interface RequisitionFormFieldConfig {
@@ -32,6 +34,8 @@ export interface RequisitionFormFieldConfig {
   isRequired: boolean;
   overridesJson?: string | null;
   rulesJson?: string | null;
+  viewRolesJson?: string | null;
+  editRolesJson?: string | null;
 }
 
 export interface RequisitionFormFieldRuleCondition {
