@@ -33,19 +33,16 @@
     <mat-label>{{ filterDateTo }}</mat-label>
     <input matInput type="date" formControlName="dateTo" />
   </mat-form-field>
-  <button mat-stroked-button type="button" (click)="clearFilters()">
-    <mat-icon>filter_alt_off</mat-icon>
-    {{ clearFiltersLabel }}
-  </button>
-  <button
-    mat-stroked-button
-    type="button"
-    class="filters-toggle"
-    (click)="toggleAdvancedFilters()"
-  >
-    <mat-icon>{{ advancedFiltersOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
-    {{ advancedFiltersOpen ? lessFiltersLabel : moreFiltersLabel }}
-  </button>
+  <div class="filters-actions">
+    <button mat-stroked-button type="button" (click)="clearFilters()">
+      <mat-icon>filter_alt_off</mat-icon>
+      {{ clearFiltersLabel }}
+    </button>
+    <button mat-stroked-button type="button" (click)="toggleAdvancedFilters()">
+      <mat-icon>{{ advancedFiltersOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
+      {{ advancedFiltersOpen ? lessFiltersLabel : moreFiltersLabel }}
+    </button>
+  </div>
 
   @if (advancedFiltersOpen) {
     <div class="advanced-filters-grid">

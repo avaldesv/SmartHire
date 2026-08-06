@@ -8,7 +8,13 @@
   padding: 16px;
 }
 .filter-search { min-width: 280px; flex: 1; }
-.filters-toggle { align-self: center; }
+.filters-actions {
+  display: inline-flex;
+  align-items: center;
+  align-self: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+}
 .advanced-filters-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
