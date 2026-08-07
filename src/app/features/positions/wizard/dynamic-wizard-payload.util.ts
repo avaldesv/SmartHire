@@ -180,11 +180,17 @@ export function flattenDynamicFormValues(form: FormGroup): Record<string, unknow
       if (!control) {
         continue;
       }
-      values[fieldKey] =
-        control instanceof FormGroup || control instanceof FormArray ? control.getRawValue() : control.value;
+      values[fieldKey] = readControlValue(control);
     }
   }
   return values;
+}
+
+function readControlValue(control: AbstractControl): unknown {
+  if (control instanceof FormGroup || control instanceof FormArray) {
+    return control.getRawValue();
+  }
+  return control.disabled ? control.getRawValue() : control.value;
 }
 
 export function refreshDynamicValidators(
@@ -209,6 +215,12 @@ export function refreshDynamicValidators(
         control.updateValueAndValidity({ emitEvent: false });
         continue;
       }
+      if (isFieldReadOnly(field)) {
+        control.clearValidators();
+        control.disable({ emitEvent: false });
+        control.updateValueAndValidity({ emitEvent: false });
+        continue;
+      }
       control.enable({ emitEvent: false });
       control.setValidators(buildFieldValidators(field, values));
       control.updateValueAndValidity({ emitEvent: false });
@@ -219,6 +231,7 @@ export function refreshDynamicValidators(
 export function buildDynamicCreatePayload(
   formValues: Record<string, unknown>,
   config: ResolvedRequisitionFormConfig,
+  includeReadOnlyFields = false,
 ): CreatePositionRequest {
   const payload: Record<string, unknown> = { brandId: null };
 
@@ -227,7 +240,13 @@ export function buildDynamicCreatePayload(
       if (!isFieldVisible(field, formValues)) {
         continue;
       }
-      if (isFieldReadOnly(field) || field.fieldKey === 'orderId' || field.fieldKey === 'brandId') {
+      if (
+        !includeReadOnlyFields &&
+        (isFieldReadOnly(field) || field.fieldKey === 'orderId' || field.fieldKey === 'brandId')
+      ) {
+        continue;
+      }
+      if (field.fieldKey === 'orderId' || field.fieldKey === 'brandId') {
         continue;
       }
       const raw = formValues[field.fieldKey];
