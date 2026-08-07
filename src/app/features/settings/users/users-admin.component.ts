@@ -32,8 +32,10 @@ import { CatalogCompanyArea } from '../../../shared/models/catalog-company-area.
 import { CatalogCompanyDepartment } from '../../../shared/models/catalog-company-department.model';
 import { TenantContextService } from '../../../core/services/tenant-context.service';
 import { ApiErrorTranslationService } from '../../../core/services/api-error-translation.service';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { SNACK_CLOSE_ACTION } from '../../../core/i18n/nav-labels';
 import {
+  USERS_DELETE_CONFIRM_TITLE,
   USERS_DELETE_ERROR,
   USERS_DELETE_SUCCESS,
   USERS_DIAL_CODES_ERROR,
@@ -80,6 +82,7 @@ export class UsersAdminComponent implements OnInit {
   private readonly departmentService = inject(CatalogCompanyDepartmentService);
   private readonly tenantContext = inject(TenantContextService);
   private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly apiErrors = inject(ApiErrorTranslationService);
   private readonly fb = inject(FormBuilder);
   private tenantReloadReady = false;
@@ -457,38 +460,44 @@ export class UsersAdminComponent implements OnInit {
     this.saving = false;
     this.cancelForm();
     this.load();
-    this.snack.open(USERS_SAVE_SUCCESS, SNACK_CLOSE_ACTION, { duration: 3000 });
+    this.feedback.showSuccess(USERS_SAVE_SUCCESS);
   }
 
   private onSaveError(err?: unknown): void {
     this.saving = false;
-    this.snack.open(this.apiErrors.translate(err) || USERS_SAVE_ERROR, SNACK_CLOSE_ACTION, {
-      duration: 4000,
-    });
+    this.feedback.showApiError(err, { fallbackMessage: USERS_SAVE_ERROR });
   }
 
   deleteUser(row: SecurityUser): void {
     const label = row.username || row.email;
-    if (!confirm(usersDeleteConfirm(label))) {
-      return;
-    }
-    this.deletingId = row.id;
-    this.userService.delete(row.id).subscribe({
-      next: () => {
-        this.deletingId = null;
-        if (this.editingUserId === row.id) {
-          this.cancelForm();
+    this.feedback
+      .confirm({
+        title: USERS_DELETE_CONFIRM_TITLE,
+        message: usersDeleteConfirm(label),
+        confirmLabel: USERS_YES,
+        cancelLabel: USERS_NO,
+        confirmWarn: true,
+      })
+      .subscribe((confirmed) => {
+        if (!confirmed) {
+          return;
         }
-        this.load();
-        this.snack.open(USERS_DELETE_SUCCESS, SNACK_CLOSE_ACTION, { duration: 3000 });
-      },
-      error: (err) => {
-        this.deletingId = null;
-        this.snack.open(this.apiErrors.translate(err) || USERS_DELETE_ERROR, SNACK_CLOSE_ACTION, {
-          duration: 4000,
+        this.deletingId = row.id;
+        this.userService.delete(row.id).subscribe({
+          next: () => {
+            this.deletingId = null;
+            if (this.editingUserId === row.id) {
+              this.cancelForm();
+            }
+            this.load();
+            this.feedback.showSuccess(USERS_DELETE_SUCCESS);
+          },
+          error: (err) => {
+            this.deletingId = null;
+            this.feedback.showApiError(err, { fallbackMessage: USERS_DELETE_ERROR });
+          },
         });
-      },
-    });
+      });
   }
 
   private defaultTenantDialCode(): string {
