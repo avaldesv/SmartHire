@@ -207,4 +207,9 @@ a:hover { text-decoration: underline; }
   padding-top: 8px !important;
 }
 
+/* Feedback dialog — Propuesta A (minimal contextual) */
+.sh-feedback-dialog-panel .mat-mdc-dialog-surface {
+  padding: 20px 20px 8px 16px !important;
+  border-radius: 8px;
+}
 

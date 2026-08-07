@@ -11,6 +11,8 @@ export function usersDeleteConfirm(label: string): string {
   return $localize`:@@users.confirm.delete:¿Eliminar el usuario "${label}"? Esta acción no se puede deshacer.`;
 }
 
+export const USERS_DELETE_CONFIRM_TITLE = $localize`:@@users.confirm.deleteTitle:Eliminar usuario`;
+
 export const USERS_YES = $localize`:@@common.yes:Sí`;
 export const USERS_NO = $localize`:@@common.no:No`;
 export const USERS_SAVING = $localize`:@@users.form.saving:Guardando...`;
