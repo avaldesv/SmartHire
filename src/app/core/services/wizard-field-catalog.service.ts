@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, map, of, shareReplay, throwError } from 'rxjs';
 import { WizardFieldOption } from '../../shared/models/requisition-wizard.model';
+import { WEEKDAY_OPTIONS } from '../../shared/utils/requisition-work-days.util';
 import { CatalogBrandService } from './catalog-brand.service';
 import { CatalogCareerService } from './catalog-career.service';
 import { CatalogContractTypeService } from './catalog-contract-type.service';
@@ -234,6 +235,8 @@ export class WizardFieldCatalogService {
         return this.questionnaireService
           .list({ status: 'PUBLISHED', isActive: true }, 0, 200)
           .pipe(map((r) => this.toOptions(r.items)));
+      case 'weekdays':
+        return of(WEEKDAY_OPTIONS);
       default:
         return of([]);
     }

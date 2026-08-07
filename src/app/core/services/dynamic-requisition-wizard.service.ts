@@ -4,6 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, map, of } from 'rxjs';
 import { ResolvedRequisitionFormConfig } from '../../shared/models/requisition-wizard.model';
 import { DEFAULT_REQUISITION_WIZARD_SCHEMA } from '../../features/positions/wizard/default-requisition-wizard-schema.constant';
+import { applyBuiltinFieldPresentation } from '../../features/positions/wizard/requisition-form-presentation.util';
 import {
   buildDynamicStepForms,
   flattenDynamicFormValues,
@@ -18,7 +19,7 @@ export class DynamicRequisitionWizardService {
 
   resolve(countryId: number, coverageTypeId: number): Observable<ResolvedRequisitionFormConfig | null> {
     return this.formConfigService.resolve(countryId, coverageTypeId).pipe(
-      map((config) => (config.steps.length ? config : null)),
+      map((config) => (config.steps.length ? applyBuiltinFieldPresentation(config) : null)),
       catchError((error: HttpErrorResponse) => {
         if (error.status === 404) {
           return of(null);
@@ -29,7 +30,7 @@ export class DynamicRequisitionWizardService {
   }
 
   getDefaultSchema(): ResolvedRequisitionFormConfig {
-    return DEFAULT_REQUISITION_WIZARD_SCHEMA;
+    return applyBuiltinFieldPresentation(DEFAULT_REQUISITION_WIZARD_SCHEMA);
   }
 
   buildForm(config: ResolvedRequisitionFormConfig): FormGroup {

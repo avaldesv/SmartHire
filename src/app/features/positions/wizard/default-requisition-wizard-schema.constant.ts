@@ -96,7 +96,7 @@ export const DEFAULT_REQUISITION_WIZARD_SCHEMA: ResolvedRequisitionFormConfig = 
         field('rotatingShifts', 'checkbox', 'requisition.field.rotatingShifts', null, false),
         field('commitmentDate', 'date', 'requisition.field.commitmentDate'),
         field('hiringDate', 'date', 'requisition.field.hiringDate', null, false),
-        field('workDays', 'text', 'requisition.field.workDays'),
+        field('workDays', 'multiselect', 'requisition.field.workDays', 'weekdays'),
         field('hiringRequirements', 'multiselect', 'requisition.field.hiringRequirements', 'requirements', false),
         field('tools', 'multiselect', 'requisition.field.tools', 'tools', false),
         field('positionsCount', 'number', 'requisition.field.positionsCount'),

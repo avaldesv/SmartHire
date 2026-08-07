@@ -23,6 +23,10 @@ import {
   WizardQuestionnaireValue,
 } from '../../../shared/models/requisition-wizard.model';
 import { isFieldRequired, isFieldVisible, isFieldReadOnly } from './dynamic-wizard-rules.util';
+import {
+  parseWorkDaysToIds,
+  serializeWorkDaysFromIds,
+} from '../../../shared/utils/requisition-work-days.util';
 
 const PAYLOAD_FIELD_ALIASES: Record<string, keyof CreatePositionRequest> = {
   addressLine: 'address',
@@ -326,6 +330,10 @@ function assignPayloadField(
       break;
     }
     case 'multiselect': {
+      if (fieldKey === 'workDays') {
+        payload[targetKey] = serializeWorkDaysFromIds(raw as number[]);
+        break;
+      }
       const ids = Array.isArray(raw) ? (raw as number[]).filter((id) => id != null) : [];
       payload[targetKey] = ids;
       break;
@@ -461,6 +469,11 @@ function resolveHydratedValue(
       }
       return defaultValueForUiType(field.uiType);
     case 'multiselect': {
+      if (field.fieldKey === 'workDays') {
+        const text =
+          (positionRecord[field.fieldKey] as string | null | undefined) ?? position.workDays;
+        return parseWorkDaysToIds(text);
+      }
       const raw = positionRecord[field.fieldKey];
       if (Array.isArray(raw)) {
         return (raw as number[]).filter((id) => id != null);
