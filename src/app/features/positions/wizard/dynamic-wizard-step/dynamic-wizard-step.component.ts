@@ -136,20 +136,20 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
 
   private syncMirroredFields(): void {
     for (const field of this.step.fields) {
-      const sourceKey = fieldValueFrom(field);
-      if (!sourceKey) {
-        continue;
-      }
       const control = this.stepForm.get(field.fieldKey);
       if (!control) {
+        continue;
+      }
+      if (isFieldReadOnly(field) && control.enabled) {
+        control.disable({ emitEvent: false });
+      }
+      const sourceKey = fieldValueFrom(field);
+      if (!sourceKey) {
         continue;
       }
       const sourceValue = this.flatValues[sourceKey] ?? '';
       if (control.value !== sourceValue) {
         control.setValue(sourceValue, { emitEvent: false });
-      }
-      if (isFieldReadOnly(field) && control.enabled) {
-        control.disable({ emitEvent: false });
       }
     }
   }

@@ -41,6 +41,7 @@ import {
   hydrateDynamicFormValues,
   patchDynamicForm,
 } from './dynamic-wizard-payload.util';
+import { findResolvedField, isFieldReadOnly } from './dynamic-wizard-rules.util';
 import {
   REQUISITION_WIZARD_CANCEL,
   REQUISITION_WIZARD_CONTINUE,
@@ -619,6 +620,9 @@ export class PositionWizardComponent implements OnInit {
     preservedValues: Record<string, unknown>,
     countryId: number | null | undefined,
   ): void {
+    if (this.isRecruiterGroupReadOnly()) {
+      return;
+    }
     const existing = preservedValues['recruiterGroupId'];
     if (existing != null && existing !== '') {
       this.defaultRecruiterGroupId = typeof existing === 'number' ? existing : Number(existing);
@@ -1193,11 +1197,25 @@ export class PositionWizardComponent implements OnInit {
     const payload = buildDynamicCreatePayload(
       this.dynamicWizardService.getFlatValues(this.dynamicForm),
       this.resolvedConfig,
+      this.isEditMode,
     );
-    if (!this.isEditMode && payload.recruiterGroupId == null && this.defaultRecruiterGroupId != null) {
+    if (
+      !this.isEditMode &&
+      !this.isRecruiterGroupReadOnly() &&
+      payload.recruiterGroupId == null &&
+      this.defaultRecruiterGroupId != null
+    ) {
       return { ...payload, recruiterGroupId: this.defaultRecruiterGroupId };
     }
     return payload;
+  }
+
+  private isRecruiterGroupReadOnly(): boolean {
+    if (!this.resolvedConfig) {
+      return false;
+    }
+    const field = findResolvedField(this.resolvedConfig, 'recruiterGroupId');
+    return field != null && isFieldReadOnly(field);
   }
 
   private buildCreatePayload(): CreatePositionRequest {

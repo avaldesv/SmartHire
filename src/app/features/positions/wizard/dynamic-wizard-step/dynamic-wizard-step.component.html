@@ -111,7 +111,7 @@
     } @else if (field.fieldKey === 'stateId') {
       <mat-form-field appearance="outline">
         <mat-label>{{ fieldLabel(field) }}</mat-label>
-        <mat-select [formControl]="fieldControl(field.fieldKey)">
+        <mat-select [formControl]="fieldControl(field.fieldKey)" [disabled]="isReadOnly(field)">
           @for (opt of states; track opt.id) {
             <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
           }
@@ -120,7 +120,7 @@
     } @else if (field.fieldKey === 'municipalityId') {
       <mat-form-field appearance="outline">
         <mat-label>{{ fieldLabel(field) }}</mat-label>
-        <mat-select [formControl]="fieldControl(field.fieldKey)">
+        <mat-select [formControl]="fieldControl(field.fieldKey)" [disabled]="isReadOnly(field)">
           @for (opt of municipalities; track opt.id) {
             <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
           }
@@ -129,7 +129,7 @@
     } @else if (field.fieldKey === 'neighborhoodId') {
       <mat-form-field appearance="outline">
         <mat-label>{{ fieldLabel(field) }}</mat-label>
-        <mat-select [formControl]="fieldControl(field.fieldKey)">
+        <mat-select [formControl]="fieldControl(field.fieldKey)" [disabled]="isReadOnly(field)">
           @for (opt of neighborhoods; track opt.id) {
             <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
           }

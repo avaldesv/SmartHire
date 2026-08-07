@@ -4,7 +4,7 @@ import {
   RequisitionFormFieldRuleCondition,
   RequisitionFormFieldRules,
 } from '../../../shared/models/requisition-form.model';
-import { ResolvedRequisitionFormField } from '../../../shared/models/requisition-wizard.model';
+import { ResolvedRequisitionFormField, ResolvedRequisitionFormConfig } from '../../../shared/models/requisition-wizard.model';
 
 export function parseFieldRules(rulesJson?: string | null): RequisitionFormFieldRules | null {
   if (!rulesJson?.trim()) {
@@ -82,6 +82,19 @@ export function isFieldReadOnly(field: ResolvedRequisitionFormField): boolean {
   }
   const rules = parseFieldRules(field.rulesJson);
   return !!rules?.readOnly;
+}
+
+export function findResolvedField(
+  config: ResolvedRequisitionFormConfig,
+  fieldKey: string,
+): ResolvedRequisitionFormField | undefined {
+  for (const step of config.steps) {
+    const field = step.fields.find((item) => item.fieldKey === fieldKey);
+    if (field) {
+      return field;
+    }
+  }
+  return undefined;
 }
 
 export function fieldValueFrom(field: ResolvedRequisitionFormField): string | null {
