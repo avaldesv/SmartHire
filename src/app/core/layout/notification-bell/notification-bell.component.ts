@@ -13,7 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { FeedbackDialogService } from '../../feedback/feedback-dialog.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserNotificationApiService } from '../../services/user-notification-api.service';
@@ -33,7 +33,6 @@ import { ExcelBulkProgressDialogComponent } from '../../../features/positions/li
     MatIconModule,
     MatMenuModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule,
   ],
   templateUrl: './notification-bell.component.html',
   styleUrl: './notification-bell.component.scss',
@@ -45,7 +44,7 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
 
   private readonly api = inject(UserNotificationApiService);
   private readonly stomp = inject(UserNotificationStompService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
 
@@ -72,9 +71,7 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
       if (!n.read) {
         this.unreadCount.update((c) => c + 1);
       }
-      this.snack.open(n.title || $localize`:@@shell.notifications:Notificaciones`, undefined, {
-        duration: 4500,
-      });
+      this.feedback.showSuccess(n.title || $localize`:@@shell.notifications:Notificaciones`);
     });
   }
 
@@ -132,7 +129,7 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
         );
         this.unreadCount.update((c) => Math.max(0, c - 1));
       },
-      error: () => undefined,
+      error: (err) => undefined,
     });
   }
 
@@ -150,7 +147,7 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
   private refreshUnread(): void {
     this.api.unreadCount(this.portal).subscribe({
       next: (res) => this.unreadCount.set(res.unreadCount ?? 0),
-      error: () => undefined,
+      error: (err) => undefined,
     });
   }
 
@@ -163,7 +160,7 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
         this.loading.set(false);
         this.refreshUnread();
       },
-      error: () => this.loading.set(false),
+      error: (err) => this.loading.set(false),
     });
   }
 }

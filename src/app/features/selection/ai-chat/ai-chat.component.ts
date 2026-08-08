@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { AiSearchApiService } from '../../../core/services/ai-search-api.service';
 import { PositionAiPromptApiService } from '../../../core/services/position-ai-prompt-api.service';
 import { AiSearchResultView } from '../../../shared/models/ai-search.model';
@@ -26,7 +26,6 @@ import { AiSearchResultView } from '../../../shared/models/ai-search.model';
     MatProgressSpinnerModule,
     MatIconModule,
     MatCheckboxModule,
-    MatSnackBarModule,
   ],
   templateUrl: './ai-chat.component.html',
   styleUrl: './ai-chat.component.scss',
@@ -36,7 +35,7 @@ export class AiChatComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly aiSearchApi = inject(AiSearchApiService);
   private readonly aiPromptApi = inject(PositionAiPromptApiService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
 
   readonly positionId = +this.route.parent!.snapshot.paramMap.get('positionId')!;
   loading = false;
@@ -76,9 +75,9 @@ export class AiChatComponent implements OnInit {
         });
         this.loadingCriteria = false;
       },
-      error: () => {
+      error: (err) => {
         this.loadingCriteria = false;
-        this.snack.open('No se pudo cargar la configuración de prompts', 'Cerrar', { duration: 4000 });
+        this.feedback.showSuccess('No se pudo cargar la configuración de prompts');
       },
     });
   }
@@ -99,11 +98,11 @@ export class AiChatComponent implements OnInit {
       .subscribe({
         next: () => {
           this.savingCriteria = false;
-          this.snack.open('Criterios de búsqueda guardados', 'Cerrar', { duration: 3000 });
+          this.feedback.showSuccess('Criterios de búsqueda guardados');
         },
-        error: () => {
+        error: (err) => {
           this.savingCriteria = false;
-          this.snack.open('No se pudieron guardar los criterios', 'Cerrar', { duration: 4000 });
+          this.feedback.showSuccess('No se pudieron guardar los criterios');
         },
       });
   }
@@ -150,9 +149,9 @@ export class AiChatComponent implements OnInit {
               : 'No encontré candidatos con los criterios actuales. Ajusta fuentes o años de experiencia.',
           });
         },
-        error: () => {
+        error: (err) => {
           this.loading = false;
-          this.snack.open('No se pudo ejecutar la búsqueda IA', 'Cerrar', { duration: 4000 });
+          this.feedback.showSuccess('No se pudo ejecutar la búsqueda IA');
         },
       });
   }
@@ -161,22 +160,22 @@ export class AiChatComponent implements OnInit {
     if (!this.sessionId) return;
     const resultIds = this.results.filter((r) => r.selected).map((r) => r.resultId);
     if (!resultIds.length) {
-      this.snack.open('Selecciona al menos un candidato', 'Cerrar', { duration: 3000 });
+      this.feedback.showSuccess('Selecciona al menos un candidato');
       return;
     }
     this.submitting = true;
     this.aiSearchApi.addToPreselection({ sessionId: this.sessionId, resultIds }).subscribe({
       next: (res) => {
         this.submitting = false;
-        this.snack.open(`${res.updatedCount} candidato(s) agregado(s) a preselección`, 'Cerrar', { duration: 3500 });
+        this.feedback.showSuccess(`${res.updatedCount} candidato(s) agregado(s) a preselección`);
         this.messages.push({
           role: 'ai',
           text: `Agregué ${res.updatedCount} candidato(s) a preselección para esta posición.`,
         });
       },
-      error: () => {
+      error: (err) => {
         this.submitting = false;
-        this.snack.open('No se pudo agregar a preselección', 'Cerrar', { duration: 4000 });
+        this.feedback.showSuccess('No se pudo agregar a preselección');
       },
     });
   }

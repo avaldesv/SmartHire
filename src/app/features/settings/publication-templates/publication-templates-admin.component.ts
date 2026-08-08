@@ -4,8 +4,9 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { filter } from 'rxjs';
 import { AppPermissions } from '../../../core/auth/app-permissions';
 import {
@@ -39,7 +40,6 @@ import {
   imports: [
     MatTableModule,
     MatPaginatorModule,
-    MatSnackBarModule,
     MatProgressSpinnerModule,
     MatButtonModule,
     MatIconModule,
@@ -52,7 +52,7 @@ import {
 export class PublicationTemplatesAdminComponent implements OnInit {
   private readonly api = inject(PublicationTemplateApiService);
   private readonly permissions = inject(PermissionService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly dialog = inject(MatDialog);
 
   loading = true;
@@ -96,9 +96,9 @@ export class PublicationTemplatesAdminComponent implements OnInit {
         this.total = total;
         this.loading = false;
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open(PUBTEMPLATES_ERRORS_LIST, PUBTEMPLATES_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: PUBTEMPLATES_ERRORS_LIST });
       },
     });
   }
@@ -118,13 +118,13 @@ export class PublicationTemplatesAdminComponent implements OnInit {
         const usedLocales = [...new Set(items.map((item) => item.locale.trim().toLowerCase()))];
         const available = ['es', 'en', 'pt'].filter((locale) => !usedLocales.includes(locale));
         if (available.length === 0) {
-          this.snack.open(PUBTEMPLATES_ERRORS_ALL_LOCALES_USED, PUBTEMPLATES_SNACK_CLOSE, { duration: 4000 });
+          this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, PUBTEMPLATES_ERRORS_ALL_LOCALES_USED);
           return;
         }
         this.openDialog({ usedLocales });
       },
-      error: () => {
-        this.snack.open(PUBTEMPLATES_ERRORS_LIST, PUBTEMPLATES_SNACK_CLOSE, { duration: 3500 });
+      error: (err) => {
+        this.feedback.showApiError(err, { fallbackMessage: PUBTEMPLATES_ERRORS_LIST });
       },
     });
   }
@@ -152,7 +152,7 @@ export class PublicationTemplatesAdminComponent implements OnInit {
       .afterClosed()
       .pipe(filter((saved): saved is boolean => saved === true))
       .subscribe(() => {
-        this.snack.open(PUBTEMPLATES_SUCCESS_SAVED, PUBTEMPLATES_SNACK_CLOSE, { duration: 2500 });
+        this.feedback.showSuccess(PUBTEMPLATES_SUCCESS_SAVED);
         this.load();
       });
   }
@@ -161,20 +161,28 @@ export class PublicationTemplatesAdminComponent implements OnInit {
     if (!this.canDelete()) {
       return;
     }
-    if (!confirm(publicationTemplatesDeleteConfirm(row.name))) {
-      return;
-    }
+    this.feedback
+      .confirm({
+        title: FEEDBACK_GENERIC_WARNING_TITLE,
+        message: publicationTemplatesDeleteConfirm(row.name),
+        confirmWarn: true,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
     this.deletingId = row.id;
     this.api.delete(row.id).subscribe({
       next: () => {
         this.deletingId = null;
-        this.snack.open(PUBTEMPLATES_SUCCESS_DELETED, PUBTEMPLATES_SNACK_CLOSE, { duration: 3000 });
+        this.feedback.showSuccess(PUBTEMPLATES_SUCCESS_DELETED);
         this.load();
       },
-      error: () => {
+      error: (err) => {
         this.deletingId = null;
-        this.snack.open(PUBTEMPLATES_ERRORS_DELETE, PUBTEMPLATES_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: PUBTEMPLATES_ERRORS_DELETE });
       },
     });
+      });
   }
 }

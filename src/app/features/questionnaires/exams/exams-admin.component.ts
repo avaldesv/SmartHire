@@ -9,8 +9,9 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { filter, switchMap } from 'rxjs';
 import { AppPermissions } from '../../../core/auth/app-permissions';
 import {
@@ -61,7 +62,6 @@ import { ExamFormDialogComponent, ExamFormDialogData } from './exam-form-dialog.
     MatTableModule,
     MatPaginatorModule,
     MatSlideToggleModule,
-    MatSnackBarModule,
     MatProgressSpinnerModule,
     MatButtonModule,
     MatIconModule,
@@ -80,7 +80,7 @@ export class ExamsAdminComponent implements OnInit {
   private readonly api = inject(QuestionnaireExamApiService);
   private readonly questionnaireApi = inject(QuestionnaireQuestionnaireApiService);
   private readonly permissions = inject(PermissionService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly dialog = inject(MatDialog);
   private readonly fb = inject(FormBuilder);
 
@@ -191,9 +191,9 @@ export class ExamsAdminComponent implements OnInit {
           this.total = total;
           this.loading = false;
         },
-        error: () => {
+        error: (err) => {
           this.loading = false;
-          this.snack.open(QEXAM_ERRORS_LIST, QEXAM_SNACK_CLOSE, { duration: 3500 });
+          this.feedback.showApiError(err, { fallbackMessage: QEXAM_ERRORS_LIST });
         },
       });
   }
@@ -236,7 +236,7 @@ export class ExamsAdminComponent implements OnInit {
       .afterClosed()
       .pipe(filter((saved): saved is boolean => saved === true))
       .subscribe(() => {
-        this.snack.open(QEXAM_SUCCESS_SAVED, QEXAM_SNACK_CLOSE, { duration: 2500 });
+        this.feedback.showSuccess(QEXAM_SUCCESS_SAVED);
         this.load();
       });
   }
@@ -277,10 +277,10 @@ export class ExamsAdminComponent implements OnInit {
           Object.assign(row, updated);
           this.savingId = null;
         },
-        error: () => {
+        error: (err) => {
           row.isActive = previous;
           this.savingId = null;
-          this.snack.open(QEXAM_ERRORS_SAVE, QEXAM_SNACK_CLOSE, { duration: 3500 });
+          this.feedback.showApiError(err, { fallbackMessage: QEXAM_ERRORS_SAVE });
         },
       });
   }
@@ -289,20 +289,28 @@ export class ExamsAdminComponent implements OnInit {
     if (!this.canDeleteRecord(row)) {
       return;
     }
-    if (!confirm(qexamDeleteConfirm(row.name))) {
-      return;
-    }
+    this.feedback
+      .confirm({
+        title: FEEDBACK_GENERIC_WARNING_TITLE,
+        message: qexamDeleteConfirm(row.name),
+        confirmWarn: true,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
     this.deletingId = row.id;
     this.api.delete(row.id).subscribe({
       next: () => {
         this.deletingId = null;
-        this.snack.open(QEXAM_SUCCESS_DELETED, QEXAM_SNACK_CLOSE, { duration: 3000 });
+        this.feedback.showSuccess(QEXAM_SUCCESS_DELETED);
         this.load();
       },
-      error: () => {
+      error: (err) => {
         this.deletingId = null;
-        this.snack.open(QEXAM_ERRORS_DELETE, QEXAM_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: QEXAM_ERRORS_DELETE });
       },
     });
+      });
   }
 }

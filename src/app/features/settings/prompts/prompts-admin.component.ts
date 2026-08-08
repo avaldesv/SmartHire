@@ -9,8 +9,9 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { AppPermissions } from '../../../core/auth/app-permissions';
 import {
   PROMPTS_CANCEL,
@@ -59,7 +60,6 @@ import { PromptsImportExportActionsComponent } from './prompts-import-export-act
     MatTableModule,
     MatPaginatorModule,
     MatSlideToggleModule,
-    MatSnackBarModule,
     MatProgressSpinnerModule,
     MatButtonModule,
     MatIconModule,
@@ -77,7 +77,7 @@ import { PromptsImportExportActionsComponent } from './prompts-import-export-act
 export class PromptsAdminComponent implements OnInit {
   private readonly aiPromptApi = inject(AiPromptApiService);
   private readonly permissions = inject(PermissionService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly fb = inject(FormBuilder);
 
   readonly isGlobalAdmin = computed(() => this.permissions.isGlobalAdmin());
@@ -164,9 +164,9 @@ export class PromptsAdminComponent implements OnInit {
         this.total = total;
         this.loading = false;
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open(PROMPTS_ERRORS_LIST, PROMPTS_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: PROMPTS_ERRORS_LIST });
       },
     });
   }
@@ -239,12 +239,12 @@ export class PromptsAdminComponent implements OnInit {
         this.showForm = false;
         this.editingId = null;
         this.promptForm.controls.clave.enable();
-        this.snack.open(PROMPTS_SUCCESS_SAVED, PROMPTS_SNACK_CLOSE, { duration: 2500 });
+        this.feedback.showSuccess(PROMPTS_SUCCESS_SAVED);
         this.load();
       },
-      error: () => {
+      error: (err) => {
         this.saving = false;
-        this.snack.open(PROMPTS_ERRORS_SAVE, PROMPTS_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: PROMPTS_ERRORS_SAVE });
       },
     });
   }
@@ -267,10 +267,10 @@ export class PromptsAdminComponent implements OnInit {
           Object.assign(row, updated);
           this.savingId = null;
         },
-        error: () => {
+        error: (err) => {
           row.isActive = previous;
           this.savingId = null;
-          this.snack.open(PROMPTS_ERRORS_UPDATE, PROMPTS_SNACK_CLOSE, { duration: 3500 });
+          this.feedback.showApiError(err, { fallbackMessage: PROMPTS_ERRORS_UPDATE });
         },
       });
   }
@@ -303,9 +303,16 @@ export class PromptsAdminComponent implements OnInit {
     if (!this.canDeleteRecord(row)) {
       return;
     }
-    if (!confirm(promptsDeleteConfirm(row.clave))) {
-      return;
-    }
+    this.feedback
+      .confirm({
+        title: FEEDBACK_GENERIC_WARNING_TITLE,
+        message: promptsDeleteConfirm(row.clave),
+        confirmWarn: true,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
     this.deletingId = row.id;
     this.aiPromptApi.delete(row.id).subscribe({
       next: () => {
@@ -313,13 +320,14 @@ export class PromptsAdminComponent implements OnInit {
         if (this.editingId === row.id) {
           this.cancelForm();
         }
-        this.snack.open(PROMPTS_SUCCESS_DELETED, PROMPTS_SNACK_CLOSE, { duration: 3000 });
+        this.feedback.showSuccess(PROMPTS_SUCCESS_DELETED);
         this.load();
       },
-      error: () => {
+      error: (err) => {
         this.deletingId = null;
-        this.snack.open(PROMPTS_ERRORS_DELETE, PROMPTS_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: PROMPTS_ERRORS_DELETE });
       },
     });
+      });
   }
 }

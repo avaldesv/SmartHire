@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { CandidateApplicationApiService } from '../../../core/services/candidate-application-api.service';
 import { CandidateApplicationListItem } from '../../../shared/models/candidate-application.model';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
@@ -35,13 +35,13 @@ const FALLBACK_COLORS = ['#64748b', '#2563eb', '#8b5cf6', '#f97316', '#0d9488', 
 @Component({
   selector: 'sh-tracking-pipeline',
   standalone: true,
-  imports: [MatCardModule, MatProgressSpinnerModule, MatSnackBarModule, PageHeaderComponent],
+  imports: [MatCardModule, MatProgressSpinnerModule, PageHeaderComponent],
   templateUrl: './tracking-pipeline.component.html',
   styleUrl: './tracking-pipeline.component.scss',
 })
 export class TrackingPipelineComponent implements OnInit {
   private readonly applicationApi = inject(CandidateApplicationApiService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
 
   loading = true;
   loadError = false;
@@ -70,10 +70,10 @@ export class TrackingPipelineComponent implements OnInit {
             this.columns = this.buildColumns(res.items);
             this.loading = false;
           },
-          error: () => this.onLoadError(),
+          error: (err) => this.onLoadError(),
         });
       },
-      error: () => this.onLoadError(),
+      error: (err) => this.onLoadError(),
     });
   }
 
@@ -112,6 +112,6 @@ export class TrackingPipelineComponent implements OnInit {
   private onLoadError(): void {
     this.loading = false;
     this.loadError = true;
-    this.snack.open('No se pudo cargar el pipeline de seguimiento', 'Cerrar', { duration: 4000 });
+    this.feedback.showSuccess('No se pudo cargar el pipeline de seguimiento');
   }
 }

@@ -5,7 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import {
   CVS_FIELD_AUTO_PARSE,
   CVS_FIELD_FORMAT,
@@ -14,13 +14,12 @@ import {
   CVS_PAGE_TITLE,
   CVS_SAVE_SUCCESS,
   SETTINGS_CONFIG_SAVE,
-  SETTINGS_CONFIG_SNACK_CLOSE,
 } from '../../../core/i18n/settings-config-labels';
 
 @Component({
   selector: 'sh-cvs-config',
   standalone: true,
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatSlideToggleModule, MatButtonModule, MatSnackBarModule],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatSlideToggleModule, MatButtonModule],
   template: `
     <h3>{{ pageTitle }}</h3>
     <form [formGroup]="form" (ngSubmit)="save()" class="sh-card config-form">
@@ -38,7 +37,7 @@ import {
 })
 export class CvsConfigComponent {
   private readonly fb = inject(FormBuilder);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
 
   readonly pageTitle = CVS_PAGE_TITLE;
   readonly fieldFormat = CVS_FIELD_FORMAT;
@@ -55,6 +54,6 @@ export class CvsConfigComponent {
   });
 
   save(): void {
-    this.snack.open(CVS_SAVE_SUCCESS, SETTINGS_CONFIG_SNACK_CLOSE, { duration: 2500 });
+    this.feedback.showSuccess(CVS_SAVE_SUCCESS);
   }
 }

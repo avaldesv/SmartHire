@@ -6,7 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { FeedbackDialogService } from '../../core/feedback/feedback-dialog.service';
 import {
   CANDIDATE_ACCOUNTS_CANCEL,
   CANDIDATE_ACCOUNTS_DIALOG_CREATE,
@@ -49,7 +49,7 @@ export class CandidateAccountFormDialogComponent implements OnInit {
   private readonly dialogRef = inject(MatDialogRef<CandidateAccountFormDialogComponent, boolean>);
   readonly data = inject<CandidateAccountFormDialogData>(MAT_DIALOG_DATA);
   private readonly api = inject(CandidateAccountApiService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly fb = inject(FormBuilder);
 
   saving = false;
@@ -109,9 +109,9 @@ export class CandidateAccountFormDialogComponent implements OnInit {
         this.saving = false;
         this.dialogRef.close(true);
       },
-      error: () => {
+      error: (err) => {
         this.saving = false;
-        this.snack.open(CANDIDATE_ACCOUNTS_ERRORS_SAVE, CANDIDATE_ACCOUNTS_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: CANDIDATE_ACCOUNTS_ERRORS_SAVE });
       },
     });
   }

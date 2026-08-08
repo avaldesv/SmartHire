@@ -4,7 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import {
   INTERVIEWS_FIELD_DURATION,
   INTERVIEWS_FIELD_MODALITY,
@@ -15,13 +15,12 @@ import {
   INTERVIEWS_PAGE_TITLE,
   INTERVIEWS_SAVE_SUCCESS,
   SETTINGS_CONFIG_SAVE,
-  SETTINGS_CONFIG_SNACK_CLOSE,
 } from '../../../core/i18n/settings-config-labels';
 
 @Component({
   selector: 'sh-interviews-config',
   standalone: true,
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatSnackBarModule],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule],
   template: `
     <h3>{{ pageTitle }}</h3>
     <form [formGroup]="form" (ngSubmit)="save()" class="sh-card config-form">
@@ -38,7 +37,7 @@ import {
 })
 export class InterviewsConfigComponent {
   private readonly fb = inject(FormBuilder);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
 
   readonly pageTitle = INTERVIEWS_PAGE_TITLE;
   readonly fieldDuration = INTERVIEWS_FIELD_DURATION;
@@ -56,6 +55,6 @@ export class InterviewsConfigComponent {
   });
 
   save(): void {
-    this.snack.open(INTERVIEWS_SAVE_SUCCESS, SETTINGS_CONFIG_SNACK_CLOSE, { duration: 2500 });
+    this.feedback.showSuccess(INTERVIEWS_SAVE_SUCCESS);
   }
 }

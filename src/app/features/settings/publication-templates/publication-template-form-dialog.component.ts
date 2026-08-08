@@ -7,7 +7,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {
   Subscription,
@@ -78,7 +79,7 @@ export class PublicationTemplateFormDialogComponent implements OnInit, OnDestroy
   private readonly dialogRef = inject(MatDialogRef<PublicationTemplateFormDialogComponent, boolean>);
   readonly data = inject<PublicationTemplateFormDialogData>(MAT_DIALOG_DATA);
   private readonly api = inject(PublicationTemplateApiService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly fb = inject(FormBuilder);
   private readonly sanitizer = inject(DomSanitizer);
 
@@ -134,9 +135,9 @@ export class PublicationTemplateFormDialogComponent implements OnInit, OnDestroy
         this.loading = false;
         this.enableLivePreview();
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open(PUBTEMPLATES_ERRORS_LOAD, PUBTEMPLATES_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: PUBTEMPLATES_ERRORS_LOAD });
         this.enableLivePreview();
       },
     });
@@ -150,7 +151,7 @@ export class PublicationTemplateFormDialogComponent implements OnInit, OnDestroy
     this.localeOptions.push(...available);
     if (available.length === 0) {
       this.loading = false;
-      this.snack.open(PUBTEMPLATES_ERRORS_NO_LOCALES, PUBTEMPLATES_SNACK_CLOSE, { duration: 4000 });
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, PUBTEMPLATES_ERRORS_NO_LOCALES);
       this.dialogRef.close(false);
       return;
     }
@@ -183,8 +184,8 @@ export class PublicationTemplateFormDialogComponent implements OnInit, OnDestroy
           }
           this.previewing = true;
           return this.api.preview({ htmlBody: trimmed, locale }).pipe(
-            catchError(() => {
-              this.snack.open(PUBTEMPLATES_ERRORS_PREVIEW, PUBTEMPLATES_SNACK_CLOSE, { duration: 3500 });
+            catchError((err) => {
+              this.feedback.showApiError(err, { fallbackMessage: PUBTEMPLATES_ERRORS_PREVIEW });
               return of(null);
             }),
           );
@@ -239,9 +240,9 @@ export class PublicationTemplateFormDialogComponent implements OnInit, OnDestroy
         this.saving = false;
         this.dialogRef.close(true);
       },
-      error: () => {
+      error: (err) => {
         this.saving = false;
-        this.snack.open(PUBTEMPLATES_ERRORS_SAVE, PUBTEMPLATES_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: PUBTEMPLATES_ERRORS_SAVE });
       },
     });
   }

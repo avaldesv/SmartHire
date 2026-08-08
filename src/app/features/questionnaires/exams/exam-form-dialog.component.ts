@@ -8,7 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import {
   QEXAM_CANCEL,
   QEXAM_CLOSE,
@@ -86,7 +87,7 @@ export class ExamFormDialogComponent implements OnInit {
   readonly data = inject<ExamFormDialogData>(MAT_DIALOG_DATA);
   private readonly api = inject(QuestionnaireExamApiService);
   private readonly questionnaireApi = inject(QuestionnaireQuestionnaireApiService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly fb = inject(FormBuilder);
 
   loading = true;
@@ -165,9 +166,9 @@ export class ExamFormDialogComponent implements OnInit {
           this.finishLoading();
         }
       },
-      error: () => {
+      error: (err) => {
         this.finishLoading();
-        this.snack.open(QEXAM_ERRORS_LOAD, QEXAM_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: QEXAM_ERRORS_LOAD });
       },
     });
 
@@ -261,9 +262,9 @@ export class ExamFormDialogComponent implements OnInit {
         this.refreshAvailableQuestions(exam.questionnaireId);
         this.finishLoading();
       },
-      error: () => {
+      error: (err) => {
         this.finishLoading();
-        this.snack.open(QEXAM_ERRORS_LOAD, QEXAM_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: QEXAM_ERRORS_LOAD });
       },
     });
   }
@@ -275,7 +276,7 @@ export class ExamFormDialogComponent implements OnInit {
         this.availableQuestions = links.length;
         this.recalculateEligibleQuestions();
       },
-      error: () => {
+      error: (err) => {
         this.questionnaireLinks = [];
         this.availableQuestions = 0;
         this.eligibleQuestions = 0;
@@ -298,9 +299,9 @@ export class ExamFormDialogComponent implements OnInit {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       if (this.form.controls.maxAttempts.invalid) {
-        this.snack.open(QEXAM_ERRORS_MAX_ATTEMPTS, QEXAM_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, QEXAM_ERRORS_MAX_ATTEMPTS);
       } else if (this.form.controls.numberOfQuestions.hasError('insufficientEligible')) {
-        this.snack.open(this.insufficientEligibleMessage, QEXAM_SNACK_CLOSE, { duration: 4500 });
+        this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, this.insufficientEligibleMessage);
       }
       return;
     }
@@ -333,9 +334,9 @@ export class ExamFormDialogComponent implements OnInit {
         this.saving = false;
         this.dialogRef.close(true);
       },
-      error: () => {
+      error: (err) => {
         this.saving = false;
-        this.snack.open(QEXAM_ERRORS_SAVE, QEXAM_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: QEXAM_ERRORS_SAVE });
       },
     });
   }

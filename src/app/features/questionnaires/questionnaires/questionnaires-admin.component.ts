@@ -9,8 +9,9 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { AppPermissions } from '../../../core/auth/app-permissions';
 import {
   QQN_COL_CATEGORY,
@@ -73,7 +74,6 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSlideToggleModule,
-    MatSnackBarModule,
     MatProgressSpinnerModule,
     MatButtonModule,
     MatIconModule,
@@ -92,7 +92,7 @@ export class QuestionnairesAdminComponent implements OnInit {
   private readonly api = inject(QuestionnaireQuestionnaireApiService);
   private readonly categoryApi = inject(QuestionnaireKnowledgeCategoryApiService);
   private readonly permissions = inject(PermissionService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly dialog = inject(MatDialog);
   private readonly fb = inject(FormBuilder);
 
@@ -231,9 +231,9 @@ export class QuestionnairesAdminComponent implements OnInit {
           this.total = total;
           this.loading = false;
         },
-        error: () => {
+        error: (err) => {
           this.loading = false;
-          this.snack.open(QQN_ERRORS_LIST, QQN_SNACK_CLOSE, { duration: 3500 });
+          this.feedback.showApiError(err, { fallbackMessage: QQN_ERRORS_LIST });
         },
       });
   }
@@ -272,13 +272,13 @@ export class QuestionnairesAdminComponent implements OnInit {
     >(QuestionnaireFormDialogComponent, { width: '800px', maxWidth: '95vw', data });
     ref.afterClosed().subscribe((result) => {
       if (result === true) {
-        this.snack.open(QQN_SUCCESS_SAVED, QQN_SNACK_CLOSE, { duration: 2500 });
+        this.feedback.showSuccess(QQN_SUCCESS_SAVED);
         this.load();
       } else if (result === 'published') {
-        this.snack.open(QQN_PUBLISH_SUCCESS, QQN_SNACK_CLOSE, { duration: 2500 });
+        this.feedback.showSuccess(QQN_PUBLISH_SUCCESS);
         this.load();
       } else if (result === 'archived') {
-        this.snack.open(QQN_ARCHIVE_SUCCESS, QQN_SNACK_CLOSE, { duration: 2500 });
+        this.feedback.showSuccess(QQN_ARCHIVE_SUCCESS);
         this.load();
       }
     });
@@ -288,64 +288,88 @@ export class QuestionnairesAdminComponent implements OnInit {
     if (!this.canPublishRecord(row)) {
       return;
     }
-    if (!confirm(QQN_PUBLISH_CONFIRM)) {
-      return;
-    }
-    this.publishingId = row.id;
-    this.api.publish(row.id).subscribe({
-      next: (updated) => {
-        Object.assign(row, updated);
-        this.publishingId = null;
-        this.snack.open(QQN_PUBLISH_SUCCESS, QQN_SNACK_CLOSE, { duration: 2500 });
-      },
-      error: () => {
-        this.publishingId = null;
-        this.snack.open(QQN_PUBLISH_ERROR, QQN_SNACK_CLOSE, { duration: 3500 });
-      },
-    });
+    this.feedback
+      .confirm({
+        title: FEEDBACK_GENERIC_WARNING_TITLE,
+        message: QQN_PUBLISH_CONFIRM,
+        confirmWarn: true,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
+        this.publishingId = row.id;
+        this.api.publish(row.id).subscribe({
+          next: (updated) => {
+            Object.assign(row, updated);
+            this.publishingId = null;
+            this.feedback.showSuccess(QQN_PUBLISH_SUCCESS);
+          },
+          error: (err) => {
+            this.publishingId = null;
+            this.feedback.showApiError(err, { fallbackMessage: QQN_PUBLISH_ERROR });
+          },
+        });
+      });
   }
 
   archive(row: QuestionnaireItem): void {
     if (!this.canArchiveRecord(row)) {
       return;
     }
-    if (!confirm(QQN_ARCHIVE_CONFIRM)) {
-      return;
-    }
-    this.archivingId = row.id;
-    this.api.archive(row.id).subscribe({
-      next: (updated) => {
-        Object.assign(row, updated);
-        this.archivingId = null;
-        this.snack.open(QQN_ARCHIVE_SUCCESS, QQN_SNACK_CLOSE, { duration: 2500 });
-      },
-      error: () => {
-        this.archivingId = null;
-        this.snack.open(QQN_ARCHIVE_ERROR, QQN_SNACK_CLOSE, { duration: 3500 });
-      },
-    });
+    this.feedback
+      .confirm({
+        title: FEEDBACK_GENERIC_WARNING_TITLE,
+        message: QQN_ARCHIVE_CONFIRM,
+        confirmWarn: true,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
+        this.archivingId = row.id;
+        this.api.archive(row.id).subscribe({
+          next: (updated) => {
+            Object.assign(row, updated);
+            this.archivingId = null;
+            this.feedback.showSuccess(QQN_ARCHIVE_SUCCESS);
+          },
+          error: (err) => {
+            this.archivingId = null;
+            this.feedback.showApiError(err, { fallbackMessage: QQN_ARCHIVE_ERROR });
+          },
+        });
+      });
   }
 
   duplicate(row: QuestionnaireItem): void {
     if (!this.canDuplicateRecord(row)) {
       return;
     }
-    if (!confirm(QQN_DUPLICATE_CONFIRM)) {
-      return;
-    }
-    this.duplicatingId = row.id;
-    this.api.duplicate(row.id).subscribe({
-      next: (created) => {
-        this.duplicatingId = null;
-        this.snack.open(QQN_DUPLICATE_SUCCESS, QQN_SNACK_CLOSE, { duration: 2500 });
-        this.openDialog({ questionnaire: created, readOnly: false });
-        this.load();
-      },
-      error: () => {
-        this.duplicatingId = null;
-        this.snack.open(QQN_DUPLICATE_ERROR, QQN_SNACK_CLOSE, { duration: 3500 });
-      },
-    });
+    this.feedback
+      .confirm({
+        title: FEEDBACK_GENERIC_WARNING_TITLE,
+        message: QQN_DUPLICATE_CONFIRM,
+        confirmWarn: true,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
+        this.duplicatingId = row.id;
+        this.api.duplicate(row.id).subscribe({
+          next: (created) => {
+            this.duplicatingId = null;
+            this.feedback.showSuccess(QQN_DUPLICATE_SUCCESS);
+            this.openDialog({ questionnaire: created, readOnly: false });
+            this.load();
+          },
+          error: (err) => {
+            this.duplicatingId = null;
+            this.feedback.showApiError(err, { fallbackMessage: QQN_DUPLICATE_ERROR });
+          },
+        });
+      });
   }
 
   toggle(row: QuestionnaireItem, active: boolean): void {
@@ -368,10 +392,10 @@ export class QuestionnairesAdminComponent implements OnInit {
           Object.assign(row, updated);
           this.savingId = null;
         },
-        error: () => {
+        error: (err) => {
           row.isActive = previous;
           this.savingId = null;
-          this.snack.open(QQN_ERRORS_SAVE, QQN_SNACK_CLOSE, { duration: 3500 });
+          this.feedback.showApiError(err, { fallbackMessage: QQN_ERRORS_SAVE });
         },
       });
   }
@@ -380,20 +404,28 @@ export class QuestionnairesAdminComponent implements OnInit {
     if (!this.canDeleteRecord(row)) {
       return;
     }
-    if (!confirm(qqnDeleteConfirm(row.name))) {
-      return;
-    }
-    this.deletingId = row.id;
-    this.api.delete(row.id).subscribe({
-      next: () => {
-        this.deletingId = null;
-        this.snack.open(QQN_SUCCESS_DELETED, QQN_SNACK_CLOSE, { duration: 3000 });
-        this.load();
-      },
-      error: () => {
-        this.deletingId = null;
-        this.snack.open(QQN_ERRORS_DELETE, QQN_SNACK_CLOSE, { duration: 3500 });
-      },
-    });
+    this.feedback
+      .confirm({
+        title: FEEDBACK_GENERIC_WARNING_TITLE,
+        message: qqnDeleteConfirm(row.name),
+        confirmWarn: true,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
+        this.deletingId = row.id;
+        this.api.delete(row.id).subscribe({
+          next: () => {
+            this.deletingId = null;
+            this.feedback.showSuccess(QQN_SUCCESS_DELETED);
+            this.load();
+          },
+          error: (err) => {
+            this.deletingId = null;
+            this.feedback.showApiError(err, { fallbackMessage: QQN_ERRORS_DELETE });
+          },
+        });
+      });
   }
 }

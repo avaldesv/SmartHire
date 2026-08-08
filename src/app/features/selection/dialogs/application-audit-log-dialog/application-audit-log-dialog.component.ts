@@ -9,8 +9,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
 import { ApplicationAuditLogApiService } from '../../../../core/services/application-audit-log-api.service';
 import { ApplicationAuditLogItem } from '../../../../shared/models/application-audit-log.model';
 
@@ -34,7 +34,6 @@ export interface ApplicationAuditLogDialogData {
     MatSelectModule,
     MatButtonModule,
     MatIconModule,
-    MatSnackBarModule,
     MatProgressSpinnerModule,
   ],
   templateUrl: './application-audit-log-dialog.component.html',
@@ -44,7 +43,7 @@ export class ApplicationAuditLogDialogComponent implements OnInit {
   private readonly dialogRef = inject(MatDialogRef<ApplicationAuditLogDialogComponent>);
   readonly data = inject<ApplicationAuditLogDialogData>(MAT_DIALOG_DATA);
   private readonly auditApi = inject(ApplicationAuditLogApiService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly fb = inject(FormBuilder);
 
   loading = true;
@@ -82,9 +81,9 @@ export class ApplicationAuditLogDialogComponent implements OnInit {
         this.total = res.total;
         this.loading = false;
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open('No se pudo cargar la bitácora', 'Cerrar', { duration: 4000 });
+        this.feedback.showSuccess('No se pudo cargar la bitácora');
       },
     });
   }
@@ -115,11 +114,11 @@ export class ApplicationAuditLogDialogComponent implements OnInit {
           this.form.reset({ message: '', action: 'NOTE', commitment: '' });
           this.pageIndex = 0;
           this.load();
-          this.snack.open('Entrada registrada', 'Cerrar', { duration: 3000 });
+          this.feedback.showSuccess('Entrada registrada');
         },
-        error: () => {
+        error: (err) => {
           this.saving = false;
-          this.snack.open('No se pudo guardar la entrada', 'Cerrar', { duration: 4000 });
+          this.feedback.showSuccess('No se pudo guardar la entrada');
         },
       });
   }

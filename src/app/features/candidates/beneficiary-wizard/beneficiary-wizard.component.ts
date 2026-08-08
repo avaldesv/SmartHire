@@ -7,8 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { CandidateBeneficiaryApiService } from '../../../core/services/candidate-beneficiary-api.service';
 import { CatalogKinshipService } from '../../../core/services/catalog-kinship.service';
@@ -31,7 +31,6 @@ type WizardBeneficiaryType = 'Primario' | 'Contingente';
     MatSelectModule,
     MatButtonModule,
     MatCheckboxModule,
-    MatSnackBarModule,
     MatProgressSpinnerModule,
     PageHeaderComponent,
   ],
@@ -42,7 +41,7 @@ export class BeneficiaryWizardComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly beneficiaryApi = inject(CandidateBeneficiaryApiService);
   private readonly kinshipService = inject(CatalogKinshipService);
 
@@ -75,7 +74,7 @@ export class BeneficiaryWizardComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.candidateId || Number.isNaN(this.candidateId)) {
-      this.snack.open('Candidato inválido', 'Cerrar', { duration: 3000 });
+      this.feedback.showSuccess('Candidato inválido');
       this.router.navigate(['/candidates']);
       return;
     }
@@ -92,9 +91,9 @@ export class BeneficiaryWizardComponent implements OnInit {
           this.loading = false;
         }
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open('No se pudo cargar el catálogo de parentesco', 'Cerrar', { duration: 3500 });
+        this.feedback.showSuccess('No se pudo cargar el catálogo de parentesco');
       },
     });
   }
@@ -120,9 +119,9 @@ export class BeneficiaryWizardComponent implements OnInit {
         });
         this.loading = false;
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open('No se pudo cargar el beneficiario', 'Cerrar', { duration: 3500 });
+        this.feedback.showSuccess('No se pudo cargar el beneficiario');
         this.router.navigate(['/candidates', this.candidateId]);
       },
     });
@@ -131,7 +130,7 @@ export class BeneficiaryWizardComponent implements OnInit {
   save(): void {
     if (this.step1.invalid || this.step2.invalid || this.step3.invalid) {
       [this.step1, this.step2, this.step3].forEach((f) => f.markAllAsTouched());
-      this.snack.open('Complete todos los pasos', 'Cerrar', { duration: 3000 });
+      this.feedback.showSuccess('Complete todos los pasos');
       return;
     }
 
@@ -145,16 +144,14 @@ export class BeneficiaryWizardComponent implements OnInit {
     request$.subscribe({
       next: () => {
         this.saving = false;
-        this.snack.open(this.isEdit ? 'Beneficiario actualizado' : 'Beneficiario registrado', 'Cerrar', {
-          duration: 3000,
-        });
+        this.feedback.showSuccess(this.isEdit ? 'Beneficiario actualizado' : 'Beneficiario registrado');
         this.router.navigate(['/candidates', this.candidateId]);
       },
       error: (err) => {
         this.saving = false;
         const message =
           err?.error?.message ?? err?.error?.detail ?? 'No se pudo guardar el beneficiario';
-        this.snack.open(message, 'Cerrar', { duration: 4000 });
+        this.feedback.showSuccess(message);
       },
     });
   }

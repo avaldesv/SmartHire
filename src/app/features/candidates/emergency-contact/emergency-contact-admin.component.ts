@@ -6,9 +6,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { CandidateEmergencyContactApiService } from '../../../core/services/candidate-emergency-contact-api.service';
 import { CatalogKinshipService } from '../../../core/services/catalog-kinship.service';
@@ -29,7 +29,6 @@ import { TableRowActionsComponent } from '../../../shared/components/table-row-a
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
-    MatSnackBarModule,
     MatProgressSpinnerModule,
     MatIconModule,
     PageHeaderComponent,
@@ -42,7 +41,7 @@ export class EmergencyContactAdminComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly contactApi = inject(CandidateEmergencyContactApiService);
   private readonly kinshipService = inject(CatalogKinshipService);
 
@@ -69,7 +68,7 @@ export class EmergencyContactAdminComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.candidateId || Number.isNaN(this.candidateId)) {
-      this.snack.open('Candidato inválido', 'Cerrar', { duration: 3000 });
+      this.feedback.showSuccess('Candidato inválido');
       this.router.navigate(['/candidates']);
       return;
     }
@@ -78,9 +77,9 @@ export class EmergencyContactAdminComponent implements OnInit {
         this.kinships = items.filter((k) => k.isActive);
         this.loadContacts();
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open('No se pudo cargar el catálogo de parentesco', 'Cerrar', { duration: 3500 });
+        this.feedback.showSuccess('No se pudo cargar el catálogo de parentesco');
       },
     });
   }
@@ -92,9 +91,9 @@ export class EmergencyContactAdminComponent implements OnInit {
         this.contacts = items;
         this.loading = false;
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open('No se pudieron cargar los contactos de emergencia', 'Cerrar', { duration: 3500 });
+        this.feedback.showSuccess('No se pudieron cargar los contactos de emergencia');
       },
     });
   }
@@ -151,14 +150,14 @@ export class EmergencyContactAdminComponent implements OnInit {
         this.saving = false;
         this.showForm = false;
         this.editingId = null;
-        this.snack.open('Contacto guardado', 'Cerrar', { duration: 3000 });
+        this.feedback.showSuccess('Contacto guardado');
         this.loadContacts();
       },
       error: (err) => {
         this.saving = false;
         const message =
           err?.error?.message ?? err?.error?.detail ?? 'No se pudo guardar el contacto';
-        this.snack.open(message, 'Cerrar', { duration: 4000 });
+        this.feedback.showSuccess(message);
       },
     });
   }

@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { CandidateApplicationApiService } from '../../../core/services/candidate-application-api.service';
 import { CandidateApplicationListItem } from '../../../shared/models/candidate-application.model';
 import { KpiCardComponent } from '../../../shared/components/kpi-card/kpi-card.component';
@@ -10,14 +10,14 @@ import { KpiCardComponent } from '../../../shared/components/kpi-card/kpi-card.c
 @Component({
   selector: 'sh-analysis',
   standalone: true,
-  imports: [MatCardModule, MatProgressSpinnerModule, MatSnackBarModule, KpiCardComponent],
+  imports: [MatCardModule, MatProgressSpinnerModule, KpiCardComponent],
   templateUrl: './analysis.component.html',
   styleUrl: './analysis.component.scss',
 })
 export class AnalysisComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly applicationApi = inject(CandidateApplicationApiService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
 
   readonly positionId = +this.route.parent!.snapshot.paramMap.get('positionId')!;
   loading = true;
@@ -48,10 +48,10 @@ export class AnalysisComponent implements OnInit {
           next: (res) => {
             this.applyStats(res.items, total);
           },
-          error: () => this.onLoadError(),
+          error: (err) => this.onLoadError(),
         });
       },
-      error: () => this.onLoadError(),
+      error: (err) => this.onLoadError(),
     });
   }
 
@@ -75,6 +75,6 @@ export class AnalysisComponent implements OnInit {
   private onLoadError(): void {
     this.loading = false;
     this.loadError = true;
-    this.snack.open('No se pudieron cargar las métricas de análisis', 'Cerrar', { duration: 4000 });
+    this.feedback.showSuccess('No se pudieron cargar las métricas de análisis');
   }
 }

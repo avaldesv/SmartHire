@@ -7,9 +7,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { debounceTime } from 'rxjs';
 import { CandidateApiService } from '../../../core/services/candidate-api.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
@@ -29,7 +29,6 @@ import { TableRowActionsComponent } from '../../../shared/components/table-row-a
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    MatSnackBarModule,
     MatProgressSpinnerModule,
     PageHeaderComponent,
     TableRowActionsComponent,
@@ -39,7 +38,7 @@ import { TableRowActionsComponent } from '../../../shared/components/table-row-a
 })
 export class CandidatesListComponent implements OnInit {
   private readonly candidateService = inject(CandidateApiService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly fb = inject(FormBuilder);
 
   loading = true;
@@ -67,9 +66,9 @@ export class CandidatesListComponent implements OnInit {
         this.total = res.total;
         this.loading = false;
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open('No se pudieron cargar los candidatos', 'Cerrar', { duration: 4000 });
+        this.feedback.showSuccess('No se pudieron cargar los candidatos');
       },
     });
   }

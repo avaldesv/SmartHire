@@ -9,7 +9,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { debounceTime, distinctUntilChanged, switchMap, catchError, map } from 'rxjs';
 import { of } from 'rxjs';
@@ -33,6 +32,7 @@ import { CatalogCompanyDepartment } from '../../../shared/models/catalog-company
 import { TenantContextService } from '../../../core/services/tenant-context.service';
 import { ApiErrorTranslationService } from '../../../core/services/api-error-translation.service';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { SNACK_CLOSE_ACTION } from '../../../core/i18n/nav-labels';
 import {
   USERS_DELETE_CONFIRM_TITLE,
@@ -67,7 +67,6 @@ import { TableRowActionsComponent } from '../../../shared/components/table-row-a
     MatCheckboxModule,
     MatSelectModule,
     MatAutocompleteModule,
-    MatSnackBarModule,
     TableRowActionsComponent,
   ],
   templateUrl: './users-admin.component.html',
@@ -81,7 +80,6 @@ export class UsersAdminComponent implements OnInit {
   private readonly areaService = inject(CatalogCompanyAreaService);
   private readonly departmentService = inject(CatalogCompanyDepartmentService);
   private readonly tenantContext = inject(TenantContextService);
-  private readonly snack = inject(MatSnackBar);
   private readonly feedback = inject(FeedbackDialogService);
   private readonly apiErrors = inject(ApiErrorTranslationService);
   private readonly fb = inject(FormBuilder);
@@ -226,8 +224,8 @@ export class UsersAdminComponent implements OnInit {
         this.loadBranches(ctx.countryId);
         this.loadAreaAndDepartmentOptions();
       },
-      error: () =>
-        this.snack.open(USERS_TENANT_CONTEXT_ERROR, SNACK_CLOSE_ACTION, { duration: 4000 }),
+      error: (err) =>
+        this.feedback.showApiError(err, { fallbackMessage: USERS_TENANT_CONTEXT_ERROR }),
     });
   }
 
@@ -236,8 +234,8 @@ export class UsersAdminComponent implements OnInit {
       next: (options) => {
         this.dialCodeOptions = options;
       },
-      error: () =>
-        this.snack.open(USERS_DIAL_CODES_ERROR, SNACK_CLOSE_ACTION, { duration: 4000 }),
+      error: (err) =>
+        this.feedback.showApiError(err, { fallbackMessage: USERS_DIAL_CODES_ERROR }),
     });
   }
 
@@ -248,7 +246,7 @@ export class UsersAdminComponent implements OnInit {
           .filter((r) => r.isActive !== false)
           .sort((a, b) => a.name.localeCompare(b.name, 'es'));
       },
-      error: () => this.snack.open(USERS_ROLES_ERROR, SNACK_CLOSE_ACTION, { duration: 4000 }),
+      error: (err) => this.feedback.showApiError(err, { fallbackMessage: USERS_ROLES_ERROR }),
     });
   }
 
@@ -263,9 +261,7 @@ export class UsersAdminComponent implements OnInit {
       },
       error: (err) => {
         this.loading = false;
-        this.snack.open(this.apiErrors.translate(err) || USERS_LIST_ERROR, SNACK_CLOSE_ACTION, {
-          duration: 4000,
-        });
+        this.feedback.showApiError(err, { fallbackMessage: USERS_LIST_ERROR });
       },
     });
   }
@@ -359,7 +355,7 @@ export class UsersAdminComponent implements OnInit {
     this.userForm.controls.password.updateValueAndValidity();
     this.userService.getById(row.id).subscribe({
       next: (user) => this.patchUserForm(user),
-      error: () => this.patchUserForm(row),
+      error: (err) => this.patchUserForm(row),
     });
   }
 

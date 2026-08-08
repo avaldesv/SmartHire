@@ -8,8 +8,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { FeedbackDialogService } from '../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../core/i18n/feedback-labels';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
 import { AppPermissions } from '../../core/auth/app-permissions';
 import {
@@ -56,7 +57,6 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSlideToggleModule,
-    MatSnackBarModule,
     MatProgressSpinnerModule,
     MatButtonModule,
     MatIconModule,
@@ -72,7 +72,7 @@ import {
 export class CandidateAccountsAdminComponent implements OnInit {
   private readonly api = inject(CandidateAccountApiService);
   private readonly permissions = inject(PermissionService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly dialog = inject(MatDialog);
 
   loading = true;
@@ -154,9 +154,9 @@ export class CandidateAccountsAdminComponent implements OnInit {
           this.total = total;
           this.loading = false;
         },
-        error: () => {
+        error: (err) => {
           this.loading = false;
-          this.snack.open(CANDIDATE_ACCOUNTS_ERRORS_LIST, CANDIDATE_ACCOUNTS_SNACK_CLOSE, { duration: 3500 });
+          this.feedback.showApiError(err, { fallbackMessage: CANDIDATE_ACCOUNTS_ERRORS_LIST });
         },
       });
   }
@@ -184,7 +184,7 @@ export class CandidateAccountsAdminComponent implements OnInit {
       .afterClosed()
       .pipe(filter((saved): saved is boolean => saved === true))
       .subscribe(() => {
-        this.snack.open(CANDIDATE_ACCOUNTS_SUCCESS_SAVED, CANDIDATE_ACCOUNTS_SNACK_CLOSE, { duration: 2500 });
+        this.feedback.showSuccess(CANDIDATE_ACCOUNTS_SUCCESS_SAVED);
         this.load();
       });
   }
@@ -199,9 +199,9 @@ export class CandidateAccountsAdminComponent implements OnInit {
         row.isActive = updated.isActive;
         this.savingId = null;
       },
-      error: () => {
+      error: (err) => {
         this.savingId = null;
-        this.snack.open(CANDIDATE_ACCOUNTS_ERRORS_ACTIVE, CANDIDATE_ACCOUNTS_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: CANDIDATE_ACCOUNTS_ERRORS_ACTIVE });
         this.load();
       },
     });
@@ -211,21 +211,29 @@ export class CandidateAccountsAdminComponent implements OnInit {
     if (!this.canDelete()) {
       return;
     }
-    if (!confirm(candidateAccountsSoftDeleteConfirm(row.email))) {
-      return;
-    }
-    this.deletingId = row.id;
-    this.api.softDelete(row.id).subscribe({
-      next: () => {
-        this.deletingId = null;
-        this.snack.open(CANDIDATE_ACCOUNTS_SUCCESS_DELETED, CANDIDATE_ACCOUNTS_SNACK_CLOSE, { duration: 2500 });
-        this.load();
-      },
-      error: () => {
-        this.deletingId = null;
-        this.snack.open(CANDIDATE_ACCOUNTS_ERRORS_DELETE, CANDIDATE_ACCOUNTS_SNACK_CLOSE, { duration: 3500 });
-      },
-    });
+    this.feedback
+      .confirm({
+        title: FEEDBACK_GENERIC_WARNING_TITLE,
+        message: candidateAccountsSoftDeleteConfirm(row.email),
+        confirmWarn: true,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
+        this.deletingId = row.id;
+        this.api.softDelete(row.id).subscribe({
+          next: () => {
+            this.deletingId = null;
+            this.feedback.showSuccess(CANDIDATE_ACCOUNTS_SUCCESS_DELETED);
+            this.load();
+          },
+          error: (err) => {
+            this.deletingId = null;
+            this.feedback.showApiError(err, { fallbackMessage: CANDIDATE_ACCOUNTS_ERRORS_DELETE });
+          },
+        });
+      });
   }
 
   openHardDelete(row: CandidateAccountItem): void {
@@ -245,7 +253,7 @@ export class CandidateAccountsAdminComponent implements OnInit {
       .afterClosed()
       .pipe(filter((ok): ok is boolean => ok === true))
       .subscribe(() => {
-        this.snack.open(CANDIDATE_ACCOUNTS_SUCCESS_HARD, CANDIDATE_ACCOUNTS_SNACK_CLOSE, { duration: 2500 });
+        this.feedback.showSuccess(CANDIDATE_ACCOUNTS_SUCCESS_HARD);
         this.load();
       });
   }
