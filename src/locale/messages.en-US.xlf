@@ -2,6 +2,1518 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="es-MX" target-language="en" datatype="plaintext" original="ng2.template">
     <body>
+      <trans-unit id="errors.CATALOG_NOT_FOUND.title" datatype="html">
+        <source>Catálogo no encontrado</source>
+        <target>Catalog entry not found</target>
+      </trans-unit>
+      <trans-unit id="errors.CATALOG_NOT_FOUND.message" datatype="html">
+        <source>Registro de catálogo no encontrado</source>
+        <target>Catalog entry not found</target>
+      </trans-unit>
+      <trans-unit id="errors.CATALOG_TENANT_MISMATCH.title" datatype="html">
+        <source>Catálogo inválido</source>
+        <target>The record does not belong to the current tenant</target>
+      </trans-unit>
+      <trans-unit id="errors.CATALOG_TENANT_MISMATCH.message" datatype="html">
+        <source>El registro no pertenece al tenant actual</source>
+        <target>The record does not belong to the current tenant</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_CATALOG_NOT_FOUND.title" datatype="html">
+        <source>Catálogo no encontrado</source>
+        <target>Catalog entry not found</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_CATALOG_NOT_FOUND.message" datatype="html">
+        <source>Registro de catálogo no encontrado</source>
+        <target>Catalog entry not found</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_CATALOG_TENANT_MISMATCH.title" datatype="html">
+        <source>Catálogo inválido</source>
+        <target>The record does not belong to the current tenant</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_CATALOG_TENANT_MISMATCH.message" datatype="html">
+        <source>El registro de catálogo no pertenece a la compañía activa</source>
+        <target>The catalog record does not belong to the active company</target>
+      </trans-unit>
+      <trans-unit id="errors.BRANCH_COUNTRY_MISMATCH.title" datatype="html">
+        <source>Sucursal inválida</source>
+        <target>Invalid branch</target>
+      </trans-unit>
+      <trans-unit id="errors.BRANCH_COUNTRY_MISMATCH.message" datatype="html">
+        <source>La sucursal no corresponde al país de la empresa activa</source>
+        <target>The branch does not match the active company's country</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_BRANCH_COUNTRY_MISMATCH.title" datatype="html">
+        <source>Sucursal inválida</source>
+        <target>Invalid branch</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_BRANCH_COUNTRY_MISMATCH.message" datatype="html">
+        <source>La sucursal no corresponde al país de la empresa activa</source>
+        <target>The branch does not match the active company's country</target>
+      </trans-unit>
+      <trans-unit id="errors.DOCUMENT_TYPE_NOT_FOUND.title" datatype="html">
+        <source>Tipo no encontrado</source>
+        <target>Requisition type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.DOCUMENT_TYPE_NOT_FOUND.message" datatype="html">
+        <source>Tipo de documento no encontrado</source>
+        <target>Document type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.DOCUMENT_TYPE_INVALID_DEFAULT_SERVICE.title" datatype="html">
+        <source>Servicio inválido</source>
+        <target>Invalid service</target>
+      </trans-unit>
+      <trans-unit id="errors.DOCUMENT_TYPE_INVALID_DEFAULT_SERVICE.message" datatype="html">
+        <source>El servicio predeterminado debe estar entre los servicios seleccionados</source>
+        <target>Default processing service must be in processingServiceIds</target>
+      </trans-unit>
+      <trans-unit id="errors.DOCUMENT_TYPE_DEFAULT_SERVICE_REQUIRED.title" datatype="html">
+        <source>Servicio requerido</source>
+        <target>Service required</target>
+      </trans-unit>
+      <trans-unit id="errors.DOCUMENT_TYPE_DEFAULT_SERVICE_REQUIRED.message" datatype="html">
+        <source>Debe indicar el servicio de procesamiento predeterminado</source>
+        <target>Default processing service is required when services are selected</target>
+      </trans-unit>
+      <trans-unit id="errors.DOCUMENT_TYPE_EXTENSION_INVALID.title" datatype="html">
+        <source>Extensión inválida</source>
+        <target>Invalid extension</target>
+      </trans-unit>
+      <trans-unit id="errors.DOCUMENT_TYPE_EXTENSION_INVALID.message" datatype="html">
+        <source>Extensión de archivo no válida o no accesible: {0}</source>
+        <target>File extension not available: {0}</target>
+      </trans-unit>
+      <trans-unit id="errors.DOCUMENT_TYPE_PROCESSING_SERVICE_INVALID.title" datatype="html">
+        <source>Servicio inválido</source>
+        <target>Invalid service</target>
+      </trans-unit>
+      <trans-unit id="errors.DOCUMENT_TYPE_PROCESSING_SERVICE_INVALID.message" datatype="html">
+        <source>Servicio de procesamiento no válido o no accesible: {0}</source>
+        <target>Processing service not available: {0}</target>
+      </trans-unit>
+      <trans-unit id="errors.FILE_EXTENSION_NOT_FOUND.title" datatype="html">
+        <source>Extensión no encontrada</source>
+        <target>Extensión not found</target>
+      </trans-unit>
+      <trans-unit id="errors.FILE_EXTENSION_NOT_FOUND.message" datatype="html">
+        <source>Extensión de archivo no encontrada</source>
+        <target>File extension not found</target>
+      </trans-unit>
+      <trans-unit id="errors.FILE_EXTENSION_IN_USE.title" datatype="html">
+        <source>Extensión en uso</source>
+        <target>Extension in use</target>
+      </trans-unit>
+      <trans-unit id="errors.FILE_EXTENSION_IN_USE.message" datatype="html">
+        <source>La extensión está en uso por tipos de documento</source>
+        <target>File extension is referenced by document types</target>
+      </trans-unit>
+      <trans-unit id="errors.AI_PROMPT_NOT_FOUND.title" datatype="html">
+        <source>Prompt no encontrado</source>
+        <target>Prompt not found</target>
+      </trans-unit>
+      <trans-unit id="errors.AI_PROMPT_NOT_FOUND.message" datatype="html">
+        <source>Prompt IA no encontrado</source>
+        <target>AI prompt not found</target>
+      </trans-unit>
+      <trans-unit id="errors.AI_PROMPT_CLAVE_DUPLICATE.title" datatype="html">
+        <source>Clave duplicada</source>
+        <target>Duplicate key</target>
+      </trans-unit>
+      <trans-unit id="errors.AI_PROMPT_CLAVE_DUPLICATE.message" datatype="html">
+        <source>La clave del prompt ya existe globalmente</source>
+        <target>Prompt key already exists globally</target>
+      </trans-unit>
+      <trans-unit id="errors.AI_PROMPT_CLAVE_IMMUTABLE.title" datatype="html">
+        <source>Clave inmutable</source>
+        <target>Immutable key</target>
+      </trans-unit>
+      <trans-unit id="errors.AI_PROMPT_CLAVE_IMMUTABLE.message" datatype="html">
+        <source>La clave del prompt no se puede modificar</source>
+        <target>Prompt key cannot be changed</target>
+      </trans-unit>
+      <trans-unit id="errors.AI_PROMPT_TENANT_READ_DENIED.title" datatype="html">
+        <source>Lectura denegada</source>
+        <target>Read denied</target>
+      </trans-unit>
+      <trans-unit id="errors.AI_PROMPT_TENANT_READ_DENIED.message" datatype="html">
+        <source>No puede leer este prompt</source>
+        <target>You cannot read this prompt</target>
+      </trans-unit>
+      <trans-unit id="errors.AI_PROMPT_TENANT_WRITE_DENIED.title" datatype="html">
+        <source>Escritura denegada</source>
+        <target>Write denied</target>
+      </trans-unit>
+      <trans-unit id="errors.AI_PROMPT_TENANT_WRITE_DENIED.message" datatype="html">
+        <source>No puede modificar este prompt</source>
+        <target>You cannot modify this prompt</target>
+      </trans-unit>
+      <trans-unit id="errors.AI_PROMPT_GLOBAL_SCOPE_DENIED.title" datatype="html">
+        <source>Alcance global denegado</source>
+        <target>Global scope denied</target>
+      </trans-unit>
+      <trans-unit id="errors.AI_PROMPT_GLOBAL_SCOPE_DENIED.message" datatype="html">
+        <source>Solo administradores globales pueden crear prompts globales</source>
+        <target>Only global administrators can create global prompts</target>
+      </trans-unit>
+      <trans-unit id="errors.AI_PROMPT_IMPORT_CLAVE_REQUIRED.title" datatype="html">
+        <source>Clave requerida</source>
+        <target>Key required</target>
+      </trans-unit>
+      <trans-unit id="errors.AI_PROMPT_IMPORT_CLAVE_REQUIRED.message" datatype="html">
+        <source>La clave es obligatoria en la fila CSV</source>
+        <target>Prompt key is required in the CSV row</target>
+      </trans-unit>
+      <trans-unit id="errors.AI_PROMPT_IMPORT_INVALID_SCOPE.title" datatype="html">
+        <source>Ámbito inválido</source>
+        <target>Invalid scope</target>
+      </trans-unit>
+      <trans-unit id="errors.AI_PROMPT_IMPORT_INVALID_SCOPE.message" datatype="html">
+        <source>Ámbito inválido en CSV (use GLOBAL o TENANT)</source>
+        <target>Invalid scope in CSV (use GLOBAL or TENANT)</target>
+      </trans-unit>
+      <trans-unit id="errors.PIPELINE_STAGE_NOT_FOUND.title" datatype="html">
+        <source>Etapa no encontrada</source>
+        <target>Pipeline stage not found</target>
+      </trans-unit>
+      <trans-unit id="errors.PIPELINE_STAGE_NOT_FOUND.message" datatype="html">
+        <source>Etapa de pipeline no encontrada</source>
+        <target>Pipeline stage not found</target>
+      </trans-unit>
+      <trans-unit id="errors.PIPELINE_STAGE_SORT_ORDER_REQUIRED.title" datatype="html">
+        <source>Orden requerido</source>
+        <target>Order required</target>
+      </trans-unit>
+      <trans-unit id="errors.PIPELINE_STAGE_SORT_ORDER_REQUIRED.message" datatype="html">
+        <source>El orden es obligatorio</source>
+        <target>Sort order is required</target>
+      </trans-unit>
+      <trans-unit id="errors.PIPELINE_STAGE_SORT_ORDER_DUPLICATE.title" datatype="html">
+        <source>Orden duplicado</source>
+        <target>Duplicate order</target>
+      </trans-unit>
+      <trans-unit id="errors.PIPELINE_STAGE_SORT_ORDER_DUPLICATE.message" datatype="html">
+        <source>Ya existe una etapa con ese orden en el mismo alcance</source>
+        <target>Sort order already exists for this scope</target>
+      </trans-unit>
+      <trans-unit id="errors.PIPELINE_STAGE_REORDER_SCOPE_MISMATCH.title" datatype="html">
+        <source>Alcance inválido</source>
+        <target>Invalid scope</target>
+      </trans-unit>
+      <trans-unit id="errors.PIPELINE_STAGE_REORDER_SCOPE_MISMATCH.message" datatype="html">
+        <source>Todas las etapas del reorder deben pertenecer al mismo alcance</source>
+        <target>All pipeline stages in the reorder must belong to the same scope</target>
+      </trans-unit>
+      <trans-unit id="errors.CATALOG_CSV_INVALID_STRUCTURE.title" datatype="html">
+        <source>CSV inválido</source>
+        <target>Invalid CSV</target>
+      </trans-unit>
+      <trans-unit id="errors.CATALOG_CSV_INVALID_STRUCTURE.message" datatype="html">
+        <source>Estructura CSV inválida: {0}</source>
+        <target>Invalid CSV structure: {0}</target>
+      </trans-unit>
+      <trans-unit id="errors.CATALOG_CSV_FILE_REQUIRED.title" datatype="html">
+        <source>Archivo requerido</source>
+        <target>File required</target>
+      </trans-unit>
+      <trans-unit id="errors.CATALOG_CSV_FILE_REQUIRED.message" datatype="html">
+        <source>El archivo CSV es obligatorio</source>
+        <target>CSV file is required</target>
+      </trans-unit>
+      <trans-unit id="errors.CATALOG_CSV_READ_ERROR.title" datatype="html">
+        <source>Error de lectura</source>
+        <target>Read error</target>
+      </trans-unit>
+      <trans-unit id="errors.CATALOG_CSV_READ_ERROR.message" datatype="html">
+        <source>No se pudo leer el archivo CSV</source>
+        <target>Failed to read CSV file</target>
+      </trans-unit>
+      <trans-unit id="errors.CATALOG_CSV_UNSUPPORTED.title" datatype="html">
+        <source>Catálogo no soportado</source>
+        <target>Catalog not supported</target>
+      </trans-unit>
+      <trans-unit id="errors.CATALOG_CSV_UNSUPPORTED.message" datatype="html">
+        <source>Import/export CSV no soportado para el catálogo: {0}</source>
+        <target>CSV import/export not supported for catalog: {0}</target>
+      </trans-unit>
+      <trans-unit id="errors.CANCELLATION_TYPE_NOT_FOUND.title" datatype="html">
+        <source>Tipo no encontrado</source>
+        <target>Requisition type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.CANCELLATION_TYPE_NOT_FOUND.message" datatype="html">
+        <source>Tipo de cancelación no encontrado</source>
+        <target>Cancellation type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.CANCELLATION_TYPE_CODE_DUPLICATE.title" datatype="html">
+        <source>Código duplicado</source>
+        <target>Duplicate code</target>
+      </trans-unit>
+      <trans-unit id="errors.CANCELLATION_TYPE_CODE_DUPLICATE.message" datatype="html">
+        <source>Ya existe un tipo de cancelación con ese código</source>
+        <target>Cancellation type code already exists</target>
+      </trans-unit>
+      <trans-unit id="errors.CANCELLATION_REASON_NOT_FOUND.title" datatype="html">
+        <source>Motivo no encontrado</source>
+        <target>Rejection reason not found</target>
+      </trans-unit>
+      <trans-unit id="errors.CANCELLATION_REASON_NOT_FOUND.message" datatype="html">
+        <source>Motivo de cancelación no encontrado</source>
+        <target>Cancellation reason not found</target>
+      </trans-unit>
+      <trans-unit id="errors.CANCELLATION_REASON_CODE_DUPLICATE.title" datatype="html">
+        <source>Código duplicado</source>
+        <target>Duplicate code</target>
+      </trans-unit>
+      <trans-unit id="errors.CANCELLATION_REASON_CODE_DUPLICATE.message" datatype="html">
+        <source>Ya existe un motivo de cancelación con ese código para el tipo indicado</source>
+        <target>Cancellation reason code already exists for this type</target>
+      </trans-unit>
+      <trans-unit id="errors.NEIGHBORHOOD_FILTER_REQUIRED.title" datatype="html">
+        <source>Filtro requerido</source>
+        <target>Filter required</target>
+      </trans-unit>
+      <trans-unit id="errors.NEIGHBORHOOD_FILTER_REQUIRED.message" datatype="html">
+        <source>Se requiere postalCode o municipalityId</source>
+        <target>postalCode or municipalityId is required</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_NOT_FOUND.title" datatype="html">
+        <source>Compañía no encontrada</source>
+        <target>Company not found</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_NOT_FOUND.message" datatype="html">
+        <source>Compañía no encontrada</source>
+        <target>Company not found</target>
+      </trans-unit>
+      <trans-unit id="errors.ATS_CONFIG_NOT_FOUND.title" datatype="html">
+        <source>Configuración no encontrada</source>
+        <target>Configuración not found</target>
+      </trans-unit>
+      <trans-unit id="errors.ATS_CONFIG_NOT_FOUND.message" datatype="html">
+        <source>Configuración ATS no encontrada</source>
+        <target>ATS config not found</target>
+      </trans-unit>
+      <trans-unit id="errors.BENEFIT_NOT_FOUND.title" datatype="html">
+        <source>Beneficio no encontrado</source>
+        <target>Benefit not found</target>
+      </trans-unit>
+      <trans-unit id="errors.BENEFIT_NOT_FOUND.message" datatype="html">
+        <source>Beneficio no encontrado</source>
+        <target>Benefit not found</target>
+      </trans-unit>
+      <trans-unit id="errors.BRAND_NOT_FOUND.title" datatype="html">
+        <source>Marca no encontrada</source>
+        <target>Brand not found</target>
+      </trans-unit>
+      <trans-unit id="errors.BRAND_NOT_FOUND.message" datatype="html">
+        <source>Marca no encontrada</source>
+        <target>Brand not found</target>
+      </trans-unit>
+      <trans-unit id="errors.BUSINESSUNIT_NOT_FOUND.title" datatype="html">
+        <source>Unidad no encontrada</source>
+        <target>Business unit not found</target>
+      </trans-unit>
+      <trans-unit id="errors.BUSINESSUNIT_NOT_FOUND.message" datatype="html">
+        <source>Tipo de contrato no encontrado</source>
+        <target>Contract type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.CAREER_NOT_FOUND.title" datatype="html">
+        <source>Carrera no encontrada</source>
+        <target>Career not found</target>
+      </trans-unit>
+      <trans-unit id="errors.CAREER_NOT_FOUND.message" datatype="html">
+        <source>Carrera no encontrada</source>
+        <target>Career not found</target>
+      </trans-unit>
+      <trans-unit id="errors.CATEGORY_NOT_FOUND.title" datatype="html">
+        <source>Categoría no encontrada</source>
+        <target>Knowledge category not found</target>
+      </trans-unit>
+      <trans-unit id="errors.CATEGORY_NOT_FOUND.message" datatype="html">
+        <source>Tipo de contrato no encontrado</source>
+        <target>Contract type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.CHARACTERISTIC_NOT_FOUND.title" datatype="html">
+        <source>Característica no encontrada</source>
+        <target>Characteristic not found</target>
+      </trans-unit>
+      <trans-unit id="errors.CHARACTERISTIC_NOT_FOUND.message" datatype="html">
+        <source>Tipo de contrato no encontrado</source>
+        <target>Contract type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.CLIENT_NOT_FOUND.title" datatype="html">
+        <source>Cliente no encontrado</source>
+        <target>Client not found</target>
+      </trans-unit>
+      <trans-unit id="errors.CLIENT_NOT_FOUND.message" datatype="html">
+        <source>Cliente no encontrado</source>
+        <target>Client not found</target>
+      </trans-unit>
+      <trans-unit id="errors.CONTRACT_TYPE_NOT_FOUND.title" datatype="html">
+        <source>Tipo no encontrado</source>
+        <target>Requisition type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.CONTRACT_TYPE_NOT_FOUND.message" datatype="html">
+        <source>Tipo de contrato no encontrado</source>
+        <target>Contract type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.COUNTRY_NOT_FOUND.title" datatype="html">
+        <source>País no encontrado</source>
+        <target>Country not found</target>
+      </trans-unit>
+      <trans-unit id="errors.COUNTRY_NOT_FOUND.message" datatype="html">
+        <source>País no encontrado</source>
+        <target>Country not found</target>
+      </trans-unit>
+      <trans-unit id="errors.COVERAGECATEGORY_NOT_FOUND.title" datatype="html">
+        <source>Categoría no encontrada</source>
+        <target>Knowledge category not found</target>
+      </trans-unit>
+      <trans-unit id="errors.COVERAGECATEGORY_NOT_FOUND.message" datatype="html">
+        <source>Tipo de contrato no encontrado</source>
+        <target>Contract type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.COVERAGE_TYPE_NOT_FOUND.title" datatype="html">
+        <source>Tipo no encontrado</source>
+        <target>Requisition type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.COVERAGE_TYPE_NOT_FOUND.message" datatype="html">
+        <source>Tipo de cobertura no encontrado</source>
+        <target>Coverage type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.CURRENCY_NOT_FOUND.title" datatype="html">
+        <source>Moneda no encontrada</source>
+        <target>Currency not found</target>
+      </trans-unit>
+      <trans-unit id="errors.CURRENCY_NOT_FOUND.message" datatype="html">
+        <source>Moneda no encontrada</source>
+        <target>Currency not found</target>
+      </trans-unit>
+      <trans-unit id="errors.DISABILITYTYPE_NOT_FOUND.title" datatype="html">
+        <source>Tipo no encontrado</source>
+        <target>Requisition type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.DISABILITYTYPE_NOT_FOUND.message" datatype="html">
+        <source>Tipo de contrato no encontrado</source>
+        <target>Contract type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.EDUCATION_LEVEL_NOT_FOUND.title" datatype="html">
+        <source>Nivel no encontrado</source>
+        <target>Responsibility level not found</target>
+      </trans-unit>
+      <trans-unit id="errors.EDUCATION_LEVEL_NOT_FOUND.message" datatype="html">
+        <source>Nivel educativo no encontrado</source>
+        <target>Education level not found</target>
+      </trans-unit>
+      <trans-unit id="errors.EXPERIENCELEVEL_NOT_FOUND.title" datatype="html">
+        <source>Nivel no encontrado</source>
+        <target>Responsibility level not found</target>
+      </trans-unit>
+      <trans-unit id="errors.EXPERIENCELEVEL_NOT_FOUND.message" datatype="html">
+        <source>Tipo de contrato no encontrado</source>
+        <target>Contract type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.GENDER_NOT_FOUND.title" datatype="html">
+        <source>Género no encontrado</source>
+        <target>Gender not found</target>
+      </trans-unit>
+      <trans-unit id="errors.GENDER_NOT_FOUND.message" datatype="html">
+        <source>Género no encontrado</source>
+        <target>Gender not found</target>
+      </trans-unit>
+      <trans-unit id="errors.GENERAL_CATEGORY_NOT_FOUND.title" datatype="html">
+        <source>Categoría no encontrada</source>
+        <target>Knowledge category not found</target>
+      </trans-unit>
+      <trans-unit id="errors.GENERAL_CATEGORY_NOT_FOUND.message" datatype="html">
+        <source>Categoría general no encontrada</source>
+        <target>General category not found</target>
+      </trans-unit>
+      <trans-unit id="errors.JOB_PORTAL_NOT_FOUND.title" datatype="html">
+        <source>Portal no encontrado</source>
+        <target>Job portal not found</target>
+      </trans-unit>
+      <trans-unit id="errors.JOB_PORTAL_NOT_FOUND.message" datatype="html">
+        <source>Portal de publicación no encontrado</source>
+        <target>Job portal not found</target>
+      </trans-unit>
+      <trans-unit id="errors.KINSHIP_NOT_FOUND.title" datatype="html">
+        <source>Parentesco no encontrado</source>
+        <target>Kinship not found</target>
+      </trans-unit>
+      <trans-unit id="errors.KINSHIP_NOT_FOUND.message" datatype="html">
+        <source>Parentesco no encontrado</source>
+        <target>Kinship not found</target>
+      </trans-unit>
+      <trans-unit id="errors.LANGUAGE_NOT_FOUND.title" datatype="html">
+        <source>Idioma no encontrado</source>
+        <target>Language not found</target>
+      </trans-unit>
+      <trans-unit id="errors.LANGUAGE_NOT_FOUND.message" datatype="html">
+        <source>Idioma no encontrado</source>
+        <target>Language not found</target>
+      </trans-unit>
+      <trans-unit id="errors.LANGUAGE_LEVEL_NOT_FOUND.title" datatype="html">
+        <source>Nivel no encontrado</source>
+        <target>Responsibility level not found</target>
+      </trans-unit>
+      <trans-unit id="errors.LANGUAGE_LEVEL_NOT_FOUND.message" datatype="html">
+        <source>Nivel de idioma no encontrado</source>
+        <target>Language level not found</target>
+      </trans-unit>
+      <trans-unit id="errors.MARITALSTATUS_NOT_FOUND.title" datatype="html">
+        <source>Estado no encontrado</source>
+        <target>State not found</target>
+      </trans-unit>
+      <trans-unit id="errors.MARITALSTATUS_NOT_FOUND.message" datatype="html">
+        <source>Tipo de contrato no encontrado</source>
+        <target>Contract type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.MUNICIPALITY_NOT_FOUND.title" datatype="html">
+        <source>Municipio no encontrado</source>
+        <target>Municipality not found</target>
+      </trans-unit>
+      <trans-unit id="errors.MUNICIPALITY_NOT_FOUND.message" datatype="html">
+        <source>Municipio no encontrado</source>
+        <target>Municipality not found</target>
+      </trans-unit>
+      <trans-unit id="errors.NEIGHBORHOOD_NOT_FOUND.title" datatype="html">
+        <source>Colonia no encontrada</source>
+        <target>Neighborhood not found</target>
+      </trans-unit>
+      <trans-unit id="errors.NEIGHBORHOOD_NOT_FOUND.message" datatype="html">
+        <source>Colonia no encontrada</source>
+        <target>Neighborhood not found</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITIONTYPE_NOT_FOUND.title" datatype="html">
+        <source>Tipo no encontrado</source>
+        <target>Requisition type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITIONTYPE_NOT_FOUND.message" datatype="html">
+        <source>Tipo de contrato no encontrado</source>
+        <target>Contract type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.REJECTION_REASON_NOT_FOUND.title" datatype="html">
+        <source>Motivo no encontrado</source>
+        <target>Rejection reason not found</target>
+      </trans-unit>
+      <trans-unit id="errors.REJECTION_REASON_NOT_FOUND.message" datatype="html">
+        <source>Motivo de rechazo no encontrado</source>
+        <target>Rejection reason not found</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUIREMENT_NOT_FOUND.title" datatype="html">
+        <source>Requisito no encontrado</source>
+        <target>Requirement not found</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUIREMENT_NOT_FOUND.message" datatype="html">
+        <source>Tipo de contrato no encontrado</source>
+        <target>Contract type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_TYPE_NOT_FOUND.title" datatype="html">
+        <source>Tipo no encontrado</source>
+        <target>Requisition type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_TYPE_NOT_FOUND.message" datatype="html">
+        <source>Tipo de requisición no encontrado</source>
+        <target>Requisition type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.RESPONSIBILITYLEVEL_NOT_FOUND.title" datatype="html">
+        <source>Nivel no encontrado</source>
+        <target>Responsibility level not found</target>
+      </trans-unit>
+      <trans-unit id="errors.RESPONSIBILITYLEVEL_NOT_FOUND.message" datatype="html">
+        <source>Tipo de contrato no encontrado</source>
+        <target>Contract type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.SHIFT_NOT_FOUND.title" datatype="html">
+        <source>Turno no encontrado</source>
+        <target>Shift not found</target>
+      </trans-unit>
+      <trans-unit id="errors.SHIFT_NOT_FOUND.message" datatype="html">
+        <source>Turno no encontrado</source>
+        <target>Shift not found</target>
+      </trans-unit>
+      <trans-unit id="errors.STATE_NOT_FOUND.title" datatype="html">
+        <source>Estado no encontrado</source>
+        <target>State not found</target>
+      </trans-unit>
+      <trans-unit id="errors.STATE_NOT_FOUND.message" datatype="html">
+        <source>Estado no encontrado</source>
+        <target>State not found</target>
+      </trans-unit>
+      <trans-unit id="errors.TOOL_NOT_FOUND.title" datatype="html">
+        <source>Herramienta no encontrada</source>
+        <target>Tool not found</target>
+      </trans-unit>
+      <trans-unit id="errors.TOOL_NOT_FOUND.message" datatype="html">
+        <source>Tipo de contrato no encontrado</source>
+        <target>Contract type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.WORKPLACE_NOT_FOUND.title" datatype="html">
+        <source>Lugar no encontrado</source>
+        <target>Workplace not found</target>
+      </trans-unit>
+      <trans-unit id="errors.WORKPLACE_NOT_FOUND.message" datatype="html">
+        <source>Tipo de contrato no encontrado</source>
+        <target>Contract type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.WORKSCHEDULE_NOT_FOUND.title" datatype="html">
+        <source>Horario no encontrado</source>
+        <target>Work schedule not found</target>
+      </trans-unit>
+      <trans-unit id="errors.WORKSCHEDULE_NOT_FOUND.message" datatype="html">
+        <source>Tipo de contrato no encontrado</source>
+        <target>Contract type not found</target>
+      </trans-unit>
+      <trans-unit id="errors.NOTIFICATION_TEMPLATE_NOT_FOUND.title" datatype="html">
+        <source>Plantilla no encontrada</source>
+        <target>Notification template not found</target>
+      </trans-unit>
+      <trans-unit id="errors.NOTIFICATION_TEMPLATE_NOT_FOUND.message" datatype="html">
+        <source>Plantilla de notificación no encontrada</source>
+        <target>Notification template not found</target>
+      </trans-unit>
+      <trans-unit id="errors.NOTIFICATION_TEMPLATE_CHANNELS_REQUIRED.title" datatype="html">
+        <source>Canales requeridos</source>
+        <target>Channels required</target>
+      </trans-unit>
+      <trans-unit id="errors.NOTIFICATION_TEMPLATE_CHANNELS_REQUIRED.message" datatype="html">
+        <source>Debe seleccionar al menos un canal</source>
+        <target>At least one channel must be selected</target>
+      </trans-unit>
+      <trans-unit id="errors.NOTIFICATION_TEMPLATE_CHANNEL_EXISTS.title" datatype="html">
+        <source>Canal en conflicto</source>
+        <target>Channel conflict</target>
+      </trans-unit>
+      <trans-unit id="errors.NOTIFICATION_TEMPLATE_CHANNEL_EXISTS.message" datatype="html">
+        <source>Ya existe una plantilla para la acción {0} en el canal: {1}</source>
+        <target>A template already exists for action {0} on channel: {1}</target>
+      </trans-unit>
+      <trans-unit id="errors.NOTIFICATION_OUTBOX_INVALID_STATUS.title" datatype="html">
+        <source>Estado inválido</source>
+        <target>Invalid status</target>
+      </trans-unit>
+      <trans-unit id="errors.NOTIFICATION_OUTBOX_INVALID_STATUS.message" datatype="html">
+        <source>Estado de outbox no válido</source>
+        <target>Invalid outbox status</target>
+      </trans-unit>
+      <trans-unit id="errors.NOTIFICATION_OUTBOX_NOT_FOUND.title" datatype="html">
+        <source>Outbox no encontrado</source>
+        <target>Outbox entry not found</target>
+      </trans-unit>
+      <trans-unit id="errors.NOTIFICATION_OUTBOX_NOT_FOUND.message" datatype="html">
+        <source>Registro de outbox no encontrado</source>
+        <target>Outbox entry not found</target>
+      </trans-unit>
+      <trans-unit id="errors.NOTIFICATION_OUTBOX_NOT_FAILED.title" datatype="html">
+        <source>Reintento no permitido</source>
+        <target>Retry not allowed</target>
+      </trans-unit>
+      <trans-unit id="errors.NOTIFICATION_OUTBOX_NOT_FAILED.message" datatype="html">
+        <source>Solo se puede reintentar un envío en estado FAILED</source>
+        <target>Only failed outbox entries can be retried</target>
+      </trans-unit>
+      <trans-unit id="errors.NOTIFICATION_ACTION_NOT_FOUND.title" datatype="html">
+        <source>Acción no encontrada</source>
+        <target>Notification action not found</target>
+      </trans-unit>
+      <trans-unit id="errors.NOTIFICATION_ACTION_NOT_FOUND.message" datatype="html">
+        <source>Acción de notificación no encontrada</source>
+        <target>Notification action not found</target>
+      </trans-unit>
+      <trans-unit id="errors.NOTIFICATION_INBOX_OWNER_REQUIRED.title" datatype="html">
+        <source>Sesión requerida</source>
+        <target>Session required</target>
+      </trans-unit>
+      <trans-unit id="errors.NOTIFICATION_INBOX_OWNER_REQUIRED.message" datatype="html">
+        <source>Se requiere usuario autenticado</source>
+        <target>Authenticated user is required</target>
+      </trans-unit>
+      <trans-unit id="errors.USER_NOTIFICATION_NOT_FOUND.title" datatype="html">
+        <source>Notificación no encontrada</source>
+        <target>Notification not found</target>
+      </trans-unit>
+      <trans-unit id="errors.USER_NOTIFICATION_NOT_FOUND.message" datatype="html">
+        <source>Notificación no encontrada</source>
+        <target>Notification not found</target>
+      </trans-unit>
+      <trans-unit id="errors.USER_NOTIFICATION_ACCESS_DENIED.title" datatype="html">
+        <source>Acceso denegado</source>
+        <target>Access denied</target>
+      </trans-unit>
+      <trans-unit id="errors.USER_NOTIFICATION_ACCESS_DENIED.message" datatype="html">
+        <source>No tiene permiso para acceder a esta notificación</source>
+        <target>You do not have permission to access this notification</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_KNOWLEDGE_CATEGORY_NOT_FOUND.title" datatype="html">
+        <source>Categoría no encontrada</source>
+        <target>Knowledge category not found</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_KNOWLEDGE_CATEGORY_NOT_FOUND.message" datatype="html">
+        <source>Categoría de conocimiento no encontrada</source>
+        <target>Knowledge category not found</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_TAG_NOT_FOUND.title" datatype="html">
+        <source>Etiqueta no encontrada</source>
+        <target>Questionnaire tag not found</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_TAG_NOT_FOUND.message" datatype="html">
+        <source>Etiqueta de cuestionario no encontrada</source>
+        <target>Questionnaire tag not found</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_TENANT_READ_DENIED.title" datatype="html">
+        <source>Lectura denegada</source>
+        <target>Read denied</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_TENANT_READ_DENIED.message" datatype="html">
+        <source>No puede leer este registro de cuestionario</source>
+        <target>You cannot read this questionnaire record</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_TENANT_WRITE_DENIED.title" datatype="html">
+        <source>Escritura denegada</source>
+        <target>Write denied</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_TENANT_WRITE_DENIED.message" datatype="html">
+        <source>No puede modificar este registro de cuestionario</source>
+        <target>You cannot modify this questionnaire record</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_GLOBAL_SCOPE_DENIED.title" datatype="html">
+        <source>Alcance global denegado</source>
+        <target>Global scope denied</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_GLOBAL_SCOPE_DENIED.message" datatype="html">
+        <source>Solo administradores globales pueden crear registros globales</source>
+        <target>Only global administrators can create global records</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_KNOWLEDGE_CATEGORY_INVALID_PARENT.title" datatype="html">
+        <source>Categoría padre inválida</source>
+        <target>Invalid parent knowledge category</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_KNOWLEDGE_CATEGORY_INVALID_PARENT.message" datatype="html">
+        <source>Categoría padre inválida</source>
+        <target>Invalid parent knowledge category</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_QUESTION_NOT_FOUND.title" datatype="html">
+        <source>Pregunta no encontrada</source>
+        <target>Pregunta not found</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_QUESTION_NOT_FOUND.message" datatype="html">
+        <source>Pregunta no encontrada</source>
+        <target>Pregunta not found</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_QUESTION_LOCKED.title" datatype="html">
+        <source>Pregunta bloqueada</source>
+        <target>Question locked</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_QUESTION_LOCKED.message" datatype="html">
+        <source>La pregunta está bloqueada y no puede modificarse</source>
+        <target>Question is locked and cannot be modified</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_QUESTION_INVALID_TYPE.title" datatype="html">
+        <source>Tipo inválido</source>
+        <target>Invalid type</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_QUESTION_INVALID_TYPE.message" datatype="html">
+        <source>Tipo de pregunta inválido</source>
+        <target>Invalid question type</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_QUESTION_INVALID_OPTIONS.title" datatype="html">
+        <source>Opciones inválidas</source>
+        <target>Invalid options</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_QUESTION_INVALID_OPTIONS.message" datatype="html">
+        <source>Opciones inválidas para el tipo de pregunta</source>
+        <target>Invalid options for question type</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_QUESTIONNAIRE_NOT_FOUND.title" datatype="html">
+        <source>Cuestionario no encontrado</source>
+        <target>Cuestionario not found</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_QUESTIONNAIRE_NOT_FOUND.message" datatype="html">
+        <source>Cuestionario no encontrado</source>
+        <target>Cuestionario not found</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_QUESTIONNAIRE_INVALID_STATUS.title" datatype="html">
+        <source>Estado inválido</source>
+        <target>Invalid status</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_QUESTIONNAIRE_INVALID_STATUS.message" datatype="html">
+        <source>Estado de cuestionario inválido</source>
+        <target>Invalid questionnaire status</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_QUESTIONNAIRE_PUBLISH_DENIED.title" datatype="html">
+        <source>Publicación denegada</source>
+        <target>Publication denied</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_QUESTIONNAIRE_PUBLISH_DENIED.message" datatype="html">
+        <source>Se requiere permiso para publicar</source>
+        <target>Publish permission required</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_QUESTIONNAIRE_PUBLISH_NO_QUESTIONS.title" datatype="html">
+        <source>Sin preguntas</source>
+        <target>No questions</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_QUESTIONNAIRE_PUBLISH_NO_QUESTIONS.message" datatype="html">
+        <source>El cuestionario debe tener al menos una pregunta para publicar</source>
+        <target>Questionnaire must have at least one question to publish</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_QUESTIONNAIRE_PUBLISHED_LOCKED.title" datatype="html">
+        <source>Cuestionario publicado</source>
+        <target>Published questionnaire</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_QUESTIONNAIRE_PUBLISHED_LOCKED.message" datatype="html">
+        <source>El cuestionario publicado no puede modificarse</source>
+        <target>Published questionnaire cannot be modified</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_QUESTIONNAIRE_ARCHIVED_LOCKED.title" datatype="html">
+        <source>Cuestionario archivado</source>
+        <target>Archived questionnaire</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_QUESTIONNAIRE_ARCHIVED_LOCKED.message" datatype="html">
+        <source>El cuestionario archivado no puede modificarse</source>
+        <target>Archived questionnaire cannot be modified</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_QUESTIONNAIRE_ARCHIVE_DENIED.title" datatype="html">
+        <source>Archivo denegado</source>
+        <target>Archive denied</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_QUESTIONNAIRE_ARCHIVE_DENIED.message" datatype="html">
+        <source>Se requiere permiso para archivar</source>
+        <target>Archive permission required</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_QUESTIONNAIRE_ARCHIVE_INVALID_STATUS.title" datatype="html">
+        <source>Estado inválido para archivar</source>
+        <target>Invalid status for archive</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_QUESTIONNAIRE_ARCHIVE_INVALID_STATUS.message" datatype="html">
+        <source>Solo los cuestionarios publicados pueden archivarse</source>
+        <target>Only published questionnaires can be archived</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_EXAM_NOT_FOUND.title" datatype="html">
+        <source>Examen no encontrado</source>
+        <target>Examen not found</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_EXAM_NOT_FOUND.message" datatype="html">
+        <source>Examen no encontrado</source>
+        <target>Examen not found</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_EXAM_QUESTIONNAIRE_NOT_PUBLISHED.title" datatype="html">
+        <source>Cuestionario no publicado</source>
+        <target>Questionnaire not published</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_EXAM_QUESTIONNAIRE_NOT_PUBLISHED.message" datatype="html">
+        <source>El cuestionario debe estar publicado</source>
+        <target>Questionnaire must be published</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_EXAM_COMPANY_REQUIRED.title" datatype="html">
+        <source>Compañía requerida</source>
+        <target>Company required</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_EXAM_COMPANY_REQUIRED.message" datatype="html">
+        <source>El companyId es obligatorio</source>
+        <target>companyId is required</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_EXAM_INVALID_MAX_ATTEMPTS.title" datatype="html">
+        <source>Max intentos inválido</source>
+        <target>Invalid max attempts</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_EXAM_INVALID_MAX_ATTEMPTS.message" datatype="html">
+        <source>Max intentos debe ser nulo o mayor que cero</source>
+        <target>Max attempts must be null or greater than zero</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_EXAM_INVALID_NUMBER_OF_QUESTIONS.title" datatype="html">
+        <source>Número de preguntas inválido</source>
+        <target>Invalid number of questions</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_EXAM_INVALID_NUMBER_OF_QUESTIONS.message" datatype="html">
+        <source>El número de preguntas supera el banco del cuestionario</source>
+        <target>Number of questions exceeds questionnaire pool</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_EXAM_INSUFFICIENT_ELIGIBLE_QUESTIONS.title" datatype="html">
+        <source>Preguntas insuficientes</source>
+        <target>Insufficient questions</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_EXAM_INSUFFICIENT_ELIGIBLE_QUESTIONS.message" datatype="html">
+        <source>Solo hay {0} preguntas elegibles tras los filtros; el examen solicita {1}</source>
+        <target>Only {0} eligible questions after filters; exam requests {1}</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_EXAM_INVALID_GENERATION_CONFIG.title" datatype="html">
+        <source>Configuración inválida</source>
+        <target>Invalid configuration</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_EXAM_INVALID_GENERATION_CONFIG.message" datatype="html">
+        <source>JSON de generation_config inválido</source>
+        <target>Invalid generation_config JSON</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_EXAM_INVALID_DATE_RANGE.title" datatype="html">
+        <source>Rango de fechas inválido</source>
+        <target>Invalid date range</target>
+      </trans-unit>
+      <trans-unit id="errors.QUESTIONNAIRE_EXAM_INVALID_DATE_RANGE.message" datatype="html">
+        <source>La fecha fin debe ser posterior a la fecha inicio</source>
+        <target>End date must be after start date</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_NOT_FOUND.title" datatype="html">
+        <source>Posición no encontrada</source>
+        <target>Position not found</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_NOT_FOUND.message" datatype="html">
+        <source>La requisición solicitada no existe.</source>
+        <target>The requested requisition does not exist</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_ALREADY_CANCELLED.title" datatype="html">
+        <source>Requisición cancelada</source>
+        <target>Requisition cancelled</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_ALREADY_CANCELLED.message" datatype="html">
+        <source>La requisición ya está cancelada.</source>
+        <target>The requisition is already cancelled</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_RECRUITER_GROUP_REQUIRED.title" datatype="html">
+        <source>Grupo requerido</source>
+        <target>Group required</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_RECRUITER_GROUP_REQUIRED.message" datatype="html">
+        <source>Debe seleccionar un grupo de reclutadores.</source>
+        <target>A recruiter group must be selected</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_ASSIGNED_USER_REQUIRED.title" datatype="html">
+        <source>Reclutador requerido</source>
+        <target>Recruiter required</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_ASSIGNED_USER_REQUIRED.message" datatype="html">
+        <source>Debe indicar el reclutador asignado.</source>
+        <target>An assigned recruiter must be specified</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_ALREADY_REQUESTED.title" datatype="html">
+        <source>Cancelación solicitada</source>
+        <target>Cancellation requested</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_ALREADY_REQUESTED.message" datatype="html">
+        <source>La cancelación ya fue solicitada.</source>
+        <target>Cancellation has already been requested</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_INVALID_STATUS_FOR_CANCELLATION.title" datatype="html">
+        <source>Estado inválido</source>
+        <target>Invalid status</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_INVALID_STATUS_FOR_CANCELLATION.message" datatype="html">
+        <source>Solo se puede solicitar cancelación en posiciones en borrador o activas.</source>
+        <target>Cancellation can only be requested for draft or active positions</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_NOT_PENDING.title" datatype="html">
+        <source>Sin solicitud pendiente</source>
+        <target>No pending request</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_NOT_PENDING.message" datatype="html">
+        <source>No hay solicitud de cancelación pendiente.</source>
+        <target>There is no pending cancellation request</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_NOT_AUTHORIZED.title" datatype="html">
+        <source>Cancelación no autorizada</source>
+        <target>Cancellation not authorized</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_NOT_AUTHORIZED.message" datatype="html">
+        <source>La cancelación no está autorizada.</source>
+        <target>Cancellation is not authorized</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_REQUEST_FORBIDDEN.title" datatype="html">
+        <source>Solicitud no permitida</source>
+        <target>Request not allowed</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_REQUEST_FORBIDDEN.message" datatype="html">
+        <source>Solo el reclutador asignado o el gerente del grupo pueden solicitar cancelación.</source>
+        <target>Only the assigned recruiter or group manager can request cancellation</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_AUTHORIZE_FORBIDDEN.title" datatype="html">
+        <source>Autorización denegada</source>
+        <target>Authorization denied</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_AUTHORIZE_FORBIDDEN.message" datatype="html">
+        <source>No tiene permiso para autorizar esta cancelación.</source>
+        <target>You are not allowed to authorize this cancellation</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_SUPERVISOR_REQUIRED.title" datatype="html">
+        <source>Supervisor requerido</source>
+        <target>Supervisor required</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_SUPERVISOR_REQUIRED.message" datatype="html">
+        <source>El gerente debe tener supervisor asignado para solicitar cancelación.</source>
+        <target>The manager must have a supervisor assigned to request cancellation</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_REASON_REQUIRED.title" datatype="html">
+        <source>Motivo requerido</source>
+        <target>Reason required</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_REASON_REQUIRED.message" datatype="html">
+        <source>El motivo de cancelación es obligatorio.</source>
+        <target>Cancellation reason is required</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_TYPE_REASON_REQUIRED.title" datatype="html">
+        <source>Datos requeridos</source>
+        <target>Data required</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_TYPE_REASON_REQUIRED.message" datatype="html">
+        <source>El tipo y el motivo de cancelación son obligatorios.</source>
+        <target>Cancellation type and reason are required</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_TYPE_INVALID.title" datatype="html">
+        <source>Tipo inválido</source>
+        <target>Invalid type</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_TYPE_INVALID.message" datatype="html">
+        <source>El tipo de cancelación no existe o no está activo.</source>
+        <target>The cancellation type does not exist or is inactive</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_REASON_INVALID.title" datatype="html">
+        <source>Motivo inválido</source>
+        <target>Invalid reason</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_REASON_INVALID.message" datatype="html">
+        <source>El motivo de cancelación no existe o no está activo.</source>
+        <target>The cancellation reason does not exist or is inactive</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_REASON_TYPE_MISMATCH.title" datatype="html">
+        <source>Motivo incompatible</source>
+        <target>Incompatible reason</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_REASON_TYPE_MISMATCH.message" datatype="html">
+        <source>El motivo no pertenece al tipo de cancelación seleccionado.</source>
+        <target>The reason does not belong to the selected cancellation type</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_EVIDENCE_REQUIRED.title" datatype="html">
+        <source>Evidencia requerida</source>
+        <target>Evidence required</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_EVIDENCE_REQUIRED.message" datatype="html">
+        <source>El archivo de evidencia es obligatorio.</source>
+        <target>Evidence file is required</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_EVIDENCE_TOO_LARGE.title" datatype="html">
+        <source>Archivo demasiado grande</source>
+        <target>File too large</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_EVIDENCE_TOO_LARGE.message" datatype="html">
+        <source>El archivo de evidencia supera el máximo de 10 MB.</source>
+        <target>Evidence file exceeds the 10 MB limit</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_EVIDENCE_TYPE_NOT_ALLOWED.title" datatype="html">
+        <source>Tipo no permitido</source>
+        <target>Type not allowed</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_EVIDENCE_TYPE_NOT_ALLOWED.message" datatype="html">
+        <source>Tipo de archivo no permitido. Use PDF, JPG, PNG, DOC, DOCX, XLS o XLSX.</source>
+        <target>File type not allowed. Use PDF, JPG, PNG, DOC, DOCX, XLS or XLSX</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_EVIDENCE_READ_FAILED.title" datatype="html">
+        <source>Error de lectura</source>
+        <target>Read error</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_CANCELLATION_EVIDENCE_READ_FAILED.message" datatype="html">
+        <source>No se pudo leer el archivo de evidencia.</source>
+        <target>Could not read the evidence file</target>
+      </trans-unit>
+      <trans-unit id="errors.WRONG_TENANT.title" datatype="html">
+        <source>Acceso denegado</source>
+        <target>Access denied</target>
+      </trans-unit>
+      <trans-unit id="errors.WRONG_TENANT.message" datatype="html">
+        <source>No puede acceder a esta compañía.</source>
+        <target>You cannot access this company</target>
+      </trans-unit>
+      <trans-unit id="errors.ACCESS_DENIED.title" datatype="html">
+        <source>Acceso denegado</source>
+        <target>Access denied</target>
+      </trans-unit>
+      <trans-unit id="errors.ACCESS_DENIED.message" datatype="html">
+        <source>No tiene permiso para realizar esta acción.</source>
+        <target>You are not allowed to perform this action</target>
+      </trans-unit>
+      <trans-unit id="errors.VALIDATION_ERROR.title" datatype="html">
+        <source>Error de validación</source>
+        <target>Validation error</target>
+      </trans-unit>
+      <trans-unit id="errors.VALIDATION_ERROR.message" datatype="html">
+        <source>Revise los campos marcados e intente de nuevo.</source>
+        <target>Please review the highlighted fields and try again</target>
+      </trans-unit>
+      <trans-unit id="errors.PORTAL_DOCUMENT_TOO_LARGE.title" datatype="html">
+        <source>Archivo demasiado grande</source>
+        <target>File too large</target>
+      </trans-unit>
+      <trans-unit id="errors.PORTAL_DOCUMENT_TOO_LARGE.message" datatype="html">
+        <source>El archivo supera el tamaño máximo permitido.</source>
+        <target>The file exceeds the maximum allowed size</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_FIELD_NOT_FOUND.title" datatype="html">
+        <source>Campo no encontrado</source>
+        <target>Campo not found</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_FIELD_NOT_FOUND.message" datatype="html">
+        <source>Definición de campo no encontrada.</source>
+        <target>Form field definition not found</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_FIELD_KEY_EXISTS.title" datatype="html">
+        <source>Clave duplicada</source>
+        <target>Duplicate key</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_FIELD_KEY_EXISTS.message" datatype="html">
+        <source>La clave de campo ya existe para el tenant.</source>
+        <target>Field key already exists for this tenant</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_INVALID_DATA_SOURCE.title" datatype="html">
+        <source>Fuente inválida</source>
+        <target>Invalid source</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_INVALID_DATA_SOURCE.message" datatype="html">
+        <source>Fuente de datos no permitida.</source>
+        <target>Data source is not allowed</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_BUILTIN_LOCKED.title" datatype="html">
+        <source>Campo built-in</source>
+        <target>Built-in field</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_BUILTIN_LOCKED.message" datatype="html">
+        <source>Campo built-in: solo se permiten etiquetas y validadores.</source>
+        <target>Built-in field: only labels and validators can be changed</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_BUILTIN_DELETE.title" datatype="html">
+        <source>Eliminación no permitida</source>
+        <target>Deletion not allowed</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_BUILTIN_DELETE.message" datatype="html">
+        <source>No se puede eliminar un campo built-in.</source>
+        <target>Built-in fields cannot be deleted</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_CONFIG_NOT_FOUND.title" datatype="html">
+        <source>Configuración no encontrada</source>
+        <target>Configuración not found</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_CONFIG_NOT_FOUND.message" datatype="html">
+        <source>Configuración de formulario no encontrada.</source>
+        <target>Form configuration not found</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_CONFIG_NOT_PUBLISHED.title" datatype="html">
+        <source>Sin configuración publicada</source>
+        <target>No published configuration</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_CONFIG_NOT_PUBLISHED.message" datatype="html">
+        <source>No hay configuración publicada para el alcance solicitado.</source>
+        <target>No published configuration found for the requested scope</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_CONFIG_NOT_DRAFT.title" datatype="html">
+        <source>Solo borrador editable</source>
+        <target>Draft only editable</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_CONFIG_NOT_DRAFT.message" datatype="html">
+        <source>Solo se pueden editar configuraciones en borrador.</source>
+        <target>Only draft configurations can be edited</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_CONFIG_PUBLISHED_DELETE.title" datatype="html">
+        <source>Eliminación no permitida</source>
+        <target>Deletion not allowed</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_CONFIG_PUBLISHED_DELETE.message" datatype="html">
+        <source>Solo se pueden eliminar configuraciones en borrador.</source>
+        <target>Only draft configurations can be deleted</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_CONFIG_CLONE_INVALID.title" datatype="html">
+        <source>Clonación no permitida</source>
+        <target>Cloning not allowed</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_CONFIG_CLONE_INVALID.message" datatype="html">
+        <source>Solo se pueden clonar configuraciones publicadas o deprecadas.</source>
+        <target>Only published or deprecated configurations can be cloned</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_PUBLISH_INVALID.title" datatype="html">
+        <source>Publicación inválida</source>
+        <target>Invalid publication</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_PUBLISH_INVALID.message" datatype="html">
+        <source>Validación de publicación fallida: {0}.</source>
+        <target>Publish validation failed: {0}</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_WRONG_TENANT.title" datatype="html">
+        <source>Tenant inválido</source>
+        <target>Invalid tenant</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_WRONG_TENANT.message" datatype="html">
+        <source>Tenant inválido.</source>
+        <target>Invalid tenant</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_REQUIRED_FIELD_MISSING.title" datatype="html">
+        <source>Campo obligatorio</source>
+        <target>Required field</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_REQUIRED_FIELD_MISSING.message" datatype="html">
+        <source>Campo obligatorio faltante: {0}.</source>
+        <target>Required field missing: {0}</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_READ_ONLY_FIELD_CHANGED.title" datatype="html">
+        <source>Campo de solo lectura</source>
+        <target>Read-only field</target>
+      </trans-unit>
+      <trans-unit id="errors.REQUISITION_FORM_READ_ONLY_FIELD_CHANGED.message" datatype="html">
+        <source>Campo de solo lectura no puede modificarse: {0}.</source>
+        <target>Read-only field cannot be changed: {0}</target>
+      </trans-unit>
+      <trans-unit id="errors.PUBLICATION_POSITION_NOT_FOUND.title" datatype="html">
+        <source>Posición no encontrada</source>
+        <target>Position not found</target>
+      </trans-unit>
+      <trans-unit id="errors.PUBLICATION_POSITION_NOT_FOUND.message" datatype="html">
+        <source>Posición no encontrada.</source>
+        <target>Position not found</target>
+      </trans-unit>
+      <trans-unit id="errors.PUBLICATION_POSITION_NOT_ACTIVE.title" datatype="html">
+        <source>Posición inactiva</source>
+        <target>Inactive position</target>
+      </trans-unit>
+      <trans-unit id="errors.PUBLICATION_POSITION_NOT_ACTIVE.message" datatype="html">
+        <source>La posición debe estar activa para generar la publicación.</source>
+        <target>Position must be active to generate the publication</target>
+      </trans-unit>
+      <trans-unit id="errors.PUBLICATION_INVALID_FORMAT.title" datatype="html">
+        <source>Formato inválido</source>
+        <target>Invalid format</target>
+      </trans-unit>
+      <trans-unit id="errors.PUBLICATION_INVALID_FORMAT.message" datatype="html">
+        <source>Formato de publicación inválido; use JPG o PDF.</source>
+        <target>Invalid publication format; use JPG or PDF</target>
+      </trans-unit>
+      <trans-unit id="errors.PUBLICATION_BROWSERLESS_ERROR.title" datatype="html">
+        <source>Error de generación</source>
+        <target>Generation error</target>
+      </trans-unit>
+      <trans-unit id="errors.PUBLICATION_BROWSERLESS_ERROR.message" datatype="html">
+        <source>No se pudo generar el archivo de publicación en este momento.</source>
+        <target>Unable to generate the publication file at this time</target>
+      </trans-unit>
+      <trans-unit id="errors.PUBLICATION_WHATSAPP_INVALID_PHONE.title" datatype="html">
+        <source>Número inválido</source>
+        <target>Invalid number</target>
+      </trans-unit>
+      <trans-unit id="errors.PUBLICATION_WHATSAPP_INVALID_PHONE.message" datatype="html">
+        <source>Número de WhatsApp inválido; use prefijo de país sin + y solo dígitos.</source>
+        <target>Invalid WhatsApp number; use country code without + and digits only</target>
+      </trans-unit>
+      <trans-unit id="errors.PUBLICATION_MEDIA_URL_UNREACHABLE.title" datatype="html">
+        <source>URL no alcanzable</source>
+        <target>URL unreachable</target>
+      </trans-unit>
+      <trans-unit id="errors.PUBLICATION_MEDIA_URL_UNREACHABLE.message" datatype="html">
+        <source>No hay una URL HTTP alcanzable para la imagen; configure storage S3 (no local).</source>
+        <target>No reachable HTTP image URL; configure S3 storage (not local)</target>
+      </trans-unit>
+      <trans-unit id="errors.PUBLICATION_MAIL_NOT_CONFIGURED.title" datatype="html">
+        <source>Correo no configurado</source>
+        <target>Email not configured</target>
+      </trans-unit>
+      <trans-unit id="errors.PUBLICATION_MAIL_NOT_CONFIGURED.message" datatype="html">
+        <source>El envío por correo no está configurado o está deshabilitado.</source>
+        <target>Email sending is not configured or is disabled</target>
+      </trans-unit>
+      <trans-unit id="errors.PUBLICATION_MAIL_SEND_ERROR.title" datatype="html">
+        <source>Error de envío</source>
+        <target>Send error</target>
+      </trans-unit>
+      <trans-unit id="errors.PUBLICATION_MAIL_SEND_ERROR.message" datatype="html">
+        <source>No se pudo enviar la publicación por correo en este momento.</source>
+        <target>Unable to send the publication email at this time</target>
+      </trans-unit>
+      <trans-unit id="errors.RECRUITER_GROUP_NOT_FOUND.title" datatype="html">
+        <source>Grupo no encontrado</source>
+        <target>Responsible manager user was not found</target>
+      </trans-unit>
+      <trans-unit id="errors.RECRUITER_GROUP_NOT_FOUND.message" datatype="html">
+        <source>Grupo reclutador no encontrado</source>
+        <target>Recruiter group not found</target>
+      </trans-unit>
+      <trans-unit id="errors.RECRUITER_GROUP_MANAGER_REQUIRED.title" datatype="html">
+        <source>Gerente requerido</source>
+        <target>Manager required</target>
+      </trans-unit>
+      <trans-unit id="errors.RECRUITER_GROUP_MANAGER_REQUIRED.message" datatype="html">
+        <source>El gerente responsable es obligatorio</source>
+        <target>Responsible manager is required</target>
+      </trans-unit>
+      <trans-unit id="errors.RECRUITER_GROUP_MANAGER_NOT_FOUND.title" datatype="html">
+        <source>Gerente no encontrado</source>
+        <target>Manager not found</target>
+      </trans-unit>
+      <trans-unit id="errors.RECRUITER_GROUP_MANAGER_NOT_FOUND.message" datatype="html">
+        <source>No se encontró el usuario gerente responsable</source>
+        <target>Responsible manager user was not found</target>
+      </trans-unit>
+      <trans-unit id="errors.RECRUITER_GROUP_MANAGER_INACTIVE.title" datatype="html">
+        <source>Gerente inactivo</source>
+        <target>Inactive manager</target>
+      </trans-unit>
+      <trans-unit id="errors.RECRUITER_GROUP_MANAGER_INACTIVE.message" datatype="html">
+        <source>El gerente responsable debe ser un usuario activo</source>
+        <target>Responsible manager must be an active user</target>
+      </trans-unit>
+      <trans-unit id="errors.RECRUITER_GROUP_MANAGER_TENANT_MISMATCH.title" datatype="html">
+        <source>Gerente inválido</source>
+        <target>Invalid manager</target>
+      </trans-unit>
+      <trans-unit id="errors.RECRUITER_GROUP_MANAGER_TENANT_MISMATCH.message" datatype="html">
+        <source>El gerente responsable debe pertenecer al tenant actual</source>
+        <target>Responsible manager must belong to the current tenant</target>
+      </trans-unit>
+      <trans-unit id="errors.RECRUITER_GROUP_RECRUITER_NOT_FOUND.title" datatype="html">
+        <source>Reclutador no encontrado</source>
+        <target>Recruiter not found</target>
+      </trans-unit>
+      <trans-unit id="errors.RECRUITER_GROUP_RECRUITER_NOT_FOUND.message" datatype="html">
+        <source>No se encontró reclutador para el correo {0}</source>
+        <target>Recruiter user not found for email {0}</target>
+      </trans-unit>
+      <trans-unit id="errors.RECRUITER_GROUP_RECRUITER_INACTIVE.title" datatype="html">
+        <source>Reclutador inactivo</source>
+        <target>Inactive recruiter</target>
+      </trans-unit>
+      <trans-unit id="errors.RECRUITER_GROUP_RECRUITER_INACTIVE.message" datatype="html">
+        <source>El reclutador debe ser un usuario activo: {0}</source>
+        <target>Recruiter must be an active user: {0}</target>
+      </trans-unit>
+      <trans-unit id="errors.RECRUITER_GROUP_RECRUITER_TENANT_MISMATCH.title" datatype="html">
+        <source>Reclutador inválido</source>
+        <target>Invalid recruiter</target>
+      </trans-unit>
+      <trans-unit id="errors.RECRUITER_GROUP_RECRUITER_TENANT_MISMATCH.message" datatype="html">
+        <source>El reclutador debe pertenecer al tenant actual: {0}</source>
+        <target>Recruiter must belong to the current tenant: {0}</target>
+      </trans-unit>
+      <trans-unit id="errors.RECRUITER_GROUP_MANAGER_IS_RECRUITER.title" datatype="html">
+        <source>Gerente inválido</source>
+        <target>Invalid manager</target>
+      </trans-unit>
+      <trans-unit id="errors.RECRUITER_GROUP_MANAGER_IS_RECRUITER.message" datatype="html">
+        <source>El gerente responsable no puede ser reclutador del mismo grupo</source>
+        <target>The responsible manager cannot also be a recruiter in the same group</target>
+      </trans-unit>
+      <trans-unit id="errors.RECRUITER_GROUP_DUPLICATE_RECRUITER.title" datatype="html">
+        <source>Reclutador duplicado</source>
+        <target>Duplicate recruiter</target>
+      </trans-unit>
+      <trans-unit id="errors.RECRUITER_GROUP_DUPLICATE_RECRUITER.message" datatype="html">
+        <source>No se permiten reclutadores duplicados en el mismo grupo</source>
+        <target>Duplicate recruiter users are not allowed in the same group</target>
+      </trans-unit>
+      <trans-unit id="errors.RECRUITER_GROUP_IMPORT_MANAGER_EMAIL_REQUIRED.title" datatype="html">
+        <source>Correo requerido</source>
+        <target>Email required</target>
+      </trans-unit>
+      <trans-unit id="errors.RECRUITER_GROUP_IMPORT_MANAGER_EMAIL_REQUIRED.message" datatype="html">
+        <source>El correo del gerente es obligatorio en la fila CSV</source>
+        <target>Manager email is required in the CSV row</target>
+      </trans-unit>
+      <trans-unit id="errors.RECRUITER_GROUP_IMPORT_MANAGER_EMAIL_NOT_FOUND.title" datatype="html">
+        <source>Gerente no encontrado</source>
+        <target>Manager not found</target>
+      </trans-unit>
+      <trans-unit id="errors.RECRUITER_GROUP_IMPORT_MANAGER_EMAIL_NOT_FOUND.message" datatype="html">
+        <source>No se encontró usuario activo del tenant para el correo del gerente: {0}</source>
+        <target>Manager not found</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_USER_USERNAME_ALREADY_EXISTS.title" datatype="html">
+        <source>Usuario duplicado</source>
+        <target>Duplicate user</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_USER_USERNAME_ALREADY_EXISTS.message" datatype="html">
+        <source>El nombre de usuario ya está registrado en el sistema</source>
+        <target>Username is already registered in the system</target>
+      </trans-unit>
+      <trans-unit id="errors.ROLE_NOT_FOUND.title" datatype="html">
+        <source>Rol no encontrado</source>
+        <target>Rol not found</target>
+      </trans-unit>
+      <trans-unit id="errors.ROLE_NOT_FOUND.message" datatype="html">
+        <source>Rol no encontrado</source>
+        <target>Rol not found</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_ROLE_NOT_FOUND.title" datatype="html">
+        <source>Rol no encontrado</source>
+        <target>Rol not found</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_ROLE_NOT_FOUND.message" datatype="html">
+        <source>Rol no encontrado</source>
+        <target>Rol not found</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_ROLE_TENANT_MISMATCH.title" datatype="html">
+        <source>Rol inválido</source>
+        <target>Invalid role</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_ROLE_TENANT_MISMATCH.message" datatype="html">
+        <source>El rol no pertenece a la compañía del usuario</source>
+        <target>The role does not belong to the user's company</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_INVALID_GLOBAL_ADMIN_ROLES.title" datatype="html">
+        <source>Roles inválidos</source>
+        <target>Invalid roles</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_INVALID_GLOBAL_ADMIN_ROLES.message" datatype="html">
+        <source>Usuario global admin debe tener únicamente el rol GLOBAL_ADMIN</source>
+        <target>Global admin users must have only the GLOBAL_ADMIN role</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_GLOBAL_ADMIN_ROLE_NOT_ALLOWED.title" datatype="html">
+        <source>Rol no permitido</source>
+        <target>Role not allowed</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_GLOBAL_ADMIN_ROLE_NOT_ALLOWED.message" datatype="html">
+        <source>Usuarios tenant no pueden tener el rol GLOBAL_ADMIN</source>
+        <target>Tenant users cannot have the GLOBAL_ADMIN role</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_GLOBAL_ADMIN_FORBIDDEN.title" datatype="html">
+        <source>Operación no permitida</source>
+        <target>Operation not allowed</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_GLOBAL_ADMIN_FORBIDDEN.message" datatype="html">
+        <source>Solo un administrador global puede crear usuarios global admin</source>
+        <target>Only a global administrator can create global admin users</target>
+      </trans-unit>
+      <trans-unit id="errors.ROLE_DELETE_FORBIDDEN.title" datatype="html">
+        <source>Eliminación no permitida</source>
+        <target>Deletion not allowed</target>
+      </trans-unit>
+      <trans-unit id="errors.ROLE_DELETE_FORBIDDEN.message" datatype="html">
+        <source>El rol GLOBAL_ADMIN no puede eliminarse</source>
+        <target>The GLOBAL_ADMIN role cannot be deleted</target>
+      </trans-unit>
+      <trans-unit id="errors.USER_CONTEXT_REQUIRED.title" datatype="html">
+        <source>Sesión requerida</source>
+        <target>Session required</target>
+      </trans-unit>
+      <trans-unit id="errors.USER_CONTEXT_REQUIRED.message" datatype="html">
+        <source>Usuario autenticado requerido</source>
+        <target>Authenticated user required</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_COUNTRY_NOT_CONFIGURED.title" datatype="html">
+        <source>País no configurado</source>
+        <target>Country not configured</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_COUNTRY_NOT_CONFIGURED.message" datatype="html">
+        <source>La empresa no tiene país configurado</source>
+        <target>The company does not have a country configured</target>
+      </trans-unit>
+      <trans-unit id="errors.INVALID_PHONE_COUNTRY_CODE.title" datatype="html">
+        <source>Código telefónico inválido</source>
+        <target>Invalid phone country code</target>
+      </trans-unit>
+      <trans-unit id="errors.INVALID_PHONE_COUNTRY_CODE.message" datatype="html">
+        <source>El código telefónico debe iniciar con + y contener de 1 a 4 dígitos</source>
+        <target>Phone country code must start with + and contain 1 to 4 digits</target>
+      </trans-unit>
+      <trans-unit id="errors.USER_HEADER_TENANT_MISMATCH.title" datatype="html">
+        <source>Tenant incorrecto</source>
+        <target>Incorrect tenant</target>
+      </trans-unit>
+      <trans-unit id="errors.USER_HEADER_TENANT_MISMATCH.message" datatype="html">
+        <source>Cambie la empresa activa en el header para editar este usuario</source>
+        <target>Switch the active company in the header to edit this user</target>
+      </trans-unit>
+      <trans-unit id="errors.FUNCTIONALITY_NOT_FOUND.title" datatype="html">
+        <source>Funcionalidad no encontrada</source>
+        <target>Feature not found</target>
+      </trans-unit>
+      <trans-unit id="errors.FUNCTIONALITY_NOT_FOUND.message" datatype="html">
+        <source>No encontrado</source>
+        <target>Not found</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_USER_NOT_FOUND.title" datatype="html">
+        <source>Usuario no encontrado</source>
+        <target>User not found</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_USER_NOT_FOUND.message" datatype="html">
+        <source>El usuario solicitado no existe.</source>
+        <target>The requested user does not exist</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_COUNTRY_NOT_FOUND.title" datatype="html">
+        <source>País no encontrado</source>
+        <target>Country not found</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_COUNTRY_NOT_FOUND.message" datatype="html">
+        <source>El país seleccionado no existe.</source>
+        <target>The selected country does not exist</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_WRONG_TENANT.title" datatype="html">
+        <source>Acceso denegado</source>
+        <target>Access denied</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_WRONG_TENANT.message" datatype="html">
+        <source>No puede acceder a esta compañía.</source>
+        <target>You cannot access this company</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_WRONG_TENANT_ACCESS.title" datatype="html">
+        <source>Acceso denegado</source>
+        <target>Access denied</target>
+      </trans-unit>
+      <trans-unit id="errors.ERROR_WRONG_TENANT_ACCESS.message" datatype="html">
+        <source>No tiene permiso para acceder a este tenant.</source>
+        <target>You do not have permission to access this tenant</target>
+      </trans-unit>
+      <trans-unit id="errors.PORTAL_LANGUAGE_NOT_FOUND.title" datatype="html">
+        <source>Idioma no encontrado</source>
+        <target>Language not found</target>
+      </trans-unit>
+      <trans-unit id="errors.PORTAL_LANGUAGE_NOT_FOUND.message" datatype="html">
+        <source>El idioma del portal no está disponible.</source>
+        <target>The portal language is not available</target>
+      </trans-unit>
+      <trans-unit id="errors.USER_NOT_AUTHENTICATED.title" datatype="html">
+        <source>Sesión requerida</source>
+        <target>Session required</target>
+      </trans-unit>
+      <trans-unit id="errors.USER_NOT_AUTHENTICATED.message" datatype="html">
+        <source>Debe iniciar sesión para continuar.</source>
+        <target>You must sign in to continue</target>
+      </trans-unit>
+      <trans-unit id="errors.USERNAME_ALREADY_EXISTS.title" datatype="html">
+        <source>Usuario duplicado</source>
+        <target>Duplicate user</target>
+      </trans-unit>
+      <trans-unit id="errors.USERNAME_ALREADY_EXISTS.message" datatype="html">
+        <source>El nombre de usuario ya existe.</source>
+        <target>The username already exists</target>
+      </trans-unit>
+      <trans-unit id="errors.EMAIL_ALREADY_EXISTS.title" datatype="html">
+        <source>Correo duplicado</source>
+        <target>Duplicate email</target>
+      </trans-unit>
+      <trans-unit id="errors.EMAIL_ALREADY_EXISTS.message" datatype="html">
+        <source>El correo ya está registrado.</source>
+        <target>The email is already registered</target>
+      </trans-unit>
+      <trans-unit id="errors.SUPERVISOR_NOT_FOUND.title" datatype="html">
+        <source>Supervisor no encontrado</source>
+        <target>Supervisor not found</target>
+      </trans-unit>
+      <trans-unit id="errors.SUPERVISOR_NOT_FOUND.message" datatype="html">
+        <source>El supervisor indicado no existe.</source>
+        <target>The specified supervisor does not exist</target>
+      </trans-unit>
+      <trans-unit id="errors.SUPERVISOR_TENANT_MISMATCH.title" datatype="html">
+        <source>Supervisor inválido</source>
+        <target>Invalid supervisor</target>
+      </trans-unit>
+      <trans-unit id="errors.SUPERVISOR_TENANT_MISMATCH.message" datatype="html">
+        <source>El supervisor no pertenece al tenant.</source>
+        <target>The supervisor does not belong to the tenant</target>
+      </trans-unit>
+      <trans-unit id="errors.SUPERVISOR_SELF_REFERENCE.title" datatype="html">
+        <source>Supervisor inválido</source>
+        <target>Invalid supervisor</target>
+      </trans-unit>
+      <trans-unit id="errors.SUPERVISOR_SELF_REFERENCE.message" datatype="html">
+        <source>Un usuario no puede ser su propio supervisor.</source>
+        <target>A user cannot be their own supervisor</target>
+      </trans-unit>
+      <trans-unit id="errors.UNAUTHORIZED.title" datatype="html">
+        <source>No autorizado</source>
+        <target>Invalid session</target>
+      </trans-unit>
+      <trans-unit id="errors.UNAUTHORIZED.message" datatype="html">
+        <source>No tiene permiso para realizar esta acción.</source>
+        <target>You are not allowed to perform this action</target>
+      </trans-unit>
       <trans-unit id="audit.pageTitle" datatype="html">
         <source>Bitácoras de auditoría</source>
         <target>Audit logs</target>
@@ -37,6 +1549,150 @@
       <trans-unit id="auth.login.ssoFailed" datatype="html">
         <source>No se pudo completar el inicio de sesión con SSO. Intente de nuevo o use usuario y contraseña.</source>
         <target>SSO sign-in could not be completed. Try again or use username and password.</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.pageTitle" datatype="html">
+        <source>Cuentas de candidatos</source>
+        <target>Cuentas de candidatos</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.pageSubtitle" datatype="html">
+        <source>Administración de cuentas del portal candidato</source>
+        <target>Administración de cuentas del portal candidato</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.new" datatype="html">
+        <source>Nueva cuenta</source>
+        <target>Nueva cuenta</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.empty" datatype="html">
+        <source>No hay cuentas de candidatos</source>
+        <target>No hay cuentas de candidatos</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.filter.email" datatype="html">
+        <source>Buscar email</source>
+        <target>Buscar email</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.col.email" datatype="html">
+        <source>Email</source>
+        <target>Email</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.col.candidate" datatype="html">
+        <source>Candidato</source>
+        <target>Candidato</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.col.status" datatype="html">
+        <source>Estado registro</source>
+        <target>Estado registro</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.col.active" datatype="html">
+        <source>Activo</source>
+        <target>Active</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.col.lastLogin" datatype="html">
+        <source>Último acceso</source>
+        <target>Último acceso</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.dialog.create" datatype="html">
+        <source>Crear cuenta</source>
+        <target>Crear cuenta</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.dialog.edit" datatype="html">
+        <source>Editar cuenta</source>
+        <target>Editar cuenta</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.field.email" datatype="html">
+        <source>Email del candidato</source>
+        <target>Email del candidato</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.field.sendMail" datatype="html">
+        <source>Enviar email de registro</source>
+        <target>Enviar email de registro</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.field.mustChange" datatype="html">
+        <source>Debe cambiar contraseña</source>
+        <target>Debe cambiar contraseña</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.field.registerStatus" datatype="html">
+        <source>Estado de registro</source>
+        <target>Estado de registro</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.status.pending" datatype="html">
+        <source>Pendiente email</source>
+        <target>Pendiente email</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.status.email" datatype="html">
+        <source>Email validado</source>
+        <target>Email validado</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.status.phone" datatype="html">
+        <source>Teléfono validado</source>
+        <target>Teléfono validado</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.hard.title" datatype="html">
+        <source>Eliminar permanentemente</source>
+        <target>Eliminar permanentemente</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.hard.hint" datatype="html">
+        <source>Escribe el email de la cuenta para confirmar el borrado irreversible.</source>
+        <target>Escribe el email de la cuenta para confirmar el borrado irreversible.</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.hard.confirm" datatype="html">
+        <source>Eliminar definitivamente</source>
+        <target>Eliminar definitivamente</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.hard.button" datatype="html">
+        <source>Borrar permanente</source>
+        <target>Borrar permanente</target>
+      </trans-unit>
+      <trans-unit id="common.cancel" datatype="html">
+        <source>Cancelar</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.save" datatype="html">
+        <source>Guardar</source>
+        <target>Save</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.saving" datatype="html">
+        <source>Guardando…</source>
+        <target>Guardando…</target>
+      </trans-unit>
+      <trans-unit id="common.close" datatype="html">
+        <source>Cerrar</source>
+        <target>Close</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.errors.list" datatype="html">
+        <source>No se pudo cargar el listado</source>
+        <target>No se pudo cargar el listado</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.errors.save" datatype="html">
+        <source>No se pudo guardar la cuenta</source>
+        <target>Could not save la cuenta</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.errors.active" datatype="html">
+        <source>No se pudo actualizar el estado activo</source>
+        <target>No se pudo actualizar el estado activo</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.errors.delete" datatype="html">
+        <source>No se pudo eliminar la cuenta</source>
+        <target>No se pudo eliminar la cuenta</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.errors.hard" datatype="html">
+        <source>No se pudo eliminar permanentemente</source>
+        <target>No se pudo eliminar permanentemente</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.success.saved" datatype="html">
+        <source>Cuenta guardada</source>
+        <target>Cuenta guardada</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.success.deleted" datatype="html">
+        <source>Cuenta eliminada (soft)</source>
+        <target>Cuenta eliminada (soft)</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.success.hard" datatype="html">
+        <source>Cuenta eliminada permanentemente</source>
+        <target>Cuenta eliminada permanentemente</target>
+      </trans-unit>
+      <trans-unit id="candidateAccounts.confirm.soft" datatype="html">
+        <source>¿Eliminar (soft) la cuenta <x id="email" equiv-text="email" />?</source>
+        <target>¿Eliminar (soft) la cuenta <x id="email" equiv-text="email" />?</target>
       </trans-unit>
       <trans-unit id="catalogs.category.generales" datatype="html">
         <source>Generales</source>
@@ -220,11 +1876,11 @@
       </trans-unit>
       <trans-unit id="catalogs.entry.cancellationType" datatype="html">
         <source>Tipo de cancelación</source>
-        <target>Cancellation type</target>
+        <target>Tipo de cancelación</target>
       </trans-unit>
       <trans-unit id="catalogs.entry.cancellationReason" datatype="html">
         <source>Motivos de cancelación</source>
-        <target>Cancellation reasons</target>
+        <target>Motivos de cancelación</target>
       </trans-unit>
       <trans-unit id="catalogs.entry.brand" datatype="html">
         <source>Marca</source>
@@ -360,7 +2016,7 @@
       </trans-unit>
       <trans-unit id="catalogs.column.cancellationType" datatype="html">
         <source>Tipo de cancelación</source>
-        <target>Cancellation type</target>
+        <target>Tipo de cancelación</target>
       </trans-unit>
       <trans-unit id="catalogs.field.defaultPortalLanguage" datatype="html">
         <source>Idioma default del portal</source>
@@ -448,11 +2104,11 @@
       </trans-unit>
       <trans-unit id="catalogs.field.cancellationType" datatype="html">
         <source>Tipo de cancelación</source>
-        <target>Cancellation type</target>
+        <target>Tipo de cancelación</target>
       </trans-unit>
       <trans-unit id="catalogs.field.allCancellationTypes" datatype="html">
         <source>Todos los tipos</source>
-        <target>All types</target>
+        <target>Todos los tipos</target>
       </trans-unit>
       <trans-unit id="catalogImport.title" datatype="html">
         <source>Importar <x id="catalogLabel" equiv-text="catalogLabel" />
@@ -471,10 +2127,6 @@
       <trans-unit id="catalogImport.downloadErrors" datatype="html">
         <source>Descargar reporte de errores</source>
         <target>Download error report</target>
-      </trans-unit>
-      <trans-unit id="common.close" datatype="html">
-        <source>Cerrar</source>
-        <target>Close</target>
       </trans-unit>
       <trans-unit id="catalogImport.validate" datatype="html">
         <source>Validar</source>
@@ -624,27 +2276,27 @@
       </trans-unit>
       <trans-unit id="catalogs.cancellationType.newButton" datatype="html">
         <source>Nuevo tipo de cancelación</source>
-        <target>New cancellation type</target>
+        <target>Nuevo tipo de cancelación</target>
       </trans-unit>
       <trans-unit id="catalogs.cancellationType.editTitle" datatype="html">
         <source>Editar tipo de cancelación</source>
-        <target>Edit cancellation type</target>
+        <target>Editar tipo de cancelación</target>
       </trans-unit>
       <trans-unit id="catalogs.cancellationType.newTitle" datatype="html">
         <source>Nuevo tipo de cancelación</source>
-        <target>New cancellation type</target>
+        <target>Nuevo tipo de cancelación</target>
       </trans-unit>
       <trans-unit id="catalogs.cancellationReason.newButton" datatype="html">
         <source>Nuevo motivo de cancelación</source>
-        <target>New cancellation reason</target>
+        <target>Nuevo motivo de cancelación</target>
       </trans-unit>
       <trans-unit id="catalogs.cancellationReason.editTitle" datatype="html">
         <source>Editar motivo de cancelación</source>
-        <target>Edit cancellation reason</target>
+        <target>Editar motivo de cancelación</target>
       </trans-unit>
       <trans-unit id="catalogs.cancellationReason.newTitle" datatype="html">
         <source>Nuevo motivo de cancelación</source>
-        <target>New cancellation reason</target>
+        <target>Nuevo motivo de cancelación</target>
       </trans-unit>
       <trans-unit id="catalogs.company.newButton" datatype="html">
         <source>Nueva empresa</source>
@@ -885,86 +2537,6 @@
       <trans-unit id="catalogs.recruiterGroup.newTitle" datatype="html">
         <source>Nuevo grupo</source>
         <target>New group</target>
-      </trans-unit>
-      <trans-unit id="catalogs.field.responsibleManager" datatype="html">
-        <source>Gerente responsable</source>
-        <target>Responsible manager</target>
-      </trans-unit>
-      <trans-unit id="catalogs.field.recruiters" datatype="html">
-        <source>Reclutadores</source>
-        <target>Recruiters</target>
-      </trans-unit>
-      <trans-unit id="catalogs.recruiterGroup.loadingUsers" datatype="html">
-        <source>Cargando usuarios…</source>
-        <target>Loading users…</target>
-      </trans-unit>
-      <trans-unit id="catalogs.recruiterGroup.validation.managerRequired" datatype="html">
-        <source>Seleccione un gerente responsable</source>
-        <target>Select a responsible manager</target>
-      </trans-unit>
-      <trans-unit id="catalogs.recruiterGroup.validation.managerNotInRecruiters" datatype="html">
-        <source>El gerente no puede estar en la lista de reclutadores</source>
-        <target>The manager cannot also be listed as a recruiter</target>
-      </trans-unit>
-      <trans-unit id="catalogs.recruiterGroup.section.groupData" datatype="html">
-        <source>Datos del grupo</source>
-        <target>Group details</target>
-      </trans-unit>
-      <trans-unit id="catalogs.recruiterGroup.section.people" datatype="html">
-        <source>Personas</source>
-        <target>People</target>
-      </trans-unit>
-      <trans-unit id="catalogs.recruiterGroup.managerSearchPlaceholder" datatype="html">
-        <source>Buscar gerente por nombre o email</source>
-        <target>Search manager by name or email</target>
-      </trans-unit>
-      <trans-unit id="catalogs.recruiterGroup.managerHint" datatype="html">
-        <source>Escribe al menos 2 caracteres para buscar</source>
-        <target>Type at least 2 characters to search</target>
-      </trans-unit>
-      <trans-unit id="catalogs.recruiterGroup.clearManager" datatype="html">
-        <source>Quitar gerente</source>
-        <target>Clear manager</target>
-      </trans-unit>
-      <trans-unit id="catalogs.recruiterGroup.available" datatype="html">
-        <source>Disponibles</source>
-        <target>Available</target>
-      </trans-unit>
-      <trans-unit id="catalogs.recruiterGroup.selected" datatype="html">
-        <source>Seleccionados</source>
-        <target>Selected</target>
-      </trans-unit>
-      <trans-unit id="catalogs.recruiterGroup.availableSearchPlaceholder" datatype="html">
-        <source>Buscar usuarios para agregar</source>
-        <target>Search users to add</target>
-      </trans-unit>
-      <trans-unit id="catalogs.recruiterGroup.add" datatype="html">
-        <source>Agregar</source>
-        <target>Add</target>
-      </trans-unit>
-      <trans-unit id="catalogs.recruiterGroup.remove" datatype="html">
-        <source>Quitar</source>
-        <target>Remove</target>
-      </trans-unit>
-      <trans-unit id="catalogs.recruiterGroup.addSelected" datatype="html">
-        <source>Agregar seleccionados</source>
-        <target>Add selected</target>
-      </trans-unit>
-      <trans-unit id="catalogs.recruiterGroup.removeSelected" datatype="html">
-        <source>Quitar seleccionados</source>
-        <target>Remove selected</target>
-      </trans-unit>
-      <trans-unit id="catalogs.recruiterGroup.noAvailable" datatype="html">
-        <source>No hay resultados. Ajusta la búsqueda.</source>
-        <target>No results. Adjust your search.</target>
-      </trans-unit>
-      <trans-unit id="catalogs.recruiterGroup.noSelected" datatype="html">
-        <source>Sin reclutadores seleccionados</source>
-        <target>No recruiters selected</target>
-      </trans-unit>
-      <trans-unit id="catalogs.recruiterGroup.saveError" datatype="html">
-        <source>No se pudo guardar el grupo</source>
-        <target>Could not save the group</target>
       </trans-unit>
       <trans-unit id="catalogs.jobPortal.newButton" datatype="html">
         <source>Nuevo portal</source>
@@ -1214,9 +2786,101 @@
         <source>Borrador</source>
         <target>Draft</target>
       </trans-unit>
+      <trans-unit id="status.active" datatype="html">
+        <source>Activa</source>
+        <target>Active</target>
+      </trans-unit>
       <trans-unit id="status.pendingCancellation" datatype="html">
         <source>Cancelación pendiente</source>
         <target>Pending cancellation</target>
+      </trans-unit>
+      <trans-unit id="status.cancellationAuthorized" datatype="html">
+        <source>Cancelación autorizada</source>
+        <target>Cancelación autorizada</target>
+      </trans-unit>
+      <trans-unit id="status.cancelled" datatype="html">
+        <source>Cancelada</source>
+        <target>Cancelada</target>
+      </trans-unit>
+      <trans-unit id="cvBulk.action" datatype="html">
+        <source>Cargar CVs</source>
+        <target>Cargar CVs</target>
+      </trans-unit>
+      <trans-unit id="cvBulk.dialogTitle" datatype="html">
+        <source>Carga masiva de Currículo</source>
+        <target>Carga masiva de Currículo</target>
+      </trans-unit>
+      <trans-unit id="cvBulk.notifyEmail" datatype="html">
+        <source>Notificar por Email</source>
+        <target>Notificar por Email</target>
+      </trans-unit>
+      <trans-unit id="cvBulk.notifyWhatsapp" datatype="html">
+        <source>Notificar por WhatsApp</source>
+        <target>Notificar por WhatsApp</target>
+      </trans-unit>
+      <trans-unit id="cvBulk.pickFiles" datatype="html">
+        <source>Seleccionar archivos</source>
+        <target>Seleccionar archivos</target>
+      </trans-unit>
+      <trans-unit id="cvBulk.pickFolder" datatype="html">
+        <source>Seleccionar carpeta</source>
+        <target>Seleccionar carpeta</target>
+      </trans-unit>
+      <trans-unit id="cvBulk.start" datatype="html">
+        <source>Iniciar carga</source>
+        <target>Iniciar carga</target>
+      </trans-unit>
+      <trans-unit id="cvBulk.cancel" datatype="html">
+        <source>Cancelar</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="cvBulk.close" datatype="html">
+        <source>Cerrar</source>
+        <target>Close</target>
+      </trans-unit>
+      <trans-unit id="cvBulk.hint" datatype="html">
+        <source>Formatos: PDF, DOC, DOCX, JPG. Máx. 10 MB por archivo. Procesamiento asíncrono.</source>
+        <target>Formatos: PDF, DOC, DOCX, JPG. Máx. 10 MB por archivo. Procesamiento asíncrono.</target>
+      </trans-unit>
+      <trans-unit id="cvBulk.progressHint" datatype="html">
+        <source>La carga puede tomar varios minutos. Puedes cerrar este diálogo; te notificaremos al finalizar.</source>
+        <target>La carga puede tomar varios minutos. Puedes cerrar este diálogo; te notificaremos al finalizar.</target>
+      </trans-unit>
+      <trans-unit id="cvBulk.progressTitle" datatype="html">
+        <source>Procesamiento de CVs</source>
+        <target>Procesamiento de CVs</target>
+      </trans-unit>
+      <trans-unit id="cvBulk.noValidFiles" datatype="html">
+        <source>No hay archivos válidos para cargar</source>
+        <target>No hay archivos válidos para cargar</target>
+      </trans-unit>
+      <trans-unit id="cvBulk.uploadError" datatype="html">
+        <source>Error al subir los CVs. Intenta de nuevo.</source>
+        <target>Error al subir los CVs. Intenta de nuevo.</target>
+      </trans-unit>
+      <trans-unit id="cvBulk.clear" datatype="html">
+        <source>Quitar selección</source>
+        <target>Quitar selección</target>
+      </trans-unit>
+      <trans-unit id="cvBulk.report.success" datatype="html">
+        <source>Exitosos</source>
+        <target>Exitosos</target>
+      </trans-unit>
+      <trans-unit id="cvBulk.report.failed" datatype="html">
+        <source>Fallidos</source>
+        <target>Fallidos</target>
+      </trans-unit>
+      <trans-unit id="cvBulk.report.pending" datatype="html">
+        <source>Pendientes</source>
+        <target>Pendientes</target>
+      </trans-unit>
+      <trans-unit id="cvBulk.status.done" datatype="html">
+        <source>Finalizado</source>
+        <target>Finalizado</target>
+      </trans-unit>
+      <trans-unit id="cvBulk.status.running" datatype="html">
+        <source>En proceso</source>
+        <target>En proceso</target>
       </trans-unit>
       <trans-unit id="dashboard.welcome" datatype="html">
         <source>Bienvenido,</source>
@@ -1287,8 +2951,8 @@
         <target>All</target>
       </trans-unit>
       <trans-unit id="dashboard.filter.dateFrom" datatype="html">
-        <source>Fecha inicio</source>
-        <target>Start date</target>
+        <source>Fecha de creación</source>
+        <target>Fecha de creación</target>
       </trans-unit>
       <trans-unit id="dashboard.filter.dateTo" datatype="html">
         <source>Fecha fin</source>
@@ -1303,8 +2967,8 @@
         <target>Requisition</target>
       </trans-unit>
       <trans-unit id="dashboard.column.position" datatype="html">
-        <source>Puesto</source>
-        <target>Position</target>
+        <source>Posición</source>
+        <target>Posición</target>
       </trans-unit>
       <trans-unit id="dashboard.column.ot" datatype="html">
         <source>OT</source>
@@ -1387,16 +3051,28 @@
         <target>Request cancellation</target>
       </trans-unit>
       <trans-unit id="dashboard.action.approveCancellation" datatype="html">
-        <source>Aprobar cancelación</source>
-        <target>Approve cancellation</target>
+        <source>Autorizar cancelación</source>
+        <target>Autorizar cancelación</target>
       </trans-unit>
       <trans-unit id="dashboard.action.rejectCancellation" datatype="html">
         <source>Rechazar solicitud</source>
         <target>Reject request</target>
       </trans-unit>
+      <trans-unit id="dashboard.action.executeCancellation" datatype="html">
+        <source>Ejecutar cancelación</source>
+        <target>Ejecutar cancelación</target>
+      </trans-unit>
       <trans-unit id="dashboard.action.cancelDirect" datatype="html">
         <source>Cancelar directamente</source>
         <target>Cancel directly</target>
+      </trans-unit>
+      <trans-unit id="dashboard.action.reassign" datatype="html">
+        <source>Reasignar reclutador</source>
+        <target>Reasignar reclutador</target>
+      </trans-unit>
+      <trans-unit id="dashboard.action.history" datatype="html">
+        <source>Ver historial</source>
+        <target>Ver historial</target>
       </trans-unit>
       <trans-unit id="dashboard.paginatorAria" datatype="html">
         <source>Paginación de solicitudes</source>
@@ -1435,12 +3111,20 @@
         <target>Could not request cancellation</target>
       </trans-unit>
       <trans-unit id="dashboard.success.approveCancellation" datatype="html">
-        <source>Cancelación aprobada</source>
-        <target>Cancellation approved</target>
+        <source>Cancelación autorizada</source>
+        <target>Cancelación autorizada</target>
       </trans-unit>
       <trans-unit id="dashboard.errors.approveCancellation" datatype="html">
-        <source>No se pudo aprobar la cancelación</source>
-        <target>Could not approve cancellation</target>
+        <source>No se pudo autorizar la cancelación</source>
+        <target>No se pudo autorizar la cancelación</target>
+      </trans-unit>
+      <trans-unit id="dashboard.success.executeCancellation" datatype="html">
+        <source>Cancelación ejecutada</source>
+        <target>Cancelación ejecutada</target>
+      </trans-unit>
+      <trans-unit id="dashboard.errors.executeCancellation" datatype="html">
+        <source>No se pudo ejecutar la cancelación</source>
+        <target>No se pudo ejecutar la cancelación</target>
       </trans-unit>
       <trans-unit id="dashboard.success.rejectCancellation" datatype="html">
         <source>Solicitud de cancelación rechazada</source>
@@ -1450,6 +3134,18 @@
         <source>No se pudo rechazar la solicitud</source>
         <target>Could not reject request</target>
       </trans-unit>
+      <trans-unit id="dashboard.success.reassign" datatype="html">
+        <source>Reclutador reasignado</source>
+        <target>Reclutador reasignado</target>
+      </trans-unit>
+      <trans-unit id="dashboard.errors.reassign" datatype="html">
+        <source>No se pudo reasignar el reclutador</source>
+        <target>No se pudo reasignar el reclutador</target>
+      </trans-unit>
+      <trans-unit id="dashboard.errors.historyLoad" datatype="html">
+        <source>No se pudo cargar el historial</source>
+        <target>No se pudo cargar el historial</target>
+      </trans-unit>
       <trans-unit id="dashboard.success.duplicated" datatype="html">
         <source>Posición duplicada: REQ-<x id="id" equiv-text="id" />
         </source>
@@ -1458,27 +3154,23 @@
       </trans-unit>
       <trans-unit id="positions.duplicate.nameSuffix" datatype="html">
         <source> (Duplicado)</source>
-        <target> (Copy)</target>
+        <target> (Duplicado)</target>
       </trans-unit>
       <trans-unit id="positions.duplicate.fallbackName" datatype="html">
         <source>Posición</source>
-        <target>Position</target>
-      </trans-unit>
-      <trans-unit id="dashboard.confirm.cancel" datatype="html">
-        <source>¿Cancelar directamente la requisición <x id="requisitionNo" equiv-text="requisitionNo" />? Esta acción no se puede deshacer.</source>
-        <target>Cancel requisition <x id="requisitionNo" equiv-text="requisitionNo" />? This action cannot be undone.</target>
-      </trans-unit>
-      <trans-unit id="dashboard.confirm.requestCancellation" datatype="html">
-        <source>¿Solicitar cancelación de <x id="requisitionNo" equiv-text="requisitionNo" />? Quedará pendiente de aprobación.</source>
-        <target>Request cancellation of <x id="requisitionNo" equiv-text="requisitionNo" />? It will be pending approval.</target>
+        <target>Posición</target>
       </trans-unit>
       <trans-unit id="dashboard.confirm.approveCancellation" datatype="html">
-        <source>¿Aprobar cancelación de <x id="requisitionNo" equiv-text="requisitionNo" />? La requisición será eliminada.</source>
-        <target>Approve cancellation of <x id="requisitionNo" equiv-text="requisitionNo" />? The requisition will be deleted.</target>
+        <source>¿Autorizar cancelación de <x id="requisitionNo" equiv-text="requisitionNo" />? Quedará pendiente de ejecución.</source>
+        <target>¿Autorizar cancelación de <x id="requisitionNo" equiv-text="requisitionNo" />? Quedará pendiente de ejecución.</target>
       </trans-unit>
       <trans-unit id="dashboard.confirm.rejectCancellation" datatype="html">
-        <source>¿Rechazar solicitud de cancelación de <x id="requisitionNo" equiv-text="requisitionNo" />? Volverá a borrador.</source>
-        <target>Reject cancellation request for <x id="requisitionNo" equiv-text="requisitionNo" />? It will return to draft.</target>
+        <source>¿Rechazar solicitud de cancelación de <x id="requisitionNo" equiv-text="requisitionNo" />? Volverá al estado anterior.</source>
+        <target>Reject cancellation request for <x id="requisitionNo" equiv-text="requisitionNo" />? Volverá al estado anterior.</target>
+      </trans-unit>
+      <trans-unit id="dashboard.confirm.executeCancellation" datatype="html">
+        <source>¿Ejecutar la cancelación autorizada de <x id="requisitionNo" equiv-text="requisitionNo" />?</source>
+        <target>¿Ejecutar la cancelación autorizada de <x id="requisitionNo" equiv-text="requisitionNo" />?</target>
       </trans-unit>
       <trans-unit id="dashboard.success.candidatesApplied" datatype="html">
         <source>
@@ -1487,6 +3179,182 @@
         <target>
           <x id="count" equiv-text="count" /> candidate(s) applied to <x id="requisitionNo" equiv-text="requisitionNo" />
         </target>
+      </trans-unit>
+      <trans-unit id="excelBulk.action" datatype="html">
+        <source>Carga masiva Excel</source>
+        <target>Carga masiva Excel</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.dialogTitle" datatype="html">
+        <source>Carga masiva de candidatos (Excel)</source>
+        <target>Carga masiva de candidatos (Excel)</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.hint" datatype="html">
+        <source>Formatos: XLSX, XLS. Un archivo, máx. 10 MB y 1.000 filas. Usa la plantilla oficial.</source>
+        <target>Formatos: XLSX, XLS. Un archivo, máx. 10 MB y 1.000 filas. Usa la plantilla oficial.</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.template" datatype="html">
+        <source>Descargar plantilla</source>
+        <target>Download template</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.pickFile" datatype="html">
+        <source>Seleccionar archivo</source>
+        <target>Seleccionar archivo</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.clear" datatype="html">
+        <source>Quitar archivo</source>
+        <target>Quitar archivo</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.notifyEmail" datatype="html">
+        <source>Notificar por Email</source>
+        <target>Notificar por Email</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.notifyWhatsapp" datatype="html">
+        <source>Notificar por WhatsApp</source>
+        <target>Notificar por WhatsApp</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.validate" datatype="html">
+        <source>Validar archivo</source>
+        <target>Validar archivo</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.confirm" datatype="html">
+        <source>Confirmar carga</source>
+        <target>Confirmar carga</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.cancel" datatype="html">
+        <source>Cancelar</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.close" datatype="html">
+        <source>Cerrar</source>
+        <target>Close</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.validRows" datatype="html">
+        <source>Filas válidas</source>
+        <target>Filas válidas</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.invalidRows" datatype="html">
+        <source>Filas inválidas</source>
+        <target>Filas inválidas</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.totalRows" datatype="html">
+        <source>Total de filas</source>
+        <target>Total de filas</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.onlyValidHint" datatype="html">
+        <source>Solo se procesarán las filas válidas.</source>
+        <target>Solo se procesarán las filas válidas.</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.noValidRows" datatype="html">
+        <source>El archivo no tiene filas válidas para procesar.</source>
+        <target>El archivo no tiene filas válidas para procesar.</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.fileTooLarge" datatype="html">
+        <source>El archivo supera 10 MB</source>
+        <target>El archivo supera 10 MB</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.unsupportedFormat" datatype="html">
+        <source>Formato no permitido. Use .xlsx o .xls</source>
+        <target>Formato no permitido. Use .xlsx o .xls</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.previewError" datatype="html">
+        <source>No se pudo validar el archivo. Verifica que corresponda a la plantilla.</source>
+        <target>No se pudo validar el archivo. Verifica que corresponda a la plantilla.</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.confirmError" datatype="html">
+        <source>No se pudo iniciar la carga. Intenta de nuevo.</source>
+        <target>No se pudo iniciar la carga. Intenta de nuevo.</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.progressTitle" datatype="html">
+        <source>Carga masiva Excel</source>
+        <target>Carga masiva Excel</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.progressHint" datatype="html">
+        <source>El proceso está en ejecución y puede tomar algunos minutos. Puedes cerrar esta ventana; te notificaremos al finalizar.</source>
+        <target>El proceso está en ejecución y puede tomar algunos minutos. Puedes cerrar esta ventana; te notificaremos al finalizar.</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.report.success" datatype="html">
+        <source>Exitosos</source>
+        <target>Exitosos</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.report.failed" datatype="html">
+        <source>Fallidos</source>
+        <target>Fallidos</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.report.pending" datatype="html">
+        <source>Pendientes</source>
+        <target>Pendientes</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.status.done" datatype="html">
+        <source>Finalizado</source>
+        <target>Finalizado</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.status.running" datatype="html">
+        <source>En proceso</source>
+        <target>En proceso</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.waNotSent" datatype="html">
+        <source>WA no enviado</source>
+        <target>WA no enviado</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.col.row" datatype="html">
+        <source>Fila</source>
+        <target>Fila</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.col.name" datatype="html">
+        <source>Nombre</source>
+        <target>First name</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.col.email" datatype="html">
+        <source>Correo</source>
+        <target>Email</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.col.phone" datatype="html">
+        <source>Teléfono</source>
+        <target>Phone</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.col.gender" datatype="html">
+        <source>Género</source>
+        <target>Gender</target>
+      </trans-unit>
+      <trans-unit id="excelBulk.col.errors" datatype="html">
+        <source>Errores</source>
+        <target>Errores</target>
+      </trans-unit>
+      <trans-unit id="feedback.understood" datatype="html">
+        <source>Entendido</source>
+        <target>Entendido</target>
+      </trans-unit>
+      <trans-unit id="feedback.continue" datatype="html">
+        <source>Continuar</source>
+        <target>Continuar</target>
+      </trans-unit>
+      <trans-unit id="feedback.cancel" datatype="html">
+        <source>Cancelar</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="feedback.confirm" datatype="html">
+        <source>Confirmar</source>
+        <target>Confirmar</target>
+      </trans-unit>
+      <trans-unit id="feedback.genericError.title" datatype="html">
+        <source>Ocurrió un error</source>
+        <target>Ocurrió un error</target>
+      </trans-unit>
+      <trans-unit id="feedback.genericError.message" datatype="html">
+        <source>Intente de nuevo. Si el problema continúa, contacte al administrador.</source>
+        <target>Intente de nuevo. Si el problema continúa, contacte al administrador.</target>
+      </trans-unit>
+      <trans-unit id="feedback.genericSuccess.title" datatype="html">
+        <source>Operación completada</source>
+        <target>Operación completada</target>
+      </trans-unit>
+      <trans-unit id="feedback.genericInfo.title" datatype="html">
+        <source>Información</source>
+        <target>Información</target>
+      </trans-unit>
+      <trans-unit id="feedback.genericWarning.title" datatype="html">
+        <source>Atención</source>
+        <target>Atención</target>
       </trans-unit>
       <trans-unit id="groups.pageTitle" datatype="html">
         <source>Grupos de usuarios</source>
@@ -1543,10 +3411,6 @@
       <trans-unit id="catalogs.field.scope" datatype="html">
         <source>Ámbito</source>
         <target>Scope</target>
-      </trans-unit>
-      <trans-unit id="common.cancel" datatype="html">
-        <source>Cancelar</source>
-        <target>Cancel</target>
       </trans-unit>
       <trans-unit id="groups.errors.loadPermissions" datatype="html">
         <source>No se pudieron cargar los permisos</source>
@@ -1606,7 +3470,7 @@
       </trans-unit>
       <trans-unit id="nav.main.candidateAccounts" datatype="html">
         <source>Cuentas de candidatos</source>
-        <target>Candidate Accounts</target>
+        <target>Cuentas de candidatos</target>
       </trans-unit>
       <trans-unit id="questionnaires.nav.questions" datatype="html">
         <source>Preguntas</source>
@@ -1808,6 +3672,194 @@
         <source>¿Eliminar la plantilla "<x id="action" equiv-text="action" />"? Esta acción no se puede deshacer.</source>
         <target>Delete template "<x id="action" equiv-text="action" />"? This action cannot be undone.</target>
       </trans-unit>
+      <trans-unit id="notifications.field.emailSubject" datatype="html">
+        <source>Asunto correo</source>
+        <target>Asunto correo</target>
+      </trans-unit>
+      <trans-unit id="notifications.field.inboxTitle" datatype="html">
+        <source>Título bandeja</source>
+        <target>Título bandeja</target>
+      </trans-unit>
+      <trans-unit id="notifications.tab.templates" datatype="html">
+        <source>Plantillas</source>
+        <target>Plantillas</target>
+      </trans-unit>
+      <trans-unit id="notifications.tab.logs" datatype="html">
+        <source>Log de envíos</source>
+        <target>Log de envíos</target>
+      </trans-unit>
+      <trans-unit id="notifications.tab.coverage" datatype="html">
+        <source>Cobertura</source>
+        <target>Coverage</target>
+      </trans-unit>
+      <trans-unit id="notifications.tab.failed" datatype="html">
+        <source>Fallidos</source>
+        <target>Fallidos</target>
+      </trans-unit>
+      <trans-unit id="notifications.coverage.summary" datatype="html">
+        <source>Cobertura: <x id="covered" equiv-text="covered" />/<x id="total" equiv-text="total" /> acciones con plantilla activa</source>
+        <target>Cobertura: <x id="covered" equiv-text="covered" />/<x id="total" equiv-text="total" /> acciones con plantilla activa</target>
+      </trans-unit>
+      <trans-unit id="notifications.coverage.missing" datatype="html">
+        <source>Sin plantilla</source>
+        <target>Sin plantilla</target>
+      </trans-unit>
+      <trans-unit id="notifications.coverage.ok" datatype="html">
+        <source>Con plantilla</source>
+        <target>Con plantilla</target>
+      </trans-unit>
+      <trans-unit id="notifications.coverage.loadError" datatype="html">
+        <source>No se pudo cargar la cobertura de plantillas</source>
+        <target>No se pudo cargar la cobertura de plantillas</target>
+      </trans-unit>
+      <trans-unit id="notifications.column.module" datatype="html">
+        <source>Módulo</source>
+        <target>Módulo</target>
+      </trans-unit>
+      <trans-unit id="notifications.column.description" datatype="html">
+        <source>Descripción</source>
+        <target>Description</target>
+      </trans-unit>
+      <trans-unit id="notifications.column.coverage" datatype="html">
+        <source>Cobertura</source>
+        <target>Coverage</target>
+      </trans-unit>
+      <trans-unit id="notifications.column.attempts" datatype="html">
+        <source>Intentos</source>
+        <target>Intentos</target>
+      </trans-unit>
+      <trans-unit id="notifications.column.error" datatype="html">
+        <source>Error</source>
+        <target>Error</target>
+      </trans-unit>
+      <trans-unit id="notifications.failed.loadError" datatype="html">
+        <source>No se pudieron cargar los envíos fallidos</source>
+        <target>Could not load los envíos fallidos</target>
+      </trans-unit>
+      <trans-unit id="notifications.failed.retry" datatype="html">
+        <source>Reintentar</source>
+        <target>Reintentar</target>
+      </trans-unit>
+      <trans-unit id="notifications.failed.retrySuccess" datatype="html">
+        <source>Envío encolado para reintento</source>
+        <target>Envío encolado para reintento</target>
+      </trans-unit>
+      <trans-unit id="notifications.failed.retryError" datatype="html">
+        <source>No se pudo reintentar el envío</source>
+        <target>No se pudo reintentar el envío</target>
+      </trans-unit>
+      <trans-unit id="notifications.preview.button" datatype="html">
+        <source>Vista previa</source>
+        <target>Preview</target>
+      </trans-unit>
+      <trans-unit id="notifications.preview.title" datatype="html">
+        <source>Vista previa renderizada</source>
+        <target>Vista previa renderizada</target>
+      </trans-unit>
+      <trans-unit id="notifications.preview.error" datatype="html">
+        <source>No se pudo generar la vista previa</source>
+        <target>Could not generate the preview</target>
+      </trans-unit>
+      <trans-unit id="notifications.logs.loadError" datatype="html">
+        <source>No se pudo cargar el log de envíos</source>
+        <target>No se pudo cargar el log de envíos</target>
+      </trans-unit>
+      <trans-unit id="notifications.column.channel" datatype="html">
+        <source>Canal</source>
+        <target>Canal</target>
+      </trans-unit>
+      <trans-unit id="notifications.column.recipient" datatype="html">
+        <source>Destinatario</source>
+        <target>Destinatario</target>
+      </trans-unit>
+      <trans-unit id="notifications.column.status" datatype="html">
+        <source>Estado</source>
+        <target>State</target>
+      </trans-unit>
+      <trans-unit id="notifications.column.date" datatype="html">
+        <source>Fecha</source>
+        <target>Date</target>
+      </trans-unit>
+      <trans-unit id="notifications.field.actionHint" datatype="html">
+        <source>Variables disponibles</source>
+        <target>Variables disponibles</target>
+      </trans-unit>
+      <trans-unit id="notifications.field.variablesHint" datatype="html">
+        <source>Haz clic en una variable para insertarla en el mensaje</source>
+        <target>Haz clic en una variable para insertarla en el mensaje</target>
+      </trans-unit>
+      <trans-unit id="notifications.insertVariable" datatype="html">
+        <source>Insertar variable</source>
+        <target>Insertar variable</target>
+      </trans-unit>
+      <trans-unit id="notifications.placeholder.selectAction" datatype="html">
+        <source>Selecciona una acción</source>
+        <target>Selecciona una acción</target>
+      </trans-unit>
+      <trans-unit id="notifications.filter.action" datatype="html">
+        <source>Acción</source>
+        <target>Action</target>
+      </trans-unit>
+      <trans-unit id="notifications.filter.active" datatype="html">
+        <source>Estado</source>
+        <target>State</target>
+      </trans-unit>
+      <trans-unit id="notifications.filter.activeAll" datatype="html">
+        <source>Todos</source>
+        <target>All</target>
+      </trans-unit>
+      <trans-unit id="notifications.filter.activeYes" datatype="html">
+        <source>Activas</source>
+        <target>Activas</target>
+      </trans-unit>
+      <trans-unit id="notifications.filter.activeNo" datatype="html">
+        <source>Inactivas</source>
+        <target>Inactivas</target>
+      </trans-unit>
+      <trans-unit id="notifications.filter.search" datatype="html">
+        <source>Buscar</source>
+        <target>Buscar</target>
+      </trans-unit>
+      <trans-unit id="notifications.filter.searchAction" datatype="html">
+        <source>Código o descripción</source>
+        <target>Código o descripción</target>
+      </trans-unit>
+      <trans-unit id="notifications.filter.channel" datatype="html">
+        <source>Canal</source>
+        <target>Canal</target>
+      </trans-unit>
+      <trans-unit id="notifications.filter.module" datatype="html">
+        <source>Módulo</source>
+        <target>Módulo</target>
+      </trans-unit>
+      <trans-unit id="notifications.filter.coverage" datatype="html">
+        <source>Cobertura</source>
+        <target>Coverage</target>
+      </trans-unit>
+      <trans-unit id="notifications.filter.coverageAll" datatype="html">
+        <source>Todas</source>
+        <target>Todas</target>
+      </trans-unit>
+      <trans-unit id="notifications.filter.coverageOk" datatype="html">
+        <source>Con plantilla</source>
+        <target>Con plantilla</target>
+      </trans-unit>
+      <trans-unit id="notifications.filter.coverageMissing" datatype="html">
+        <source>Sin plantilla</source>
+        <target>Sin plantilla</target>
+      </trans-unit>
+      <trans-unit id="notifications.filter.apply" datatype="html">
+        <source>Aplicar</source>
+        <target>Aplicar</target>
+      </trans-unit>
+      <trans-unit id="notifications.filter.clear" datatype="html">
+        <source>Limpiar</source>
+        <target>Limpiar</target>
+      </trans-unit>
+      <trans-unit id="notifications.channel.inbox" datatype="html">
+        <source>Inbox</source>
+        <target>Inbox</target>
+      </trans-unit>
       <trans-unit id="pipelineStages.pageTitle" datatype="html">
         <source>Etapas del pipeline</source>
         <target>Pipeline stages</target>
@@ -1917,12 +3969,96 @@
         <target>Code</target>
       </trans-unit>
       <trans-unit id="positions.column.status" datatype="html">
-        <source>Estado</source>
-        <target>State</target>
+        <source>Estatus</source>
+        <target>Status</target>
       </trans-unit>
       <trans-unit id="positions.column.createdAt" datatype="html">
         <source>Creación</source>
         <target>Created</target>
+      </trans-unit>
+      <trans-unit id="positions.column.name" datatype="html">
+        <source>Nombre</source>
+        <target>First name</target>
+      </trans-unit>
+      <trans-unit id="positions.column.ot" datatype="html">
+        <source>OT</source>
+        <target>OT</target>
+      </trans-unit>
+      <trans-unit id="positions.column.positions" datatype="html">
+        <source>Posiciones</source>
+        <target>Positions</target>
+      </trans-unit>
+      <trans-unit id="positions.column.applicants" datatype="html">
+        <source>Postulados</source>
+        <target>Postulados</target>
+      </trans-unit>
+      <trans-unit id="positions.column.preselection" datatype="html">
+        <source>Preselección</source>
+        <target>Preselection</target>
+      </trans-unit>
+      <trans-unit id="positions.column.firstDay" datatype="html">
+        <source>Primer día</source>
+        <target>Primer día</target>
+      </trans-unit>
+      <trans-unit id="positions.column.group" datatype="html">
+        <source>Grupo</source>
+        <target>Group</target>
+      </trans-unit>
+      <trans-unit id="positions.column.supervisor" datatype="html">
+        <source>Supervisor</source>
+        <target>Supervisor</target>
+      </trans-unit>
+      <trans-unit id="positions.column.cancellationScope" datatype="html">
+        <source>Alcance cancelación</source>
+        <target>Alcance cancelación</target>
+      </trans-unit>
+      <trans-unit id="positions.reasonDialog.title" datatype="html">
+        <source>Motivo</source>
+        <target>Motivo</target>
+      </trans-unit>
+      <trans-unit id="positions.reasonDialog.label" datatype="html">
+        <source>Motivo de la acción</source>
+        <target>Motivo de la acción</target>
+      </trans-unit>
+      <trans-unit id="positions.reasonDialog.required" datatype="html">
+        <source>El motivo es obligatorio</source>
+        <target>El motivo es obligatorio</target>
+      </trans-unit>
+      <trans-unit id="positions.reasonDialog.confirm" datatype="html">
+        <source>Confirmar</source>
+        <target>Confirmar</target>
+      </trans-unit>
+      <trans-unit id="positions.reasonDialog.cancel" datatype="html">
+        <source>Cancelar</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="positions.history.title" datatype="html">
+        <source>Historial de la requisición</source>
+        <target>Historial de la requisición</target>
+      </trans-unit>
+      <trans-unit id="positions.history.empty" datatype="html">
+        <source>Sin eventos registrados</source>
+        <target>Sin eventos registrados</target>
+      </trans-unit>
+      <trans-unit id="positions.history.close" datatype="html">
+        <source>Cerrar</source>
+        <target>Close</target>
+      </trans-unit>
+      <trans-unit id="positions.reassign.title" datatype="html">
+        <source>Reasignar reclutador</source>
+        <target>Reasignar reclutador</target>
+      </trans-unit>
+      <trans-unit id="positions.reassign.user" datatype="html">
+        <source>Nuevo reclutador</source>
+        <target>Nuevo reclutador</target>
+      </trans-unit>
+      <trans-unit id="positions.reassign.reason" datatype="html">
+        <source>Motivo (opcional)</source>
+        <target>Motivo (opcional)</target>
+      </trans-unit>
+      <trans-unit id="positions.reassign.confirm" datatype="html">
+        <source>Reasignar</source>
+        <target>Reasignar</target>
       </trans-unit>
       <trans-unit id="positions.action.goSelectionAria" datatype="html">
         <source>Ir a selección</source>
@@ -1938,19 +4074,115 @@
       </trans-unit>
       <trans-unit id="positions.action.publishOnPortal" datatype="html">
         <source>Publicar en portal candidatos</source>
-        <target>Publish on candidate portal</target>
+        <target>Publicar en portal candidatos</target>
+      </trans-unit>
+      <trans-unit id="positions.filters.more" datatype="html">
+        <source>Mostrar más filtros</source>
+        <target>Mostrar más filtros</target>
+      </trans-unit>
+      <trans-unit id="positions.filters.less" datatype="html">
+        <source>Ocultar filtros</source>
+        <target>Ocultar filtros</target>
+      </trans-unit>
+      <trans-unit id="positions.filters.client" datatype="html">
+        <source>Cliente</source>
+        <target>Client</target>
+      </trans-unit>
+      <trans-unit id="positions.filters.requisitionType" datatype="html">
+        <source>Tipo requisición</source>
+        <target>Requisition type</target>
+      </trans-unit>
+      <trans-unit id="positions.filters.coverageType" datatype="html">
+        <source>Tipo cubrimiento</source>
+        <target>Coverage type</target>
+      </trans-unit>
+      <trans-unit id="positions.filters.brand" datatype="html">
+        <source>Empresa</source>
+        <target>Company</target>
+      </trans-unit>
+      <trans-unit id="positions.filters.workplace" datatype="html">
+        <source>Lugar trabajo</source>
+        <target>Lugar trabajo</target>
+      </trans-unit>
+      <trans-unit id="positions.filters.shift" datatype="html">
+        <source>Horario trabajo</source>
+        <target>Horario trabajo</target>
+      </trans-unit>
+      <trans-unit id="positions.filters.contractType" datatype="html">
+        <source>Tipo contratación</source>
+        <target>Contract type</target>
+      </trans-unit>
+      <trans-unit id="positions.filters.education" datatype="html">
+        <source>Nivel escolaridad</source>
+        <target>Nivel escolaridad</target>
+      </trans-unit>
+      <trans-unit id="positions.filters.responsibility" datatype="html">
+        <source>Nivel de responsabilidad</source>
+        <target>Responsibility level</target>
+      </trans-unit>
+      <trans-unit id="positions.filters.clientPosition" datatype="html">
+        <source>Cliente puesto</source>
+        <target>Cliente puesto</target>
+      </trans-unit>
+      <trans-unit id="positions.filters.createdBy" datatype="html">
+        <source>Creado por</source>
+        <target>Creado por</target>
+      </trans-unit>
+      <trans-unit id="positions.filters.coordinator" datatype="html">
+        <source>Coordinador</source>
+        <target>Coordinador</target>
+      </trans-unit>
+      <trans-unit id="positions.filters.recruiterAts" datatype="html">
+        <source>Reclutador ATS</source>
+        <target>Reclutador ATS</target>
+      </trans-unit>
+      <trans-unit id="positions.filters.coordinatorAppian" datatype="html">
+        <source>Coordinador Appian</source>
+        <target>Coordinador Appian</target>
+      </trans-unit>
+      <trans-unit id="positions.filters.recruiterAppian" datatype="html">
+        <source>Reclutador Appian</source>
+        <target>Reclutador Appian</target>
+      </trans-unit>
+      <trans-unit id="positions.filters.closerAppian" datatype="html">
+        <source>Cerrador Appian</source>
+        <target>Cerrador Appian</target>
+      </trans-unit>
+      <trans-unit id="positions.filters.requestType" datatype="html">
+        <source>Tipo de solicitud</source>
+        <target>Tipo de solicitud</target>
+      </trans-unit>
+      <trans-unit id="positions.filters.appianUnavailable" datatype="html">
+        <source>No disponible</source>
+        <target>No disponible</target>
+      </trans-unit>
+      <trans-unit id="positions.filters.deferredUnavailable" datatype="html">
+        <source>No disponible</source>
+        <target>No disponible</target>
+      </trans-unit>
+      <trans-unit id="positions.filters.state" datatype="html">
+        <source>Entidad federativa</source>
+        <target>State</target>
+      </trans-unit>
+      <trans-unit id="positions.filters.generalCategory" datatype="html">
+        <source>C Categoría cubrimiento</source>
+        <target>Coverage category (C)</target>
+      </trans-unit>
+      <trans-unit id="positions.filters.questionnaire" datatype="html">
+        <source>Formulario</source>
+        <target>Formulario</target>
       </trans-unit>
       <trans-unit id="positions.success.publishOnPortal" datatype="html">
         <source>Vacante publicada en el portal candidatos</source>
-        <target>Vacancy published on candidate portal</target>
+        <target>Vacante publicada en el portal candidatos</target>
       </trans-unit>
       <trans-unit id="positions.errors.publishOnPortal" datatype="html">
         <source>No se pudo publicar la vacante en el portal</source>
-        <target>Could not publish vacancy on the portal</target>
+        <target>No se pudo publicar la vacante en el portal</target>
       </trans-unit>
       <trans-unit id="positions.confirm.publishOnPortal" datatype="html">
         <source>¿Publicar esta vacante en el portal de candidatos?</source>
-        <target>Publish this vacancy on the candidate portal?</target>
+        <target>¿Publicar esta vacante en el portal de candidatos?</target>
       </trans-unit>
       <trans-unit id="positions.errors.generatePublicationLoad" datatype="html">
         <source>No se pudo obtener la información de contacto de la posición</source>
@@ -1975,6 +4207,94 @@
       <trans-unit id="positions.publication.noTemplate.checkError" datatype="html">
         <source>No se pudo verificar si existen plantillas de publicación</source>
         <target>Could not verify whether publication templates exist</target>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.requisition" datatype="html">
+        <source>Requisición</source>
+        <target>Requisition</target>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.show" datatype="html">
+        <source>Mostrar</source>
+        <target>Mostrar</target>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.hide" datatype="html">
+        <source>Ocultar</source>
+        <target>Ocultar</target>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.candidates" datatype="html">
+        <source>Candidatos</source>
+        <target>Candidates</target>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.col.name" datatype="html">
+        <source>Nombre completo</source>
+        <target>Nombre completo</target>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.col.email" datatype="html">
+        <source>Correo</source>
+        <target>Email</target>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.col.phone" datatype="html">
+        <source>Teléfono</source>
+        <target>Phone</target>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.col.status" datatype="html">
+        <source>Estado</source>
+        <target>State</target>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.type" datatype="html">
+        <source>Tipo de cancelación</source>
+        <target>Tipo de cancelación</target>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.reason" datatype="html">
+        <source>Motivos</source>
+        <target>Motivos</target>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.description" datatype="html">
+        <source>Descripción (opcional)</source>
+        <target>Descripción (opcional)</target>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.evidence" datatype="html">
+        <source>Evidencia (opcional)</source>
+        <target>Evidencia (opcional)</target>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.evidenceHint" datatype="html">
+        <source>PDF, JPG, PNG, DOC, DOCX, XLS o XLSX. Máximo 10 MB.</source>
+        <target>PDF, JPG, PNG, DOC, DOCX, XLS o XLSX. Máximo 10 MB.</target>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.evidencePick" datatype="html">
+        <source>Seleccionar archivo</source>
+        <target>Seleccionar archivo</target>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.evidenceClear" datatype="html">
+        <source>Quitar</source>
+        <target>Remove</target>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.evidenceInvalid" datatype="html">
+        <source>Archivo no válido. Use PDF, JPG, PNG, DOC, DOCX, XLS o XLSX de hasta 10 MB.</source>
+        <target>Archivo no válido. Use PDF, JPG, PNG, DOC, DOCX, XLS o XLSX de hasta 10 MB.</target>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.required" datatype="html">
+        <source>Campo obligatorio</source>
+        <target>Required field</target>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.loadError" datatype="html">
+        <source>No se pudo cargar el impacto de cancelación</source>
+        <target>No se pudo cargar el impacto de cancelación</target>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.reasonsError" datatype="html">
+        <source>No se pudieron cargar los motivos</source>
+        <target>Could not load los motivos</target>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.criticalWarning" datatype="html">
+        <source>Hay candidatos en Preselección o Primer día. ¿Desea continuar con la cancelación?</source>
+        <target>Hay candidatos en Preselección o Primer día. ¿Desea continuar con la cancelación?</target>
+      </trans-unit>
+      <trans-unit id="positions.cancelDialog.noCandidates" datatype="html">
+        <source>Sin candidatos asociados a esta posición</source>
+        <target>Sin candidatos asociados a esta posición</target>
+      </trans-unit>
+      <trans-unit id="positions.errors.cancelEvidenceUpload" datatype="html">
+        <source>No se pudo subir la evidencia de cancelación</source>
+        <target>No se pudo subir la evidencia de cancelación</target>
       </trans-unit>
       <trans-unit id="prompts.pageTitle" datatype="html">
         <source>Prompts IA</source>
@@ -2598,7 +4918,7 @@
       </trans-unit>
       <trans-unit id="questionnaires.exams.field.questionnaire" datatype="html">
         <source>Cuestionario publicado</source>
-        <target>Cuestionario publicado</target>
+        <target>Published questionnaire</target>
       </trans-unit>
       <trans-unit id="questionnaires.exams.field.name" datatype="html">
         <source>Nombre</source>
@@ -2890,7 +5210,7 @@
       </trans-unit>
       <trans-unit id="questionnaires.questionnaires.publishSuccess" datatype="html">
         <source>Cuestionario publicado</source>
-        <target>Cuestionario publicado</target>
+        <target>Published questionnaire</target>
       </trans-unit>
       <trans-unit id="questionnaires.questionnaires.publishError" datatype="html">
         <source>No se pudo publicar el cuestionario</source>
@@ -2906,7 +5226,7 @@
       </trans-unit>
       <trans-unit id="questionnaires.questionnaires.archiveSuccess" datatype="html">
         <source>Cuestionario archivado</source>
-        <target>Cuestionario archivado</target>
+        <target>Archived questionnaire</target>
       </trans-unit>
       <trans-unit id="questionnaires.questionnaires.archiveError" datatype="html">
         <source>No se pudo archivar el cuestionario</source>
@@ -3252,6 +5572,94 @@
         <source>Exámenes</source>
         <target>Exámenes</target>
       </trans-unit>
+      <trans-unit id="catalogs.field.allCountries" datatype="html">
+        <source>Todos los países</source>
+        <target>All countries</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.manpowerIdShort" datatype="html">
+        <source>Id MP</source>
+        <target>MP ID</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.responsibleManager" datatype="html">
+        <source>Gerente responsable</source>
+        <target>Gerente responsable</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.recruiters" datatype="html">
+        <source>Reclutadores</source>
+        <target>Reclutadores</target>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.section.groupData" datatype="html">
+        <source>Datos del grupo</source>
+        <target>Datos del grupo</target>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.section.people" datatype="html">
+        <source>Personas</source>
+        <target>Personas</target>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.managerSearchPlaceholder" datatype="html">
+        <source>Buscar gerente por nombre o email</source>
+        <target>Buscar gerente por nombre o email</target>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.managerHint" datatype="html">
+        <source>Escribe al menos 2 caracteres para buscar</source>
+        <target>Escribe al menos 2 caracteres para buscar</target>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.clearManager" datatype="html">
+        <source>Quitar gerente</source>
+        <target>Quitar gerente</target>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.available" datatype="html">
+        <source>Disponibles</source>
+        <target>Disponibles</target>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.selected" datatype="html">
+        <source>Seleccionados</source>
+        <target>Seleccionados</target>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.availableSearchPlaceholder" datatype="html">
+        <source>Buscar usuarios para agregar</source>
+        <target>Buscar usuarios para agregar</target>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.add" datatype="html">
+        <source>Agregar</source>
+        <target>Agregar</target>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.remove" datatype="html">
+        <source>Quitar</source>
+        <target>Remove</target>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.addSelected" datatype="html">
+        <source>Agregar seleccionados</source>
+        <target>Agregar seleccionados</target>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.removeSelected" datatype="html">
+        <source>Quitar seleccionados</source>
+        <target>Quitar seleccionados</target>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.noAvailable" datatype="html">
+        <source>No hay resultados. Ajusta la búsqueda.</source>
+        <target>No hay resultados. Ajusta la búsqueda.</target>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.noSelected" datatype="html">
+        <source>Sin reclutadores seleccionados</source>
+        <target>Sin reclutadores seleccionados</target>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.loadingUsers" datatype="html">
+        <source>Cargando usuarios…</source>
+        <target>Cargando usuarios…</target>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.validation.managerRequired" datatype="html">
+        <source>Seleccione un gerente responsable</source>
+        <target>Seleccione un gerente responsable</target>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.validation.managerNotInRecruiters" datatype="html">
+        <source>El gerente no puede estar en la lista de reclutadores</source>
+        <target>El gerente no puede estar en la lista de reclutadores</target>
+      </trans-unit>
+      <trans-unit id="catalogs.recruiterGroup.saveError" datatype="html">
+        <source>No se pudo guardar el grupo</source>
+        <target>Could not save group</target>
+      </trans-unit>
       <trans-unit id="requisitionFormConfig.pageTitle" datatype="html">
         <source>Configuración del formulario de requisición</source>
         <target>Requisition form configuration</target>
@@ -3512,17 +5920,41 @@
         <source>Seleccione país y tipo de cobertura</source>
         <target>Select country and coverage type</target>
       </trans-unit>
+      <trans-unit id="requisitionFormConfig.roles.view" datatype="html">
+        <source>Roles que pueden ver</source>
+        <target>Roles que pueden ver</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.roles.edit" datatype="html">
+        <source>Roles que pueden editar</source>
+        <target>Roles que pueden editar</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.roles.allHint" datatype="html">
+        <source>Sin selección = todos los roles del tenant.</source>
+        <target>Sin selección = todos los roles del tenant.</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.roles.inheritHint" datatype="html">
+        <source>Vacío hereda permisos del tab padre.</source>
+        <target>Vacío hereda permisos del tab padre.</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.selectStepOrField" datatype="html">
+        <source>Seleccione un tab o campo en el árbol para configurar permisos por rol.</source>
+        <target>Seleccione un tab o campo en el árbol para configurar permisos por rol.</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.stepDetailTitle" datatype="html">
+        <source>Permisos del tab</source>
+        <target>Permisos del tab</target>
+      </trans-unit>
       <trans-unit id="requisition.step.client" datatype="html">
         <source>Datos Cliente</source>
         <target>Client data</target>
       </trans-unit>
       <trans-unit id="requisition.step.general" datatype="html">
         <source>Datos generales</source>
-        <target>General data</target>
+        <target>Datos generales</target>
       </trans-unit>
       <trans-unit id="requisition.step.manpower" datatype="html">
         <source>Datos Manpower</source>
-        <target>Manpower data</target>
+        <target>Datos Manpower</target>
       </trans-unit>
       <trans-unit id="requisition.step.hiring" datatype="html">
         <source>Contratación</source>
@@ -3530,7 +5962,7 @@
       </trans-unit>
       <trans-unit id="requisition.step.languages" datatype="html">
         <source>Idiomas</source>
-        <target>Languages</target>
+        <target>Idiomas</target>
       </trans-unit>
       <trans-unit id="requisition.step.address" datatype="html">
         <source>Dirección</source>
@@ -3692,6 +6124,18 @@
         <source>Salario</source>
         <target>Salario</target>
       </trans-unit>
+      <trans-unit id="requisition.field.workDays" datatype="html">
+        <source>Días de trabajo</source>
+        <target>Días de trabajo</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.positionsCount" datatype="html">
+        <source>Número de posiciones</source>
+        <target>Número de posiciones</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.benefitId" datatype="html">
+        <source>Prestaciones</source>
+        <target>Prestaciones</target>
+      </trans-unit>
       <trans-unit id="requisition.field.serviceFee" datatype="html">
         <source>FEE de servicio</source>
         <target>FEE de servicio</target>
@@ -3838,7 +6282,7 @@
       </trans-unit>
       <trans-unit id="requisition.field.publishedOnPortal" datatype="html">
         <source>Publicar en portal candidatos</source>
-        <target>Publish on candidate portal</target>
+        <target>Publicar en portal candidatos</target>
       </trans-unit>
       <trans-unit id="requisition.field.jobPortalId" datatype="html">
         <source>Portal de empleo</source>
@@ -3979,6 +6423,70 @@
       <trans-unit id="requisition.wizard.scopeLoading" datatype="html">
         <source>Cargando...</source>
         <target>Cargando...</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.errors.loadCountries" datatype="html">
+        <source>No se pudieron cargar los países</source>
+        <target>Could not load los países</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.errors.loadLanguages" datatype="html">
+        <source>No se pudieron cargar los idiomas</source>
+        <target>Could not load los idiomas</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.errors.loadStates" datatype="html">
+        <source>No se pudieron cargar los estados</source>
+        <target>Could not load los estados</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.errors.loadMunicipalities" datatype="html">
+        <source>No se pudieron cargar los municipios</source>
+        <target>Could not load los municipios</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.errors.loadNeighborhoods" datatype="html">
+        <source>No se pudieron cargar las colonias</source>
+        <target>Could not load las colonias</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.info.noNeighborhoods" datatype="html">
+        <source>Sin colonias para ese código postal</source>
+        <target>Sin colonias para ese código postal</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.errors.loadPosition" datatype="html">
+        <source>No se pudo cargar la requisición</source>
+        <target>No se pudo cargar la requisición</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.errors.loadCatalogs" datatype="html">
+        <source>Error al cargar catálogos de la requisición</source>
+        <target>Error al cargar catálogos de la requisición</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.errors.validationRequired" datatype="html">
+        <source>Complete los campos obligatorios</source>
+        <target>Complete los campos obligatorios</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.success.create" datatype="html">
+        <source>Requisición creada correctamente</source>
+        <target>Requisición creada correctamente</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.success.update" datatype="html">
+        <source>Requisición actualizada correctamente</source>
+        <target>Requisición actualizada correctamente</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.errors.create" datatype="html">
+        <source>No se pudo crear la requisición</source>
+        <target>No se pudo crear la requisición</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.errors.update" datatype="html">
+        <source>No se pudo actualizar la requisición</source>
+        <target>No se pudo actualizar la requisición</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.info.jsonExported" datatype="html">
+        <source>JSON exportado a consola</source>
+        <target>JSON exportado a consola</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.info.atsSimulated" datatype="html">
+        <source>Enviado a ATS (simulado)</source>
+        <target>Enviado a ATS (simulado)</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.errors.loadCoverage" datatype="html">
+        <source>No se pudieron cargar los tipos de cobertura</source>
+        <target>Could not load los tipos de cobertura</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.createSubtitle" datatype="html">
         <source>Asistente de creación en <x id="steps" equiv-text="steps" /> pasos</source>
@@ -4164,6 +6672,10 @@
         <source>¿Eliminar el usuario "<x id="PH" equiv-text="label" />"? Esta acción no se puede deshacer.</source>
         <target>Delete user "<x id="PH" equiv-text="label" />"? This action cannot be undone.</target>
       </trans-unit>
+      <trans-unit id="users.confirm.deleteTitle" datatype="html">
+        <source>Eliminar usuario</source>
+        <target>Eliminar usuario</target>
+      </trans-unit>
       <trans-unit id="users.form.saving" datatype="html">
         <source>Guardando...</source>
         <target>Saving...</target>
@@ -4172,13 +6684,21 @@
         <source>Guardar</source>
         <target>Save</target>
       </trans-unit>
-      <trans-unit id="app.brand" datatype="html">
-        <source>Smart Hire</source>
-        <target>Smart Hire</target>
-      </trans-unit>
       <trans-unit id="shell.notifications" datatype="html">
         <source>Notificaciones</source>
         <target>Notifications</target>
+      </trans-unit>
+      <trans-unit id="shell.notifications.showAll" datatype="html">
+        <source> [Mostrar más] </source>
+        <target> [Mostrar más] </target>
+      </trans-unit>
+      <trans-unit id="shell.notifications.empty" datatype="html">
+        <source> Sin notificaciones </source>
+        <target> Sin notificaciones </target>
+      </trans-unit>
+      <trans-unit id="app.brand" datatype="html">
+        <source>Smart Hire</source>
+        <target>Smart Hire</target>
       </trans-unit>
       <trans-unit id="shell.help" datatype="html">
         <source>Ayuda</source>
@@ -4228,90 +6748,6 @@
         <source>Publicar cuestionarios</source>
         <target>Publicar cuestionarios</target>
       </trans-unit>
-      <trans-unit id="errors.ERROR_USER_NOT_FOUND" datatype="html">
-        <source>Usuario no encontrado</source>
-        <target>User not found</target>
-      </trans-unit>
-      <trans-unit id="errors.ERROR_COUNTRY_NOT_FOUND" datatype="html">
-        <source>País no encontrado</source>
-        <target>Country not found</target>
-      </trans-unit>
-      <trans-unit id="errors.ERROR_WRONG_TENANT" datatype="html">
-        <source>No puede acceder a esta compañía</source>
-        <target>You cannot access this company</target>
-      </trans-unit>
-      <trans-unit id="errors.ERROR_WRONG_TENANT_ACCESS" datatype="html">
-        <source>No tiene permiso para acceder a este tenant</source>
-        <target>You are not allowed to access this tenant</target>
-      </trans-unit>
-      <trans-unit id="errors.COMPANY_NOT_FOUND" datatype="html">
-        <source>Compañía no encontrada</source>
-        <target>Company not found</target>
-      </trans-unit>
-      <trans-unit id="errors.PORTAL_LANGUAGE_NOT_FOUND" datatype="html">
-        <source>Idioma no encontrado</source>
-        <target>Language not found</target>
-      </trans-unit>
-      <trans-unit id="errors.USER_NOT_AUTHENTICATED" datatype="html">
-        <source>Debe iniciar sesión</source>
-        <target>You must sign in</target>
-      </trans-unit>
-      <trans-unit id="errors.USERNAME_ALREADY_EXISTS" datatype="html">
-        <source>El nombre de usuario ya existe</source>
-        <target>Username already exists</target>
-      </trans-unit>
-      <trans-unit id="errors.EMAIL_ALREADY_EXISTS" datatype="html">
-        <source>El correo ya está registrado</source>
-        <target>Email is already registered</target>
-      </trans-unit>
-      <trans-unit id="errors.SUPERVISOR_NOT_FOUND" datatype="html">
-        <source>Supervisor no encontrado</source>
-        <target>Supervisor not found</target>
-      </trans-unit>
-      <trans-unit id="errors.SUPERVISOR_TENANT_MISMATCH" datatype="html">
-        <source>El supervisor no pertenece al tenant</source>
-        <target>Supervisor does not belong to the tenant</target>
-      </trans-unit>
-      <trans-unit id="errors.SUPERVISOR_SELF_REFERENCE" datatype="html">
-        <source>Un usuario no puede ser su propio supervisor</source>
-        <target>A user cannot be their own supervisor</target>
-      </trans-unit>
-      <trans-unit id="errors.CATALOG_NOT_FOUND" datatype="html">
-        <source>Catálogo no encontrado</source>
-        <target>Catalog not found</target>
-      </trans-unit>
-      <trans-unit id="errors.CATALOG_TENANT_MISMATCH" datatype="html">
-        <source>El catálogo no pertenece al tenant</source>
-        <target>Catalog does not belong to the tenant</target>
-      </trans-unit>
-      <trans-unit id="errors.BRANCH_COUNTRY_MISMATCH" datatype="html">
-        <source>La sucursal no corresponde al país del tenant</source>
-        <target>Branch does not match tenant country</target>
-      </trans-unit>
-      <trans-unit id="errors.UNAUTHORIZED" datatype="html">
-        <source>No autorizado</source>
-        <target>Unauthorized</target>
-      </trans-unit>
-      <trans-unit id="errors.DOCUMENT_TYPE_DEFAULT_SERVICE_REQUIRED" datatype="html">
-        <source>Debe seleccionar un servicio de procesamiento predeterminado</source>
-        <target>Debe seleccionar un servicio de procesamiento predeterminado</target>
-      </trans-unit>
-      <trans-unit id="errors.DOCUMENT_TYPE_INVALID_DEFAULT_SERVICE" datatype="html">
-        <source>El servicio predeterminado debe estar entre los servicios seleccionados</source>
-        <target>El servicio predeterminado debe estar entre los servicios seleccionados</target>
-      </trans-unit>
-      <trans-unit id="errors.DOCUMENT_TYPE_EXTENSION_INVALID" datatype="html">
-        <source>La extensión de archivo seleccionada no es válida</source>
-        <target>La extensión de archivo seleccionada no es válida</target>
-      </trans-unit>
-      <trans-unit id="errors.DOCUMENT_TYPE_PROCESSING_SERVICE_INVALID" datatype="html">
-        <source>El servicio de procesamiento seleccionado no es válido</source>
-        <target>El servicio de procesamiento seleccionado no es válido</target>
-      </trans-unit>
-      <trans-unit id="errors.generic" datatype="html">
-        <source>Ocurrió un error. Intente de nuevo.</source>
-        <target>An error occurred. Please try again.</target>
-      </trans-unit>
       <trans-unit id="auth.login.subtitle" datatype="html">
         <source>Portal de Reclutamiento</source>
         <target>Recruitment Portal</target>
@@ -4344,13 +6780,57 @@
         <source>Iniciar sesión con SSO corporativo</source>
         <target>Sign in with corporate SSO</target>
       </trans-unit>
+      <trans-unit id="inbox.subtitle" datatype="html">
+        <source>Historial de notificaciones del portal</source>
+        <target>Historial de notificaciones del portal</target>
+      </trans-unit>
+      <trans-unit id="inbox.loadError" datatype="html">
+        <source>No se pudieron cargar las notificaciones</source>
+        <target>Could not load las notificaciones</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.columnDocument" datatype="html">
+        <source>Documento</source>
+        <target>Documento</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.required" datatype="html">
+        <source>Obligatorio</source>
+        <target>Required</target>
+      </trans-unit>
+      <trans-unit id="requisition.section.jobRequirement" datatype="html">
+        <source>Requerimiento del Empleo</source>
+        <target>Requerimiento del Empleo</target>
+      </trans-unit>
+      <trans-unit id="requisition.action.generateJobDescription" datatype="html">
+        <source>Generar</source>
+        <target>Generar</target>
+      </trans-unit>
+      <trans-unit id="requisition.action.translateJobDescription" datatype="html">
+        <source>Traducir</source>
+        <target>Traducir</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.translateLanguage" datatype="html">
+        <source>Idioma</source>
+        <target>Language</target>
+      </trans-unit>
+      <trans-unit id="requisition.jobDescription.emptyPrompt" datatype="html">
+        <source>Escribe una instrucción o borrador en el campo antes de generar.</source>
+        <target>Escribe una instrucción o borrador en el campo antes de generar.</target>
+      </trans-unit>
+      <trans-unit id="requisition.jobDescription.emptyTranslate" datatype="html">
+        <source>Escribe o genera una descripción antes de traducir.</source>
+        <target>Escribe o genera una descripción antes de traducir.</target>
+      </trans-unit>
+      <trans-unit id="requisition.jobDescription.generateError" datatype="html">
+        <source>No se pudo generar la descripción. Intenta de nuevo.</source>
+        <target>No se pudo generar la descripción. Intenta de nuevo.</target>
+      </trans-unit>
+      <trans-unit id="requisition.jobDescription.translateError" datatype="html">
+        <source>No se pudo traducir la descripción. Intenta de nuevo.</source>
+        <target>No se pudo traducir la descripción. Intenta de nuevo.</target>
+      </trans-unit>
       <trans-unit id="catalogs.pending.message" datatype="html">
         <source> Catálogo pendiente de implementación. Ver plan <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code&gt;" />docs/technical/CATALOG-REFACTOR-PLAN-v1.md<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;" /> y issues AVV-380+. </source>
         <target> Catalog not yet implemented. See plan <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code&gt;" />docs/technical/CATALOG-REFACTOR-PLAN-v1.md<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;" /> and issues AVV-380+. </target>
-      </trans-unit>
-      <trans-unit id="catalogs.field.allCountries" datatype="html">
-        <source>Todos los países</source>
-        <target>All countries</target>
       </trans-unit>
       <trans-unit id="catalogs.field.processingServices" datatype="html">
         <source>Servicios de procesamiento</source>
@@ -4371,10 +6851,6 @@
       <trans-unit id="catalogs.field.mimeType" datatype="html">
         <source>MIME type</source>
         <target>MIME type</target>
-      </trans-unit>
-      <trans-unit id="catalogs.field.manpowerIdShort" datatype="html">
-        <source>Id MP</source>
-        <target>MP ID</target>
       </trans-unit>
       <trans-unit id="catalogs.field.primaryCode" datatype="html">
         <source>Clave 1</source>
@@ -4407,28 +6883,6 @@
       <trans-unit id="nav.settings.title" datatype="html">
         <source>Configuraciones</source>
         <target>Settings</target>
-      </trans-unit>
-      <trans-unit id="notifications.field.messageHint" datatype="html">
-        <source>Variables: <x id="INTERPOLATION" equiv-text="{{ '{' }}" />
-          <x id="INTERPOLATION" equiv-text="{{ '{' }}" />req<x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />
-          <x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />, <x id="INTERPOLATION" equiv-text="{{ '{' }}" />
-          <x id="INTERPOLATION" equiv-text="{{ '{' }}" />puesto<x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />
-          <x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />, <x id="INTERPOLATION" equiv-text="{{ '{' }}" />
-          <x id="INTERPOLATION" equiv-text="{{ '{' }}" />cliente<x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />
-          <x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />, <x id="INTERPOLATION" equiv-text="{{ '{' }}" />
-          <x id="INTERPOLATION" equiv-text="{{ '{' }}" />usuarioSolicita<x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />
-          <x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />
-        </source>
-        <target>Variables: <x id="INTERPOLATION" equiv-text="{{ '{' }}" />
-          <x id="INTERPOLATION" equiv-text="{{ '{' }}" />req<x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />
-          <x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />, <x id="INTERPOLATION" equiv-text="{{ '{' }}" />
-          <x id="INTERPOLATION" equiv-text="{{ '{' }}" />puesto<x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />
-          <x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />, <x id="INTERPOLATION" equiv-text="{{ '{' }}" />
-          <x id="INTERPOLATION" equiv-text="{{ '{' }}" />cliente<x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />
-          <x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />, <x id="INTERPOLATION" equiv-text="{{ '{' }}" />
-          <x id="INTERPOLATION" equiv-text="{{ '{' }}" />usuarioSolicita<x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />
-          <x id="INTERPOLATION_1" equiv-text="{{ '}' }}" />
-        </target>
       </trans-unit>
       <trans-unit id="users.search" datatype="html">
         <source>Buscar usuario</source>
@@ -4525,94 +6979,6 @@
       <trans-unit id="users.form.editTitle" datatype="html">
         <source>Editar usuario</source>
         <target>Edit user</target>
-      </trans-unit>
-      <trans-unit id="positions.cancelDialog.requisition" datatype="html">
-        <source>Requisición</source>
-        <target>Requisition</target>
-      </trans-unit>
-      <trans-unit id="positions.cancelDialog.show" datatype="html">
-        <source>Mostrar</source>
-        <target>Show</target>
-      </trans-unit>
-      <trans-unit id="positions.cancelDialog.hide" datatype="html">
-        <source>Ocultar</source>
-        <target>Hide</target>
-      </trans-unit>
-      <trans-unit id="positions.cancelDialog.candidates" datatype="html">
-        <source>Candidatos</source>
-        <target>Candidates</target>
-      </trans-unit>
-      <trans-unit id="positions.cancelDialog.col.name" datatype="html">
-        <source>Nombre completo</source>
-        <target>Full name</target>
-      </trans-unit>
-      <trans-unit id="positions.cancelDialog.col.email" datatype="html">
-        <source>Correo</source>
-        <target>Email</target>
-      </trans-unit>
-      <trans-unit id="positions.cancelDialog.col.phone" datatype="html">
-        <source>Teléfono</source>
-        <target>Phone</target>
-      </trans-unit>
-      <trans-unit id="positions.cancelDialog.col.status" datatype="html">
-        <source>Estado</source>
-        <target>Status</target>
-      </trans-unit>
-      <trans-unit id="positions.cancelDialog.type" datatype="html">
-        <source>Tipo de cancelación</source>
-        <target>Cancellation type</target>
-      </trans-unit>
-      <trans-unit id="positions.cancelDialog.reason" datatype="html">
-        <source>Motivos</source>
-        <target>Reasons</target>
-      </trans-unit>
-      <trans-unit id="positions.cancelDialog.description" datatype="html">
-        <source>Descripción (opcional)</source>
-        <target>Description (optional)</target>
-      </trans-unit>
-      <trans-unit id="positions.cancelDialog.evidence" datatype="html">
-        <source>Evidencia (opcional)</source>
-        <target>Evidence (optional)</target>
-      </trans-unit>
-      <trans-unit id="positions.cancelDialog.evidenceHint" datatype="html">
-        <source>PDF, JPG, PNG, DOC, DOCX, XLS o XLSX. Máximo 10 MB.</source>
-        <target>PDF, JPG, PNG, DOC, DOCX, XLS or XLSX. Max 10 MB.</target>
-      </trans-unit>
-      <trans-unit id="positions.cancelDialog.evidencePick" datatype="html">
-        <source>Seleccionar archivo</source>
-        <target>Select file</target>
-      </trans-unit>
-      <trans-unit id="positions.cancelDialog.evidenceClear" datatype="html">
-        <source>Quitar</source>
-        <target>Remove</target>
-      </trans-unit>
-      <trans-unit id="positions.cancelDialog.evidenceInvalid" datatype="html">
-        <source>Archivo no válido. Use PDF, JPG, PNG, DOC, DOCX, XLS o XLSX de hasta 10 MB.</source>
-        <target>Invalid file. Use PDF, JPG, PNG, DOC, DOCX, XLS or XLSX up to 10 MB.</target>
-      </trans-unit>
-      <trans-unit id="positions.cancelDialog.required" datatype="html">
-        <source>Campo obligatorio</source>
-        <target>Required field</target>
-      </trans-unit>
-      <trans-unit id="positions.cancelDialog.loadError" datatype="html">
-        <source>No se pudo cargar el impacto de cancelación</source>
-        <target>Could not load cancellation impact</target>
-      </trans-unit>
-      <trans-unit id="positions.cancelDialog.reasonsError" datatype="html">
-        <source>No se pudieron cargar los motivos</source>
-        <target>Could not load cancellation reasons</target>
-      </trans-unit>
-      <trans-unit id="positions.cancelDialog.criticalWarning" datatype="html">
-        <source>Hay candidatos en Preselección o Primer día. ¿Desea continuar con la cancelación?</source>
-        <target>There are candidates in Preselection or First day. Continue with cancellation?</target>
-      </trans-unit>
-      <trans-unit id="positions.cancelDialog.noCandidates" datatype="html">
-        <source>Sin candidatos asociados a esta posición</source>
-        <target>No candidates associated with this position</target>
-      </trans-unit>
-      <trans-unit id="positions.errors.cancelEvidenceUpload" datatype="html">
-        <source>No se pudo subir la evidencia de cancelación</source>
-        <target>Could not upload cancellation evidence</target>
       </trans-unit>
     </body>
   </file>
