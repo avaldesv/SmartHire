@@ -2,12 +2,21 @@
 """Generate es-ES and en-US XLF targets from messages.es-MX.xlf source."""
 from __future__ import annotations
 
+import json
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
 NS = {"x": "urn:oasis:names:tc:xliff:document:1.2"}
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src/locale/messages.es-MX.xlf"
+ERROR_CATALOG_EN = ROOT / "scripts/error_catalog_en.json"
+
+
+def load_error_catalog_en() -> dict[str, str]:
+    if not ERROR_CATALOG_EN.exists():
+        return {}
+    return json.loads(ERROR_CATALOG_EN.read_text(encoding="utf-8"))
+
 
 EN_BY_SOURCE: dict[str, str] = {
     "No se pudo iniciar sesión. Intente de nuevo.": "Sign-in failed. Please try again.",
@@ -674,8 +683,12 @@ EN_BY_SOURCE: dict[str, str] = {
     "No se pudo eliminar la configuración": "Could not delete the configuration",
 }
 
+ERROR_CATALOG_EN_MAP = load_error_catalog_en()
+
 
 def translate_en(source: str) -> str:
+    if source in ERROR_CATALOG_EN_MAP:
+        return ERROR_CATALOG_EN_MAP[source]
     if source in EN_BY_SOURCE:
         return EN_BY_SOURCE[source]
     if "Eliminar el usuario" in source:
