@@ -1,4 +1,5 @@
 import { FeedbackType } from '../feedback/feedback.types';
+import { API_ERROR_CATALOG_REQUISITION } from './api-error-catalog-requisition';
 
 export interface ApiErrorI18nEntry {
   title: string;
@@ -89,4 +90,5 @@ export const API_ERROR_CATALOG: Record<string, ApiErrorI18nEntry> = {
     title: $localize`:@@errors.DOCUMENT_TYPE_PROCESSING_SERVICE_INVALID.title:Servicio inválido`,
     message: $localize`:@@errors.DOCUMENT_TYPE_PROCESSING_SERVICE_INVALID.message:El servicio de procesamiento seleccionado no es válido.`,
   },
+  ...API_ERROR_CATALOG_REQUISITION,
 };

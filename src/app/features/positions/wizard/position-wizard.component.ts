@@ -10,9 +10,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_INFO_TITLE, FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import {
   catchError,
   combineLatest,
@@ -59,6 +60,21 @@ import {
   requisitionWizardEditSubtitle,
   requisitionWizardStepAria,
   requisitionWizardStepOf,
+  REQUISITION_WIZARD_LOAD_COUNTRIES_ERROR,
+  REQUISITION_WIZARD_LOAD_LANGUAGES_ERROR,
+  REQUISITION_WIZARD_LOAD_STATES_ERROR,
+  REQUISITION_WIZARD_LOAD_MUNICIPALITIES_ERROR,
+  REQUISITION_WIZARD_LOAD_NEIGHBORHOODS_ERROR,
+  REQUISITION_WIZARD_NO_NEIGHBORHOODS,
+  REQUISITION_WIZARD_LOAD_POSITION_ERROR,
+  REQUISITION_WIZARD_LOAD_CATALOGS_ERROR,
+  REQUISITION_WIZARD_VALIDATION_REQUIRED,
+  REQUISITION_WIZARD_SAVE_SUCCESS_CREATE,
+  REQUISITION_WIZARD_SAVE_SUCCESS_UPDATE,
+  REQUISITION_WIZARD_SAVE_ERROR_CREATE,
+  REQUISITION_WIZARD_SAVE_ERROR_UPDATE,
+  REQUISITION_WIZARD_JSON_EXPORTED,
+  REQUISITION_WIZARD_ATS_SIMULATED,
 } from './requisition-wizard-labels';
 import { DynamicWizardStepComponent } from './dynamic-wizard-step/dynamic-wizard-step.component';
 import {
@@ -94,7 +110,6 @@ import {
     MatSelectModule,
     MatButtonModule,
     MatIconModule,
-    MatSnackBarModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatDialogModule,
@@ -108,7 +123,7 @@ export class PositionWizardComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly dialog = inject(MatDialog);
   private readonly geographyService = inject(CatalogGeographyService);
   private readonly catalogService = inject(CatalogPositionService);
@@ -418,9 +433,9 @@ export class PositionWizardComponent implements OnInit {
         this.countries = items;
         this.loadingCatalog.countries = false;
       },
-      error: () => {
+      error: (err) => {
         this.loadingCatalog.countries = false;
-        this.snack.open('No se pudieron cargar los países', 'Cerrar', { duration: 4000 });
+        this.feedback.showApiError(err, { fallbackMessage: REQUISITION_WIZARD_LOAD_COUNTRIES_ERROR });
       },
     });
   }
@@ -438,9 +453,9 @@ export class PositionWizardComponent implements OnInit {
           }
         }
       },
-      error: () => {
+      error: (err) => {
         this.loadingCatalog.languages = false;
-        this.snack.open('No se pudieron cargar los idiomas', 'Cerrar', { duration: 4000 });
+        this.feedback.showApiError(err, { fallbackMessage: REQUISITION_WIZARD_LOAD_LANGUAGES_ERROR });
       },
     });
   }
@@ -836,10 +851,10 @@ export class PositionWizardComponent implements OnInit {
         this.states = items;
         this.loadingGeo.states = false;
       },
-      error: () => {
+      error: (err) => {
         this.states = [];
         this.loadingGeo.states = false;
-        this.snack.open('No se pudieron cargar los estados', 'Cerrar', { duration: 4000 });
+        this.feedback.showApiError(err, { fallbackMessage: REQUISITION_WIZARD_LOAD_STATES_ERROR });
       },
     });
   }
@@ -851,10 +866,10 @@ export class PositionWizardComponent implements OnInit {
         this.municipalities = items;
         this.loadingGeo.municipalities = false;
       },
-      error: () => {
+      error: (err) => {
         this.municipalities = [];
         this.loadingGeo.municipalities = false;
-        this.snack.open('No se pudieron cargar los municipios', 'Cerrar', { duration: 4000 });
+        this.feedback.showApiError(err, { fallbackMessage: REQUISITION_WIZARD_LOAD_MUNICIPALITIES_ERROR });
       },
     });
   }
@@ -869,12 +884,12 @@ export class PositionWizardComponent implements OnInit {
         if (items.length) {
           this.addressForm.controls.neighborhoodId.enable();
         } else {
-          this.snack.open('Sin colonias para ese código postal', 'Cerrar', { duration: 3000 });
+          this.feedback.showInfo(FEEDBACK_GENERIC_INFO_TITLE, REQUISITION_WIZARD_NO_NEIGHBORHOODS);
         }
       },
-      error: () => {
+      error: (err) => {
         this.loadingGeo.neighborhoods = false;
-        this.snack.open('No se pudieron cargar las colonias', 'Cerrar', { duration: 4000 });
+        this.feedback.showApiError(err, { fallbackMessage: REQUISITION_WIZARD_LOAD_NEIGHBORHOODS_ERROR });
       },
     });
   }
@@ -1055,9 +1070,9 @@ export class PositionWizardComponent implements OnInit {
           },
         });
       },
-      error: () => {
+      error: (err) => {
         this.loadingPosition = false;
-        this.snack.open('No se pudo cargar la requisición', 'Cerrar', { duration: 4000 });
+        this.feedback.showApiError(err, { fallbackMessage: REQUISITION_WIZARD_LOAD_POSITION_ERROR });
         this.router.navigate(['/positions']);
       },
     });
@@ -1165,10 +1180,10 @@ export class PositionWizardComponent implements OnInit {
           this.suppressCountryCascade = false;
           this.loadingPosition = false;
         },
-        error: () => {
+        error: (err) => {
           this.suppressCountryCascade = false;
           this.loadingPosition = false;
-          this.snack.open('Error al cargar catálogos de la requisición', 'Cerrar', { duration: 4000 });
+          this.feedback.showApiError(err, { fallbackMessage: REQUISITION_WIZARD_LOAD_CATALOGS_ERROR });
         },
       });
   }
@@ -1187,7 +1202,7 @@ export class PositionWizardComponent implements OnInit {
   exportJson(): void {
     const payload = this.useDynamicWizard ? this.buildDynamicPayload() : this.buildCreatePayload();
     console.log('JSON export:', payload);
-    this.snack.open('JSON exportado a consola', 'Cerrar', { duration: 3000 });
+    this.feedback.showInfo(FEEDBACK_GENERIC_INFO_TITLE, REQUISITION_WIZARD_JSON_EXPORTED);
   }
 
   private buildDynamicPayload(): CreatePositionRequest {
@@ -1265,7 +1280,7 @@ export class PositionWizardComponent implements OnInit {
   }
 
   sendAts(): void {
-    this.snack.open('Enviado a ATS (simulado)', 'Cerrar', { duration: 3000 });
+    this.feedback.showInfo(FEEDBACK_GENERIC_INFO_TITLE, REQUISITION_WIZARD_ATS_SIMULATED);
   }
 
   save(): void {
@@ -1284,7 +1299,7 @@ export class PositionWizardComponent implements OnInit {
     ];
     if (forms.some((f) => f.invalid)) {
       forms.forEach((f) => f.markAllAsTouched());
-      this.snack.open('Complete los campos obligatorios', 'Cerrar', { duration: 3000 });
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, REQUISITION_WIZARD_VALIDATION_REQUIRED);
       return;
     }
     if (this.creating) {
@@ -1300,20 +1315,18 @@ export class PositionWizardComponent implements OnInit {
     request$.subscribe({
       next: () => {
         this.creating = false;
-        this.snack.open(
-          this.isEditMode ? 'Requisición actualizada correctamente' : 'Requisición creada correctamente',
-          'Cerrar',
-          { duration: 3000 },
+        this.feedback.showSuccess(
+          this.isEditMode ? REQUISITION_WIZARD_SAVE_SUCCESS_UPDATE : REQUISITION_WIZARD_SAVE_SUCCESS_CREATE,
         );
         this.router.navigate(['/positions']);
       },
-      error: () => {
+      error: (err) => {
         this.creating = false;
-        this.snack.open(
-          this.isEditMode ? 'No se pudo actualizar la requisición' : 'No se pudo crear la requisición',
-          'Cerrar',
-          { duration: 4000 },
-        );
+        this.feedback.showApiError(err, {
+          fallbackMessage: this.isEditMode
+            ? REQUISITION_WIZARD_SAVE_ERROR_UPDATE
+            : REQUISITION_WIZARD_SAVE_ERROR_CREATE,
+        });
       },
     });
   }
@@ -1325,7 +1338,7 @@ export class PositionWizardComponent implements OnInit {
     this.dynamicWizardService.refreshValidators(this.dynamicForm, this.resolvedConfig);
     if (this.dynamicForm.invalid) {
       this.dynamicForm.markAllAsTouched();
-      this.snack.open('Complete los campos obligatorios', 'Cerrar', { duration: 3000 });
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, REQUISITION_WIZARD_VALIDATION_REQUIRED);
       return;
     }
     if (this.creating) {
@@ -1341,20 +1354,18 @@ export class PositionWizardComponent implements OnInit {
     request$.subscribe({
       next: () => {
         this.creating = false;
-        this.snack.open(
-          this.isEditMode ? 'Requisición actualizada correctamente' : 'Requisición creada correctamente',
-          'Cerrar',
-          { duration: 3000 },
+        this.feedback.showSuccess(
+          this.isEditMode ? REQUISITION_WIZARD_SAVE_SUCCESS_UPDATE : REQUISITION_WIZARD_SAVE_SUCCESS_CREATE,
         );
         this.router.navigate(['/positions']);
       },
-      error: () => {
+      error: (err) => {
         this.creating = false;
-        this.snack.open(
-          this.isEditMode ? 'No se pudo actualizar la requisición' : 'No se pudo crear la requisición',
-          'Cerrar',
-          { duration: 4000 },
-        );
+        this.feedback.showApiError(err, {
+          fallbackMessage: this.isEditMode
+            ? REQUISITION_WIZARD_SAVE_ERROR_UPDATE
+            : REQUISITION_WIZARD_SAVE_ERROR_CREATE,
+        });
       },
     });
   }

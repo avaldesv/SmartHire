@@ -7,10 +7,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Subscription, debounceTime, distinctUntilChanged } from 'rxjs';
+import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_INFO_TITLE } from '../../../../core/i18n/feedback-labels';
 import {
   PUBGEN_CLOSE,
   PUBGEN_CONTACT_SECTION,
@@ -45,7 +46,6 @@ import {
   PUBGEN_EMAIL_ERROR,
   PUBGEN_EMAIL_LOADING,
   PUBGEN_EMAIL_SUCCESS,
-  PUBGEN_SNACK_CLOSE,
   PUBGEN_TEMPLATES_CHECK_ERROR,
 } from '../../../../core/i18n/publication-generate-labels';
 import {
@@ -100,7 +100,7 @@ export class PublicationGenerateDialogComponent implements OnInit, OnDestroy {
   private readonly templateApi = inject(PublicationTemplateApiService);
   private readonly referenceData = inject(ReferenceDataService);
   private readonly dialog = inject(MatDialog);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly fb = inject(FormBuilder);
   private readonly sanitizer = inject(DomSanitizer);
 
@@ -194,8 +194,8 @@ export class PublicationGenerateDialogComponent implements OnInit, OnDestroy {
           this.configForm.markAllAsTouched();
         }
       },
-      error: () => {
-        this.snack.open(PUBGEN_TEMPLATES_CHECK_ERROR, PUBGEN_SNACK_CLOSE, { duration: 4000 });
+      error: (err) => {
+        this.feedback.showApiError(err, { fallbackMessage: PUBGEN_TEMPLATES_CHECK_ERROR });
       },
     });
   }
@@ -261,7 +261,7 @@ export class PublicationGenerateDialogComponent implements OnInit, OnDestroy {
   shareWhatsApp(): void {
     if (!this.canShareWhatsApp) {
       if (this.formatForm.controls.format.value !== 'JPG') {
-        this.snack.open(PUBGEN_SHARE_JPG_HINT, PUBGEN_SNACK_CLOSE, { duration: 4000 });
+        this.feedback.showInfo(FEEDBACK_GENERIC_INFO_TITLE, PUBGEN_SHARE_JPG_HINT);
       }
       return;
     }
@@ -292,11 +292,11 @@ export class PublicationGenerateDialogComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.sharing = false;
-          this.snack.open(PUBGEN_SHARE_SUCCESS, PUBGEN_SNACK_CLOSE, { duration: 3000 });
+          this.feedback.showSuccess(PUBGEN_SHARE_SUCCESS);
         },
-        error: () => {
+        error: (err) => {
           this.sharing = false;
-          this.snack.open(PUBGEN_SHARE_ERROR, PUBGEN_SNACK_CLOSE, { duration: 4000 });
+          this.feedback.showApiError(err, { fallbackMessage: PUBGEN_SHARE_ERROR });
         },
       });
   }
@@ -331,11 +331,11 @@ export class PublicationGenerateDialogComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.sendingEmail = false;
-          this.snack.open(PUBGEN_EMAIL_SUCCESS, PUBGEN_SNACK_CLOSE, { duration: 3000 });
+          this.feedback.showSuccess(PUBGEN_EMAIL_SUCCESS);
         },
-        error: () => {
+        error: (err) => {
           this.sendingEmail = false;
-          this.snack.open(PUBGEN_EMAIL_ERROR, PUBGEN_SNACK_CLOSE, { duration: 4000 });
+          this.feedback.showApiError(err, { fallbackMessage: PUBGEN_EMAIL_ERROR });
         },
       });
   }
@@ -408,9 +408,9 @@ export class PublicationGenerateDialogComponent implements OnInit, OnDestroy {
           this.setPreview(blob, format);
           this.generating = false;
         },
-        error: () => {
+        error: (err) => {
           this.generating = false;
-          this.snack.open(PUBGEN_ERROR_GENERATE, PUBGEN_SNACK_CLOSE, { duration: 4000 });
+          this.feedback.showApiError(err, { fallbackMessage: PUBGEN_ERROR_GENERATE });
         },
       });
   }
@@ -420,13 +420,13 @@ export class PublicationGenerateDialogComponent implements OnInit, OnDestroy {
       next: (ctx) => {
         this.referenceData.listCountryDialCodes(ctx.countryId).subscribe({
           next: (options) => this.applyDialCodes(options, ctx.countryId),
-          error: () => this.snack.open(PUBGEN_DIAL_CODES_ERROR, PUBGEN_SNACK_CLOSE, { duration: 3500 }),
+          error: (err) => this.feedback.showApiError(err, { fallbackMessage: PUBGEN_DIAL_CODES_ERROR }),
         });
       },
       error: () => {
         this.referenceData.listCountryDialCodes().subscribe({
           next: (options) => this.applyDialCodes(options, null),
-          error: () => this.snack.open(PUBGEN_DIAL_CODES_ERROR, PUBGEN_SNACK_CLOSE, { duration: 3500 }),
+          error: (err) => this.feedback.showApiError(err, { fallbackMessage: PUBGEN_DIAL_CODES_ERROR }),
         });
       },
     });

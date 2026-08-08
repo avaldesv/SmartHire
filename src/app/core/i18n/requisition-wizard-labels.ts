@@ -179,6 +179,24 @@ export const REQUISITION_SCOPE_COUNTRY = $localize`:@@requisition.wizard.scopeCo
 export const REQUISITION_SCOPE_COVERAGE = $localize`:@@requisition.wizard.scopeCoverage:Tipo de cobertura`;
 export const REQUISITION_SCOPE_LOADING = $localize`:@@requisition.wizard.scopeLoading:Cargando...`;
 
+export const REQUISITION_WIZARD_LOAD_COUNTRIES_ERROR = $localize`:@@requisition.wizard.errors.loadCountries:No se pudieron cargar los países`;
+export const REQUISITION_WIZARD_LOAD_LANGUAGES_ERROR = $localize`:@@requisition.wizard.errors.loadLanguages:No se pudieron cargar los idiomas`;
+export const REQUISITION_WIZARD_LOAD_STATES_ERROR = $localize`:@@requisition.wizard.errors.loadStates:No se pudieron cargar los estados`;
+export const REQUISITION_WIZARD_LOAD_MUNICIPALITIES_ERROR = $localize`:@@requisition.wizard.errors.loadMunicipalities:No se pudieron cargar los municipios`;
+export const REQUISITION_WIZARD_LOAD_NEIGHBORHOODS_ERROR = $localize`:@@requisition.wizard.errors.loadNeighborhoods:No se pudieron cargar las colonias`;
+export const REQUISITION_WIZARD_NO_NEIGHBORHOODS = $localize`:@@requisition.wizard.info.noNeighborhoods:Sin colonias para ese código postal`;
+export const REQUISITION_WIZARD_LOAD_POSITION_ERROR = $localize`:@@requisition.wizard.errors.loadPosition:No se pudo cargar la requisición`;
+export const REQUISITION_WIZARD_LOAD_CATALOGS_ERROR = $localize`:@@requisition.wizard.errors.loadCatalogs:Error al cargar catálogos de la requisición`;
+export const REQUISITION_WIZARD_VALIDATION_REQUIRED = $localize`:@@requisition.wizard.errors.validationRequired:Complete los campos obligatorios`;
+export const REQUISITION_WIZARD_SAVE_SUCCESS_CREATE = $localize`:@@requisition.wizard.success.create:Requisición creada correctamente`;
+export const REQUISITION_WIZARD_SAVE_SUCCESS_UPDATE = $localize`:@@requisition.wizard.success.update:Requisición actualizada correctamente`;
+export const REQUISITION_WIZARD_SAVE_ERROR_CREATE = $localize`:@@requisition.wizard.errors.create:No se pudo crear la requisición`;
+export const REQUISITION_WIZARD_SAVE_ERROR_UPDATE = $localize`:@@requisition.wizard.errors.update:No se pudo actualizar la requisición`;
+export const REQUISITION_WIZARD_JSON_EXPORTED = $localize`:@@requisition.wizard.info.jsonExported:JSON exportado a consola`;
+export const REQUISITION_WIZARD_ATS_SIMULATED = $localize`:@@requisition.wizard.info.atsSimulated:Enviado a ATS (simulado)`;
+export const REQUISITION_SCOPE_LOAD_COUNTRIES_ERROR = REQUISITION_WIZARD_LOAD_COUNTRIES_ERROR;
+export const REQUISITION_SCOPE_LOAD_COVERAGE_ERROR = $localize`:@@requisition.wizard.errors.loadCoverage:No se pudieron cargar los tipos de cobertura`;
+
 export function requisitionWizardCreateSubtitle(steps: number): string {
   return $localize`:@@requisition.wizard.createSubtitle:Asistente de creación en ${steps}:steps: pasos`;
 }

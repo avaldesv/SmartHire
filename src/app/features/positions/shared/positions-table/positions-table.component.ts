@@ -12,10 +12,14 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { catchError, debounceTime, distinctUntilChanged, forkJoin, map, of, switchMap } from 'rxjs';
 import { AppPermissions } from '../../../../core/auth/app-permissions';
+import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
+import {
+  FEEDBACK_GENERIC_INFO_TITLE,
+  FEEDBACK_GENERIC_WARNING_TITLE,
+} from '../../../../core/i18n/feedback-labels';
 import { getRequisitionStatusLabel } from '../../../../core/i18n/common-labels';
 import { CV_BULK_ACTION } from '../../../../core/i18n/cv-bulk-labels';
 import { EXCEL_BULK_ACTION } from '../../../../core/i18n/excel-bulk-labels';
@@ -108,7 +112,6 @@ import {
   POSITIONS_REQUEST_CANCELLATION_SUCCESS,
   POSITIONS_SEARCH_LABEL,
   POSITIONS_SEARCH_PLACEHOLDER,
-  POSITIONS_SNACK_CLOSE,
   buildDuplicatedPositionName,
   positionsApproveCancellationConfirm,
   positionsCandidatesApplied,
@@ -208,7 +211,6 @@ interface ClientOption {
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule,
     MatMenuModule,
     MatDialogModule,
     StatusBadgeComponent,
@@ -230,7 +232,7 @@ export class PositionsTableComponent implements OnInit {
   private readonly generalCategoryService = inject(CatalogGeneralCategoryService);
   private readonly userService = inject(SecurityUserService);
   private readonly questionnaireService = inject(QuestionnaireQuestionnaireApiService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly fb = inject(FormBuilder);
   private readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
@@ -944,9 +946,9 @@ export class PositionsTableComponent implements OnInit {
           this.total = res.total;
           this.loading = false;
         },
-        error: () => {
+        error: (err) => {
           this.loading = false;
-          this.snack.open(POSITIONS_LOAD_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
+          this.feedback.showApiError(err, { fallbackMessage: POSITIONS_LOAD_ERROR });
         },
       });
   }
@@ -963,7 +965,7 @@ export class PositionsTableComponent implements OnInit {
     this.clientOptions = [];
     this.stateOptions = [];
     this.clearCountryDependentCatalogs();
-    this.snack.open(POSITIONS_FILTERS_CLEARED, POSITIONS_SNACK_CLOSE, { duration: 2500 });
+    this.feedback.showInfo(FEEDBACK_GENERIC_INFO_TITLE, POSITIONS_FILTERS_CLEARED);
   }
 
   private reloadAndNotify(): void {
@@ -976,27 +978,35 @@ export class PositionsTableComponent implements OnInit {
     this.positionService.duplicate(row.id, positionName).subscribe({
       next: (res) => {
         this.reloadAndNotify();
-        this.snack.open(positionsDuplicateSuccess(res.id), POSITIONS_SNACK_CLOSE, { duration: 4000 });
+        this.feedback.showSuccess(positionsDuplicateSuccess(res.id));
         void this.router.navigate(['/positions', res.id, 'edit']);
       },
-      error: () => {
-        this.snack.open(POSITIONS_DUPLICATE_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
+      error: (err) => {
+        this.feedback.showApiError(err, { fallbackMessage: POSITIONS_DUPLICATE_ERROR });
       },
     });
   }
 
   publishOnPortal(row: PositionListItem): void {
-    if (!confirm(POSITIONS_PUBLISH_ON_PORTAL_CONFIRM)) {
-      return;
-    }
-    this.positionService.publishOnPortal(row.id).subscribe({
-      next: () => {
-        this.snack.open(POSITIONS_PUBLISH_ON_PORTAL_SUCCESS, POSITIONS_SNACK_CLOSE, { duration: 3500 });
-      },
-      error: () => {
-        this.snack.open(POSITIONS_PUBLISH_ON_PORTAL_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
-      },
-    });
+    this.feedback
+      .confirm({
+        title: FEEDBACK_GENERIC_WARNING_TITLE,
+        message: POSITIONS_PUBLISH_ON_PORTAL_CONFIRM,
+        confirmWarn: true,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
+        this.positionService.publishOnPortal(row.id).subscribe({
+          next: () => {
+            this.feedback.showSuccess(POSITIONS_PUBLISH_ON_PORTAL_SUCCESS);
+          },
+          error: (err) => {
+            this.feedback.showApiError(err, { fallbackMessage: POSITIONS_PUBLISH_ON_PORTAL_ERROR });
+          },
+        });
+      });
   }
 
   cancelPosition(row: PositionListItem): void {
@@ -1060,18 +1070,15 @@ export class PositionsTableComponent implements OnInit {
       request$.subscribe({
         next: () => {
           this.reloadAndNotify();
-          this.snack.open(
+          this.feedback.showSuccess(
             mode === 'request' ? POSITIONS_REQUEST_CANCELLATION_SUCCESS : POSITIONS_CANCEL_SUCCESS,
-            POSITIONS_SNACK_CLOSE,
-            { duration: 3000 },
           );
         },
-        error: () => {
-          this.snack.open(
-            mode === 'request' ? POSITIONS_REQUEST_CANCELLATION_ERROR : POSITIONS_CANCEL_ERROR,
-            POSITIONS_SNACK_CLOSE,
-            { duration: 4000 },
-          );
+        error: (err) => {
+          this.feedback.showApiError(err, {
+            fallbackMessage:
+              mode === 'request' ? POSITIONS_REQUEST_CANCELLATION_ERROR : POSITIONS_CANCEL_ERROR,
+          });
         },
       });
     };
@@ -1079,8 +1086,8 @@ export class PositionsTableComponent implements OnInit {
     if (result.evidenceFile) {
       this.positionService.uploadCancellationEvidence(positionId, result.evidenceFile).subscribe({
         next: (evidence) => callApi(buildBody(evidence)),
-        error: () => {
-          this.snack.open(POSITIONS_CANCEL_EVIDENCE_UPLOAD_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
+        error: (err) => {
+          this.feedback.showApiError(err, { fallbackMessage: POSITIONS_CANCEL_EVIDENCE_UPLOAD_ERROR });
         },
       });
       return;
@@ -1093,46 +1100,62 @@ export class PositionsTableComponent implements OnInit {
     if (!this.canEdit() || row.status !== 'PENDING_CANCELLATION') {
       return;
     }
-    if (!confirm(positionsApproveCancellationConfirm(row.requisitionNo))) {
-      return;
-    }
-    this.positionService.approveCancellation(row.id).subscribe({
-      next: () => {
-        this.reloadAndNotify();
-        this.snack.open(POSITIONS_APPROVE_CANCELLATION_SUCCESS, POSITIONS_SNACK_CLOSE, { duration: 3000 });
-      },
-      error: () => {
-        this.snack.open(POSITIONS_APPROVE_CANCELLATION_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
-      },
-    });
+    this.feedback
+      .confirm({
+        title: FEEDBACK_GENERIC_WARNING_TITLE,
+        message: positionsApproveCancellationConfirm(row.requisitionNo),
+        confirmWarn: true,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
+        this.positionService.approveCancellation(row.id).subscribe({
+          next: () => {
+            this.reloadAndNotify();
+            this.feedback.showSuccess(POSITIONS_APPROVE_CANCELLATION_SUCCESS);
+          },
+          error: (err) => {
+            this.feedback.showApiError(err, { fallbackMessage: POSITIONS_APPROVE_CANCELLATION_ERROR });
+          },
+        });
+      });
   }
 
   rejectCancellation(row: PositionListItem): void {
     if (!this.canEdit() || row.status !== 'PENDING_CANCELLATION') {
       return;
     }
-    if (!confirm(positionsRejectCancellationConfirm(row.requisitionNo))) {
-      return;
-    }
-    this.dialog
-      .open(PositionReasonDialogComponent, {
-        width: '480px',
-        data: { required: false, title: this.actionRejectCancellation },
+    this.feedback
+      .confirm({
+        title: FEEDBACK_GENERIC_WARNING_TITLE,
+        message: positionsRejectCancellationConfirm(row.requisitionNo),
+        confirmWarn: true,
       })
-      .afterClosed()
-      .subscribe((reason: string | null | undefined) => {
-        if (reason === undefined) {
+      .subscribe((ok) => {
+        if (!ok) {
           return;
         }
-        this.positionService.rejectCancellation(row.id, reason).subscribe({
-          next: () => {
-            this.reloadAndNotify();
-            this.snack.open(POSITIONS_REJECT_CANCELLATION_SUCCESS, POSITIONS_SNACK_CLOSE, { duration: 3000 });
-          },
-          error: () => {
-            this.snack.open(POSITIONS_REJECT_CANCELLATION_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
-          },
-        });
+        this.dialog
+          .open(PositionReasonDialogComponent, {
+            width: '480px',
+            data: { required: false, title: this.actionRejectCancellation },
+          })
+          .afterClosed()
+          .subscribe((reason: string | null | undefined) => {
+            if (reason === undefined) {
+              return;
+            }
+            this.positionService.rejectCancellation(row.id, reason).subscribe({
+              next: () => {
+                this.reloadAndNotify();
+                this.feedback.showSuccess(POSITIONS_REJECT_CANCELLATION_SUCCESS);
+              },
+              error: (err) => {
+                this.feedback.showApiError(err, { fallbackMessage: POSITIONS_REJECT_CANCELLATION_ERROR });
+              },
+            });
+          });
       });
   }
 
@@ -1140,18 +1163,26 @@ export class PositionsTableComponent implements OnInit {
     if (!this.canExecuteCancellation() || row.status !== 'CANCELLATION_AUTHORIZED') {
       return;
     }
-    if (!confirm(positionsExecuteCancellationConfirm(row.requisitionNo))) {
-      return;
-    }
-    this.positionService.executeCancellation(row.id).subscribe({
-      next: () => {
-        this.reloadAndNotify();
-        this.snack.open(POSITIONS_EXECUTE_CANCELLATION_SUCCESS, POSITIONS_SNACK_CLOSE, { duration: 3000 });
-      },
-      error: () => {
-        this.snack.open(POSITIONS_EXECUTE_CANCELLATION_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
-      },
-    });
+    this.feedback
+      .confirm({
+        title: FEEDBACK_GENERIC_WARNING_TITLE,
+        message: positionsExecuteCancellationConfirm(row.requisitionNo),
+        confirmWarn: true,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
+        this.positionService.executeCancellation(row.id).subscribe({
+          next: () => {
+            this.reloadAndNotify();
+            this.feedback.showSuccess(POSITIONS_EXECUTE_CANCELLATION_SUCCESS);
+          },
+          error: (err) => {
+            this.feedback.showApiError(err, { fallbackMessage: POSITIONS_EXECUTE_CANCELLATION_ERROR });
+          },
+        });
+      });
   }
 
   openHistory(row: PositionListItem): void {
@@ -1178,10 +1209,10 @@ export class PositionsTableComponent implements OnInit {
         this.positionService.reassign(row.id, result).subscribe({
           next: () => {
             this.reloadAndNotify();
-            this.snack.open(POSITIONS_REASSIGN_SUCCESS, POSITIONS_SNACK_CLOSE, { duration: 3000 });
+            this.feedback.showSuccess(POSITIONS_REASSIGN_SUCCESS);
           },
-          error: () => {
-            this.snack.open(POSITIONS_REASSIGN_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
+          error: (err) => {
+            this.feedback.showApiError(err, { fallbackMessage: POSITIONS_REASSIGN_ERROR });
           },
         });
       });
@@ -1199,11 +1230,7 @@ export class PositionsTableComponent implements OnInit {
     ref.afterClosed().subscribe((result) => {
       if (result?.created) {
         this.reloadAndNotify();
-        this.snack.open(
-          positionsCandidatesApplied(result.created, row.requisitionNo),
-          POSITIONS_SNACK_CLOSE,
-          { duration: 4000 },
-        );
+        this.feedback.showSuccess(positionsCandidatesApplied(result.created, row.requisitionNo));
       }
     });
   }
@@ -1235,8 +1262,8 @@ export class PositionsTableComponent implements OnInit {
       next: (detail) => {
         this.openPublicationGenerateDialog(row.id, detail.contactEmail ?? '', detail.contactPhone ?? '');
       },
-      error: () => {
-        this.snack.open(POSITIONS_GENERATE_PUBLICATION_LOAD_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
+      error: (err) => {
+        this.feedback.showApiError(err, { fallbackMessage: POSITIONS_GENERATE_PUBLICATION_LOAD_ERROR });
       },
     });
   }
