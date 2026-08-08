@@ -7,8 +7,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { CandidateApiService } from '../../../core/services/candidate-api.service';
@@ -31,7 +31,6 @@ import {
     MatSelectModule,
     MatButtonModule,
     MatSlideToggleModule,
-    MatSnackBarModule,
     MatProgressSpinnerModule,
     PageHeaderComponent,
   ],
@@ -44,7 +43,7 @@ export class CandidateFormComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly candidateService = inject(CandidateApiService);
   private readonly geographyService = inject(CatalogGeographyService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly destroyRef = inject(DestroyRef);
 
   isEdit = false;
@@ -105,9 +104,9 @@ export class CandidateFormComponent implements OnInit {
           this.loadStates(mexico.id);
         }
       },
-      error: () => {
+      error: (err) => {
         this.loadingGeo.countries = false;
-        this.snack.open('No se pudieron cargar los países', 'Cerrar', { duration: 4000 });
+        this.feedback.showSuccess('No se pudieron cargar los países');
       },
     });
   }
@@ -183,9 +182,9 @@ export class CandidateFormComponent implements OnInit {
         this.states = items;
         this.loadingGeo.states = false;
       },
-      error: () => {
+      error: (err) => {
         this.loadingGeo.states = false;
-        this.snack.open('No se pudieron cargar los estados', 'Cerrar', { duration: 4000 });
+        this.feedback.showSuccess('No se pudieron cargar los estados');
       },
     });
   }
@@ -197,9 +196,9 @@ export class CandidateFormComponent implements OnInit {
         this.municipalities = items;
         this.loadingGeo.municipalities = false;
       },
-      error: () => {
+      error: (err) => {
         this.loadingGeo.municipalities = false;
-        this.snack.open('No se pudieron cargar los municipios', 'Cerrar', { duration: 4000 });
+        this.feedback.showSuccess('No se pudieron cargar los municipios');
       },
     });
   }
@@ -214,12 +213,12 @@ export class CandidateFormComponent implements OnInit {
         if (items.length) {
           this.form.controls.neighborhoodId.enable();
         } else {
-          this.snack.open('Sin colonias para ese código postal', 'Cerrar', { duration: 3000 });
+          this.feedback.showSuccess('Sin colonias para ese código postal');
         }
       },
-      error: () => {
+      error: (err) => {
         this.loadingGeo.neighborhoods = false;
-        this.snack.open('No se pudieron cargar las colonias', 'Cerrar', { duration: 4000 });
+        this.feedback.showSuccess('No se pudieron cargar las colonias');
       },
     });
   }
@@ -276,9 +275,9 @@ export class CandidateFormComponent implements OnInit {
           }
           this.loading = false;
         },
-        error: () => {
+        error: (err) => {
           this.loading = false;
-          this.snack.open('No se pudo cargar el candidato', 'Cerrar', { duration: 4000 });
+          this.feedback.showSuccess('No se pudo cargar el candidato');
         },
       });
     }
@@ -297,12 +296,12 @@ export class CandidateFormComponent implements OnInit {
     request$.subscribe({
       next: () => {
         this.saving = false;
-        this.snack.open(this.isEdit ? 'Candidato actualizado' : 'Candidato creado', 'Cerrar', { duration: 3000 });
+        this.feedback.showSuccess(this.isEdit ? 'Candidato actualizado' : 'Candidato creado');
         this.router.navigate(['/candidates']);
       },
-      error: () => {
+      error: (err) => {
         this.saving = false;
-        this.snack.open('No se pudo guardar el candidato', 'Cerrar', { duration: 4000 });
+        this.feedback.showSuccess('No se pudo guardar el candidato');
       },
     });
   }

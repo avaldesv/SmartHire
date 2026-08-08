@@ -8,8 +8,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { PermissionService } from '../../../core/services/permission.service';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { CatalogPipelineStageService } from '../../../core/services/catalog-pipeline-stage.service';
@@ -67,7 +68,6 @@ import {
     MatInputModule,
     MatCheckboxModule,
     MatSelectModule,
-    MatSnackBarModule,
     MatRadioModule,
     TableRowActionsComponent,
   ],
@@ -78,7 +78,7 @@ export class PipelineStagesComponent implements OnInit {
   private readonly pipelineStageService = inject(CatalogPipelineStageService);
   private readonly geographyService = inject(CatalogGeographyService);
   private readonly permissions = inject(PermissionService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly fb = inject(FormBuilder);
 
   readonly isGlobalAdmin = computed(() => this.permissions.isGlobalAdmin());
@@ -140,7 +140,7 @@ export class PipelineStagesComponent implements OnInit {
         this.countries = countries;
         this.load();
       },
-      error: () => {
+      error: (err) => {
         this.load();
       },
     });
@@ -153,9 +153,9 @@ export class PipelineStagesComponent implements OnInit {
         this.data = [...items].sort((a, b) => a.sortOrder - b.sortOrder);
         this.loading = false;
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open(PIPELINE_STAGES_LOAD_ERROR, PIPELINE_STAGES_SNACK_CLOSE, { duration: 4000 });
+        this.feedback.showApiError(err, { fallbackMessage: PIPELINE_STAGES_LOAD_ERROR });
       },
     });
   }
@@ -229,32 +229,40 @@ export class PipelineStagesComponent implements OnInit {
         this.saving = false;
         this.showForm = false;
         this.editingStageId = null;
-        this.snack.open(PIPELINE_STAGES_SAVE_SUCCESS, PIPELINE_STAGES_SNACK_CLOSE, { duration: 3000 });
+        this.feedback.showSuccess(PIPELINE_STAGES_SAVE_SUCCESS);
         this.load();
       },
-      error: () => {
+      error: (err) => {
         this.saving = false;
-        this.snack.open(PIPELINE_STAGES_SAVE_ERROR, PIPELINE_STAGES_SNACK_CLOSE, { duration: 4000 });
+        this.feedback.showApiError(err, { fallbackMessage: PIPELINE_STAGES_SAVE_ERROR });
       },
     });
   }
 
   deleteStage(stage: CatalogPipelineStage): void {
-    if (!confirm(pipelineStagesDeleteConfirm(stage.name))) {
-      return;
-    }
-    this.deletingId = stage.id;
-    this.pipelineStageService.delete(stage.id).subscribe({
-      next: () => {
-        this.deletingId = null;
-        this.snack.open(PIPELINE_STAGES_DELETE_SUCCESS, PIPELINE_STAGES_SNACK_CLOSE, { duration: 3000 });
-        this.load();
-      },
-      error: () => {
-        this.deletingId = null;
-        this.snack.open(PIPELINE_STAGES_DELETE_ERROR, PIPELINE_STAGES_SNACK_CLOSE, { duration: 4000 });
-      },
-    });
+    this.feedback
+      .confirm({
+        title: FEEDBACK_GENERIC_WARNING_TITLE,
+        message: pipelineStagesDeleteConfirm(stage.name),
+        confirmWarn: true,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
+        this.deletingId = stage.id;
+        this.pipelineStageService.delete(stage.id).subscribe({
+          next: () => {
+            this.deletingId = null;
+            this.feedback.showSuccess(PIPELINE_STAGES_DELETE_SUCCESS);
+            this.load();
+          },
+          error: (err) => {
+            this.deletingId = null;
+            this.feedback.showApiError(err, { fallbackMessage: PIPELINE_STAGES_DELETE_ERROR });
+          },
+        });
+      });
   }
 
   moveStage(stage: CatalogPipelineStage, direction: -1 | 1): void {
@@ -276,9 +284,9 @@ export class PipelineStagesComponent implements OnInit {
         this.reordering = false;
         this.load();
       },
-      error: () => {
+      error: (err) => {
         this.reordering = false;
-        this.snack.open(PIPELINE_STAGES_REORDER_ERROR, PIPELINE_STAGES_SNACK_CLOSE, { duration: 4000 });
+        this.feedback.showApiError(err, { fallbackMessage: PIPELINE_STAGES_REORDER_ERROR });
       },
     });
   }

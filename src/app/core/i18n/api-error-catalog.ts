@@ -1,5 +1,9 @@
 import { FeedbackType } from '../feedback/feedback.types';
+import { API_ERROR_CATALOG_CATALOG } from './api-error-catalog-catalog';
+import { API_ERROR_CATALOG_NOTIFICATION } from './api-error-catalog-notification';
+import { API_ERROR_CATALOG_QUESTIONNAIRE } from './api-error-catalog-questionnaire';
 import { API_ERROR_CATALOG_REQUISITION } from './api-error-catalog-requisition';
+import { API_ERROR_CATALOG_SECURITY } from './api-error-catalog-security';
 
 export interface ApiErrorI18nEntry {
   title: string;
@@ -24,10 +28,6 @@ export const API_ERROR_CATALOG: Record<string, ApiErrorI18nEntry> = {
   ERROR_WRONG_TENANT_ACCESS: {
     title: $localize`:@@errors.ERROR_WRONG_TENANT_ACCESS.title:Acceso denegado`,
     message: $localize`:@@errors.ERROR_WRONG_TENANT_ACCESS.message:No tiene permiso para acceder a este tenant.`,
-  },
-  COMPANY_NOT_FOUND: {
-    title: $localize`:@@errors.COMPANY_NOT_FOUND.title:Compañía no encontrada`,
-    message: $localize`:@@errors.COMPANY_NOT_FOUND.message:La compañía solicitada no existe.`,
   },
   PORTAL_LANGUAGE_NOT_FOUND: {
     title: $localize`:@@errors.PORTAL_LANGUAGE_NOT_FOUND.title:Idioma no encontrado`,
@@ -57,38 +57,14 @@ export const API_ERROR_CATALOG: Record<string, ApiErrorI18nEntry> = {
     title: $localize`:@@errors.SUPERVISOR_SELF_REFERENCE.title:Supervisor inválido`,
     message: $localize`:@@errors.SUPERVISOR_SELF_REFERENCE.message:Un usuario no puede ser su propio supervisor.`,
   },
-  CATALOG_NOT_FOUND: {
-    title: $localize`:@@errors.CATALOG_NOT_FOUND.title:Catálogo no encontrado`,
-    message: $localize`:@@errors.CATALOG_NOT_FOUND.message:El registro de catálogo no existe.`,
-  },
-  CATALOG_TENANT_MISMATCH: {
-    title: $localize`:@@errors.CATALOG_TENANT_MISMATCH.title:Catálogo inválido`,
-    message: $localize`:@@errors.CATALOG_TENANT_MISMATCH.message:El catálogo no pertenece al tenant.`,
-  },
-  BRANCH_COUNTRY_MISMATCH: {
-    title: $localize`:@@errors.BRANCH_COUNTRY_MISMATCH.title:Sucursal inválida`,
-    message: $localize`:@@errors.BRANCH_COUNTRY_MISMATCH.message:La sucursal no corresponde al país del tenant.`,
-  },
   UNAUTHORIZED: {
     title: $localize`:@@errors.UNAUTHORIZED.title:No autorizado`,
     message: $localize`:@@errors.UNAUTHORIZED.message:No tiene permiso para realizar esta acción.`,
     severity: 'warning',
   },
-  DOCUMENT_TYPE_DEFAULT_SERVICE_REQUIRED: {
-    title: $localize`:@@errors.DOCUMENT_TYPE_DEFAULT_SERVICE_REQUIRED.title:Servicio requerido`,
-    message: $localize`:@@errors.DOCUMENT_TYPE_DEFAULT_SERVICE_REQUIRED.message:Debe seleccionar un servicio de procesamiento predeterminado.`,
-  },
-  DOCUMENT_TYPE_INVALID_DEFAULT_SERVICE: {
-    title: $localize`:@@errors.DOCUMENT_TYPE_INVALID_DEFAULT_SERVICE.title:Servicio inválido`,
-    message: $localize`:@@errors.DOCUMENT_TYPE_INVALID_DEFAULT_SERVICE.message:El servicio predeterminado debe estar entre los servicios seleccionados.`,
-  },
-  DOCUMENT_TYPE_EXTENSION_INVALID: {
-    title: $localize`:@@errors.DOCUMENT_TYPE_EXTENSION_INVALID.title:Extensión inválida`,
-    message: $localize`:@@errors.DOCUMENT_TYPE_EXTENSION_INVALID.message:La extensión de archivo seleccionada no es válida.`,
-  },
-  DOCUMENT_TYPE_PROCESSING_SERVICE_INVALID: {
-    title: $localize`:@@errors.DOCUMENT_TYPE_PROCESSING_SERVICE_INVALID.title:Servicio inválido`,
-    message: $localize`:@@errors.DOCUMENT_TYPE_PROCESSING_SERVICE_INVALID.message:El servicio de procesamiento seleccionado no es válido.`,
-  },
+  ...API_ERROR_CATALOG_SECURITY,
+  ...API_ERROR_CATALOG_CATALOG,
+  ...API_ERROR_CATALOG_NOTIFICATION,
+  ...API_ERROR_CATALOG_QUESTIONNAIRE,
   ...API_ERROR_CATALOG_REQUISITION,
 };

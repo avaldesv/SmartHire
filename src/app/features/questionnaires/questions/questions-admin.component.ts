@@ -9,8 +9,9 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { filter, switchMap } from 'rxjs';
 import { AppPermissions } from '../../../core/auth/app-permissions';
 import {
@@ -64,7 +65,6 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSlideToggleModule,
-    MatSnackBarModule,
     MatProgressSpinnerModule,
     MatButtonModule,
     MatIconModule,
@@ -83,7 +83,7 @@ export class QuestionsAdminComponent implements OnInit {
   private readonly api = inject(QuestionnaireV2QuestionApiService);
   private readonly categoryApi = inject(QuestionnaireKnowledgeCategoryApiService);
   private readonly permissions = inject(PermissionService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly dialog = inject(MatDialog);
   private readonly fb = inject(FormBuilder);
 
@@ -197,9 +197,9 @@ export class QuestionsAdminComponent implements OnInit {
           this.total = total;
           this.loading = false;
         },
-        error: () => {
+        error: (err) => {
           this.loading = false;
-          this.snack.open(QQUEST_ERRORS_LIST, QQUEST_SNACK_CLOSE, { duration: 3500 });
+          this.feedback.showApiError(err, { fallbackMessage: QQUEST_ERRORS_LIST });
         },
       });
   }
@@ -239,7 +239,7 @@ export class QuestionsAdminComponent implements OnInit {
       .afterClosed()
       .pipe(filter((saved): saved is boolean => saved === true))
       .subscribe(() => {
-        this.snack.open(QQUEST_SUCCESS_SAVED, QQUEST_SNACK_CLOSE, { duration: 2500 });
+        this.feedback.showSuccess(QQUEST_SUCCESS_SAVED);
         this.load();
       });
   }
@@ -280,10 +280,10 @@ export class QuestionsAdminComponent implements OnInit {
           Object.assign(row, updated);
           this.savingId = null;
         },
-        error: () => {
+        error: (err) => {
           row.isActive = previous;
           this.savingId = null;
-          this.snack.open(QQUEST_ERRORS_SAVE, QQUEST_SNACK_CLOSE, { duration: 3500 });
+          this.feedback.showApiError(err, { fallbackMessage: QQUEST_ERRORS_SAVE });
         },
       });
   }
@@ -292,20 +292,28 @@ export class QuestionsAdminComponent implements OnInit {
     if (!this.canDeleteRecord(row)) {
       return;
     }
-    if (!confirm(qquestDeleteConfirm(this.textPreview(row.text)))) {
-      return;
-    }
-    this.deletingId = row.id;
-    this.api.delete(row.id).subscribe({
-      next: () => {
-        this.deletingId = null;
-        this.snack.open(QQUEST_SUCCESS_DELETED, QQUEST_SNACK_CLOSE, { duration: 3000 });
-        this.load();
-      },
-      error: () => {
-        this.deletingId = null;
-        this.snack.open(QQUEST_ERRORS_DELETE, QQUEST_SNACK_CLOSE, { duration: 3500 });
-      },
-    });
+    this.feedback
+      .confirm({
+        title: FEEDBACK_GENERIC_WARNING_TITLE,
+        message: qquestDeleteConfirm(this.textPreview(row.text)),
+        confirmWarn: true,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
+        this.deletingId = row.id;
+        this.api.delete(row.id).subscribe({
+          next: () => {
+            this.deletingId = null;
+            this.feedback.showSuccess(QQUEST_SUCCESS_DELETED);
+            this.load();
+          },
+          error: (err) => {
+            this.deletingId = null;
+            this.feedback.showApiError(err, { fallbackMessage: QQUEST_ERRORS_DELETE });
+          },
+        });
+      });
   }
 }

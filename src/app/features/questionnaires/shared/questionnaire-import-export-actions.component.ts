@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { AppPermissions } from '../../../core/auth/app-permissions';
 import {
   CatalogImportExportService,
@@ -25,7 +25,7 @@ import {
 @Component({
   selector: 'sh-questionnaire-import-export-actions',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, MatSnackBarModule, MatTooltipModule],
+  imports: [MatButtonModule, MatIconModule, MatTooltipModule],
   template: `
     <div class="table-import-export-actions">
       <span class="catalog-label">{{ catalogLabel }}</span>
@@ -77,7 +77,7 @@ export class QuestionnaireImportExportActionsComponent {
   private readonly permissions = inject(PermissionService);
   private readonly catalogImportExport = inject(CatalogImportExportService);
   private readonly dialog = inject(MatDialog);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
 
   exporting = false;
   readonly exportTooltip = CATALOG_IMPORT_EXPORT_TOOLTIP;
@@ -106,9 +106,9 @@ export class QuestionnaireImportExportActionsComponent {
         downloadBlob(blob, `${this.catalogKey}-export.csv`);
         this.exporting = false;
       },
-      error: () => {
+      error: (err) => {
         this.exporting = false;
-        this.snackBar.open(CATALOG_IMPORT_EXPORT_ERROR, CATALOG_IMPORT_SNACK_CLOSE, { duration: 4000 });
+        this.feedback.showApiError(err, { fallbackMessage: CATALOG_IMPORT_EXPORT_ERROR });
       },
     });
   }
@@ -126,7 +126,7 @@ export class QuestionnaireImportExportActionsComponent {
       .afterClosed()
       .subscribe((imported) => {
         if (imported) {
-          this.snackBar.open(CATALOG_IMPORT_COMPLETE, CATALOG_IMPORT_SNACK_CLOSE, { duration: 3000 });
+          this.feedback.showSuccess(CATALOG_IMPORT_COMPLETE);
           this.importComplete.emit();
         }
       });

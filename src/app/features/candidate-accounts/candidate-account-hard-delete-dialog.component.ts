@@ -4,7 +4,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { FeedbackDialogService } from '../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../core/i18n/feedback-labels';
 import {
   CANDIDATE_ACCOUNTS_CANCEL,
   CANDIDATE_ACCOUNTS_ERRORS_HARD,
@@ -31,7 +32,7 @@ export class CandidateAccountHardDeleteDialogComponent {
   private readonly dialogRef = inject(MatDialogRef<CandidateAccountHardDeleteDialogComponent, boolean>);
   readonly data = inject<CandidateAccountHardDeleteDialogData>(MAT_DIALOG_DATA);
   private readonly api = inject(CandidateAccountApiService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly fb = inject(FormBuilder);
 
   deleting = false;
@@ -60,9 +61,9 @@ export class CandidateAccountHardDeleteDialogComponent {
         this.deleting = false;
         this.dialogRef.close(true);
       },
-      error: () => {
+      error: (err) => {
         this.deleting = false;
-        this.snack.open(CANDIDATE_ACCOUNTS_ERRORS_HARD, CANDIDATE_ACCOUNTS_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: CANDIDATE_ACCOUNTS_ERRORS_HARD });
       },
     });
   }

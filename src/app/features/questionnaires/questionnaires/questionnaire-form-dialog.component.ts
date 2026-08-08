@@ -9,7 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { forkJoin, map, of, switchMap } from 'rxjs';
 import { AppPermissions } from '../../../core/auth/app-permissions';
 import {
@@ -104,7 +105,7 @@ export class QuestionnaireFormDialogComponent implements OnInit {
   private readonly questionApi = inject(QuestionnaireV2QuestionApiService);
   private readonly categoryApi = inject(QuestionnaireKnowledgeCategoryApiService);
   private readonly permissions = inject(PermissionService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly fb = inject(FormBuilder);
 
   readonly isGlobalAdmin = computed(() => this.permissions.isGlobalAdmin());
@@ -177,9 +178,9 @@ export class QuestionnaireFormDialogComponent implements OnInit {
           this.loading = false;
         }
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open(QQN_ERRORS_LOAD, QQN_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: QQN_ERRORS_LOAD });
       },
     });
   }
@@ -263,9 +264,9 @@ export class QuestionnaireFormDialogComponent implements OnInit {
           this.form.disable();
         }
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open(QQN_ERRORS_LOAD, QQN_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: QQN_ERRORS_LOAD });
       },
     });
   }
@@ -391,9 +392,9 @@ export class QuestionnaireFormDialogComponent implements OnInit {
         this.editingItem = saved;
         this.dialogRef.close(true);
       },
-      error: () => {
+      error: (err) => {
         this.saving = false;
-        this.snack.open(QQN_ERRORS_SAVE, QQN_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: QQN_ERRORS_SAVE });
       },
     });
   }
@@ -402,42 +403,58 @@ export class QuestionnaireFormDialogComponent implements OnInit {
     if (!this.canPublish() || !this.editingItem) {
       return;
     }
-    if (!confirm(QQN_PUBLISH_CONFIRM)) {
-      return;
-    }
-    this.publishing = true;
-    this.api.publish(this.editingItem.id).subscribe({
-      next: () => {
-        this.publishing = false;
-        this.snack.open(QQN_PUBLISH_SUCCESS, QQN_SNACK_CLOSE, { duration: 2500 });
-        this.dialogRef.close('published');
-      },
-      error: () => {
-        this.publishing = false;
-        this.snack.open(QQN_PUBLISH_ERROR, QQN_SNACK_CLOSE, { duration: 3500 });
-      },
-    });
+    this.feedback
+      .confirm({
+        title: FEEDBACK_GENERIC_WARNING_TITLE,
+        message: QQN_PUBLISH_CONFIRM,
+        confirmWarn: true,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
+        this.publishing = true;
+        this.api.publish(this.editingItem!.id).subscribe({
+          next: () => {
+            this.publishing = false;
+            this.feedback.showSuccess(QQN_PUBLISH_SUCCESS);
+            this.dialogRef.close('published');
+          },
+          error: (err) => {
+            this.publishing = false;
+            this.feedback.showApiError(err, { fallbackMessage: QQN_PUBLISH_ERROR });
+          },
+        });
+      });
   }
 
   archive(): void {
     if (!this.canArchive() || !this.editingItem) {
       return;
     }
-    if (!confirm(QQN_ARCHIVE_CONFIRM)) {
-      return;
-    }
-    this.archiving = true;
-    this.api.archive(this.editingItem.id).subscribe({
-      next: () => {
-        this.archiving = false;
-        this.snack.open(QQN_ARCHIVE_SUCCESS, QQN_SNACK_CLOSE, { duration: 2500 });
-        this.dialogRef.close('archived');
-      },
-      error: () => {
-        this.archiving = false;
-        this.snack.open(QQN_ARCHIVE_ERROR, QQN_SNACK_CLOSE, { duration: 3500 });
-      },
-    });
+    this.feedback
+      .confirm({
+        title: FEEDBACK_GENERIC_WARNING_TITLE,
+        message: QQN_ARCHIVE_CONFIRM,
+        confirmWarn: true,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
+        this.archiving = true;
+        this.api.archive(this.editingItem!.id).subscribe({
+          next: () => {
+            this.archiving = false;
+            this.feedback.showSuccess(QQN_ARCHIVE_SUCCESS);
+            this.dialogRef.close('archived');
+          },
+          error: (err) => {
+            this.archiving = false;
+            this.feedback.showApiError(err, { fallbackMessage: QQN_ARCHIVE_ERROR });
+          },
+        });
+      });
   }
 
   cancel(): void {

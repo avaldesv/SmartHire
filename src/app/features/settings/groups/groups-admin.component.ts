@@ -10,8 +10,9 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { PermissionService } from '../../../core/services/permission.service';
 import { SecurityModulePermissionService } from '../../../core/services/security-module-permission.service';
 import { SecurityRoleService } from '../../../core/services/security-role.service';
@@ -68,7 +69,6 @@ import {
     MatInputModule,
     MatCheckboxModule,
     MatSelectModule,
-    MatSnackBarModule,
     MatRadioModule,
     ScopeBadgeComponent,
     TableRowActionsComponent,
@@ -81,7 +81,7 @@ export class GroupsAdminComponent implements OnInit {
   private readonly permissionService = inject(SecurityModulePermissionService);
   private readonly tenantContext = inject(TenantContextService);
   private readonly appPermissions = inject(PermissionService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly fb = inject(FormBuilder);
   private tenantReloadReady = false;
 
@@ -182,7 +182,7 @@ export class GroupsAdminComponent implements OnInit {
       next: (permissions) => {
         this.permissionOptions = permissions;
       },
-      error: () => this.snack.open(GROUPS_LOAD_PERMISSIONS_ERROR, GROUPS_SNACK_CLOSE, { duration: 4000 }),
+      error: (err) => this.feedback.showApiError(err, { fallbackMessage: GROUPS_LOAD_PERMISSIONS_ERROR }),
     });
   }
 
@@ -194,9 +194,9 @@ export class GroupsAdminComponent implements OnInit {
         this.total = res.total;
         this.loading = false;
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open(GROUPS_LOAD_ERROR, GROUPS_SNACK_CLOSE, { duration: 4000 });
+        this.feedback.showApiError(err, { fallbackMessage: GROUPS_LOAD_ERROR });
       },
     });
   }
@@ -236,7 +236,7 @@ export class GroupsAdminComponent implements OnInit {
             role.permissions?.map((p) => p.modulePermission?.id).filter((id): id is number => id != null) ?? [],
         });
       },
-      error: () => {
+      error: (err) => {
         this.roleForm.patchValue({
           name: row.name,
           description: row.description ?? '',
@@ -271,7 +271,7 @@ export class GroupsAdminComponent implements OnInit {
         })
         .subscribe({
           next: () => this.onSaveSuccess(),
-          error: () => this.onSaveError(),
+          error: (err) => this.onSaveError(err),
         });
       return;
     }
@@ -286,7 +286,7 @@ export class GroupsAdminComponent implements OnInit {
       })
       .subscribe({
         next: () => this.onSaveSuccess(),
-        error: () => this.onSaveError(),
+        error: (err) => this.onSaveError(err),
       });
   }
 
@@ -294,35 +294,43 @@ export class GroupsAdminComponent implements OnInit {
     this.saving = false;
     this.cancelForm();
     this.load();
-    this.snack.open(GROUPS_SAVE_SUCCESS, GROUPS_SNACK_CLOSE, { duration: 3000 });
+    this.feedback.showSuccess(GROUPS_SAVE_SUCCESS);
   }
 
-  private onSaveError(): void {
+  private onSaveError(err?: unknown): void {
     this.saving = false;
-    this.snack.open(GROUPS_SAVE_ERROR, GROUPS_SNACK_CLOSE, { duration: 4000 });
+    this.feedback.showApiError(err, { fallbackMessage: GROUPS_SAVE_ERROR });
   }
 
   deleteRole(row: SecurityRole): void {
     if (!this.canDeleteRole(row)) {
       return;
     }
-    if (!confirm(groupsDeleteConfirm(row.name))) {
-      return;
-    }
-    this.deletingRoleId = row.id;
-    this.roleService.delete(row.id).subscribe({
-      next: () => {
-        this.deletingRoleId = null;
-        if (this.editingRoleId === row.id) {
-          this.cancelForm();
+    this.feedback
+      .confirm({
+        title: FEEDBACK_GENERIC_WARNING_TITLE,
+        message: groupsDeleteConfirm(row.name),
+        confirmWarn: true,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
         }
-        this.load();
-        this.snack.open(GROUPS_DELETE_SUCCESS, GROUPS_SNACK_CLOSE, { duration: 3000 });
-      },
-      error: () => {
-        this.deletingRoleId = null;
-        this.snack.open(GROUPS_DELETE_ERROR, GROUPS_SNACK_CLOSE, { duration: 4000 });
-      },
-    });
+        this.deletingRoleId = row.id;
+        this.roleService.delete(row.id).subscribe({
+          next: () => {
+            this.deletingRoleId = null;
+            if (this.editingRoleId === row.id) {
+              this.cancelForm();
+            }
+            this.load();
+            this.feedback.showSuccess(GROUPS_DELETE_SUCCESS);
+          },
+          error: (err) => {
+            this.deletingRoleId = null;
+            this.feedback.showApiError(err, { fallbackMessage: GROUPS_DELETE_ERROR });
+          },
+        });
+      });
   }
 }

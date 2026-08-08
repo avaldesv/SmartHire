@@ -4,7 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import {
   DOCUMENTS_FIELD_CURP,
   DOCUMENTS_FIELD_DEADLINE_DAYS,
@@ -14,13 +14,12 @@ import {
   DOCUMENTS_PAGE_TITLE,
   DOCUMENTS_SAVE_SUCCESS,
   SETTINGS_CONFIG_SAVE,
-  SETTINGS_CONFIG_SNACK_CLOSE,
 } from '../../../core/i18n/settings-config-labels';
 
 @Component({
   selector: 'sh-documents-config',
   standalone: true,
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatCheckboxModule, MatButtonModule, MatSnackBarModule],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatCheckboxModule, MatButtonModule],
   template: `
     <h3>{{ pageTitle }}</h3>
     <form [formGroup]="form" (ngSubmit)="save()" class="sh-card config-form">
@@ -39,7 +38,7 @@ import {
 })
 export class DocumentsConfigComponent {
   private readonly fb = inject(FormBuilder);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
 
   readonly pageTitle = DOCUMENTS_PAGE_TITLE;
   readonly fieldIne = DOCUMENTS_FIELD_INE;
@@ -58,6 +57,6 @@ export class DocumentsConfigComponent {
   });
 
   save(): void {
-    this.snack.open(DOCUMENTS_SAVE_SUCCESS, SETTINGS_CONFIG_SNACK_CLOSE, { duration: 2500 });
+    this.feedback.showSuccess(DOCUMENTS_SAVE_SUCCESS);
   }
 }

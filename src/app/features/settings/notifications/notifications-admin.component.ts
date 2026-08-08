@@ -10,10 +10,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { NotificationTemplateApiService } from '../../../core/services/notification-template-api.service';
 import {
@@ -120,7 +121,6 @@ import {
     MatTableModule,
     MatChipsModule,
     MatSlideToggleModule,
-    MatSnackBarModule,
     MatProgressSpinnerModule,
     MatButtonModule,
     MatIconModule,
@@ -141,7 +141,7 @@ export class NotificationsAdminComponent implements OnInit, OnDestroy {
   @ViewChild('templateFormTpl') templateFormTpl!: TemplateRef<unknown>;
 
   private readonly notificationApi = inject(NotificationTemplateApiService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly fb = inject(FormBuilder);
   private readonly dialog = inject(MatDialog);
   private readonly destroy$ = new Subject<void>();
@@ -311,7 +311,7 @@ export class NotificationsAdminComponent implements OnInit, OnDestroy {
         this.actions = items;
         this.coverageModules = [...new Set(items.map((a) => a.module).filter(Boolean))].sort();
       },
-      error: () => {
+      error: (err) => {
         this.actions = [];
         this.coverageModules = [];
       },
@@ -339,9 +339,9 @@ export class NotificationsAdminComponent implements OnInit, OnDestroy {
           this.templatesTotal = total;
           this.loading = false;
         },
-        error: () => {
+        error: (err) => {
           this.loading = false;
-          this.snack.open(NOTIFICATIONS_LOAD_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
+          this.feedback.showApiError(err, { fallbackMessage: NOTIFICATIONS_LOAD_ERROR });
         },
       });
   }
@@ -381,9 +381,9 @@ export class NotificationsAdminComponent implements OnInit, OnDestroy {
           this.logsTotal = total;
           this.logsLoading = false;
         },
-        error: () => {
+        error: (err) => {
           this.logsLoading = false;
-          this.snack.open(NOTIFICATIONS_LOGS_LOAD_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
+          this.feedback.showApiError(err, { fallbackMessage: NOTIFICATIONS_LOGS_LOAD_ERROR });
         },
       });
   }
@@ -440,9 +440,9 @@ export class NotificationsAdminComponent implements OnInit, OnDestroy {
           this.coverageSummary = notificationsCoverageSummary(res.coveredActions, res.totalActions);
           this.coverageLoading = false;
         },
-        error: () => {
+        error: (err) => {
           this.coverageLoading = false;
-          this.snack.open(NOTIFICATIONS_COVERAGE_LOAD_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
+          this.feedback.showApiError(err, { fallbackMessage: NOTIFICATIONS_COVERAGE_LOAD_ERROR });
         },
       });
   }
@@ -473,9 +473,9 @@ export class NotificationsAdminComponent implements OnInit, OnDestroy {
         this.failedTotal = total;
         this.failedLoading = false;
       },
-      error: () => {
+      error: (err) => {
         this.failedLoading = false;
-        this.snack.open(NOTIFICATIONS_FAILED_LOAD_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: NOTIFICATIONS_FAILED_LOAD_ERROR });
       },
     });
   }
@@ -502,12 +502,12 @@ export class NotificationsAdminComponent implements OnInit, OnDestroy {
     this.notificationApi.retryOutbox(row.id).subscribe({
       next: () => {
         this.retryingOutboxId = null;
-        this.snack.open(NOTIFICATIONS_RETRY_SUCCESS, NOTIFICATIONS_SNACK_CLOSE, { duration: 2500 });
+        this.feedback.showSuccess(NOTIFICATIONS_RETRY_SUCCESS);
         this.loadFailedOutbox();
       },
-      error: () => {
+      error: (err) => {
         this.retryingOutboxId = null;
-        this.snack.open(NOTIFICATIONS_RETRY_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: NOTIFICATIONS_RETRY_ERROR });
       },
     });
   }
@@ -615,9 +615,9 @@ export class NotificationsAdminComponent implements OnInit, OnDestroy {
           this.preview = result;
           this.previewLoading = false;
         },
-        error: () => {
+        error: (err) => {
           this.previewLoading = false;
-          this.snack.open(NOTIFICATIONS_PREVIEW_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
+          this.feedback.showApiError(err, { fallbackMessage: NOTIFICATIONS_PREVIEW_ERROR });
         },
       });
   }
@@ -648,7 +648,7 @@ export class NotificationsAdminComponent implements OnInit, OnDestroy {
     }
     const value = this.templateForm.getRawValue();
     if (!value.channels.length) {
-      this.snack.open(NOTIFICATIONS_CHANNELS_REQUIRED, NOTIFICATIONS_SNACK_CLOSE, { duration: 3000 });
+      this.feedback.showSuccess(NOTIFICATIONS_CHANNELS_REQUIRED);
       return;
     }
 
@@ -670,12 +670,12 @@ export class NotificationsAdminComponent implements OnInit, OnDestroy {
     request$.subscribe({
       next: () => {
         this.saving = false;
-        this.snack.open(NOTIFICATIONS_SAVE_SUCCESS, NOTIFICATIONS_SNACK_CLOSE, { duration: 2500 });
+        this.feedback.showSuccess(NOTIFICATIONS_SAVE_SUCCESS);
         this.formDialogRef?.close(true);
       },
-      error: () => {
+      error: (err) => {
         this.saving = false;
-        this.snack.open(NOTIFICATIONS_SAVE_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: NOTIFICATIONS_SAVE_ERROR });
       },
     });
   }
@@ -698,14 +698,12 @@ export class NotificationsAdminComponent implements OnInit, OnDestroy {
         next: (updated) => {
           Object.assign(row, updated);
           this.savingId = null;
-          this.snack.open(notificationsToggleMessage(row.action, row.active), NOTIFICATIONS_SNACK_CLOSE, {
-            duration: 2500,
-          });
+          this.feedback.showSuccess(notificationsToggleMessage(row.action, row.active));
         },
-        error: () => {
+        error: (err) => {
           row.active = previous;
           this.savingId = null;
-          this.snack.open(NOTIFICATIONS_UPDATE_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
+          this.feedback.showApiError(err, { fallbackMessage: NOTIFICATIONS_UPDATE_ERROR });
         },
       });
   }
@@ -727,9 +725,16 @@ export class NotificationsAdminComponent implements OnInit, OnDestroy {
   }
 
   deleteTemplate(row: NotificationTemplateItem): void {
-    if (!confirm(notificationsDeleteConfirm(row.action))) {
-      return;
-    }
+    this.feedback
+      .confirm({
+        title: FEEDBACK_GENERIC_WARNING_TITLE,
+        message: notificationsDeleteConfirm(row.action),
+        confirmWarn: true,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
     this.deletingId = row.id;
     this.notificationApi.delete(row.id).subscribe({
       next: () => {
@@ -737,13 +742,14 @@ export class NotificationsAdminComponent implements OnInit, OnDestroy {
         if (this.editingId === row.id) {
           this.cancelForm();
         }
-        this.snack.open(NOTIFICATIONS_DELETE_SUCCESS, NOTIFICATIONS_SNACK_CLOSE, { duration: 3000 });
+        this.feedback.showSuccess(NOTIFICATIONS_DELETE_SUCCESS);
         this.load();
       },
-      error: () => {
+      error: (err) => {
         this.deletingId = null;
-        this.snack.open(NOTIFICATIONS_DELETE_ERROR, NOTIFICATIONS_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: NOTIFICATIONS_DELETE_ERROR });
       },
     });
+      });
   }
 }

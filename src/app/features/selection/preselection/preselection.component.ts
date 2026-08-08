@@ -5,11 +5,12 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { CandidateApplicationApiService } from '../../../core/services/candidate-application-api.service';
 import { CandidateApiService } from '../../../core/services/candidate-api.service';
 import { PermissionService } from '../../../core/services/permission.service';
@@ -48,7 +49,6 @@ import {
     MatButtonModule,
     MatIconModule,
     MatCheckboxModule,
-    MatSnackBarModule,
     MatProgressSpinnerModule,
     MatMenuModule,
     MatDividerModule,
@@ -65,7 +65,7 @@ export class PreselectionComponent implements OnInit {
   private readonly candidateApi = inject(CandidateApiService);
   private readonly questionnaireApi = inject(QuestionnaireApiService);
   private readonly dialog = inject(MatDialog);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly permission = inject(PermissionService);
 
   readonly positionId = +this.route.parent!.snapshot.paramMap.get('positionId')!;
@@ -123,9 +123,9 @@ export class PreselectionComponent implements OnInit {
         this.loading = false;
         this.updateSelected();
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open('No se pudieron cargar los candidatos postulados', 'Cerrar', { duration: 4000 });
+        this.feedback.showApiError(err, { fallbackMessage: 'No se pudieron cargar los candidatos postulados' });
       },
     });
   }
@@ -147,7 +147,7 @@ export class PreselectionComponent implements OnInit {
     );
     ref.afterClosed().subscribe((result) => {
       if (result?.created) {
-        this.snack.open(`${result.created} candidato(s) postulado(s)`, 'Cerrar', { duration: 3500 });
+        this.feedback.showSuccess(`${result.created} candidato(s) postulado(s)`);
         this.loadApplications();
       }
     });
@@ -205,13 +205,21 @@ export class PreselectionComponent implements OnInit {
   }
 
   releaseAll(): void {
-    if (!confirm('¿Liberar todas las postulaciones de esta posición? Se marcarán como RELEASED.')) {
-      return;
-    }
-    this.runBulk(
-      this.applicationApi.releaseAll({ positionId: this.positionId }),
-      'Todas las postulaciones liberadas',
-    );
+    this.feedback
+      .confirm({
+        title: FEEDBACK_GENERIC_WARNING_TITLE,
+        message: '¿Liberar todas las postulaciones de esta posición? Se marcarán como RELEASED.',
+        confirmWarn: true,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
+        this.runBulk(
+          this.applicationApi.releaseAll({ positionId: this.positionId }),
+          'Todas las postulaciones liberadas',
+        );
+      });
   }
 
   private runBulk(
@@ -222,18 +230,18 @@ export class PreselectionComponent implements OnInit {
     request$.subscribe({
       next: (res) => {
         this.bulkLoading = false;
-        this.snack.open(`${successMessage} (${res.updatedCount})`, 'Cerrar', { duration: 3500 });
+        this.feedback.showSuccess(`${successMessage} (${res.updatedCount})`);
         this.loadApplications();
       },
-      error: () => {
+      error: (err) => {
         this.bulkLoading = false;
-        this.snack.open('No se pudo completar la acción masiva', 'Cerrar', { duration: 4000 });
+        this.feedback.showApiError(err, { fallbackMessage: 'No se pudo completar la acción masiva' });
       },
     });
   }
 
   action(name: string): void {
-    this.snack.open(`${name}: ${this.selectedCount} candidato(s)`, 'Cerrar', { duration: 2500 });
+    this.feedback.showSuccess(`${name}: ${this.selectedCount} candidato(s)`);
   }
 
   visibleRowActions(): PreselectionRowAction[] {
@@ -294,7 +302,7 @@ export class PreselectionComponent implements OnInit {
       return;
     }
     const name = `${row.firstName} ${row.lastName}`.trim();
-    this.snack.open(`${action.label} — ${name}: pendiente de integración API`, 'Cerrar', { duration: 3500 });
+    this.feedback.showSuccess(`${action.label} — ${name}: pendiente de integración API`);
   }
 
   private deselectSingleRow(row: PreselectionCandidate): void {
@@ -336,10 +344,10 @@ export class PreselectionComponent implements OnInit {
         this.applicationApi.patchApplication(row.applicationId, { compatibilityPercent }).subscribe({
           next: (res) => {
             row.compatibility = res.compatibilityPercent ?? compatibilityPercent;
-            this.snack.open('Compatibilidad actualizada', 'Cerrar', { duration: 3500 });
+            this.feedback.showSuccess('Compatibilidad actualizada');
           },
-          error: () => {
-            this.snack.open('No se pudo actualizar la compatibilidad', 'Cerrar', { duration: 4000 });
+          error: (err) => {
+            this.feedback.showApiError(err, { fallbackMessage: 'No se pudo actualizar la compatibilidad' });
           },
         });
       });
@@ -350,14 +358,12 @@ export class PreselectionComponent implements OnInit {
     this.applicationApi.patchApplication(row.applicationId, { interviewScheduled: schedule }).subscribe({
       next: (res) => {
         row.interviewScheduled = res.interviewScheduled;
-        this.snack.open(
+        this.feedback.showSuccess(
           res.interviewScheduled ? 'Cita de entrevista solicitada' : 'Cita de entrevista cancelada',
-          'Cerrar',
-          { duration: 3500 },
         );
       },
-      error: () => {
-        this.snack.open('No se pudo actualizar la cita de entrevista', 'Cerrar', { duration: 4000 });
+      error: (err) => {
+        this.feedback.showApiError(err, { fallbackMessage: 'No se pudo actualizar la cita de entrevista' });
       },
     });
   }
@@ -382,10 +388,10 @@ export class PreselectionComponent implements OnInit {
     this.candidateApi.getCvDownloadUrl(row.id).subscribe({
       next: (res) => {
         window.open(res.downloadUrl, '_blank', 'noopener,noreferrer');
-        this.snack.open(`CV: ${res.fileName}`, 'Cerrar', { duration: 3500 });
+        this.feedback.showSuccess(`CV: ${res.fileName}`);
       },
-      error: () => {
-        this.snack.open('No se pudo obtener la URL de descarga del CV', 'Cerrar', { duration: 4000 });
+      error: (err) => {
+        this.feedback.showApiError(err, { fallbackMessage: 'No se pudo obtener la URL de descarga del CV' });
       },
     });
   }
@@ -402,32 +408,32 @@ export class PreselectionComponent implements OnInit {
 
   private validateApplicationInfo(row: PreselectionCandidate): void {
     if (row.infoValidated) {
-      this.snack.open('La información ya está validada', 'Cerrar', { duration: 3000 });
+      this.feedback.showSuccess('La información ya está validada');
       return;
     }
     this.applicationApi.validateInfo(row.applicationId).subscribe({
       next: (res) => {
         this.applyValidationFlags(row, res);
-        this.snack.open('Información validada', 'Cerrar', { duration: 3500 });
+        this.feedback.showSuccess('Información validada');
       },
-      error: () => {
-        this.snack.open('No se pudo validar la información', 'Cerrar', { duration: 4000 });
+      error: (err) => {
+        this.feedback.showApiError(err, { fallbackMessage: 'No se pudo validar la información' });
       },
     });
   }
 
   private validateApplicationStudies(row: PreselectionCandidate): void {
     if (row.studiesValidated) {
-      this.snack.open('Los estudios ya están validados', 'Cerrar', { duration: 3000 });
+      this.feedback.showSuccess('Los estudios ya están validados');
       return;
     }
     this.applicationApi.validateStudies(row.applicationId).subscribe({
       next: (res) => {
         this.applyValidationFlags(row, res);
-        this.snack.open('Estudios validados', 'Cerrar', { duration: 3500 });
+        this.feedback.showSuccess('Estudios validados');
       },
-      error: () => {
-        this.snack.open('No se pudieron validar los estudios', 'Cerrar', { duration: 4000 });
+      error: (err) => {
+        this.feedback.showApiError(err, { fallbackMessage: 'No se pudieron validar los estudios' });
       },
     });
   }
@@ -436,14 +442,10 @@ export class PreselectionComponent implements OnInit {
     const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
     this.applicationApi.sendToSmart(row.applicationId).subscribe({
       next: (res) => {
-        this.snack.open(
-          `SMART (stub): ${name} — ref. ${res.externalReference}`,
-          'Cerrar',
-          { duration: 5000 },
-        );
+        this.feedback.showSuccess(`SMART (stub): ${name} — ref. ${res.externalReference}`);
       },
-      error: () => {
-        this.snack.open('No se pudo enviar a SMART', 'Cerrar', { duration: 4000 });
+      error: (err) => {
+        this.feedback.showApiError(err, { fallbackMessage: 'No se pudo enviar a SMART' });
       },
     });
   }
@@ -452,14 +454,10 @@ export class PreselectionComponent implements OnInit {
     const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
     this.applicationApi.generateContract(row.applicationId).subscribe({
       next: (res) => {
-        this.snack.open(
-          `Contrato (stub): ${name} — ref. ${res.contractReference}`,
-          'Cerrar',
-          { duration: 5000 },
-        );
+        this.feedback.showSuccess(`Contrato (stub): ${name} — ref. ${res.contractReference}`);
       },
-      error: () => {
-        this.snack.open('No se pudo generar el contrato', 'Cerrar', { duration: 4000 });
+      error: (err) => {
+        this.feedback.showApiError(err, { fallbackMessage: 'No se pudo generar el contrato' });
       },
     });
   }
@@ -480,13 +478,13 @@ export class PreselectionComponent implements OnInit {
           const label = res.questionnaireId
             ? `Cuestionario #${res.questionnaireId} (stub) enviado a ${res.candidateEmail ?? name}`
             : `Invitación (stub) enviada sin formulario asignado a ${res.candidateEmail ?? name}`;
-          const ref = this.snack.open(label, 'Abrir link', { duration: 8000 });
-          ref.onAction().subscribe(() => {
+          this.feedback.showSuccess(label);
+          if (res.invitationLink) {
             window.open(res.invitationLink, '_blank', 'noopener,noreferrer');
-          });
+          }
         },
-        error: () => {
-          this.snack.open('No se pudo enviar la invitación al cuestionario', 'Cerrar', { duration: 4000 });
+        error: (err) => {
+          this.feedback.showApiError(err, { fallbackMessage: 'No se pudo enviar la invitación al cuestionario' });
         },
       });
   }

@@ -8,8 +8,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { catchError, filter, forkJoin, Observable, of, tap } from 'rxjs';
 import { AppPermissions } from '../../../core/auth/app-permissions';
 import {
@@ -70,7 +71,6 @@ import { RequisitionFormConfigDialogComponent } from './requisition-form-config-
     MatIconModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatSnackBarModule,
     MatTableModule,
     MatPaginatorModule,
     MatDialogModule,
@@ -84,7 +84,7 @@ export class RequisitionFormConfigComponent implements OnInit {
   private readonly positionCatalogService = inject(CatalogPositionService);
   private readonly configService = inject(RequisitionFormConfigService);
   private readonly permissions = inject(PermissionService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly dialog = inject(MatDialog);
   private readonly fb = inject(FormBuilder);
 
@@ -197,12 +197,12 @@ export class RequisitionFormConfigComponent implements OnInit {
         this.prefetchCoverageNames(items);
         this.loadingList = false;
       },
-      error: () => {
+      error: (err) => {
         this.configList = [];
         this.configListTotal = 0;
         this.listLoadError = true;
         this.loadingList = false;
-        this.snack.open(REQ_FORM_CONFIG_LIST_ERROR, REQ_FORM_CONFIG_SNACK_CLOSE, { duration: 4000 });
+        this.feedback.showApiError(err, { fallbackMessage: REQ_FORM_CONFIG_LIST_ERROR });
       },
     });
   }
@@ -217,7 +217,7 @@ export class RequisitionFormConfigComponent implements OnInit {
     const countryId = this.selectorForm.controls.countryId.value;
     const coverageTypeId = this.selectorForm.controls.coverageTypeId.value;
     if (!countryId || !coverageTypeId) {
-      this.snack.open(REQ_FORM_CONFIG_SELECT_COUNTRY_COVERAGE, REQ_FORM_CONFIG_SNACK_CLOSE, { duration: 3000 });
+      this.feedback.showSuccess(REQ_FORM_CONFIG_SELECT_COUNTRY_COVERAGE);
       return;
     }
 
@@ -250,11 +250,11 @@ export class RequisitionFormConfigComponent implements OnInit {
               this.loadConfigsList();
               this.openEditorDialog(created);
             },
-            error: () => this.handleOpenError(),
+            error: (err) => this.handleOpenError(err),
           });
         });
       },
-      error: () => this.handleOpenError(),
+      error: (err) => this.handleOpenError(err),
     });
   }
 
@@ -280,7 +280,7 @@ export class RequisitionFormConfigComponent implements OnInit {
     this.openingEditor = true;
     this.configService.getById(summary.id).subscribe({
       next: (detail) => this.openEditorDialog(detail),
-      error: () => this.handleOpenError(),
+      error: (err) => this.handleOpenError(err),
     });
   }
 
@@ -289,21 +289,29 @@ export class RequisitionFormConfigComponent implements OnInit {
       return;
     }
     const statusLabel = this.statusLabelFor(summary.status);
-    if (!confirm(reqFormConfigDeleteConfirm(summary.version, statusLabel))) {
-      return;
-    }
+    this.feedback
+      .confirm({
+        title: FEEDBACK_GENERIC_WARNING_TITLE,
+        message: reqFormConfigDeleteConfirm(summary.version, statusLabel),
+        confirmWarn: true,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
     this.deletingId = summary.id;
     this.configService.delete(summary.id).subscribe({
       next: () => {
         this.deletingId = null;
         this.loadConfigsList();
-        this.snack.open(REQ_FORM_CONFIG_DELETE_SUCCESS, REQ_FORM_CONFIG_SNACK_CLOSE, { duration: 2500 });
+        this.feedback.showSuccess(REQ_FORM_CONFIG_DELETE_SUCCESS);
       },
-      error: () => {
+      error: (err) => {
         this.deletingId = null;
-        this.snack.open(REQ_FORM_CONFIG_DELETE_ERROR, REQ_FORM_CONFIG_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: REQ_FORM_CONFIG_DELETE_ERROR });
       },
     });
+      });
   }
 
   cloneConfig(summary: RequisitionFormConfigSummary): void {
@@ -324,13 +332,13 @@ export class RequisitionFormConfigComponent implements OnInit {
           { emitEvent: false },
         );
         this.loadConfigsList();
-        this.snack.open(REQ_FORM_CONFIG_CLONE_SUCCESS, REQ_FORM_CONFIG_SNACK_CLOSE, { duration: 3000 });
+        this.feedback.showSuccess(REQ_FORM_CONFIG_CLONE_SUCCESS);
         this.openEditorDialog(draft);
       },
-      error: () => {
+      error: (err) => {
         this.cloningId = null;
         this.openingEditor = false;
-        this.snack.open(REQ_FORM_CONFIG_CLONE_ERROR, REQ_FORM_CONFIG_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: REQ_FORM_CONFIG_CLONE_ERROR });
       },
     });
   }
@@ -397,9 +405,9 @@ export class RequisitionFormConfigComponent implements OnInit {
     );
   }
 
-  private handleOpenError(): void {
+  private handleOpenError(err?: unknown): void {
     this.openingEditor = false;
-    this.snack.open(REQ_FORM_CONFIG_LOAD_ERROR, REQ_FORM_CONFIG_SNACK_CLOSE, { duration: 3500 });
+    this.feedback.showApiError(err, { fallbackMessage: REQ_FORM_CONFIG_LOAD_ERROR });
   }
 
   private prefetchCoverageNames(items: RequisitionFormConfigSummary[]): void {

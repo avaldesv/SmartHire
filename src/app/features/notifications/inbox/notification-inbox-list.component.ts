@@ -3,7 +3,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { UserNotificationApiService } from '../../../core/services/user-notification-api.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { CvBulkNotificationPayload } from '../../../shared/models/cv-bulk-upload.model';
@@ -18,7 +18,6 @@ import { ExcelBulkProgressDialogComponent } from '../../positions/list/excel-bul
     DatePipe,
     MatPaginatorModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule,
     PageHeaderComponent,
   ],
   templateUrl: './notification-inbox-list.component.html',
@@ -27,7 +26,7 @@ import { ExcelBulkProgressDialogComponent } from '../../positions/list/excel-bul
 export class NotificationInboxListComponent implements OnInit {
   private readonly api = inject(UserNotificationApiService);
   private readonly dialog = inject(MatDialog);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
 
   readonly portal = 'RECRUITER' as const;
   readonly pageTitle = $localize`:@@shell.notifications:Notificaciones`;
@@ -51,13 +50,9 @@ export class NotificationInboxListComponent implements OnInit {
         this.total = res.pagination?.total ?? this.data.length;
         this.loading = false;
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open(
-          $localize`:@@inbox.loadError:No se pudieron cargar las notificaciones`,
-          'Cerrar',
-          { duration: 4000 },
-        );
+        this.feedback.showApiError(err, { fallbackMessage: $localize`:@@inbox.loadError:No se pudieron cargar las notificaciones` });
       },
     });
   }
@@ -99,7 +94,7 @@ export class NotificationInboxListComponent implements OnInit {
           x.id === item.id ? { ...x, read: true, readAt: new Date().toISOString() } : x,
         );
       },
-      error: () => undefined,
+      error: (err) => undefined,
     });
   }
 

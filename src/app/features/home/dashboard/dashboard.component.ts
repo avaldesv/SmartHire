@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { PositionService } from '../../../core/services/position.service';
 import {
@@ -32,7 +32,6 @@ import { PositionsTableComponent } from '../../positions/shared/positions-table/
   imports: [
     MatButtonModule,
     MatIconModule,
-    MatSnackBarModule,
     KpiCardComponent,
     PositionsTableComponent,
   ],
@@ -42,7 +41,7 @@ import { PositionsTableComponent } from '../../positions/shared/positions-table/
 export class DashboardComponent implements OnInit {
   private readonly auth = inject(AuthService);
   private readonly positionService = inject(PositionService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
 
   readonly user = this.auth.currentUser;
   readonly welcomeLabel = DASHBOARD_WELCOME;
@@ -74,8 +73,8 @@ export class DashboardComponent implements OnInit {
           interested: res.interestedCandidates,
         };
       },
-      error: () => {
-        this.snack.open(DASHBOARD_LOAD_KPIS_ERROR, DASHBOARD_SNACK_CLOSE, { duration: 4000 });
+      error: (err) => {
+        this.feedback.showApiError(err, { fallbackMessage: DASHBOARD_LOAD_KPIS_ERROR });
       },
     });
   }

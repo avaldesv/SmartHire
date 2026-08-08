@@ -5,8 +5,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
 import { CandidateApplicationApiService } from '../../../../core/services/candidate-application-api.service';
 import { CandidateApplicationListItem } from '../../../../shared/models/candidate-application.model';
 import { StatusBadgeComponent } from '../../../../shared/components/status-badge/status-badge.component';
@@ -27,7 +27,6 @@ export interface PositionApplicationsDialogData {
     MatPaginatorModule,
     MatButtonModule,
     MatIconModule,
-    MatSnackBarModule,
     MatProgressSpinnerModule,
     StatusBadgeComponent,
   ],
@@ -38,7 +37,7 @@ export class PositionApplicationsDialogComponent implements OnInit {
   private readonly dialogRef = inject(MatDialogRef<PositionApplicationsDialogComponent>);
   readonly data = inject<PositionApplicationsDialogData>(MAT_DIALOG_DATA);
   private readonly applicationApi = inject(CandidateApplicationApiService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
 
   loading = true;
   rows: CandidateApplicationListItem[] = [];
@@ -60,9 +59,9 @@ export class PositionApplicationsDialogComponent implements OnInit {
         this.total = res.total;
         this.loading = false;
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open('No se pudieron cargar las postulaciones', 'Cerrar', { duration: 4000 });
+        this.feedback.showSuccess('No se pudieron cargar las postulaciones');
       },
     });
   }

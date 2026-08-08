@@ -10,7 +10,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import {
   Subject,
   Subscription,
@@ -59,7 +60,6 @@ import {
   RG_SECTION_PEOPLE,
   RG_SELECTED,
 } from '../../../core/i18n/recruiter-group-dialog-labels';
-import { CATALOG_MSG_SNACK_CLOSE } from '../../../core/i18n/catalog-messages-labels';
 import { SecurityRecruiterGroupService } from '../../../core/services/security-recruiter-group.service';
 import { SecurityUserService } from '../../../core/services/security-user.service';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
@@ -100,7 +100,6 @@ export interface RecruiterGroupUserOption {
     MatIconModule,
     MatAutocompleteModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule,
   ],
   templateUrl: './recruiter-group-form-dialog.component.html',
   styleUrl: './recruiter-group-form-dialog.component.scss',
@@ -109,7 +108,7 @@ export class RecruiterGroupFormDialogComponent implements OnInit, OnDestroy {
   private readonly dialogRef = inject(MatDialogRef<RecruiterGroupFormDialogComponent, boolean>);
   readonly data = inject<RecruiterGroupFormDialogData>(MAT_DIALOG_DATA);
   private readonly fb = inject(FormBuilder);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly recruiterGroupService = inject(SecurityRecruiterGroupService);
   private readonly userService = inject(SecurityUserService);
 
@@ -195,9 +194,9 @@ export class RecruiterGroupFormDialogComponent implements OnInit, OnDestroy {
           this.loadingDetail = false;
           this.refreshAvailable('');
         },
-        error: () => {
+        error: (err) => {
           this.loadingDetail = false;
-          this.snack.open(RG_ERR_SAVE, CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
+          this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, RG_ERR_SAVE);
           this.dialogRef.close(false);
         },
       });
@@ -260,7 +259,7 @@ export class RecruiterGroupFormDialogComponent implements OnInit, OnDestroy {
 
   addOne(user: RecruiterGroupUserOption): void {
     if (this.selectedManager?.id === user.id) {
-      this.snack.open(RG_ERR_MANAGER_CONFLICT, CATALOG_MSG_SNACK_CLOSE, { duration: 3500 });
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, RG_ERR_MANAGER_CONFLICT);
       return;
     }
     if (this.selectedRecruiters.some((u) => u.id === user.id)) {
@@ -308,12 +307,12 @@ export class RecruiterGroupFormDialogComponent implements OnInit, OnDestroy {
       return;
     }
     if (this.selectedManager == null) {
-      this.snack.open(RG_ERR_MANAGER_REQUIRED, CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, RG_ERR_MANAGER_REQUIRED);
       return;
     }
     const recruiterUserIds = this.selectedRecruiters.map((u) => u.id);
     if (recruiterUserIds.includes(this.selectedManager.id)) {
-      this.snack.open(RG_ERR_MANAGER_CONFLICT, CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, RG_ERR_MANAGER_CONFLICT);
       return;
     }
 
@@ -344,9 +343,9 @@ export class RecruiterGroupFormDialogComponent implements OnInit, OnDestroy {
         this.saving = false;
         this.dialogRef.close(true);
       },
-      error: () => {
+      error: (err) => {
         this.saving = false;
-        this.snack.open(RG_ERR_SAVE, CATALOG_MSG_SNACK_CLOSE, { duration: 4000 });
+        this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, RG_ERR_SAVE);
       },
     });
   }
@@ -417,7 +416,7 @@ export class RecruiterGroupFormDialogComponent implements OnInit, OnDestroy {
         this.availableUsers = options.filter((u) => !exclude.has(u.id));
         this.searchingAvailable = false;
       },
-      error: () => {
+      error: (err) => {
         this.availableUsers = [];
         this.searchingAvailable = false;
       },

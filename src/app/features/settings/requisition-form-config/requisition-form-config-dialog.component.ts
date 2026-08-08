@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import {
   REQ_FORM_CONFIG_COLUMN_REORDER,
   REQ_FORM_CONFIG_DETAIL_TITLE,
@@ -97,7 +97,6 @@ interface SelectedFieldRef {
     MatInputModule,
     MatSelectModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule,
   ],
   templateUrl: './requisition-form-config-dialog.component.html',
   styleUrl: './requisition-form-config-dialog.component.scss',
@@ -109,7 +108,7 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
   private readonly fieldService = inject(RequisitionFormFieldService);
   private readonly roleService = inject(SecurityRoleService);
   private readonly permissions = inject(PermissionService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
 
   readonly treeTitle = REQ_FORM_CONFIG_TREE_TITLE;
   readonly detailTitle = REQ_FORM_CONFIG_DETAIL_TITLE;
@@ -187,9 +186,9 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
         this.applyConfig(this.data.config);
         this.loading = false;
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open(REQ_FORM_CONFIG_LOAD_ERROR, REQ_FORM_CONFIG_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: REQ_FORM_CONFIG_LOAD_ERROR });
         this.dialogRef.close(false);
       },
     });
@@ -406,7 +405,7 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
     }
     const name = this.configName.trim();
     if (!name) {
-      this.snack.open(REQ_FORM_CONFIG_NAME_REQUIRED, REQ_FORM_CONFIG_SNACK_CLOSE, { duration: 3000 });
+      this.feedback.showSuccess(REQ_FORM_CONFIG_NAME_REQUIRED);
       return;
     }
     this.saving = true;
@@ -421,11 +420,11 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
           this.applyConfig(updated);
           this.saving = false;
           this.changed = true;
-          this.snack.open(REQ_FORM_CONFIG_SAVE_SUCCESS, REQ_FORM_CONFIG_SNACK_CLOSE, { duration: 2500 });
+          this.feedback.showSuccess(REQ_FORM_CONFIG_SAVE_SUCCESS);
         },
-        error: () => {
+        error: (err) => {
           this.saving = false;
-          this.snack.open(REQ_FORM_CONFIG_SAVE_ERROR, REQ_FORM_CONFIG_SNACK_CLOSE, { duration: 3500 });
+          this.feedback.showApiError(err, { fallbackMessage: REQ_FORM_CONFIG_SAVE_ERROR });
         },
       });
   }
@@ -440,12 +439,12 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
         this.applyConfig(published);
         this.publishing = false;
         this.changed = true;
-        this.snack.open(REQ_FORM_CONFIG_PUBLISH_SUCCESS, REQ_FORM_CONFIG_SNACK_CLOSE, { duration: 2500 });
+        this.feedback.showSuccess(REQ_FORM_CONFIG_PUBLISH_SUCCESS);
         this.dialogRef.close(true);
       },
-      error: () => {
+      error: (err) => {
         this.publishing = false;
-        this.snack.open(REQ_FORM_CONFIG_PUBLISH_ERROR, REQ_FORM_CONFIG_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: REQ_FORM_CONFIG_PUBLISH_ERROR });
       },
     });
   }

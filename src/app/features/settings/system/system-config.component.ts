@@ -5,9 +5,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import {
-  SETTINGS_CONFIG_SNACK_CLOSE,
   SYSTEM_FIELD_DEBUG_LOGS,
   SYSTEM_FIELD_DEFAULT_LOCALE,
   SYSTEM_FIELD_INSTANCE_NAME,
@@ -22,7 +21,7 @@ import {
 @Component({
   selector: 'sh-system-config',
   standalone: true,
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatSlideToggleModule, MatButtonModule, MatSnackBarModule],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatSlideToggleModule, MatButtonModule],
   template: `
     <h3>{{ pageTitle }}</h3>
     <form [formGroup]="form" (ngSubmit)="save()" class="sh-card config-form">
@@ -41,7 +40,7 @@ import {
 })
 export class SystemConfigComponent {
   private readonly fb = inject(FormBuilder);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
 
   readonly pageTitle = SYSTEM_PAGE_TITLE;
   readonly fieldInstanceName = SYSTEM_FIELD_INSTANCE_NAME;
@@ -61,6 +60,6 @@ export class SystemConfigComponent {
   });
 
   save(): void {
-    this.snack.open(SYSTEM_SAVE_SUCCESS, SETTINGS_CONFIG_SNACK_CLOSE, { duration: 2500 });
+    this.feedback.showSuccess(SYSTEM_SAVE_SUCCESS);
   }
 }

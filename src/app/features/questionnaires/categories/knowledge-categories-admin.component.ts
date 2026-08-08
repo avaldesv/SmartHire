@@ -10,8 +10,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { AppPermissions } from '../../../core/auth/app-permissions';
 import {
   QCAT_CANCEL,
@@ -58,7 +59,6 @@ import { canEditScopedRecord } from '../../../shared/utils/tenant-scope.util';
     MatTableModule,
     MatPaginatorModule,
     MatSlideToggleModule,
-    MatSnackBarModule,
     MatProgressSpinnerModule,
     MatButtonModule,
     MatIconModule,
@@ -77,7 +77,7 @@ import { canEditScopedRecord } from '../../../shared/utils/tenant-scope.util';
 export class KnowledgeCategoriesAdminComponent implements OnInit {
   private readonly api = inject(QuestionnaireKnowledgeCategoryApiService);
   private readonly permissions = inject(PermissionService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly fb = inject(FormBuilder);
 
   readonly csvPanel = QUESTIONNAIRE_CSV_PANELS.knowledgeCategories;
@@ -169,9 +169,9 @@ export class KnowledgeCategoriesAdminComponent implements OnInit {
         this.total = total;
         this.loading = false;
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open(QCAT_ERRORS_LIST, QCAT_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: QCAT_ERRORS_LIST });
       },
     });
   }
@@ -181,7 +181,7 @@ export class KnowledgeCategoriesAdminComponent implements OnInit {
       next: ({ items }) => {
         this.parentOptions = items;
       },
-      error: () => {
+      error: (err) => {
         this.parentOptions = [];
       },
     });
@@ -246,13 +246,13 @@ export class KnowledgeCategoriesAdminComponent implements OnInit {
         this.saving = false;
         this.showForm = false;
         this.editingId = null;
-        this.snack.open(QCAT_SUCCESS_SAVED, QCAT_SNACK_CLOSE, { duration: 2500 });
+        this.feedback.showSuccess(QCAT_SUCCESS_SAVED);
         this.load();
         this.loadParentOptions();
       },
-      error: () => {
+      error: (err) => {
         this.saving = false;
-        this.snack.open(QCAT_ERRORS_SAVE, QCAT_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: QCAT_ERRORS_SAVE });
       },
     });
   }
@@ -276,10 +276,10 @@ export class KnowledgeCategoriesAdminComponent implements OnInit {
           Object.assign(row, updated);
           this.savingId = null;
         },
-        error: () => {
+        error: (err) => {
           row.isActive = previous;
           this.savingId = null;
-          this.snack.open(QCAT_ERRORS_SAVE, QCAT_SNACK_CLOSE, { duration: 3500 });
+          this.feedback.showApiError(err, { fallbackMessage: QCAT_ERRORS_SAVE });
         },
       });
   }
@@ -288,9 +288,16 @@ export class KnowledgeCategoriesAdminComponent implements OnInit {
     if (!this.canDeleteRecord(row)) {
       return;
     }
-    if (!confirm(qcatDeleteConfirm(row.name))) {
-      return;
-    }
+    this.feedback
+      .confirm({
+        title: FEEDBACK_GENERIC_WARNING_TITLE,
+        message: qcatDeleteConfirm(row.name),
+        confirmWarn: true,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
     this.deletingId = row.id;
     this.api.delete(row.id).subscribe({
       next: () => {
@@ -298,14 +305,15 @@ export class KnowledgeCategoriesAdminComponent implements OnInit {
         if (this.editingId === row.id) {
           this.cancelForm();
         }
-        this.snack.open(QCAT_SUCCESS_DELETED, QCAT_SNACK_CLOSE, { duration: 3000 });
+        this.feedback.showSuccess(QCAT_SUCCESS_DELETED);
         this.load();
         this.loadParentOptions();
       },
-      error: () => {
+      error: (err) => {
         this.deletingId = null;
-        this.snack.open(QCAT_ERRORS_DELETE, QCAT_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: QCAT_ERRORS_DELETE });
       },
     });
+      });
   }
 }

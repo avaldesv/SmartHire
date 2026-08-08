@@ -7,7 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { CandidateApiService } from '../../../core/services/candidate-api.service';
 import { CandidateProfileSectionApiService } from '../../../core/services/candidate-profile-section-api.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
@@ -32,7 +32,6 @@ import {
     MatIconModule,
     MatChipsModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule,
     PageHeaderComponent,
   ],
   templateUrl: './candidate-profile.component.html',
@@ -42,7 +41,7 @@ export class CandidateProfileComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly candidateService = inject(CandidateApiService);
   private readonly profileSectionsApi = inject(CandidateProfileSectionApiService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
 
   loading = true;
   sectionsLoading = false;
@@ -68,9 +67,9 @@ export class CandidateProfileComponent implements OnInit {
         this.loading = false;
         this.loadProfileSections(id);
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open('No se pudo cargar el candidato', 'Cerrar', { duration: 4000 });
+        this.feedback.showSuccess('No se pudo cargar el candidato');
       },
     });
   }
@@ -131,9 +130,9 @@ export class CandidateProfileComponent implements OnInit {
         this.skills = res.skills.items;
         this.sectionsLoading = false;
       },
-      error: () => {
+      error: (err) => {
         this.sectionsLoading = false;
-        this.snack.open('No se pudieron cargar las secciones del perfil', 'Cerrar', { duration: 4000 });
+        this.feedback.showSuccess('No se pudieron cargar las secciones del perfil');
       },
     });
   }

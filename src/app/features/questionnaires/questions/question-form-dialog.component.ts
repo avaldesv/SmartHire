@@ -15,7 +15,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { forkJoin, map, of, switchMap } from 'rxjs';
 import {
   QQUEST_CANCEL,
@@ -92,7 +93,7 @@ export class QuestionFormDialogComponent implements OnInit {
   private readonly categoryApi = inject(QuestionnaireKnowledgeCategoryApiService);
   private readonly tagApi = inject(QuestionnaireTagApiService);
   private readonly permissions = inject(PermissionService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly fb = inject(FormBuilder);
 
   readonly isGlobalAdmin = computed(() => this.permissions.isGlobalAdmin());
@@ -165,9 +166,9 @@ export class QuestionFormDialogComponent implements OnInit {
           this.setDefaultOptions(2);
         }
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open(QQUEST_ERRORS_LOAD, QQUEST_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: QQUEST_ERRORS_LOAD });
       },
     });
 
@@ -213,9 +214,9 @@ export class QuestionFormDialogComponent implements OnInit {
           this.form.disable();
         }
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open(QQUEST_ERRORS_LOAD, QQUEST_SNACK_CLOSE, { duration: 3500 });
+        this.feedback.showApiError(err, { fallbackMessage: QQUEST_ERRORS_LOAD });
       },
     });
   }
@@ -339,7 +340,7 @@ export class QuestionFormDialogComponent implements OnInit {
       return;
     }
     if (!this.validateOptions()) {
-      this.snack.open(QQUEST_ERRORS_OPTIONS, QQUEST_SNACK_CLOSE, { duration: 3500 });
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, QQUEST_ERRORS_OPTIONS);
       return;
     }
 
@@ -381,9 +382,9 @@ export class QuestionFormDialogComponent implements OnInit {
           this.saving = false;
           this.dialogRef.close(true);
         },
-        error: () => {
+        error: (err) => {
           this.saving = false;
-          this.snack.open(QQUEST_ERRORS_SAVE, QQUEST_SNACK_CLOSE, { duration: 3500 });
+          this.feedback.showApiError(err, { fallbackMessage: QQUEST_ERRORS_SAVE });
         },
       });
   }
