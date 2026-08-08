@@ -6,7 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../../core/i18n/feedback-labels';
 import { GenerateJobDescriptionApiService } from '../../../../core/services/generate-job-description-api.service';
 import { LocaleService } from '../../../../core/services/locale.service';
 
@@ -24,14 +25,13 @@ export type JobDescriptionOutputLanguage = 'es' | 'en';
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule,
   ],
   templateUrl: './job-description-ai-field.component.html',
   styleUrl: './job-description-ai-field.component.scss',
 })
 export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
   private readonly api = inject(GenerateJobDescriptionApiService);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly localeService = inject(LocaleService);
 
   @Input({ required: true }) control!: FormControl<string | null>;
@@ -69,7 +69,7 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
     }
     const basePregunta = (this.control.value ?? '').trim();
     if (!basePregunta) {
-      this.snackBar.open(this.emptyPromptMessage, undefined, { duration: 4000 });
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, this.emptyPromptMessage);
       return;
     }
     this.runChat(this.appendLanguageInstruction(basePregunta, this.selectedLanguage), 'generate');
@@ -81,7 +81,7 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
     }
     const jobDescription = (this.control.value ?? '').trim();
     if (!jobDescription) {
-      this.snackBar.open(this.emptyTranslateMessage, undefined, { duration: 4000 });
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, this.emptyTranslateMessage);
       return;
     }
     this.runChat(this.buildTranslatePregunta(jobDescription, this.selectedLanguage), 'translate');
@@ -137,13 +137,12 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
           this.conversationThreadId = res.conversationThreadId || null;
           this.busyAction = null;
         },
-        error: () => {
+        error: (err) => {
           this.busyAction = null;
-          this.snackBar.open(
-            action === 'translate' ? this.translateErrorMessage : this.generateErrorMessage,
-            undefined,
-            { duration: 5000 },
-          );
+          this.feedback.showApiError(err, {
+            fallbackMessage:
+              action === 'translate' ? this.translateErrorMessage : this.generateErrorMessage,
+          });
         },
       });
   }

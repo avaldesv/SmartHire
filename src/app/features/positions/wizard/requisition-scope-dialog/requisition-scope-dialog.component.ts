@@ -6,8 +6,8 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { distinctUntilChanged, filter } from 'rxjs';
+import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
 import { CatalogGeographyService } from '../../../../core/services/catalog-geography.service';
 import { CatalogPositionService } from '../../../../core/services/catalog-position.service';
 import { ReferenceDataService } from '../../../../core/services/reference-data.service';
@@ -21,6 +21,8 @@ import {
   REQUISITION_WIZARD_CANCEL,
   REQUISITION_WIZARD_CONTINUE,
   REQUISITION_WIZARD_NEW_TITLE,
+  REQUISITION_SCOPE_LOAD_COUNTRIES_ERROR,
+  REQUISITION_SCOPE_LOAD_COVERAGE_ERROR,
 } from '../requisition-wizard-labels';
 
 export interface RequisitionScopeDialogData {
@@ -43,7 +45,6 @@ export interface RequisitionScopeDialogResult {
     MatFormFieldModule,
     MatSelectModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule,
   ],
   templateUrl: './requisition-scope-dialog.component.html',
   styleUrl: './requisition-scope-dialog.component.scss',
@@ -57,7 +58,7 @@ export class RequisitionScopeDialogComponent implements OnInit {
   private readonly geographyService = inject(CatalogGeographyService);
   private readonly catalogService = inject(CatalogPositionService);
   private readonly referenceData = inject(ReferenceDataService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly destroyRef = inject(DestroyRef);
 
   countries: CatalogCountry[] = [];
@@ -120,10 +121,10 @@ export class RequisitionScopeDialogComponent implements OnInit {
         this.loadingCountries = false;
         this.prefillCountry();
       },
-      error: () => {
+      error: (err) => {
         this.loadingCountries = false;
         this.loadingTenant = false;
-        this.snack.open('No se pudieron cargar los países', 'Cerrar', { duration: 4000 });
+        this.feedback.showApiError(err, { fallbackMessage: REQUISITION_SCOPE_LOAD_COUNTRIES_ERROR });
       },
     });
   }
@@ -174,11 +175,11 @@ export class RequisitionScopeDialogComponent implements OnInit {
           this.form.patchValue({ coverageTypeId: preferredCoverageId });
         }
       },
-      error: () => {
+      error: (err) => {
         this.coverageTypes = [];
         this.loadingCoverage = false;
         this.form.controls.coverageTypeId.disable({ emitEvent: false });
-        this.snack.open('No se pudieron cargar los tipos de cobertura', 'Cerrar', { duration: 4000 });
+        this.feedback.showApiError(err, { fallbackMessage: REQUISITION_SCOPE_LOAD_COVERAGE_ERROR });
       },
     });
   }

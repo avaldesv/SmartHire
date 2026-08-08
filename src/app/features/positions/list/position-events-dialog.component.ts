@@ -3,13 +3,12 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import {
   POSITIONS_HISTORY_CLOSE,
   POSITIONS_HISTORY_EMPTY,
   POSITIONS_HISTORY_LOAD_ERROR,
   POSITIONS_HISTORY_TITLE,
-  POSITIONS_SNACK_CLOSE,
 } from '../../../core/i18n/positions-labels';
 import { PositionService } from '../../../core/services/position.service';
 import { PositionEventItem } from '../../../shared/models/position.model';
@@ -22,7 +21,7 @@ export interface PositionEventsDialogData {
 @Component({
   selector: 'sh-position-events-dialog',
   standalone: true,
-  imports: [DatePipe, MatDialogModule, MatButtonModule, MatProgressSpinnerModule, MatSnackBarModule],
+  imports: [DatePipe, MatDialogModule, MatButtonModule, MatProgressSpinnerModule],
   template: `
     <h2 mat-dialog-title>{{ title }} — {{ data.requisitionNo }}</h2>
     <mat-dialog-content>
@@ -83,7 +82,7 @@ export interface PositionEventsDialogData {
 export class PositionEventsDialogComponent implements OnInit {
   readonly data = inject<PositionEventsDialogData>(MAT_DIALOG_DATA);
   private readonly positionService = inject(PositionService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly dialogRef = inject(MatDialogRef<PositionEventsDialogComponent>);
 
   readonly title = POSITIONS_HISTORY_TITLE;
@@ -99,9 +98,9 @@ export class PositionEventsDialogComponent implements OnInit {
         this.events = res.items;
         this.loading = false;
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open(POSITIONS_HISTORY_LOAD_ERROR, POSITIONS_SNACK_CLOSE, { duration: 4000 });
+        this.feedback.showApiError(err, { fallbackMessage: POSITIONS_HISTORY_LOAD_ERROR });
         this.dialogRef.close();
       },
     });
