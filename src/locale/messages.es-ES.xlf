@@ -1694,6 +1694,298 @@
         <source>¿Eliminar (soft) la cuenta <x id="email" equiv-text="email" />?</source>
         <target>¿Eliminar (soft) la cuenta <x id="email" equiv-text="email" />?</target>
       </trans-unit>
+      <trans-unit id="candidateDocuments.title" datatype="html">
+        <source>Documentos del candidato</source>
+        <target>Documentos del candidato</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.empty" datatype="html">
+        <source>No hay documentos registrados.</source>
+        <target>No hay documentos registrados.</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.col.type" datatype="html">
+        <source>Tipo</source>
+        <target>Tipo</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.col.file" datatype="html">
+        <source>Archivo</source>
+        <target>Archivo</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.col.size" datatype="html">
+        <source>Tamaño</source>
+        <target>Tamaño</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.col.status" datatype="html">
+        <source>Estado</source>
+        <target>Estado</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.col.createdAt" datatype="html">
+        <source>Fecha</source>
+        <target>Fecha</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.col.actions" datatype="html">
+        <source>Acciones</source>
+        <target>Acciones</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.download" datatype="html">
+        <source>Descargar</source>
+        <target>Descargar</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.errors.list" datatype="html">
+        <source>No se pudieron cargar los documentos</source>
+        <target>No se pudieron cargar los documentos</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.errors.download" datatype="html">
+        <source>No se pudo descargar el documento</source>
+        <target>No se pudo descargar el documento</target>
+      </trans-unit>
+      <trans-unit id="common.emDash" datatype="html">
+        <source>—</source>
+        <target>—</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.sizeBytes" datatype="html">
+        <source>
+          <x id="bytes" equiv-text="bytes" /> B</source>
+        <target>
+          <x id="bytes" equiv-text="bytes" /> B</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.sizeKb" datatype="html">
+        <source>
+          <x id="size" equiv-text="kb.toFixed(1)" /> KB</source>
+        <target>
+          <x id="size" equiv-text="kb.toFixed(1)" /> KB</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.sizeMb" datatype="html">
+        <source>
+          <x id="size" equiv-text="mb.toFixed(1)" /> MB</source>
+        <target>
+          <x id="size" equiv-text="mb.toFixed(1)" /> MB</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.subtitle" datatype="html">
+        <source>Perfil completo del candidato</source>
+        <target>Perfil completo del candidato</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.backPreselection" datatype="html">
+        <source>Volver a preselección</source>
+        <target>Volver a preselección</target>
+      </trans-unit>
+      <trans-unit id="common.edit" datatype="html">
+        <source>Editar</source>
+        <target>Editar</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.beneficiaries" datatype="html">
+        <source>Beneficiarios</source>
+        <target>Beneficiarios</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.emergencyContacts" datatype="html">
+        <source>Contactos emergencia</source>
+        <target>Contactos emergencia</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.section.general" datatype="html">
+        <source>Datos generales</source>
+        <target>Datos generales</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.field.id" datatype="html">
+        <source>ID</source>
+        <target>ID</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.field.email" datatype="html">
+        <source>Correo</source>
+        <target>Correo</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.field.phone" datatype="html">
+        <source>Teléfono</source>
+        <target>Teléfono</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.field.gender" datatype="html">
+        <source>Género</source>
+        <target>Género</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.field.source" datatype="html">
+        <source>Origen</source>
+        <target>Origen</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.field.createdAt" datatype="html">
+        <source>Alta</source>
+        <target>Alta</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.field.experienceYears" datatype="html">
+        <source>Experiencia</source>
+        <target>Experiencia</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.field.desiredSalary" datatype="html">
+        <source>Salario deseado</source>
+        <target>Salario deseado</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.section.officialId" datatype="html">
+        <source>Identificación oficial</source>
+        <target>Identificación oficial</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.field.curp" datatype="html">
+        <source>CURP</source>
+        <target>CURP</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.field.rfc" datatype="html">
+        <source>RFC</source>
+        <target>RFC</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.field.nss" datatype="html">
+        <source>NSS</source>
+        <target>NSS</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.notRegistered" datatype="html">
+        <source>No registrado</source>
+        <target>No registrado</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.section.location" datatype="html">
+        <source>Ubicación</source>
+        <target>Ubicación</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.field.country" datatype="html">
+        <source>País</source>
+        <target>País</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.field.state" datatype="html">
+        <source>Estado</source>
+        <target>Estado</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.field.city" datatype="html">
+        <source>Ciudad</source>
+        <target>Ciudad</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.field.status" datatype="html">
+        <source>Estatus</source>
+        <target>Estatus</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.active" datatype="html">
+        <source>Activo</source>
+        <target>Activo</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.inactive" datatype="html">
+        <source>Inactivo</source>
+        <target>Inactivo</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.section.experience" datatype="html">
+        <source>Experiencia laboral</source>
+        <target>Experiencia laboral</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.section.education" datatype="html">
+        <source>Estudios</source>
+        <target>Estudios</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.section.courses" datatype="html">
+        <source>Cursos / Certificaciones</source>
+        <target>Cursos / Certificaciones</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.section.languages" datatype="html">
+        <source>Idiomas</source>
+        <target>Idiomas</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.section.skills" datatype="html">
+        <source>Habilidades</source>
+        <target>Habilidades</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.empty.experience" datatype="html">
+        <source>Sin experiencia registrada.</source>
+        <target>Sin experiencia registrada.</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.empty.education" datatype="html">
+        <source>Sin estudios registrados.</source>
+        <target>Sin estudios registrados.</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.empty.courses" datatype="html">
+        <source>Sin cursos o certificaciones registradas.</source>
+        <target>Sin cursos o certificaciones registradas.</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.empty.languages" datatype="html">
+        <source>Sin idiomas registrados.</source>
+        <target>Sin idiomas registrados.</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.empty.skills" datatype="html">
+        <source>Sin habilidades registradas.</source>
+        <target>Sin habilidades registradas.</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.notFound" datatype="html">
+        <source>Candidato no encontrado.</source>
+        <target>Candidato no encontrado.</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.present" datatype="html">
+        <source>Actual</source>
+        <target>Actual</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.graduate" datatype="html">
+        <source>Titulado</source>
+        <target>Titulado</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.average" datatype="html">
+        <source>Promedio</source>
+        <target>Promedio</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.expires" datatype="html">
+        <source>Vence</source>
+        <target>Vence</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.year" datatype="html">
+        <source>año</source>
+        <target>año</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.years" datatype="html">
+        <source>años</source>
+        <target>años</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.errors.candidate" datatype="html">
+        <source>No se pudo cargar el candidato</source>
+        <target>No se pudo cargar el candidato</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.errors.sections" datatype="html">
+        <source>No se pudieron cargar las secciones del perfil</source>
+        <target>No se pudieron cargar las secciones del perfil</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.experienceYears" datatype="html">
+        <source>
+          <x id="count" equiv-text="count" /> años</source>
+        <target>
+          <x id="count" equiv-text="count" /> años</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.skillYearOne" datatype="html">
+        <source>
+          <x id="count" equiv-text="count" /> año</source>
+        <target>
+          <x id="count" equiv-text="count" /> año</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.skillYears" datatype="html">
+        <source>
+          <x id="count" equiv-text="count" /> años</source>
+        <target>
+          <x id="count" equiv-text="count" /> años</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.kind.course" datatype="html">
+        <source>Curso</source>
+        <target>Curso</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.kind.certification" datatype="html">
+        <source>Certificación</source>
+        <target>Certificación</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.kind.other" datatype="html">
+        <source>Otro</source>
+        <target>Otro</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.skillLevel.basic" datatype="html">
+        <source>Básico</source>
+        <target>Básico</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.skillLevel.intermediate" datatype="html">
+        <source>Intermedio</source>
+        <target>Intermedio</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.skillLevel.advanced" datatype="html">
+        <source>Avanzado</source>
+        <target>Avanzado</target>
+      </trans-unit>
+      <trans-unit id="candidateProfile.skillLevel.expert" datatype="html">
+        <source>Experto</source>
+        <target>Experto</target>
+      </trans-unit>
       <trans-unit id="catalogs.category.generales" datatype="html">
         <source>Generales</source>
         <target>Generales</target>
@@ -2769,10 +3061,6 @@
       <trans-unit id="common.view" datatype="html">
         <source>Ver</source>
         <target>Ver</target>
-      </trans-unit>
-      <trans-unit id="common.edit" datatype="html">
-        <source>Editar</source>
-        <target>Editar</target>
       </trans-unit>
       <trans-unit id="common.delete" datatype="html">
         <source>Eliminar</source>
@@ -3939,6 +4227,68 @@
       <trans-unit id="pipelineStages.confirm.delete" datatype="html">
         <source>¿Eliminar la etapa "<x id="name" equiv-text="name" />"?</source>
         <target>¿Eliminar la etapa "<x id="name" equiv-text="name" />"?</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.title" datatype="html">
+        <source>Candidatos postulados</source>
+        <target>Candidatos postulados</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.positionPrefix" datatype="html">
+        <source>Posición</source>
+        <target>Posición</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.empty" datatype="html">
+        <source>No hay candidatos postulados a esta posición.</source>
+        <target>No hay candidatos postulados a esta posición.</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.col.candidate" datatype="html">
+        <source>Candidato</source>
+        <target>Candidato</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.col.email" datatype="html">
+        <source>Email</source>
+        <target>Email</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.col.status" datatype="html">
+        <source>Estado</source>
+        <target>Estado</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.col.source" datatype="html">
+        <source>Origen</source>
+        <target>Origen</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.col.compatibility" datatype="html">
+        <source>Compat.</source>
+        <target>Compat.</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.col.createdAt" datatype="html">
+        <source>Postulación</source>
+        <target>Postulación</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.col.actions" datatype="html">
+        <source>Acciones</source>
+        <target>Acciones</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.actions.menu" datatype="html">
+        <source>Acciones del candidato</source>
+        <target>Acciones del candidato</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.actions.viewProfile" datatype="html">
+        <source>Ver perfil completo</source>
+        <target>Ver perfil completo</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.actions.viewDocuments" datatype="html">
+        <source>Ver documentos</source>
+        <target>Ver documentos</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.errors.list" datatype="html">
+        <source>No se pudieron cargar las postulaciones</source>
+        <target>No se pudieron cargar las postulaciones</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.candidateFallback" datatype="html">
+        <source>Candidato #<x id="id" equiv-text="id" />
+        </source>
+        <target>Candidato #<x id="id" equiv-text="id" />
+        </target>
       </trans-unit>
       <trans-unit id="positions.pageTitle" datatype="html">
         <source>Posiciones</source>
