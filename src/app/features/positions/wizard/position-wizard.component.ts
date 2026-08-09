@@ -316,7 +316,7 @@ export class PositionWizardComponent implements OnInit {
   private openScopeDialogForCreate(): void {
     this.dialog
       .open(RequisitionScopeDialogComponent, {
-        ...catalogDialogConfig('480px'),
+        ...catalogDialogConfig('720px'),
         disableClose: true,
         data: {},
       })

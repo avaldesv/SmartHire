@@ -6770,6 +6770,10 @@
         <source>Tipo de cobertura</source>
         <target>Coverage type</target>
       </trans-unit>
+      <trans-unit id="requisition.wizard.scopeCoverageRequired" datatype="html">
+        <source>Seleccione un tipo de cobertura</source>
+        <target>Seleccione un tipo de cobertura</target>
+      </trans-unit>
       <trans-unit id="requisition.wizard.scopeLoading" datatype="html">
         <source>Cargando...</source>
         <target>Cargando...</target>

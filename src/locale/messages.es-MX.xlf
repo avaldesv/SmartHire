@@ -14626,165 +14626,172 @@
           <context context-type="linenumber">179</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="requisition.wizard.scopeCoverageRequired" datatype="html">
+        <source>Seleccione un tipo de cobertura</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">180</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="requisition.wizard.scopeLoading" datatype="html">
         <source>Cargando...</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">180</context>
+          <context context-type="linenumber">181</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.loadCountries" datatype="html">
         <source>No se pudieron cargar los países</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">182</context>
+          <context context-type="linenumber">183</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.loadLanguages" datatype="html">
         <source>No se pudieron cargar los idiomas</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">183</context>
+          <context context-type="linenumber">184</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.loadStates" datatype="html">
         <source>No se pudieron cargar los estados</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">184</context>
+          <context context-type="linenumber">185</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.loadMunicipalities" datatype="html">
         <source>No se pudieron cargar los municipios</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">185</context>
+          <context context-type="linenumber">186</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.loadNeighborhoods" datatype="html">
         <source>No se pudieron cargar las colonias</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">186</context>
+          <context context-type="linenumber">187</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.info.noNeighborhoods" datatype="html">
         <source>Sin colonias para ese código postal</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">187</context>
+          <context context-type="linenumber">188</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.loadPosition" datatype="html">
         <source>No se pudo cargar la requisición</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">188</context>
+          <context context-type="linenumber">189</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.loadCatalogs" datatype="html">
         <source>Error al cargar catálogos de la requisición</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">189</context>
+          <context context-type="linenumber">190</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.validationRequired" datatype="html">
         <source>Complete los campos obligatorios</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">190</context>
+          <context context-type="linenumber">191</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.success.create" datatype="html">
         <source>Requisición creada correctamente</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">191</context>
+          <context context-type="linenumber">192</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.success.update" datatype="html">
         <source>Requisición actualizada correctamente</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">192</context>
+          <context context-type="linenumber">193</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.create" datatype="html">
         <source>No se pudo crear la requisición</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">193</context>
+          <context context-type="linenumber">194</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.update" datatype="html">
         <source>No se pudo actualizar la requisición</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">194</context>
+          <context context-type="linenumber">195</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.info.jsonExported" datatype="html">
         <source>JSON exportado a consola</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">195</context>
+          <context context-type="linenumber">196</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.info.atsSimulated" datatype="html">
         <source>Enviado a ATS (simulado)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">196</context>
+          <context context-type="linenumber">197</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.loadCoverage" datatype="html">
         <source>No se pudieron cargar los tipos de cobertura</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">198</context>
+          <context context-type="linenumber">199</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.createSubtitle" datatype="html">
         <source>Asistente de creación en <x id="steps" equiv-text="steps"/> pasos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">201</context>
+          <context context-type="linenumber">202</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.editSubtitle" datatype="html">
         <source>Asistente en <x id="steps" equiv-text="steps"/> pasos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">205</context>
+          <context context-type="linenumber">206</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.stepOf" datatype="html">
         <source>Paso <x id="current" equiv-text="current"/> de <x id="total" equiv-text="total"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">209</context>
+          <context context-type="linenumber">210</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.stepAriaDone" datatype="html">
         <source>Paso <x id="current" equiv-text="current"/> de <x id="total" equiv-text="total"/>: <x id="title" equiv-text="title"/> (completado)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">219</context>
+          <context context-type="linenumber">220</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.stepAriaCurrent" datatype="html">
         <source>Paso <x id="current" equiv-text="current"/> de <x id="total" equiv-text="total"/>: <x id="title" equiv-text="title"/> (actual)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">222</context>
+          <context context-type="linenumber">223</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.stepAria" datatype="html">
         <source>Paso <x id="current" equiv-text="current"/> de <x id="total" equiv-text="total"/>: <x id="title" equiv-text="title"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">224</context>
+          <context context-type="linenumber">225</context>
         </context-group>
       </trans-unit>
       <trans-unit id="documents.pageTitle" datatype="html">
@@ -15093,11 +15100,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/layout/notification-bell/notification-bell.component.ts</context>
-          <context context-type="linenumber">74</context>
+          <context context-type="linenumber">75</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/notifications/inbox/notification-inbox-list.component.ts</context>
-          <context context-type="linenumber">32</context>
+          <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
       <trans-unit id="shell.notifications.showAll" datatype="html">
@@ -15273,14 +15280,14 @@
         <source>Historial de notificaciones del portal</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/notifications/inbox/notification-inbox-list.component.ts</context>
-          <context context-type="linenumber">33</context>
+          <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
       <trans-unit id="inbox.loadError" datatype="html">
         <source>No se pudieron cargar las notificaciones</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/notifications/inbox/notification-inbox-list.component.ts</context>
-          <context context-type="linenumber">55</context>
+          <context context-type="linenumber">56</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.documents.columnDocument" datatype="html">
