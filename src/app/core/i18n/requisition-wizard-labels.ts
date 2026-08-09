@@ -177,6 +177,7 @@ export const REQUISITION_WIZARD_PROGRESS_ARIA = $localize`:@@requisition.wizard.
 export const REQUISITION_SCOPE_HINT = $localize`:@@requisition.wizard.scopeHint:Selecciona el país y el tipo de cobertura para cargar el formulario correspondiente.`;
 export const REQUISITION_SCOPE_COUNTRY = $localize`:@@requisition.wizard.scopeCountry:País`;
 export const REQUISITION_SCOPE_COVERAGE = $localize`:@@requisition.wizard.scopeCoverage:Tipo de cobertura`;
+export const REQUISITION_SCOPE_COVERAGE_REQUIRED = $localize`:@@requisition.wizard.scopeCoverageRequired:Seleccione un tipo de cobertura`;
 export const REQUISITION_SCOPE_LOADING = $localize`:@@requisition.wizard.scopeLoading:Cargando...`;
 
 export const REQUISITION_WIZARD_LOAD_COUNTRIES_ERROR = $localize`:@@requisition.wizard.errors.loadCountries:No se pudieron cargar los países`;

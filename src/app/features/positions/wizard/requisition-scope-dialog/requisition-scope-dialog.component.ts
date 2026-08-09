@@ -16,6 +16,7 @@ import { CatalogCoverageType } from '../../../../shared/models/catalog-position.
 import {
   REQUISITION_SCOPE_COUNTRY,
   REQUISITION_SCOPE_COVERAGE,
+  REQUISITION_SCOPE_COVERAGE_REQUIRED,
   REQUISITION_SCOPE_HINT,
   REQUISITION_SCOPE_LOADING,
   REQUISITION_WIZARD_CANCEL,
@@ -72,6 +73,7 @@ export class RequisitionScopeDialogComponent implements OnInit {
     hint: REQUISITION_SCOPE_HINT,
     country: REQUISITION_SCOPE_COUNTRY,
     coverage: REQUISITION_SCOPE_COVERAGE,
+    coverageRequired: REQUISITION_SCOPE_COVERAGE_REQUIRED,
     loading: REQUISITION_SCOPE_LOADING,
     cancel: REQUISITION_WIZARD_CANCEL,
     continue: REQUISITION_WIZARD_CONTINUE,
@@ -171,6 +173,7 @@ export class RequisitionScopeDialogComponent implements OnInit {
         this.coverageTypes = items;
         this.loadingCoverage = false;
         this.form.controls.coverageTypeId.enable({ emitEvent: false });
+        this.form.controls.coverageTypeId.markAsUntouched();
         if (preferredCoverageId != null && items.some((c) => c.id === preferredCoverageId)) {
           this.form.patchValue({ coverageTypeId: preferredCoverageId });
         }

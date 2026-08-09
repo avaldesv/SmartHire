@@ -881,7 +881,7 @@ export class PositionsTableComponent implements OnInit {
   openNewRequisition(): void {
     this.dialog
       .open(RequisitionScopeDialogComponent, {
-        ...catalogDialogConfig('480px'),
+        ...catalogDialogConfig('720px'),
         disableClose: true,
         data: {},
       })

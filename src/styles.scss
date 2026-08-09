@@ -168,6 +168,34 @@ a:hover { text-decoration: underline; }
   font-size: 0.875rem;
 }
 
+.sh-catalog-dialog-body .gender-form,
+.sh-catalog-dialog-body form.gender-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 12px;
+  align-items: start;
+}
+
+.sh-catalog-dialog-body .gender-form > .form-actions,
+.sh-catalog-dialog-body .gender-form > mat-checkbox,
+.sh-catalog-dialog-body form.gender-form > .form-actions {
+  grid-column: 1 / -1;
+}
+
+.sh-catalog-dialog-body .form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+@media (max-width: 700px) {
+  .sh-catalog-dialog-body .gender-form,
+  .sh-catalog-dialog-body form.gender-form {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Notification template create/edit dialog — same primary header pattern as catalogs */
 .sh-notification-dialog-header.mat-mdc-dialog-title,
 .mat-mdc-dialog-title.sh-notification-dialog-header {

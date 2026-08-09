@@ -4,15 +4,15 @@
 
 <mat-dialog-content class="sh-catalog-dialog-body">
   <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
-  <p class="sh-catalog-dialog-subtitle scope-hint">
+  <p class="sh-catalog-dialog-subtitle">
     {{ labels.hint }}
   </p>
 
   @if (loadingCountries || loadingTenant) {
     <div class="loading-wrap"><mat-spinner diameter="32" /></div>
   } @else {
-    <form [formGroup]="form" class="scope-form" (ngSubmit)="continue()">
-      <mat-form-field appearance="outline" class="full-width">
+    <form [formGroup]="form" class="gender-form scope-form" (ngSubmit)="continue()">
+      <mat-form-field appearance="outline">
         <mat-label>{{ labels.country }}</mat-label>
         <mat-select formControlName="countryId">
           @for (country of countries; track country.id) {
@@ -21,7 +21,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
+      <mat-form-field appearance="outline">
         <mat-label>{{ labels.coverage }}</mat-label>
         <mat-select formControlName="coverageTypeId">
           @if (loadingCoverage) {
@@ -32,20 +32,22 @@
             }
           }
         </mat-select>
+        @if (form.controls.coverageTypeId.touched && form.controls.coverageTypeId.hasError('required')) {
+          <mat-error>{{ labels.coverageRequired }}</mat-error>
+        }
       </mat-form-field>
+
+      <div class="form-actions">
+        <button mat-button type="button" (click)="cancel()">{{ labels.cancel }}</button>
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          [disabled]="loadingCoverage"
+        >
+          {{ labels.continue }}
+        </button>
+      </div>
     </form>
   }
 </mat-dialog-content>
-
-<mat-dialog-actions align="end">
-  <button mat-button type="button" (click)="cancel()">{{ labels.cancel }}</button>
-  <button
-    mat-flat-button
-    color="primary"
-    type="button"
-    (click)="continue()"
-    [disabled]="form.invalid || loadingCountries || loadingTenant || loadingCoverage"
-  >
-    {{ labels.continue }}
-  </button>
-</mat-dialog-actions>
