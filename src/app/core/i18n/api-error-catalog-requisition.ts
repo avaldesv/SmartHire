@@ -14,6 +14,10 @@ export const API_ERROR_CATALOG_REQUISITION: Record<string, ApiErrorI18nEntry> = 
     title: $localize`:@@errors.POSITION_RECRUITER_GROUP_REQUIRED.title:Grupo requerido`,
     message: $localize`:@@errors.POSITION_RECRUITER_GROUP_REQUIRED.message:Debe seleccionar un grupo de reclutadores.`,
   },
+  POSITION_RECRUITER_GROUP_MANAGER_REQUIRED: {
+    title: $localize`:@@errors.POSITION_RECRUITER_GROUP_MANAGER_REQUIRED.title:Grupo sin gerente`,
+    message: $localize`:@@errors.POSITION_RECRUITER_GROUP_MANAGER_REQUIRED.message:El grupo de reclutadores seleccionado no tiene gerente responsable.`,
+  },
   POSITION_ASSIGNED_USER_REQUIRED: {
     title: $localize`:@@errors.POSITION_ASSIGNED_USER_REQUIRED.title:Reclutador requerido`,
     message: $localize`:@@errors.POSITION_ASSIGNED_USER_REQUIRED.message:Debe indicar el reclutador asignado.`,
