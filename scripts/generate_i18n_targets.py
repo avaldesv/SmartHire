@@ -43,6 +43,16 @@ EN_BY_SOURCE: dict[str, str] = {
     "Bitácoras": "Audit logs",
     "Cerrar": "Close",
     "Cancelar": "Cancel",
+    "Entendido": "Got it",
+    "Continuar": "Continue",
+    "Confirmar": "Confirm",
+    "Ocurrió un error": "An error occurred",
+    "Intente de nuevo. Si el problema continúa, contacte al administrador.": (
+        "Please try again. If the problem persists, contact your administrator."
+    ),
+    "Operación completada": "Operation completed",
+    "Información": "Information",
+    "Atención": "Attention",
     "No se pudo cargar el contexto del tenant": "Could not load tenant context",
     "No se pudieron cargar los códigos telefónicos": "Could not load phone dial codes",
     "No se pudieron cargar los roles": "Could not load roles",
