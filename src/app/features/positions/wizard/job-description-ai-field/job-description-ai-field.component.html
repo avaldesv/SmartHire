@@ -1,9 +1,11 @@
 <section class="job-description-ai">
-  <h4 class="grid-title">{{ sectionTitle }}</h4>
+  @if (showSectionTitle) {
+    <h4 class="grid-title">{{ sectionTitle }}</h4>
+  }
 
   <mat-form-field appearance="outline" class="textarea-field" subscriptSizing="dynamic">
     <mat-label>{{ fieldLabel }}</mat-label>
-    <textarea matInput rows="6" [formControl]="control" [disabled]="disabled || busy"></textarea>
+    <textarea matInput [rows]="rows" [formControl]="control" [disabled]="disabled || busy"></textarea>
   </mat-form-field>
 
   <div class="actions-row">
