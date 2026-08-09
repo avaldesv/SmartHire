@@ -19,6 +19,7 @@ import {
   CV_BULK_START,
   CV_BULK_UPLOAD_ERROR,
 } from '../../../../core/i18n/cv-bulk-labels';
+import { catalogDialogConfig } from '../../../../core/dialog/catalog-dialog.constants';
 import { CvBulkUploadApiService } from '../../../../core/services/cv-bulk-upload-api.service';
 import { packCvBulkFiles } from '../../../../core/utils/cv-bulk-packer';
 import { CvBulkProgressDialogComponent } from '../cv-bulk-progress-dialog/cv-bulk-progress-dialog.component';
@@ -157,7 +158,7 @@ export class CvBulkUploadDialogComponent {
       console.info('[cv-bulk] upload complete → open progress', { positionId: this.positionId, jobId });
       this.dialogRef.close({ started: true, jobId, positionId: this.positionId });
       this.dialog.open(CvBulkProgressDialogComponent, {
-        width: '720px',
+        ...catalogDialogConfig('720px'),
         data: { positionId: this.positionId, jobId: jobId! },
       });
     } catch (err) {

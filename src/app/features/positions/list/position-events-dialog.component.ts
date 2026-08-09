@@ -23,8 +23,11 @@ export interface PositionEventsDialogData {
   standalone: true,
   imports: [DatePipe, MatDialogModule, MatButtonModule, MatProgressSpinnerModule],
   template: `
-    <h2 mat-dialog-title>{{ title }} — {{ data.requisitionNo }}</h2>
-    <mat-dialog-content>
+    <div class="sh-catalog-dialog-header" mat-dialog-title>
+      <span class="sh-catalog-dialog-header__text">{{ title }} — {{ data.requisitionNo }}</span>
+    </div>
+    <mat-dialog-content class="sh-catalog-dialog-body">
+      <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
       @if (loading) {
         <div class="loading-wrap"><mat-spinner diameter="32" /></div>
       } @else if (!events.length) {
@@ -46,7 +49,7 @@ export interface PositionEventsDialogData {
       }
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-      <button mat-flat-button color="primary" type="button" mat-dialog-close>{{ closeLabel }}</button>
+      <button mat-button type="button" mat-dialog-close>{{ closeLabel }}</button>
     </mat-dialog-actions>
   `,
   styles: `

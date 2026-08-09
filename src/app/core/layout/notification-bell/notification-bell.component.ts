@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FeedbackDialogService } from '../../feedback/feedback-dialog.service';
+import { catalogDialogConfig } from '../../dialog/catalog-dialog.constants';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserNotificationApiService } from '../../services/user-notification-api.service';
@@ -107,10 +108,9 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
     if (!payload?.jobId || !payload?.positionId) {
       return;
     }
-    const config = {
-      width: '720px',
+    const config = catalogDialogConfig('720px', {
       data: { positionId: payload.positionId, jobId: payload.jobId },
-    };
+    });
     if (type === 'EXCEL_BULK_DONE') {
       this.dialog.open(ExcelBulkProgressDialogComponent, config);
     } else {

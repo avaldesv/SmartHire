@@ -1,9 +1,13 @@
-<h2 mat-dialog-title>Postular candidatos del pool</h2>
-<p class="dialog-subtitle">
-  Posición {{ data.requisitionNo ?? data.positionId }} — selecciona uno o más candidatos
-</p>
+<div class="sh-catalog-dialog-header" mat-dialog-title>
+  <span class="sh-catalog-dialog-header__text">Postular candidatos del pool</span>
+</div>
 
-<mat-dialog-content>
+<mat-dialog-content class="sh-catalog-dialog-body">
+  <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
+  <p class="sh-catalog-dialog-subtitle">
+    Posición {{ data.requisitionNo ?? data.positionId }} — selecciona uno o más candidatos
+  </p>
+
   <form [formGroup]="searchForm" class="search-row">
     <mat-form-field appearance="outline" class="search-field">
       <mat-label>Buscar candidato</mat-label>

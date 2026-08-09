@@ -1,12 +1,16 @@
-<h2 mat-dialog-title>{{ labels.title }}</h2>
-<p class="dialog-subtitle">
-  {{ positionLabel() }}
-  @if (data.positionName) {
-    — {{ data.positionName }}
-  }
-</p>
+<div class="sh-catalog-dialog-header" mat-dialog-title>
+  <span class="sh-catalog-dialog-header__text">{{ labels.title }}</span>
+</div>
 
-<mat-dialog-content>
+<mat-dialog-content class="sh-catalog-dialog-body">
+  <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
+  <p class="sh-catalog-dialog-subtitle">
+    {{ positionLabel() }}
+    @if (data.positionName) {
+      — {{ data.positionName }}
+    }
+  </p>
+
   @if (loading) {
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else if (rows.length === 0) {
@@ -82,5 +86,5 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-flat-button color="primary" type="button" (click)="close()">{{ labels.close }}</button>
+  <button mat-button type="button" (click)="close()">{{ labels.close }}</button>
 </mat-dialog-actions>

@@ -1,7 +1,10 @@
-<h2 mat-dialog-title>{{ labels.newTitle }}</h2>
+<div class="sh-catalog-dialog-header" mat-dialog-title>
+  <span class="sh-catalog-dialog-header__text">{{ labels.newTitle }}</span>
+</div>
 
-<mat-dialog-content>
-  <p class="scope-hint">
+<mat-dialog-content class="sh-catalog-dialog-body">
+  <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
+  <p class="sh-catalog-dialog-subtitle scope-hint">
     {{ labels.hint }}
   </p>
 

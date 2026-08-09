@@ -12,6 +12,7 @@ import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { catalogDialogConfig } from '../../../core/dialog/catalog-dialog.constants';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { FEEDBACK_GENERIC_INFO_TITLE, FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import {
@@ -315,7 +316,7 @@ export class PositionWizardComponent implements OnInit {
   private openScopeDialogForCreate(): void {
     this.dialog
       .open(RequisitionScopeDialogComponent, {
-        width: '480px',
+        ...catalogDialogConfig('480px'),
         disableClose: true,
         data: {},
       })

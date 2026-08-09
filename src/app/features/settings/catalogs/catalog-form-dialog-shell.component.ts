@@ -1,14 +1,14 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, ViewEncapsulation, inject, TemplateRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { CATALOG_FORM_DIALOG_PANEL_CLASS } from '../../../core/dialog/catalog-dialog.constants';
+
+export { CATALOG_FORM_DIALOG_PANEL_CLASS };
 
 export interface CatalogFormDialogData {
   title: string;
   content: TemplateRef<unknown>;
 }
-
-/** Applied to MatDialog overlay pane — styles live in styles.scss (global). */
-export const CATALOG_FORM_DIALOG_PANEL_CLASS = 'sh-catalog-form-dialog-panel';
 
 @Component({
   selector: 'sh-catalog-form-dialog-shell',

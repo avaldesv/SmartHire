@@ -1,4 +1,3 @@
-mat-dialog-content {
-  min-width: min(900px, 92vw);
-  max-height: 75vh;
+:host {
+  display: block;
 }

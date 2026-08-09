@@ -9,8 +9,3 @@
   color: var(--sh-text-muted, #64748b);
   text-align: center;
 }
-
-mat-dialog-content {
-  min-width: min(760px, 90vw);
-  max-height: 70vh;
-}

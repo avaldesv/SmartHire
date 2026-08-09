@@ -24,8 +24,11 @@ export interface PositionReasonDialogData {
   standalone: true,
   imports: [ReactiveFormsModule, MatDialogModule, MatButtonModule, MatFormFieldModule, MatInputModule],
   template: `
-    <h2 mat-dialog-title>{{ title }}</h2>
-    <mat-dialog-content>
+    <div class="sh-catalog-dialog-header" mat-dialog-title>
+      <span class="sh-catalog-dialog-header__text">{{ title }}</span>
+    </div>
+    <mat-dialog-content class="sh-catalog-dialog-body">
+      <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
       <form [formGroup]="form">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>{{ label }}</mat-label>
@@ -37,7 +40,7 @@ export interface PositionReasonDialogData {
       </form>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-      <button mat-stroked-button type="button" (click)="dialogRef.close(null)">{{ cancelLabel }}</button>
+      <button mat-button type="button" (click)="dialogRef.close(null)">{{ cancelLabel }}</button>
       <button mat-flat-button color="primary" type="button" [disabled]="form.invalid" (click)="confirm()">
         {{ confirmLabel }}
       </button>
