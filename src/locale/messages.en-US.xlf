@@ -3084,7 +3084,7 @@
       </trans-unit>
       <trans-unit id="status.published" datatype="html">
         <source>Publicada</source>
-        <target>Publicada</target>
+        <target>Published</target>
       </trans-unit>
       <trans-unit id="status.pendingCancellation" datatype="html">
         <source>Cancelación pendiente</source>
@@ -3092,11 +3092,11 @@
       </trans-unit>
       <trans-unit id="status.cancellationAuthorized" datatype="html">
         <source>Cancelación autorizada</source>
-        <target>Cancelación autorizada</target>
+        <target>Cancellation authorized</target>
       </trans-unit>
       <trans-unit id="status.cancelled" datatype="html">
         <source>Cancelada</source>
-        <target>Cancelada</target>
+        <target>Cancelled</target>
       </trans-unit>
       <trans-unit id="cvBulk.action" datatype="html">
         <source>Cargar CVs</source>
@@ -3408,7 +3408,7 @@
       </trans-unit>
       <trans-unit id="dashboard.success.approveCancellation" datatype="html">
         <source>Cancelación autorizada</source>
-        <target>Cancelación autorizada</target>
+        <target>Cancellation authorized</target>
       </trans-unit>
       <trans-unit id="dashboard.errors.approveCancellation" datatype="html">
         <source>No se pudo autorizar la cancelación</source>
@@ -4436,7 +4436,7 @@
       </trans-unit>
       <trans-unit id="positions.action.publishOnPortal" datatype="html">
         <source>Publicar en portal candidatos</source>
-        <target>Publicar en portal candidatos</target>
+        <target>Publish on candidate portal</target>
       </trans-unit>
       <trans-unit id="positions.filters.more" datatype="html">
         <source>Mostrar más filtros</source>
@@ -4688,7 +4688,7 @@
       </trans-unit>
       <trans-unit id="positions.history.event.cancellationAuthorized" datatype="html">
         <source>Cancelación autorizada</source>
-        <target>Cancelación autorizada</target>
+        <target>Cancellation authorized</target>
       </trans-unit>
       <trans-unit id="positions.history.event.cancellationRejected" datatype="html">
         <source>Cancelación rechazada</source>
@@ -6672,7 +6672,7 @@
       </trans-unit>
       <trans-unit id="requisition.field.workplaceId" datatype="html">
         <source>Modalidad de trabajo</source>
-        <target>Modalidad de trabajo</target>
+        <target>Work modality</target>
       </trans-unit>
       <trans-unit id="requisition.field.responsibilityLevelId" datatype="html">
         <source>Nivel de responsabilidad</source>
@@ -6696,7 +6696,7 @@
       </trans-unit>
       <trans-unit id="requisition.field.publishedOnPortal" datatype="html">
         <source>Publicar en portal candidatos</source>
-        <target>Publicar en portal candidatos</target>
+        <target>Publish on candidate portal</target>
       </trans-unit>
       <trans-unit id="requisition.field.jobPortalId" datatype="html">
         <source>Portal de empleo</source>
