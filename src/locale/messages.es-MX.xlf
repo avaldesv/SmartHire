@@ -3362,7 +3362,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
-          <context context-type="linenumber">23</context>
+          <context context-type="linenumber">26</context>
         </context-group>
       </trans-unit>
       <trans-unit id="candidateDocuments.sizeBytes" datatype="html">
@@ -10141,18 +10141,39 @@
           <context context-type="linenumber">16</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="applicationsDialog.actions.preselect" datatype="html">
+        <source>Preseleccionar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.preselect.success" datatype="html">
+        <source>Candidato preseleccionado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.errors.preselect" datatype="html">
+        <source>No se pudo preseleccionar al candidato</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="applicationsDialog.errors.list" datatype="html">
         <source>No se pudieron cargar las postulaciones</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
-          <context context-type="linenumber">17</context>
+          <context context-type="linenumber">20</context>
         </context-group>
       </trans-unit>
       <trans-unit id="applicationsDialog.candidateFallback" datatype="html">
         <source>Candidato #<x id="id" equiv-text="id"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
-          <context context-type="linenumber">20</context>
+          <context context-type="linenumber">23</context>
         </context-group>
       </trans-unit>
       <trans-unit id="positions.pageTitle" datatype="html">
@@ -15706,6 +15727,10 @@
       <trans-unit id="requisition.section.jobRequirement" datatype="html">
         <source>Requerimiento del Empleo</source>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/positions/wizard/dynamic-wizard-step/dynamic-wizard-step.component.ts</context>
+          <context context-type="linenumber">410</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/positions/wizard/job-description-ai-field/job-description-ai-field.component.ts</context>
           <context context-type="linenumber">41</context>
         </context-group>
@@ -15714,49 +15739,49 @@
         <source>Generar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/positions/wizard/job-description-ai-field/job-description-ai-field.component.ts</context>
-          <context context-type="linenumber">42</context>
+          <context context-type="linenumber">44</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.action.translateJobDescription" datatype="html">
         <source>Traducir</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/positions/wizard/job-description-ai-field/job-description-ai-field.component.ts</context>
-          <context context-type="linenumber">43</context>
+          <context context-type="linenumber">45</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.translateLanguage" datatype="html">
         <source>Idioma</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/positions/wizard/job-description-ai-field/job-description-ai-field.component.ts</context>
-          <context context-type="linenumber">44</context>
+          <context context-type="linenumber">46</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.jobDescription.emptyPrompt" datatype="html">
         <source>Escribe una instrucción o borrador en el campo antes de generar.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/positions/wizard/job-description-ai-field/job-description-ai-field.component.ts</context>
-          <context context-type="linenumber">45</context>
+          <context context-type="linenumber">47</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.jobDescription.emptyTranslate" datatype="html">
         <source>Escribe o genera una descripción antes de traducir.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/positions/wizard/job-description-ai-field/job-description-ai-field.component.ts</context>
-          <context context-type="linenumber">46</context>
+          <context context-type="linenumber">48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.jobDescription.generateError" datatype="html">
         <source>No se pudo generar la descripción. Intenta de nuevo.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/positions/wizard/job-description-ai-field/job-description-ai-field.component.ts</context>
-          <context context-type="linenumber">47</context>
+          <context context-type="linenumber">49</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.jobDescription.translateError" datatype="html">
         <source>No se pudo traducir la descripción. Intenta de nuevo.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/positions/wizard/job-description-ai-field/job-description-ai-field.component.ts</context>
-          <context context-type="linenumber">48</context>
+          <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="catalogs.pending.message" datatype="html">

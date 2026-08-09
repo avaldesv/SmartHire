@@ -12,6 +12,8 @@ import {
   PatchCandidateApplicationRequest,
   PatchCandidateApplicationResponse,
   ReleaseAllCandidateApplicationsRequest,
+  UpdateCandidateApplicationRequest,
+  UpdateCandidateApplicationResponse,
   ValidateCandidateApplicationFlagsResponse,
   SendCandidateToSmartResponse,
   GenerateContractResponse,
@@ -86,6 +88,17 @@ export class CandidateApplicationApiService {
     request: PatchCandidateApplicationRequest,
   ): Observable<PatchCandidateApplicationResponse> {
     return this.http.patch<PatchCandidateApplicationResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}`),
+      request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  updateApplication(
+    applicationId: number,
+    request: UpdateCandidateApplicationRequest,
+  ): Observable<UpdateCandidateApplicationResponse> {
+    return this.http.put<UpdateCandidateApplicationResponse>(
       this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}`),
       request,
       { headers: this.api.buildHeaders() },

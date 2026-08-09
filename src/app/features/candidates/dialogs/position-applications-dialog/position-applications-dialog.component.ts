@@ -6,12 +6,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { AppPermissions } from '../../../../core/auth/app-permissions';
 import { catalogDialogConfig } from '../../../../core/dialog/catalog-dialog.constants';
 import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
 import {
   APP_DIALOG_ACTIONS_MENU,
+  APP_DIALOG_ACTION_PRESELECT,
   APP_DIALOG_ACTION_VIEW_DOCUMENTS,
   APP_DIALOG_ACTION_VIEW_PROFILE,
   APP_DIALOG_CLOSE,
@@ -25,7 +27,9 @@ import {
   APP_DIALOG_EM_DASH,
   APP_DIALOG_EMPTY,
   APP_DIALOG_ERRORS_LIST,
+  APP_DIALOG_ERRORS_PRESELECT,
   APP_DIALOG_POSITION_PREFIX,
+  APP_DIALOG_PRESELECT_SUCCESS,
   APP_DIALOG_TITLE,
   applicationsDialogCandidateFallback,
 } from '../../../../core/i18n/position-applications-dialog-labels';
@@ -48,6 +52,19 @@ export interface PositionApplicationsDialogData {
   positionName?: string;
 }
 
+export interface PositionApplicationsDialogResult {
+  changed?: boolean;
+}
+
+const APPLICATIONS_SORT_FIELDS: Record<string, string> = {
+  candidate: 'candidate',
+  email: 'candidateEmail',
+  status: 'status',
+  source: 'source',
+  compatibility: 'compatibilityPercent',
+  createdAt: 'createAt',
+};
+
 @Component({
   selector: 'sh-position-applications-dialog',
   standalone: true,
@@ -55,6 +72,7 @@ export interface PositionApplicationsDialogData {
     DatePipe,
     MatDialogModule,
     MatTableModule,
+    MatSortModule,
     MatPaginatorModule,
     MatButtonModule,
     MatIconModule,
@@ -66,7 +84,7 @@ export interface PositionApplicationsDialogData {
   styleUrl: './position-applications-dialog.component.scss',
 })
 export class PositionApplicationsDialogComponent implements OnInit {
-  private readonly dialogRef = inject(MatDialogRef<PositionApplicationsDialogComponent>);
+  private readonly dialogRef = inject(MatDialogRef<PositionApplicationsDialogComponent, PositionApplicationsDialogResult>);
   readonly data = inject<PositionApplicationsDialogData>(MAT_DIALOG_DATA);
   private readonly applicationApi = inject(CandidateApplicationApiService);
   private readonly feedback = inject(FeedbackDialogService);
@@ -88,6 +106,7 @@ export class PositionApplicationsDialogComponent implements OnInit {
     actionsMenu: APP_DIALOG_ACTIONS_MENU,
     viewProfile: APP_DIALOG_ACTION_VIEW_PROFILE,
     viewDocuments: APP_DIALOG_ACTION_VIEW_DOCUMENTS,
+    preselect: APP_DIALOG_ACTION_PRESELECT,
     emDash: APP_DIALOG_EM_DASH,
   };
 
@@ -96,6 +115,10 @@ export class PositionApplicationsDialogComponent implements OnInit {
   total = 0;
   pageIndex = 0;
   pageSize = 10;
+  sortActive = 'createdAt';
+  sortDirection: 'asc' | 'desc' = 'desc';
+  preselectingId: number | null = null;
+  private changed = false;
 
   readonly columns = [
     'candidate',
@@ -115,23 +138,40 @@ export class PositionApplicationsDialogComponent implements OnInit {
     return this.permission.hasAuthority(AppPermissions.CANDIDATE_READ);
   }
 
+  get canEditSelection(): boolean {
+    return this.permission.hasAuthority(AppPermissions.SELECTION_EDIT);
+  }
+
   positionLabel(): string {
     return this.data.requisitionNo ?? `${this.labels.positionPrefix} ${this.data.positionId}`;
   }
 
+  hasRowActions(row: CandidateApplicationListItem): boolean {
+    return this.canReadCandidate || this.canPreselect(row);
+  }
+
+  canPreselect(row: CandidateApplicationListItem): boolean {
+    return this.canEditSelection && row.status?.toUpperCase() !== 'PRESELECTED';
+  }
+
   load(): void {
     this.loading = true;
-    this.applicationApi.list(this.pageIndex, this.pageSize, { positionId: this.data.positionId }).subscribe({
-      next: (res) => {
-        this.rows = res.items;
-        this.total = res.total;
-        this.loading = false;
-      },
-      error: (err) => {
-        this.loading = false;
-        this.feedback.showApiError(err, { fallbackMessage: APP_DIALOG_ERRORS_LIST });
-      },
-    });
+    this.applicationApi
+      .list(this.pageIndex, this.pageSize, {
+        positionId: this.data.positionId,
+        ordersBy: this.buildOrdersBy(),
+      })
+      .subscribe({
+        next: (res) => {
+          this.rows = res.items;
+          this.total = res.total;
+          this.loading = false;
+        },
+        error: (err) => {
+          this.loading = false;
+          this.feedback.showApiError(err, { fallbackMessage: APP_DIALOG_ERRORS_LIST });
+        },
+      });
   }
 
   onPage(e: PageEvent): void {
@@ -140,11 +180,39 @@ export class PositionApplicationsDialogComponent implements OnInit {
     this.load();
   }
 
+  onSortChange(sort: Sort): void {
+    this.sortActive = sort.active || 'createdAt';
+    this.sortDirection = sort.direction === 'asc' ? 'asc' : 'desc';
+    this.pageIndex = 0;
+    this.load();
+  }
+
   candidateName(row: CandidateApplicationListItem): string {
     const first = row.candidateFirstName ?? '';
     const last = row.candidateLastName ?? '';
     const name = `${first} ${last}`.trim();
     return name || applicationsDialogCandidateFallback(row.candidateId);
+  }
+
+  preselect(row: CandidateApplicationListItem): void {
+    if (!this.canPreselect(row) || this.preselectingId != null) {
+      return;
+    }
+    this.preselectingId = row.id;
+    this.applicationApi
+      .updateApplication(row.id, { status: 'PRESELECTED', isSelected: true })
+      .subscribe({
+        next: () => {
+          this.preselectingId = null;
+          this.changed = true;
+          this.feedback.showSuccess(APP_DIALOG_PRESELECT_SUCCESS);
+          this.load();
+        },
+        error: (err) => {
+          this.preselectingId = null;
+          this.feedback.showApiError(err, { fallbackMessage: APP_DIALOG_ERRORS_PRESELECT });
+        },
+      });
   }
 
   openProfile(row: CandidateApplicationListItem): void {
@@ -176,6 +244,11 @@ export class PositionApplicationsDialogComponent implements OnInit {
   }
 
   close(): void {
-    this.dialogRef.close();
+    this.dialogRef.close({ changed: this.changed });
+  }
+
+  private buildOrdersBy(): string[] {
+    const field = APPLICATIONS_SORT_FIELDS[this.sortActive] ?? 'createAt';
+    return [`${field}:${this.sortDirection}`];
   }
 }

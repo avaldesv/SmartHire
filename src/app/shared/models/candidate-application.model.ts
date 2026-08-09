@@ -119,3 +119,23 @@ export interface SendQuestionnaireInviteResponse {
   message: string;
   sentAt: string;
 }
+
+export interface UpdateCandidateApplicationRequest {
+  status?: string | null;
+  isSelected?: boolean | null;
+  isInterested?: boolean | null;
+  isHired?: boolean | null;
+  compatibilityPercent?: number | null;
+}
+
+export interface UpdateCandidateApplicationResponse {
+  id: number;
+  companyId: number;
+  candidateId: number;
+  positionId: number;
+  status: string;
+  isInterested: boolean | null;
+  isSelected: boolean | null;
+  compatibilityPercent: number | null;
+  preselectionDate: string | null;
+}

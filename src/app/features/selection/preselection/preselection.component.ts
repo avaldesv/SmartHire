@@ -22,6 +22,7 @@ import {
 import {
   PositionApplicationsDialogComponent,
   PositionApplicationsDialogData,
+  PositionApplicationsDialogResult,
 } from '../../candidates/dialogs/position-applications-dialog/position-applications-dialog.component';
 import {
   ApplicationAuditLogDialogComponent,
@@ -154,13 +155,20 @@ export class PreselectionComponent implements OnInit {
   }
 
   openApplicationsDialog(): void {
-    this.dialog.open<PositionApplicationsDialogComponent, PositionApplicationsDialogData>(
-      PositionApplicationsDialogComponent,
-      {
-        ...catalogDialogConfig('720px'),
-        data: { positionId: this.positionId, requisitionNo: `REQ-${this.positionId}` },
-      },
-    );
+    this.dialog
+      .open<PositionApplicationsDialogComponent, PositionApplicationsDialogData, PositionApplicationsDialogResult>(
+        PositionApplicationsDialogComponent,
+        {
+          ...catalogDialogConfig('720px'),
+          data: { positionId: this.positionId, requisitionNo: `REQ-${this.positionId}` },
+        },
+      )
+      .afterClosed()
+      .subscribe((result) => {
+        if (result?.changed) {
+          this.loadApplications();
+        }
+      });
   }
 
   toggleAll(checked: boolean): void {

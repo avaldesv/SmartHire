@@ -14,6 +14,9 @@ export const APP_DIALOG_COL_ACTIONS = $localize`:@@applicationsDialog.col.action
 export const APP_DIALOG_ACTIONS_MENU = $localize`:@@applicationsDialog.actions.menu:Acciones del candidato`;
 export const APP_DIALOG_ACTION_VIEW_PROFILE = $localize`:@@applicationsDialog.actions.viewProfile:Ver perfil completo`;
 export const APP_DIALOG_ACTION_VIEW_DOCUMENTS = $localize`:@@applicationsDialog.actions.viewDocuments:Ver documentos`;
+export const APP_DIALOG_ACTION_PRESELECT = $localize`:@@applicationsDialog.actions.preselect:Preseleccionar`;
+export const APP_DIALOG_PRESELECT_SUCCESS = $localize`:@@applicationsDialog.preselect.success:Candidato preseleccionado`;
+export const APP_DIALOG_ERRORS_PRESELECT = $localize`:@@applicationsDialog.errors.preselect:No se pudo preseleccionar al candidato`;
 export const APP_DIALOG_ERRORS_LIST = $localize`:@@applicationsDialog.errors.list:No se pudieron cargar las postulaciones`;
 
 export function applicationsDialogCandidateFallback(id: number): string {

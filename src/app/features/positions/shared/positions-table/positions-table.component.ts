@@ -162,6 +162,7 @@ import {
 import {
   PositionApplicationsDialogComponent,
   PositionApplicationsDialogData,
+  PositionApplicationsDialogResult,
 } from '../../../candidates/dialogs/position-applications-dialog/position-applications-dialog.component';
 import {
   CvBulkUploadDialogComponent,
@@ -1272,17 +1273,24 @@ export class PositionsTableComponent implements OnInit {
   }
 
   openApplicationsDialog(row: PositionListItem): void {
-    this.dialog.open<PositionApplicationsDialogComponent, PositionApplicationsDialogData>(
-      PositionApplicationsDialogComponent,
-      {
-        ...catalogDialogConfig('720px'),
-        data: {
-          positionId: row.id,
-          requisitionNo: row.requisitionNo,
-          positionName: row.name,
+    this.dialog
+      .open<PositionApplicationsDialogComponent, PositionApplicationsDialogData, PositionApplicationsDialogResult>(
+        PositionApplicationsDialogComponent,
+        {
+          ...catalogDialogConfig('720px'),
+          data: {
+            positionId: row.id,
+            requisitionNo: row.requisitionNo,
+            positionName: row.name,
+          },
         },
-      },
-    );
+      )
+      .afterClosed()
+      .subscribe((result) => {
+        if (result?.changed) {
+          this.reloadAndNotify();
+        }
+      });
   }
 
   generatePublication(row: PositionListItem): void {

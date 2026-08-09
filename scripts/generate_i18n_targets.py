@@ -736,6 +736,9 @@ EN_BY_SOURCE: dict[str, str] = {
     "Acciones del candidato": "Candidate actions",
     "Ver perfil completo": "View full profile",
     "Ver documentos": "View documents",
+    "Preseleccionar": "Preselect",
+    "Candidato preseleccionado": "Candidate preselected",
+    "No se pudo preseleccionar al candidato": "Could not preselect the candidate",
     "No se pudieron cargar las postulaciones": "Could not load applications",
     # Candidate profile view
     "Perfil completo del candidato": "Candidate full profile",
