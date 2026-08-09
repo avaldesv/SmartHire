@@ -13,25 +13,5 @@
     <sh-kpi-card [label]="kpiInterested" [value]="kpis.interested" [subtitle]="kpiInterestedSub" icon="person_add" iconBg="#8b5cf6" />
   </section>
 
-  <section class="sh-card solicitudes-section">
-    <div class="section-header">
-      <h2>{{ sectionRequests }}</h2>
-      <div class="section-header-actions">
-        <button mat-stroked-button type="button" (click)="table.clearFilters()">
-          <mat-icon>filter_alt_off</mat-icon>
-          {{ clearFiltersLabel }}
-        </button>
-        <button mat-stroked-button type="button" (click)="table.toggleAdvancedFilters()">
-          <mat-icon>{{ table.advancedFiltersOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
-          {{ table.advancedFiltersOpen ? lessFiltersLabel : moreFiltersLabel }}
-        </button>
-        <button mat-flat-button color="primary" type="button" (click)="table.openNewRequisition()">
-          <mat-icon>add</mat-icon>
-          {{ newRequisition }}
-        </button>
-      </div>
-    </div>
-
-    <sh-positions-table #table [embedded]="true" (changed)="loadKpis()" />
-  </section>
+  <sh-positions-panel (changed)="loadKpis()" />
 </div>

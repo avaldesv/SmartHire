@@ -1,0 +1,20 @@
+<div class="positions-panel">
+  <sh-page-header [title]="pageTitle" [subtitle]="pageSubtitle">
+    <div class="header-filter-actions">
+      <button mat-stroked-button type="button" (click)="table.clearFilters()">
+        <mat-icon>filter_alt_off</mat-icon>
+        {{ clearFiltersLabel }}
+      </button>
+      <button mat-stroked-button type="button" (click)="table.toggleAdvancedFilters()">
+        <mat-icon>{{ table.advancedFiltersOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
+        {{ table.advancedFiltersOpen ? lessFiltersLabel : moreFiltersLabel }}
+      </button>
+      <button mat-flat-button color="primary" type="button" (click)="table.openNewRequisition()">
+        <mat-icon>add</mat-icon>
+        {{ newButton }}
+      </button>
+    </div>
+  </sh-page-header>
+
+  <sh-positions-table #table (changed)="onTableChanged()" />
+</div>
