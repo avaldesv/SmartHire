@@ -785,6 +785,57 @@ EN_BY_SOURCE: dict[str, str] = {
     "Fecha": "Date",
     "No se pudieron cargar los documentos": "Could not load documents",
     "No se pudo descargar el documento": "Could not download the document",
+    # Requisition wizard — field labels and UI (en-US targets)
+    "Orden de trabajo (OT)": "Work order (OT)",
+    "Id de Orden": "Order ID",
+    "Puesto Cliente": "Client position",
+    "Salario": "Salary",
+    "Días de trabajo": "Work days",
+    "Número de posiciones": "Number of positions",
+    "Prestaciones": "Benefits",
+    "FEE de servicio": "Service fee",
+    "¿Lleva anticipo?": "Has advance payment?",
+    "Herramientas": "Tools",
+    "Requerimientos": "Requirements",
+    "Idioma principal": "Primary language",
+    "Idioma secundario": "Secondary language",
+    "Nivel requerido": "Required level",
+    "Años experiencia": "Years of experience",
+    "Notas generales": "General notes",
+    "Headcount": "Headcount",
+    "Fecha inicio": "Start date",
+    "Días prueba": "Probation days",
+    "Modalidad": "Modality",
+    "Ninguno": "None",
+    "Nivel": "Level",
+    "Agregar idioma": "Add language",
+    "Tipo evaluación": "Evaluation type",
+    "Porcentaje": "Percentage",
+    "Puntaje": "Score",
+    "% aceptación": "Acceptance %",
+    "Documento": "Document",
+    "Cargando tipos de documento...": "Loading document types...",
+    "Sin tipos de documento para el país seleccionado.": "No document types for the selected country.",
+    "Seleccione el país del cliente en el paso anterior para cargar la geografía.": (
+        "Select the client country in the previous step to load geography."
+    ),
+    "Seleccione el país del cliente para cargar tipos de documento.": (
+        "Select the client country to load document types."
+    ),
+    "Abrir selector de hora": "Open time picker",
+    "País cliente": "Client country",
+    "Tipo reclutamiento": "Recruitment type",
+    "Categoría cobertura": "Coverage category",
+    "Generales": "General",
+    "Días laborales": "Work days",
+    "# Posiciones": "# Positions",
+    "Lunes": "Monday",
+    "Martes": "Tuesday",
+    "Miércoles": "Wednesday",
+    "Jueves": "Thursday",
+    "Viernes": "Friday",
+    "Sábado": "Saturday",
+    "Domingo": "Sunday",
 }
 
 ERROR_CATALOG_EN_MAP = load_error_catalog_en()
@@ -1065,6 +1116,66 @@ def translate_en(source: str) -> str:
         return "Additional benefits text"
     if source.startswith("Documentos requeridos"):
         return "Required documents"
+    if source.startswith("Orden de trabajo"):
+        return "Work order (OT)"
+    if source.startswith("Id de Orden"):
+        return "Order ID"
+    if source.startswith("Puesto Cliente"):
+        return "Client position"
+    if source == "Salario":
+        return "Salary"
+    if source.startswith("Días de trabajo"):
+        return "Work days"
+    if source.startswith("Número de posiciones"):
+        return "Number of positions"
+    if source == "Prestaciones":
+        return "Benefits"
+    if source.startswith("FEE de servicio"):
+        return "Service fee"
+    if source.startswith("¿Lleva anticipo?"):
+        return "Has advance payment?"
+    if source == "Herramientas":
+        return "Tools"
+    if source.startswith("Agregar idioma"):
+        return "Add language"
+    if source.startswith("Tipo evaluación"):
+        return "Evaluation type"
+    if source == "Porcentaje":
+        return "Percentage"
+    if source == "Puntaje":
+        return "Score"
+    if source.startswith("% aceptación"):
+        return "Acceptance %"
+    if source == "Documento":
+        return "Document"
+    if source.startswith("Cargando tipos de documento"):
+        return "Loading document types..."
+    if source.startswith("Sin tipos de documento"):
+        return "No document types for the selected country."
+    if source.startswith("Seleccione el país del cliente en el paso anterior"):
+        return "Select the client country in the previous step to load geography."
+    if source.startswith("Seleccione el país del cliente para cargar tipos"):
+        return "Select the client country to load document types."
+    if source.startswith("Abrir selector de hora"):
+        return "Open time picker"
+    if source == "Lunes":
+        return "Monday"
+    if source == "Martes":
+        return "Tuesday"
+    if source == "Miércoles":
+        return "Wednesday"
+    if source == "Jueves":
+        return "Thursday"
+    if source == "Viernes":
+        return "Friday"
+    if source == "Sábado":
+        return "Saturday"
+    if source == "Domingo":
+        return "Sunday"
+    if source == "Ninguno":
+        return "None"
+    if source == "Nivel":
+        return "Level"
     return source
 
 
