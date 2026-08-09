@@ -289,14 +289,29 @@
             {{ truncateCell(row.name, cellMaxChars) }}
           </td>
         </ng-container>
-        <ng-container matColumnDef="ot"><th mat-header-cell *matHeaderCellDef>{{ colOt }}</th><td mat-cell *matCellDef="let row">{{ row.ot || '—' }}</td></ng-container>
-        <ng-container matColumnDef="createdAt"><th mat-header-cell *matHeaderCellDef>{{ colCreatedAt }}</th><td mat-cell *matCellDef="let row">{{ row.createdAt | date:'dd/MM/yyyy' }}</td></ng-container>
-        <ng-container matColumnDef="positionsCount"><th mat-header-cell *matHeaderCellDef>{{ colPositionsCount }}</th><td mat-cell *matCellDef="let row">{{ row.positionsCount ?? '—' }}</td></ng-container>
-        <ng-container matColumnDef="applicantsCount"><th mat-header-cell *matHeaderCellDef>{{ colApplicants }}</th><td mat-cell *matCellDef="let row">{{ row.applicantsCount ?? 0 }}</td></ng-container>
-        <ng-container matColumnDef="preselectedCount"><th mat-header-cell *matHeaderCellDef>{{ colPreselection }}</th><td mat-cell *matCellDef="let row">{{ row.preselectedCount ?? 0 }}</td></ng-container>
+        <ng-container matColumnDef="ot">
+          <th mat-header-cell *matHeaderCellDef class="col-metric">{{ colOt }}</th>
+          <td mat-cell *matCellDef="let row" class="col-metric">{{ row.ot || '—' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="createdAt">
+          <th mat-header-cell *matHeaderCellDef class="col-metric">{{ colCreatedAt }}</th>
+          <td mat-cell *matCellDef="let row" class="col-metric">{{ row.createdAt | date:'dd/MM/yyyy' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="positionsCount">
+          <th mat-header-cell *matHeaderCellDef class="col-metric">{{ colPositionsCount }}</th>
+          <td mat-cell *matCellDef="let row" class="col-metric">{{ row.positionsCount ?? '—' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="applicantsCount">
+          <th mat-header-cell *matHeaderCellDef class="col-metric">{{ colApplicants }}</th>
+          <td mat-cell *matCellDef="let row" class="col-metric">{{ row.applicantsCount ?? 0 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="preselectedCount">
+          <th mat-header-cell *matHeaderCellDef class="col-metric">{{ colPreselection }}</th>
+          <td mat-cell *matCellDef="let row" class="col-metric">{{ row.preselectedCount ?? 0 }}</td>
+        </ng-container>
         <ng-container matColumnDef="hiredCount">
-          <th mat-header-cell *matHeaderCellDef class="col-first-day">{{ colFirstDay }}</th>
-          <td mat-cell *matCellDef="let row" class="col-first-day">{{ row.hiredCount ?? 0 }}</td>
+          <th mat-header-cell *matHeaderCellDef class="col-metric">{{ colFirstDay }}</th>
+          <td mat-cell *matCellDef="let row" class="col-metric">{{ row.hiredCount ?? 0 }}</td>
         </ng-container>
         <ng-container matColumnDef="recruiter">
           <th mat-header-cell *matHeaderCellDef>{{ colRecruiter }}</th>

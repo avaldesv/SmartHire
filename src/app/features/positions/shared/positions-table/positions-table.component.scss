@@ -74,9 +74,12 @@
   max-width: 30ch;
 }
 
-.col-first-day {
-  max-width: 10ch; /* "Primer día" */
+/* Compact metric columns — same width as Posiciones */
+.col-metric {
   width: 10ch;
+  min-width: 10ch;
+  max-width: 10ch;
+  box-sizing: content-box;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
