@@ -537,11 +537,42 @@ EN_BY_SOURCE: dict[str, str] = {
     "No se pudo publicar la configuración": "Could not publish configuration",
     "Seleccione país y tipo de cobertura": "Select country and coverage type",
     "Datos Cliente": "Client data",
+    "Datos cliente": "Client data",
+    "Datos Manpower": "Manpower data",
+    "Desc. cliente": "Client desc.",
+    "Beneficios": "Benefits",
     "Contratación": "Hiring",
     "Reclutamiento": "Recruitment",
     "Descripción del cliente": "Client description",
     "Beneficios adicionales": "Additional benefits",
     "Preselección": "Preselection",
+    "Nueva requisición": "New requisition",
+    "Editar requisición": "Edit requisition",
+    "Anterior": "Previous",
+    "Creando...": "Creating...",
+    "Cargando formulario de requisición…": "Loading requisition form…",
+    "Selecciona el país y el tipo de cobertura para cargar el formulario correspondiente.": (
+        "Select the country and coverage type to load the corresponding form."
+    ),
+    "Seleccione un tipo de cobertura": "Select a coverage type",
+    "Cargando...": "Loading...",
+    "No se pudieron cargar los países": "Could not load countries",
+    "No se pudieron cargar los idiomas": "Could not load languages",
+    "No se pudieron cargar los estados": "Could not load states",
+    "No se pudieron cargar los municipios": "Could not load municipalities",
+    "No se pudieron cargar las colonias": "Could not load neighborhoods",
+    "Sin colonias para ese código postal": "No neighborhoods for that postal code",
+    "No se pudo cargar la requisición": "Could not load the requisition",
+    "Error al cargar catálogos de la requisición": "Error loading requisition catalogs",
+    "Complete los campos obligatorios": "Please complete the required fields",
+    "Requisición creada correctamente": "Requisition created successfully",
+    "Requisición actualizada correctamente": "Requisition updated successfully",
+    "No se pudo crear la requisición": "Could not create the requisition",
+    "No se pudo actualizar la requisición": "Could not update the requisition",
+    "JSON exportado a consola": "JSON exported to console",
+    "Enviado a ATS (simulado)": "Sent to ATS (simulated)",
+    "No se pudieron cargar los tipos de cobertura": "Could not load coverage types",
+    "Cuentas de candidatos": "Candidate accounts",
     "Clave cliente": "Client code",
     "Nombre de contacto": "Contact name",
     "Teléfono de contacto": "Contact phone",
@@ -880,8 +911,50 @@ def translate_en(source: str) -> str:
         return "Conditional rules"
     if source.startswith("Formulario requisición"):
         return "Requisition form"
-    if source.startswith("Datos Cliente"):
+    if source.startswith("Datos Cliente") or source.startswith("Datos cliente"):
         return "Client data"
+    if source.startswith("Datos Manpower"):
+        return "Manpower data"
+    if source.startswith("Desc. cliente"):
+        return "Client desc."
+    if source == "Beneficios":
+        return "Benefits"
+    if source.startswith("Nueva requisición"):
+        return "New requisition"
+    if source.startswith("Editar requisición"):
+        return "Edit requisition"
+    if source == "Anterior":
+        return "Previous"
+    if source.startswith("Creando..."):
+        return "Creating..."
+    if source.startswith("Cargando formulario de requisición"):
+        return "Loading requisition form…"
+    if source.startswith("Selecciona el país y el tipo de cobertura"):
+        return "Select the country and coverage type to load the corresponding form."
+    if source.startswith("Seleccione un tipo de cobertura"):
+        return "Select a coverage type"
+    if source.startswith("Sin colonias para ese código postal"):
+        return "No neighborhoods for that postal code"
+    if source.startswith("No se pudo cargar la requisición"):
+        return "Could not load the requisition"
+    if source.startswith("Error al cargar catálogos"):
+        return "Error loading requisition catalogs"
+    if source.startswith("Complete los campos obligatorios"):
+        return "Please complete the required fields"
+    if source.startswith("Requisición creada correctamente"):
+        return "Requisition created successfully"
+    if source.startswith("Requisición actualizada correctamente"):
+        return "Requisition updated successfully"
+    if source.startswith("No se pudo crear la requisición"):
+        return "Could not create the requisition"
+    if source.startswith("No se pudo actualizar la requisición"):
+        return "Could not update the requisition"
+    if source.startswith("JSON exportado a consola"):
+        return "JSON exported to console"
+    if source.startswith("Enviado a ATS"):
+        return "Sent to ATS (simulated)"
+    if source.startswith("Cuentas de candidatos"):
+        return "Candidate accounts"
     if source.startswith("Contratación"):
         return "Hiring"
     if source.startswith("Reclutamiento"):

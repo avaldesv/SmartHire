@@ -390,6 +390,7 @@ export class PositionsTableComponent implements OnInit {
   readonly columns = [
     'requisitionNo',
     'name',
+    'status',
     'ot',
     'createdAt',
     'positionsCount',
@@ -407,7 +408,6 @@ export class PositionsTableComponent implements OnInit {
     'country',
     'city',
     'state',
-    'status',
     'cancellationScope',
     'actions',
   ];

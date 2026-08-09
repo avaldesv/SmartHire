@@ -1560,7 +1560,7 @@
       </trans-unit>
       <trans-unit id="candidateAccounts.pageTitle" datatype="html">
         <source>Cuentas de candidatos</source>
-        <target>Cuentas de candidatos</target>
+        <target>Candidate accounts</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.pageSubtitle" datatype="html">
         <source>Administración de cuentas del portal candidato</source>
@@ -3766,7 +3766,7 @@
       </trans-unit>
       <trans-unit id="nav.main.candidateAccounts" datatype="html">
         <source>Cuentas de candidatos</source>
-        <target>Cuentas de candidatos</target>
+        <target>Candidate accounts</target>
       </trans-unit>
       <trans-unit id="questionnaires.nav.questions" datatype="html">
         <source>Preguntas</source>
@@ -6312,7 +6312,7 @@
       </trans-unit>
       <trans-unit id="requisition.step.manpower" datatype="html">
         <source>Datos Manpower</source>
-        <target>Datos Manpower</target>
+        <target>Manpower data</target>
       </trans-unit>
       <trans-unit id="requisition.step.hiring" datatype="html">
         <source>Contratación</source>
@@ -6680,7 +6680,7 @@
       </trans-unit>
       <trans-unit id="requisition.step.client.stepper" datatype="html">
         <source>Datos cliente</source>
-        <target>Datos cliente</target>
+        <target>Client data</target>
       </trans-unit>
       <trans-unit id="requisition.step.general.stepper" datatype="html">
         <source>Datos generales</source>
@@ -6688,7 +6688,7 @@
       </trans-unit>
       <trans-unit id="requisition.step.manpower.stepper" datatype="html">
         <source>Datos Manpower</source>
-        <target>Datos Manpower</target>
+        <target>Manpower data</target>
       </trans-unit>
       <trans-unit id="requisition.step.hiring.stepper" datatype="html">
         <source>Contratación</source>
@@ -6708,11 +6708,11 @@
       </trans-unit>
       <trans-unit id="requisition.step.clientDescription.stepper" datatype="html">
         <source>Desc. cliente</source>
-        <target>Desc. cliente</target>
+        <target>Client desc.</target>
       </trans-unit>
       <trans-unit id="requisition.step.extraBenefits.stepper" datatype="html">
         <source>Beneficios</source>
-        <target>Beneficios</target>
+        <target>Benefits</target>
       </trans-unit>
       <trans-unit id="requisition.step.preselection.stepper" datatype="html">
         <source>Preselección</source>
@@ -6728,11 +6728,11 @@
       </trans-unit>
       <trans-unit id="requisition.wizard.newTitle" datatype="html">
         <source>Nueva requisición</source>
-        <target>Nueva requisición</target>
+        <target>New requisition</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.editTitle" datatype="html">
         <source>Editar requisición</source>
-        <target>Editar requisición</target>
+        <target>Edit requisition</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.continue" datatype="html">
         <source>Continuar</source>
@@ -6740,7 +6740,7 @@
       </trans-unit>
       <trans-unit id="requisition.wizard.previous" datatype="html">
         <source>Anterior</source>
-        <target>Anterior</target>
+        <target>Previous</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.save" datatype="html">
         <source>Guardar</source>
@@ -6756,11 +6756,11 @@
       </trans-unit>
       <trans-unit id="requisition.wizard.creating" datatype="html">
         <source>Creando...</source>
-        <target>Creando...</target>
+        <target>Creating...</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.loading" datatype="html">
         <source>Cargando formulario de requisición…</source>
-        <target>Cargando formulario de requisición…</target>
+        <target>Loading requisition form…</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.progressAria" datatype="html">
         <source>Pasos del wizard</source>
@@ -6768,7 +6768,7 @@
       </trans-unit>
       <trans-unit id="requisition.wizard.scopeHint" datatype="html">
         <source>Selecciona el país y el tipo de cobertura para cargar el formulario correspondiente.</source>
-        <target>Selecciona el país y el tipo de cobertura para cargar el formulario correspondiente.</target>
+        <target>Select the country and coverage type to load the corresponding form.</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.scopeCountry" datatype="html">
         <source>País</source>
@@ -6780,102 +6780,102 @@
       </trans-unit>
       <trans-unit id="requisition.wizard.scopeCoverageRequired" datatype="html">
         <source>Seleccione un tipo de cobertura</source>
-        <target>Seleccione un tipo de cobertura</target>
+        <target>Select a coverage type</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.scopeLoading" datatype="html">
         <source>Cargando...</source>
-        <target>Cargando...</target>
+        <target>Loading...</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.loadCountries" datatype="html">
         <source>No se pudieron cargar los países</source>
-        <target>Could not load los países</target>
+        <target>Could not load countries</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.loadLanguages" datatype="html">
         <source>No se pudieron cargar los idiomas</source>
-        <target>Could not load los idiomas</target>
+        <target>Could not load languages</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.loadStates" datatype="html">
         <source>No se pudieron cargar los estados</source>
-        <target>Could not load los estados</target>
+        <target>Could not load states</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.loadMunicipalities" datatype="html">
         <source>No se pudieron cargar los municipios</source>
-        <target>Could not load los municipios</target>
+        <target>Could not load municipalities</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.loadNeighborhoods" datatype="html">
         <source>No se pudieron cargar las colonias</source>
-        <target>Could not load las colonias</target>
+        <target>Could not load neighborhoods</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.info.noNeighborhoods" datatype="html">
         <source>Sin colonias para ese código postal</source>
-        <target>Sin colonias para ese código postal</target>
+        <target>No neighborhoods for that postal code</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.loadPosition" datatype="html">
         <source>No se pudo cargar la requisición</source>
-        <target>No se pudo cargar la requisición</target>
+        <target>Could not load the requisition</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.loadCatalogs" datatype="html">
         <source>Error al cargar catálogos de la requisición</source>
-        <target>Error al cargar catálogos de la requisición</target>
+        <target>Error loading requisition catalogs</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.validationRequired" datatype="html">
         <source>Complete los campos obligatorios</source>
-        <target>Complete los campos obligatorios</target>
+        <target>Please complete the required fields</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.success.create" datatype="html">
         <source>Requisición creada correctamente</source>
-        <target>Requisición creada correctamente</target>
+        <target>Requisition created successfully</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.success.update" datatype="html">
         <source>Requisición actualizada correctamente</source>
-        <target>Requisición actualizada correctamente</target>
+        <target>Requisition updated successfully</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.create" datatype="html">
         <source>No se pudo crear la requisición</source>
-        <target>No se pudo crear la requisición</target>
+        <target>Could not create the requisition</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.update" datatype="html">
         <source>No se pudo actualizar la requisición</source>
-        <target>No se pudo actualizar la requisición</target>
+        <target>Could not update the requisition</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.info.jsonExported" datatype="html">
         <source>JSON exportado a consola</source>
-        <target>JSON exportado a consola</target>
+        <target>JSON exported to console</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.info.atsSimulated" datatype="html">
         <source>Enviado a ATS (simulado)</source>
-        <target>Enviado a ATS (simulado)</target>
+        <target>Sent to ATS (simulated)</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.loadCoverage" datatype="html">
         <source>No se pudieron cargar los tipos de cobertura</source>
-        <target>Could not load los tipos de cobertura</target>
+        <target>Could not load coverage types</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.createSubtitle" datatype="html">
         <source>Asistente de creación en <x id="steps" equiv-text="steps" /> pasos</source>
-        <target>Asistente de creación en <x id="steps" equiv-text="steps" /> pasos</target>
+        <target><x id="steps" equiv-text="steps" />-step creation wizard</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.editSubtitle" datatype="html">
         <source>Asistente en <x id="steps" equiv-text="steps" /> pasos</source>
-        <target>Asistente en <x id="steps" equiv-text="steps" /> pasos</target>
+        <target><x id="steps" equiv-text="steps" />-step wizard</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.stepOf" datatype="html">
         <source>Paso <x id="current" equiv-text="current" /> de <x id="total" equiv-text="total" />
         </source>
-        <target>Paso <x id="current" equiv-text="current" /> de <x id="total" equiv-text="total" />
+        <target>Step <x id="current" equiv-text="current" /> of <x id="total" equiv-text="total" />
         </target>
       </trans-unit>
       <trans-unit id="requisition.wizard.stepAriaDone" datatype="html">
         <source>Paso <x id="current" equiv-text="current" /> de <x id="total" equiv-text="total" />: <x id="title" equiv-text="title" /> (completado)</source>
-        <target>Paso <x id="current" equiv-text="current" /> de <x id="total" equiv-text="total" />: <x id="title" equiv-text="title" /> (completado)</target>
+        <target>Step <x id="current" equiv-text="current" /> of <x id="total" equiv-text="total" />: <x id="title" equiv-text="title" /> (completed)</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.stepAriaCurrent" datatype="html">
         <source>Paso <x id="current" equiv-text="current" /> de <x id="total" equiv-text="total" />: <x id="title" equiv-text="title" /> (actual)</source>
-        <target>Paso <x id="current" equiv-text="current" /> de <x id="total" equiv-text="total" />: <x id="title" equiv-text="title" /> (actual)</target>
+        <target>Step <x id="current" equiv-text="current" /> of <x id="total" equiv-text="total" />: <x id="title" equiv-text="title" /> (current)</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.stepAria" datatype="html">
         <source>Paso <x id="current" equiv-text="current" /> de <x id="total" equiv-text="total" />: <x id="title" equiv-text="title" />
         </source>
-        <target>Paso <x id="current" equiv-text="current" /> de <x id="total" equiv-text="total" />: <x id="title" equiv-text="title" />
+        <target>Step <x id="current" equiv-text="current" /> of <x id="total" equiv-text="total" />: <x id="title" equiv-text="title" />
         </target>
       </trans-unit>
       <trans-unit id="documents.pageTitle" datatype="html">
