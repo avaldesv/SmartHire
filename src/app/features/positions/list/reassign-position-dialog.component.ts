@@ -78,12 +78,16 @@ export interface ReassignPositionDialogResult {
   styles: `
     .full-width {
       width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
     .form {
       display: flex;
       flex-direction: column;
       gap: 8px;
-      min-width: 360px;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
     .loading-wrap {
       display: flex;

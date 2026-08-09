@@ -333,7 +333,7 @@ export class PreselectionComponent implements OnInit {
       PreselectionCompatibilityDialogData,
       number | undefined
     >(PreselectionCompatibilityDialogComponent, {
-      ...catalogDialogConfig('400px'),
+      ...catalogDialogConfig('480px'),
       data: { candidateName: name, currentCompatibility: row.compatibility },
     });
     dialogRef
