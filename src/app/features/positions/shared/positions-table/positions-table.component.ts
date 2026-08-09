@@ -1,8 +1,9 @@
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { DatePipe } from '@angular/common';
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -13,7 +14,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
-import { catchError, debounceTime, distinctUntilChanged, forkJoin, map, of, switchMap } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, filter, forkJoin, map, of, switchMap } from 'rxjs';
 import { AppPermissions } from '../../../../core/auth/app-permissions';
 import { catalogDialogConfig } from '../../../../core/dialog/catalog-dialog.constants';
 import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
@@ -165,11 +166,21 @@ import {
 import {
   CvBulkUploadDialogComponent,
   CvBulkUploadDialogData,
+  CvBulkUploadDialogResult,
 } from '../../list/cv-bulk-upload-dialog/cv-bulk-upload-dialog.component';
+import {
+  CvBulkProgressDialogComponent,
+  CvBulkProgressDialogResult,
+} from '../../list/cv-bulk-progress-dialog/cv-bulk-progress-dialog.component';
 import {
   ExcelBulkUploadDialogComponent,
   ExcelBulkUploadDialogData,
+  ExcelBulkUploadDialogResult,
 } from '../../list/excel-bulk-upload-dialog/excel-bulk-upload-dialog.component';
+import {
+  ExcelBulkProgressDialogComponent,
+  ExcelBulkProgressDialogResult,
+} from '../../list/excel-bulk-progress-dialog/excel-bulk-progress-dialog.component';
 import {
   PositionCancelDialogComponent,
   PositionCancelDialogResult,
@@ -239,6 +250,9 @@ export class PositionsTableComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly permissions = inject(PermissionService);
   private readonly auth = inject(AuthService);
+  private readonly destroyRef = inject(DestroyRef);
+
+  private previousUrl = '';
 
   readonly searchLabel = POSITIONS_SEARCH_LABEL;
   readonly searchPlaceholder = POSITIONS_SEARCH_PLACEHOLDER;
@@ -510,6 +524,30 @@ export class PositionsTableComponent implements OnInit {
       this.pageIndex = 0;
       this.load();
     });
+    this.previousUrl = this.router.url;
+    this.router.events
+      .pipe(
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe((event) => {
+        const url = event.urlAfterRedirects;
+        if (this.shouldReloadAfterWizardReturn(this.previousUrl, url)) {
+          this.reloadAndNotify();
+        }
+        this.previousUrl = url;
+      });
+  }
+
+  private shouldReloadAfterWizardReturn(previousUrl: string, currentUrl: string): boolean {
+    if (!this.isWizardRoute(previousUrl)) {
+      return false;
+    }
+    return currentUrl === '/positions' || currentUrl.startsWith('/positions?') || currentUrl === '/home';
+  }
+
+  private isWizardRoute(url: string): boolean {
+    return /\/positions\/(new|\d+\/edit)(?:[/?#]|$)/.test(url);
   }
 
   toggleAdvancedFilters(): void {
@@ -1001,6 +1039,7 @@ export class PositionsTableComponent implements OnInit {
         }
         this.positionService.publishOnPortal(row.id).subscribe({
           next: () => {
+            this.reloadAndNotify();
             this.feedback.showSuccess(POSITIONS_PUBLISH_ON_PORTAL_SUCCESS);
           },
           error: (err) => {
@@ -1265,23 +1304,67 @@ export class PositionsTableComponent implements OnInit {
   }
 
   openCvBulkUpload(row: PositionListItem): void {
-    this.dialog.open(CvBulkUploadDialogComponent, {
-      ...catalogDialogConfig('560px'),
-      data: {
-        positionId: row.id,
-        positionName: row.name ?? `#${row.id}`,
-      } as CvBulkUploadDialogData,
-    });
+    this.dialog
+      .open(CvBulkUploadDialogComponent, {
+        ...catalogDialogConfig('560px'),
+        data: {
+          positionId: row.id,
+          positionName: row.name ?? `#${row.id}`,
+        } as CvBulkUploadDialogData,
+      })
+      .afterClosed()
+      .subscribe((result: CvBulkUploadDialogResult | null | undefined) => {
+        this.openCvBulkProgressAndReload(result);
+      });
   }
 
   openExcelBulkUpload(row: PositionListItem): void {
-    this.dialog.open(ExcelBulkUploadDialogComponent, {
-      ...catalogDialogConfig('920px', { maxWidth: '96vw' }),
-      data: {
-        positionId: row.id,
-        positionName: row.name ?? `#${row.id}`,
-      } as ExcelBulkUploadDialogData,
-    });
+    this.dialog
+      .open(ExcelBulkUploadDialogComponent, {
+        ...catalogDialogConfig('920px', { maxWidth: '96vw' }),
+        data: {
+          positionId: row.id,
+          positionName: row.name ?? `#${row.id}`,
+        } as ExcelBulkUploadDialogData,
+      })
+      .afterClosed()
+      .subscribe((result: ExcelBulkUploadDialogResult | null | undefined) => {
+        this.openExcelBulkProgressAndReload(result);
+      });
+  }
+
+  private openCvBulkProgressAndReload(result: CvBulkUploadDialogResult | null | undefined): void {
+    if (!result?.started || result.jobId == null) {
+      return;
+    }
+    this.dialog
+      .open(CvBulkProgressDialogComponent, {
+        ...catalogDialogConfig('720px'),
+        data: { positionId: result.positionId, jobId: result.jobId },
+      })
+      .afterClosed()
+      .subscribe((progressResult: CvBulkProgressDialogResult | undefined) => {
+        if (progressResult?.completed) {
+          this.reloadAndNotify();
+        }
+      });
+  }
+
+  private openExcelBulkProgressAndReload(result: ExcelBulkUploadDialogResult | null | undefined): void {
+    if (!result?.started || result.jobId == null) {
+      return;
+    }
+    this.dialog
+      .open(ExcelBulkProgressDialogComponent, {
+        ...catalogDialogConfig('720px'),
+        data: { positionId: result.positionId, jobId: result.jobId },
+      })
+      .afterClosed()
+      .subscribe((progressResult: ExcelBulkProgressDialogResult | undefined) => {
+        if (progressResult?.completed) {
+          this.reloadAndNotify();
+        }
+      });
   }
 
   private openPublicationGenerateDialog(positionId: number, contactEmail: string, contactPhone: string): void {

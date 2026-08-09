@@ -127,7 +127,7 @@
 
       @if (previewImageSrc || previewPdfUrl) {
         @if (isPdf && previewPdfUrl) {
-          <iframe class="preview-frame" [src]="previewPdfUrl" title="PDF"></iframe>
+          <iframe class="preview-frame" [src]="previewPdfUrl" [title]="previewPdfAria"></iframe>
         } @else if (previewImageSrc) {
           <div class="preview-image-wrap">
             <img class="preview-image" [src]="previewImageSrc" alt="" />

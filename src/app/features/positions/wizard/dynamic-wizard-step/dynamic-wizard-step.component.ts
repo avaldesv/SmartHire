@@ -24,6 +24,18 @@ import {
 } from '../../../../shared/models/requisition-wizard.model';
 import { isFieldReadOnly, isFieldVisible, fieldValueFrom } from '../dynamic-wizard-rules.util';
 import { resolveWizardFieldLabel } from '../requisition-wizard-labels';
+import {
+  REQUISITION_SCOPE_LOADING,
+  REQUISITION_WIZARD_ACCEPTANCE_PERCENT,
+  REQUISITION_WIZARD_ADD_LANGUAGE,
+  REQUISITION_WIZARD_EVAL_PERCENTAGE,
+  REQUISITION_WIZARD_EVAL_SCORE,
+  REQUISITION_WIZARD_EVALUATION_TYPE,
+  REQUISITION_WIZARD_LANGUAGE,
+  REQUISITION_WIZARD_LANGUAGE_LEVEL,
+  REQUISITION_WIZARD_LOADING_DOCUMENTS,
+  REQUISITION_WIZARD_NO_DOCUMENTS,
+} from '../../../../core/i18n/requisition-wizard-labels';
 import { DynamicWizardFieldComponent } from '../dynamic-wizard-field/dynamic-wizard-field.component';
 import { JobDescriptionAiFieldComponent } from '../job-description-ai-field/job-description-ai-field.component';
 
@@ -51,6 +63,16 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
 
   readonly documentColumnLabel = $localize`:@@requisition.documents.columnDocument:Documento`;
   readonly documentRequiredLabel = $localize`:@@requisition.documents.required:Obligatorio`;
+  readonly languageLabel = REQUISITION_WIZARD_LANGUAGE;
+  readonly languageLevelLabel = REQUISITION_WIZARD_LANGUAGE_LEVEL;
+  readonly addLanguageLabel = REQUISITION_WIZARD_ADD_LANGUAGE;
+  readonly loadingDocumentsLabel = REQUISITION_WIZARD_LOADING_DOCUMENTS;
+  readonly noDocumentsLabel = REQUISITION_WIZARD_NO_DOCUMENTS;
+  readonly evaluationTypeLabel = REQUISITION_WIZARD_EVALUATION_TYPE;
+  readonly evalPercentageLabel = REQUISITION_WIZARD_EVAL_PERCENTAGE;
+  readonly evalScoreLabel = REQUISITION_WIZARD_EVAL_SCORE;
+  readonly acceptancePercentLabel = REQUISITION_WIZARD_ACCEPTANCE_PERCENT;
+  readonly loadingOptionsLabel = REQUISITION_SCOPE_LOADING;
 
   @Input({ required: true }) step!: ResolvedRequisitionFormStep;
   @Input({ required: true }) stepForm!: FormGroup;

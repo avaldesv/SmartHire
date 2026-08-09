@@ -9,7 +9,7 @@
   }
   <p class="hint">{{ labels.hint }}</p>
 
-  <a class="template-link" [href]="templateUrl" download="Plantilla_Carga_Masiva.xlsx">
+  <a class="template-link" [href]="templateUrl" [download]="labels.templateFilename">
     <mat-icon>download</mat-icon> {{ labels.template }}
   </a>
 

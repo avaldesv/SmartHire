@@ -21,6 +21,13 @@ export interface CvBulkProgressDialogData {
   jobId: number;
 }
 
+export interface CvBulkProgressDialogResult {
+  positionId: number;
+  successCount: number;
+  failedCount: number;
+  completed: boolean;
+}
+
 @Component({
   selector: 'sh-cv-bulk-progress-dialog',
   standalone: true,
@@ -29,7 +36,9 @@ export interface CvBulkProgressDialogData {
   styleUrl: './cv-bulk-progress-dialog.component.scss',
 })
 export class CvBulkProgressDialogComponent implements OnInit, OnDestroy {
-  private readonly dialogRef = inject(MatDialogRef<CvBulkProgressDialogComponent>);
+  private readonly dialogRef = inject(
+    MatDialogRef<CvBulkProgressDialogComponent, CvBulkProgressDialogResult | undefined>,
+  );
   private readonly data = inject<CvBulkProgressDialogData>(MAT_DIALOG_DATA);
   private readonly api = inject(CvBulkUploadApiService);
 
@@ -122,6 +131,12 @@ export class CvBulkProgressDialogComponent implements OnInit, OnDestroy {
   }
 
   close(): void {
-    this.dialogRef.close();
+    const status = this.status();
+    this.dialogRef.close({
+      positionId: this.positionId,
+      successCount: status?.successCount ?? 0,
+      failedCount: status?.failedCount ?? 0,
+      completed: this.done(),
+    });
   }
 }

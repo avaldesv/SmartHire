@@ -33,6 +33,7 @@ import {
   PUBGEN_LOCALE_PT,
   PUBGEN_PREVIEW_EMPTY,
   PUBGEN_PREVIEW_LOADING,
+  PUBGEN_PREVIEW_PDF_ARIA,
   PUBGEN_PREVIEW_TITLE,
   PUBGEN_SEND_EMAIL,
   PUBGEN_SHARE_ERROR,
@@ -113,6 +114,7 @@ export class PublicationGenerateDialogComponent implements OnInit, OnDestroy {
   readonly closeLabel = PUBGEN_CLOSE;
   readonly downloadLabel = PUBGEN_DOWNLOAD;
   readonly previewTitle = PUBGEN_PREVIEW_TITLE;
+  readonly previewPdfAria = PUBGEN_PREVIEW_PDF_ARIA;
   readonly previewEmptyLabel = PUBGEN_PREVIEW_EMPTY;
   readonly previewLoadingLabel = PUBGEN_PREVIEW_LOADING;
   readonly shareSectionLabel = PUBGEN_SHARE_SECTION;

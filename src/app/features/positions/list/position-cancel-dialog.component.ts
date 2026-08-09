@@ -9,6 +9,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { forkJoin } from 'rxjs';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import {
   POSITIONS_CANCEL_DIALOG_CANDIDATES,
   POSITIONS_CANCEL_DIALOG_COL_EMAIL,
@@ -16,6 +17,7 @@ import {
   POSITIONS_CANCEL_DIALOG_COL_PHONE,
   POSITIONS_CANCEL_DIALOG_COL_STATUS,
   POSITIONS_CANCEL_DIALOG_CRITICAL_WARNING,
+  POSITIONS_CANCEL_DIALOG_CRITICAL_TITLE,
   POSITIONS_CANCEL_DIALOG_DESCRIPTION,
   POSITIONS_CANCEL_DIALOG_EVIDENCE,
   POSITIONS_CANCEL_DIALOG_EVIDENCE_CLEAR,
@@ -98,6 +100,7 @@ export class PositionCancelDialogComponent implements OnInit {
   private readonly positionService = inject(PositionService);
   private readonly typeService = inject(CatalogCancellationTypeService);
   private readonly reasonService = inject(CatalogCancellationReasonService);
+  private readonly feedback = inject(FeedbackDialogService);
 
   @ViewChild('evidenceInput') private evidenceInput?: ElementRef<HTMLInputElement>;
 
@@ -225,10 +228,25 @@ export class PositionCancelDialogComponent implements OnInit {
 
     const preselection = this.impact?.preselectionCount ?? 0;
     const firstDay = this.impact?.firstDayCount ?? 0;
-    if ((preselection > 0 || firstDay > 0) && !confirm(POSITIONS_CANCEL_DIALOG_CRITICAL_WARNING)) {
+    if (preselection > 0 || firstDay > 0) {
+      this.feedback
+        .confirm({
+          title: POSITIONS_CANCEL_DIALOG_CRITICAL_TITLE,
+          message: POSITIONS_CANCEL_DIALOG_CRITICAL_WARNING,
+          confirmWarn: true,
+        })
+        .subscribe((confirmed) => {
+          if (confirmed) {
+            this.submitResult();
+          }
+        });
       return;
     }
 
+    this.submitResult();
+  }
+
+  private submitResult(): void {
     const value = this.form.getRawValue();
     const description = value.description.trim();
     this.dialogRef.close({

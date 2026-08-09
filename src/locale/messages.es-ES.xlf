@@ -3492,6 +3492,10 @@
         <source>Descargar plantilla</source>
         <target>Descargar plantilla</target>
       </trans-unit>
+      <trans-unit id="excelBulk.templateFilename" datatype="html">
+        <source>Plantilla_Carga_Masiva.xlsx</source>
+        <target>Plantilla_Carga_Masiva.xlsx</target>
+      </trans-unit>
       <trans-unit id="excelBulk.pickFile" datatype="html">
         <source>Seleccionar archivo</source>
         <target>Seleccionar archivo</target>
@@ -4646,6 +4650,10 @@
         <source>Hay candidatos en Preselección o Primer día. ¿Desea continuar con la cancelación?</source>
         <target>Hay candidatos en Preselección o Primer día. ¿Desea continuar con la cancelación?</target>
       </trans-unit>
+      <trans-unit id="positions.cancelDialog.criticalTitle" datatype="html">
+        <source>Confirmar cancelación</source>
+        <target>Confirmar cancelación</target>
+      </trans-unit>
       <trans-unit id="positions.cancelDialog.noCandidates" datatype="html">
         <source>Sin candidatos asociados a esta posición</source>
         <target>Sin candidatos asociados a esta posición</target>
@@ -4653,6 +4661,46 @@
       <trans-unit id="positions.errors.cancelEvidenceUpload" datatype="html">
         <source>No se pudo subir la evidencia de cancelación</source>
         <target>No se pudo subir la evidencia de cancelación</target>
+      </trans-unit>
+      <trans-unit id="positions.history.event.created" datatype="html">
+        <source>Requisición creada</source>
+        <target>Requisición creada</target>
+      </trans-unit>
+      <trans-unit id="positions.history.event.statusChanged" datatype="html">
+        <source>Cambio de estatus</source>
+        <target>Cambio de estatus</target>
+      </trans-unit>
+      <trans-unit id="positions.history.event.assigned" datatype="html">
+        <source>Asignación de reclutador</source>
+        <target>Asignación de reclutador</target>
+      </trans-unit>
+      <trans-unit id="positions.history.event.reassigned" datatype="html">
+        <source>Reasignación de reclutador</source>
+        <target>Reasignación de reclutador</target>
+      </trans-unit>
+      <trans-unit id="positions.history.event.groupChanged" datatype="html">
+        <source>Cambio de grupo</source>
+        <target>Cambio de grupo</target>
+      </trans-unit>
+      <trans-unit id="positions.history.event.cancellationRequested" datatype="html">
+        <source>Solicitud de cancelación</source>
+        <target>Solicitud de cancelación</target>
+      </trans-unit>
+      <trans-unit id="positions.history.event.cancellationAuthorized" datatype="html">
+        <source>Cancelación autorizada</source>
+        <target>Cancelación autorizada</target>
+      </trans-unit>
+      <trans-unit id="positions.history.event.cancellationRejected" datatype="html">
+        <source>Cancelación rechazada</source>
+        <target>Cancelación rechazada</target>
+      </trans-unit>
+      <trans-unit id="positions.history.event.cancellationExecuted" datatype="html">
+        <source>Cancelación ejecutada</source>
+        <target>Cancelación ejecutada</target>
+      </trans-unit>
+      <trans-unit id="positions.history.event.directCancellation" datatype="html">
+        <source>Cancelación directa</source>
+        <target>Cancelación directa</target>
       </trans-unit>
       <trans-unit id="prompts.pageTitle" datatype="html">
         <source>Prompts IA</source>
@@ -4881,6 +4929,10 @@
       <trans-unit id="publicationGenerate.preview.title" datatype="html">
         <source>Vista previa</source>
         <target>Vista previa</target>
+      </trans-unit>
+      <trans-unit id="publicationGenerate.preview.pdfAria" datatype="html">
+        <source>Vista previa PDF</source>
+        <target>Vista previa PDF</target>
       </trans-unit>
       <trans-unit id="publicationGenerate.preview.empty" datatype="html">
         <source>Generando la vista previa…</source>
@@ -6346,6 +6398,10 @@
         <source>Documentos</source>
         <target>Documentos</target>
       </trans-unit>
+      <trans-unit id="requisition.step.requirements" datatype="html">
+        <source>Requerimientos</source>
+        <target>Requerimientos</target>
+      </trans-unit>
       <trans-unit id="requisition.field.brandId" datatype="html">
         <source>Marca</source>
         <target>Marca</target>
@@ -6678,6 +6734,58 @@
         <source>Documentos requeridos</source>
         <target>Documentos requeridos</target>
       </trans-unit>
+      <trans-unit id="requisition.field.primaryLanguageId" datatype="html">
+        <source>Idioma principal</source>
+        <target>Idioma principal</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.secondaryLanguageId" datatype="html">
+        <source>Idioma secundario</source>
+        <target>Idioma secundario</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.languageLevelId" datatype="html">
+        <source>Nivel requerido</source>
+        <target>Nivel requerido</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.requirements" datatype="html">
+        <source>Requerimientos</source>
+        <target>Requerimientos</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.experienceYears" datatype="html">
+        <source>Años experiencia</source>
+        <target>Años experiencia</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.generalNotes" datatype="html">
+        <source>Notas generales</source>
+        <target>Notas generales</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.headcount" datatype="html">
+        <source>Headcount</source>
+        <target>Headcount</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.startDate" datatype="html">
+        <source>Fecha inicio</source>
+        <target>Fecha inicio</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.probationDays" datatype="html">
+        <source>Días prueba</source>
+        <target>Días prueba</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.clientPosition" datatype="html">
+        <source>Puesto Cliente</source>
+        <target>Puesto Cliente</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.address" datatype="html">
+        <source>Dirección</source>
+        <target>Dirección</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.hiringContractTypeId" datatype="html">
+        <source>Modalidad</source>
+        <target>Modalidad</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.documentTypeIds" datatype="html">
+        <source>Documentos</source>
+        <target>Documentos</target>
+      </trans-unit>
       <trans-unit id="requisition.step.client.stepper" datatype="html">
         <source>Datos cliente</source>
         <target>Datos cliente</target>
@@ -6877,6 +6985,118 @@
         </source>
         <target>Paso <x id="current" equiv-text="current" /> de <x id="total" equiv-text="total" />: <x id="title" equiv-text="title" />
         </target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.none" datatype="html">
+        <source>Ninguno</source>
+        <target>Ninguno</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.language" datatype="html">
+        <source>Idioma</source>
+        <target>Idioma</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.languageLevel" datatype="html">
+        <source>Nivel</source>
+        <target>Nivel</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.addLanguage" datatype="html">
+        <source>Agregar idioma</source>
+        <target>Agregar idioma</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.loadingDocuments" datatype="html">
+        <source>Cargando tipos de documento...</source>
+        <target>Cargando tipos de documento...</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.noDocuments" datatype="html">
+        <source>Sin tipos de documento para el país seleccionado.</source>
+        <target>Sin tipos de documento para el país seleccionado.</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.evaluationType" datatype="html">
+        <source>Tipo evaluación</source>
+        <target>Tipo evaluación</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.evalPercentage" datatype="html">
+        <source>Porcentaje</source>
+        <target>Porcentaje</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.evalScore" datatype="html">
+        <source>Puntaje</source>
+        <target>Puntaje</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.acceptancePercent" datatype="html">
+        <source>% aceptación</source>
+        <target>% aceptación</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.selectCountryHint" datatype="html">
+        <source>Seleccione el país del cliente en el paso anterior para cargar la geografía.</source>
+        <target>Seleccione el país del cliente en el paso anterior para cargar la geografía.</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.selectCountryDocumentsHint" datatype="html">
+        <source>Seleccione el país del cliente para cargar tipos de documento.</source>
+        <target>Seleccione el país del cliente para cargar tipos de documento.</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.openTimePicker" datatype="html">
+        <source>Abrir selector de hora</source>
+        <target>Abrir selector de hora</target>
+      </trans-unit>
+      <trans-unit id="requisition.legacy.clientCountry" datatype="html">
+        <source>País cliente</source>
+        <target>País cliente</target>
+      </trans-unit>
+      <trans-unit id="requisition.legacy.recruitmentType" datatype="html">
+        <source>Tipo reclutamiento</source>
+        <target>Tipo reclutamiento</target>
+      </trans-unit>
+      <trans-unit id="requisition.legacy.coverageCategory" datatype="html">
+        <source>Categoría cobertura</source>
+        <target>Categoría cobertura</target>
+      </trans-unit>
+      <trans-unit id="requisition.legacy.contact" datatype="html">
+        <source>Contacto</source>
+        <target>Contacto</target>
+      </trans-unit>
+      <trans-unit id="requisition.legacy.generalsStep" datatype="html">
+        <source>Generales</source>
+        <target>Generales</target>
+      </trans-unit>
+      <trans-unit id="requisition.legacy.workDays" datatype="html">
+        <source>Días laborales</source>
+        <target>Días laborales</target>
+      </trans-unit>
+      <trans-unit id="requisition.legacy.positionsCount" datatype="html">
+        <source># Posiciones</source>
+        <target># Posiciones</target>
+      </trans-unit>
+      <trans-unit id="requisition.legacy.state" datatype="html">
+        <source>Estado</source>
+        <target>Estado</target>
+      </trans-unit>
+      <trans-unit id="requisition.weekday.monday" datatype="html">
+        <source>Lunes</source>
+        <target>Lunes</target>
+      </trans-unit>
+      <trans-unit id="requisition.weekday.tuesday" datatype="html">
+        <source>Martes</source>
+        <target>Martes</target>
+      </trans-unit>
+      <trans-unit id="requisition.weekday.wednesday" datatype="html">
+        <source>Miércoles</source>
+        <target>Miércoles</target>
+      </trans-unit>
+      <trans-unit id="requisition.weekday.thursday" datatype="html">
+        <source>Jueves</source>
+        <target>Jueves</target>
+      </trans-unit>
+      <trans-unit id="requisition.weekday.friday" datatype="html">
+        <source>Viernes</source>
+        <target>Viernes</target>
+      </trans-unit>
+      <trans-unit id="requisition.weekday.saturday" datatype="html">
+        <source>Sábado</source>
+        <target>Sábado</target>
+      </trans-unit>
+      <trans-unit id="requisition.weekday.sunday" datatype="html">
+        <source>Domingo</source>
+        <target>Domingo</target>
       </trans-unit>
       <trans-unit id="documents.pageTitle" datatype="html">
         <source>Documentos requeridos</source>

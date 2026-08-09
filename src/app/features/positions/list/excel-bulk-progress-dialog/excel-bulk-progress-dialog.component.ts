@@ -22,6 +22,13 @@ export interface ExcelBulkProgressDialogData {
   jobId: number;
 }
 
+export interface ExcelBulkProgressDialogResult {
+  positionId: number;
+  successCount: number;
+  failedCount: number;
+  completed: boolean;
+}
+
 @Component({
   selector: 'sh-excel-bulk-progress-dialog',
   standalone: true,
@@ -30,7 +37,9 @@ export interface ExcelBulkProgressDialogData {
   styleUrl: './excel-bulk-progress-dialog.component.scss',
 })
 export class ExcelBulkProgressDialogComponent implements OnInit, OnDestroy {
-  private readonly dialogRef = inject(MatDialogRef<ExcelBulkProgressDialogComponent>);
+  private readonly dialogRef = inject(
+    MatDialogRef<ExcelBulkProgressDialogComponent, ExcelBulkProgressDialogResult | undefined>,
+  );
   private readonly data = inject<ExcelBulkProgressDialogData>(MAT_DIALOG_DATA);
   private readonly api = inject(ExcelBulkUploadApiService);
 
@@ -91,6 +100,12 @@ export class ExcelBulkProgressDialogComponent implements OnInit, OnDestroy {
   }
 
   close(): void {
-    this.dialogRef.close();
+    const status = this.status();
+    this.dialogRef.close({
+      positionId: this.positionId,
+      successCount: status?.successCount ?? 0,
+      failedCount: status?.failedCount ?? 0,
+      completed: this.done(),
+    });
   }
 }

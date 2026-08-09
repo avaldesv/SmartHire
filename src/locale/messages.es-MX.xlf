@@ -2934,7 +2934,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">170</context>
+          <context context-type="linenumber">184</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/settings/catalogs/catalogs-admin.component.html</context>
@@ -3179,7 +3179,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">53</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-templates-labels.ts</context>
@@ -6520,221 +6520,228 @@
           <context context-type="linenumber">4</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="excelBulk.templateFilename" datatype="html">
+        <source>Plantilla_Carga_Masiva.xlsx</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="excelBulk.pickFile" datatype="html">
         <source>Seleccionar archivo</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">5</context>
+          <context context-type="linenumber">6</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.clear" datatype="html">
         <source>Quitar archivo</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">6</context>
+          <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.notifyEmail" datatype="html">
         <source>Notificar por Email</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">7</context>
+          <context context-type="linenumber">8</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.notifyWhatsapp" datatype="html">
         <source>Notificar por WhatsApp</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">8</context>
+          <context context-type="linenumber">9</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.validate" datatype="html">
         <source>Validar archivo</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">9</context>
+          <context context-type="linenumber">10</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.confirm" datatype="html">
         <source>Confirmar carga</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">10</context>
+          <context context-type="linenumber">11</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.cancel" datatype="html">
         <source>Cancelar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">11</context>
+          <context context-type="linenumber">12</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.close" datatype="html">
         <source>Cerrar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">12</context>
+          <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.validRows" datatype="html">
         <source>Filas válidas</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">13</context>
+          <context context-type="linenumber">14</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.invalidRows" datatype="html">
         <source>Filas inválidas</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">14</context>
+          <context context-type="linenumber">15</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.totalRows" datatype="html">
         <source>Total de filas</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">15</context>
+          <context context-type="linenumber">16</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.onlyValidHint" datatype="html">
         <source>Solo se procesarán las filas válidas.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">16</context>
+          <context context-type="linenumber">17</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.noValidRows" datatype="html">
         <source>El archivo no tiene filas válidas para procesar.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">17</context>
+          <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.fileTooLarge" datatype="html">
         <source>El archivo supera 10 MB</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">18</context>
+          <context context-type="linenumber">19</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.unsupportedFormat" datatype="html">
         <source>Formato no permitido. Use .xlsx o .xls</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">19</context>
+          <context context-type="linenumber">20</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.previewError" datatype="html">
         <source>No se pudo validar el archivo. Verifica que corresponda a la plantilla.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">20</context>
+          <context context-type="linenumber">21</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.confirmError" datatype="html">
         <source>No se pudo iniciar la carga. Intenta de nuevo.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">21</context>
+          <context context-type="linenumber">22</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.progressTitle" datatype="html">
         <source>Carga masiva Excel</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">22</context>
+          <context context-type="linenumber">23</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.progressHint" datatype="html">
         <source>El proceso está en ejecución y puede tomar algunos minutos. Puedes cerrar esta ventana; te notificaremos al finalizar.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">23</context>
+          <context context-type="linenumber">24</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.report.success" datatype="html">
         <source>Exitosos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">24</context>
+          <context context-type="linenumber">25</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.report.failed" datatype="html">
         <source>Fallidos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">25</context>
+          <context context-type="linenumber">26</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.report.pending" datatype="html">
         <source>Pendientes</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">26</context>
+          <context context-type="linenumber">27</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.status.done" datatype="html">
         <source>Finalizado</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">27</context>
+          <context context-type="linenumber">28</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.status.running" datatype="html">
         <source>En proceso</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">28</context>
+          <context context-type="linenumber">29</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.waNotSent" datatype="html">
         <source>WA no enviado</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">29</context>
+          <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.col.row" datatype="html">
         <source>Fila</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">30</context>
+          <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.col.name" datatype="html">
         <source>Nombre</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">31</context>
+          <context context-type="linenumber">32</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.col.email" datatype="html">
         <source>Correo</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">32</context>
+          <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.col.phone" datatype="html">
         <source>Teléfono</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">33</context>
+          <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.col.gender" datatype="html">
         <source>Género</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">34</context>
+          <context context-type="linenumber">35</context>
         </context-group>
       </trans-unit>
       <trans-unit id="excelBulk.col.errors" datatype="html">
         <source>Errores</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/excel-bulk-labels.ts</context>
-          <context context-type="linenumber">35</context>
+          <context context-type="linenumber">36</context>
         </context-group>
       </trans-unit>
       <trans-unit id="feedback.understood" datatype="html">
@@ -10757,18 +10764,95 @@
           <context context-type="linenumber">147</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="positions.cancelDialog.criticalTitle" datatype="html">
+        <source>Confirmar cancelación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">148</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="positions.cancelDialog.noCandidates" datatype="html">
         <source>Sin candidatos asociados a esta posición</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
-          <context context-type="linenumber">148</context>
+          <context context-type="linenumber">149</context>
         </context-group>
       </trans-unit>
       <trans-unit id="positions.errors.cancelEvidenceUpload" datatype="html">
         <source>No se pudo subir la evidencia de cancelación</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
-          <context context-type="linenumber">149</context>
+          <context context-type="linenumber">150</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="positions.history.event.created" datatype="html">
+        <source>Requisición creada</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">153</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="positions.history.event.statusChanged" datatype="html">
+        <source>Cambio de estatus</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">154</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="positions.history.event.assigned" datatype="html">
+        <source>Asignación de reclutador</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">155</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="positions.history.event.reassigned" datatype="html">
+        <source>Reasignación de reclutador</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">156</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="positions.history.event.groupChanged" datatype="html">
+        <source>Cambio de grupo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">157</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="positions.history.event.cancellationRequested" datatype="html">
+        <source>Solicitud de cancelación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">158</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="positions.history.event.cancellationAuthorized" datatype="html">
+        <source>Cancelación autorizada</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">159</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="positions.history.event.cancellationRejected" datatype="html">
+        <source>Cancelación rechazada</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">160</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="positions.history.event.cancellationExecuted" datatype="html">
+        <source>Cancelación ejecutada</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">161</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="positions.history.event.directCancellation" datatype="html">
+        <source>Cancelación directa</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
+          <context context-type="linenumber">162</context>
         </context-group>
       </trans-unit>
       <trans-unit id="prompts.pageTitle" datatype="html">
@@ -11170,32 +11254,39 @@
           <context context-type="linenumber">45</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="publicationGenerate.preview.pdfAria" datatype="html">
+        <source>Vista previa PDF</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="publicationGenerate.preview.empty" datatype="html">
         <source>Generando la vista previa…</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">46</context>
+          <context context-type="linenumber">47</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.preview.loading" datatype="html">
         <source>Generando anuncio…</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">47</context>
+          <context context-type="linenumber">48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.errors.loadContact" datatype="html">
         <source>No se pudo obtener la información de contacto de la posición</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">49</context>
+          <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationGenerate.errors.generate" datatype="html">
         <source>No se pudo generar el anuncio</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/publication-generate-labels.ts</context>
-          <context context-type="linenumber">50</context>
+          <context context-type="linenumber">51</context>
         </context-group>
       </trans-unit>
       <trans-unit id="publicationTemplates.pageTitle" datatype="html">
@@ -13880,473 +13971,480 @@
           <context context-type="linenumber">12</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="requisition.step.requirements" datatype="html">
+        <source>Requerimientos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="requisition.field.brandId" datatype="html">
         <source>Marca</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">16</context>
+          <context context-type="linenumber">17</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.countryId" datatype="html">
         <source>País</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">17</context>
+          <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.requisitionTypeId" datatype="html">
         <source>Tipo de requisición</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">18</context>
+          <context context-type="linenumber">19</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.coverageTypeId" datatype="html">
         <source>Tipo de cobertura</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">19</context>
+          <context context-type="linenumber">20</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.ot" datatype="html">
         <source>Orden de trabajo (OT)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">20</context>
+          <context context-type="linenumber">21</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.orderId" datatype="html">
         <source>Id de Orden</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">21</context>
+          <context context-type="linenumber">22</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.clientKey" datatype="html">
         <source>Clave cliente</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">22</context>
+          <context context-type="linenumber">23</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.legalName" datatype="html">
         <source>Razón social</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">23</context>
+          <context context-type="linenumber">24</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.tradeName" datatype="html">
         <source>Nombre comercial</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">24</context>
+          <context context-type="linenumber">25</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.contactName" datatype="html">
         <source>Nombre de contacto</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">25</context>
+          <context context-type="linenumber">26</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.contactPhone" datatype="html">
         <source>Teléfono de contacto</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">26</context>
+          <context context-type="linenumber">27</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.contactEmail" datatype="html">
         <source>Correo de contacto</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">27</context>
+          <context context-type="linenumber">28</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.clientContactPosition" datatype="html">
         <source>Puesto Cliente</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">28</context>
+          <context context-type="linenumber">29</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.clientPositionKey" datatype="html">
         <source>Clave puesto cliente</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">29</context>
+          <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.positionName" datatype="html">
         <source>Nombre del puesto</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">30</context>
+          <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.serviceNumber" datatype="html">
         <source>Número de servicio</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">31</context>
+          <context context-type="linenumber">32</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.genderId" datatype="html">
         <source>Género</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">32</context>
+          <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.maritalStatusId" datatype="html">
         <source>Estado civil</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">33</context>
+          <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.careerId" datatype="html">
         <source>Carrera</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">34</context>
+          <context context-type="linenumber">35</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.educationLevelId" datatype="html">
         <source>Escolaridad</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">35</context>
+          <context context-type="linenumber">36</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.experienceIn" datatype="html">
         <source>Experiencia en</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">36</context>
+          <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.experienceLevelId" datatype="html">
         <source>Nivel de experiencia</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">37</context>
+          <context context-type="linenumber">38</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.minAge" datatype="html">
         <source>Edad mínima</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">38</context>
+          <context context-type="linenumber">39</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.maxAge" datatype="html">
         <source>Edad máxima</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">39</context>
+          <context context-type="linenumber">40</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.hasPeopleInCharge" datatype="html">
         <source>Tiene personas a cargo</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">40</context>
+          <context context-type="linenumber">41</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.peopleInChargeCount" datatype="html">
         <source>Total personas a cargo</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">41</context>
+          <context context-type="linenumber">42</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.travelAvailability" datatype="html">
         <source>Disponibilidad para viajar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">42</context>
+          <context context-type="linenumber">43</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.relocationAvailability" datatype="html">
         <source>Disponibilidad para reubicación</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">43</context>
+          <context context-type="linenumber">44</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.requirementsMandatory" datatype="html">
         <source>Requisitos obligatorios</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">44</context>
+          <context context-type="linenumber">45</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.requirementsOptional" datatype="html">
         <source>Requisitos opcionales</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">45</context>
+          <context context-type="linenumber">46</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.requirementsDesirable" datatype="html">
         <source>Requisitos deseables</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">46</context>
+          <context context-type="linenumber">47</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.contractTypeId" datatype="html">
         <source>Tipo de contrato</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">47</context>
+          <context context-type="linenumber">48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.shiftId" datatype="html">
         <source>Turno</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">48</context>
+          <context context-type="linenumber">49</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.salary" datatype="html">
         <source>Salario</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">49</context>
+          <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.workDays" datatype="html">
         <source>Días de trabajo</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">50</context>
+          <context context-type="linenumber">51</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.positionsCount" datatype="html">
         <source>Número de posiciones</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">51</context>
+          <context context-type="linenumber">52</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.benefitId" datatype="html">
         <source>Prestaciones</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">53</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.serviceFee" datatype="html">
         <source>FEE de servicio</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">53</context>
+          <context context-type="linenumber">54</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.currencyId" datatype="html">
         <source>Moneda</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">54</context>
+          <context context-type="linenumber">55</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.hasAdvancePayment" datatype="html">
         <source>¿Lleva anticipo?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">55</context>
+          <context context-type="linenumber">56</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.workdayStartTime" datatype="html">
         <source>Hora inicio jornada</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">56</context>
+          <context context-type="linenumber">57</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.workdayEndTime" datatype="html">
         <source>Hora fin jornada</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">57</context>
+          <context context-type="linenumber">58</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.lunchStartTime" datatype="html">
         <source>Hora inicio comida</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">58</context>
+          <context context-type="linenumber">59</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.lunchEndTime" datatype="html">
         <source>Hora fin comida</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">60</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.rotatingShifts" datatype="html">
         <source>Turnos rotativos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">60</context>
+          <context context-type="linenumber">61</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.commitmentDate" datatype="html">
         <source>Fecha compromiso</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">61</context>
+          <context context-type="linenumber">62</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.hiringDate" datatype="html">
         <source>Fecha de contratación</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">62</context>
+          <context context-type="linenumber">63</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.hiringRequirements" datatype="html">
         <source>Requisitos de contratación</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">63</context>
+          <context context-type="linenumber">64</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.tools" datatype="html">
         <source>Herramientas</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">64</context>
+          <context context-type="linenumber">65</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.recruiterGroupId" datatype="html">
         <source>Grupo reclutador</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">65</context>
+          <context context-type="linenumber">66</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.careResponsibleUserId" datatype="html">
         <source>Responsable CARE</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">66</context>
+          <context context-type="linenumber">67</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.careResponsibleAts" datatype="html">
         <source>ATS responsable CARE</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">67</context>
+          <context context-type="linenumber">68</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.disabilityTypeId" datatype="html">
         <source>Tipo de discapacidad</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">68</context>
+          <context context-type="linenumber">69</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.disabilityTypeIds" datatype="html">
         <source>Tipo de discapacidad</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">69</context>
+          <context context-type="linenumber">70</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.hasLinkage" datatype="html">
         <source>Vinculación</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">70</context>
+          <context context-type="linenumber">71</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.seniorCitizen" datatype="html">
         <source>Adulto mayor</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">71</context>
+          <context context-type="linenumber">72</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.languages" datatype="html">
         <source>Idiomas</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">72</context>
+          <context context-type="linenumber">73</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.addressLine" datatype="html">
         <source>Dirección</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">73</context>
+          <context context-type="linenumber">74</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.stateId" datatype="html">
         <source>Entidad federativa</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">74</context>
+          <context context-type="linenumber">75</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.municipalityId" datatype="html">
         <source>Municipio</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">75</context>
+          <context context-type="linenumber">76</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.neighborhoodId" datatype="html">
         <source>Colonia</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">76</context>
+          <context context-type="linenumber">77</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.subregion" datatype="html">
         <source>Subregión</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">77</context>
+          <context context-type="linenumber">78</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.postalCode" datatype="html">
         <source>Código postal</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">78</context>
+          <context context-type="linenumber">79</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.city" datatype="html">
         <source>Ciudad</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">79</context>
+          <context context-type="linenumber">80</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.recruiterEmail" datatype="html">
         <source>Correo del reclutador</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">80</context>
+          <context context-type="linenumber">81</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.generalCategoryId" datatype="html">
         <source>Categoría general</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">81</context>
+          <context context-type="linenumber">82</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.jobDescription" datatype="html">
         <source>Descripción del puesto</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">82</context>
+          <context context-type="linenumber">83</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/positions/wizard/job-description-ai-field/job-description-ai-field.component.ts</context>
@@ -14357,455 +14455,742 @@
         <source>Modalidad de trabajo</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">83</context>
+          <context context-type="linenumber">84</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.responsibilityLevelId" datatype="html">
         <source>Nivel de responsabilidad</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">84</context>
+          <context context-type="linenumber">85</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.publishSalaryMin" datatype="html">
         <source>Salario mínimo publicado</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">85</context>
+          <context context-type="linenumber">86</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.publishSalaryMax" datatype="html">
         <source>Salario máximo publicado</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">86</context>
+          <context context-type="linenumber">87</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.hasCommission" datatype="html">
         <source>Comisión</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">87</context>
+          <context context-type="linenumber">88</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.hideSalary" datatype="html">
         <source>Ocultar salario</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">88</context>
+          <context context-type="linenumber">89</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.publishedOnPortal" datatype="html">
         <source>Publicar en portal candidatos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">89</context>
+          <context context-type="linenumber">90</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.jobPortalId" datatype="html">
         <source>Portal de empleo</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">90</context>
+          <context context-type="linenumber">91</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.includeSoftSkills" datatype="html">
         <source>Incluir habilidades blandas</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">91</context>
+          <context context-type="linenumber">92</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.includeExtraBenefits" datatype="html">
         <source>Incluir beneficios adicionales</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">92</context>
+          <context context-type="linenumber">93</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.includeProfessionalDevelopment" datatype="html">
         <source>Incluir desarrollo profesional</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">93</context>
+          <context context-type="linenumber">94</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.includeKeywords" datatype="html">
         <source>Incluir palabras clave</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">94</context>
+          <context context-type="linenumber">95</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.clientExpansionDescription" datatype="html">
         <source>Descripción expansión cliente</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">95</context>
+          <context context-type="linenumber">96</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.extraBenefitsText" datatype="html">
         <source>Texto beneficios adicionales</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">96</context>
+          <context context-type="linenumber">97</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.questionnaire" datatype="html">
         <source>Cuestionario</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">97</context>
+          <context context-type="linenumber">98</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.field.documentRequirements" datatype="html">
         <source>Documentos requeridos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">98</context>
+          <context context-type="linenumber">99</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.primaryLanguageId" datatype="html">
+        <source>Idioma principal</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">100</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.secondaryLanguageId" datatype="html">
+        <source>Idioma secundario</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">101</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.languageLevelId" datatype="html">
+        <source>Nivel requerido</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">102</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.requirements" datatype="html">
+        <source>Requerimientos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">103</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.experienceYears" datatype="html">
+        <source>Años experiencia</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">104</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.generalNotes" datatype="html">
+        <source>Notas generales</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">105</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.headcount" datatype="html">
+        <source>Headcount</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">106</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.startDate" datatype="html">
+        <source>Fecha inicio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">107</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.probationDays" datatype="html">
+        <source>Días prueba</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">108</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.clientPosition" datatype="html">
+        <source>Puesto Cliente</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">109</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.address" datatype="html">
+        <source>Dirección</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">110</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.hiringContractTypeId" datatype="html">
+        <source>Modalidad</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">111</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.field.documentTypeIds" datatype="html">
+        <source>Documentos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">112</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.step.client.stepper" datatype="html">
         <source>Datos cliente</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">145</context>
+          <context context-type="linenumber">159</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.step.general.stepper" datatype="html">
         <source>Datos generales</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">146</context>
+          <context context-type="linenumber">160</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.step.manpower.stepper" datatype="html">
         <source>Datos Manpower</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">147</context>
+          <context context-type="linenumber">161</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.step.hiring.stepper" datatype="html">
         <source>Contratación</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">148</context>
+          <context context-type="linenumber">162</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.step.languages.stepper" datatype="html">
         <source>Idiomas</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">149</context>
+          <context context-type="linenumber">163</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.step.address.stepper" datatype="html">
         <source>Dirección</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">150</context>
+          <context context-type="linenumber">164</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.step.recruitment.stepper" datatype="html">
         <source>Reclutamiento</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">151</context>
+          <context context-type="linenumber">165</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.step.clientDescription.stepper" datatype="html">
         <source>Desc. cliente</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">152</context>
+          <context context-type="linenumber">166</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.step.extraBenefits.stepper" datatype="html">
         <source>Beneficios</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">153</context>
+          <context context-type="linenumber">167</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.step.preselection.stepper" datatype="html">
         <source>Preselección</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">154</context>
+          <context context-type="linenumber">168</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.step.documents.stepper" datatype="html">
         <source>Documentos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">155</context>
+          <context context-type="linenumber">169</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.step.requirements.stepper" datatype="html">
         <source>Requisitos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">156</context>
+          <context context-type="linenumber">170</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.newTitle" datatype="html">
         <source>Nueva requisición</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">166</context>
+          <context context-type="linenumber">180</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.editTitle" datatype="html">
         <source>Editar requisición</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">181</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.continue" datatype="html">
         <source>Continuar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">168</context>
+          <context context-type="linenumber">182</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.previous" datatype="html">
         <source>Anterior</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">169</context>
+          <context context-type="linenumber">183</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.save" datatype="html">
         <source>Guardar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">171</context>
+          <context context-type="linenumber">185</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.create" datatype="html">
         <source>Crear</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">172</context>
+          <context context-type="linenumber">186</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.saving" datatype="html">
         <source>Guardando...</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">173</context>
+          <context context-type="linenumber">187</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.creating" datatype="html">
         <source>Creando...</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">174</context>
+          <context context-type="linenumber">188</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.loading" datatype="html">
         <source>Cargando formulario de requisición…</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">175</context>
+          <context context-type="linenumber">189</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.progressAria" datatype="html">
         <source>Pasos del wizard</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">176</context>
+          <context context-type="linenumber">190</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.scopeHint" datatype="html">
         <source>Selecciona el país y el tipo de cobertura para cargar el formulario correspondiente.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">177</context>
+          <context context-type="linenumber">191</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.scopeCountry" datatype="html">
         <source>País</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">178</context>
+          <context context-type="linenumber">192</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.scopeCoverage" datatype="html">
         <source>Tipo de cobertura</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">179</context>
+          <context context-type="linenumber">193</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.scopeCoverageRequired" datatype="html">
         <source>Seleccione un tipo de cobertura</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">180</context>
+          <context context-type="linenumber">194</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.scopeLoading" datatype="html">
         <source>Cargando...</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">181</context>
+          <context context-type="linenumber">195</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.loadCountries" datatype="html">
         <source>No se pudieron cargar los países</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">183</context>
+          <context context-type="linenumber">197</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.loadLanguages" datatype="html">
         <source>No se pudieron cargar los idiomas</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">184</context>
+          <context context-type="linenumber">198</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.loadStates" datatype="html">
         <source>No se pudieron cargar los estados</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">185</context>
+          <context context-type="linenumber">199</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.loadMunicipalities" datatype="html">
         <source>No se pudieron cargar los municipios</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">186</context>
+          <context context-type="linenumber">200</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.loadNeighborhoods" datatype="html">
         <source>No se pudieron cargar las colonias</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">187</context>
+          <context context-type="linenumber">201</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.info.noNeighborhoods" datatype="html">
         <source>Sin colonias para ese código postal</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">188</context>
+          <context context-type="linenumber">202</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.loadPosition" datatype="html">
         <source>No se pudo cargar la requisición</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">189</context>
+          <context context-type="linenumber">203</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.loadCatalogs" datatype="html">
         <source>Error al cargar catálogos de la requisición</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">190</context>
+          <context context-type="linenumber">204</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.validationRequired" datatype="html">
         <source>Complete los campos obligatorios</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">191</context>
+          <context context-type="linenumber">205</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.success.create" datatype="html">
         <source>Requisición creada correctamente</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">192</context>
+          <context context-type="linenumber">206</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.success.update" datatype="html">
         <source>Requisición actualizada correctamente</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">193</context>
+          <context context-type="linenumber">207</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.create" datatype="html">
         <source>No se pudo crear la requisición</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">194</context>
+          <context context-type="linenumber">208</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.update" datatype="html">
         <source>No se pudo actualizar la requisición</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">195</context>
+          <context context-type="linenumber">209</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.info.jsonExported" datatype="html">
         <source>JSON exportado a consola</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">196</context>
+          <context context-type="linenumber">210</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.info.atsSimulated" datatype="html">
         <source>Enviado a ATS (simulado)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">197</context>
+          <context context-type="linenumber">211</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.errors.loadCoverage" datatype="html">
         <source>No se pudieron cargar los tipos de cobertura</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">199</context>
+          <context context-type="linenumber">213</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.createSubtitle" datatype="html">
         <source>Asistente de creación en <x id="steps" equiv-text="steps"/> pasos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">202</context>
+          <context context-type="linenumber">216</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.editSubtitle" datatype="html">
         <source>Asistente en <x id="steps" equiv-text="steps"/> pasos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">206</context>
+          <context context-type="linenumber">220</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.stepOf" datatype="html">
         <source>Paso <x id="current" equiv-text="current"/> de <x id="total" equiv-text="total"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">210</context>
+          <context context-type="linenumber">224</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.stepAriaDone" datatype="html">
         <source>Paso <x id="current" equiv-text="current"/> de <x id="total" equiv-text="total"/>: <x id="title" equiv-text="title"/> (completado)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">220</context>
+          <context context-type="linenumber">234</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.stepAriaCurrent" datatype="html">
         <source>Paso <x id="current" equiv-text="current"/> de <x id="total" equiv-text="total"/>: <x id="title" equiv-text="title"/> (actual)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">223</context>
+          <context context-type="linenumber">237</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.wizard.stepAria" datatype="html">
         <source>Paso <x id="current" equiv-text="current"/> de <x id="total" equiv-text="total"/>: <x id="title" equiv-text="title"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">225</context>
+          <context context-type="linenumber">239</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.none" datatype="html">
+        <source>Ninguno</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">242</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.language" datatype="html">
+        <source>Idioma</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">243</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.languageLevel" datatype="html">
+        <source>Nivel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">244</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.addLanguage" datatype="html">
+        <source>Agregar idioma</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">245</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.loadingDocuments" datatype="html">
+        <source>Cargando tipos de documento...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">246</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.noDocuments" datatype="html">
+        <source>Sin tipos de documento para el país seleccionado.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">247</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.evaluationType" datatype="html">
+        <source>Tipo evaluación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">248</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.evalPercentage" datatype="html">
+        <source>Porcentaje</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">249</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.evalScore" datatype="html">
+        <source>Puntaje</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">250</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.acceptancePercent" datatype="html">
+        <source>% aceptación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">251</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.selectCountryHint" datatype="html">
+        <source>Seleccione el país del cliente en el paso anterior para cargar la geografía.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">252</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.selectCountryDocumentsHint" datatype="html">
+        <source>Seleccione el país del cliente para cargar tipos de documento.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">253</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.openTimePicker" datatype="html">
+        <source>Abrir selector de hora</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">254</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.legacy.clientCountry" datatype="html">
+        <source>País cliente</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">255</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.legacy.recruitmentType" datatype="html">
+        <source>Tipo reclutamiento</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">256</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.legacy.coverageCategory" datatype="html">
+        <source>Categoría cobertura</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">257</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.legacy.contact" datatype="html">
+        <source>Contacto</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">258</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.legacy.generalsStep" datatype="html">
+        <source>Generales</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">259</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.legacy.workDays" datatype="html">
+        <source>Días laborales</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">260</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.legacy.positionsCount" datatype="html">
+        <source># Posiciones</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">261</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.legacy.state" datatype="html">
+        <source>Estado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">262</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.weekday.monday" datatype="html">
+        <source>Lunes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">269</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.weekday.tuesday" datatype="html">
+        <source>Martes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">270</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.weekday.wednesday" datatype="html">
+        <source>Miércoles</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">271</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.weekday.thursday" datatype="html">
+        <source>Jueves</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">272</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.weekday.friday" datatype="html">
+        <source>Viernes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">273</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.weekday.saturday" datatype="html">
+        <source>Sábado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">274</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.weekday.sunday" datatype="html">
+        <source>Domingo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">275</context>
         </context-group>
       </trans-unit>
       <trans-unit id="documents.pageTitle" datatype="html">
@@ -15308,14 +15693,14 @@
         <source>Documento</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/positions/wizard/dynamic-wizard-step/dynamic-wizard-step.component.ts</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">64</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.documents.required" datatype="html">
         <source>Obligatorio</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/positions/wizard/dynamic-wizard-step/dynamic-wizard-step.component.ts</context>
-          <context context-type="linenumber">53</context>
+          <context context-type="linenumber">65</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.section.jobRequirement" datatype="html">
