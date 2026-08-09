@@ -308,6 +308,11 @@ EN_BY_SOURCE: dict[str, str] = {
     "ID plantilla externa": "External template ID",
     "Mensaje": "Message",
     "Activa": "Active",
+    "Publicada": "Published",
+    "Cancelada": "Cancelled",
+    "Cancelación autorizada": "Cancellation authorized",
+    "Modalidad de trabajo": "Work modality",
+    "Publicar en portal candidatos": "Publish on candidate portal",
     "Acción": "Action",
     "Plantilla": "Template",
     "No se pudieron cargar las plantillas de notificación": "Could not load notification templates",
@@ -1172,6 +1177,16 @@ def translate_en(source: str) -> str:
         return "Saturday"
     if source == "Domingo":
         return "Sunday"
+    if source == "Publicada":
+        return "Published"
+    if source == "Cancelada":
+        return "Cancelled"
+    if source.startswith("Cancelación autorizada"):
+        return "Cancellation authorized"
+    if source.startswith("Modalidad de trabajo"):
+        return "Work modality"
+    if source.startswith("Publicar en portal candidatos"):
+        return "Publish on candidate portal"
     if source == "Ninguno":
         return "None"
     if source == "Nivel":
