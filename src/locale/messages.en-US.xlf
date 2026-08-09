@@ -3322,11 +3322,11 @@
       </trans-unit>
       <trans-unit id="feedback.understood" datatype="html">
         <source>Entendido</source>
-        <target>Entendido</target>
+        <target>Got it</target>
       </trans-unit>
       <trans-unit id="feedback.continue" datatype="html">
         <source>Continuar</source>
-        <target>Continuar</target>
+        <target>Continue</target>
       </trans-unit>
       <trans-unit id="feedback.cancel" datatype="html">
         <source>Cancelar</source>
@@ -3334,27 +3334,27 @@
       </trans-unit>
       <trans-unit id="feedback.confirm" datatype="html">
         <source>Confirmar</source>
-        <target>Confirmar</target>
+        <target>Confirm</target>
       </trans-unit>
       <trans-unit id="feedback.genericError.title" datatype="html">
         <source>Ocurrió un error</source>
-        <target>Ocurrió un error</target>
+        <target>An error occurred</target>
       </trans-unit>
       <trans-unit id="feedback.genericError.message" datatype="html">
         <source>Intente de nuevo. Si el problema continúa, contacte al administrador.</source>
-        <target>Intente de nuevo. Si el problema continúa, contacte al administrador.</target>
+        <target>Please try again. If the problem persists, contact your administrator.</target>
       </trans-unit>
       <trans-unit id="feedback.genericSuccess.title" datatype="html">
         <source>Operación completada</source>
-        <target>Operación completada</target>
+        <target>Operation completed</target>
       </trans-unit>
       <trans-unit id="feedback.genericInfo.title" datatype="html">
         <source>Información</source>
-        <target>Información</target>
+        <target>Information</target>
       </trans-unit>
       <trans-unit id="feedback.genericWarning.title" datatype="html">
         <source>Atención</source>
-        <target>Atención</target>
+        <target>Attention</target>
       </trans-unit>
       <trans-unit id="groups.pageTitle" datatype="html">
         <source>Grupos de usuarios</source>
@@ -4026,7 +4026,7 @@
       </trans-unit>
       <trans-unit id="positions.reasonDialog.confirm" datatype="html">
         <source>Confirmar</source>
-        <target>Confirmar</target>
+        <target>Confirm</target>
       </trans-unit>
       <trans-unit id="positions.reasonDialog.cancel" datatype="html">
         <source>Cancelar</source>
@@ -6378,7 +6378,7 @@
       </trans-unit>
       <trans-unit id="requisition.wizard.continue" datatype="html">
         <source>Continuar</source>
-        <target>Continuar</target>
+        <target>Continue</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.previous" datatype="html">
         <source>Anterior</source>
