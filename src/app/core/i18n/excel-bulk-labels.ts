@@ -2,6 +2,7 @@ export const EXCEL_BULK_ACTION = $localize`:@@excelBulk.action:Carga masiva Exce
 export const EXCEL_BULK_DIALOG_TITLE = $localize`:@@excelBulk.dialogTitle:Carga masiva de candidatos (Excel)`;
 export const EXCEL_BULK_HINT = $localize`:@@excelBulk.hint:Formatos: XLSX, XLS. Un archivo, máx. 10 MB y 1.000 filas. Usa la plantilla oficial.`;
 export const EXCEL_BULK_TEMPLATE = $localize`:@@excelBulk.template:Descargar plantilla`;
+export const EXCEL_BULK_TEMPLATE_FILENAME = $localize`:@@excelBulk.templateFilename:Plantilla_Carga_Masiva.xlsx`;
 export const EXCEL_BULK_PICK_FILE = $localize`:@@excelBulk.pickFile:Seleccionar archivo`;
 export const EXCEL_BULK_CLEAR = $localize`:@@excelBulk.clear:Quitar archivo`;
 export const EXCEL_BULK_NOTIFY_EMAIL = $localize`:@@excelBulk.notifyEmail:Notificar por Email`;

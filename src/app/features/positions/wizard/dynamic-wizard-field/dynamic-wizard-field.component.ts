@@ -10,6 +10,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ResolvedRequisitionFormField, WizardFieldOption } from '../../../../shared/models/requisition-wizard.model';
 import { resolveWizardFieldLabel } from '../requisition-wizard-labels';
+import {
+  REQUISITION_SCOPE_LOADING,
+  REQUISITION_WIZARD_OPEN_TIME_PICKER,
+} from '../../../../core/i18n/requisition-wizard-labels';
 
 @Component({
   selector: 'sh-dynamic-wizard-field',
@@ -37,6 +41,9 @@ export class DynamicWizardFieldComponent {
   @Input() disabled = false;
 
   @ViewChild('timeInput') timeInput?: ElementRef<HTMLInputElement>;
+
+  readonly loadingOptionsLabel = REQUISITION_SCOPE_LOADING;
+  readonly openTimePickerLabel = REQUISITION_WIZARD_OPEN_TIME_PICKER;
 
   get label(): string {
     return resolveWizardFieldLabel(this.field.fieldKey, this.field.labelI18nKey);

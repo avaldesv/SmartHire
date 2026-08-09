@@ -9,7 +9,9 @@ import {
   POSITIONS_HISTORY_EMPTY,
   POSITIONS_HISTORY_LOAD_ERROR,
   POSITIONS_HISTORY_TITLE,
+  getPositionEventTypeLabel,
 } from '../../../core/i18n/positions-labels';
+import { getRequisitionStatusLabel } from '../../../core/i18n/common-labels';
 import { PositionService } from '../../../core/services/position.service';
 import { PositionEventItem } from '../../../shared/models/position.model';
 
@@ -36,11 +38,11 @@ export interface PositionEventsDialogData {
         <ul class="timeline">
           @for (event of events; track event.id) {
             <li>
-              <div class="event-type">{{ event.eventType }}</div>
+              <div class="event-type">{{ eventTypeLabel(event.eventType) }}</div>
               <div class="event-meta">
                 {{ event.createdAt | date: 'dd/MM/yyyy HH:mm' }}
                 @if (event.fromStatus || event.toStatus) {
-                  <span> · {{ event.fromStatus || '—' }} → {{ event.toStatus || '—' }}</span>
+                  <span> · {{ statusLabel(event.fromStatus) }} → {{ statusLabel(event.toStatus) }}</span>
                 }
               </div>
             </li>
@@ -94,6 +96,17 @@ export class PositionEventsDialogComponent implements OnInit {
 
   loading = true;
   events: PositionEventItem[] = [];
+
+  eventTypeLabel(eventType: string): string {
+    return getPositionEventTypeLabel(eventType);
+  }
+
+  statusLabel(status: string | null | undefined): string {
+    if (!status?.trim()) {
+      return '—';
+    }
+    return getRequisitionStatusLabel(status);
+  }
 
   ngOnInit(): void {
     this.positionService.listEvents(this.data.positionId).subscribe({

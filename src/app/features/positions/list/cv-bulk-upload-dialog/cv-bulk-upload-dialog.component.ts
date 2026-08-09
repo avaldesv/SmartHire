@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild, inject, signal } from '@angular/core'
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { firstValueFrom } from 'rxjs';
@@ -19,15 +19,19 @@ import {
   CV_BULK_START,
   CV_BULK_UPLOAD_ERROR,
 } from '../../../../core/i18n/cv-bulk-labels';
-import { catalogDialogConfig } from '../../../../core/dialog/catalog-dialog.constants';
 import { CvBulkUploadApiService } from '../../../../core/services/cv-bulk-upload-api.service';
 import { packCvBulkFiles } from '../../../../core/utils/cv-bulk-packer';
-import { CvBulkProgressDialogComponent } from '../cv-bulk-progress-dialog/cv-bulk-progress-dialog.component';
 import { CvBulkUploadCreateResponse } from '../../../../shared/models/cv-bulk-upload.model';
 
 export interface CvBulkUploadDialogData {
   positionId: number;
   positionName?: string;
+}
+
+export interface CvBulkUploadDialogResult {
+  started: true;
+  jobId: number;
+  positionId: number;
 }
 
 @Component({
@@ -45,10 +49,11 @@ export interface CvBulkUploadDialogData {
   styleUrl: './cv-bulk-upload-dialog.component.scss',
 })
 export class CvBulkUploadDialogComponent {
-  private readonly dialogRef = inject(MatDialogRef<CvBulkUploadDialogComponent>);
+  private readonly dialogRef = inject(
+    MatDialogRef<CvBulkUploadDialogComponent, CvBulkUploadDialogResult | undefined>,
+  );
   private readonly data = inject<CvBulkUploadDialogData>(MAT_DIALOG_DATA);
   private readonly api = inject(CvBulkUploadApiService);
-  private readonly dialog = inject(MatDialog);
 
   @ViewChild('filesInput') private filesInput?: ElementRef<HTMLInputElement>;
   @ViewChild('folderInput') private folderInput?: ElementRef<HTMLInputElement>;
@@ -155,12 +160,8 @@ export class CvBulkUploadDialogComponent {
           elapsedMs: Math.round(performance.now() - t0),
         });
       }
-      console.info('[cv-bulk] upload complete → open progress', { positionId: this.positionId, jobId });
-      this.dialogRef.close({ started: true, jobId, positionId: this.positionId });
-      this.dialog.open(CvBulkProgressDialogComponent, {
-        ...catalogDialogConfig('720px'),
-        data: { positionId: this.positionId, jobId: jobId! },
-      });
+      console.info('[cv-bulk] upload complete', { positionId: this.positionId, jobId });
+      this.dialogRef.close({ started: true, jobId: jobId!, positionId: this.positionId });
     } catch (err) {
       console.error('[cv-bulk] upload error', { positionId: this.positionId, jobId, err });
       this.error.set(CV_BULK_UPLOAD_ERROR);

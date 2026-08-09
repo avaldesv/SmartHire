@@ -145,5 +145,23 @@ export const POSITIONS_CANCEL_DIALOG_REQUIRED = $localize`:@@positions.cancelDia
 export const POSITIONS_CANCEL_DIALOG_LOAD_ERROR = $localize`:@@positions.cancelDialog.loadError:No se pudo cargar el impacto de cancelación`;
 export const POSITIONS_CANCEL_DIALOG_REASONS_ERROR = $localize`:@@positions.cancelDialog.reasonsError:No se pudieron cargar los motivos`;
 export const POSITIONS_CANCEL_DIALOG_CRITICAL_WARNING = $localize`:@@positions.cancelDialog.criticalWarning:Hay candidatos en Preselección o Primer día. ¿Desea continuar con la cancelación?`;
+export const POSITIONS_CANCEL_DIALOG_CRITICAL_TITLE = $localize`:@@positions.cancelDialog.criticalTitle:Confirmar cancelación`;
 export const POSITIONS_CANCEL_DIALOG_NO_CANDIDATES = $localize`:@@positions.cancelDialog.noCandidates:Sin candidatos asociados a esta posición`;
 export const POSITIONS_CANCEL_EVIDENCE_UPLOAD_ERROR = $localize`:@@positions.errors.cancelEvidenceUpload:No se pudo subir la evidencia de cancelación`;
+
+const POSITION_EVENT_TYPE_LABELS: Record<string, string> = {
+  CREATED: $localize`:@@positions.history.event.created:Requisición creada`,
+  STATUS_CHANGED: $localize`:@@positions.history.event.statusChanged:Cambio de estatus`,
+  ASSIGNED: $localize`:@@positions.history.event.assigned:Asignación de reclutador`,
+  REASSIGNED: $localize`:@@positions.history.event.reassigned:Reasignación de reclutador`,
+  GROUP_CHANGED: $localize`:@@positions.history.event.groupChanged:Cambio de grupo`,
+  CANCELLATION_REQUESTED: $localize`:@@positions.history.event.cancellationRequested:Solicitud de cancelación`,
+  CANCELLATION_AUTHORIZED: $localize`:@@positions.history.event.cancellationAuthorized:Cancelación autorizada`,
+  CANCELLATION_REJECTED: $localize`:@@positions.history.event.cancellationRejected:Cancelación rechazada`,
+  CANCELLATION_EXECUTED: $localize`:@@positions.history.event.cancellationExecuted:Cancelación ejecutada`,
+  DIRECT_CANCELLATION: $localize`:@@positions.history.event.directCancellation:Cancelación directa`,
+};
+
+export function getPositionEventTypeLabel(eventType: string): string {
+  return POSITION_EVENT_TYPE_LABELS[eventType] ?? eventType;
+}

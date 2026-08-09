@@ -43,6 +43,7 @@ export const PUBGEN_EMAIL_ERROR = $localize`:@@publicationGenerate.email.error:N
 export const PUBGEN_EMAIL_LOADING = $localize`:@@publicationGenerate.email.loading:Enviando por correo…`;
 
 export const PUBGEN_PREVIEW_TITLE = $localize`:@@publicationGenerate.preview.title:Vista previa`;
+export const PUBGEN_PREVIEW_PDF_ARIA = $localize`:@@publicationGenerate.preview.pdfAria:Vista previa PDF`;
 export const PUBGEN_PREVIEW_EMPTY = $localize`:@@publicationGenerate.preview.empty:Generando la vista previa…`;
 export const PUBGEN_PREVIEW_LOADING = $localize`:@@publicationGenerate.preview.loading:Generando anuncio…`;
 

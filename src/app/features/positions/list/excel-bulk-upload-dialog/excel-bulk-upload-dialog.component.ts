@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild, inject, signal } from '@angular/core'
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -29,22 +29,27 @@ import {
   EXCEL_BULK_PICK_FILE,
   EXCEL_BULK_PREVIEW_ERROR,
   EXCEL_BULK_TEMPLATE,
+  EXCEL_BULK_TEMPLATE_FILENAME,
   EXCEL_BULK_TOTAL_ROWS,
   EXCEL_BULK_UNSUPPORTED_FORMAT,
   EXCEL_BULK_VALID_ROWS,
   EXCEL_BULK_VALIDATE,
 } from '../../../../core/i18n/excel-bulk-labels';
-import { catalogDialogConfig } from '../../../../core/dialog/catalog-dialog.constants';
 import { ExcelBulkUploadApiService } from '../../../../core/services/excel-bulk-upload-api.service';
 import {
   ExcelBulkCreateResponse,
   ExcelBulkPreviewResponse,
 } from '../../../../shared/models/excel-bulk-upload.model';
-import { ExcelBulkProgressDialogComponent } from '../excel-bulk-progress-dialog/excel-bulk-progress-dialog.component';
 
 export interface ExcelBulkUploadDialogData {
   positionId: number;
   positionName?: string;
+}
+
+export interface ExcelBulkUploadDialogResult {
+  started: true;
+  jobId: number;
+  positionId: number;
 }
 
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
@@ -66,10 +71,11 @@ const ALLOWED_EXTENSIONS = ['xlsx', 'xls'];
   styleUrl: './excel-bulk-upload-dialog.component.scss',
 })
 export class ExcelBulkUploadDialogComponent {
-  private readonly dialogRef = inject(MatDialogRef<ExcelBulkUploadDialogComponent>);
+  private readonly dialogRef = inject(
+    MatDialogRef<ExcelBulkUploadDialogComponent, ExcelBulkUploadDialogResult | undefined>,
+  );
   private readonly data = inject<ExcelBulkUploadDialogData>(MAT_DIALOG_DATA);
   private readonly api = inject(ExcelBulkUploadApiService);
-  private readonly dialog = inject(MatDialog);
 
   @ViewChild('fileInput') private fileInput?: ElementRef<HTMLInputElement>;
 
@@ -77,6 +83,7 @@ export class ExcelBulkUploadDialogComponent {
     title: EXCEL_BULK_DIALOG_TITLE,
     hint: EXCEL_BULK_HINT,
     template: EXCEL_BULK_TEMPLATE,
+    templateFilename: EXCEL_BULK_TEMPLATE_FILENAME,
     pickFile: EXCEL_BULK_PICK_FILE,
     clear: EXCEL_BULK_CLEAR,
     email: EXCEL_BULK_NOTIFY_EMAIL,
@@ -204,10 +211,6 @@ export class ExcelBulkUploadDialogComponent {
         notifyWhatsapp: res.notifyWhatsapp,
       });
       this.dialogRef.close({ started: true, jobId: res.jobId, positionId: this.positionId });
-      this.dialog.open(ExcelBulkProgressDialogComponent, {
-        ...catalogDialogConfig('720px'),
-        data: { positionId: this.positionId, jobId: res.jobId },
-      });
     } catch (err) {
       console.error('[excel-bulk] confirm error', { positionId: this.positionId, err });
       this.error.set(this.serverMessage(err) ?? EXCEL_BULK_CONFIRM_ERROR);

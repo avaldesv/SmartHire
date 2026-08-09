@@ -6,7 +6,7 @@
         @for (row of languageArray(field.fieldKey).controls; track $index; let i = $index) {
           <div class="language-row" [formGroup]="$any(row)">
             <mat-form-field appearance="outline" subscriptSizing="dynamic">
-              <mat-label>Idioma</mat-label>
+              <mat-label>{{ languageLabel }}</mat-label>
               <mat-select formControlName="languageId">
                 <mat-option [value]="null">—</mat-option>
                 @for (opt of languageOptions(); track opt.id) {
@@ -15,7 +15,7 @@
               </mat-select>
             </mat-form-field>
             <mat-form-field appearance="outline" subscriptSizing="dynamic">
-              <mat-label>Nivel</mat-label>
+              <mat-label>{{ languageLevelLabel }}</mat-label>
               <mat-select formControlName="languageLevelId">
                 <mat-option [value]="null">—</mat-option>
                 @for (opt of languageLevelOptions(); track opt.id) {
@@ -29,16 +29,16 @@
           </div>
         }
         <button mat-stroked-button type="button" (click)="addLanguageRow(field.fieldKey)">
-          <mat-icon>add</mat-icon> Agregar idioma
+          <mat-icon>add</mat-icon> {{ addLanguageLabel }}
         </button>
       </div>
     } @else if (field.uiType === 'document-grid' && field.fieldKey === 'documentRequirements') {
       <div class="span-2 document-grid">
         <h4 class="grid-title">{{ fieldLabel(field) }}</h4>
         @if (loadingByField['__documents__']) {
-          <p>Cargando tipos de documento...</p>
+          <p>{{ loadingDocumentsLabel }}</p>
         } @else if (!documentTypeOptions.length) {
-          <p>Sin tipos de documento para el país seleccionado.</p>
+          <p>{{ noDocumentsLabel }}</p>
         } @else {
           <div class="document-grid__header" aria-hidden="true">
             <span class="document-grid__col-req">{{ documentRequiredLabel }}</span>
@@ -70,7 +70,7 @@
       <div class="span-2 document-grid">
         <h4 class="grid-title">{{ fieldLabel(field) }}</h4>
         @if (loadingByField['__documents__']) {
-          <p>Cargando tipos de documento...</p>
+          <p>{{ loadingDocumentsLabel }}</p>
         } @else {
           @for (doc of documentTypeOptions; track doc.id) {
             <mat-checkbox
@@ -87,7 +87,7 @@
         <h4 class="grid-title">{{ fieldLabel(field) }}</h4>
         <div class="questionnaire-fields">
           <mat-form-field appearance="outline">
-            <mat-label>Cuestionario</mat-label>
+            <mat-label>{{ fieldLabel(field) }}</mat-label>
             <mat-select formControlName="questionnaireId">
               <mat-option [value]="null">—</mat-option>
               @for (opt of optionsByField[field.fieldKey] ?? []; track opt.id) {
@@ -96,14 +96,14 @@
             </mat-select>
           </mat-form-field>
           <mat-form-field appearance="outline">
-            <mat-label>Tipo evaluación</mat-label>
+            <mat-label>{{ evaluationTypeLabel }}</mat-label>
             <mat-select formControlName="evaluationType">
-              <mat-option value="PERCENTAGE">Porcentaje</mat-option>
-              <mat-option value="SCORE">Puntaje</mat-option>
+              <mat-option value="PERCENTAGE">{{ evalPercentageLabel }}</mat-option>
+              <mat-option value="SCORE">{{ evalScoreLabel }}</mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field appearance="outline">
-            <mat-label>% aceptación</mat-label>
+            <mat-label>{{ acceptancePercentLabel }}</mat-label>
             <input matInput type="number" formControlName="acceptancePercentage" min="0" max="100" />
           </mat-form-field>
         </div>

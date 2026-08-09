@@ -10,6 +10,7 @@ const REQUISITION_STEP_LABELS: Record<string, string> = {
   extraBenefits: $localize`:@@requisition.step.extraBenefits:Beneficios adicionales`,
   preselection: $localize`:@@requisition.step.preselection:Preselección`,
   documents: $localize`:@@requisition.step.documents:Documentos`,
+  requirements: $localize`:@@requisition.step.requirements:Requerimientos`,
 };
 
 const REQUISITION_FIELD_LABELS: Record<string, string> = {
@@ -96,6 +97,19 @@ const REQUISITION_FIELD_LABELS: Record<string, string> = {
   extraBenefitsText: $localize`:@@requisition.field.extraBenefitsText:Texto beneficios adicionales`,
   questionnaire: $localize`:@@requisition.field.questionnaire:Cuestionario`,
   documentRequirements: $localize`:@@requisition.field.documentRequirements:Documentos requeridos`,
+  primaryLanguageId: $localize`:@@requisition.field.primaryLanguageId:Idioma principal`,
+  secondaryLanguageId: $localize`:@@requisition.field.secondaryLanguageId:Idioma secundario`,
+  languageLevelId: $localize`:@@requisition.field.languageLevelId:Nivel requerido`,
+  requirements: $localize`:@@requisition.field.requirements:Requerimientos`,
+  experienceYears: $localize`:@@requisition.field.experienceYears:Años experiencia`,
+  generalNotes: $localize`:@@requisition.field.generalNotes:Notas generales`,
+  headcount: $localize`:@@requisition.field.headcount:Headcount`,
+  startDate: $localize`:@@requisition.field.startDate:Fecha inicio`,
+  probationDays: $localize`:@@requisition.field.probationDays:Días prueba`,
+  clientPosition: $localize`:@@requisition.field.clientPosition:Puesto Cliente`,
+  address: $localize`:@@requisition.field.address:Dirección`,
+  hiringContractTypeId: $localize`:@@requisition.field.hiringContractTypeId:Modalidad`,
+  documentTypeIds: $localize`:@@requisition.field.documentTypeIds:Documentos`,
 };
 
 const REQUISITION_I18N_BY_KEY: Record<string, string> = {
@@ -223,4 +237,46 @@ export function requisitionWizardStepAria(
     return $localize`:@@requisition.wizard.stepAriaCurrent:Paso ${current}:current: de ${total}:total:: ${title}:title: (actual)`;
   }
   return $localize`:@@requisition.wizard.stepAria:Paso ${current}:current: de ${total}:total:: ${title}:title:`;
+}
+
+export const REQUISITION_WIZARD_NONE = $localize`:@@requisition.wizard.none:Ninguno`;
+export const REQUISITION_WIZARD_LANGUAGE = $localize`:@@requisition.wizard.language:Idioma`;
+export const REQUISITION_WIZARD_LANGUAGE_LEVEL = $localize`:@@requisition.wizard.languageLevel:Nivel`;
+export const REQUISITION_WIZARD_ADD_LANGUAGE = $localize`:@@requisition.wizard.addLanguage:Agregar idioma`;
+export const REQUISITION_WIZARD_LOADING_DOCUMENTS = $localize`:@@requisition.wizard.loadingDocuments:Cargando tipos de documento...`;
+export const REQUISITION_WIZARD_NO_DOCUMENTS = $localize`:@@requisition.wizard.noDocuments:Sin tipos de documento para el país seleccionado.`;
+export const REQUISITION_WIZARD_EVALUATION_TYPE = $localize`:@@requisition.wizard.evaluationType:Tipo evaluación`;
+export const REQUISITION_WIZARD_EVAL_PERCENTAGE = $localize`:@@requisition.wizard.evalPercentage:Porcentaje`;
+export const REQUISITION_WIZARD_EVAL_SCORE = $localize`:@@requisition.wizard.evalScore:Puntaje`;
+export const REQUISITION_WIZARD_ACCEPTANCE_PERCENT = $localize`:@@requisition.wizard.acceptancePercent:% aceptación`;
+export const REQUISITION_WIZARD_SELECT_COUNTRY_HINT = $localize`:@@requisition.wizard.selectCountryHint:Seleccione el país del cliente en el paso anterior para cargar la geografía.`;
+export const REQUISITION_WIZARD_SELECT_COUNTRY_DOCUMENTS_HINT = $localize`:@@requisition.wizard.selectCountryDocumentsHint:Seleccione el país del cliente para cargar tipos de documento.`;
+export const REQUISITION_WIZARD_OPEN_TIME_PICKER = $localize`:@@requisition.wizard.openTimePicker:Abrir selector de hora`;
+export const REQUISITION_LEGACY_CLIENT_COUNTRY = $localize`:@@requisition.legacy.clientCountry:País cliente`;
+export const REQUISITION_LEGACY_RECRUITMENT_TYPE = $localize`:@@requisition.legacy.recruitmentType:Tipo reclutamiento`;
+export const REQUISITION_LEGACY_COVERAGE_CATEGORY = $localize`:@@requisition.legacy.coverageCategory:Categoría cobertura`;
+export const REQUISITION_LEGACY_CONTACT = $localize`:@@requisition.legacy.contact:Contacto`;
+export const REQUISITION_LEGACY_GENERALS_STEP = $localize`:@@requisition.legacy.generalsStep:Generales`;
+export const REQUISITION_LEGACY_WORK_DAYS = $localize`:@@requisition.legacy.workDays:Días laborales`;
+export const REQUISITION_LEGACY_POSITIONS_COUNT = $localize`:@@requisition.legacy.positionsCount:# Posiciones`;
+export const REQUISITION_LEGACY_STATE = $localize`:@@requisition.legacy.state:Estado`;
+
+const WEEKDAY_LABELS_ES = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'] as const;
+
+/** Localized weekday options for multiselect UI. */
+export function getWeekdayOptions(): { id: number; label: string }[] {
+  return [
+    { id: 1, label: $localize`:@@requisition.weekday.monday:Lunes` },
+    { id: 2, label: $localize`:@@requisition.weekday.tuesday:Martes` },
+    { id: 3, label: $localize`:@@requisition.weekday.wednesday:Miércoles` },
+    { id: 4, label: $localize`:@@requisition.weekday.thursday:Jueves` },
+    { id: 5, label: $localize`:@@requisition.weekday.friday:Viernes` },
+    { id: 6, label: $localize`:@@requisition.weekday.saturday:Sábado` },
+    { id: 7, label: $localize`:@@requisition.weekday.sunday:Domingo` },
+  ];
+}
+
+/** Spanish canonical labels stored in DB for workDays. */
+export function getWeekdayLabelEs(id: number): string | undefined {
+  return WEEKDAY_LABELS_ES[id - 1];
 }
