@@ -366,7 +366,7 @@
               <button mat-menu-item (click)="publishOnPortal(row)">
                 <mat-icon>public</mat-icon> {{ actionPublishOnPortal }}
               </button>
-              @if (canRequestCancellation() && (row.status === 'DRAFT' || row.status === 'ACTIVE')) {
+              @if (canRequestCancellation() && (row.status === 'ACTIVE' || row.status === 'PUBLISHED')) {
                 <button mat-menu-item (click)="requestCancellation(row)">
                   <mat-icon>pending_actions</mat-icon> {{ actionRequestCancellation }}
                 </button>
@@ -384,7 +384,7 @@
                   <mat-icon>done_all</mat-icon> {{ actionExecuteCancellation }}
                 </button>
               }
-              @if (row.status === 'ACTIVE') {
+              @if (row.status === 'PUBLISHED') {
                 <button mat-menu-item (click)="generatePublication(row)">
                   <mat-icon>campaign</mat-icon> {{ actionGeneratePublication }}
                 </button>

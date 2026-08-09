@@ -159,9 +159,13 @@ export const API_ERROR_CATALOG_REQUISITION: Record<string, ApiErrorI18nEntry> = 
     title: $localize`:@@errors.PUBLICATION_POSITION_NOT_FOUND.title:Posición no encontrada`,
     message: $localize`:@@errors.PUBLICATION_POSITION_NOT_FOUND.message:Posición no encontrada.`,
   },
+  PUBLICATION_POSITION_NOT_PUBLISHED: {
+    title: $localize`:@@errors.PUBLICATION_POSITION_NOT_PUBLISHED.title:Posición no publicada`,
+    message: $localize`:@@errors.PUBLICATION_POSITION_NOT_PUBLISHED.message:La posición debe estar publicada para generar el anuncio.`,
+  },
   PUBLICATION_POSITION_NOT_ACTIVE: {
-    title: $localize`:@@errors.PUBLICATION_POSITION_NOT_ACTIVE.title:Posición inactiva`,
-    message: $localize`:@@errors.PUBLICATION_POSITION_NOT_ACTIVE.message:La posición debe estar activa para generar la publicación.`,
+    title: $localize`:@@errors.PUBLICATION_POSITION_NOT_ACTIVE.title:Posición no publicada`,
+    message: $localize`:@@errors.PUBLICATION_POSITION_NOT_ACTIVE.message:La posición debe estar publicada para generar el anuncio.`,
   },
   PUBLICATION_INVALID_FORMAT: {
     title: $localize`:@@errors.PUBLICATION_INVALID_FORMAT.title:Formato inválido`,

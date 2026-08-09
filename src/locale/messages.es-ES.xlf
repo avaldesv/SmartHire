@@ -1162,13 +1162,21 @@
         <source>Posición no encontrada.</source>
         <target>Posición no encontrada.</target>
       </trans-unit>
+      <trans-unit id="errors.PUBLICATION_POSITION_NOT_PUBLISHED.title" datatype="html">
+        <source>Posición no publicada</source>
+        <target>Posición no publicada</target>
+      </trans-unit>
+      <trans-unit id="errors.PUBLICATION_POSITION_NOT_PUBLISHED.message" datatype="html">
+        <source>La posición debe estar publicada para generar el anuncio.</source>
+        <target>La posición debe estar publicada para generar el anuncio.</target>
+      </trans-unit>
       <trans-unit id="errors.PUBLICATION_POSITION_NOT_ACTIVE.title" datatype="html">
-        <source>Posición inactiva</source>
-        <target>Posición inactiva</target>
+        <source>Posición no publicada</source>
+        <target>Posición no publicada</target>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_POSITION_NOT_ACTIVE.message" datatype="html">
-        <source>La posición debe estar activa para generar la publicación.</source>
-        <target>La posición debe estar activa para generar la publicación.</target>
+        <source>La posición debe estar publicada para generar el anuncio.</source>
+        <target>La posición debe estar publicada para generar el anuncio.</target>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_INVALID_FORMAT.title" datatype="html">
         <source>Formato inválido</source>
@@ -3070,13 +3078,13 @@
         <source>Otros</source>
         <target>Otros</target>
       </trans-unit>
-      <trans-unit id="status.draft" datatype="html">
-        <source>Borrador</source>
-        <target>Borrador</target>
-      </trans-unit>
       <trans-unit id="status.active" datatype="html">
         <source>Activa</source>
         <target>Activa</target>
+      </trans-unit>
+      <trans-unit id="status.published" datatype="html">
+        <source>Publicada</source>
+        <target>Publicada</target>
       </trans-unit>
       <trans-unit id="status.pendingCancellation" datatype="html">
         <source>Cancelación pendiente</source>

@@ -2032,102 +2032,116 @@
           <context context-type="linenumber">160</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="errors.PUBLICATION_POSITION_NOT_ACTIVE.title" datatype="html">
-        <source>Posición inactiva</source>
+      <trans-unit id="errors.PUBLICATION_POSITION_NOT_PUBLISHED.title" datatype="html">
+        <source>Posición no publicada</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
           <context context-type="linenumber">163</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="errors.PUBLICATION_POSITION_NOT_ACTIVE.message" datatype="html">
-        <source>La posición debe estar activa para generar la publicación.</source>
+      <trans-unit id="errors.PUBLICATION_POSITION_NOT_PUBLISHED.message" datatype="html">
+        <source>La posición debe estar publicada para generar el anuncio.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
           <context context-type="linenumber">164</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.PUBLICATION_POSITION_NOT_ACTIVE.title" datatype="html">
+        <source>Posición no publicada</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
+          <context context-type="linenumber">167</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.PUBLICATION_POSITION_NOT_ACTIVE.message" datatype="html">
+        <source>La posición debe estar publicada para generar el anuncio.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
+          <context context-type="linenumber">168</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_INVALID_FORMAT.title" datatype="html">
         <source>Formato inválido</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">171</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_INVALID_FORMAT.message" datatype="html">
         <source>Formato de publicación inválido; use JPG o PDF.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">168</context>
+          <context context-type="linenumber">172</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_BROWSERLESS_ERROR.title" datatype="html">
         <source>Error de generación</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">171</context>
+          <context context-type="linenumber">175</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_BROWSERLESS_ERROR.message" datatype="html">
         <source>No se pudo generar el archivo de publicación en este momento.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">172</context>
+          <context context-type="linenumber">176</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_WHATSAPP_INVALID_PHONE.title" datatype="html">
         <source>Número inválido</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">175</context>
+          <context context-type="linenumber">179</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_WHATSAPP_INVALID_PHONE.message" datatype="html">
         <source>Número de WhatsApp inválido; use prefijo de país sin + y solo dígitos.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">176</context>
+          <context context-type="linenumber">180</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_MEDIA_URL_UNREACHABLE.title" datatype="html">
         <source>URL no alcanzable</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">179</context>
+          <context context-type="linenumber">183</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_MEDIA_URL_UNREACHABLE.message" datatype="html">
         <source>No hay una URL HTTP alcanzable para la imagen; configure storage S3 (no local).</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">180</context>
+          <context context-type="linenumber">184</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_MAIL_NOT_CONFIGURED.title" datatype="html">
         <source>Correo no configurado</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">183</context>
+          <context context-type="linenumber">187</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_MAIL_NOT_CONFIGURED.message" datatype="html">
         <source>El envío por correo no está configurado o está deshabilitado.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">184</context>
+          <context context-type="linenumber">188</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_MAIL_SEND_ERROR.title" datatype="html">
         <source>Error de envío</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">187</context>
+          <context context-type="linenumber">191</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_MAIL_SEND_ERROR.message" datatype="html">
         <source>No se pudo enviar la publicación por correo en este momento.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">188</context>
+          <context context-type="linenumber">192</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.RECRUITER_GROUP_NOT_FOUND.title" datatype="html">
@@ -5792,15 +5806,15 @@
           <context context-type="linenumber">4</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="status.draft" datatype="html">
-        <source>Borrador</source>
+      <trans-unit id="status.active" datatype="html">
+        <source>Activa</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/common-labels.ts</context>
           <context context-type="linenumber">6</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="status.active" datatype="html">
-        <source>Activa</source>
+      <trans-unit id="status.published" datatype="html">
+        <source>Publicada</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/common-labels.ts</context>
           <context context-type="linenumber">7</context>
