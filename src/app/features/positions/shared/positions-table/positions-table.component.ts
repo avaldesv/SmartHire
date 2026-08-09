@@ -337,8 +337,8 @@ export class PositionsTableComponent implements OnInit {
 
   readonly statusOptions = [
     'Todos',
-    'DRAFT',
     'ACTIVE',
+    'PUBLISHED',
     'PENDING_CANCELLATION',
     'CANCELLATION_AUTHORIZED',
     'CANCELLED',
@@ -1021,7 +1021,7 @@ export class PositionsTableComponent implements OnInit {
     if (!this.canRequestCancellation()) {
       return;
     }
-    if (row.status !== 'DRAFT' && row.status !== 'ACTIVE') {
+    if (row.status !== 'ACTIVE' && row.status !== 'PUBLISHED') {
       return;
     }
     this.openEnrichedCancelDialog(row, 'request');
@@ -1247,7 +1247,7 @@ export class PositionsTableComponent implements OnInit {
   }
 
   generatePublication(row: PositionListItem): void {
-    if (row.status !== 'ACTIVE') {
+    if (row.status !== 'PUBLISHED') {
       return;
     }
     if (row.contactEmail && row.contactPhone) {
