@@ -145,6 +145,7 @@ TITLE_BY_CODE: dict[str, str] = {
     "POSITION_INVALID_STATUS_FOR_CANCELLATION": "Invalid status",
     "POSITION_ALREADY_CANCELLED": "Requisition cancelled",
     "POSITION_RECRUITER_GROUP_REQUIRED": "Group required",
+    "POSITION_RECRUITER_GROUP_MANAGER_REQUIRED": "Group without manager",
     "POSITION_ASSIGNED_USER_REQUIRED": "Recruiter required",
     "PUBLICATION_WHATSAPP_INVALID_PHONE": "Invalid number",
     "PUBLICATION_MEDIA_URL_UNREACHABLE": "URL unreachable",
@@ -374,6 +375,9 @@ EXACT_ES_EN: dict[str, str] = {
     "La cancelación no está autorizada.": "Cancellation is not authorized",
     "No hay solicitud de cancelación pendiente.": "There is no pending cancellation request",
     "Debe seleccionar un grupo de reclutadores.": "A recruiter group must be selected",
+    "El grupo de reclutadores seleccionado no tiene gerente responsable.": (
+        "The selected recruiter group has no responsible manager"
+    ),
     "Debe indicar el reclutador asignado.": "An assigned recruiter must be specified",
     "El usuario solicitado no existe.": "The requested user does not exist",
     "El país seleccionado no existe.": "The selected country does not exist",

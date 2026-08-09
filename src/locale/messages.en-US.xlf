@@ -874,6 +874,14 @@
         <source>Debe seleccionar un grupo de reclutadores.</source>
         <target>A recruiter group must be selected</target>
       </trans-unit>
+      <trans-unit id="errors.POSITION_RECRUITER_GROUP_MANAGER_REQUIRED.title" datatype="html">
+        <source>Grupo sin gerente</source>
+        <target>Group without manager</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_RECRUITER_GROUP_MANAGER_REQUIRED.message" datatype="html">
+        <source>El grupo de reclutadores seleccionado no tiene gerente responsable.</source>
+        <target>The selected recruiter group has no responsible manager</target>
+      </trans-unit>
       <trans-unit id="errors.POSITION_ASSIGNED_USER_REQUIRED.title" datatype="html">
         <source>Reclutador requerido</source>
         <target>Recruiter required</target>
@@ -1164,19 +1172,19 @@
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_POSITION_NOT_PUBLISHED.title" datatype="html">
         <source>Posición no publicada</source>
-        <target>Posición no publicada</target>
+        <target>Inactive position</target>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_POSITION_NOT_PUBLISHED.message" datatype="html">
         <source>La posición debe estar publicada para generar el anuncio.</source>
-        <target>La posición debe estar publicada para generar el anuncio.</target>
+        <target>Position must be published to generate the announcement</target>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_POSITION_NOT_ACTIVE.title" datatype="html">
         <source>Posición no publicada</source>
-        <target>Posición no publicada</target>
+        <target>Inactive position</target>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_POSITION_NOT_ACTIVE.message" datatype="html">
         <source>La posición debe estar publicada para generar el anuncio.</source>
-        <target>La posición debe estar publicada para generar el anuncio.</target>
+        <target>Position must be published to generate the announcement</target>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_INVALID_FORMAT.title" datatype="html">
         <source>Formato inválido</source>

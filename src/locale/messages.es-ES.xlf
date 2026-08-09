@@ -874,6 +874,14 @@
         <source>Debe seleccionar un grupo de reclutadores.</source>
         <target>Debe seleccionar un grupo de reclutadores.</target>
       </trans-unit>
+      <trans-unit id="errors.POSITION_RECRUITER_GROUP_MANAGER_REQUIRED.title" datatype="html">
+        <source>Grupo sin gerente</source>
+        <target>Grupo sin gerente</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_RECRUITER_GROUP_MANAGER_REQUIRED.message" datatype="html">
+        <source>El grupo de reclutadores seleccionado no tiene gerente responsable.</source>
+        <target>El grupo de reclutadores seleccionado no tiene gerente responsable.</target>
+      </trans-unit>
       <trans-unit id="errors.POSITION_ASSIGNED_USER_REQUIRED.title" datatype="html">
         <source>Reclutador requerido</source>
         <target>Reclutador requerido</target>

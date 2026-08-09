@@ -1528,620 +1528,634 @@
           <context context-type="linenumber">15</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="errors.POSITION_RECRUITER_GROUP_MANAGER_REQUIRED.title" datatype="html">
+        <source>Grupo sin gerente</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_RECRUITER_GROUP_MANAGER_REQUIRED.message" datatype="html">
+        <source>El grupo de reclutadores seleccionado no tiene gerente responsable.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="errors.POSITION_ASSIGNED_USER_REQUIRED.title" datatype="html">
         <source>Reclutador requerido</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">18</context>
+          <context context-type="linenumber">22</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_ASSIGNED_USER_REQUIRED.message" datatype="html">
         <source>Debe indicar el reclutador asignado.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">19</context>
+          <context context-type="linenumber">23</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_ALREADY_REQUESTED.title" datatype="html">
         <source>Cancelación solicitada</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">22</context>
+          <context context-type="linenumber">26</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_ALREADY_REQUESTED.message" datatype="html">
         <source>La cancelación ya fue solicitada.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">23</context>
+          <context context-type="linenumber">27</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_INVALID_STATUS_FOR_CANCELLATION.title" datatype="html">
         <source>Estado inválido</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">26</context>
+          <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_INVALID_STATUS_FOR_CANCELLATION.message" datatype="html">
         <source>Solo se puede solicitar cancelación en posiciones en borrador o activas.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">27</context>
+          <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_NOT_PENDING.title" datatype="html">
         <source>Sin solicitud pendiente</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">30</context>
+          <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_NOT_PENDING.message" datatype="html">
         <source>No hay solicitud de cancelación pendiente.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">31</context>
+          <context context-type="linenumber">35</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_NOT_AUTHORIZED.title" datatype="html">
         <source>Cancelación no autorizada</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">34</context>
+          <context context-type="linenumber">38</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_NOT_AUTHORIZED.message" datatype="html">
         <source>La cancelación no está autorizada.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">35</context>
+          <context context-type="linenumber">39</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_REQUEST_FORBIDDEN.title" datatype="html">
         <source>Solicitud no permitida</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">38</context>
+          <context context-type="linenumber">42</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_REQUEST_FORBIDDEN.message" datatype="html">
         <source>Solo el reclutador asignado o el gerente del grupo pueden solicitar cancelación.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">39</context>
+          <context context-type="linenumber">43</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_AUTHORIZE_FORBIDDEN.title" datatype="html">
         <source>Autorización denegada</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">42</context>
+          <context context-type="linenumber">46</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_AUTHORIZE_FORBIDDEN.message" datatype="html">
         <source>No tiene permiso para autorizar esta cancelación.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">43</context>
+          <context context-type="linenumber">47</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_SUPERVISOR_REQUIRED.title" datatype="html">
         <source>Supervisor requerido</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">46</context>
+          <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_SUPERVISOR_REQUIRED.message" datatype="html">
         <source>El gerente debe tener supervisor asignado para solicitar cancelación.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">47</context>
+          <context context-type="linenumber">51</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_REASON_REQUIRED.title" datatype="html">
         <source>Motivo requerido</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">50</context>
+          <context context-type="linenumber">54</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_REASON_REQUIRED.message" datatype="html">
         <source>El motivo de cancelación es obligatorio.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">51</context>
+          <context context-type="linenumber">55</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_TYPE_REASON_REQUIRED.title" datatype="html">
         <source>Datos requeridos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">54</context>
+          <context context-type="linenumber">58</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_TYPE_REASON_REQUIRED.message" datatype="html">
         <source>El tipo y el motivo de cancelación son obligatorios.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">55</context>
+          <context context-type="linenumber">59</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_TYPE_INVALID.title" datatype="html">
         <source>Tipo inválido</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">58</context>
+          <context context-type="linenumber">62</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_TYPE_INVALID.message" datatype="html">
         <source>El tipo de cancelación no existe o no está activo.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">63</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_REASON_INVALID.title" datatype="html">
         <source>Motivo inválido</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">62</context>
+          <context context-type="linenumber">66</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_REASON_INVALID.message" datatype="html">
         <source>El motivo de cancelación no existe o no está activo.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">63</context>
+          <context context-type="linenumber">67</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_REASON_TYPE_MISMATCH.title" datatype="html">
         <source>Motivo incompatible</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">66</context>
+          <context context-type="linenumber">70</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_REASON_TYPE_MISMATCH.message" datatype="html">
         <source>El motivo no pertenece al tipo de cancelación seleccionado.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">67</context>
+          <context context-type="linenumber">71</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_EVIDENCE_REQUIRED.title" datatype="html">
         <source>Evidencia requerida</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">70</context>
+          <context context-type="linenumber">74</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_EVIDENCE_REQUIRED.message" datatype="html">
         <source>El archivo de evidencia es obligatorio.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">71</context>
+          <context context-type="linenumber">75</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_EVIDENCE_TOO_LARGE.title" datatype="html">
         <source>Archivo demasiado grande</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">74</context>
+          <context context-type="linenumber">78</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_EVIDENCE_TOO_LARGE.message" datatype="html">
         <source>El archivo de evidencia supera el máximo de 10 MB.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">75</context>
+          <context context-type="linenumber">79</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_EVIDENCE_TYPE_NOT_ALLOWED.title" datatype="html">
         <source>Tipo no permitido</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">78</context>
+          <context context-type="linenumber">82</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_EVIDENCE_TYPE_NOT_ALLOWED.message" datatype="html">
         <source>Tipo de archivo no permitido. Use PDF, JPG, PNG, DOC, DOCX, XLS o XLSX.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">79</context>
+          <context context-type="linenumber">83</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_EVIDENCE_READ_FAILED.title" datatype="html">
         <source>Error de lectura</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">82</context>
+          <context context-type="linenumber">86</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.POSITION_CANCELLATION_EVIDENCE_READ_FAILED.message" datatype="html">
         <source>No se pudo leer el archivo de evidencia.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">83</context>
+          <context context-type="linenumber">87</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.WRONG_TENANT.title" datatype="html">
         <source>Acceso denegado</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">86</context>
+          <context context-type="linenumber">90</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.WRONG_TENANT.message" datatype="html">
         <source>No puede acceder a esta compañía.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">87</context>
+          <context context-type="linenumber">91</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.ACCESS_DENIED.title" datatype="html">
         <source>Acceso denegado</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">90</context>
+          <context context-type="linenumber">94</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.ACCESS_DENIED.message" datatype="html">
         <source>No tiene permiso para realizar esta acción.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">91</context>
+          <context context-type="linenumber">95</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.VALIDATION_ERROR.title" datatype="html">
         <source>Error de validación</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">94</context>
+          <context context-type="linenumber">98</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.VALIDATION_ERROR.message" datatype="html">
         <source>Revise los campos marcados e intente de nuevo.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">95</context>
+          <context context-type="linenumber">99</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PORTAL_DOCUMENT_TOO_LARGE.title" datatype="html">
         <source>Archivo demasiado grande</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">99</context>
+          <context context-type="linenumber">103</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PORTAL_DOCUMENT_TOO_LARGE.message" datatype="html">
         <source>El archivo supera el tamaño máximo permitido.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">100</context>
+          <context context-type="linenumber">104</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_FIELD_NOT_FOUND.title" datatype="html">
         <source>Campo no encontrado</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">103</context>
+          <context context-type="linenumber">107</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_FIELD_NOT_FOUND.message" datatype="html">
         <source>Definición de campo no encontrada.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">104</context>
+          <context context-type="linenumber">108</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_FIELD_KEY_EXISTS.title" datatype="html">
         <source>Clave duplicada</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">107</context>
+          <context context-type="linenumber">111</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_FIELD_KEY_EXISTS.message" datatype="html">
         <source>La clave de campo ya existe para el tenant.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">108</context>
+          <context context-type="linenumber">112</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_INVALID_DATA_SOURCE.title" datatype="html">
         <source>Fuente inválida</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">111</context>
+          <context context-type="linenumber">115</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_INVALID_DATA_SOURCE.message" datatype="html">
         <source>Fuente de datos no permitida.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">112</context>
+          <context context-type="linenumber">116</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_BUILTIN_LOCKED.title" datatype="html">
         <source>Campo built-in</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">115</context>
+          <context context-type="linenumber">119</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_BUILTIN_LOCKED.message" datatype="html">
         <source>Campo built-in: solo se permiten etiquetas y validadores.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">116</context>
+          <context context-type="linenumber">120</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_BUILTIN_DELETE.title" datatype="html">
         <source>Eliminación no permitida</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">119</context>
+          <context context-type="linenumber">123</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_BUILTIN_DELETE.message" datatype="html">
         <source>No se puede eliminar un campo built-in.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">120</context>
+          <context context-type="linenumber">124</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_CONFIG_NOT_FOUND.title" datatype="html">
         <source>Configuración no encontrada</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">123</context>
+          <context context-type="linenumber">127</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_CONFIG_NOT_FOUND.message" datatype="html">
         <source>Configuración de formulario no encontrada.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">124</context>
+          <context context-type="linenumber">128</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_CONFIG_NOT_PUBLISHED.title" datatype="html">
         <source>Sin configuración publicada</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">127</context>
+          <context context-type="linenumber">131</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_CONFIG_NOT_PUBLISHED.message" datatype="html">
         <source>No hay configuración publicada para el alcance solicitado.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">128</context>
+          <context context-type="linenumber">132</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_CONFIG_NOT_DRAFT.title" datatype="html">
         <source>Solo borrador editable</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">131</context>
+          <context context-type="linenumber">135</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_CONFIG_NOT_DRAFT.message" datatype="html">
         <source>Solo se pueden editar configuraciones en borrador.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">132</context>
+          <context context-type="linenumber">136</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_CONFIG_PUBLISHED_DELETE.title" datatype="html">
         <source>Eliminación no permitida</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">135</context>
+          <context context-type="linenumber">139</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_CONFIG_PUBLISHED_DELETE.message" datatype="html">
         <source>Solo se pueden eliminar configuraciones en borrador.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">136</context>
+          <context context-type="linenumber">140</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_CONFIG_CLONE_INVALID.title" datatype="html">
         <source>Clonación no permitida</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">139</context>
+          <context context-type="linenumber">143</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_CONFIG_CLONE_INVALID.message" datatype="html">
         <source>Solo se pueden clonar configuraciones publicadas o deprecadas.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">140</context>
+          <context context-type="linenumber">144</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_PUBLISH_INVALID.title" datatype="html">
         <source>Publicación inválida</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">143</context>
+          <context context-type="linenumber">147</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_PUBLISH_INVALID.message" datatype="html">
         <source>Validación de publicación fallida: {0}.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">144</context>
+          <context context-type="linenumber">148</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_WRONG_TENANT.title" datatype="html">
         <source>Tenant inválido</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">147</context>
+          <context context-type="linenumber">151</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_WRONG_TENANT.message" datatype="html">
         <source>Tenant inválido.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">148</context>
+          <context context-type="linenumber">152</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_REQUIRED_FIELD_MISSING.title" datatype="html">
         <source>Campo obligatorio</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">151</context>
+          <context context-type="linenumber">155</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_REQUIRED_FIELD_MISSING.message" datatype="html">
         <source>Campo obligatorio faltante: {0}.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">152</context>
+          <context context-type="linenumber">156</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_READ_ONLY_FIELD_CHANGED.title" datatype="html">
         <source>Campo de solo lectura</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">155</context>
+          <context context-type="linenumber">159</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_READ_ONLY_FIELD_CHANGED.message" datatype="html">
         <source>Campo de solo lectura no puede modificarse: {0}.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">156</context>
+          <context context-type="linenumber">160</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_POSITION_NOT_FOUND.title" datatype="html">
         <source>Posición no encontrada</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">159</context>
+          <context context-type="linenumber">163</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_POSITION_NOT_FOUND.message" datatype="html">
         <source>Posición no encontrada.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">160</context>
+          <context context-type="linenumber">164</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_POSITION_NOT_PUBLISHED.title" datatype="html">
         <source>Posición no publicada</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">163</context>
+          <context context-type="linenumber">167</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_POSITION_NOT_PUBLISHED.message" datatype="html">
         <source>La posición debe estar publicada para generar el anuncio.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">164</context>
+          <context context-type="linenumber">168</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_POSITION_NOT_ACTIVE.title" datatype="html">
         <source>Posición no publicada</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">171</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_POSITION_NOT_ACTIVE.message" datatype="html">
         <source>La posición debe estar publicada para generar el anuncio.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">168</context>
+          <context context-type="linenumber">172</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_INVALID_FORMAT.title" datatype="html">
         <source>Formato inválido</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">171</context>
+          <context context-type="linenumber">175</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_INVALID_FORMAT.message" datatype="html">
         <source>Formato de publicación inválido; use JPG o PDF.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">172</context>
+          <context context-type="linenumber">176</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_BROWSERLESS_ERROR.title" datatype="html">
         <source>Error de generación</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">175</context>
+          <context context-type="linenumber">179</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_BROWSERLESS_ERROR.message" datatype="html">
         <source>No se pudo generar el archivo de publicación en este momento.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">176</context>
+          <context context-type="linenumber">180</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_WHATSAPP_INVALID_PHONE.title" datatype="html">
         <source>Número inválido</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">179</context>
+          <context context-type="linenumber">183</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_WHATSAPP_INVALID_PHONE.message" datatype="html">
         <source>Número de WhatsApp inválido; use prefijo de país sin + y solo dígitos.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">180</context>
+          <context context-type="linenumber">184</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_MEDIA_URL_UNREACHABLE.title" datatype="html">
         <source>URL no alcanzable</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">183</context>
+          <context context-type="linenumber">187</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_MEDIA_URL_UNREACHABLE.message" datatype="html">
         <source>No hay una URL HTTP alcanzable para la imagen; configure storage S3 (no local).</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">184</context>
+          <context context-type="linenumber">188</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_MAIL_NOT_CONFIGURED.title" datatype="html">
         <source>Correo no configurado</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">187</context>
+          <context context-type="linenumber">191</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_MAIL_NOT_CONFIGURED.message" datatype="html">
         <source>El envío por correo no está configurado o está deshabilitado.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">188</context>
+          <context context-type="linenumber">192</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_MAIL_SEND_ERROR.title" datatype="html">
         <source>Error de envío</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">191</context>
+          <context context-type="linenumber">195</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.PUBLICATION_MAIL_SEND_ERROR.message" datatype="html">
         <source>No se pudo enviar la publicación por correo en este momento.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
-          <context context-type="linenumber">192</context>
+          <context context-type="linenumber">196</context>
         </context-group>
       </trans-unit>
       <trans-unit id="errors.RECRUITER_GROUP_NOT_FOUND.title" datatype="html">
