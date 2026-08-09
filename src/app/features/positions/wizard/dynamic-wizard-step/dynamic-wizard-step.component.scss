@@ -15,6 +15,41 @@
   min-width: 0;
 }
 
+/* Datos generales: jobDescription (3fr) + requirements (1fr), rowspan-style */
+.general-requirements-block {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+}
+
+.general-requirements-block__job,
+.general-requirements-block__reqs {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.general-requirements-block__job {
+  height: 100%;
+}
+
+.general-requirements-block__job ::ng-deep .job-description-ai {
+  flex: 1;
+  height: 100%;
+}
+
+.general-requirements-block__job ::ng-deep .textarea-field {
+  flex: 1;
+}
+
+.general-requirements-block__job ::ng-deep textarea {
+  min-height: 14rem;
+}
+
 .grid-title {
   margin: 0 0 8px;
   font-size: 14px;
@@ -81,6 +116,10 @@
 @media (max-width: 900px) {
   .form-grid,
   .questionnaire-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .general-requirements-block {
     grid-template-columns: 1fr;
   }
 

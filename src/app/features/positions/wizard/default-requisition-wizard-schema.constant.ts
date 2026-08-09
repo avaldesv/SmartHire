@@ -56,6 +56,7 @@ export const DEFAULT_REQUISITION_WIZARD_SCHEMA: ResolvedRequisitionFormConfig = 
         field('hasPeopleInCharge', 'checkbox', 'requisition.field.hasPeopleInCharge', null, false),
         field('travelAvailability', 'checkbox', 'requisition.field.travelAvailability', null, false),
         field('relocationAvailability', 'checkbox', 'requisition.field.relocationAvailability', null, false),
+        field('jobDescription', 'textarea', 'requisition.field.jobDescription'),
         field('requirementsMandatory', 'textarea', 'requisition.field.requirementsMandatory'),
         field('requirementsOptional', 'textarea', 'requisition.field.requirementsOptional'),
         field('requirementsDesirable', 'textarea', 'requisition.field.requirementsDesirable'),

@@ -1,6 +1,43 @@
 <div class="form-grid">
   @for (field of visibleFields; track field.fieldKey) {
-    @if (field.uiType === 'language-grid') {
+    @if (isGeneralRequirementsBlockStart(field)) {
+      <div class="general-requirements-block span-2">
+        <div class="general-requirements-block__job">
+          <sh-job-description-ai-field
+            [control]="$any(fieldControl(generalRequirementsBlock!.jobDescription.fieldKey))"
+            [disabled]="isReadOnly(generalRequirementsBlock!.jobDescription)"
+            [fieldLabel]="fieldLabel(generalRequirementsBlock!.jobDescription)"
+            [sectionTitle]="jobRequirementSectionTitle"
+            [rows]="12"
+          />
+        </div>
+        <div class="general-requirements-block__reqs">
+          <sh-job-description-ai-field
+            [control]="$any(fieldControl(generalRequirementsBlock!.requirementsMandatory.fieldKey))"
+            [disabled]="isReadOnly(generalRequirementsBlock!.requirementsMandatory)"
+            [fieldLabel]="fieldLabel(generalRequirementsBlock!.requirementsMandatory)"
+            [sectionTitle]="null"
+            [rows]="3"
+          />
+          <sh-job-description-ai-field
+            [control]="$any(fieldControl(generalRequirementsBlock!.requirementsOptional.fieldKey))"
+            [disabled]="isReadOnly(generalRequirementsBlock!.requirementsOptional)"
+            [fieldLabel]="fieldLabel(generalRequirementsBlock!.requirementsOptional)"
+            [sectionTitle]="null"
+            [rows]="3"
+          />
+          <sh-job-description-ai-field
+            [control]="$any(fieldControl(generalRequirementsBlock!.requirementsDesirable.fieldKey))"
+            [disabled]="isReadOnly(generalRequirementsBlock!.requirementsDesirable)"
+            [fieldLabel]="fieldLabel(generalRequirementsBlock!.requirementsDesirable)"
+            [sectionTitle]="null"
+            [rows]="3"
+          />
+        </div>
+      </div>
+    } @else if (isConsumedByGeneralRequirementsBlock(field.fieldKey)) {
+      <!-- rendered inside general-requirements-block -->
+    } @else if (field.uiType === 'language-grid') {
       <div class="span-2 language-grid">
         <h4 class="grid-title">{{ fieldLabel(field) }}</h4>
         @for (row of languageArray(field.fieldKey).controls; track $index; let i = $index) {

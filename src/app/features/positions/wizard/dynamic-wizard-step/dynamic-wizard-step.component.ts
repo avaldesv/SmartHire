@@ -400,6 +400,46 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
     return (control.value ?? []).includes(documentTypeId);
   }
 
+  private static readonly GENERAL_REQUIREMENTS_BLOCK_KEYS = [
+    'jobDescription',
+    'requirementsMandatory',
+    'requirementsOptional',
+    'requirementsDesirable',
+  ] as const;
+
+  readonly jobRequirementSectionTitle = $localize`:@@requisition.section.jobRequirement:Requerimiento del Empleo`;
+
+  /** Side-by-side block when jobDescription + three requirements are all visible. */
+  get generalRequirementsBlock(): {
+    jobDescription: ResolvedRequisitionFormField;
+    requirementsMandatory: ResolvedRequisitionFormField;
+    requirementsOptional: ResolvedRequisitionFormField;
+    requirementsDesirable: ResolvedRequisitionFormField;
+  } | null {
+    const byKey = new Map(this.visibleFields.map((f) => [f.fieldKey, f]));
+    const jobDescription = byKey.get('jobDescription');
+    const requirementsMandatory = byKey.get('requirementsMandatory');
+    const requirementsOptional = byKey.get('requirementsOptional');
+    const requirementsDesirable = byKey.get('requirementsDesirable');
+    if (!jobDescription || !requirementsMandatory || !requirementsOptional || !requirementsDesirable) {
+      return null;
+    }
+    return { jobDescription, requirementsMandatory, requirementsOptional, requirementsDesirable };
+  }
+
+  isGeneralRequirementsBlockStart(field: ResolvedRequisitionFormField): boolean {
+    return field.fieldKey === 'jobDescription' && this.generalRequirementsBlock !== null;
+  }
+
+  isConsumedByGeneralRequirementsBlock(fieldKey: string): boolean {
+    if (!this.generalRequirementsBlock) {
+      return false;
+    }
+    return (DynamicWizardStepComponent.GENERAL_REQUIREMENTS_BLOCK_KEYS as readonly string[]).includes(
+      fieldKey,
+    );
+  }
+
   fieldLabel(field: ResolvedRequisitionFormField): string {
     return resolveWizardFieldLabel(field.fieldKey, field.labelI18nKey);
   }
