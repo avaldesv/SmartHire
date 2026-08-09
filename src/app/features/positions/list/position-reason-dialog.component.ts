@@ -49,6 +49,8 @@ export interface PositionReasonDialogData {
   styles: `
     .full-width {
       width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
   `,
 })

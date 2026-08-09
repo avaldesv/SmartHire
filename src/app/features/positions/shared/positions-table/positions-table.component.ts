@@ -1136,7 +1136,7 @@ export class PositionsTableComponent implements OnInit {
         }
         this.dialog
           .open(PositionReasonDialogComponent, {
-            ...catalogDialogConfig('480px'),
+            ...catalogDialogConfig('520px'),
             data: { required: false, title: this.actionRejectCancellation },
           })
           .afterClosed()
@@ -1196,7 +1196,7 @@ export class PositionsTableComponent implements OnInit {
     }
     this.dialog
       .open(ReassignPositionDialogComponent, {
-        ...catalogDialogConfig('480px'),
+        ...catalogDialogConfig('520px'),
         data: { currentAssignedUserId: row.assignedUserId },
       })
       .afterClosed()
