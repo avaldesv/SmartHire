@@ -37,8 +37,10 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
   @Input({ required: true }) control!: FormControl<string | null>;
   @Input() disabled = false;
   @Input() fieldLabel = $localize`:@@requisition.field.jobDescription:Descripción del puesto`;
+  /** When null/empty, the section heading is hidden (e.g. requirements columns). */
+  @Input() sectionTitle: string | null = $localize`:@@requisition.section.jobRequirement:Requerimiento del Empleo`;
+  @Input() rows = 6;
 
-  readonly sectionTitle = $localize`:@@requisition.section.jobRequirement:Requerimiento del Empleo`;
   readonly generateLabel = $localize`:@@requisition.action.generateJobDescription:Generar`;
   readonly translateLabel = $localize`:@@requisition.action.translateJobDescription:Traducir`;
   readonly languageLabel = $localize`:@@requisition.field.translateLanguage:Idioma`;
@@ -47,6 +49,9 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
   readonly generateErrorMessage = $localize`:@@requisition.jobDescription.generateError:No se pudo generar la descripción. Intenta de nuevo.`;
   readonly translateErrorMessage = $localize`:@@requisition.jobDescription.translateError:No se pudo traducir la descripción. Intenta de nuevo.`;
 
+  get showSectionTitle(): boolean {
+    return !!this.sectionTitle?.trim();
+  }
   selectedLanguage: JobDescriptionOutputLanguage = 'es';
   busyAction: 'generate' | 'translate' | null = null;
   private conversationThreadId: string | null = null;
