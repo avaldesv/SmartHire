@@ -6400,7 +6400,7 @@
       </trans-unit>
       <trans-unit id="requisition.step.requirements" datatype="html">
         <source>Requerimientos</source>
-        <target>Requerimientos</target>
+        <target>Requirements</target>
       </trans-unit>
       <trans-unit id="requisition.field.brandId" datatype="html">
         <source>Marca</source>
@@ -6420,11 +6420,11 @@
       </trans-unit>
       <trans-unit id="requisition.field.ot" datatype="html">
         <source>Orden de trabajo (OT)</source>
-        <target>Orden de trabajo (OT)</target>
+        <target>Work order (OT)</target>
       </trans-unit>
       <trans-unit id="requisition.field.orderId" datatype="html">
         <source>Id de Orden</source>
-        <target>Id de Orden</target>
+        <target>Order ID</target>
       </trans-unit>
       <trans-unit id="requisition.field.clientKey" datatype="html">
         <source>Clave cliente</source>
@@ -6452,7 +6452,7 @@
       </trans-unit>
       <trans-unit id="requisition.field.clientContactPosition" datatype="html">
         <source>Puesto Cliente</source>
-        <target>Puesto Cliente</target>
+        <target>Client position</target>
       </trans-unit>
       <trans-unit id="requisition.field.clientPositionKey" datatype="html">
         <source>Clave puesto cliente</source>
@@ -6536,23 +6536,23 @@
       </trans-unit>
       <trans-unit id="requisition.field.salary" datatype="html">
         <source>Salario</source>
-        <target>Salario</target>
+        <target>Salary</target>
       </trans-unit>
       <trans-unit id="requisition.field.workDays" datatype="html">
         <source>Días de trabajo</source>
-        <target>Días de trabajo</target>
+        <target>Work days</target>
       </trans-unit>
       <trans-unit id="requisition.field.positionsCount" datatype="html">
         <source>Número de posiciones</source>
-        <target>Número de posiciones</target>
+        <target>Number of positions</target>
       </trans-unit>
       <trans-unit id="requisition.field.benefitId" datatype="html">
         <source>Prestaciones</source>
-        <target>Prestaciones</target>
+        <target>Benefits</target>
       </trans-unit>
       <trans-unit id="requisition.field.serviceFee" datatype="html">
         <source>FEE de servicio</source>
-        <target>FEE de servicio</target>
+        <target>Service fee</target>
       </trans-unit>
       <trans-unit id="requisition.field.currencyId" datatype="html">
         <source>Moneda</source>
@@ -6560,7 +6560,7 @@
       </trans-unit>
       <trans-unit id="requisition.field.hasAdvancePayment" datatype="html">
         <source>¿Lleva anticipo?</source>
-        <target>¿Lleva anticipo?</target>
+        <target>Has advance payment?</target>
       </trans-unit>
       <trans-unit id="requisition.field.workdayStartTime" datatype="html">
         <source>Hora inicio jornada</source>
@@ -6596,7 +6596,7 @@
       </trans-unit>
       <trans-unit id="requisition.field.tools" datatype="html">
         <source>Herramientas</source>
-        <target>Herramientas</target>
+        <target>Tools</target>
       </trans-unit>
       <trans-unit id="requisition.field.recruiterGroupId" datatype="html">
         <source>Grupo reclutador</source>
@@ -6736,27 +6736,27 @@
       </trans-unit>
       <trans-unit id="requisition.field.primaryLanguageId" datatype="html">
         <source>Idioma principal</source>
-        <target>Idioma principal</target>
+        <target>Primary language</target>
       </trans-unit>
       <trans-unit id="requisition.field.secondaryLanguageId" datatype="html">
         <source>Idioma secundario</source>
-        <target>Idioma secundario</target>
+        <target>Secondary language</target>
       </trans-unit>
       <trans-unit id="requisition.field.languageLevelId" datatype="html">
         <source>Nivel requerido</source>
-        <target>Nivel requerido</target>
+        <target>Required level</target>
       </trans-unit>
       <trans-unit id="requisition.field.requirements" datatype="html">
         <source>Requerimientos</source>
-        <target>Requerimientos</target>
+        <target>Requirements</target>
       </trans-unit>
       <trans-unit id="requisition.field.experienceYears" datatype="html">
         <source>Años experiencia</source>
-        <target>Años experiencia</target>
+        <target>Years of experience</target>
       </trans-unit>
       <trans-unit id="requisition.field.generalNotes" datatype="html">
         <source>Notas generales</source>
-        <target>Notas generales</target>
+        <target>General notes</target>
       </trans-unit>
       <trans-unit id="requisition.field.headcount" datatype="html">
         <source>Headcount</source>
@@ -6768,11 +6768,11 @@
       </trans-unit>
       <trans-unit id="requisition.field.probationDays" datatype="html">
         <source>Días prueba</source>
-        <target>Días prueba</target>
+        <target>Probation days</target>
       </trans-unit>
       <trans-unit id="requisition.field.clientPosition" datatype="html">
         <source>Puesto Cliente</source>
-        <target>Puesto Cliente</target>
+        <target>Client position</target>
       </trans-unit>
       <trans-unit id="requisition.field.address" datatype="html">
         <source>Dirección</source>
@@ -6960,35 +6960,35 @@
       </trans-unit>
       <trans-unit id="requisition.wizard.createSubtitle" datatype="html">
         <source>Asistente de creación en <x id="steps" equiv-text="steps" /> pasos</source>
-        <target><x id="steps" equiv-text="steps" />-step creation wizard</target>
+        <target>Asistente de creación en <x id="steps" equiv-text="steps" /> pasos</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.editSubtitle" datatype="html">
         <source>Asistente en <x id="steps" equiv-text="steps" /> pasos</source>
-        <target><x id="steps" equiv-text="steps" />-step wizard</target>
+        <target>Asistente en <x id="steps" equiv-text="steps" /> pasos</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.stepOf" datatype="html">
         <source>Paso <x id="current" equiv-text="current" /> de <x id="total" equiv-text="total" />
         </source>
-        <target>Step <x id="current" equiv-text="current" /> of <x id="total" equiv-text="total" />
+        <target>Paso <x id="current" equiv-text="current" /> de <x id="total" equiv-text="total" />
         </target>
       </trans-unit>
       <trans-unit id="requisition.wizard.stepAriaDone" datatype="html">
         <source>Paso <x id="current" equiv-text="current" /> de <x id="total" equiv-text="total" />: <x id="title" equiv-text="title" /> (completado)</source>
-        <target>Step <x id="current" equiv-text="current" /> of <x id="total" equiv-text="total" />: <x id="title" equiv-text="title" /> (completed)</target>
+        <target>Paso <x id="current" equiv-text="current" /> de <x id="total" equiv-text="total" />: <x id="title" equiv-text="title" /> (completado)</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.stepAriaCurrent" datatype="html">
         <source>Paso <x id="current" equiv-text="current" /> de <x id="total" equiv-text="total" />: <x id="title" equiv-text="title" /> (actual)</source>
-        <target>Step <x id="current" equiv-text="current" /> of <x id="total" equiv-text="total" />: <x id="title" equiv-text="title" /> (current)</target>
+        <target>Paso <x id="current" equiv-text="current" /> de <x id="total" equiv-text="total" />: <x id="title" equiv-text="title" /> (actual)</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.stepAria" datatype="html">
         <source>Paso <x id="current" equiv-text="current" /> de <x id="total" equiv-text="total" />: <x id="title" equiv-text="title" />
         </source>
-        <target>Step <x id="current" equiv-text="current" /> of <x id="total" equiv-text="total" />: <x id="title" equiv-text="title" />
+        <target>Paso <x id="current" equiv-text="current" /> de <x id="total" equiv-text="total" />: <x id="title" equiv-text="title" />
         </target>
       </trans-unit>
       <trans-unit id="requisition.wizard.none" datatype="html">
         <source>Ninguno</source>
-        <target>Ninguno</target>
+        <target>None</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.language" datatype="html">
         <source>Idioma</source>
@@ -6996,59 +6996,59 @@
       </trans-unit>
       <trans-unit id="requisition.wizard.languageLevel" datatype="html">
         <source>Nivel</source>
-        <target>Nivel</target>
+        <target>Level</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.addLanguage" datatype="html">
         <source>Agregar idioma</source>
-        <target>Agregar idioma</target>
+        <target>Add language</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.loadingDocuments" datatype="html">
         <source>Cargando tipos de documento...</source>
-        <target>Cargando tipos de documento...</target>
+        <target>Loading document types...</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.noDocuments" datatype="html">
         <source>Sin tipos de documento para el país seleccionado.</source>
-        <target>Sin tipos de documento para el país seleccionado.</target>
+        <target>No document types for the selected country.</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.evaluationType" datatype="html">
         <source>Tipo evaluación</source>
-        <target>Tipo evaluación</target>
+        <target>Evaluation type</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.evalPercentage" datatype="html">
         <source>Porcentaje</source>
-        <target>Porcentaje</target>
+        <target>Percentage</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.evalScore" datatype="html">
         <source>Puntaje</source>
-        <target>Puntaje</target>
+        <target>Score</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.acceptancePercent" datatype="html">
         <source>% aceptación</source>
-        <target>% aceptación</target>
+        <target>Acceptance %</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.selectCountryHint" datatype="html">
         <source>Seleccione el país del cliente en el paso anterior para cargar la geografía.</source>
-        <target>Seleccione el país del cliente en el paso anterior para cargar la geografía.</target>
+        <target>Select the client country in the previous step to load geography.</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.selectCountryDocumentsHint" datatype="html">
         <source>Seleccione el país del cliente para cargar tipos de documento.</source>
-        <target>Seleccione el país del cliente para cargar tipos de documento.</target>
+        <target>Select the client country to load document types.</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.openTimePicker" datatype="html">
         <source>Abrir selector de hora</source>
-        <target>Abrir selector de hora</target>
+        <target>Open time picker</target>
       </trans-unit>
       <trans-unit id="requisition.legacy.clientCountry" datatype="html">
         <source>País cliente</source>
-        <target>País cliente</target>
+        <target>Client country</target>
       </trans-unit>
       <trans-unit id="requisition.legacy.recruitmentType" datatype="html">
         <source>Tipo reclutamiento</source>
-        <target>Tipo reclutamiento</target>
+        <target>Recruitment type</target>
       </trans-unit>
       <trans-unit id="requisition.legacy.coverageCategory" datatype="html">
         <source>Categoría cobertura</source>
-        <target>Categoría cobertura</target>
+        <target>Coverage category</target>
       </trans-unit>
       <trans-unit id="requisition.legacy.contact" datatype="html">
         <source>Contacto</source>
@@ -7060,11 +7060,11 @@
       </trans-unit>
       <trans-unit id="requisition.legacy.workDays" datatype="html">
         <source>Días laborales</source>
-        <target>Días laborales</target>
+        <target>Work days</target>
       </trans-unit>
       <trans-unit id="requisition.legacy.positionsCount" datatype="html">
         <source># Posiciones</source>
-        <target># Posiciones</target>
+        <target># Positions</target>
       </trans-unit>
       <trans-unit id="requisition.legacy.state" datatype="html">
         <source>Estado</source>
@@ -7072,31 +7072,31 @@
       </trans-unit>
       <trans-unit id="requisition.weekday.monday" datatype="html">
         <source>Lunes</source>
-        <target>Lunes</target>
+        <target>Monday</target>
       </trans-unit>
       <trans-unit id="requisition.weekday.tuesday" datatype="html">
         <source>Martes</source>
-        <target>Martes</target>
+        <target>Tuesday</target>
       </trans-unit>
       <trans-unit id="requisition.weekday.wednesday" datatype="html">
         <source>Miércoles</source>
-        <target>Miércoles</target>
+        <target>Wednesday</target>
       </trans-unit>
       <trans-unit id="requisition.weekday.thursday" datatype="html">
         <source>Jueves</source>
-        <target>Jueves</target>
+        <target>Thursday</target>
       </trans-unit>
       <trans-unit id="requisition.weekday.friday" datatype="html">
         <source>Viernes</source>
-        <target>Viernes</target>
+        <target>Friday</target>
       </trans-unit>
       <trans-unit id="requisition.weekday.saturday" datatype="html">
         <source>Sábado</source>
-        <target>Sábado</target>
+        <target>Saturday</target>
       </trans-unit>
       <trans-unit id="requisition.weekday.sunday" datatype="html">
         <source>Domingo</source>
-        <target>Domingo</target>
+        <target>Sunday</target>
       </trans-unit>
       <trans-unit id="documents.pageTitle" datatype="html">
         <source>Documentos requeridos</source>
@@ -7372,7 +7372,7 @@
       </trans-unit>
       <trans-unit id="requisition.documents.columnDocument" datatype="html">
         <source>Documento</source>
-        <target>Documento</target>
+        <target>Document</target>
       </trans-unit>
       <trans-unit id="requisition.documents.required" datatype="html">
         <source>Obligatorio</source>
@@ -7424,7 +7424,7 @@
       </trans-unit>
       <trans-unit id="catalogs.field.none" datatype="html">
         <source>Ninguno</source>
-        <target>Ninguno</target>
+        <target>None</target>
       </trans-unit>
       <trans-unit id="catalogs.field.allowedExtensions" datatype="html">
         <source>Extensiones permitidas</source>
