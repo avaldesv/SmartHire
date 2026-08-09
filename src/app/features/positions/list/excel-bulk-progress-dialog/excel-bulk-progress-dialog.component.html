@@ -1,6 +1,9 @@
-<h2 mat-dialog-title>{{ labels.title }} #{{ jobId }}</h2>
+<div class="sh-catalog-dialog-header" mat-dialog-title>
+  <span class="sh-catalog-dialog-header__text">{{ labels.title }} #{{ jobId }}</span>
+</div>
 
-<mat-dialog-content>
+<mat-dialog-content class="sh-catalog-dialog-body">
+  <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
   <p class="hint">{{ labels.hint }}</p>
 
   @if (!done()) {
@@ -51,5 +54,5 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-flat-button color="primary" type="button" (click)="close()">{{ labels.close }}</button>
+  <button mat-button type="button" (click)="close()">{{ labels.close }}</button>
 </mat-dialog-actions>

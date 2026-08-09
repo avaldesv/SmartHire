@@ -10,6 +10,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { catalogDialogConfig } from '../../../core/dialog/catalog-dialog.constants';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { CandidateApplicationApiService } from '../../../core/services/candidate-application-api.service';
 import { CandidateApiService } from '../../../core/services/candidate-api.service';
@@ -140,8 +141,7 @@ export class PreselectionComponent implements OnInit {
     const ref = this.dialog.open<CandidatePoolDialogComponent, CandidatePoolDialogData>(
       CandidatePoolDialogComponent,
       {
-        width: '760px',
-        maxWidth: '95vw',
+        ...catalogDialogConfig('760px'),
         data: { positionId: this.positionId, requisitionNo: `REQ-${this.positionId}` },
       },
     );
@@ -157,8 +157,7 @@ export class PreselectionComponent implements OnInit {
     this.dialog.open<PositionApplicationsDialogComponent, PositionApplicationsDialogData>(
       PositionApplicationsDialogComponent,
       {
-        width: '720px',
-        maxWidth: '95vw',
+        ...catalogDialogConfig('720px'),
         data: { positionId: this.positionId, requisitionNo: `REQ-${this.positionId}` },
       },
     );
@@ -334,7 +333,7 @@ export class PreselectionComponent implements OnInit {
       PreselectionCompatibilityDialogData,
       number | undefined
     >(PreselectionCompatibilityDialogComponent, {
-      width: '400px',
+      ...catalogDialogConfig('400px'),
       data: { candidateName: name, currentCompatibility: row.compatibility },
     });
     dialogRef
@@ -373,8 +372,7 @@ export class PreselectionComponent implements OnInit {
     this.dialog.open<ApplicationAuditLogDialogComponent, ApplicationAuditLogDialogData>(
       ApplicationAuditLogDialogComponent,
       {
-        width: '800px',
-        maxWidth: '95vw',
+        ...catalogDialogConfig('800px'),
         data: {
           applicationId: row.applicationId,
           candidateName: name,

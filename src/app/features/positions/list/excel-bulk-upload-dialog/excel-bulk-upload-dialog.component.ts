@@ -34,6 +34,7 @@ import {
   EXCEL_BULK_VALID_ROWS,
   EXCEL_BULK_VALIDATE,
 } from '../../../../core/i18n/excel-bulk-labels';
+import { catalogDialogConfig } from '../../../../core/dialog/catalog-dialog.constants';
 import { ExcelBulkUploadApiService } from '../../../../core/services/excel-bulk-upload-api.service';
 import {
   ExcelBulkCreateResponse,
@@ -204,7 +205,7 @@ export class ExcelBulkUploadDialogComponent {
       });
       this.dialogRef.close({ started: true, jobId: res.jobId, positionId: this.positionId });
       this.dialog.open(ExcelBulkProgressDialogComponent, {
-        width: '720px',
+        ...catalogDialogConfig('720px'),
         data: { positionId: this.positionId, jobId: res.jobId },
       });
     } catch (err) {

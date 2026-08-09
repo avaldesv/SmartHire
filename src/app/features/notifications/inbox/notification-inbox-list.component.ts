@@ -3,6 +3,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { catalogDialogConfig } from '../../../core/dialog/catalog-dialog.constants';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { UserNotificationApiService } from '../../../core/services/user-notification-api.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
@@ -73,10 +74,9 @@ export class NotificationInboxListComponent implements OnInit {
     if (!payload?.jobId || !payload?.positionId) {
       return;
     }
-    const config = {
-      width: '720px',
+    const config = catalogDialogConfig('720px', {
       data: { positionId: payload.positionId, jobId: payload.jobId },
-    };
+    });
     if (type === 'EXCEL_BULK_DONE') {
       this.dialog.open(ExcelBulkProgressDialogComponent, config);
     } else {

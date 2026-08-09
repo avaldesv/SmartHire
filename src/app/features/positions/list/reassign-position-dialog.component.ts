@@ -38,8 +38,11 @@ export interface ReassignPositionDialogResult {
     MatProgressSpinnerModule,
   ],
   template: `
-    <h2 mat-dialog-title>{{ title }}</h2>
-    <mat-dialog-content>
+    <div class="sh-catalog-dialog-header" mat-dialog-title>
+      <span class="sh-catalog-dialog-header__text">{{ title }}</span>
+    </div>
+    <mat-dialog-content class="sh-catalog-dialog-body">
+      <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
       @if (loading) {
         <div class="loading-wrap"><mat-spinner diameter="32" /></div>
       } @else {
@@ -60,7 +63,7 @@ export interface ReassignPositionDialogResult {
       }
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-      <button mat-stroked-button type="button" (click)="dialogRef.close(null)">{{ cancelLabel }}</button>
+      <button mat-button type="button" (click)="dialogRef.close(null)">{{ cancelLabel }}</button>
       <button
         mat-flat-button
         color="primary"

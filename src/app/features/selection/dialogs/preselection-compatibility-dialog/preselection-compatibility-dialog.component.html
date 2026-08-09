@@ -1,6 +1,10 @@
-<h2 mat-dialog-title>Modificar compatibilidad</h2>
-<mat-dialog-content>
-  <p class="candidate-name">{{ data.candidateName }}</p>
+<div class="sh-catalog-dialog-header" mat-dialog-title>
+  <span class="sh-catalog-dialog-header__text">Modificar compatibilidad</span>
+</div>
+
+<mat-dialog-content class="sh-catalog-dialog-body">
+  <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
+  <p class="sh-catalog-dialog-subtitle candidate-name">{{ data.candidateName }}</p>
   <form [formGroup]="form">
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Compatibilidad (%)</mat-label>
@@ -8,7 +12,8 @@
     </mat-form-field>
   </form>
 </mat-dialog-content>
+
 <mat-dialog-actions align="end">
-  <button mat-stroked-button type="button" (click)="cancel()">Cancelar</button>
+  <button mat-button type="button" (click)="cancel()">Cancelar</button>
   <button mat-flat-button color="primary" type="button" (click)="save()">Guardar</button>
 </mat-dialog-actions>

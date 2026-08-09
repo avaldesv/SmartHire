@@ -15,6 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { catchError, debounceTime, distinctUntilChanged, forkJoin, map, of, switchMap } from 'rxjs';
 import { AppPermissions } from '../../../../core/auth/app-permissions';
+import { catalogDialogConfig } from '../../../../core/dialog/catalog-dialog.constants';
 import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
 import {
   FEEDBACK_GENERIC_INFO_TITLE,
@@ -880,7 +881,7 @@ export class PositionsTableComponent implements OnInit {
   openNewRequisition(): void {
     this.dialog
       .open(RequisitionScopeDialogComponent, {
-        width: '480px',
+        ...catalogDialogConfig('480px'),
         disableClose: true,
         data: {},
       })
@@ -1029,11 +1030,8 @@ export class PositionsTableComponent implements OnInit {
   private openEnrichedCancelDialog(row: PositionListItem, mode: 'request' | 'direct'): void {
     this.dialog
       .open(PositionCancelDialogComponent, {
-        width: '720px',
-        maxWidth: '95vw',
+        ...catalogDialogConfig('720px'),
         maxHeight: '92vh',
-        panelClass: 'sh-position-cancel-dialog-panel',
-        autoFocus: 'first-tabbable',
         data: {
           positionId: row.id,
           title: mode === 'request' ? this.actionRequestCancellation : this.actionCancelDirect,
@@ -1138,7 +1136,7 @@ export class PositionsTableComponent implements OnInit {
         }
         this.dialog
           .open(PositionReasonDialogComponent, {
-            width: '480px',
+            ...catalogDialogConfig('480px'),
             data: { required: false, title: this.actionRejectCancellation },
           })
           .afterClosed()
@@ -1187,7 +1185,7 @@ export class PositionsTableComponent implements OnInit {
 
   openHistory(row: PositionListItem): void {
     this.dialog.open(PositionEventsDialogComponent, {
-      width: '560px',
+      ...catalogDialogConfig('560px'),
       data: { positionId: row.id, requisitionNo: row.requisitionNo },
     });
   }
@@ -1198,7 +1196,7 @@ export class PositionsTableComponent implements OnInit {
     }
     this.dialog
       .open(ReassignPositionDialogComponent, {
-        width: '480px',
+        ...catalogDialogConfig('480px'),
         data: { currentAssignedUserId: row.assignedUserId },
       })
       .afterClosed()
@@ -1222,8 +1220,7 @@ export class PositionsTableComponent implements OnInit {
     const ref = this.dialog.open<CandidatePoolDialogComponent, CandidatePoolDialogData>(
       CandidatePoolDialogComponent,
       {
-        width: '760px',
-        maxWidth: '95vw',
+        ...catalogDialogConfig('760px'),
         data: { positionId: row.id, requisitionNo: row.requisitionNo },
       },
     );
@@ -1239,8 +1236,7 @@ export class PositionsTableComponent implements OnInit {
     this.dialog.open<PositionApplicationsDialogComponent, PositionApplicationsDialogData>(
       PositionApplicationsDialogComponent,
       {
-        width: '720px',
-        maxWidth: '95vw',
+        ...catalogDialogConfig('720px'),
         data: {
           positionId: row.id,
           requisitionNo: row.requisitionNo,
@@ -1270,7 +1266,7 @@ export class PositionsTableComponent implements OnInit {
 
   openCvBulkUpload(row: PositionListItem): void {
     this.dialog.open(CvBulkUploadDialogComponent, {
-      width: '560px',
+      ...catalogDialogConfig('560px'),
       data: {
         positionId: row.id,
         positionName: row.name ?? `#${row.id}`,
@@ -1280,8 +1276,7 @@ export class PositionsTableComponent implements OnInit {
 
   openExcelBulkUpload(row: PositionListItem): void {
     this.dialog.open(ExcelBulkUploadDialogComponent, {
-      width: '920px',
-      maxWidth: '96vw',
+      ...catalogDialogConfig('920px', { maxWidth: '96vw' }),
       data: {
         positionId: row.id,
         positionName: row.name ?? `#${row.id}`,
@@ -1291,11 +1286,12 @@ export class PositionsTableComponent implements OnInit {
 
   private openPublicationGenerateDialog(positionId: number, contactEmail: string, contactPhone: string): void {
     this.dialog.open(PublicationGenerateDialogComponent, {
-      width: '1176px',
-      maxWidth: '98vw',
-      maxHeight: '95vh',
-      height: '95vh',
-      autoFocus: 'first-heading',
+      ...catalogDialogConfig('1176px', {
+        maxWidth: '98vw',
+        maxHeight: '95vh',
+        height: '95vh',
+        autoFocus: 'first-heading',
+      }),
       data: { positionId, contactEmail, contactPhone } as PublicationGenerateDialogData,
     });
   }

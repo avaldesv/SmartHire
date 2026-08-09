@@ -131,6 +131,15 @@ a:hover { text-decoration: underline; }
   display: block;
 }
 
+.sh-catalog-dialog-header__text .header-icon,
+.sh-catalog-dialog-header__text mat-icon {
+  vertical-align: middle;
+  margin-right: 6px;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
 .sh-catalog-form-dialog-panel .mat-mdc-dialog-surface {
   padding-top: 0 !important;
   overflow: hidden;
@@ -151,6 +160,12 @@ a:hover { text-decoration: underline; }
 .sh-catalog-dialog-body {
   min-width: min(640px, 92vw);
   max-width: 920px;
+}
+
+.sh-catalog-dialog-subtitle {
+  margin: 0 0 1rem;
+  color: var(--sh-text-muted, #64748b);
+  font-size: 0.875rem;
 }
 
 /* Notification template create/edit dialog — same primary header pattern as catalogs */

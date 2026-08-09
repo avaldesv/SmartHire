@@ -1,6 +1,9 @@
-<h2 mat-dialog-title>{{ labels.title }}</h2>
+<div class="sh-catalog-dialog-header" mat-dialog-title>
+  <span class="sh-catalog-dialog-header__text">{{ labels.title }}</span>
+</div>
 
-<mat-dialog-content>
+<mat-dialog-content class="sh-catalog-dialog-body">
+  <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
   @if (positionName) {
     <p class="position-line">{{ positionName }}</p>
   }

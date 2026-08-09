@@ -8,6 +8,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { AppPermissions } from '../../../../core/auth/app-permissions';
+import { catalogDialogConfig } from '../../../../core/dialog/catalog-dialog.constants';
 import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
 import {
   APP_DIALOG_ACTIONS_MENU,
@@ -150,8 +151,7 @@ export class PositionApplicationsDialogComponent implements OnInit {
     this.dialog.open<CandidateProfileDialogComponent, CandidateProfileDialogData>(
       CandidateProfileDialogComponent,
       {
-        width: '920px',
-        maxWidth: '95vw',
+        ...catalogDialogConfig('920px'),
         autoFocus: false,
         data: {
           candidateId: row.candidateId,
@@ -165,8 +165,7 @@ export class PositionApplicationsDialogComponent implements OnInit {
     this.dialog.open<CandidateDocumentsDialogComponent, CandidateDocumentsDialogData>(
       CandidateDocumentsDialogComponent,
       {
-        width: '800px',
-        maxWidth: '95vw',
+        ...catalogDialogConfig('800px'),
         autoFocus: false,
         data: {
           candidateId: row.candidateId,

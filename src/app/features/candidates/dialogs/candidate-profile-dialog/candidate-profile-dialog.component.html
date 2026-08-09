@@ -1,9 +1,12 @@
-<h2 mat-dialog-title>{{ title() }}</h2>
+<div class="sh-catalog-dialog-header" mat-dialog-title>
+  <span class="sh-catalog-dialog-header__text">{{ title() }}</span>
+</div>
 
-<mat-dialog-content>
+<mat-dialog-content class="sh-catalog-dialog-body">
+  <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
   <sh-candidate-profile-view [candidateId]="data.candidateId" />
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-flat-button color="primary" type="button" (click)="close()">{{ closeLabel }}</button>
+  <button mat-button type="button" (click)="close()">{{ closeLabel }}</button>
 </mat-dialog-actions>

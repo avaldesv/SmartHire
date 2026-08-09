@@ -1,6 +1,9 @@
-<h2 mat-dialog-title>{{ dialogTitle }}</h2>
+<div class="sh-catalog-dialog-header" mat-dialog-title>
+  <span class="sh-catalog-dialog-header__text">{{ dialogTitle }}</span>
+</div>
 
-<mat-dialog-content class="dialog-body">
+<mat-dialog-content class="dialog-body sh-catalog-dialog-body">
+  <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
   <div class="generate-layout">
     <section class="form-column" [attr.aria-label]="dialogTitle">
       <form [formGroup]="configForm" class="column-form">
