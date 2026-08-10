@@ -2,6 +2,14 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="es-MX" target-language="en" datatype="plaintext" original="ng2.template">
     <body>
+      <trans-unit id="errors.CANDIDATE_ALREADY_PRESELECTED.title" datatype="html">
+        <source>Candidato ya preseleccionado</source>
+        <target>Already preselected</target>
+      </trans-unit>
+      <trans-unit id="errors.CANDIDATE_ALREADY_PRESELECTED.message" datatype="html">
+        <source>El candidato ya está preseleccionado en {0} ({1}).</source>
+        <target>The candidate is already preselected for {0} ({1}).</target>
+      </trans-unit>
       <trans-unit id="errors.CATALOG_NOT_FOUND.title" datatype="html">
         <source>Catálogo no encontrado</source>
         <target>Catalog entry not found</target>
