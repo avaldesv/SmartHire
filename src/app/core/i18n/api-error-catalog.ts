@@ -1,5 +1,6 @@
 import { FeedbackType } from '../feedback/feedback.types';
 import { API_ERROR_CATALOG_CATALOG } from './api-error-catalog-catalog';
+import { API_ERROR_CATALOG_CANDIDATE } from './api-error-catalog-candidate';
 import { API_ERROR_CATALOG_NOTIFICATION } from './api-error-catalog-notification';
 import { API_ERROR_CATALOG_QUESTIONNAIRE } from './api-error-catalog-questionnaire';
 import { API_ERROR_CATALOG_REQUISITION } from './api-error-catalog-requisition';
@@ -64,6 +65,7 @@ export const API_ERROR_CATALOG: Record<string, ApiErrorI18nEntry> = {
   },
   ...API_ERROR_CATALOG_SECURITY,
   ...API_ERROR_CATALOG_CATALOG,
+  ...API_ERROR_CATALOG_CANDIDATE,
   ...API_ERROR_CATALOG_NOTIFICATION,
   ...API_ERROR_CATALOG_QUESTIONNAIRE,
   ...API_ERROR_CATALOG_REQUISITION,

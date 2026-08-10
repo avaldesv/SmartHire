@@ -147,6 +147,7 @@ TITLE_BY_CODE: dict[str, str] = {
     "POSITION_RECRUITER_GROUP_REQUIRED": "Group required",
     "POSITION_RECRUITER_GROUP_MANAGER_REQUIRED": "Group without manager",
     "POSITION_ASSIGNED_USER_REQUIRED": "Recruiter required",
+    "CANDIDATE_ALREADY_PRESELECTED": "Already preselected",
     "PUBLICATION_WHATSAPP_INVALID_PHONE": "Invalid number",
     "PUBLICATION_MEDIA_URL_UNREACHABLE": "URL unreachable",
     "PUBLICATION_MAIL_NOT_CONFIGURED": "Email not configured",
@@ -379,6 +380,9 @@ EXACT_ES_EN: dict[str, str] = {
         "The selected recruiter group has no responsible manager"
     ),
     "Debe indicar el reclutador asignado.": "An assigned recruiter must be specified",
+    "El candidato ya está preseleccionado en {0} ({1}).": (
+        "The candidate is already preselected for {0} ({1})."
+    ),
     "El usuario solicitado no existe.": "The requested user does not exist",
     "El país seleccionado no existe.": "The selected country does not exist",
     "El idioma del portal no está disponible.": "The portal language is not available",
