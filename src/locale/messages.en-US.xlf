@@ -10,6 +10,30 @@
         <source>El candidato ya está preseleccionado en {0} ({1}).</source>
         <target>The candidate is already preselected for {0} ({1}).</target>
       </trans-unit>
+      <trans-unit id="errors.DOCUMENT_VALIDATION_STATUS_REQUIRED.title" datatype="html">
+        <source>Validación requerida</source>
+        <target>Validación requerida</target>
+      </trans-unit>
+      <trans-unit id="errors.DOCUMENT_VALIDATION_STATUS_REQUIRED.message" datatype="html">
+        <source>Debe indicar si el documento está validado o no.</source>
+        <target>Debe indicar si el documento está validado o no.</target>
+      </trans-unit>
+      <trans-unit id="errors.DOCUMENT_REJECTION_REASON_REQUIRED.title" datatype="html">
+        <source>Motivo requerido</source>
+        <target>Reason required</target>
+      </trans-unit>
+      <trans-unit id="errors.DOCUMENT_REJECTION_REASON_REQUIRED.message" datatype="html">
+        <source>Debe indicar el motivo al marcar el documento como no validado.</source>
+        <target>Debe indicar el motivo al marcar el documento como no validado.</target>
+      </trans-unit>
+      <trans-unit id="errors.DOCUMENT_NOT_FOUND_FOR_APPLICATION.title" datatype="html">
+        <source>Documento no encontrado</source>
+        <target>Documento no encontrado</target>
+      </trans-unit>
+      <trans-unit id="errors.DOCUMENT_NOT_FOUND_FOR_APPLICATION.message" datatype="html">
+        <source>El documento no pertenece a esta postulación.</source>
+        <target>El documento no pertenece a esta postulación.</target>
+      </trans-unit>
       <trans-unit id="errors.CATALOG_NOT_FOUND.title" datatype="html">
         <source>Catálogo no encontrado</source>
         <target>Catalog entry not found</target>
@@ -1742,6 +1766,10 @@
         <source>Estado</source>
         <target>State</target>
       </trans-unit>
+      <trans-unit id="candidateDocuments.col.validation" datatype="html">
+        <source>Validación</source>
+        <target>Validación</target>
+      </trans-unit>
       <trans-unit id="candidateDocuments.col.createdAt" datatype="html">
         <source>Fecha</source>
         <target>Date</target>
@@ -1754,6 +1782,46 @@
         <source>Descargar</source>
         <target>Download</target>
       </trans-unit>
+      <trans-unit id="candidateDocuments.validate" datatype="html">
+        <source>Validar documento</source>
+        <target>Validar documento</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.markValidated" datatype="html">
+        <source>Marcar validado</source>
+        <target>Marcar validado</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.markNotValidated" datatype="html">
+        <source>Marcar no validado</source>
+        <target>Marcar no validado</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.validation.pending" datatype="html">
+        <source>Pendiente</source>
+        <target>Pendiente</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.validation.validated" datatype="html">
+        <source>Validado</source>
+        <target>Validado</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.validation.notValidated" datatype="html">
+        <source>No validado</source>
+        <target>No validado</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.requiredBadge" datatype="html">
+        <source>Obligatorio</source>
+        <target>Required</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.invalidate.title" datatype="html">
+        <source>Documento no validado</source>
+        <target>Documento no validado</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.invalidate.reason" datatype="html">
+        <source>Motivo</source>
+        <target>Motivo</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.invalidate.confirm" datatype="html">
+        <source>Confirmar</source>
+        <target>Confirm</target>
+      </trans-unit>
       <trans-unit id="candidateDocuments.errors.list" datatype="html">
         <source>No se pudieron cargar los documentos</source>
         <target>Could not load documents</target>
@@ -1761,6 +1829,14 @@
       <trans-unit id="candidateDocuments.errors.download" datatype="html">
         <source>No se pudo descargar el documento</source>
         <target>Could not download the document</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.errors.validate" datatype="html">
+        <source>No se pudo actualizar la validación del documento</source>
+        <target>No se pudo actualizar la validación del documento</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.success.validate" datatype="html">
+        <source>Validación del documento actualizada</source>
+        <target>Validación del documento actualizada</target>
       </trans-unit>
       <trans-unit id="common.emDash" datatype="html">
         <source>—</source>

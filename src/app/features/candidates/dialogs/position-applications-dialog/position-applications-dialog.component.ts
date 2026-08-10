@@ -233,9 +233,10 @@ export class PositionApplicationsDialogComponent implements OnInit {
     this.dialog.open<CandidateDocumentsDialogComponent, CandidateDocumentsDialogData>(
       CandidateDocumentsDialogComponent,
       {
-        ...catalogDialogConfig('800px'),
+        ...catalogDialogConfig('960px'),
         autoFocus: false,
         data: {
+          applicationId: row.id,
           candidateId: row.candidateId,
           candidateName: this.candidateName(row),
         },
