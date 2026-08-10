@@ -13,7 +13,14 @@
       <table mat-table [dataSource]="rows">
         <ng-container matColumnDef="documentTypeName">
           <th mat-header-cell *matHeaderCellDef>{{ labels.colType }}</th>
-          <td mat-cell *matCellDef="let row">{{ row.documentTypeName ?? labels.emDash }}</td>
+          <td mat-cell *matCellDef="let row">
+            <div class="type-cell">
+              <span>{{ row.documentTypeName ?? labels.emDash }}</span>
+              @if (row.isRequiredForPosition) {
+                <span class="required-badge">{{ labels.requiredBadge }}</span>
+              }
+            </div>
+          </td>
         </ng-container>
         <ng-container matColumnDef="fileName">
           <th mat-header-cell *matHeaderCellDef>{{ labels.colFile }}</th>
@@ -27,6 +34,12 @@
           <th mat-header-cell *matHeaderCellDef>{{ labels.colStatus }}</th>
           <td mat-cell *matCellDef="let row">{{ row.status ?? labels.emDash }}</td>
         </ng-container>
+        <ng-container matColumnDef="validation">
+          <th mat-header-cell *matHeaderCellDef>{{ labels.colValidation }}</th>
+          <td mat-cell *matCellDef="let row">
+            <span [class]="validationClass(row)">{{ validationLabel(row) }}</span>
+          </td>
+        </ng-container>
         <ng-container matColumnDef="createAt">
           <th mat-header-cell *matHeaderCellDef>{{ labels.colCreated }}</th>
           <td mat-cell *matCellDef="let row">{{ row.createAt | date:'dd/MM/yyyy' }}</td>
@@ -34,18 +47,32 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>{{ labels.colActions }}</th>
           <td mat-cell *matCellDef="let row">
-            <button
-              mat-stroked-button
-              type="button"
-              [disabled]="!row.downloadUrl"
-              (click)="download(row)">
-              <mat-icon>download</mat-icon>
-              {{ labels.download }}
-            </button>
+            <div class="actions-cell">
+              <button
+                mat-stroked-button
+                type="button"
+                [disabled]="!row.downloadUrl"
+                (click)="download(row)">
+                <mat-icon>download</mat-icon>
+                {{ labels.download }}
+              </button>
+              <button mat-stroked-button type="button" [matMenuTriggerFor]="validateMenu" [disabled]="saving">
+                <mat-icon>fact_check</mat-icon>
+                {{ labels.validate }}
+              </button>
+              <mat-menu #validateMenu="matMenu">
+                <button mat-menu-item type="button" (click)="markValidated(row)">
+                  {{ labels.markValidated }}
+                </button>
+                <button mat-menu-item type="button" (click)="markNotValidated(row)">
+                  {{ labels.markNotValidated }}
+                </button>
+              </mat-menu>
+            </div>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="columns"></tr>
-        <tr mat-row *matRowDef="let row; columns: columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns" [class]="rowClass(row)"></tr>
       </table>
     </div>
 
