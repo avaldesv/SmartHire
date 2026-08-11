@@ -1768,7 +1768,7 @@
       </trans-unit>
       <trans-unit id="candidateDocuments.col.validation" datatype="html">
         <source>Validación</source>
-        <target>Validación</target>
+        <target>Validation</target>
       </trans-unit>
       <trans-unit id="candidateDocuments.col.createdAt" datatype="html">
         <source>Fecha</source>
@@ -1784,35 +1784,35 @@
       </trans-unit>
       <trans-unit id="candidateDocuments.validate" datatype="html">
         <source>Validar documento</source>
-        <target>Validar documento</target>
+        <target>Validate document</target>
       </trans-unit>
       <trans-unit id="candidateDocuments.markValidated" datatype="html">
         <source>Marcar validado</source>
-        <target>Marcar validado</target>
+        <target>Mark validated</target>
       </trans-unit>
       <trans-unit id="candidateDocuments.markNotValidated" datatype="html">
         <source>Marcar no validado</source>
-        <target>Marcar no validado</target>
+        <target>Mark not validated</target>
       </trans-unit>
       <trans-unit id="candidateDocuments.validation.pending" datatype="html">
         <source>pendiente</source>
-        <target>pendiente</target>
+        <target>Pending</target>
       </trans-unit>
       <trans-unit id="candidateDocuments.validation.validated" datatype="html">
         <source>validado</source>
-        <target>validado</target>
+        <target>Validated</target>
       </trans-unit>
       <trans-unit id="candidateDocuments.validation.notValidated" datatype="html">
         <source>no valido</source>
-        <target>no valido</target>
+        <target>Not valid</target>
       </trans-unit>
       <trans-unit id="candidateDocuments.markAsValidated" datatype="html">
         <source>Marcar como validado</source>
-        <target>Marcar como validado</target>
+        <target>Mark as validated</target>
       </trans-unit>
       <trans-unit id="candidateDocuments.markAsNotValid" datatype="html">
         <source>Marcar como no valido</source>
-        <target>Marcar como no valido</target>
+        <target>Mark as not valid</target>
       </trans-unit>
       <trans-unit id="candidateDocuments.requiredBadge" datatype="html">
         <source>Obligatorio</source>
@@ -1820,11 +1820,11 @@
       </trans-unit>
       <trans-unit id="candidateDocuments.invalidate.title" datatype="html">
         <source>Documento no validado</source>
-        <target>Documento no validado</target>
+        <target>Invalid document</target>
       </trans-unit>
       <trans-unit id="candidateDocuments.invalidate.reason" datatype="html">
         <source>Motivo</source>
-        <target>Motivo</target>
+        <target>Reason</target>
       </trans-unit>
       <trans-unit id="candidateDocuments.invalidate.confirm" datatype="html">
         <source>Confirmar</source>
@@ -1840,11 +1840,11 @@
       </trans-unit>
       <trans-unit id="candidateDocuments.errors.validate" datatype="html">
         <source>No se pudo actualizar la validación del documento</source>
-        <target>No se pudo actualizar la validación del documento</target>
+        <target>Could not update document validation</target>
       </trans-unit>
       <trans-unit id="candidateDocuments.success.validate" datatype="html">
         <source>Validación del documento actualizada</source>
-        <target>Validación del documento actualizada</target>
+        <target>Document validation updated</target>
       </trans-unit>
       <trans-unit id="common.emDash" datatype="html">
         <source>—</source>
@@ -4488,7 +4488,7 @@
       </trans-unit>
       <trans-unit id="positions.reasonDialog.title" datatype="html">
         <source>Motivo</source>
-        <target>Motivo</target>
+        <target>Reason</target>
       </trans-unit>
       <trans-unit id="positions.reasonDialog.label" datatype="html">
         <source>Motivo de la acción</source>
