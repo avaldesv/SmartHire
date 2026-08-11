@@ -60,17 +60,7 @@
     </div>
 
     <div class="primary-filters-grid">
-      <mat-form-field appearance="outline">
-        <mat-label>Año *</mat-label>
-        <mat-select formControlName="year">
-          @for (y of yearOptions; track y) {
-            <mat-option [value]="y">{{ y }}</mat-option>
-          }
-        </mat-select>
-        @if (filters.controls.year.invalid && filters.controls.year.touched) {
-          <mat-error>Año obligatorio</mat-error>
-        }
-      </mat-form-field>
+      <sh-year-stepper-field formControlName="year" label="Año" [required]="true" />
 
       <mat-form-field appearance="outline">
         <mat-label>Orden</mat-label>

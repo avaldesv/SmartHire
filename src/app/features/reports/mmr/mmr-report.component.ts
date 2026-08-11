@@ -17,6 +17,7 @@ import { SecurityUserService } from '../../../core/services/security-user.servic
 import { ClientFilterFieldComponent } from '../../../shared/components/client-filter-field/client-filter-field.component';
 import { KpiCardComponent } from '../../../shared/components/kpi-card/kpi-card.component';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
+import { YearStepperFieldComponent } from '../../../shared/components/year-stepper-field/year-stepper-field.component';
 import { CatalogBusinessUnit } from '../../../shared/models/catalog-business-unit.model';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import { PositionListItem } from '../../../shared/models/position.model';
@@ -43,6 +44,7 @@ interface SelectOption {
     PageHeaderComponent,
     KpiCardComponent,
     ClientFilterFieldComponent,
+    YearStepperFieldComponent,
   ],
   templateUrl: './mmr-report.component.html',
   styleUrl: './mmr-report.component.scss',
@@ -75,7 +77,6 @@ export class MmrReportComponent implements OnInit {
   ];
 
   months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-  yearOptions: number[] = [];
 
   kpis: ReportKpisResponse = { currentMonth: null, priorMonth: null, ytd: null };
   groups: ReportGroupResponse[] = [];
@@ -94,9 +95,6 @@ export class MmrReportComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    const currentYear = new Date().getFullYear();
-    this.yearOptions = Array.from({ length: 6 }, (_, i) => currentYear - i);
-
     this.filters.controls.workplaceId.disable({ emitEvent: false });
     this.filters.controls.recruiterGroupId.disable({ emitEvent: false });
 

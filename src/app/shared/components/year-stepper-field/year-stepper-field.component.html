@@ -1,0 +1,39 @@
+<mat-form-field appearance="outline" class="year-stepper-field" subscriptSizing="dynamic">
+  <mat-label>{{ label }}{{ required ? ' *' : '' }}</mat-label>
+  <div class="year-stepper" [class.disabled]="disabled">
+    <button
+      mat-icon-button
+      type="button"
+      class="year-stepper__btn"
+      aria-label="Año anterior"
+      [disabled]="!canDecrement"
+      (click)="decrement()"
+    >
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+
+    <input
+      class="year-stepper__input"
+      type="number"
+      inputmode="numeric"
+      [attr.min]="minYear"
+      [attr.max]="maxYear"
+      [value]="value"
+      [disabled]="disabled"
+      [attr.aria-label]="label"
+      (input)="onInput($any($event.target).value)"
+      (blur)="markTouched()"
+    />
+
+    <button
+      mat-icon-button
+      type="button"
+      class="year-stepper__btn"
+      aria-label="Año siguiente"
+      [disabled]="!canIncrement"
+      (click)="increment()"
+    >
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+</mat-form-field>
