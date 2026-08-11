@@ -187,6 +187,9 @@ export type {
   ReportKpisResponse,
   ReportMatrixResponse,
   ReportRowResponse,
+  StatusByRequisitionFilterRequest,
+  StatusByRequisitionResponse,
+  StatusByRequisitionRowResponse,
 } from './report.model';
 
 export interface AiSearchResult {

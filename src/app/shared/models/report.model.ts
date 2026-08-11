@@ -35,3 +35,38 @@ export interface ReportMatrixResponse {
   kpis: ReportKpisResponse;
   groups: ReportGroupResponse[];
 }
+
+/** Filters for status-by-requisition — tenant (Marca) from companyId header. */
+export interface StatusByRequisitionFilterRequest {
+  startDate?: string | null;
+  endDate?: string | null;
+  countryId?: number | null;
+  positionId?: number | null;
+  status?: string | null;
+  assignedUserId?: number | null;
+  clientKey?: string | null;
+  recruiterGroupId?: number | null;
+  workplaceId?: number | null;
+  recruitmentType?: string | null;
+}
+
+export interface StatusByRequisitionRowResponse {
+  statusCode: string;
+  status: string;
+  requisitions: number;
+  positionsCount: number;
+  applicants: number;
+  preselected: number;
+  selected: number;
+  evaluated: number;
+  interviewed: number;
+  prehired: number;
+  hired: number;
+  uncovered: number;
+  compliancePercent: number | null;
+  digitalDocs: number;
+}
+
+export interface StatusByRequisitionResponse {
+  rows: StatusByRequisitionRowResponse[];
+}

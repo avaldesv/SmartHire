@@ -9,10 +9,10 @@ interface ReportNavItem {
 }
 
 /** Reports with a dedicated route (not /reports/view/:slug placeholder). */
-const DIRECT_REPORT_SLUGS = new Set(['mmr', 'requisitions-by-month']);
+const DIRECT_REPORT_SLUGS = new Set(['mmr', 'requisitions-by-month', 'status-by-requisition']);
 
 /** Mock category labels replaced by dedicated nav entries. */
-const REPLACED_GENERALES = new Set(['MMR', 'Requisitions per month']);
+const REPLACED_GENERALES = new Set(['MMR', 'Requisitions per month', 'Status per requisition']);
 
 @Component({
   selector: 'sh-reports-layout',
@@ -33,6 +33,7 @@ export class ReportsLayoutComponent implements OnInit {
       this.navItems = [
         { label: 'MMR', slug: 'mmr', category: 'generales' },
         { label: 'Requisiciones por mes', slug: 'requisitions-by-month', category: 'generales' },
+        { label: 'Estatus por requisición', slug: 'status-by-requisition', category: 'generales' },
         ...cats.generales.filter((r) => !REPLACED_GENERALES.has(r)).map((r) => ({
           label: r,
           slug: r.toLowerCase().replace(/\s+/g, '-'),
