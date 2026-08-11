@@ -7,7 +7,7 @@
           <h4>{{ cat === 'generales' ? 'Generales' : cat === 'cubrimiento' ? 'Cubrimiento' : 'Vacantes' }}</h4>
           @for (item of navItems; track item.slug) {
             @if (item.category === cat) {
-              <a [routerLink]="item.slug === 'mmr' ? '/reports/mmr' : ['/reports/view', item.slug]" routerLinkActive="active">{{ item.label }}</a>
+              <a [routerLink]="reportLink(item.slug)" routerLinkActive="active">{{ item.label }}</a>
             }
           }
         }
