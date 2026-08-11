@@ -12,6 +12,7 @@ import { CatalogWorkplaceService } from '../../../core/services/catalog-workplac
 import { ReportsApiService } from '../../../core/services/reports-api.service';
 import { SecurityRecruiterGroupService } from '../../../core/services/security-recruiter-group.service';
 import { SecurityUserService } from '../../../core/services/security-user.service';
+import { ClientFilterFieldComponent } from '../../../shared/components/client-filter-field/client-filter-field.component';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import { CatalogWorkplace } from '../../../shared/models/catalog-workplace.model';
 import {
@@ -36,6 +37,7 @@ interface SelectOption {
     MatInputModule,
     MatButtonModule,
     MatProgressSpinnerModule,
+    ClientFilterFieldComponent,
   ],
   templateUrl: './requisitions-by-source-report.component.html',
   styleUrl: './requisitions-by-source-report.component.scss',

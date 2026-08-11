@@ -13,6 +13,7 @@ import { PositionService } from '../../../core/services/position.service';
 import { ReportsApiService } from '../../../core/services/reports-api.service';
 import { SecurityRecruiterGroupService } from '../../../core/services/security-recruiter-group.service';
 import { SecurityUserService } from '../../../core/services/security-user.service';
+import { ClientFilterFieldComponent } from '../../../shared/components/client-filter-field/client-filter-field.component';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import { CatalogWorkplace } from '../../../shared/models/catalog-workplace.model';
 import { PositionListItem } from '../../../shared/models/position.model';
@@ -38,6 +39,7 @@ interface SelectOption {
     MatInputModule,
     MatButtonModule,
     MatProgressSpinnerModule,
+    ClientFilterFieldComponent,
   ],
   templateUrl: './status-by-requisition-report.component.html',
   styleUrl: './status-by-requisition-report.component.scss',

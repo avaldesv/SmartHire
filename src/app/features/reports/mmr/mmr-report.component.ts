@@ -14,6 +14,7 @@ import { ReportsApiService } from '../../../core/services/reports-api.service';
 import { SecurityRecruiterGroupService } from '../../../core/services/security-recruiter-group.service';
 import { SecurityUserService } from '../../../core/services/security-user.service';
 import { KpiCardComponent } from '../../../shared/components/kpi-card/kpi-card.component';
+import { ClientFilterFieldComponent } from '../../../shared/components/client-filter-field/client-filter-field.component';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import { CatalogWorkplace } from '../../../shared/models/catalog-workplace.model';
 import { PositionListItem } from '../../../shared/models/position.model';
@@ -37,6 +38,7 @@ interface SelectOption {
     MatButtonModule,
     MatProgressSpinnerModule,
     KpiCardComponent,
+    ClientFilterFieldComponent,
   ],
   templateUrl: './mmr-report.component.html',
   styleUrl: './mmr-report.component.scss',

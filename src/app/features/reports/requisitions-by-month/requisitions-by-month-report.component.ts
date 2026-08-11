@@ -13,6 +13,7 @@ import { PositionService } from '../../../core/services/position.service';
 import { ReportsApiService } from '../../../core/services/reports-api.service';
 import { SecurityRecruiterGroupService } from '../../../core/services/security-recruiter-group.service';
 import { SecurityUserService } from '../../../core/services/security-user.service';
+import { ClientFilterFieldComponent } from '../../../shared/components/client-filter-field/client-filter-field.component';
 import { KpiCardComponent } from '../../../shared/components/kpi-card/kpi-card.component';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import { CatalogWorkplace } from '../../../shared/models/catalog-workplace.model';
@@ -37,6 +38,7 @@ interface SelectOption {
     MatButtonModule,
     MatProgressSpinnerModule,
     KpiCardComponent,
+    ClientFilterFieldComponent,
   ],
   templateUrl: './requisitions-by-month-report.component.html',
   styleUrl: './requisitions-by-month-report.component.scss',
