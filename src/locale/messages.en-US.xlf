@@ -12,11 +12,11 @@
       </trans-unit>
       <trans-unit id="errors.DOCUMENT_VALIDATION_STATUS_REQUIRED.title" datatype="html">
         <source>Validación requerida</source>
-        <target>Validación requerida</target>
+        <target>Validation status required</target>
       </trans-unit>
       <trans-unit id="errors.DOCUMENT_VALIDATION_STATUS_REQUIRED.message" datatype="html">
         <source>Debe indicar si el documento está validado o no.</source>
-        <target>Debe indicar si el documento está validado o no.</target>
+        <target>Validation status required</target>
       </trans-unit>
       <trans-unit id="errors.DOCUMENT_REJECTION_REASON_REQUIRED.title" datatype="html">
         <source>Motivo requerido</source>
@@ -24,15 +24,15 @@
       </trans-unit>
       <trans-unit id="errors.DOCUMENT_REJECTION_REASON_REQUIRED.message" datatype="html">
         <source>Debe indicar el motivo al marcar el documento como no validado.</source>
-        <target>Debe indicar el motivo al marcar el documento como no validado.</target>
+        <target>Rejection reason required</target>
       </trans-unit>
       <trans-unit id="errors.DOCUMENT_NOT_FOUND_FOR_APPLICATION.title" datatype="html">
         <source>Documento no encontrado</source>
-        <target>Documento no encontrado</target>
+        <target>Document not found</target>
       </trans-unit>
       <trans-unit id="errors.DOCUMENT_NOT_FOUND_FOR_APPLICATION.message" datatype="html">
         <source>El documento no pertenece a esta postulación.</source>
-        <target>El documento no pertenece a esta postulación.</target>
+        <target>Document not found</target>
       </trans-unit>
       <trans-unit id="errors.CATALOG_NOT_FOUND.title" datatype="html">
         <source>Catálogo no encontrado</source>
@@ -1795,16 +1795,24 @@
         <target>Marcar no validado</target>
       </trans-unit>
       <trans-unit id="candidateDocuments.validation.pending" datatype="html">
-        <source>Pendiente</source>
-        <target>Pendiente</target>
+        <source>pendiente</source>
+        <target>pendiente</target>
       </trans-unit>
       <trans-unit id="candidateDocuments.validation.validated" datatype="html">
-        <source>Validado</source>
-        <target>Validado</target>
+        <source>validado</source>
+        <target>validado</target>
       </trans-unit>
       <trans-unit id="candidateDocuments.validation.notValidated" datatype="html">
-        <source>No validado</source>
-        <target>No validado</target>
+        <source>no valido</source>
+        <target>no valido</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.markAsValidated" datatype="html">
+        <source>Marcar como validado</source>
+        <target>Marcar como validado</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.markAsNotValid" datatype="html">
+        <source>Marcar como no valido</source>
+        <target>Marcar como no valido</target>
       </trans-unit>
       <trans-unit id="candidateDocuments.requiredBadge" datatype="html">
         <source>Obligatorio</source>

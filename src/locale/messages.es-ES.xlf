@@ -1795,16 +1795,24 @@
         <target>Marcar no validado</target>
       </trans-unit>
       <trans-unit id="candidateDocuments.validation.pending" datatype="html">
-        <source>Pendiente</source>
-        <target>Pendiente</target>
+        <source>pendiente</source>
+        <target>pendiente</target>
       </trans-unit>
       <trans-unit id="candidateDocuments.validation.validated" datatype="html">
-        <source>Validado</source>
-        <target>Validado</target>
+        <source>validado</source>
+        <target>validado</target>
       </trans-unit>
       <trans-unit id="candidateDocuments.validation.notValidated" datatype="html">
-        <source>No validado</source>
-        <target>No validado</target>
+        <source>no valido</source>
+        <target>no valido</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.markAsValidated" datatype="html">
+        <source>Marcar como validado</source>
+        <target>Marcar como validado</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.markAsNotValid" datatype="html">
+        <source>Marcar como no valido</source>
+        <target>Marcar como no valido</target>
       </trans-unit>
       <trans-unit id="candidateDocuments.requiredBadge" datatype="html">
         <source>Obligatorio</source>

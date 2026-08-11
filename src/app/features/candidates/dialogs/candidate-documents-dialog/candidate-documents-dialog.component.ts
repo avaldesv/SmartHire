@@ -26,6 +26,8 @@ import {
   CANDIDATE_DOCS_ERRORS_LIST,
   CANDIDATE_DOCS_ERRORS_VALIDATE,
   CANDIDATE_DOCS_MARK_NOT_VALIDATED,
+  CANDIDATE_DOCS_MARK_AS_NOT_VALID,
+  CANDIDATE_DOCS_MARK_AS_VALIDATED,
   CANDIDATE_DOCS_MARK_VALIDATED,
   CANDIDATE_DOCS_REQUIRED_BADGE,
   CANDIDATE_DOCS_SUCCESS_VALIDATE,
@@ -87,6 +89,8 @@ export class CandidateDocumentsDialogComponent implements OnInit {
     validate: CANDIDATE_DOCS_VALIDATE,
     markValidated: CANDIDATE_DOCS_MARK_VALIDATED,
     markNotValidated: CANDIDATE_DOCS_MARK_NOT_VALIDATED,
+    markAsValidated: CANDIDATE_DOCS_MARK_AS_VALIDATED,
+    markAsNotValid: CANDIDATE_DOCS_MARK_AS_NOT_VALID,
     requiredBadge: CANDIDATE_DOCS_REQUIRED_BADGE,
     emDash: CANDIDATE_DOCS_EM_DASH,
   };
@@ -150,6 +154,44 @@ export class CandidateDocumentsDialogComponent implements OnInit {
       return CANDIDATE_DOCS_VALIDATION_NOT_VALIDATED;
     }
     return CANDIDATE_DOCS_VALIDATION_PENDING;
+  }
+
+  isValidationPending(row: CandidateDocumentListItem): boolean {
+    return row.isValidated !== true && row.isValidated !== false;
+  }
+
+  isValidationValidated(row: CandidateDocumentListItem): boolean {
+    return row.isValidated === true;
+  }
+
+  validateActionAriaLabel(row: CandidateDocumentListItem): string {
+    if (this.isValidationValidated(row)) {
+      return CANDIDATE_DOCS_MARK_AS_NOT_VALID;
+    }
+    if (row.isValidated === false) {
+      return CANDIDATE_DOCS_MARK_AS_VALIDATED;
+    }
+    return CANDIDATE_DOCS_VALIDATE;
+  }
+
+  validateIconClass(row: CandidateDocumentListItem): string {
+    if (this.isValidationValidated(row)) {
+      return 'validate-action validate-action--invalidate';
+    }
+    if (row.isValidated === false) {
+      return 'validate-action validate-action--validate';
+    }
+    return 'validate-action validate-action--pending';
+  }
+
+  onValidateAction(row: CandidateDocumentListItem): void {
+    if (this.isValidationValidated(row)) {
+      this.markNotValidated(row);
+      return;
+    }
+    if (row.isValidated === false) {
+      this.markValidated(row);
+    }
   }
 
   validationClass(row: CandidateDocumentListItem): string {
