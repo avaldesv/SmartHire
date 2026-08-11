@@ -217,6 +217,13 @@ export const routes: Routes = [
               ),
           },
           {
+            path: 'requisitions-by-source',
+            loadComponent: () =>
+              import('./features/reports/requisitions-by-source/requisitions-by-source-report.component').then(
+                (m) => m.RequisitionsBySourceReportComponent,
+              ),
+          },
+          {
             path: 'view/:slug',
             loadComponent: () => import('./features/reports/report-view/report-view.component').then((m) => m.ReportViewComponent),
           },

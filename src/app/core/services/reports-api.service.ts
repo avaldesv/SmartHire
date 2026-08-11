@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import {
   ReportFilterRequest,
   ReportMatrixResponse,
+  RequisitionsBySourceFilterRequest,
+  RequisitionsBySourceResponse,
   RequisitionsInProcessFilterRequest,
   RequisitionsInProcessResponse,
   StatusByRequisitionFilterRequest,
@@ -49,6 +51,16 @@ export class ReportsApiService {
       this.api.apiUrl('/api/v1/reports/requisitions-in-process'),
       request,
       { headers: this.api.buildHeaders(page, size) },
+    );
+  }
+
+  getRequisitionsBySource(
+    request: RequisitionsBySourceFilterRequest,
+  ): Observable<RequisitionsBySourceResponse> {
+    return this.http.post<RequisitionsBySourceResponse>(
+      this.api.apiUrl('/api/v1/reports/requisitions-by-source'),
+      request,
+      { headers: this.api.buildHeaders() },
     );
   }
 }
