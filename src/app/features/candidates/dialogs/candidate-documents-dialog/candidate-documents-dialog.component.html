@@ -56,22 +56,35 @@
                 (click)="download(row)">
                 <mat-icon>download</mat-icon>
               </button>
-              <button
-                mat-icon-button
-                type="button"
-                [attr.aria-label]="labels.validate"
-                [matMenuTriggerFor]="validateMenu"
-                [disabled]="saving">
-                <mat-icon>fact_check</mat-icon>
-              </button>
-              <mat-menu #validateMenu="matMenu">
-                <button mat-menu-item type="button" (click)="markValidated(row)">
-                  {{ labels.markValidated }}
+              @if (isValidationPending(row)) {
+                <button
+                  mat-icon-button
+                  type="button"
+                  [class]="validateIconClass(row)"
+                  [attr.aria-label]="validateActionAriaLabel(row)"
+                  [matMenuTriggerFor]="pendingValidateMenu"
+                  [disabled]="saving">
+                  <mat-icon>fact_check</mat-icon>
                 </button>
-                <button mat-menu-item type="button" (click)="markNotValidated(row)">
-                  {{ labels.markNotValidated }}
+                <mat-menu #pendingValidateMenu="matMenu">
+                  <button mat-menu-item type="button" (click)="markValidated(row)">
+                    {{ labels.markAsValidated }}
+                  </button>
+                  <button mat-menu-item type="button" (click)="markNotValidated(row)">
+                    {{ labels.markAsNotValid }}
+                  </button>
+                </mat-menu>
+              } @else {
+                <button
+                  mat-icon-button
+                  type="button"
+                  [class]="validateIconClass(row)"
+                  [attr.aria-label]="validateActionAriaLabel(row)"
+                  [disabled]="saving"
+                  (click)="onValidateAction(row)">
+                  <mat-icon>fact_check</mat-icon>
                 </button>
-              </mat-menu>
+              }
             </div>
           </td>
         </ng-container>

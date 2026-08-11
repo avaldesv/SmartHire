@@ -59,6 +59,18 @@
   gap: 4px;
 }
 
+.validate-action--invalidate {
+  color: #dc2626;
+}
+
+.validate-action--validate {
+  color: #16a34a;
+}
+
+.validate-action--pending {
+  color: #ca8a04;
+}
+
 :host ::ng-deep tr.row-required {
   background: rgba(254, 243, 199, 0.35);
 }
