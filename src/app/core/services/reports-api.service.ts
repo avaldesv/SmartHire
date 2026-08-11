@@ -1,7 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ReportFilterRequest, ReportMatrixResponse } from '../../shared/models/report.model';
+import {
+  ReportFilterRequest,
+  ReportMatrixResponse,
+  StatusByRequisitionFilterRequest,
+  StatusByRequisitionResponse,
+} from '../../shared/models/report.model';
 import { ApiClientService } from './api-client.service';
 
 @Injectable({ providedIn: 'root' })
@@ -18,6 +23,16 @@ export class ReportsApiService {
   getRequisitionsByMonth(request: ReportFilterRequest): Observable<ReportMatrixResponse> {
     return this.http.post<ReportMatrixResponse>(
       this.api.apiUrl('/api/v1/reports/requisitions-by-month'),
+      request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  getStatusByRequisition(
+    request: StatusByRequisitionFilterRequest,
+  ): Observable<StatusByRequisitionResponse> {
+    return this.http.post<StatusByRequisitionResponse>(
+      this.api.apiUrl('/api/v1/reports/status-by-requisition'),
       request,
       { headers: this.api.buildHeaders() },
     );
