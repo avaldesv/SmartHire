@@ -1,100 +1,108 @@
 <div class="sbr-report">
-  <h3>Estatus por requisición</h3>
-
-  <form [formGroup]="filters" class="sh-filters sh-card sbr-filters">
-    <mat-form-field appearance="outline">
-      <mat-label>Fecha inicial</mat-label>
-      <input matInput type="date" formControlName="startDate" />
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Fecha final</mat-label>
-      <input matInput type="date" formControlName="endDate" />
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>País</mat-label>
-      <mat-select formControlName="countryId">
-        <mat-option [value]="null">Todos</mat-option>
-        @for (c of countries; track c.id) {
-          <mat-option [value]="c.id">{{ c.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Requisición</mat-label>
-      <mat-select formControlName="positionId">
-        <mat-option [value]="null">Todas</mat-option>
-        @for (p of positionOptions; track p.id) {
-          <mat-option [value]="p.id">{{ p.label }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Estado</mat-label>
-      <mat-select formControlName="status">
-        <mat-option [value]="null">Todos</mat-option>
-        @for (opt of statusOptions; track opt.value) {
-          <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Reclutador</mat-label>
-      <mat-select formControlName="assignedUserId">
-        <mat-option [value]="null">Todos</mat-option>
-        @for (u of recruiterOptions; track u.id) {
-          <mat-option [value]="u.id">{{ u.label }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-
-    <sh-client-filter-field formControlName="clientKey" />
-
-    <mat-form-field appearance="outline">
-      <mat-label>Grupo</mat-label>
-      <mat-select formControlName="recruiterGroupId">
-        <mat-option [value]="null">
-          {{ filters.controls.recruiterGroupId.disabled ? 'Selecciona país' : 'Todos' }}
-        </mat-option>
-        @for (g of groupOptions; track g.id) {
-          <mat-option [value]="g.id">{{ g.description || g.code }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>U. Negocio</mat-label>
-      <mat-select formControlName="workplaceId">
-        <mat-option [value]="null">
-          {{ filters.controls.workplaceId.disabled ? 'Selecciona país' : 'Todos' }}
-        </mat-option>
-        @for (w of workplaceOptions; track w.id) {
-          <mat-option [value]="w.id">{{ w.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Tipo reclutamiento</mat-label>
-      <mat-select formControlName="recruitmentType">
-        <mat-option [value]="null">Todos</mat-option>
-        @for (opt of recruitmentTypeOptions; track opt.value) {
-          <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-
-    <div class="filter-actions">
+  <sh-page-header title="Estatus por requisición" subtitle="Agregado por estado de la requisición">
+    <div class="header-filter-actions">
       <button mat-flat-button color="primary" type="button" (click)="load()" [disabled]="loading">
+        <mat-icon>refresh</mat-icon>
         Actualizar
       </button>
       <button mat-stroked-button type="button" (click)="clearFilters()" [disabled]="loading">
+        <mat-icon>filter_alt_off</mat-icon>
         Limpiar filtros
       </button>
+    </div>
+  </sh-page-header>
+
+  <form [formGroup]="filters" class="sh-filters sh-card sbr-filters">
+    <div class="primary-filters-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha inicial</mat-label>
+        <input matInput type="date" formControlName="startDate" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha final</mat-label>
+        <input matInput type="date" formControlName="endDate" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>País</mat-label>
+        <mat-select formControlName="countryId">
+          <mat-option [value]="null">Todos</mat-option>
+          @for (c of countries; track c.id) {
+            <mat-option [value]="c.id">{{ c.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Requisición</mat-label>
+        <mat-select formControlName="positionId">
+          <mat-option [value]="null">Todas</mat-option>
+          @for (p of positionOptions; track p.id) {
+            <mat-option [value]="p.id">{{ p.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="primary-filters-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="status">
+          <mat-option [value]="null">Todos</mat-option>
+          @for (opt of statusOptions; track opt.value) {
+            <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Reclutador</mat-label>
+        <mat-select formControlName="assignedUserId">
+          <mat-option [value]="null">Todos</mat-option>
+          @for (u of recruiterOptions; track u.id) {
+            <mat-option [value]="u.id">{{ u.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <sh-client-filter-field formControlName="clientKey" />
+
+      <mat-form-field appearance="outline">
+        <mat-label>Grupo</mat-label>
+        <mat-select formControlName="recruiterGroupId">
+          <mat-option [value]="null">
+            {{ filters.controls.recruiterGroupId.disabled ? 'Selecciona país' : 'Todos' }}
+          </mat-option>
+          @for (g of groupOptions; track g.id) {
+            <mat-option [value]="g.id">{{ g.description || g.code }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="primary-filters-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>U. Negocio</mat-label>
+        <mat-select formControlName="workplaceId">
+          <mat-option [value]="null">
+            {{ filters.controls.workplaceId.disabled ? 'Selecciona país' : 'Todos' }}
+          </mat-option>
+          @for (bu of businessUnitOptions; track bu.id) {
+            <mat-option [value]="bu.id">{{ bu.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Tipo reclutamiento</mat-label>
+        <mat-select formControlName="recruitmentType">
+          <mat-option [value]="null">Todos</mat-option>
+          @for (opt of recruitmentTypeOptions; track opt.value) {
+            <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
     </div>
   </form>
 

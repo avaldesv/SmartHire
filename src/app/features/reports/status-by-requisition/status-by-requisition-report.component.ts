@@ -3,19 +3,21 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { catchError, forkJoin, of } from 'rxjs';
+import { CatalogBusinessUnitService } from '../../../core/services/catalog-business-unit.service';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
-import { CatalogWorkplaceService } from '../../../core/services/catalog-workplace.service';
 import { PositionService } from '../../../core/services/position.service';
 import { ReportsApiService } from '../../../core/services/reports-api.service';
 import { SecurityRecruiterGroupService } from '../../../core/services/security-recruiter-group.service';
 import { SecurityUserService } from '../../../core/services/security-user.service';
 import { ClientFilterFieldComponent } from '../../../shared/components/client-filter-field/client-filter-field.component';
+import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
+import { CatalogBusinessUnit } from '../../../shared/models/catalog-business-unit.model';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
-import { CatalogWorkplace } from '../../../shared/models/catalog-workplace.model';
 import { PositionListItem } from '../../../shared/models/position.model';
 import {
   StatusByRequisitionFilterRequest,
@@ -38,7 +40,9 @@ interface SelectOption {
     MatSelectModule,
     MatInputModule,
     MatButtonModule,
+    MatIconModule,
     MatProgressSpinnerModule,
+    PageHeaderComponent,
     ClientFilterFieldComponent,
   ],
   templateUrl: './status-by-requisition-report.component.html',
@@ -47,7 +51,7 @@ interface SelectOption {
 export class StatusByRequisitionReportComponent implements OnInit {
   private readonly reportsApi = inject(ReportsApiService);
   private readonly geography = inject(CatalogGeographyService);
-  private readonly workplaces = inject(CatalogWorkplaceService);
+  private readonly businessUnits = inject(CatalogBusinessUnitService);
   private readonly recruiterGroups = inject(SecurityRecruiterGroupService);
   private readonly positions = inject(PositionService);
   private readonly users = inject(SecurityUserService);
@@ -59,7 +63,7 @@ export class StatusByRequisitionReportComponent implements OnInit {
   errorMessage = '';
 
   countries: CatalogCountry[] = [];
-  workplaceOptions: CatalogWorkplace[] = [];
+  businessUnitOptions: CatalogBusinessUnit[] = [];
   groupOptions: SecurityRecruiterGroup[] = [];
   positionOptions: SelectOption[] = [];
   recruiterOptions: SelectOption[] = [];
@@ -121,7 +125,7 @@ export class StatusByRequisitionReportComponent implements OnInit {
     });
     this.filters.controls.workplaceId.disable({ emitEvent: false });
     this.filters.controls.recruiterGroupId.disable({ emitEvent: false });
-    this.workplaceOptions = [];
+    this.businessUnitOptions = [];
     this.groupOptions = [];
     this.load();
   }
@@ -206,7 +210,7 @@ export class StatusByRequisitionReportComponent implements OnInit {
   private onCountryChange(countryId: number | null): void {
     this.filters.controls.workplaceId.setValue(null, { emitEvent: false });
     this.filters.controls.recruiterGroupId.setValue(null, { emitEvent: false });
-    this.workplaceOptions = [];
+    this.businessUnitOptions = [];
     this.groupOptions = [];
 
     if (countryId == null) {
@@ -219,16 +223,16 @@ export class StatusByRequisitionReportComponent implements OnInit {
     this.filters.controls.recruiterGroupId.enable({ emitEvent: false });
 
     forkJoin({
-      workplaces: this.workplaces.list(countryId, 0, 200).pipe(
-        catchError(() => of({ items: [] as CatalogWorkplace[], total: 0 })),
+      businessUnits: this.businessUnits.list(countryId, 0, 200).pipe(
+        catchError(() => of({ items: [] as CatalogBusinessUnit[], total: 0 })),
       ),
       groups: this.recruiterGroups.list(countryId, 0, 200).pipe(
         catchError(() => of({ items: [] as SecurityRecruiterGroup[], total: 0 })),
       ),
     })
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(({ workplaces, groups }) => {
-        this.workplaceOptions = workplaces.items;
+      .subscribe(({ businessUnits, groups }) => {
+        this.businessUnitOptions = businessUnits.items;
         this.groupOptions = groups.items;
       });
   }

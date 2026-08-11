@@ -1,24 +1,28 @@
 <div class="rip-report">
-  <h3>Requisiciones en proceso</h3>
-
-  <form [formGroup]="filters" class="sh-filters sh-card rip-filters">
-    <mat-form-field appearance="outline">
-      <mat-label>País</mat-label>
-      <mat-select formControlName="countryId">
-        <mat-option [value]="null">Todos</mat-option>
-        @for (c of countries; track c.id) {
-          <mat-option [value]="c.id">{{ c.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-
-    <div class="filter-actions">
+  <sh-page-header title="Requisiciones en proceso" subtitle="En tiempo vs vencidas y detalle por cliente">
+    <div class="header-filter-actions">
       <button mat-flat-button color="primary" type="button" (click)="applyFilters()" [disabled]="loading">
+        <mat-icon>refresh</mat-icon>
         Actualizar
       </button>
       <button mat-stroked-button type="button" (click)="clearFilters()" [disabled]="loading">
+        <mat-icon>filter_alt_off</mat-icon>
         Limpiar filtros
       </button>
+    </div>
+  </sh-page-header>
+
+  <form [formGroup]="filters" class="sh-filters sh-card rip-filters">
+    <div class="primary-filters-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>País</mat-label>
+        <mat-select formControlName="countryId">
+          <mat-option [value]="null">Todos</mat-option>
+          @for (c of countries; track c.id) {
+            <mat-option [value]="c.id">{{ c.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
     </div>
   </form>
 
