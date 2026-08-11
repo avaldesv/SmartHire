@@ -210,6 +210,13 @@ export const routes: Routes = [
               ),
           },
           {
+            path: 'requisitions-in-process',
+            loadComponent: () =>
+              import('./features/reports/requisitions-in-process/requisitions-in-process-report.component').then(
+                (m) => m.RequisitionsInProcessReportComponent,
+              ),
+          },
+          {
             path: 'view/:slug',
             loadComponent: () => import('./features/reports/report-view/report-view.component').then((m) => m.ReportViewComponent),
           },

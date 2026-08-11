@@ -70,3 +70,34 @@ export interface StatusByRequisitionRowResponse {
 export interface StatusByRequisitionResponse {
   rows: StatusByRequisitionRowResponse[];
 }
+
+/** Filters for requisitions-in-process — tenant (Marca) from companyId header. */
+export interface RequisitionsInProcessFilterRequest {
+  countryId?: number | null;
+}
+
+export interface RequisitionsInProcessYearResponse {
+  year: number;
+  requisitions: number;
+  positions: number;
+  applicants: number;
+  hired: number;
+  uncovered: number;
+}
+
+export interface RequisitionsInProcessClientResponse {
+  clientName: string;
+  inProcessCount: number;
+}
+
+export interface RequisitionsInProcessClientsPage {
+  data: RequisitionsInProcessClientResponse[];
+  pagination: { page: number; pageSize: number; total: number };
+}
+
+export interface RequisitionsInProcessResponse {
+  onTimeCount: number;
+  expiredCount: number;
+  years: RequisitionsInProcessYearResponse[];
+  clients: RequisitionsInProcessClientsPage;
+}
