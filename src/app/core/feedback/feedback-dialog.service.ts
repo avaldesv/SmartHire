@@ -63,6 +63,7 @@ export class FeedbackDialogService {
           confirmLabel: options.confirmLabel,
           cancelLabel: options.cancelLabel,
           confirmWarn: options.confirmWarn,
+          iconType: options.iconType,
         } satisfies FeedbackDialogData,
       })
       .afterClosed();

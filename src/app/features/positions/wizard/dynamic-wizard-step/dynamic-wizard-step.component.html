@@ -2,37 +2,47 @@
   @for (field of visibleFields; track field.fieldKey) {
     @if (isGeneralRequirementsBlockStart(field)) {
       <div class="general-requirements-block span-2">
-        <div class="general-requirements-block__job">
-          <sh-job-description-ai-field
-            [control]="$any(fieldControl(generalRequirementsBlock!.jobDescription.fieldKey))"
-            [disabled]="isReadOnly(generalRequirementsBlock!.jobDescription)"
-            [fieldLabel]="fieldLabel(generalRequirementsBlock!.jobDescription)"
-            [sectionTitle]="jobRequirementSectionTitle"
-            [rows]="12"
-          />
-        </div>
-        <div class="general-requirements-block__reqs">
-          <sh-job-description-ai-field
-            [control]="$any(fieldControl(generalRequirementsBlock!.requirementsMandatory.fieldKey))"
-            [disabled]="isReadOnly(generalRequirementsBlock!.requirementsMandatory)"
-            [fieldLabel]="fieldLabel(generalRequirementsBlock!.requirementsMandatory)"
-            [sectionTitle]="null"
-            [rows]="3"
-          />
-          <sh-job-description-ai-field
-            [control]="$any(fieldControl(generalRequirementsBlock!.requirementsOptional.fieldKey))"
-            [disabled]="isReadOnly(generalRequirementsBlock!.requirementsOptional)"
-            [fieldLabel]="fieldLabel(generalRequirementsBlock!.requirementsOptional)"
-            [sectionTitle]="null"
-            [rows]="3"
-          />
-          <sh-job-description-ai-field
-            [control]="$any(fieldControl(generalRequirementsBlock!.requirementsDesirable.fieldKey))"
-            [disabled]="isReadOnly(generalRequirementsBlock!.requirementsDesirable)"
-            [fieldLabel]="fieldLabel(generalRequirementsBlock!.requirementsDesirable)"
-            [sectionTitle]="null"
-            [rows]="3"
-          />
+        <h4 class="general-requirements-block__title">{{ jobRequirementSectionTitle }}</h4>
+        <div class="general-requirements-block__columns">
+          <div class="general-requirements-block__job">
+            <sh-job-description-ai-field
+              [control]="$any(fieldControl(generalRequirementsBlock!.jobDescription.fieldKey))"
+              [disabled]="isReadOnly(generalRequirementsBlock!.jobDescription)"
+              [fieldLabel]="fieldLabel(generalRequirementsBlock!.jobDescription)"
+              [sectionTitle]="null"
+              [fillHeight]="true"
+              [sourceControl]="$any(stepForm.get('positionName'))"
+              autoGenerateMode="jobDescription"
+              [showCharCount]="true"
+              [rows]="8"
+            />
+          </div>
+          <div class="general-requirements-block__reqs">
+            <sh-job-description-ai-field
+              [control]="$any(fieldControl(generalRequirementsBlock!.requirementsMandatory.fieldKey))"
+              [disabled]="isReadOnly(generalRequirementsBlock!.requirementsMandatory)"
+              [fieldLabel]="fieldLabel(generalRequirementsBlock!.requirementsMandatory)"
+              [sectionTitle]="null"
+              [sourceControl]="$any(fieldControl(generalRequirementsBlock!.jobDescription.fieldKey))"
+              autoGenerateMode="requirementsMandatory"
+              [showCharCount]="true"
+              [rows]="3"
+            />
+            <sh-job-description-ai-field
+              [control]="$any(fieldControl(generalRequirementsBlock!.requirementsOptional.fieldKey))"
+              [disabled]="isReadOnly(generalRequirementsBlock!.requirementsOptional)"
+              [fieldLabel]="fieldLabel(generalRequirementsBlock!.requirementsOptional)"
+              [sectionTitle]="null"
+              [rows]="3"
+            />
+            <sh-job-description-ai-field
+              [control]="$any(fieldControl(generalRequirementsBlock!.requirementsDesirable.fieldKey))"
+              [disabled]="isReadOnly(generalRequirementsBlock!.requirementsDesirable)"
+              [fieldLabel]="fieldLabel(generalRequirementsBlock!.requirementsDesirable)"
+              [sectionTitle]="null"
+              [rows]="3"
+            />
+          </div>
         </div>
       </div>
     } @else if (isConsumedByGeneralRequirementsBlock(field.fieldKey)) {
@@ -178,6 +188,9 @@
           [control]="$any(fieldControl(field.fieldKey))"
           [disabled]="isReadOnly(field)"
           [fieldLabel]="fieldLabel(field)"
+          [sourceControl]="$any(stepForm.get('positionName'))"
+          autoGenerateMode="jobDescription"
+          [showCharCount]="true"
         />
       </div>
     } @else if (field.uiType === 'textarea') {

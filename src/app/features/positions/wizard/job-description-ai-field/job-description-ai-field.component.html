@@ -1,12 +1,17 @@
-<section class="job-description-ai">
+<section class="job-description-ai" [class.job-description-ai--fill]="fillHeight">
   @if (showSectionTitle) {
     <h4 class="grid-title">{{ sectionTitle }}</h4>
   }
 
-  <mat-form-field appearance="outline" class="textarea-field" subscriptSizing="dynamic">
-    <mat-label>{{ fieldLabel }}</mat-label>
-    <textarea matInput [rows]="rows" [formControl]="control" [disabled]="disabled || busy"></textarea>
-  </mat-form-field>
+  <div class="textarea-wrap">
+    <mat-form-field appearance="outline" class="textarea-field" subscriptSizing="dynamic">
+      <mat-label>{{ fieldLabel }}</mat-label>
+      <textarea matInput [rows]="rows" [formControl]="control" [disabled]="disabled || busy"></textarea>
+    </mat-form-field>
+    @if (showCharCount) {
+      <span class="char-count" aria-live="polite">{{ charactersLabel }}: {{ characterCount }}</span>
+    }
+  </div>
 
   <div class="actions-row">
     <button
