@@ -28,6 +28,9 @@ export class FeedbackDialogComponent {
   readonly confirmLabel = this.data.confirmLabel ?? FEEDBACK_CONFIRM;
 
   get icon(): string {
+    if (this.data.type === 'confirm' && this.data.iconType === 'warning') {
+      return 'warning';
+    }
     switch (this.data.type) {
       case 'success':
         return 'check_circle';
@@ -43,12 +46,15 @@ export class FeedbackDialogComponent {
     }
   }
 
-  get primaryLabel(): string {
-    return this.data.type === 'success' ? this.continueLabel : this.understoodLabel;
+  get typeClass(): string {
+    if (this.data.type === 'confirm' && this.data.iconType === 'warning') {
+      return 'sh-feedback-dialog--warning';
+    }
+    return `sh-feedback-dialog--${this.data.type as FeedbackType}`;
   }
 
-  get typeClass(): string {
-    return `sh-feedback-dialog--${this.data.type as FeedbackType}`;
+  get primaryLabel(): string {
+    return this.data.type === 'success' ? this.continueLabel : this.understoodLabel;
   }
 
   close(confirmed = false): void {

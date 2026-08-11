@@ -15,10 +15,25 @@
   min-width: 0;
 }
 
-/* Datos generales: jobDescription (3fr) + requirements (1fr), rowspan-style */
+/* Datos generales: subtitle full-width, then 50/50 columns aligned top/bottom */
 .general-requirements-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+}
+
+.general-requirements-block__title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e3a5f;
+}
+
+.general-requirements-block__columns {
   display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 16px;
   align-items: stretch;
   width: 100%;
@@ -34,20 +49,14 @@
 }
 
 .general-requirements-block__job {
-  height: 100%;
+  align-self: stretch;
 }
 
-.general-requirements-block__job ::ng-deep .job-description-ai {
+.general-requirements-block__job > sh-job-description-ai-field {
   flex: 1;
-  height: 100%;
-}
-
-.general-requirements-block__job ::ng-deep .textarea-field {
-  flex: 1;
-}
-
-.general-requirements-block__job ::ng-deep textarea {
-  min-height: 14rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
 }
 
 .grid-title {
@@ -119,7 +128,7 @@
     grid-template-columns: 1fr;
   }
 
-  .general-requirements-block {
+  .general-requirements-block__columns {
     grid-template-columns: 1fr;
   }
 
