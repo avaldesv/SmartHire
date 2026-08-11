@@ -175,10 +175,19 @@ export interface ReportKpi {
   trend?: string;
 }
 
+/** @deprecated Prefer ReportRowResponse / ReportGroupResponse from report.model.ts */
 export interface MmrRow {
   indicator: string;
   months: number[];
 }
+
+export type {
+  ReportFilterRequest,
+  ReportGroupResponse,
+  ReportKpisResponse,
+  ReportMatrixResponse,
+  ReportRowResponse,
+} from './report.model';
 
 export interface AiSearchResult {
   candidateId: number;
