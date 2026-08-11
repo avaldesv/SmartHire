@@ -8,6 +8,12 @@ interface ReportNavItem {
   category: string;
 }
 
+/** Reports with a dedicated route (not /reports/view/:slug placeholder). */
+const DIRECT_REPORT_SLUGS = new Set(['mmr', 'requisitions-by-month']);
+
+/** Mock category labels replaced by dedicated nav entries. */
+const REPLACED_GENERALES = new Set(['MMR', 'Requisitions per month']);
+
 @Component({
   selector: 'sh-reports-layout',
   standalone: true,
@@ -26,7 +32,8 @@ export class ReportsLayoutComponent implements OnInit {
       this.categories = cats;
       this.navItems = [
         { label: 'MMR', slug: 'mmr', category: 'generales' },
-        ...cats.generales.filter((r) => r !== 'MMR').map((r) => ({
+        { label: 'Requisiciones por mes', slug: 'requisitions-by-month', category: 'generales' },
+        ...cats.generales.filter((r) => !REPLACED_GENERALES.has(r)).map((r) => ({
           label: r,
           slug: r.toLowerCase().replace(/\s+/g, '-'),
           category: 'generales',
@@ -43,5 +50,9 @@ export class ReportsLayoutComponent implements OnInit {
         })),
       ];
     });
+  }
+
+  reportLink(slug: string): string[] {
+    return DIRECT_REPORT_SLUGS.has(slug) ? ['/reports', slug] : ['/reports/view', slug];
   }
 }

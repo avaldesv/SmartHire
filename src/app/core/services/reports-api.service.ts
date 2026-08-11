@@ -14,4 +14,12 @@ export class ReportsApiService {
       headers: this.api.buildHeaders(),
     });
   }
+
+  getRequisitionsByMonth(request: ReportFilterRequest): Observable<ReportMatrixResponse> {
+    return this.http.post<ReportMatrixResponse>(
+      this.api.apiUrl('/api/v1/reports/requisitions-by-month'),
+      request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
 }
