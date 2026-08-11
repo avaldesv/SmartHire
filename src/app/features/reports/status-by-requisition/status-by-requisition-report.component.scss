@@ -1,18 +1,43 @@
-h3 {
-  margin: 0 0 16px;
-  font-size: 1.1rem;
+.header-filter-actions {
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  align-items: stretch;
+  gap: 8px;
+
+  > button {
+    width: 100%;
+    white-space: nowrap;
+  }
 }
 
 .sbr-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: stretch;
   padding: 16px;
   margin-bottom: 20px;
 }
 
-.filter-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+.primary-filters-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
   align-items: center;
+}
+
+@media (max-width: 1200px) {
+  .primary-filters-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .primary-filters-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .loading-wrap {

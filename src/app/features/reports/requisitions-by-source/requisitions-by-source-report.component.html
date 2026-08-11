@@ -1,8 +1,22 @@
 <div class="rbs-report">
-  <h3>Requisiciones por fuente de reclutamiento</h3>
+  <sh-page-header
+    title="Requisiciones por fuente de reclutamiento"
+    subtitle="Desempeño por fuente de candidatos"
+  >
+    <div class="header-filter-actions">
+      <button mat-flat-button color="primary" type="button" (click)="load()" [disabled]="loading">
+        <mat-icon>refresh</mat-icon>
+        Actualizar
+      </button>
+      <button mat-stroked-button type="button" (click)="clearFilters()" [disabled]="loading">
+        <mat-icon>filter_alt_off</mat-icon>
+        Limpiar filtros
+      </button>
+    </div>
+  </sh-page-header>
 
   <form [formGroup]="filters" class="sh-filters sh-card rbs-filters">
-    <div class="filter-row">
+    <div class="primary-filters-grid">
       <mat-form-field appearance="outline">
         <mat-label>Fecha inicial</mat-label>
         <input matInput type="date" formControlName="startDate" />
@@ -23,17 +37,6 @@
         </mat-select>
       </mat-form-field>
 
-      <div class="filter-actions">
-        <button mat-flat-button color="primary" type="button" (click)="load()" [disabled]="loading">
-          Actualizar
-        </button>
-        <button mat-stroked-button type="button" (click)="clearFilters()" [disabled]="loading">
-          Limpiar filtros
-        </button>
-      </div>
-    </div>
-
-    <div class="filter-row">
       <mat-form-field appearance="outline">
         <mat-label>Reclutador</mat-label>
         <mat-select formControlName="assignedUserId">
@@ -43,7 +46,9 @@
           }
         </mat-select>
       </mat-form-field>
+    </div>
 
+    <div class="primary-filters-grid">
       <sh-client-filter-field formControlName="clientKey" />
 
       <mat-form-field appearance="outline">
@@ -64,8 +69,8 @@
           <mat-option [value]="null">
             {{ filters.controls.workplaceId.disabled ? 'Selecciona país' : 'Todos' }}
           </mat-option>
-          @for (w of workplaceOptions; track w.id) {
-            <mat-option [value]="w.id">{{ w.name }}</mat-option>
+          @for (bu of businessUnitOptions; track bu.id) {
+            <mat-option [value]="bu.id">{{ bu.name }}</mat-option>
           }
         </mat-select>
       </mat-form-field>

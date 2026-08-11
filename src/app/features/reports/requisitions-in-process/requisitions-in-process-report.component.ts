@@ -3,12 +3,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { catchError, of } from 'rxjs';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { ReportsApiService } from '../../../core/services/reports-api.service';
+import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import {
   RequisitionsInProcessClientResponse,
@@ -38,8 +40,10 @@ interface YearBarGroup {
     MatFormFieldModule,
     MatSelectModule,
     MatButtonModule,
+    MatIconModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
+    PageHeaderComponent,
   ],
   templateUrl: './requisitions-in-process-report.component.html',
   styleUrl: './requisitions-in-process-report.component.scss',
