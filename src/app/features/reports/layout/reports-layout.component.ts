@@ -1,32 +1,28 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { SettingsService } from '../../../mock/services/settings.service';
 
 interface ReportNavItem {
   label: string;
   slug: string;
-  category: string;
+  category: 'generales' | 'cubrimiento' | 'vacantes';
 }
 
-/** Reports with a dedicated route (not /reports/view/:slug placeholder). */
-const DIRECT_REPORT_SLUGS = new Set([
-  'mmr',
-  'requisitions-by-month',
-  'status-by-requisition',
-  'requisitions-in-process',
-  'requisitions-by-source',
-]);
+/** Only reports with a real screen (placeholders hidden). */
+const IMPLEMENTED_REPORTS: ReportNavItem[] = [
+  { label: 'MMR', slug: 'mmr', category: 'generales' },
+  { label: 'Requisiciones por mes', slug: 'requisitions-by-month', category: 'generales' },
+  { label: 'Estatus por requisición', slug: 'status-by-requisition', category: 'generales' },
+  { label: 'Requisiciones en proceso', slug: 'requisitions-in-process', category: 'vacantes' },
+  { label: 'Requisiciones por fuente', slug: 'requisitions-by-source', category: 'vacantes' },
+];
 
-/** Mock category labels replaced by dedicated nav entries. */
-const REPLACED_GENERALES = new Set(['MMR', 'Requisitions per month', 'Status per requisition']);
-const REPLACED_VACANTES = new Set([
-  'Requisiciones en proceso',
-  'Requisitions in process',
-  'Requisiciones por fuente',
-  'Requisiciones por fuente de reclutamiento',
-  'Requisitions by source',
-  'Requisitions by recruitment source',
-]);
+const CATEGORY_ORDER: Array<ReportNavItem['category']> = ['generales', 'cubrimiento', 'vacantes'];
+
+const CATEGORY_LABELS: Record<ReportNavItem['category'], string> = {
+  generales: 'Generales',
+  cubrimiento: 'Cubrimiento',
+  vacantes: 'Vacantes',
+};
 
 @Component({
   selector: 'sh-reports-layout',
@@ -35,49 +31,12 @@ const REPLACED_VACANTES = new Set([
   templateUrl: './reports-layout.component.html',
   styleUrl: './reports-layout.component.scss',
 })
-export class ReportsLayoutComponent implements OnInit {
-  private readonly settings = inject(SettingsService);
+export class ReportsLayoutComponent {
+  readonly navItems = IMPLEMENTED_REPORTS;
+  readonly categoryOrder = CATEGORY_ORDER;
+  readonly categoryLabels = CATEGORY_LABELS;
 
-  categories: Record<string, string[]> = {};
-  navItems: ReportNavItem[] = [];
-
-  ngOnInit(): void {
-    this.settings.getReportCategories().subscribe((cats) => {
-      this.categories = cats;
-      this.navItems = [
-        { label: 'MMR', slug: 'mmr', category: 'generales' },
-        { label: 'Requisiciones por mes', slug: 'requisitions-by-month', category: 'generales' },
-        { label: 'Estatus por requisición', slug: 'status-by-requisition', category: 'generales' },
-        ...cats.generales.filter((r) => !REPLACED_GENERALES.has(r)).map((r) => ({
-          label: r,
-          slug: r.toLowerCase().replace(/\s+/g, '-'),
-          category: 'generales',
-        })),
-        ...cats.cubrimiento.map((r) => ({
-          label: r,
-          slug: r.toLowerCase().replace(/\s+/g, '-'),
-          category: 'cubrimiento',
-        })),
-        {
-          label: 'Requisiciones en proceso',
-          slug: 'requisitions-in-process',
-          category: 'vacantes',
-        },
-        {
-          label: 'Requisiciones por fuente',
-          slug: 'requisitions-by-source',
-          category: 'vacantes',
-        },
-        ...cats.vacantes.filter((r) => !REPLACED_VACANTES.has(r)).map((r) => ({
-          label: r,
-          slug: r.toLowerCase().replace(/\s+/g, '-'),
-          category: 'vacantes',
-        })),
-      ];
-    });
-  }
-
-  reportLink(slug: string): string[] {
-    return DIRECT_REPORT_SLUGS.has(slug) ? ['/reports', slug] : ['/reports/view', slug];
+  categoryHasItems(category: ReportNavItem['category']): boolean {
+    return this.navItems.some((item) => item.category === category);
   }
 }
