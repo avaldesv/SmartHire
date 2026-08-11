@@ -1,0 +1,135 @@
+<div class="rbs-report">
+  <h3>Requisiciones por fuente de reclutamiento</h3>
+
+  <form [formGroup]="filters" class="sh-filters sh-card rbs-filters">
+    <div class="filter-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha inicial</mat-label>
+        <input matInput type="date" formControlName="startDate" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha final</mat-label>
+        <input matInput type="date" formControlName="endDate" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>País</mat-label>
+        <mat-select formControlName="countryId">
+          <mat-option [value]="null">Todos</mat-option>
+          @for (c of countries; track c.id) {
+            <mat-option [value]="c.id">{{ c.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <div class="filter-actions">
+        <button mat-flat-button color="primary" type="button" (click)="load()" [disabled]="loading">
+          Actualizar
+        </button>
+        <button mat-stroked-button type="button" (click)="clearFilters()" [disabled]="loading">
+          Limpiar filtros
+        </button>
+      </div>
+    </div>
+
+    <div class="filter-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Reclutador</mat-label>
+        <mat-select formControlName="assignedUserId">
+          <mat-option [value]="null">Todos</mat-option>
+          @for (u of recruiterOptions; track u.id) {
+            <mat-option [value]="u.id">{{ u.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Cliente</mat-label>
+        <input matInput formControlName="clientKey" placeholder="Clave cliente" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Grupo</mat-label>
+        <mat-select formControlName="recruiterGroupId">
+          <mat-option [value]="null">
+            {{ filters.controls.recruiterGroupId.disabled ? 'Selecciona país' : 'Todos' }}
+          </mat-option>
+          @for (g of groupOptions; track g.id) {
+            <mat-option [value]="g.id">{{ g.description || g.code }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>U. Negocio</mat-label>
+        <mat-select formControlName="workplaceId">
+          <mat-option [value]="null">
+            {{ filters.controls.workplaceId.disabled ? 'Selecciona país' : 'Todos' }}
+          </mat-option>
+          @for (w of workplaceOptions; track w.id) {
+            <mat-option [value]="w.id">{{ w.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+
+  @if (errorMessage) {
+    <p class="error-msg">{{ errorMessage }}</p>
+  }
+
+  @if (loading || loadingCatalogs) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else if (rows.length === 0) {
+    <div class="info-banner" role="status">No hay datos disponibles</div>
+  } @else {
+    <div class="sh-card sh-table-wrap results-card">
+      <div class="table-scroll">
+        <table class="rbs-table">
+          <thead>
+            <tr>
+              <th class="col-source">Fuente de reclutamiento</th>
+              <th>Posiciones</th>
+              <th>Postulados</th>
+              <th>Contratados</th>
+              <th>% de Contratados</th>
+              <th>No contratados</th>
+              <th>% No Contratados</th>
+              <th>% Cubrimiento fuentes</th>
+              <th>Promedio días contratación</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of rows; track row.source) {
+              <tr>
+                <td class="col-source">{{ row.source }}</td>
+                <td>{{ formatCell(row.positions) }}</td>
+                <td>{{ formatCell(row.applicants) }}</td>
+                <td>{{ formatCell(row.hired) }}</td>
+                <td>{{ formatPercent(row.hiredPercent) }}</td>
+                <td>{{ formatCell(row.notHired) }}</td>
+                <td>{{ formatPercent(row.notHiredPercent) }}</td>
+                <td>{{ formatPercent(row.sourceCoveragePercent) }}</td>
+                <td>{{ formatCell(row.avgHiringDays) }}</td>
+              </tr>
+            }
+            @if (total) {
+              <tr class="total-row">
+                <td class="col-source">{{ total.source }}</td>
+                <td>{{ formatCell(total.positions) }}</td>
+                <td>{{ formatCell(total.applicants) }}</td>
+                <td>{{ formatCell(total.hired) }}</td>
+                <td>{{ formatPercent(total.hiredPercent) }}</td>
+                <td>{{ formatCell(total.notHired) }}</td>
+                <td>{{ formatPercent(total.notHiredPercent) }}</td>
+                <td>{{ formatPercent(total.sourceCoveragePercent) }}</td>
+                <td>{{ formatCell(total.avgHiringDays) }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+</div>

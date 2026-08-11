@@ -14,11 +14,19 @@ const DIRECT_REPORT_SLUGS = new Set([
   'requisitions-by-month',
   'status-by-requisition',
   'requisitions-in-process',
+  'requisitions-by-source',
 ]);
 
 /** Mock category labels replaced by dedicated nav entries. */
 const REPLACED_GENERALES = new Set(['MMR', 'Requisitions per month', 'Status per requisition']);
-const REPLACED_VACANTES = new Set(['Requisiciones en proceso', 'Requisitions in process']);
+const REPLACED_VACANTES = new Set([
+  'Requisiciones en proceso',
+  'Requisitions in process',
+  'Requisiciones por fuente',
+  'Requisiciones por fuente de reclutamiento',
+  'Requisitions by source',
+  'Requisitions by recruitment source',
+]);
 
 @Component({
   selector: 'sh-reports-layout',
@@ -53,6 +61,11 @@ export class ReportsLayoutComponent implements OnInit {
         {
           label: 'Requisiciones en proceso',
           slug: 'requisitions-in-process',
+          category: 'vacantes',
+        },
+        {
+          label: 'Requisiciones por fuente',
+          slug: 'requisitions-by-source',
           category: 'vacantes',
         },
         ...cats.vacantes.filter((r) => !REPLACED_VACANTES.has(r)).map((r) => ({

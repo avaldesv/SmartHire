@@ -101,3 +101,31 @@ export interface RequisitionsInProcessResponse {
   years: RequisitionsInProcessYearResponse[];
   clients: RequisitionsInProcessClientsPage;
 }
+
+/** Filters for requisitions-by-source — tenant (Marca) from companyId header. */
+export interface RequisitionsBySourceFilterRequest {
+  startDate?: string | null;
+  endDate?: string | null;
+  countryId?: number | null;
+  assignedUserId?: number | null;
+  clientKey?: string | null;
+  recruiterGroupId?: number | null;
+  workplaceId?: number | null;
+}
+
+export interface RequisitionsBySourceRowResponse {
+  source: string;
+  positions: number;
+  applicants: number;
+  hired: number;
+  hiredPercent: number | null;
+  notHired: number;
+  notHiredPercent: number | null;
+  sourceCoveragePercent: number | null;
+  avgHiringDays: number | null;
+}
+
+export interface RequisitionsBySourceResponse {
+  rows: RequisitionsBySourceRowResponse[];
+  total: RequisitionsBySourceRowResponse;
+}
