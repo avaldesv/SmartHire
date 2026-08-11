@@ -1,0 +1,153 @@
+<div class="rip-report">
+  <h3>Requisiciones en proceso</h3>
+
+  <form [formGroup]="filters" class="sh-filters sh-card rip-filters">
+    <mat-form-field appearance="outline">
+      <mat-label>País</mat-label>
+      <mat-select formControlName="countryId">
+        <mat-option [value]="null">Todos</mat-option>
+        @for (c of countries; track c.id) {
+          <mat-option [value]="c.id">{{ c.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <div class="filter-actions">
+      <button mat-flat-button color="primary" type="button" (click)="applyFilters()" [disabled]="loading">
+        Actualizar
+      </button>
+      <button mat-stroked-button type="button" (click)="clearFilters()" [disabled]="loading">
+        Limpiar filtros
+      </button>
+    </div>
+  </form>
+
+  @if (errorMessage) {
+    <p class="error-msg">{{ errorMessage }}</p>
+  }
+
+  @if (loading || loadingCatalogs) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else {
+    <div class="rip-grid">
+      <div class="rip-left">
+        <div class="sh-card chart-card">
+          <h4 class="chart-title">Requisiciones en proceso vs. vencidas</h4>
+          <div class="pie-layout">
+            <svg class="pie-svg" viewBox="0 0 140 140" aria-label="En tiempo vs vencidas">
+              <g transform="rotate(-90 70 70)">
+                <circle class="pie-track" cx="70" cy="70" r="54" />
+                @if (pieTotal > 0) {
+                  <circle
+                    class="pie-slice on-time"
+                    cx="70"
+                    cy="70"
+                    r="54"
+                    [attr.stroke-dasharray]="onTimeDash"
+                    stroke-dashoffset="0"
+                  />
+                  <circle
+                    class="pie-slice expired"
+                    cx="70"
+                    cy="70"
+                    r="54"
+                    [attr.stroke-dasharray]="expiredDash"
+                    [attr.stroke-dashoffset]="expiredOffset"
+                  />
+                }
+              </g>
+              <text class="pie-center-value" x="70" y="66" text-anchor="middle">{{ pieTotal }}</text>
+              <text class="pie-center-label" x="70" y="84" text-anchor="middle">Total</text>
+            </svg>
+            <ul class="pie-legend">
+              <li>
+                <span class="swatch on-time"></span>
+                En tiempo
+                <strong>{{ formatCell(onTimeCount) }}</strong>
+              </li>
+              <li>
+                <span class="swatch expired"></span>
+                Vencidas
+                <strong>{{ formatCell(expiredCount) }}</strong>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="sh-card chart-card">
+          <h4 class="chart-title">Requisiciones en proceso y cantidad de postulados por año</h4>
+          @if (yearBarGroups.length === 0) {
+            <p class="empty-hint">No hay información por año</p>
+          } @else {
+            <div class="bars-scroll">
+              <div class="bars-chart" role="img" aria-label="Barras por año">
+                @for (group of yearBarGroups; track group.year) {
+                  <div class="year-group">
+                    <div class="bars-col">
+                      @for (bar of group.bars; track bar.key) {
+                        <div class="bar-wrap" [title]="bar.label + ': ' + bar.value">
+                          <div
+                            class="bar"
+                            [style.height.%]="bar.heightPct"
+                            [style.background]="bar.color"
+                          ></div>
+                        </div>
+                      }
+                    </div>
+                    <span class="year-label">{{ group.year }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+            <ul class="bars-legend">
+              @for (s of yearSeries; track s.key) {
+                <li>
+                  <span class="swatch" [style.background]="s.color"></span>
+                  {{ s.label }}
+                </li>
+              }
+            </ul>
+          }
+        </div>
+      </div>
+
+      <div class="rip-right">
+        <div class="sh-card sh-table-wrap clients-card">
+          <div class="clients-header">
+            <h4 class="chart-title">Clientes</h4>
+            <span class="range-label">{{ rangeLabel }}</span>
+          </div>
+          <div class="table-scroll">
+            <table class="rip-table">
+              <thead>
+                <tr>
+                  <th class="col-client">Cliente</th>
+                  <th>En proceso</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (row of clients; track row.clientName) {
+                  <tr>
+                    <td class="col-client">{{ row.clientName }}</td>
+                    <td>{{ formatCell(row.inProcessCount) }}</td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="2" class="empty-cell">No hay información</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+          <mat-paginator
+            [length]="totalClients"
+            [pageIndex]="pageIndex"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="[15, 25, 50]"
+            (page)="onPage($event)"
+          />
+        </div>
+      </div>
+    </div>
+  }
+</div>

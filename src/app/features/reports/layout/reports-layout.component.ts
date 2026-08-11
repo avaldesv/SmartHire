@@ -9,10 +9,16 @@ interface ReportNavItem {
 }
 
 /** Reports with a dedicated route (not /reports/view/:slug placeholder). */
-const DIRECT_REPORT_SLUGS = new Set(['mmr', 'requisitions-by-month', 'status-by-requisition']);
+const DIRECT_REPORT_SLUGS = new Set([
+  'mmr',
+  'requisitions-by-month',
+  'status-by-requisition',
+  'requisitions-in-process',
+]);
 
 /** Mock category labels replaced by dedicated nav entries. */
 const REPLACED_GENERALES = new Set(['MMR', 'Requisitions per month', 'Status per requisition']);
+const REPLACED_VACANTES = new Set(['Requisiciones en proceso', 'Requisitions in process']);
 
 @Component({
   selector: 'sh-reports-layout',
@@ -44,7 +50,12 @@ export class ReportsLayoutComponent implements OnInit {
           slug: r.toLowerCase().replace(/\s+/g, '-'),
           category: 'cubrimiento',
         })),
-        ...cats.vacantes.map((r) => ({
+        {
+          label: 'Requisiciones en proceso',
+          slug: 'requisitions-in-process',
+          category: 'vacantes',
+        },
+        ...cats.vacantes.filter((r) => !REPLACED_VACANTES.has(r)).map((r) => ({
           label: r,
           slug: r.toLowerCase().replace(/\s+/g, '-'),
           category: 'vacantes',

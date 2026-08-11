@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import {
   ReportFilterRequest,
   ReportMatrixResponse,
+  RequisitionsInProcessFilterRequest,
+  RequisitionsInProcessResponse,
   StatusByRequisitionFilterRequest,
   StatusByRequisitionResponse,
 } from '../../shared/models/report.model';
@@ -35,6 +37,18 @@ export class ReportsApiService {
       this.api.apiUrl('/api/v1/reports/status-by-requisition'),
       request,
       { headers: this.api.buildHeaders() },
+    );
+  }
+
+  getRequisitionsInProcess(
+    request: RequisitionsInProcessFilterRequest,
+    page = 0,
+    size = 15,
+  ): Observable<RequisitionsInProcessResponse> {
+    return this.http.post<RequisitionsInProcessResponse>(
+      this.api.apiUrl('/api/v1/reports/requisitions-in-process'),
+      request,
+      { headers: this.api.buildHeaders(page, size) },
     );
   }
 }
