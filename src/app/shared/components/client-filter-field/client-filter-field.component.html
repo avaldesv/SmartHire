@@ -1,0 +1,25 @@
+<mat-form-field appearance="outline" class="client-filter-field">
+  <mat-label>Cliente</mat-label>
+  <input
+    matInput
+    [formControl]="clientSearch"
+    [matAutocomplete]="clientAuto"
+    (focus)="onClientSearchFocus()"
+    (blur)="onTouched()"
+    placeholder="Buscar cliente"
+  />
+  @if (clientSearch.value) {
+    <button matSuffix mat-icon-button type="button" aria-label="Limpiar cliente" (click)="clearClientFilter()">
+      <mat-icon>close</mat-icon>
+    </button>
+  }
+  <mat-autocomplete
+    #clientAuto="matAutocomplete"
+    [displayWith]="displayClientFn"
+    (optionSelected)="onClientSelected($event)"
+  >
+    @for (opt of clientOptions; track opt.id) {
+      <mat-option [value]="opt">{{ opt.label }}</mat-option>
+    }
+  </mat-autocomplete>
+</mat-form-field>
