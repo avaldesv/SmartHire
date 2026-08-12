@@ -14,6 +14,32 @@ import { PositionService } from '../../../core/services/position.service';
 import { ReportsApiService } from '../../../core/services/reports-api.service';
 import { SecurityRecruiterGroupService } from '../../../core/services/security-recruiter-group.service';
 import { SecurityUserService } from '../../../core/services/security-user.service';
+import {
+  REPORTS_CLEAR_FILTERS,
+  REPORTS_EMPTY_MATRIX,
+  REPORTS_FILTER_ALL,
+  REPORTS_FILTER_ALL_FEM,
+  REPORTS_FILTER_BUSINESS_UNIT,
+  REPORTS_FILTER_COUNTRY,
+  REPORTS_FILTER_GROUP,
+  REPORTS_FILTER_ORDER,
+  REPORTS_FILTER_RECRUITER,
+  REPORTS_FILTER_RECRUITMENT_TYPE,
+  REPORTS_FILTER_SELECT_COUNTRY,
+  REPORTS_FILTER_YEAR,
+  REPORTS_INDICATOR_COL,
+  REPORTS_INDICATORS,
+  REPORTS_KPI_FILL_CURRENT,
+  REPORTS_KPI_FILL_PRIOR,
+  REPORTS_KPI_FILL_YTD,
+  REPORTS_MMR_LOAD_ERROR,
+  REPORTS_MMR_SUBTITLE,
+  REPORTS_MMR_TITLE,
+  REPORTS_RECRUITMENT_PERMANENT,
+  REPORTS_RECRUITMENT_TEMP,
+  REPORTS_RECRUITMENT_TEMPORARY,
+  REPORTS_UPDATE,
+} from '../../../core/i18n/reports-i18n-labels';
 import { ClientFilterFieldComponent } from '../../../shared/components/client-filter-field/client-filter-field.component';
 import { KpiCardComponent } from '../../../shared/components/kpi-card/kpi-card.component';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
@@ -71,12 +97,48 @@ export class MmrReportComponent implements OnInit {
 
   /** Static options for recruitmentType (backend uses TEMP / TEMPORARY). */
   readonly recruitmentTypeOptions = [
-    { value: 'TEMP', label: 'Temporal (TEMP)' },
-    { value: 'TEMPORARY', label: 'Temporal (TEMPORARY)' },
-    { value: 'PERMANENT', label: 'Permanente' },
+    { value: 'TEMP', label: REPORTS_RECRUITMENT_TEMP },
+    { value: 'TEMPORARY', label: REPORTS_RECRUITMENT_TEMPORARY },
+    { value: 'PERMANENT', label: REPORTS_RECRUITMENT_PERMANENT },
   ];
 
-  months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+  readonly ui = {
+    title: REPORTS_MMR_TITLE,
+    subtitle: REPORTS_MMR_SUBTITLE,
+    update: REPORTS_UPDATE,
+    clearFilters: REPORTS_CLEAR_FILTERS,
+    country: REPORTS_FILTER_COUNTRY,
+    recruitmentType: REPORTS_FILTER_RECRUITMENT_TYPE,
+    businessUnit: REPORTS_FILTER_BUSINESS_UNIT,
+    group: REPORTS_FILTER_GROUP,
+    year: REPORTS_FILTER_YEAR,
+    order: REPORTS_FILTER_ORDER,
+    recruiter: REPORTS_FILTER_RECRUITER,
+    all: REPORTS_FILTER_ALL,
+    allFem: REPORTS_FILTER_ALL_FEM,
+    selectCountry: REPORTS_FILTER_SELECT_COUNTRY,
+    kpiCurrent: REPORTS_KPI_FILL_CURRENT,
+    kpiPrior: REPORTS_KPI_FILL_PRIOR,
+    kpiYtd: REPORTS_KPI_FILL_YTD,
+    indicators: REPORTS_INDICATORS,
+    indicatorCol: REPORTS_INDICATOR_COL,
+    empty: REPORTS_EMPTY_MATRIX,
+  };
+
+  months = [
+    $localize`:@@reports.month.jan:Ene`,
+    $localize`:@@reports.month.feb:Feb`,
+    $localize`:@@reports.month.mar:Mar`,
+    $localize`:@@reports.month.apr:Abr`,
+    $localize`:@@reports.month.may:May`,
+    $localize`:@@reports.month.jun:Jun`,
+    $localize`:@@reports.month.jul:Jul`,
+    $localize`:@@reports.month.aug:Ago`,
+    $localize`:@@reports.month.sep:Sep`,
+    $localize`:@@reports.month.oct:Oct`,
+    $localize`:@@reports.month.nov:Nov`,
+    $localize`:@@reports.month.dec:Dic`,
+  ];
 
   kpis: ReportKpisResponse = { currentMonth: null, priorMonth: null, ytd: null };
   groups: ReportGroupResponse[] = [];
@@ -138,7 +200,7 @@ export class MmrReportComponent implements OnInit {
       .getMmr(body)
       .pipe(
         catchError(() => {
-          this.errorMessage = 'No se pudo cargar el reporte MMR. Intenta de nuevo.';
+          this.errorMessage = REPORTS_MMR_LOAD_ERROR;
           return of(null);
         }),
         takeUntilDestroyed(this.destroyRef),

@@ -1,13 +1,13 @@
 <div class="rbm-report">
-  <sh-page-header title="Requisiciones por mes" subtitle="Volumen e indicadores mensuales">
+  <sh-page-header [title]="ui.title" [subtitle]="ui.subtitle">
     <div class="header-filter-actions">
       <button mat-flat-button color="primary" type="button" (click)="load()" [disabled]="loading">
         <mat-icon>refresh</mat-icon>
-        Actualizar
+        {{ ui.update }}
       </button>
       <button mat-stroked-button type="button" (click)="clearFilters()" [disabled]="loading">
         <mat-icon>filter_alt_off</mat-icon>
-        Limpiar filtros
+        {{ ui.clearFilters }}
       </button>
     </div>
   </sh-page-header>
@@ -15,9 +15,9 @@
   <form [formGroup]="filters" class="sh-filters sh-card rbm-filters">
     <div class="primary-filters-grid">
       <mat-form-field appearance="outline">
-        <mat-label>País</mat-label>
+        <mat-label>{{ ui.country }}</mat-label>
         <mat-select formControlName="countryId">
-          <mat-option [value]="null">Todos</mat-option>
+          <mat-option [value]="null">{{ ui.all }}</mat-option>
           @for (c of countries; track c.id) {
             <mat-option [value]="c.id">{{ c.name }}</mat-option>
           }
@@ -25,9 +25,9 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Tipo reclutamiento</mat-label>
+        <mat-label>{{ ui.recruitmentType }}</mat-label>
         <mat-select formControlName="recruitmentType">
-          <mat-option [value]="null">Todos</mat-option>
+          <mat-option [value]="null">{{ ui.all }}</mat-option>
           @for (opt of recruitmentTypeOptions; track opt.value) {
             <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
           }
@@ -35,10 +35,10 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Unidades de negocio</mat-label>
+        <mat-label>{{ ui.businessUnit }}</mat-label>
         <mat-select formControlName="workplaceId">
           <mat-option [value]="null">
-            {{ filters.controls.workplaceId.disabled ? 'Selecciona país' : 'Todos' }}
+            {{ filters.controls.workplaceId.disabled ? ui.selectCountry : ui.all }}
           </mat-option>
           @for (bu of businessUnitOptions; track bu.id) {
             <mat-option [value]="bu.id">{{ bu.name }}</mat-option>
@@ -47,10 +47,10 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Grupo</mat-label>
+        <mat-label>{{ ui.group }}</mat-label>
         <mat-select formControlName="recruiterGroupId">
           <mat-option [value]="null">
-            {{ filters.controls.recruiterGroupId.disabled ? 'Selecciona país' : 'Todos' }}
+            {{ filters.controls.recruiterGroupId.disabled ? ui.selectCountry : ui.all }}
           </mat-option>
           @for (g of groupOptions; track g.id) {
             <mat-option [value]="g.id">{{ g.description || g.code }}</mat-option>
@@ -60,12 +60,12 @@
     </div>
 
     <div class="primary-filters-grid">
-      <sh-year-stepper-field formControlName="year" label="Año" [required]="true" />
+      <sh-year-stepper-field formControlName="year" [label]="ui.year" [required]="true" />
 
       <mat-form-field appearance="outline">
-        <mat-label>Orden</mat-label>
+        <mat-label>{{ ui.order }}</mat-label>
         <mat-select formControlName="positionId">
-          <mat-option [value]="null">Todas</mat-option>
+          <mat-option [value]="null">{{ ui.allFem }}</mat-option>
           @for (p of positionOptions; track p.id) {
             <mat-option [value]="p.id">{{ p.label }}</mat-option>
           }
@@ -75,9 +75,9 @@
       <sh-client-filter-field formControlName="clientKey" />
 
       <mat-form-field appearance="outline">
-        <mat-label>Reclutador</mat-label>
+        <mat-label>{{ ui.recruiter }}</mat-label>
         <mat-select formControlName="assignedUserId">
-          <mat-option [value]="null">Todos</mat-option>
+          <mat-option [value]="null">{{ ui.all }}</mat-option>
           @for (u of recruiterOptions; track u.id) {
             <mat-option [value]="u.id">{{ u.label }}</mat-option>
           }
@@ -88,19 +88,19 @@
 
   <div class="sh-grid-3 kpi-row">
     <sh-kpi-card
-      label="Fill Rate actual"
+      [label]="ui.kpiCurrent"
       [value]="formatKpi(kpis.currentMonth)"
       icon="trending_up"
       iconBg="#0d9488"
     />
     <sh-kpi-card
-      label="Fill Rate anterior"
+      [label]="ui.kpiPrior"
       [value]="formatKpi(kpis.priorMonth)"
       icon="history"
       iconBg="#2563eb"
     />
     <sh-kpi-card
-      label="Fill Rate YTD"
+      [label]="ui.kpiYtd"
       [value]="formatKpi(kpis.ytd)"
       icon="calendar_today"
       iconBg="#8b5cf6"
@@ -115,12 +115,12 @@
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else {
     <div class="sh-card sh-table-wrap indicators-card">
-      <h4 class="indicators-title">Indicadores</h4>
+      <h4 class="indicators-title">{{ ui.indicators }}</h4>
       <div class="table-scroll">
         <table class="rbm-table">
           <thead>
             <tr>
-              <th class="col-indicator">Indicador</th>
+              <th class="col-indicator">{{ ui.indicatorCol }}</th>
               @for (m of months; track m) {
                 <th>{{ m }}</th>
               }
@@ -141,7 +141,7 @@
               }
             } @empty {
               <tr>
-                <td [attr.colspan]="13" class="empty-cell">Sin datos para los filtros seleccionados</td>
+                <td [attr.colspan]="13" class="empty-cell">{{ ui.empty }}</td>
               </tr>
             }
           </tbody>
