@@ -1,0 +1,61 @@
+.year-stepper-field {
+  width: 100%;
+  min-width: 0;
+
+  /* Hide default infix padding so the stepper fills the field. */
+  ::ng-deep .mat-mdc-form-field-infix {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    min-height: 48px;
+    width: 100%;
+  }
+
+  ::ng-deep .mdc-notched-outline__notch {
+    border-left: none;
+  }
+}
+
+.year-stepper {
+  display: grid;
+  grid-template-columns: 40px 1fr 40px;
+  align-items: center;
+  width: 100%;
+  gap: 0;
+  margin-top: 4px;
+
+  &.disabled {
+    opacity: 0.6;
+  }
+}
+
+.year-stepper__btn {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  justify-self: center;
+}
+
+.year-stepper__input {
+  width: 100%;
+  border: 0;
+  outline: none;
+  background: transparent;
+  text-align: center;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: inherit;
+  appearance: textfield;
+  -moz-appearance: textfield;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  &:disabled {
+    color: inherit;
+  }
+}
