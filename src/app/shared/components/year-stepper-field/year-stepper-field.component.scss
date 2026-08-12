@@ -1,51 +1,20 @@
 .year-stepper-field {
   width: 100%;
   min-width: 0;
-
-  /* Hide default infix padding so the stepper fills the field. */
-  ::ng-deep .mat-mdc-form-field-infix {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    min-height: 48px;
-    width: 100%;
-  }
-
-  ::ng-deep .mdc-notched-outline__notch {
-    border-left: none;
-  }
-}
-
-.year-stepper {
-  display: grid;
-  grid-template-columns: 40px 1fr 40px;
-  align-items: center;
-  width: 100%;
-  gap: 0;
-  margin-top: 4px;
-
-  &.disabled {
-    opacity: 0.6;
-  }
+  display: block;
 }
 
 .year-stepper__btn {
   width: 36px;
   height: 36px;
   padding: 0;
-  justify-self: center;
 }
 
 .year-stepper__input {
-  width: 100%;
-  border: 0;
-  outline: none;
-  background: transparent;
   text-align: center;
-  font: inherit;
-  font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: inherit;
+  /* Hide native number spinners — we use chevron buttons. */
   appearance: textfield;
   -moz-appearance: textfield;
 
@@ -54,8 +23,17 @@
     -webkit-appearance: none;
     margin: 0;
   }
+}
 
-  &:disabled {
-    color: inherit;
-  }
+/* Keep prefix/suffix icons aligned with other outline fields in the filter grid. */
+:host ::ng-deep .mat-mdc-form-field-icon-prefix,
+:host ::ng-deep .mat-mdc-form-field-icon-suffix {
+  padding: 0;
+}
+
+:host ::ng-deep .mat-mdc-form-field-icon-prefix .mat-mdc-icon-button,
+:host ::ng-deep .mat-mdc-form-field-icon-suffix .mat-mdc-icon-button {
+  width: 36px;
+  height: 36px;
+  padding: 6px;
 }
