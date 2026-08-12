@@ -16265,6 +16265,45 @@
           <context context-type="linenumber">89</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="reports.action.update" datatype="html"><source>Actualizar</source></trans-unit>
+      <trans-unit id="reports.action.clearFilters" datatype="html"><source>Limpiar filtros</source></trans-unit>
+      <trans-unit id="reports.section.indicators" datatype="html"><source>Indicadores</source></trans-unit>
+      <trans-unit id="reports.column.indicator" datatype="html"><source>Indicador</source></trans-unit>
+      <trans-unit id="reports.empty.matrix" datatype="html"><source>Sin datos para los filtros seleccionados</source></trans-unit>
+      <trans-unit id="reports.kpi.fillRateCurrent" datatype="html"><source>Fill Rate actual</source></trans-unit>
+      <trans-unit id="reports.kpi.fillRatePrior" datatype="html"><source>Fill Rate anterior</source></trans-unit>
+      <trans-unit id="reports.kpi.fillRateYtd" datatype="html"><source>Fill Rate YTD</source></trans-unit>
+      <trans-unit id="reports.filter.country" datatype="html"><source>País</source></trans-unit>
+      <trans-unit id="reports.filter.recruitmentType" datatype="html"><source>Tipo reclutamiento</source></trans-unit>
+      <trans-unit id="reports.filter.businessUnit" datatype="html"><source>Unidades de negocio</source></trans-unit>
+      <trans-unit id="reports.filter.group" datatype="html"><source>Grupo</source></trans-unit>
+      <trans-unit id="reports.filter.year" datatype="html"><source>Año</source></trans-unit>
+      <trans-unit id="reports.filter.order" datatype="html"><source>Orden</source></trans-unit>
+      <trans-unit id="reports.filter.recruiter" datatype="html"><source>Reclutador</source></trans-unit>
+      <trans-unit id="reports.filter.all" datatype="html"><source>Todos</source></trans-unit>
+      <trans-unit id="reports.filter.allFem" datatype="html"><source>Todas</source></trans-unit>
+      <trans-unit id="reports.filter.selectCountry" datatype="html"><source>Selecciona país</source></trans-unit>
+      <trans-unit id="reports.recruitment.temp" datatype="html"><source>Temporal (TEMP)</source></trans-unit>
+      <trans-unit id="reports.recruitment.temporary" datatype="html"><source>Temporal (TEMPORARY)</source></trans-unit>
+      <trans-unit id="reports.recruitment.permanent" datatype="html"><source>Permanente</source></trans-unit>
+      <trans-unit id="reports.mmr.title" datatype="html"><source>Reporte MMR</source></trans-unit>
+      <trans-unit id="reports.mmr.subtitle" datatype="html"><source>Fill rate e indicadores mensuales</source></trans-unit>
+      <trans-unit id="reports.mmr.loadError" datatype="html"><source>No se pudo cargar el reporte MMR. Intenta de nuevo.</source></trans-unit>
+      <trans-unit id="reports.rbm.title" datatype="html"><source>Requisiciones por mes</source></trans-unit>
+      <trans-unit id="reports.rbm.subtitle" datatype="html"><source>Volumen e indicadores mensuales</source></trans-unit>
+      <trans-unit id="reports.rbm.loadError" datatype="html"><source>No se pudo cargar el reporte Requisiciones por mes. Intenta de nuevo.</source></trans-unit>
+      <trans-unit id="reports.month.jan" datatype="html"><source>Ene</source></trans-unit>
+      <trans-unit id="reports.month.feb" datatype="html"><source>Feb</source></trans-unit>
+      <trans-unit id="reports.month.mar" datatype="html"><source>Mar</source></trans-unit>
+      <trans-unit id="reports.month.apr" datatype="html"><source>Abr</source></trans-unit>
+      <trans-unit id="reports.month.may" datatype="html"><source>May</source></trans-unit>
+      <trans-unit id="reports.month.jun" datatype="html"><source>Jun</source></trans-unit>
+      <trans-unit id="reports.month.jul" datatype="html"><source>Jul</source></trans-unit>
+      <trans-unit id="reports.month.aug" datatype="html"><source>Ago</source></trans-unit>
+      <trans-unit id="reports.month.sep" datatype="html"><source>Sep</source></trans-unit>
+      <trans-unit id="reports.month.oct" datatype="html"><source>Oct</source></trans-unit>
+      <trans-unit id="reports.month.nov" datatype="html"><source>Nov</source></trans-unit>
+      <trans-unit id="reports.month.dec" datatype="html"><source>Dic</source></trans-unit>
     </body>
   </file>
 </xliff>

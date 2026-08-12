@@ -7674,6 +7674,126 @@
         <source>Editar usuario</source>
         <target>Edit user</target>
       </trans-unit>
+      <trans-unit id="reports.action.update" datatype="html">
+        <source>Actualizar</source>
+        <target>Update</target>
+      </trans-unit>
+      <trans-unit id="reports.action.clearFilters" datatype="html">
+        <source>Limpiar filtros</source>
+        <target>Clear filters</target>
+      </trans-unit>
+      <trans-unit id="reports.section.indicators" datatype="html">
+        <source>Indicadores</source>
+        <target>Indicators</target>
+      </trans-unit>
+      <trans-unit id="reports.column.indicator" datatype="html">
+        <source>Indicador</source>
+        <target>Indicator</target>
+      </trans-unit>
+      <trans-unit id="reports.empty.matrix" datatype="html">
+        <source>Sin datos para los filtros seleccionados</source>
+        <target>No data for the selected filters</target>
+      </trans-unit>
+      <trans-unit id="reports.kpi.fillRateCurrent" datatype="html">
+        <source>Fill Rate actual</source>
+        <target>Current Fill Rate</target>
+      </trans-unit>
+      <trans-unit id="reports.kpi.fillRatePrior" datatype="html">
+        <source>Fill Rate anterior</source>
+        <target>Prior Fill Rate</target>
+      </trans-unit>
+      <trans-unit id="reports.kpi.fillRateYtd" datatype="html">
+        <source>Fill Rate YTD</source>
+        <target>YTD Fill Rate</target>
+      </trans-unit>
+      <trans-unit id="reports.filter.country" datatype="html">
+        <source>País</source>
+        <target>Country</target>
+      </trans-unit>
+      <trans-unit id="reports.filter.recruitmentType" datatype="html">
+        <source>Tipo reclutamiento</source>
+        <target>Recruitment type</target>
+      </trans-unit>
+      <trans-unit id="reports.filter.businessUnit" datatype="html">
+        <source>Unidades de negocio</source>
+        <target>Business units</target>
+      </trans-unit>
+      <trans-unit id="reports.filter.group" datatype="html">
+        <source>Grupo</source>
+        <target>Group</target>
+      </trans-unit>
+      <trans-unit id="reports.filter.year" datatype="html">
+        <source>Año</source>
+        <target>Year</target>
+      </trans-unit>
+      <trans-unit id="reports.filter.order" datatype="html">
+        <source>Orden</source>
+        <target>Order</target>
+      </trans-unit>
+      <trans-unit id="reports.filter.recruiter" datatype="html">
+        <source>Reclutador</source>
+        <target>Recruiter</target>
+      </trans-unit>
+      <trans-unit id="reports.filter.all" datatype="html">
+        <source>Todos</source>
+        <target>All</target>
+      </trans-unit>
+      <trans-unit id="reports.filter.allFem" datatype="html">
+        <source>Todas</source>
+        <target>All</target>
+      </trans-unit>
+      <trans-unit id="reports.filter.selectCountry" datatype="html">
+        <source>Selecciona país</source>
+        <target>Select a country</target>
+      </trans-unit>
+      <trans-unit id="reports.recruitment.temp" datatype="html">
+        <source>Temporal (TEMP)</source>
+        <target>Temporary (TEMP)</target>
+      </trans-unit>
+      <trans-unit id="reports.recruitment.temporary" datatype="html">
+        <source>Temporal (TEMPORARY)</source>
+        <target>Temporary (TEMPORARY)</target>
+      </trans-unit>
+      <trans-unit id="reports.recruitment.permanent" datatype="html">
+        <source>Permanente</source>
+        <target>Permanent</target>
+      </trans-unit>
+      <trans-unit id="reports.mmr.title" datatype="html">
+        <source>Reporte MMR</source>
+        <target>MMR Report</target>
+      </trans-unit>
+      <trans-unit id="reports.mmr.subtitle" datatype="html">
+        <source>Fill rate e indicadores mensuales</source>
+        <target>Fill rate and monthly indicators</target>
+      </trans-unit>
+      <trans-unit id="reports.mmr.loadError" datatype="html">
+        <source>No se pudo cargar el reporte MMR. Intenta de nuevo.</source>
+        <target>Could not load the MMR report. Please try again.</target>
+      </trans-unit>
+      <trans-unit id="reports.rbm.title" datatype="html">
+        <source>Requisiciones por mes</source>
+        <target>Requisitions by month</target>
+      </trans-unit>
+      <trans-unit id="reports.rbm.subtitle" datatype="html">
+        <source>Volumen e indicadores mensuales</source>
+        <target>Volume and monthly indicators</target>
+      </trans-unit>
+      <trans-unit id="reports.rbm.loadError" datatype="html">
+        <source>No se pudo cargar el reporte Requisiciones por mes. Intenta de nuevo.</source>
+        <target>Could not load the Requisitions by month report. Please try again.</target>
+      </trans-unit>
+      <trans-unit id="reports.month.jan" datatype="html"><source>Ene</source><target>Jan</target></trans-unit>
+      <trans-unit id="reports.month.feb" datatype="html"><source>Feb</source><target>Feb</target></trans-unit>
+      <trans-unit id="reports.month.mar" datatype="html"><source>Mar</source><target>Mar</target></trans-unit>
+      <trans-unit id="reports.month.apr" datatype="html"><source>Abr</source><target>Apr</target></trans-unit>
+      <trans-unit id="reports.month.may" datatype="html"><source>May</source><target>May</target></trans-unit>
+      <trans-unit id="reports.month.jun" datatype="html"><source>Jun</source><target>Jun</target></trans-unit>
+      <trans-unit id="reports.month.jul" datatype="html"><source>Jul</source><target>Jul</target></trans-unit>
+      <trans-unit id="reports.month.aug" datatype="html"><source>Ago</source><target>Aug</target></trans-unit>
+      <trans-unit id="reports.month.sep" datatype="html"><source>Sep</source><target>Sep</target></trans-unit>
+      <trans-unit id="reports.month.oct" datatype="html"><source>Oct</source><target>Oct</target></trans-unit>
+      <trans-unit id="reports.month.nov" datatype="html"><source>Nov</source><target>Nov</target></trans-unit>
+      <trans-unit id="reports.month.dec" datatype="html"><source>Dic</source><target>Dec</target></trans-unit>
     </body>
   </file>
 </xliff>

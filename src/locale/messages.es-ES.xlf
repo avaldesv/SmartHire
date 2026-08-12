@@ -7674,6 +7674,45 @@
         <source>Editar usuario</source>
         <target>Editar usuario</target>
       </trans-unit>
+      <trans-unit id="reports.action.update" datatype="html"><source>Actualizar</source><target>Actualizar</target></trans-unit>
+      <trans-unit id="reports.action.clearFilters" datatype="html"><source>Limpiar filtros</source><target>Limpiar filtros</target></trans-unit>
+      <trans-unit id="reports.section.indicators" datatype="html"><source>Indicadores</source><target>Indicadores</target></trans-unit>
+      <trans-unit id="reports.column.indicator" datatype="html"><source>Indicador</source><target>Indicador</target></trans-unit>
+      <trans-unit id="reports.empty.matrix" datatype="html"><source>Sin datos para los filtros seleccionados</source><target>Sin datos para los filtros seleccionados</target></trans-unit>
+      <trans-unit id="reports.kpi.fillRateCurrent" datatype="html"><source>Fill Rate actual</source><target>Fill Rate actual</target></trans-unit>
+      <trans-unit id="reports.kpi.fillRatePrior" datatype="html"><source>Fill Rate anterior</source><target>Fill Rate anterior</target></trans-unit>
+      <trans-unit id="reports.kpi.fillRateYtd" datatype="html"><source>Fill Rate YTD</source><target>Fill Rate YTD</target></trans-unit>
+      <trans-unit id="reports.filter.country" datatype="html"><source>País</source><target>País</target></trans-unit>
+      <trans-unit id="reports.filter.recruitmentType" datatype="html"><source>Tipo reclutamiento</source><target>Tipo reclutamiento</target></trans-unit>
+      <trans-unit id="reports.filter.businessUnit" datatype="html"><source>Unidades de negocio</source><target>Unidades de negocio</target></trans-unit>
+      <trans-unit id="reports.filter.group" datatype="html"><source>Grupo</source><target>Grupo</target></trans-unit>
+      <trans-unit id="reports.filter.year" datatype="html"><source>Año</source><target>Año</target></trans-unit>
+      <trans-unit id="reports.filter.order" datatype="html"><source>Orden</source><target>Orden</target></trans-unit>
+      <trans-unit id="reports.filter.recruiter" datatype="html"><source>Reclutador</source><target>Reclutador</target></trans-unit>
+      <trans-unit id="reports.filter.all" datatype="html"><source>Todos</source><target>Todos</target></trans-unit>
+      <trans-unit id="reports.filter.allFem" datatype="html"><source>Todas</source><target>Todas</target></trans-unit>
+      <trans-unit id="reports.filter.selectCountry" datatype="html"><source>Selecciona país</source><target>Selecciona país</target></trans-unit>
+      <trans-unit id="reports.recruitment.temp" datatype="html"><source>Temporal (TEMP)</source><target>Temporal (TEMP)</target></trans-unit>
+      <trans-unit id="reports.recruitment.temporary" datatype="html"><source>Temporal (TEMPORARY)</source><target>Temporal (TEMPORARY)</target></trans-unit>
+      <trans-unit id="reports.recruitment.permanent" datatype="html"><source>Permanente</source><target>Permanente</target></trans-unit>
+      <trans-unit id="reports.mmr.title" datatype="html"><source>Reporte MMR</source><target>Reporte MMR</target></trans-unit>
+      <trans-unit id="reports.mmr.subtitle" datatype="html"><source>Fill rate e indicadores mensuales</source><target>Fill rate e indicadores mensuales</target></trans-unit>
+      <trans-unit id="reports.mmr.loadError" datatype="html"><source>No se pudo cargar el reporte MMR. Intenta de nuevo.</source><target>No se pudo cargar el reporte MMR. Intenta de nuevo.</target></trans-unit>
+      <trans-unit id="reports.rbm.title" datatype="html"><source>Requisiciones por mes</source><target>Requisiciones por mes</target></trans-unit>
+      <trans-unit id="reports.rbm.subtitle" datatype="html"><source>Volumen e indicadores mensuales</source><target>Volumen e indicadores mensuales</target></trans-unit>
+      <trans-unit id="reports.rbm.loadError" datatype="html"><source>No se pudo cargar el reporte Requisiciones por mes. Intenta de nuevo.</source><target>No se pudo cargar el reporte Requisiciones por mes. Intenta de nuevo.</target></trans-unit>
+      <trans-unit id="reports.month.jan" datatype="html"><source>Ene</source><target>Ene</target></trans-unit>
+      <trans-unit id="reports.month.feb" datatype="html"><source>Feb</source><target>Feb</target></trans-unit>
+      <trans-unit id="reports.month.mar" datatype="html"><source>Mar</source><target>Mar</target></trans-unit>
+      <trans-unit id="reports.month.apr" datatype="html"><source>Abr</source><target>Abr</target></trans-unit>
+      <trans-unit id="reports.month.may" datatype="html"><source>May</source><target>May</target></trans-unit>
+      <trans-unit id="reports.month.jun" datatype="html"><source>Jun</source><target>Jun</target></trans-unit>
+      <trans-unit id="reports.month.jul" datatype="html"><source>Jul</source><target>Jul</target></trans-unit>
+      <trans-unit id="reports.month.aug" datatype="html"><source>Ago</source><target>Ago</target></trans-unit>
+      <trans-unit id="reports.month.sep" datatype="html"><source>Sep</source><target>Sep</target></trans-unit>
+      <trans-unit id="reports.month.oct" datatype="html"><source>Oct</source><target>Oct</target></trans-unit>
+      <trans-unit id="reports.month.nov" datatype="html"><source>Nov</source><target>Nov</target></trans-unit>
+      <trans-unit id="reports.month.dec" datatype="html"><source>Dic</source><target>Dic</target></trans-unit>
     </body>
   </file>
 </xliff>
