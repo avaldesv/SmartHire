@@ -41,6 +41,14 @@ export function getRequisitionStatusLabel(status: string, fallback?: string | nu
   return REQUISITION_STATUS_LABELS[status] ?? fallback ?? status;
 }
 
+export function isUnpublishedOpenPositionStatus(status: string | null | undefined): boolean {
+  return status === 'CREATED' || status === 'ACTIVE';
+}
+
+export function isOpenForCancellationRequest(status: string | null | undefined): boolean {
+  return isUnpublishedOpenPositionStatus(status) || status === 'PUBLISHED';
+}
+
 export function isTerminalPositionStatus(status: string | null | undefined): boolean {
   return status === 'CANCELLED' || status === 'COVERED' || status === 'PARTIALLY_COVERED';
 }

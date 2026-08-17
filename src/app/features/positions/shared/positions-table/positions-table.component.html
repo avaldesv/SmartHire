@@ -386,7 +386,7 @@
                   <mat-icon>public</mat-icon> {{ actionPublishOnPortal }}
                 </button>
               }
-              @if (canRequestCancellation() && (row.status === 'ACTIVE' || row.status === 'PUBLISHED')) {
+              @if (canRequestCancellation() && isOpenForCancelRequest(row.status)) {
                 <button mat-menu-item (click)="requestCancellation(row)">
                   <mat-icon>pending_actions</mat-icon> {{ actionRequestCancellation }}
                 </button>
