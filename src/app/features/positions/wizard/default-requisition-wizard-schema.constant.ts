@@ -33,6 +33,8 @@ export const DEFAULT_REQUISITION_WIZARD_SCHEMA: ResolvedRequisitionFormConfig = 
       labelI18nKey: 'requisition.step.client',
       orderIndex: 1,
       fields: [
+        field('countryId', 'select', 'requisition.field.countryId', 'countries'),
+        field('coverageTypeId', 'select', 'requisition.field.coverageTypeId', 'coverage-types'),
         field(
           'clientId',
           'select',
@@ -41,8 +43,6 @@ export const DEFAULT_REQUISITION_WIZARD_SCHEMA: ResolvedRequisitionFormConfig = 
           true,
           JSON.stringify(CLIENT_CATALOG_FILL_RULES),
         ),
-        field('countryId', 'select', 'requisition.field.countryId', 'countries'),
-        field('coverageTypeId', 'select', 'requisition.field.coverageTypeId', 'coverage-types'),
         field('ot', 'text', 'requisition.field.ot'),
         field(
           'clientKey',

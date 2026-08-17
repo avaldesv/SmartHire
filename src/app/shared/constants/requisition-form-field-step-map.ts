@@ -3,9 +3,9 @@ import { REQUISITION_FORM_DEFAULT_STEP_KEYS } from '../models/requisition-form.m
 /** Ordered field keys per legacy wizard tab (admin catalog tree). */
 export const REQUISITION_FIELDS_BY_STEP: Record<(typeof REQUISITION_FORM_DEFAULT_STEP_KEYS)[number], readonly string[]> = {
   client: [
-    'clientId',
     'countryId',
     'coverageTypeId',
+    'clientId',
     'ot',
     'clientKey',
     'legalName',

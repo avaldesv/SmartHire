@@ -86,7 +86,41 @@ export function buildFullCatalogState(
     });
   }
 
-  return { steps, fields };
+  return placeClientIdAfterCoverageType({ steps, fields }, fieldDefs);
+}
+
+function placeClientIdAfterCoverageType(
+  state: RequisitionFormCatalogState,
+  fieldDefs: RequisitionFormFieldDef[],
+): RequisitionFormCatalogState {
+  const keyByDefId = new Map(fieldDefs.map((def) => [def.id, def.fieldKey]));
+  const clientFields = state.fields
+    .filter((field) => field.stepKey === 'client')
+    .sort((a, b) => a.orderIndex - b.orderIndex);
+  const clientIdField = clientFields.find((field) => keyByDefId.get(field.fieldDefId) === CLIENT_ID_FIELD_KEY);
+  if (!clientIdField) {
+    return state;
+  }
+  const coverageInFull = clientFields.findIndex(
+    (field) => keyByDefId.get(field.fieldDefId) === 'coverageTypeId',
+  );
+  const clientIdx = clientFields.findIndex((field) => field === clientIdField);
+  if (coverageInFull >= 0 && clientIdx > coverageInFull) {
+    return state;
+  }
+  const withoutClient = clientFields.filter((field) => field !== clientIdField);
+  const coverageIdx = withoutClient.findIndex(
+    (field) => keyByDefId.get(field.fieldDefId) === 'coverageTypeId',
+  );
+  const placed =
+    coverageIdx >= 0
+      ? [...withoutClient.slice(0, coverageIdx + 1), clientIdField, ...withoutClient.slice(coverageIdx + 1)]
+      : [...withoutClient, clientIdField];
+  const reindexed = placed.map((field, index) => ({ ...field, orderIndex: index + 1 }));
+  return {
+    steps: state.steps,
+    fields: [...state.fields.filter((field) => field.stepKey !== 'client'), ...reindexed],
+  };
 }
 
 function defaultRulesJsonForField(fieldKey: string): string | null {
