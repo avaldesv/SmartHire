@@ -19,13 +19,20 @@ export class CatalogClientService {
     size = 20,
     ordersBy: string[] = ['tradeName:asc'],
     filters: string[] = [],
+    countryId?: number | null,
   ): Observable<{ items: CatalogClient[]; total: number }> {
-    const body = { isActive: true, filters, ordersBy };
+    const body = { isActive: true, filters, ordersBy, countryId: countryId ?? null };
     return this.http
       .post<ClientListResponse>(this.api.apiUrl('/api/v1/clients/list'), body, {
         headers: this.api.buildHeaders(page, size),
       })
       .pipe(map((res) => ({ items: res.data ?? [], total: res.pagination?.total ?? 0 })));
+  }
+
+  getById(id: number): Observable<CatalogClient> {
+    return this.http.get<CatalogClient>(this.api.apiUrl(`/api/v1/clients/${id}`), {
+      headers: this.api.buildHeaders(),
+    });
   }
 
   /** Typeahead for filters: search companyArea with small page size. */

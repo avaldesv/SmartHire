@@ -8,6 +8,12 @@ import {
   orderedFieldKeysForStep,
   stepLabelI18nKey,
 } from '../constants/requisition-form-field-step-map';
+import {
+  CLIENT_CATALOG_FILL_RULES,
+  CLIENT_CATALOG_READ_ONLY_WHEN,
+  CLIENT_ID_FIELD_KEY,
+  isClientCatalogFillTarget,
+} from '../constants/requisition-client-catalog-fill';
 
 export interface RequisitionFormCatalogState {
   steps: RequisitionFormStepConfig[];
@@ -54,7 +60,7 @@ export function buildFullCatalogState(
         isVisible: saved?.isVisible ?? false,
         isRequired: saved?.isRequired ?? false,
         overridesJson: saved?.overridesJson ?? null,
-        rulesJson: saved?.rulesJson ?? null,
+        rulesJson: saved?.rulesJson ?? defaultRulesJsonForField(fieldKey),
         viewRolesJson: saved?.viewRolesJson ?? null,
         editRolesJson: saved?.editRolesJson ?? null,
       });
@@ -74,11 +80,21 @@ export function buildFullCatalogState(
       isVisible: saved?.isVisible ?? false,
       isRequired: saved?.isRequired ?? false,
       overridesJson: saved?.overridesJson ?? null,
-      rulesJson: saved?.rulesJson ?? null,
+        rulesJson: saved?.rulesJson ?? defaultRulesJsonForField(def.fieldKey),
       viewRolesJson: saved?.viewRolesJson ?? null,
       editRolesJson: saved?.editRolesJson ?? null,
     });
   }
 
   return { steps, fields };
+}
+
+function defaultRulesJsonForField(fieldKey: string): string | null {
+  if (fieldKey === CLIENT_ID_FIELD_KEY) {
+    return JSON.stringify(CLIENT_CATALOG_FILL_RULES);
+  }
+  if (isClientCatalogFillTarget(fieldKey)) {
+    return JSON.stringify(CLIENT_CATALOG_READ_ONLY_WHEN);
+  }
+  return null;
 }

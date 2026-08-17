@@ -532,6 +532,10 @@ EN_BY_SOURCE: dict[str, str] = {
     "Reglas condicionales": "Conditional rules",
     'Visible cuando "Tiene personas a cargo" está activo': 'Visible when "Has people in charge" is enabled',
     'Obligatorio cuando "Tiene personas a cargo" está activo': 'Required when "Has people in charge" is enabled',
+    "Al seleccionar un cliente, autollenar los campos relacionados del catálogo": (
+        "When a client is selected, auto-fill related catalog fields"
+    ),
+    "Solo lectura mientras hay un cliente seleccionado": "Read-only while a client is selected",
     "Seleccione país y tipo de cobertura para cargar o crear el borrador de configuración": (
         "Select country and coverage type to load or create the configuration draft"
     ),

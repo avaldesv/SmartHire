@@ -4,6 +4,7 @@ import { WizardFieldOption } from '../../shared/models/requisition-wizard.model'
 import { WEEKDAY_OPTIONS } from '../../shared/utils/requisition-work-days.util';
 import { CatalogBrandService } from './catalog-brand.service';
 import { CatalogCareerService } from './catalog-career.service';
+import { CatalogClientService } from './catalog-client.service';
 import { CatalogContractTypeService } from './catalog-contract-type.service';
 import { CatalogCurrencyService } from './catalog-currency.service';
 import { CatalogDisabilityTypeService } from './catalog-disability-type.service';
@@ -28,6 +29,7 @@ import { CatalogWorkplaceService } from './catalog-workplace.service';
 import { QuestionnaireQuestionnaireApiService } from './questionnaire-questionnaire-api.service';
 import { SecurityRecruiterGroupService } from './security-recruiter-group.service';
 import { SecurityUserService } from './security-user.service';
+import { catalogClientOptionLabel } from '../../shared/constants/requisition-client-catalog-fill';
 
 export interface WizardCatalogContext {
   countryId?: number | null;
@@ -45,6 +47,7 @@ export class WizardFieldCatalogService {
   private readonly maritalStatusService = inject(CatalogMaritalStatusService);
   private readonly educationLevelService = inject(CatalogEducationLevelService);
   private readonly careerService = inject(CatalogCareerService);
+  private readonly clientService = inject(CatalogClientService);
   private readonly experienceLevelService = inject(CatalogExperienceLevelService);
   private readonly currencyService = inject(CatalogCurrencyService);
   private readonly contractTypeService = inject(CatalogContractTypeService);
@@ -111,6 +114,17 @@ export class WizardFieldCatalogService {
     switch (dataSourceKey) {
       case 'countries':
         return this.geographyService.listCountries().pipe(map((items) => this.toOptions(items)));
+      case 'clients':
+        return countryId != null
+          ? this.clientService.list(0, 200, ['tradeName:asc'], [], countryId).pipe(
+              map((r) =>
+                r.items.map((client) => ({
+                  id: client.id,
+                  label: catalogClientOptionLabel(client),
+                })),
+              ),
+            )
+          : of([]);
       case 'brands':
         return countryId != null
           ? this.brandService.list(countryId, 0, 200).pipe(map((r) => this.toOptions(r.items)))
@@ -240,6 +254,16 @@ export class WizardFieldCatalogService {
       default:
         return of([]);
     }
+  }
+
+  loadCatalogItem(dataSourceKey: string, id: number): Observable<Record<string, unknown> | null> {
+    if (dataSourceKey === 'clients') {
+      return this.clientService.getById(id).pipe(
+        map((client) => client as unknown as Record<string, unknown>),
+        catchError(() => of(null)),
+      );
+    }
+    return of(null);
   }
 
   private toOptions(items: Array<{ id: number; name: string }>): WizardFieldOption[] {
