@@ -30,6 +30,7 @@ export type CatalogPanelKey =
   | 'kinship'
   | 'cancellationType'
   | 'cancellationReason'
+  | 'positionStatus'
   | 'brand'
   | 'documentType'
   | 'fileExtension'
@@ -173,6 +174,7 @@ const CATALOG_CATEGORIES_RAW: CatalogCategoryDefinition[] = [
       { id: 'kinship', label: 'Parentesco', panelKey: 'kinship', implemented: true },
       { id: 'cancellationType', label: 'Tipo de cancelación', panelKey: 'cancellationType', implemented: true },
       { id: 'cancellationReason', label: 'Motivos de cancelación', panelKey: 'cancellationReason', implemented: true },
+      { id: 'positionStatus', label: 'Estatus de posición', panelKey: 'positionStatus', implemented: true },
       { id: 'brand', label: 'Marca', panelKey: 'brand', implemented: true },
       { id: 'documentType', label: 'Tipo documento', panelKey: 'documentType', implemented: true },
       { id: 'fileExtension', label: 'Extensión de archivo', panelKey: 'fileExtension', implemented: true },

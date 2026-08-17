@@ -49,6 +49,7 @@ const ENTRY_LABELS: Record<string, string> = {
   kinship: $localize`:@@catalogs.entry.kinship:Parentesco`,
   cancellationType: $localize`:@@catalogs.entry.cancellationType:Tipo de cancelación`,
   cancellationReason: $localize`:@@catalogs.entry.cancellationReason:Motivos de cancelación`,
+  positionStatus: $localize`:@@catalogs.entry.positionStatus:Estatus de posición`,
   brand: $localize`:@@catalogs.entry.brand:Marca`,
   documentType: $localize`:@@catalogs.entry.documentType:Tipo documento`,
   fileExtension: $localize`:@@catalogs.entry.fileExtension:Extensión de archivo`,
