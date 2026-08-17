@@ -36,18 +36,41 @@ export function applyBuiltinFieldPresentation(
       const aligned = step.fields.map((field) =>
         mergeClientCatalogRules(alignBuiltinPresentation(field)),
       );
-      if (step.stepKey !== 'client' || aligned.some((field) => field.fieldKey === CLIENT_ID_FIELD_KEY)) {
+      if (step.stepKey !== 'client') {
         return { ...step, fields: aligned };
       }
-      if (!DEFAULT_CLIENT_ID_FIELD) {
-        return { ...step, fields: aligned };
-      }
-      return {
-        ...step,
-        fields: [alignBuiltinPresentation({ ...DEFAULT_CLIENT_ID_FIELD }), ...aligned],
-      };
+      return { ...step, fields: placeClientIdAfterCoverage(aligned) };
     }),
   };
+}
+
+function placeClientIdAfterCoverage(
+  fields: ResolvedRequisitionFormField[],
+): ResolvedRequisitionFormField[] {
+  const withoutClient = fields.filter((field) => field.fieldKey !== CLIENT_ID_FIELD_KEY);
+  const existing = fields.find((field) => field.fieldKey === CLIENT_ID_FIELD_KEY);
+  const clientField = existing
+    ?? (DEFAULT_CLIENT_ID_FIELD ? alignBuiltinPresentation({ ...DEFAULT_CLIENT_ID_FIELD }) : null);
+  if (!clientField) {
+    return fields;
+  }
+  const coverageIdx = withoutClient.findIndex((field) => field.fieldKey === 'coverageTypeId');
+  if (coverageIdx < 0) {
+    const countryIdx = withoutClient.findIndex((field) => field.fieldKey === 'countryId');
+    if (countryIdx < 0) {
+      return [clientField, ...withoutClient];
+    }
+    return [
+      ...withoutClient.slice(0, countryIdx + 1),
+      clientField,
+      ...withoutClient.slice(countryIdx + 1),
+    ];
+  }
+  return [
+    ...withoutClient.slice(0, coverageIdx + 1),
+    clientField,
+    ...withoutClient.slice(coverageIdx + 1),
+  ];
 }
 
 function alignBuiltinPresentation(field: ResolvedRequisitionFormField): ResolvedRequisitionFormField {
