@@ -25,6 +25,11 @@ const PANEL_UI: Record<string, CatalogPanelUiLabels> = {
     editTitle: $localize`:@@catalogs.cancellationReason.editTitle:Editar motivo de cancelación`,
     newTitle: $localize`:@@catalogs.cancellationReason.newTitle:Nuevo motivo de cancelación`,
   },
+  positionStatus: {
+    newButton: $localize`:@@catalogs.positionStatus.newButton:Nuevo estatus de posición`,
+    editTitle: $localize`:@@catalogs.positionStatus.editTitle:Editar estatus de posición`,
+    newTitle: $localize`:@@catalogs.positionStatus.newTitle:Nuevo estatus de posición`,
+  },
   company: {
     newButton: $localize`:@@catalogs.company.newButton:Nueva empresa`,
     editTitle: $localize`:@@catalogs.company.editTitle:Editar empresa`,

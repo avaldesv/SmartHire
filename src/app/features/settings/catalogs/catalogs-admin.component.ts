@@ -86,6 +86,7 @@ import { UserSettingsApiService } from '../../../core/services/user-settings-api
 import { CatalogKinshipService } from '../../../core/services/catalog-kinship.service';
 import { CatalogCancellationTypeService } from '../../../core/services/catalog-cancellation-type.service';
 import { CatalogCancellationReasonService } from '../../../core/services/catalog-cancellation-reason.service';
+import { CatalogPositionStatusService } from '../../../core/services/catalog-position-status.service';
 import { CatalogLanguageService } from '../../../core/services/catalog-language.service';
 import { CatalogShiftService } from '../../../core/services/catalog-shift.service';
 import { CatalogCareer } from '../../../shared/models/catalog-career.model';
@@ -108,6 +109,7 @@ import { CatalogGender } from '../../../shared/models/catalog-gender.model';
 import { CatalogKinship } from '../../../shared/models/catalog-kinship.model';
 import { CatalogCancellationType } from '../../../shared/models/catalog-cancellation-type.model';
 import { CatalogCancellationReason } from '../../../shared/models/catalog-cancellation-reason.model';
+import { CatalogPositionStatus } from '../../../shared/models/catalog-position-status.model';
 import { CatalogLanguage } from '../../../shared/models/catalog-language.model';
 import { CatalogShift } from '../../../shared/models/catalog-shift.model';
 import { PermissionService } from '../../../core/services/permission.service';
@@ -296,6 +298,7 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly kinshipService = inject(CatalogKinshipService);
   private readonly cancellationTypeService = inject(CatalogCancellationTypeService);
   private readonly cancellationReasonService = inject(CatalogCancellationReasonService);
+  private readonly positionStatusService = inject(CatalogPositionStatusService);
   private readonly companyService = inject(CatalogCompanyService);
   private readonly currencyService = inject(CatalogCurrencyService);
   private readonly careerService = inject(CatalogCareerService);
@@ -483,6 +486,9 @@ export class CatalogsAdminComponent implements OnInit {
         this.loadCancellationTypeOptions();
         this.loadCancellationReasons();
         break;
+      case 'positionStatus':
+        this.loadPositionStatuses();
+        break;
       case 'client':
         this.loadClients();
         break;
@@ -584,6 +590,9 @@ export class CatalogsAdminComponent implements OnInit {
       case 'cancellationReason':
         this.loadCancellationTypeOptions();
         this.loadCancellationReasons();
+        break;
+      case 'positionStatus':
+        this.loadPositionStatuses();
         break;
       case 'company':
         this.loadCompanies();
@@ -782,6 +791,16 @@ export class CatalogsAdminComponent implements OnInit {
   editingCancellationReasonId: number | null = null;
   showCancellationReasonForm = false;
   selectedCancellationTypeFilterId: number | null = null;
+
+  positionStatuses: CatalogPositionStatus[] = [];
+  positionStatusTotal = 0;
+  positionStatusPageIndex = 0;
+  positionStatusPageSize = 10;
+  loadingPositionStatuses = false;
+  savingPositionStatus = false;
+  editingPositionStatusId: number | null = null;
+  showPositionStatusForm = false;
+  readonly positionStatusTypeOptions = ['INITIAL', 'PROCESS', 'FINAL'] as const;
 
   clients: CatalogClient[] = [];
   clientTotal = 0;
@@ -1128,6 +1147,7 @@ export class CatalogsAdminComponent implements OnInit {
   readonly kinshipColumns = ['code', 'name', 'active', 'scope', 'actions'];
   readonly cancellationTypeColumns = ['code', 'name', 'description', 'sortOrder', 'active', 'actions'];
   readonly cancellationReasonColumns = ['cancellationType', 'code', 'name', 'description', 'sortOrder', 'active', 'actions'];
+  readonly positionStatusColumns = ['code', 'name', 'type', 'description', 'sortOrder', 'active', 'actions'];
   readonly coverageCategoryColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
   readonly characteristicColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
   readonly categoryColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
@@ -1234,6 +1254,16 @@ export class CatalogsAdminComponent implements OnInit {
     name: ['', Validators.required],
     description: [''],
     sortOrder: [0, [Validators.required, Validators.min(0)]],
+    isActive: [true],
+  });
+
+  readonly positionStatusForm = this.fb.nonNullable.group({
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
+    type: ['PROCESS', Validators.required],
+    sortOrder: [0, [Validators.required, Validators.min(0)]],
+    colorHex: [''],
     isActive: [true],
   });
 
@@ -1591,6 +1621,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.cancelKinshipForm();
     this.cancelCancellationTypeForm();
     this.cancelCancellationReasonForm();
+    this.cancelPositionStatusForm();
     this.cancelCompanyForm();
     this.cancelCurrencyForm();
     this.cancelCareerForm();
@@ -3213,6 +3244,95 @@ export class CatalogsAdminComponent implements OnInit {
       error: (err) => {
         this.savingCancellationType = false;
         this.catalogSaveErrorFeedback(err, getCatalogEntryLabel('cancellationType'));
+      },
+    });
+  }
+
+  loadPositionStatuses(): void {
+    this.loadingPositionStatuses = true;
+    this.positionStatusService.list(this.positionStatusPageIndex, this.positionStatusPageSize).subscribe({
+      next: (res) => {
+        this.positionStatuses = res.items;
+        this.positionStatusTotal = res.total;
+        this.loadingPositionStatuses = false;
+      },
+      error: (err) => {
+        this.loadingPositionStatuses = false;
+        this.catalogLoadError(err, getCatalogEntryLabel('positionStatus'));
+      },
+    });
+  }
+
+  onPositionStatusPage(e: PageEvent): void {
+    this.positionStatusPageIndex = e.pageIndex;
+    this.positionStatusPageSize = e.pageSize;
+    this.loadPositionStatuses();
+  }
+
+  openCreatePositionStatus(): void {
+    this.editingPositionStatusId = null;
+    this.openCatalogFormDialog('positionStatus', 'new');
+    this.positionStatusForm.reset({
+      code: '',
+      name: '',
+      description: '',
+      type: 'PROCESS',
+      sortOrder: 0,
+      colorHex: '',
+      isActive: true,
+    });
+  }
+
+  openEditPositionStatus(row: CatalogPositionStatus): void {
+    this.editingPositionStatusId = row.id;
+    this.openCatalogFormDialog('positionStatus', 'edit');
+    this.positionStatusForm.patchValue({
+      code: row.code,
+      name: row.name,
+      description: row.description ?? '',
+      type: row.type || 'PROCESS',
+      sortOrder: row.sortOrder ?? 0,
+      colorHex: row.colorHex ?? '',
+      isActive: row.isActive,
+    });
+  }
+
+  cancelPositionStatusForm(): void {
+    this.closeCatalogFormDialog();
+    this.showPositionStatusForm = false;
+    this.editingPositionStatusId = null;
+  }
+
+  savePositionStatus(): void {
+    if (this.positionStatusForm.invalid) {
+      this.positionStatusForm.markAllAsTouched();
+      return;
+    }
+    const value = this.positionStatusForm.getRawValue();
+    const payload = {
+      code: value.code.trim(),
+      name: value.name.trim(),
+      description: value.description.trim() || null,
+      type: value.type,
+      sortOrder: value.sortOrder,
+      colorHex: value.colorHex.trim() || null,
+      isActive: value.isActive,
+    };
+    this.savingPositionStatus = true;
+    const request$ =
+      this.editingPositionStatusId != null
+        ? this.positionStatusService.update(this.editingPositionStatusId, payload)
+        : this.positionStatusService.create(payload);
+    request$.subscribe({
+      next: () => {
+        this.savingPositionStatus = false;
+        this.cancelPositionStatusForm();
+        this.loadPositionStatuses();
+        this.catalogSuccess(catalogSaveSuccess(getCatalogEntryLabel('positionStatus')));
+      },
+      error: (err) => {
+        this.savingPositionStatus = false;
+        this.catalogSaveErrorFeedback(err, getCatalogEntryLabel('positionStatus'));
       },
     });
   }
@@ -5789,6 +5909,17 @@ export class CatalogsAdminComponent implements OnInit {
       },
       this.editingCancellationTypeId,
       () => this.cancelCancellationTypeForm(),
+    );
+  }
+
+  deletePositionStatus(row: CatalogPositionStatus): void {
+    this.deleteCatalogRow(
+      row,
+      row.name || row.code,
+      this.positionStatusService.delete(row.id),
+      () => this.loadPositionStatuses(),
+      this.editingPositionStatusId,
+      () => this.cancelPositionStatusForm(),
     );
   }
 

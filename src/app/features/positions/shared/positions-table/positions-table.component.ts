@@ -125,6 +125,7 @@ import { CatalogClientService } from '../../../../core/services/catalog-client.s
 import { CatalogGeneralCategoryService } from '../../../../core/services/catalog-general-category.service';
 import { CatalogGeographyService } from '../../../../core/services/catalog-geography.service';
 import { CatalogPositionService } from '../../../../core/services/catalog-position.service';
+import { CatalogPositionStatusService } from '../../../../core/services/catalog-position-status.service';
 import { CatalogResponsibilityLevelService } from '../../../../core/services/catalog-responsibility-level.service';
 import { CatalogWorkplaceService } from '../../../../core/services/catalog-workplace.service';
 import { PermissionService } from '../../../../core/services/permission.service';
@@ -238,6 +239,7 @@ export class PositionsTableComponent implements OnInit {
   private readonly positionService = inject(PositionService);
   private readonly geographyService = inject(CatalogGeographyService);
   private readonly catalogPositionService = inject(CatalogPositionService);
+  private readonly positionStatusCatalogService = inject(CatalogPositionStatusService);
   private readonly catalogClientService = inject(CatalogClientService);
   private readonly workplaceService = inject(CatalogWorkplaceService);
   private readonly responsibilityLevelService = inject(CatalogResponsibilityLevelService);
@@ -349,7 +351,7 @@ export class PositionsTableComponent implements OnInit {
   pageIndex = 0;
   pageSize = 10;
 
-  readonly statusOptions = [
+  statusOptions = [
     'Todos',
     'ACTIVE',
     'PUBLISHED',
@@ -359,6 +361,7 @@ export class PositionsTableComponent implements OnInit {
     'PARTIALLY_COVERED',
     'CANCELLED',
   ];
+  private statusNameByCode = new Map<string, string>();
 
   readonly filters = this.fb.nonNullable.group({
     search: [''],
@@ -502,10 +505,19 @@ export class PositionsTableComponent implements OnInit {
     if (status === 'Todos') {
       return this.filterAll;
     }
-    return getRequisitionStatusLabel(status);
+    return getRequisitionStatusLabel(status, this.statusNameByCode.get(status));
   }
 
   ngOnInit(): void {
+    this.positionStatusCatalogService.list(0, 200, { isActive: true }).subscribe({
+      next: (res) => {
+        const codes = res.items.map((item) => item.code);
+        if (codes.length > 0) {
+          this.statusNameByCode = new Map(res.items.map((item) => [item.code, item.name]));
+          this.statusOptions = ['Todos', ...codes];
+        }
+      },
+    });
     this.geographyService.listCountries(0, 200).subscribe({
       next: (countries) => {
         this.countryOptions = countries.filter((c) => c.isActive);

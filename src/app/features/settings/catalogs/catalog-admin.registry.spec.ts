@@ -35,6 +35,7 @@ describe('catalog-admin.registry', () => {
       const smarthireOps = resolveVisibleCategories(true).find((category) => category.id === 'smarthireOps');
       expect(smarthireOps?.catalogs.some((entry) => entry.id === 'cancellationType' && entry.implemented)).toBeTrue();
       expect(smarthireOps?.catalogs.some((entry) => entry.id === 'cancellationReason' && entry.implemented)).toBeTrue();
+      expect(smarthireOps?.catalogs.some((entry) => entry.id === 'positionStatus' && entry.implemented)).toBeTrue();
     });
   });
 

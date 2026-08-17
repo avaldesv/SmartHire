@@ -159,6 +159,8 @@ export interface PositionListItem {
   supervisorUserId?: number | null;
   supervisorUser?: PositionUserSummary | null;
   cancellationScope?: string | null;
+  statusName?: string | null;
+  statusType?: string | null;
 }
 
 export interface PositionDetail extends CreatePositionRequest {
@@ -172,6 +174,8 @@ export interface PositionDetail extends CreatePositionRequest {
   supervisorUserId?: number | null;
   supervisorUser?: PositionUserSummary | null;
   cancellationScope?: string | null;
+  statusName?: string | null;
+  statusType?: string | null;
 }
 
 export type UpdatePositionRequest = CreatePositionRequest;
