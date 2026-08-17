@@ -59,6 +59,8 @@ export const DASHBOARD_LOAD_REQUESTS_ERROR = $localize`:@@dashboard.errors.loadR
 export const DASHBOARD_FILTERS_CLEARED = $localize`:@@dashboard.success.filtersCleared:Filtros limpiados`;
 export const DASHBOARD_DUPLICATE_ERROR = $localize`:@@dashboard.errors.duplicate:No se pudo duplicar la posición`;
 export const DASHBOARD_CANCEL_SUCCESS = $localize`:@@dashboard.success.cancelled:Requisición cancelada`;
+export const DASHBOARD_COVERED_SUCCESS = $localize`:@@dashboard.success.covered:Requisición cubierta`;
+export const DASHBOARD_PARTIALLY_COVERED_SUCCESS = $localize`:@@dashboard.success.partiallyCovered:Requisición parcialmente cubierta`;
 export const DASHBOARD_CANCEL_ERROR = $localize`:@@dashboard.errors.cancel:No se pudo cancelar la requisición`;
 export const DASHBOARD_REQUEST_CANCELLATION_SUCCESS = $localize`:@@dashboard.success.requestCancellation:Solicitud de cancelación enviada`;
 export const DASHBOARD_REQUEST_CANCELLATION_ERROR = $localize`:@@dashboard.errors.requestCancellation:No se pudo solicitar la cancelación`;
@@ -102,6 +104,16 @@ export function dashboardRejectCancellationConfirm(requisitionNo: string): strin
 
 export function dashboardExecuteCancellationConfirm(requisitionNo: string): string {
   return $localize`:@@dashboard.confirm.executeCancellation:¿Ejecutar la cancelación autorizada de ${requisitionNo}:requisitionNo:?`;
+}
+
+export function dashboardCoverageCloseSuccess(status: string | null | undefined): string {
+  if (status === 'COVERED') {
+    return DASHBOARD_COVERED_SUCCESS;
+  }
+  if (status === 'PARTIALLY_COVERED') {
+    return DASHBOARD_PARTIALLY_COVERED_SUCCESS;
+  }
+  return DASHBOARD_CANCEL_SUCCESS;
 }
 
 export function dashboardCandidatesApplied(count: number, requisitionNo: string): string {

@@ -22,7 +22,7 @@ import {
   FEEDBACK_GENERIC_INFO_TITLE,
   FEEDBACK_GENERIC_WARNING_TITLE,
 } from '../../../../core/i18n/feedback-labels';
-import { getRequisitionStatusLabel } from '../../../../core/i18n/common-labels';
+import { getRequisitionStatusLabel, isTerminalPositionStatus } from '../../../../core/i18n/common-labels';
 import { CV_BULK_ACTION } from '../../../../core/i18n/cv-bulk-labels';
 import { EXCEL_BULK_ACTION } from '../../../../core/i18n/excel-bulk-labels';
 import {
@@ -45,7 +45,6 @@ import {
   POSITIONS_APPROVE_CANCELLATION_SUCCESS,
   POSITIONS_CANCEL_ERROR,
   POSITIONS_CANCEL_EVIDENCE_UPLOAD_ERROR,
-  POSITIONS_CANCEL_SUCCESS,
   POSITIONS_CLEAR_FILTERS,
   POSITIONS_COL_APPLICANTS,
   POSITIONS_COL_BRAND,
@@ -70,7 +69,6 @@ import {
   POSITIONS_COL_TYPE,
   POSITIONS_DUPLICATE_ERROR,
   POSITIONS_EXECUTE_CANCELLATION_ERROR,
-  POSITIONS_EXECUTE_CANCELLATION_SUCCESS,
   POSITIONS_FILTER_ALL,
   POSITIONS_FILTER_BRAND,
   POSITIONS_FILTER_CLIENT,
@@ -117,6 +115,7 @@ import {
   buildDuplicatedPositionName,
   positionsApproveCancellationConfirm,
   positionsCandidatesApplied,
+  positionsCoverageCloseSuccess,
   positionsDuplicateSuccess,
   positionsExecuteCancellationConfirm,
   positionsRejectCancellationConfirm,
@@ -356,6 +355,8 @@ export class PositionsTableComponent implements OnInit {
     'PUBLISHED',
     'PENDING_CANCELLATION',
     'CANCELLATION_AUTHORIZED',
+    'COVERED',
+    'PARTIALLY_COVERED',
     'CANCELLED',
   ];
 
@@ -454,6 +455,10 @@ export class PositionsTableComponent implements OnInit {
 
   canEdit(): boolean {
     return this.isTenantAdmin() || this.permissions.hasAuthority(AppPermissions.REQUISITION_EDIT);
+  }
+
+  isRowTerminal(status: string | null | undefined): boolean {
+    return isTerminalPositionStatus(status);
   }
 
   private isTenantAdmin(): boolean {
@@ -1051,7 +1056,7 @@ export class PositionsTableComponent implements OnInit {
   }
 
   cancelPosition(row: PositionListItem): void {
-    if (!this.canDirectCancel() || row.status === 'CANCELLED') {
+    if (!this.canDirectCancel() || this.isRowTerminal(row.status)) {
       return;
     }
     this.openEnrichedCancelDialog(row, 'direct');
@@ -1106,10 +1111,12 @@ export class PositionsTableComponent implements OnInit {
           ? this.positionService.requestCancellation(positionId, body)
           : this.positionService.delete(positionId, body);
       request$.subscribe({
-        next: () => {
+        next: (res) => {
           this.reloadAndNotify();
           this.feedback.showSuccess(
-            mode === 'request' ? POSITIONS_REQUEST_CANCELLATION_SUCCESS : POSITIONS_CANCEL_SUCCESS,
+            mode === 'request'
+              ? POSITIONS_REQUEST_CANCELLATION_SUCCESS
+              : positionsCoverageCloseSuccess(res.status),
           );
         },
         error: (err) => {
@@ -1212,9 +1219,9 @@ export class PositionsTableComponent implements OnInit {
           return;
         }
         this.positionService.executeCancellation(row.id).subscribe({
-          next: () => {
+          next: (res) => {
             this.reloadAndNotify();
-            this.feedback.showSuccess(POSITIONS_EXECUTE_CANCELLATION_SUCCESS);
+            this.feedback.showSuccess(positionsCoverageCloseSuccess(res.status));
           },
           error: (err) => {
             this.feedback.showApiError(err, { fallbackMessage: POSITIONS_EXECUTE_CANCELLATION_ERROR });
@@ -1231,7 +1238,7 @@ export class PositionsTableComponent implements OnInit {
   }
 
   reassignPosition(row: PositionListItem): void {
-    if (!this.canEdit() || row.status === 'CANCELLED') {
+    if (!this.canEdit() || this.isRowTerminal(row.status)) {
       return;
     }
     this.dialog
