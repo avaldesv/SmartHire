@@ -230,6 +230,7 @@ export interface ReassignPositionResponse {
   id: number;
   assignedUserId: number | null;
   supervisorUserId: number | null;
+  status?: string | null;
 }
 
 export interface PositionEventItem {

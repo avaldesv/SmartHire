@@ -45,6 +45,10 @@ export function isUnpublishedOpenPositionStatus(status: string | null | undefine
   return status === 'CREATED' || status === 'ACTIVE';
 }
 
+export function isCreatedPositionStatus(status: string | null | undefined): boolean {
+  return status === 'CREATED';
+}
+
 export function isOpenForCancellationRequest(status: string | null | undefined): boolean {
   return isUnpublishedOpenPositionStatus(status) || status === 'PUBLISHED';
 }

@@ -363,7 +363,7 @@
               </button>
               @if (canEdit() && !isRowTerminal(row.status)) {
                 <button mat-menu-item (click)="reassignPosition(row)">
-                  <mat-icon>swap_horiz</mat-icon> {{ actionReassign }}
+                  <mat-icon>swap_horiz</mat-icon> {{ assignActionLabel(row.status) }}
                 </button>
               }
               <button mat-menu-item (click)="openPoolDialog(row)">

@@ -22,7 +22,7 @@ import {
   FEEDBACK_GENERIC_INFO_TITLE,
   FEEDBACK_GENERIC_WARNING_TITLE,
 } from '../../../../core/i18n/feedback-labels';
-import { getRequisitionStatusLabel, isOpenForCancellationRequest, isTerminalPositionStatus } from '../../../../core/i18n/common-labels';
+import { getRequisitionStatusLabel, isCreatedPositionStatus, isOpenForCancellationRequest, isTerminalPositionStatus } from '../../../../core/i18n/common-labels';
 import { CV_BULK_ACTION } from '../../../../core/i18n/cv-bulk-labels';
 import { EXCEL_BULK_ACTION } from '../../../../core/i18n/excel-bulk-labels';
 import {
@@ -37,6 +37,7 @@ import {
   POSITIONS_ACTION_HISTORY,
   POSITIONS_ACTION_MORE_ARIA,
   POSITIONS_ACTION_PUBLISH_ON_PORTAL,
+  POSITIONS_ACTION_ASSIGN,
   POSITIONS_ACTION_REASSIGN,
   POSITIONS_ACTION_REJECT_CANCELLATION,
   POSITIONS_ACTION_REQUEST_CANCELLATION,
@@ -104,6 +105,7 @@ import {
   POSITIONS_PUBLISH_ON_PORTAL_CONFIRM,
   POSITIONS_PUBLISH_ON_PORTAL_ERROR,
   POSITIONS_PUBLISH_ON_PORTAL_SUCCESS,
+  POSITIONS_ASSIGN_SUCCESS,
   POSITIONS_REASSIGN_ERROR,
   POSITIONS_REASSIGN_SUCCESS,
   POSITIONS_REJECT_CANCELLATION_ERROR,
@@ -315,6 +317,7 @@ export class PositionsTableComponent implements OnInit {
   readonly actionRejectCancellation = POSITIONS_ACTION_REJECT_CANCELLATION;
   readonly actionExecuteCancellation = POSITIONS_ACTION_EXECUTE_CANCELLATION;
   readonly actionCancelDirect = POSITIONS_ACTION_CANCEL_DIRECT;
+  readonly actionAssign = POSITIONS_ACTION_ASSIGN;
   readonly actionReassign = POSITIONS_ACTION_REASSIGN;
   readonly actionHistory = POSITIONS_ACTION_HISTORY;
   readonly actionGoPreselection = POSITIONS_ACTION_GO_PRESELECTION;
@@ -1257,10 +1260,11 @@ export class PositionsTableComponent implements OnInit {
     if (!this.canEdit() || this.isRowTerminal(row.status)) {
       return;
     }
+    const initialAssign = isCreatedPositionStatus(row.status);
     this.dialog
       .open(ReassignPositionDialogComponent, {
         ...catalogDialogConfig('520px'),
-        data: { currentAssignedUserId: row.assignedUserId },
+        data: { currentAssignedUserId: row.assignedUserId, initialAssign },
       })
       .afterClosed()
       .subscribe((result: ReassignPositionDialogResult | null | undefined) => {
@@ -1270,13 +1274,17 @@ export class PositionsTableComponent implements OnInit {
         this.positionService.reassign(row.id, result).subscribe({
           next: () => {
             this.reloadAndNotify();
-            this.feedback.showSuccess(POSITIONS_REASSIGN_SUCCESS);
+            this.feedback.showSuccess(initialAssign ? POSITIONS_ASSIGN_SUCCESS : POSITIONS_REASSIGN_SUCCESS);
           },
           error: (err) => {
             this.feedback.showApiError(err, { fallbackMessage: POSITIONS_REASSIGN_ERROR });
           },
         });
       });
+  }
+
+  assignActionLabel(status: string | null | undefined): string {
+    return isCreatedPositionStatus(status) ? this.actionAssign : this.actionReassign;
   }
 
   openPoolDialog(row: PositionListItem): void {

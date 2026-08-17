@@ -7,6 +7,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import {
+  POSITIONS_ASSIGN_CONFIRM,
+  POSITIONS_ASSIGN_TITLE,
+  POSITIONS_ASSIGN_USER,
   POSITIONS_REASON_DIALOG_CANCEL,
   POSITIONS_REASSIGN_CONFIRM,
   POSITIONS_REASSIGN_REASON,
@@ -18,6 +21,7 @@ import { SecurityUser } from '../../../shared/models/security-user.model';
 
 export interface ReassignPositionDialogData {
   currentAssignedUserId?: number | null;
+  initialAssign?: boolean;
 }
 
 export interface ReassignPositionDialogResult {
@@ -104,10 +108,10 @@ export class ReassignPositionDialogComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly userService = inject(SecurityUserService);
 
-  readonly title = POSITIONS_REASSIGN_TITLE;
-  readonly userLabel = POSITIONS_REASSIGN_USER;
+  readonly title = this.data?.initialAssign ? POSITIONS_ASSIGN_TITLE : POSITIONS_REASSIGN_TITLE;
+  readonly userLabel = this.data?.initialAssign ? POSITIONS_ASSIGN_USER : POSITIONS_REASSIGN_USER;
   readonly reasonLabel = POSITIONS_REASSIGN_REASON;
-  readonly confirmLabel = POSITIONS_REASSIGN_CONFIRM;
+  readonly confirmLabel = this.data?.initialAssign ? POSITIONS_ASSIGN_CONFIRM : POSITIONS_REASSIGN_CONFIRM;
   readonly cancelLabel = POSITIONS_REASON_DIALOG_CANCEL;
 
   loading = true;
