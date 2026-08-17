@@ -22,7 +22,7 @@ import {
   FEEDBACK_GENERIC_INFO_TITLE,
   FEEDBACK_GENERIC_WARNING_TITLE,
 } from '../../../../core/i18n/feedback-labels';
-import { getRequisitionStatusLabel, isTerminalPositionStatus } from '../../../../core/i18n/common-labels';
+import { getRequisitionStatusLabel, isOpenForCancellationRequest, isTerminalPositionStatus } from '../../../../core/i18n/common-labels';
 import { CV_BULK_ACTION } from '../../../../core/i18n/cv-bulk-labels';
 import { EXCEL_BULK_ACTION } from '../../../../core/i18n/excel-bulk-labels';
 import {
@@ -462,6 +462,10 @@ export class PositionsTableComponent implements OnInit {
 
   isRowTerminal(status: string | null | undefined): boolean {
     return isTerminalPositionStatus(status);
+  }
+
+  isOpenForCancelRequest(status: string | null | undefined): boolean {
+    return isOpenForCancellationRequest(status);
   }
 
   private isTenantAdmin(): boolean {
@@ -1078,7 +1082,7 @@ export class PositionsTableComponent implements OnInit {
     if (!this.canRequestCancellation()) {
       return;
     }
-    if (row.status !== 'ACTIVE' && row.status !== 'PUBLISHED') {
+    if (!isOpenForCancellationRequest(row.status)) {
       return;
     }
     this.openEnrichedCancelDialog(row, 'request');
