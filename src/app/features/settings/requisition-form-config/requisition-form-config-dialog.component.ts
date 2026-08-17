@@ -32,6 +32,8 @@ import {
   REQ_FORM_CONFIG_ROLES_INHERIT_HINT,
   REQ_FORM_CONFIG_ROLES_VIEW,
   REQ_FORM_CONFIG_RULE_REQUIRED,
+  REQ_FORM_CONFIG_RULE_FILL_CLIENT,
+  REQ_FORM_CONFIG_RULE_READONLY_CLIENT,
   REQ_FORM_CONFIG_RULE_VISIBLE,
   REQ_FORM_CONFIG_RULES_TITLE,
   REQ_FORM_CONFIG_SAVE_DRAFT,
@@ -69,6 +71,11 @@ import {
   RequisitionFormFieldRules,
   RequisitionFormStepConfig,
 } from '../../../shared/models/requisition-form.model';
+import {
+  CLIENT_CATALOG_FILL_RULES,
+  CLIENT_ID_FIELD_KEY,
+  isClientCatalogFillTarget,
+} from '../../../shared/constants/requisition-client-catalog-fill';
 import { buildFullCatalogState } from '../../../shared/utils/requisition-form-catalog.util';
 import { parseFormRoleIds, serializeFormRoleIds } from '../../../shared/utils/requisition-form-role.util';
 import { SecurityRole } from '../../../shared/models/security-role.model';
@@ -124,6 +131,8 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
   readonly rulesTitle = REQ_FORM_CONFIG_RULES_TITLE;
   readonly ruleVisibleLabel = REQ_FORM_CONFIG_RULE_VISIBLE;
   readonly ruleRequiredLabel = REQ_FORM_CONFIG_RULE_REQUIRED;
+  readonly ruleFillClientLabel = REQ_FORM_CONFIG_RULE_FILL_CLIENT;
+  readonly ruleReadOnlyClientLabel = REQ_FORM_CONFIG_RULE_READONLY_CLIENT;
   readonly noRulesHint = REQ_FORM_CONFIG_NO_RULES;
   readonly readOnlyHint = REQ_FORM_CONFIG_READ_ONLY_HINT;
   readonly rolesViewLabel = REQ_FORM_CONFIG_ROLES_VIEW;
@@ -173,6 +182,8 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
   editRoleIds: number[] = [];
   ruleVisibleWhen = false;
   ruleRequiredWhen = false;
+  ruleFillFromCatalog = false;
+  ruleReadOnlyWhenClient = false;
 
   ngOnInit(): void {
     this.roleService.list(0, 200).subscribe({
@@ -311,8 +322,9 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
     this.selectedStepKey = field.stepKey;
     this.selectedField = { stepKey: field.stepKey, fieldDefId: field.fieldDefId };
     this.syncRoleSelection();
-    if (this.fieldDefKey(field.fieldDefId) === PEOPLE_IN_CHARGE_COUNT_FIELD_KEY) {
-      const rules = this.parseRules(field.rulesJson);
+    const key = this.fieldDefKey(field.fieldDefId);
+    const rules = this.parseRules(field.rulesJson);
+    if (key === PEOPLE_IN_CHARGE_COUNT_FIELD_KEY) {
       this.ruleVisibleWhen =
         rules.visibleWhen?.fieldKey === PEOPLE_IN_CHARGE_FIELD_KEY && rules.visibleWhen.equals === true;
       this.ruleRequiredWhen =
@@ -321,6 +333,11 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
       this.ruleVisibleWhen = false;
       this.ruleRequiredWhen = false;
     }
+    this.ruleFillFromCatalog = key === CLIENT_ID_FIELD_KEY && !!rules.fillFromCatalog?.mappings?.length;
+    this.ruleReadOnlyWhenClient =
+      isClientCatalogFillTarget(key) &&
+      rules.readOnlyWhen?.fieldKey === CLIENT_ID_FIELD_KEY &&
+      rules.readOnlyWhen.hasValue === true;
   }
 
   isFieldSelected(field: RequisitionFormFieldConfig): boolean {
@@ -342,7 +359,24 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
   }
 
   supportsConditionalRules(fieldDefId: number): boolean {
+    const key = this.fieldDefKey(fieldDefId);
+    return (
+      key === PEOPLE_IN_CHARGE_COUNT_FIELD_KEY ||
+      key === CLIENT_ID_FIELD_KEY ||
+      isClientCatalogFillTarget(key)
+    );
+  }
+
+  supportsPeopleInChargeRules(fieldDefId: number): boolean {
     return this.fieldDefKey(fieldDefId) === PEOPLE_IN_CHARGE_COUNT_FIELD_KEY;
+  }
+
+  supportsClientFillRules(fieldDefId: number): boolean {
+    return this.fieldDefKey(fieldDefId) === CLIENT_ID_FIELD_KEY;
+  }
+
+  supportsClientReadOnlyRules(fieldDefId: number): boolean {
+    return isClientCatalogFillTarget(this.fieldDefKey(fieldDefId));
   }
 
   isFieldSelection(): boolean {
@@ -394,6 +428,34 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
     }
     if (this.ruleRequiredWhen) {
       rules.requiredWhen = { fieldKey: PEOPLE_IN_CHARGE_FIELD_KEY, equals: true };
+    }
+    const rulesJson = Object.keys(rules).length > 0 ? JSON.stringify(rules) : null;
+    this.patchField(target, { rulesJson });
+  }
+
+  applyClientCatalogRules(): void {
+    if (this.isReadOnly()) {
+      return;
+    }
+    const target = this.selectedFieldConfig();
+    if (!target) {
+      return;
+    }
+    const key = this.fieldDefKey(target.fieldDefId);
+    const rules = this.parseRules(target.rulesJson);
+    if (key === CLIENT_ID_FIELD_KEY) {
+      if (this.ruleFillFromCatalog) {
+        rules.fillFromCatalog = CLIENT_CATALOG_FILL_RULES.fillFromCatalog;
+      } else {
+        delete rules.fillFromCatalog;
+      }
+    }
+    if (isClientCatalogFillTarget(key)) {
+      if (this.ruleReadOnlyWhenClient) {
+        rules.readOnlyWhen = { fieldKey: CLIENT_ID_FIELD_KEY, hasValue: true };
+      } else {
+        delete rules.readOnlyWhen;
+      }
     }
     const rulesJson = Object.keys(rules).length > 0 ? JSON.stringify(rules) : null;
     this.patchField(target, { rulesJson });

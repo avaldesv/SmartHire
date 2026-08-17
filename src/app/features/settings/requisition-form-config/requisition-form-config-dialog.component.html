@@ -167,22 +167,44 @@
           @if (isFieldSelection() && supportsConditionalRules(selectedField!.fieldDefId)) {
             <div class="rules-block">
               <h5>{{ rulesTitle }}</h5>
-              <mat-checkbox
-                [(ngModel)]="ruleVisibleWhen"
-                [ngModelOptions]="{ standalone: true }"
-                [disabled]="isReadOnly()"
-                (change)="applyPeopleInChargeRules()"
-              >
-                {{ ruleVisibleLabel }}
-              </mat-checkbox>
-              <mat-checkbox
-                [(ngModel)]="ruleRequiredWhen"
-                [ngModelOptions]="{ standalone: true }"
-                [disabled]="isReadOnly()"
-                (change)="applyPeopleInChargeRules()"
-              >
-                {{ ruleRequiredLabel }}
-              </mat-checkbox>
+              @if (supportsPeopleInChargeRules(selectedField!.fieldDefId)) {
+                <mat-checkbox
+                  [(ngModel)]="ruleVisibleWhen"
+                  [ngModelOptions]="{ standalone: true }"
+                  [disabled]="isReadOnly()"
+                  (change)="applyPeopleInChargeRules()"
+                >
+                  {{ ruleVisibleLabel }}
+                </mat-checkbox>
+                <mat-checkbox
+                  [(ngModel)]="ruleRequiredWhen"
+                  [ngModelOptions]="{ standalone: true }"
+                  [disabled]="isReadOnly()"
+                  (change)="applyPeopleInChargeRules()"
+                >
+                  {{ ruleRequiredLabel }}
+                </mat-checkbox>
+              }
+              @if (supportsClientFillRules(selectedField!.fieldDefId)) {
+                <mat-checkbox
+                  [(ngModel)]="ruleFillFromCatalog"
+                  [ngModelOptions]="{ standalone: true }"
+                  [disabled]="isReadOnly()"
+                  (change)="applyClientCatalogRules()"
+                >
+                  {{ ruleFillClientLabel }}
+                </mat-checkbox>
+              }
+              @if (supportsClientReadOnlyRules(selectedField!.fieldDefId)) {
+                <mat-checkbox
+                  [(ngModel)]="ruleReadOnlyWhenClient"
+                  [ngModelOptions]="{ standalone: true }"
+                  [disabled]="isReadOnly()"
+                  (change)="applyClientCatalogRules()"
+                >
+                  {{ ruleReadOnlyClientLabel }}
+                </mat-checkbox>
+              }
             </div>
           }
         }

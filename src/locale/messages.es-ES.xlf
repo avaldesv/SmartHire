@@ -6326,6 +6326,14 @@
         <source>Obligatorio cuando "Tiene personas a cargo" está activo</source>
         <target>Obligatorio cuando "Tiene personas a cargo" está activo</target>
       </trans-unit>
+      <trans-unit id="requisitionFormConfig.rule.fillFromClient" datatype="html">
+        <source>Al seleccionar un cliente, autollenar los campos relacionados del catálogo</source>
+        <target>Al seleccionar un cliente, autollenar los campos relacionados del catálogo</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.rule.readOnlyWhenClient" datatype="html">
+        <source>Solo lectura mientras hay un cliente seleccionado</source>
+        <target>Solo lectura mientras hay un cliente seleccionado</target>
+      </trans-unit>
       <trans-unit id="requisitionFormConfig.selectorsHint" datatype="html">
         <source>Filtre por país y tipo de cobertura, o consulte el listado de configuraciones existentes.</source>
         <target>Filtre por país y tipo de cobertura, o consulte el listado de configuraciones existentes.</target>
@@ -6529,6 +6537,10 @@
       <trans-unit id="requisition.field.coverageTypeId" datatype="html">
         <source>Tipo de cobertura</source>
         <target>Tipo de cobertura</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.clientId" datatype="html">
+        <source>Cliente</source>
+        <target>Cliente</target>
       </trans-unit>
       <trans-unit id="requisition.field.ot" datatype="html">
         <source>Orden de trabajo (OT)</source>
@@ -7506,9 +7518,25 @@
         <source>Idioma</source>
         <target>Idioma</target>
       </trans-unit>
+      <trans-unit id="requisition.action.autoGenerateRequirements" datatype="html">
+        <source>Auto Generar</source>
+        <target>Auto Generar</target>
+      </trans-unit>
+      <trans-unit id="requisition.jobDescription.characters" datatype="html">
+        <source>Caracteres</source>
+        <target>Caracteres</target>
+      </trans-unit>
       <trans-unit id="requisition.jobDescription.emptyPrompt" datatype="html">
         <source>Escribe una instrucción o borrador en el campo antes de generar.</source>
         <target>Escribe una instrucción o borrador en el campo antes de generar.</target>
+      </trans-unit>
+      <trans-unit id="requisition.jobDescription.emptySourceForAutoGenerate" datatype="html">
+        <source>Escribe o genera la descripción del puesto antes de auto generar requisitos.</source>
+        <target>Escribe o genera la descripción del puesto antes de auto generar requisitos.</target>
+      </trans-unit>
+      <trans-unit id="requisition.jobDescription.emptyPositionNameForAutoGenerate" datatype="html">
+        <source>Escribe el nombre del puesto antes de auto generar la descripción.</source>
+        <target>Escribe el nombre del puesto antes de auto generar la descripción.</target>
       </trans-unit>
       <trans-unit id="requisition.jobDescription.emptyTranslate" datatype="html">
         <source>Escribe o genera una descripción antes de traducir.</source>

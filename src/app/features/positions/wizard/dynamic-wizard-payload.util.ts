@@ -219,7 +219,7 @@ export function refreshDynamicValidators(
         control.updateValueAndValidity({ emitEvent: false });
         continue;
       }
-      if (isFieldReadOnly(field)) {
+      if (isFieldReadOnly(field, values)) {
         control.clearValidators();
         control.disable({ emitEvent: false });
         control.updateValueAndValidity({ emitEvent: false });

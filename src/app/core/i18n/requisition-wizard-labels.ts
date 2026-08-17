@@ -18,6 +18,7 @@ const REQUISITION_FIELD_LABELS: Record<string, string> = {
   countryId: $localize`:@@requisition.field.countryId:País`,
   requisitionTypeId: $localize`:@@requisition.field.requisitionTypeId:Tipo de requisición`,
   coverageTypeId: $localize`:@@requisition.field.coverageTypeId:Tipo de cobertura`,
+  clientId: $localize`:@@requisition.field.clientId:Cliente`,
   ot: $localize`:@@requisition.field.ot:Orden de trabajo (OT)`,
   orderId: $localize`:@@requisition.field.orderId:Id de Orden`,
   clientKey: $localize`:@@requisition.field.clientKey:Clave cliente`,

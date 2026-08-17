@@ -43,6 +43,16 @@ export interface RequisitionFormFieldRuleCondition {
   equals: boolean;
 }
 
+export interface RequisitionFormFieldReadOnlyWhen {
+  fieldKey: string;
+  hasValue: boolean;
+}
+
+export interface RequisitionFormCatalogFillMapping {
+  fieldKey: string;
+  from: string;
+}
+
 export interface RequisitionFormFieldRules {
   visibleWhen?: RequisitionFormFieldRuleCondition;
   requiredWhen?: RequisitionFormFieldRuleCondition;
@@ -50,6 +60,13 @@ export interface RequisitionFormFieldRules {
   readOnly?: boolean;
   /** Copies value from another field key (e.g. orderId mirrors ot). */
   valueFrom?: string;
+  /** When the referenced field has a value, this field is read-only in the wizard. */
+  readOnlyWhen?: RequisitionFormFieldReadOnlyWhen;
+  /** On this source field, copy catalog properties into target fields. */
+  fillFromCatalog?: {
+    dataSourceKey: string;
+    mappings: RequisitionFormCatalogFillMapping[];
+  };
 }
 
 export interface RequisitionFormConfigSummary {

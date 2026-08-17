@@ -21,6 +21,7 @@ export interface CreatePositionRequest {
   brandId?: number | null;
   requisitionTypeId: number;
   coverageTypeId: number;
+  clientId?: number | null;
   ot: string;
   clientKey: string;
   legalName: string;

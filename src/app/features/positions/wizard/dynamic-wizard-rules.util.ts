@@ -76,12 +76,32 @@ export function isFieldRequired(
   return evaluateFieldCondition(requiredWhen, formValues);
 }
 
-export function isFieldReadOnly(field: ResolvedRequisitionFormField): boolean {
+export function isFieldReadOnly(
+  field: ResolvedRequisitionFormField,
+  formValues: Record<string, unknown> = {},
+): boolean {
   if (field.readOnly) {
     return true;
   }
   const rules = parseFieldRules(field.rulesJson);
-  return !!rules?.readOnly;
+  if (rules?.readOnly) {
+    return true;
+  }
+  const readOnlyWhen = rules?.readOnlyWhen;
+  if (readOnlyWhen?.hasValue && readOnlyWhen.fieldKey) {
+    return hasFilledValue(formValues[readOnlyWhen.fieldKey]);
+  }
+  return false;
+}
+
+function hasFilledValue(raw: unknown): boolean {
+  if (raw == null || raw === '') {
+    return false;
+  }
+  if (typeof raw === 'number') {
+    return !Number.isNaN(raw);
+  }
+  return true;
 }
 
 export function findResolvedField(
@@ -101,6 +121,13 @@ export function fieldValueFrom(field: ResolvedRequisitionFormField): string | nu
   const rules = parseFieldRules(field.rulesJson);
   const source = rules?.valueFrom?.trim();
   return source ? source : null;
+}
+
+export function fieldFillFromCatalog(
+  field: ResolvedRequisitionFormField,
+): NonNullable<RequisitionFormFieldRules['fillFromCatalog']> | null {
+  const rules = parseFieldRules(field.rulesJson);
+  return rules?.fillFromCatalog?.mappings?.length ? rules.fillFromCatalog : null;
 }
 
 export function isPeopleInChargeRuleField(fieldKey: string): boolean {

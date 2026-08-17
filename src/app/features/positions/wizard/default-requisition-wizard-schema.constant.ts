@@ -1,3 +1,7 @@
+import {
+  CLIENT_CATALOG_FILL_RULES,
+  CLIENT_CATALOG_READ_ONLY_WHEN,
+} from '../../../shared/constants/requisition-client-catalog-fill';
 import { ResolvedRequisitionFormConfig } from '../../../shared/models/requisition-wizard.model';
 
 function field(
@@ -29,13 +33,73 @@ export const DEFAULT_REQUISITION_WIZARD_SCHEMA: ResolvedRequisitionFormConfig = 
       labelI18nKey: 'requisition.step.client',
       orderIndex: 1,
       fields: [
+        field(
+          'clientId',
+          'select',
+          'requisition.field.clientId',
+          'clients',
+          true,
+          JSON.stringify(CLIENT_CATALOG_FILL_RULES),
+        ),
         field('countryId', 'select', 'requisition.field.countryId', 'countries'),
         field('coverageTypeId', 'select', 'requisition.field.coverageTypeId', 'coverage-types'),
         field('ot', 'text', 'requisition.field.ot'),
-        field('clientKey', 'text', 'requisition.field.clientKey'),
-        field('legalName', 'text', 'requisition.field.legalName'),
-        field('contactName', 'text', 'requisition.field.contactName'),
-        field('clientPosition', 'text', 'requisition.field.clientContactPosition'),
+        field(
+          'clientKey',
+          'text',
+          'requisition.field.clientKey',
+          null,
+          true,
+          JSON.stringify(CLIENT_CATALOG_READ_ONLY_WHEN),
+        ),
+        field(
+          'legalName',
+          'text',
+          'requisition.field.legalName',
+          null,
+          true,
+          JSON.stringify(CLIENT_CATALOG_READ_ONLY_WHEN),
+        ),
+        field(
+          'tradeName',
+          'text',
+          'requisition.field.tradeName',
+          null,
+          true,
+          JSON.stringify(CLIENT_CATALOG_READ_ONLY_WHEN),
+        ),
+        field(
+          'contactName',
+          'text',
+          'requisition.field.contactName',
+          null,
+          true,
+          JSON.stringify(CLIENT_CATALOG_READ_ONLY_WHEN),
+        ),
+        field(
+          'contactPhone',
+          'text',
+          'requisition.field.contactPhone',
+          null,
+          true,
+          JSON.stringify(CLIENT_CATALOG_READ_ONLY_WHEN),
+        ),
+        field(
+          'contactEmail',
+          'text',
+          'requisition.field.contactEmail',
+          null,
+          true,
+          JSON.stringify(CLIENT_CATALOG_READ_ONLY_WHEN),
+        ),
+        field(
+          'clientPosition',
+          'text',
+          'requisition.field.clientContactPosition',
+          null,
+          true,
+          JSON.stringify(CLIENT_CATALOG_READ_ONLY_WHEN),
+        ),
       ],
     },
     {

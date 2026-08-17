@@ -1,6 +1,7 @@
 import { Component, DestroyRef, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
@@ -13,7 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, Subject, takeUntil } from 'rxjs';
 import { WizardFieldCatalogService } from '../../../../core/services/wizard-field-catalog.service';
 import {
   ResolvedRequisitionFormConfig,
@@ -22,7 +23,8 @@ import {
   WizardDocumentRequirementRow,
   WizardFieldOption,
 } from '../../../../shared/models/requisition-wizard.model';
-import { isFieldReadOnly, isFieldVisible, fieldValueFrom } from '../dynamic-wizard-rules.util';
+import { isFieldReadOnly, isFieldVisible, fieldValueFrom, fieldFillFromCatalog } from '../dynamic-wizard-rules.util';
+import { RequisitionFormFieldRules } from '../../../../shared/models/requisition-form.model';
 import { resolveWizardFieldLabel } from '../requisition-wizard-labels';
 import {
   REQUISITION_SCOPE_LOADING,
@@ -91,6 +93,7 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
 
   private flatValues: Record<string, unknown> = {};
   private geographySetup = false;
+  private readonly catalogFillStop$ = new Subject<void>();
 
   ngOnInit(): void {
     this.rootForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
@@ -140,6 +143,8 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
         this.setupGeographyCascade();
         this.geographySetup = true;
       }
+      this.catalogFillStop$.next();
+      this.setupCatalogFill();
       this.syncDocumentGrid();
     }
     if (changes['countryId'] && !changes['countryId'].firstChange) {
@@ -153,7 +158,7 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
   }
 
   isReadOnly(field: ResolvedRequisitionFormField): boolean {
-    return isFieldReadOnly(field);
+    return isFieldReadOnly(field, this.flatValues);
   }
 
   private syncMirroredFields(): void {
@@ -162,7 +167,7 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
       if (!control) {
         continue;
       }
-      if (isFieldReadOnly(field) && control.enabled) {
+      if (isFieldReadOnly(field, this.flatValues) && control.enabled) {
         control.disable({ emitEvent: false });
       }
       const sourceKey = fieldValueFrom(field);
@@ -174,6 +179,71 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
         control.setValue(sourceValue, { emitEvent: false });
       }
     }
+  }
+
+  private setupCatalogFill(): void {
+    if (!this.stepForm) {
+      return;
+    }
+    for (const field of this.step.fields) {
+      const fill = fieldFillFromCatalog(field);
+      if (!fill) {
+        continue;
+      }
+      const control = this.stepForm.get(field.fieldKey);
+      if (!control) {
+        continue;
+      }
+      control.valueChanges
+        .pipe(distinctUntilChanged(), takeUntil(this.catalogFillStop$), takeUntilDestroyed(this.destroyRef))
+        .subscribe((id) => this.applyCatalogFill(fill, id));
+    }
+  }
+
+  private applyCatalogFill(
+    fill: NonNullable<RequisitionFormFieldRules['fillFromCatalog']>,
+    rawId: unknown,
+  ): void {
+    const id = typeof rawId === 'number' ? rawId : Number(rawId);
+    if (rawId == null || rawId === '' || Number.isNaN(id)) {
+      return;
+    }
+    this.catalogService.loadCatalogItem(fill.dataSourceKey, id).subscribe({
+      next: (item) => {
+        if (!item) {
+          return;
+        }
+        for (const mapping of fill.mappings) {
+          const control = this.findControl(mapping.fieldKey);
+          if (!control) {
+            continue;
+          }
+          const value = item[mapping.from];
+          const next = value == null ? '' : value;
+          if (control.value !== next) {
+            control.setValue(next, { emitEvent: false });
+          }
+        }
+        this.flatValues = this.flattenRootValues();
+        this.visibleFields = this.step.fields.filter((f) => isFieldVisible(f, this.flatValues));
+        this.syncMirroredFields();
+      },
+    });
+  }
+
+  private findControl(fieldKey: string): AbstractControl | null {
+    const local = this.stepForm.get(fieldKey);
+    if (local) {
+      return local;
+    }
+    for (const step of this.config.steps) {
+      const group = this.rootForm.get(step.stepKey) as FormGroup | null;
+      const ctrl = group?.get(fieldKey) ?? null;
+      if (ctrl) {
+        return ctrl;
+      }
+    }
+    return null;
   }
 
   languageArray(fieldKey: string): FormArray {
