@@ -1,8 +1,8 @@
 <header class="top-header">
-  <div class="brand">
+  <a class="brand" routerLink="/home" i18n-aria-label="@@shell.brandHome" aria-label="Ir al inicio">
     <div class="logo-mark">SH</div>
     <span class="logo-text" i18n="@@app.brand">Smart Hire</span>
-  </div>
+  </a>
   <div class="header-actions">
     @if (isGlobalAdmin()) {
       <mat-form-field class="tenant-select" appearance="outline" subscriptSizing="dynamic">
