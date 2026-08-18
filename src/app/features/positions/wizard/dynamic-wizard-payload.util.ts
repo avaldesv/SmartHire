@@ -41,6 +41,7 @@ export function defaultValueForUiType(uiType: string): unknown {
     case 'date':
       return null;
     case 'select':
+    case 'client-search':
     case 'user-picker':
       return null;
     case 'multiselect':
@@ -108,6 +109,7 @@ export function buildFieldValidators(
     case 'checkbox':
       return [];
     case 'select':
+    case 'client-search':
     case 'user-picker':
       return [Validators.required];
     case 'multiselect':

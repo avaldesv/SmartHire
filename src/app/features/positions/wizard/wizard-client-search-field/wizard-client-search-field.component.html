@@ -1,0 +1,43 @@
+<mat-form-field appearance="outline" class="client-search-field" subscriptSizing="dynamic">
+  <mat-label>{{ label }}</mat-label>
+  <input
+    matInput
+    [formControl]="searchCtrl"
+    [matAutocomplete]="clientAuto"
+    (focus)="onFocus()"
+    (blur)="control.markAsTouched()"
+    [placeholder]="placeholder"
+    autocomplete="off"
+  />
+  @if (loading) {
+    <span matSuffix>
+      <mat-spinner diameter="18" />
+    </span>
+  } @else if (searchCtrl.value) {
+    <button
+      matSuffix
+      mat-icon-button
+      type="button"
+      [attr.aria-label]="clearLabel"
+      [disabled]="disabled"
+      (click)="clear()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  }
+  @if (countryId == null) {
+    <mat-hint>{{ noCountryHint }}</mat-hint>
+  }
+  <mat-autocomplete
+    #clientAuto="matAutocomplete"
+    [displayWith]="displayFn"
+    (optionSelected)="onSelected($event)"
+  >
+    @for (opt of options; track opt.id) {
+      <mat-option [value]="opt">{{ opt.label }}</mat-option>
+    }
+    @if (searched && !loading && options.length === 0 && countryId != null) {
+      <mat-option disabled>{{ noResultsLabel }}</mat-option>
+    }
+  </mat-autocomplete>
+</mat-form-field>

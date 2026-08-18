@@ -182,6 +182,13 @@
           }
         </mat-select>
       </mat-form-field>
+    } @else if (isClientSearchField(field)) {
+      <sh-wizard-client-search-field
+        [control]="fieldControl(field.fieldKey)"
+        [countryId]="countryId"
+        [disabled]="isReadOnly(field)"
+        [label]="fieldLabel(field)"
+      />
     } @else if (field.fieldKey === 'jobDescription') {
       <div class="span-2 field-full">
         <sh-job-description-ai-field

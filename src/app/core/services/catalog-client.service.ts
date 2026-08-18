@@ -20,8 +20,15 @@ export class CatalogClientService {
     ordersBy: string[] = ['tradeName:asc'],
     filters: string[] = [],
     countryId?: number | null,
+    search?: string | null,
   ): Observable<{ items: CatalogClient[]; total: number }> {
-    const body = { isActive: true, filters, ordersBy, countryId: countryId ?? null };
+    const body = {
+      isActive: true,
+      filters,
+      ordersBy,
+      countryId: countryId ?? null,
+      search: search?.trim() || null,
+    };
     return this.http
       .post<ClientListResponse>(this.api.apiUrl('/api/v1/clients/list'), body, {
         headers: this.api.buildHeaders(page, size),
@@ -35,13 +42,9 @@ export class CatalogClientService {
     });
   }
 
-  /** Typeahead for filters: search companyArea with small page size. */
+  /** Typeahead: name, email, code or trade name. */
   searchByCompanyArea(term: string, size = 20): Observable<CatalogClient[]> {
-    const trimmed = term.trim();
-    const filters = trimmed
-      ? [`companyArea:CONTAINS:${trimmed.replaceAll(':', ' ')}`]
-      : [];
-    return this.list(0, size, ['companyArea:asc'], filters).pipe(map((res) => res.items));
+    return this.list(0, size, ['tradeName:asc'], [], null, term).pipe(map((res) => res.items));
   }
 
   create(request: CreateClientRequest): Observable<CatalogClient> {
