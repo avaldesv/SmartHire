@@ -365,6 +365,7 @@ export class PositionsTableComponent implements OnInit {
     'CANCELLED',
   ];
   private statusNameByCode = new Map<string, string>();
+  private statusColorByCode = new Map<string, { colorHex?: string | null; backgroundColorHex?: string | null }>();
 
   readonly filters = this.fb.nonNullable.group({
     search: [''],
@@ -515,12 +516,26 @@ export class PositionsTableComponent implements OnInit {
     return getRequisitionStatusLabel(status, this.statusNameByCode.get(status));
   }
 
+  statusColorHex(status: string): string | null {
+    return this.statusColorByCode.get(status)?.colorHex ?? null;
+  }
+
+  statusBackgroundColorHex(status: string): string | null {
+    return this.statusColorByCode.get(status)?.backgroundColorHex ?? null;
+  }
+
   ngOnInit(): void {
     this.positionStatusCatalogService.list(0, 200, { isActive: true }).subscribe({
       next: (res) => {
         const codes = res.items.map((item) => item.code);
         if (codes.length > 0) {
           this.statusNameByCode = new Map(res.items.map((item) => [item.code, item.name]));
+          this.statusColorByCode = new Map(
+            res.items.map((item) => [
+              item.code,
+              { colorHex: item.colorHex, backgroundColorHex: item.backgroundColorHex },
+            ])
+          );
           this.statusOptions = ['Todos', ...codes];
         }
       },
