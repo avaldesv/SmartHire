@@ -1147,7 +1147,7 @@ export class CatalogsAdminComponent implements OnInit {
   readonly kinshipColumns = ['code', 'name', 'active', 'scope', 'actions'];
   readonly cancellationTypeColumns = ['code', 'name', 'description', 'sortOrder', 'active', 'actions'];
   readonly cancellationReasonColumns = ['cancellationType', 'code', 'name', 'description', 'sortOrder', 'active', 'actions'];
-  readonly positionStatusColumns = ['code', 'name', 'type', 'description', 'sortOrder', 'active', 'actions'];
+  readonly positionStatusColumns = ['code', 'name', 'type', 'description', 'sortOrder', 'colors', 'active', 'actions'];
   readonly coverageCategoryColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
   readonly characteristicColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
   readonly categoryColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
@@ -1264,6 +1264,7 @@ export class CatalogsAdminComponent implements OnInit {
     type: ['PROCESS', Validators.required],
     sortOrder: [0, [Validators.required, Validators.min(0)]],
     colorHex: [''],
+    backgroundColorHex: [''],
     isActive: [true],
   });
 
@@ -3279,6 +3280,7 @@ export class CatalogsAdminComponent implements OnInit {
       type: 'PROCESS',
       sortOrder: 0,
       colorHex: '',
+      backgroundColorHex: '',
       isActive: true,
     });
   }
@@ -3293,6 +3295,7 @@ export class CatalogsAdminComponent implements OnInit {
       type: row.type || 'PROCESS',
       sortOrder: row.sortOrder ?? 0,
       colorHex: row.colorHex ?? '',
+      backgroundColorHex: row.backgroundColorHex ?? '',
       isActive: row.isActive,
     });
   }
@@ -3316,6 +3319,7 @@ export class CatalogsAdminComponent implements OnInit {
       type: value.type,
       sortOrder: value.sortOrder,
       colorHex: value.colorHex.trim() || null,
+      backgroundColorHex: value.backgroundColorHex.trim() || null,
       isActive: value.isActive,
     };
     this.savingPositionStatus = true;

@@ -339,7 +339,7 @@
         <ng-container matColumnDef="country"><th mat-header-cell *matHeaderCellDef>{{ colCountry }}</th><td mat-cell *matCellDef="let row">{{ row.country || '—' }}</td></ng-container>
         <ng-container matColumnDef="city"><th mat-header-cell *matHeaderCellDef>{{ colCity }}</th><td mat-cell *matCellDef="let row">{{ row.city || '—' }}</td></ng-container>
         <ng-container matColumnDef="state"><th mat-header-cell *matHeaderCellDef>{{ colState }}</th><td mat-cell *matCellDef="let row">{{ row.state || '—' }}</td></ng-container>
-        <ng-container matColumnDef="status"><th mat-header-cell *matHeaderCellDef>{{ colStatus }}</th><td mat-cell *matCellDef="let row"><sh-status-badge [status]="row.status" /></td></ng-container>
+        <ng-container matColumnDef="status"><th mat-header-cell *matHeaderCellDef>{{ colStatus }}</th><td mat-cell *matCellDef="let row"><sh-status-badge [status]="row.status" [colorHex]="statusColorHex(row.status)" [backgroundColorHex]="statusBackgroundColorHex(row.status)" /></td></ng-container>
         <ng-container matColumnDef="cancellationScope"><th mat-header-cell *matHeaderCellDef>{{ colScope }}</th><td mat-cell *matCellDef="let row">{{ row.cancellationScope || '—' }}</td></ng-container>
         <ng-container matColumnDef="actions" stickyEnd>
           <th mat-header-cell *matHeaderCellDef class="col-sticky-end"></th>

@@ -1,4 +1,4 @@
-import { ApiPageResponse } from './catalog-position.model';
+import { ApiPageResponse } from './api-page.model';
 
 export interface CatalogPositionStatus {
   id: number;
@@ -7,7 +7,10 @@ export interface CatalogPositionStatus {
   description?: string | null;
   type: string;
   sortOrder: number;
+  /** Badge text/foreground (#RRGGBB). */
   colorHex?: string | null;
+  /** Badge background (#RRGGBB). */
+  backgroundColorHex?: string | null;
   isActive: boolean;
 }
 
@@ -18,7 +21,8 @@ export interface CreatePositionStatusRequest {
   type: string;
   sortOrder?: number;
   colorHex?: string | null;
-  isActive?: boolean;
+  backgroundColorHex?: string | null;
+  isActive: boolean;
 }
 
 export type UpdatePositionStatusRequest = CreatePositionStatusRequest;
