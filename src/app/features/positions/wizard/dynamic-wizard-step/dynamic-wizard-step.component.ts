@@ -40,6 +40,8 @@ import {
 } from '../../../../core/i18n/requisition-wizard-labels';
 import { DynamicWizardFieldComponent } from '../dynamic-wizard-field/dynamic-wizard-field.component';
 import { JobDescriptionAiFieldComponent } from '../job-description-ai-field/job-description-ai-field.component';
+import { WizardClientSearchFieldComponent } from '../wizard-client-search-field/wizard-client-search-field.component';
+import { CLIENT_ID_FIELD_KEY } from '../../../../shared/constants/requisition-client-catalog-fill';
 
 @Component({
   selector: 'sh-dynamic-wizard-step',
@@ -54,6 +56,7 @@ import { JobDescriptionAiFieldComponent } from '../job-description-ai-field/job-
     MatIconModule,
     DynamicWizardFieldComponent,
     JobDescriptionAiFieldComponent,
+    WizardClientSearchFieldComponent,
   ],
   templateUrl: './dynamic-wizard-step.component.html',
   styleUrl: './dynamic-wizard-step.component.scss',
@@ -280,7 +283,7 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
       if (!field.dataSourceKey || field.uiType === 'document-grid' || field.uiType === 'language-grid') {
         continue;
       }
-      if (['states', 'municipalities', 'neighborhoods'].includes(field.dataSourceKey)) {
+      if (['states', 'municipalities', 'neighborhoods', 'clients'].includes(field.dataSourceKey)) {
         continue;
       }
       this.loadingByField[field.fieldKey] = true;
@@ -512,5 +515,9 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
 
   fieldLabel(field: ResolvedRequisitionFormField): string {
     return resolveWizardFieldLabel(field.fieldKey, field.labelI18nKey);
+  }
+
+  isClientSearchField(field: ResolvedRequisitionFormField): boolean {
+    return field.fieldKey === CLIENT_ID_FIELD_KEY || field.dataSourceKey === 'clients';
   }
 }

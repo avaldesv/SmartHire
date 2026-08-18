@@ -115,16 +115,7 @@ export class WizardFieldCatalogService {
       case 'countries':
         return this.geographyService.listCountries().pipe(map((items) => this.toOptions(items)));
       case 'clients':
-        return countryId != null
-          ? this.clientService.list(0, 200, ['tradeName:asc'], [], countryId).pipe(
-              map((r) =>
-                r.items.map((client) => ({
-                  id: client.id,
-                  label: catalogClientOptionLabel(client),
-                })),
-              ),
-            )
-          : of([]);
+        return this.searchClients(countryId, '');
       case 'brands':
         return countryId != null
           ? this.brandService.list(countryId, 0, 200).pipe(map((r) => this.toOptions(r.items)))
@@ -254,6 +245,28 @@ export class WizardFieldCatalogService {
       default:
         return of([]);
     }
+  }
+
+  /**
+   * Typeahead for the wizard Client field: country of the requisition (plus clients
+   * without country), matching name / email / code / trade name, max 100.
+   */
+  searchClients(countryId: number | null | undefined, search = ''): Observable<WizardFieldOption[]> {
+    if (countryId == null) {
+      return of([]);
+    }
+    return this.clientService.list(0, 100, ['tradeName:asc'], [], countryId, search).pipe(
+      map((r) =>
+        r.items.map((client) => {
+          const base = catalogClientOptionLabel(client);
+          const email = client.email?.trim();
+          return {
+            id: client.id,
+            label: email && !base.includes(email) ? `${base} · ${email}` : base,
+          };
+        }),
+      ),
+    );
   }
 
   loadCatalogItem(dataSourceKey: string, id: number): Observable<Record<string, unknown> | null> {

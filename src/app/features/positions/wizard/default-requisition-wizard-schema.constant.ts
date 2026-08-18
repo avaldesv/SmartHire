@@ -37,7 +37,7 @@ export const DEFAULT_REQUISITION_WIZARD_SCHEMA: ResolvedRequisitionFormConfig = 
         field('coverageTypeId', 'select', 'requisition.field.coverageTypeId', 'coverage-types'),
         field(
           'clientId',
-          'select',
+          'client-search',
           'requisition.field.clientId',
           'clients',
           true,
