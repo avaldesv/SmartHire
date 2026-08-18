@@ -1,4 +1,4 @@
-import { ApiPageResponse } from './api-page.model';
+import { ApiPageResponse } from './catalog-position.model';
 
 export interface CatalogPositionStatus {
   id: number;
