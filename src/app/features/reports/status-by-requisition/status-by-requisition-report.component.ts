@@ -87,8 +87,8 @@ export class StatusByRequisitionReportComponent implements OnInit {
   ];
 
   readonly filters = this.fb.nonNullable.group({
-    startDate: this.fb.control<string>(''),
-    endDate: this.fb.control<string>(''),
+    startDate: this.fb.control<string>(currentMonthStart()),
+    endDate: this.fb.control<string>(currentMonthEnd()),
     countryId: this.fb.control<number | null>(null),
     positionId: this.fb.control<number | null>(null),
     status: this.fb.control<string | null>(null),
@@ -113,8 +113,8 @@ export class StatusByRequisitionReportComponent implements OnInit {
 
   clearFilters(): void {
     this.filters.reset({
-      startDate: '',
-      endDate: '',
+      startDate: currentMonthStart(),
+      endDate: currentMonthEnd(),
       countryId: null,
       positionId: null,
       status: null,
@@ -231,4 +231,23 @@ export class StatusByRequisitionReportComponent implements OnInit {
         this.groupOptions = groups.items;
       });
   }
+}
+
+/** First day of current month as `yyyy-MM-dd` (input type=date). */
+function currentMonthStart(): string {
+  const now = new Date();
+  return formatLocalDate(new Date(now.getFullYear(), now.getMonth(), 1));
+}
+
+/** Last day of current month as `yyyy-MM-dd` (input type=date). */
+function currentMonthEnd(): string {
+  const now = new Date();
+  return formatLocalDate(new Date(now.getFullYear(), now.getMonth() + 1, 0));
+}
+
+function formatLocalDate(d: Date): string {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
 }
