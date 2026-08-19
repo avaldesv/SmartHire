@@ -28,6 +28,7 @@ import {
 import { SecurityRecruiterGroup } from '../../../shared/models/security-recruiter-group.model';
 import { SecurityUser } from '../../../shared/models/security-user.model';
 import { formatReportCell } from '../shared/report-format';
+import { armReportTenantReload } from '../shared/report-tenant-reload';
 
 interface SelectOption {
   id: number;
@@ -76,6 +77,7 @@ export class ProcessFunnelReportComponent implements OnInit {
   private readonly users = inject(SecurityUserService);
   private readonly fb = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly armTenantReload = armReportTenantReload(() => this.reloadForTenant());
 
   loading = false;
   loadingCatalogs = true;
@@ -89,9 +91,8 @@ export class ProcessFunnelReportComponent implements OnInit {
 
   rows: ProcessFunnelRowResponse[] = [];
   totalByStage: ProcessFunnelStageCounts = emptyStages();
+  /** All catalog brands in the active tenant result (no UI selector). */
   byBrand: ProcessFunnelBrandResponse[] = [];
-  /** Multi-select for chart 2 — default all brands from result. */
-  selectedChartBrandIds: number[] = [];
 
   readonly stageMeta = STAGE_META;
 
@@ -134,6 +135,7 @@ export class ProcessFunnelReportComponent implements OnInit {
       .subscribe((countryId) => this.onCountryChange(countryId));
 
     this.load();
+    this.armTenantReload();
   }
 
   get totalBars(): StageBar[] {
@@ -144,21 +146,9 @@ export class ProcessFunnelReportComponent implements OnInit {
     return Math.max(1, ...this.totalBars.map((b) => b.value));
   }
 
-  get chartBrandOptions(): ProcessFunnelBrandResponse[] {
-    return this.byBrand;
-  }
-
-  get visibleBrands(): ProcessFunnelBrandResponse[] {
-    if (!this.selectedChartBrandIds.length) {
-      return this.byBrand;
-    }
-    const set = new Set(this.selectedChartBrandIds);
-    return this.byBrand.filter((b) => set.has(brandKey(b.brandId)));
-  }
-
   get brandChartMax(): number {
     let max = 1;
-    for (const brand of this.visibleBrands) {
+    for (const brand of this.byBrand) {
       for (const meta of STAGE_META) {
         max = Math.max(max, brand[meta.key] ?? 0);
       }
@@ -204,13 +194,8 @@ export class ProcessFunnelReportComponent implements OnInit {
         this.rows = data?.rows ?? [];
         this.totalByStage = data?.totalByStage ?? emptyStages();
         this.byBrand = data?.byBrand ?? [];
-        this.selectedChartBrandIds = this.byBrand.map((b) => brandKey(b.brandId));
         this.loading = false;
       });
-  }
-
-  onChartBrandsChange(ids: number[]): void {
-    this.selectedChartBrandIds = ids ?? [];
   }
 
   formatCell(value: number | null | undefined): string {
@@ -223,6 +208,11 @@ export class ProcessFunnelReportComponent implements OnInit {
 
   stageValue(brand: ProcessFunnelBrandResponse, key: keyof ProcessFunnelStageCounts): number {
     return brand[key] ?? 0;
+  }
+
+  private reloadForTenant(): void {
+    this.loadIndependentCatalogs();
+    this.load();
   }
 
   private toBars(counts: ProcessFunnelStageCounts): StageBar[] {
@@ -335,8 +325,4 @@ function formatLocalDate(d: Date): string {
   const m = String(d.getMonth() + 1).padStart(2, '0');
   const day = String(d.getDate()).padStart(2, '0');
   return `${y}-${m}-${day}`;
-}
-
-function brandKey(brandId: number | null): number {
-  return brandId ?? -1;
 }

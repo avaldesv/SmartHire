@@ -28,6 +28,7 @@ import {
 import { SecurityRecruiterGroup } from '../../../shared/models/security-recruiter-group.model';
 import { SecurityUser } from '../../../shared/models/security-user.model';
 import { formatReportCell } from '../shared/report-format';
+import { armReportTenantReload } from '../shared/report-tenant-reload';
 
 interface SelectOption {
   id: number;
@@ -75,6 +76,7 @@ export class ConsolidadoReportComponent implements OnInit {
   private readonly users = inject(SecurityUserService);
   private readonly fb = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly armTenantReload = armReportTenantReload(() => this.reloadForTenant());
 
   loading = false;
   loadingCatalogs = true;
@@ -144,6 +146,7 @@ export class ConsolidadoReportComponent implements OnInit {
       .subscribe(() => this.onYearMonthChange());
 
     this.load();
+    this.armTenantReload();
   }
 
   get chartMax(): number {
@@ -206,6 +209,11 @@ export class ConsolidadoReportComponent implements OnInit {
 
   formatKpi(value: number | null | undefined): string {
     return formatReportCell(value);
+  }
+
+  private reloadForTenant(): void {
+    this.loadIndependentCatalogs();
+    this.load();
   }
 
   barWidth(value: number | null | undefined): string {

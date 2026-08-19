@@ -130,7 +130,7 @@ export interface RequisitionsBySourceResponse {
   total: RequisitionsBySourceRowResponse;
 }
 
-/** Filters for process-funnel — tenant from companyId header; Marca UI = brandId. */
+/** Filters for process-funnel — tenant from companyId header; brandId always null from portal. */
 export interface ProcessFunnelFilterRequest {
   startDate?: string | null;
   endDate?: string | null;

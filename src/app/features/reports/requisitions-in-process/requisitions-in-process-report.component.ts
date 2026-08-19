@@ -18,6 +18,7 @@ import {
   RequisitionsInProcessYearResponse,
 } from '../../../shared/models/report.model';
 import { formatReportCell } from '../shared/report-format';
+import { armReportTenantReload } from '../shared/report-tenant-reload';
 
 interface YearBarSeries {
   key: keyof Pick<
@@ -54,6 +55,7 @@ export class RequisitionsInProcessReportComponent implements OnInit {
   private readonly geography = inject(CatalogGeographyService);
   private readonly fb = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly armTenantReload = armReportTenantReload(() => this.reloadForTenant());
 
   loading = false;
   loadingCatalogs = true;
@@ -84,6 +86,7 @@ export class RequisitionsInProcessReportComponent implements OnInit {
   ngOnInit(): void {
     this.loadCountries();
     this.load();
+    this.armTenantReload();
   }
 
   clearFilters(): void {
@@ -205,6 +208,11 @@ export class RequisitionsInProcessReportComponent implements OnInit {
 
   formatCell(value: number | null | undefined): string {
     return formatReportCell(value);
+  }
+
+  private reloadForTenant(): void {
+    this.loadCountries();
+    this.load();
   }
 
   private buildRequest(): RequisitionsInProcessFilterRequest {
