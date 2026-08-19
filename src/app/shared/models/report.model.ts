@@ -129,3 +129,45 @@ export interface RequisitionsBySourceResponse {
   rows: RequisitionsBySourceRowResponse[];
   total: RequisitionsBySourceRowResponse;
 }
+
+/** Filters for process-funnel — tenant from companyId header; Marca UI = brandId. */
+export interface ProcessFunnelFilterRequest {
+  startDate?: string | null;
+  endDate?: string | null;
+  countryId?: number | null;
+  brandId?: number | null;
+  positionId?: number | null;
+  status?: string | null;
+  assignedUserId?: number | null;
+  clientKey?: string | null;
+  recruiterGroupId?: number | null;
+  workplaceId?: number | null;
+  recruitmentType?: string | null;
+}
+
+export interface ProcessFunnelStageCounts {
+  applicants: number;
+  selected: number;
+  interviewed: number;
+  evaluated: number;
+  prehired: number;
+  hired: number;
+}
+
+export interface ProcessFunnelRowResponse extends ProcessFunnelStageCounts {
+  brandId: number | null;
+  brandName: string;
+  positionId: number;
+  requisitionLabel: string;
+}
+
+export interface ProcessFunnelBrandResponse extends ProcessFunnelStageCounts {
+  brandId: number | null;
+  brandName: string;
+}
+
+export interface ProcessFunnelResponse {
+  rows: ProcessFunnelRowResponse[];
+  totalByStage: ProcessFunnelStageCounts;
+  byBrand: ProcessFunnelBrandResponse[];
+}

@@ -1,0 +1,238 @@
+<div class="pf-report">
+  <sh-page-header title="Funnel del proceso" subtitle="Embudo de candidatos por requisición">
+    <div class="header-filter-actions">
+      <button mat-flat-button color="primary" type="button" (click)="load()" [disabled]="loading">
+        <mat-icon>refresh</mat-icon>
+        Actualizar
+      </button>
+      <button mat-stroked-button type="button" (click)="clearFilters()" [disabled]="loading">
+        <mat-icon>filter_alt_off</mat-icon>
+        Limpiar filtros
+      </button>
+    </div>
+  </sh-page-header>
+
+  <form [formGroup]="filters" class="sh-filters sh-card pf-filters">
+    <div class="primary-filters-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha inicial</mat-label>
+        <input matInput type="date" formControlName="startDate" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha final</mat-label>
+        <input matInput type="date" formControlName="endDate" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>País</mat-label>
+        <mat-select formControlName="countryId">
+          <mat-option [value]="null">Todos</mat-option>
+          @for (c of countries; track c.id) {
+            <mat-option [value]="c.id">{{ c.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Marca</mat-label>
+        <mat-select formControlName="brandId">
+          <mat-option [value]="null">
+            {{ filters.controls.brandId.disabled ? 'Selecciona país' : 'Todas' }}
+          </mat-option>
+          @for (b of brandOptions; track b.id) {
+            <mat-option [value]="b.id">{{ b.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="primary-filters-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Requisición</mat-label>
+        <mat-select formControlName="positionId">
+          <mat-option [value]="null">Todas</mat-option>
+          @for (p of positionOptions; track p.id) {
+            <mat-option [value]="p.id">{{ p.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="status">
+          <mat-option [value]="null">Todos</mat-option>
+          @for (opt of statusOptions; track opt.value) {
+            <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Reclutador</mat-label>
+        <mat-select formControlName="assignedUserId">
+          <mat-option [value]="null">Todos</mat-option>
+          @for (u of recruiterOptions; track u.id) {
+            <mat-option [value]="u.id">{{ u.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <sh-client-filter-field formControlName="clientKey" />
+    </div>
+
+    <div class="primary-filters-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Grupo</mat-label>
+        <mat-select formControlName="recruiterGroupId">
+          <mat-option [value]="null">
+            {{ filters.controls.recruiterGroupId.disabled ? 'Selecciona país' : 'Todos' }}
+          </mat-option>
+          @for (g of groupOptions; track g.id) {
+            <mat-option [value]="g.id">{{ g.description || g.code }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>U. Negocio</mat-label>
+        <mat-select formControlName="workplaceId">
+          <mat-option [value]="null">
+            {{ filters.controls.workplaceId.disabled ? 'Selecciona país' : 'Todos' }}
+          </mat-option>
+          @for (bu of businessUnitOptions; track bu.id) {
+            <mat-option [value]="bu.id">{{ bu.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Tipo reclutamiento</mat-label>
+        <mat-select formControlName="recruitmentType">
+          <mat-option [value]="null">Todos</mat-option>
+          @for (opt of recruitmentTypeOptions; track opt.value) {
+            <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+
+  @if (errorMessage) {
+    <p class="error-msg">{{ errorMessage }}</p>
+  }
+
+  @if (loading || loadingCatalogs) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else {
+    <div class="charts-grid">
+      <section class="sh-card chart-card">
+        <h3 class="chart-title">Cubrimiento Total</h3>
+        <div class="hbar-chart">
+          @for (bar of totalBars; track bar.key) {
+            <div class="hbar-row">
+              <span class="hbar-label">{{ bar.label }}</span>
+              <div class="hbar-track">
+                <div
+                  class="hbar-fill"
+                  [style.width]="barWidth(bar.value, totalMax)"
+                  [style.background]="bar.color"
+                ></div>
+              </div>
+              <span class="hbar-value">{{ formatCell(bar.value) }}</span>
+            </div>
+          }
+        </div>
+      </section>
+
+      <section class="sh-card chart-card">
+        <div class="chart-header">
+          <h3 class="chart-title">Cubrimiento por Marca</h3>
+          <mat-form-field appearance="outline" class="brand-chart-select" subscriptSizing="dynamic">
+            <mat-label>Marcas en gráfico</mat-label>
+            <mat-select
+              multiple
+              [value]="selectedChartBrandIds"
+              (selectionChange)="onChartBrandsChange($event.value)"
+            >
+              @for (b of chartBrandOptions; track b.brandId) {
+                <mat-option [value]="b.brandId ?? -1">{{ b.brandName || 'Sin marca' }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        @if (!visibleBrands.length) {
+          <p class="empty-chart">No hay marcas para mostrar</p>
+        } @else {
+          <div class="grouped-chart">
+            @for (brand of visibleBrands; track brand.brandId) {
+              <div class="brand-group">
+                <div class="brand-name">{{ brand.brandName || 'Sin marca' }}</div>
+                <div class="grouped-bars">
+                  @for (meta of stageMeta; track meta.key) {
+                    <div class="vbar" [title]="meta.label + ': ' + stageValue(brand, meta.key)">
+                      <div class="vbar-track">
+                        <div
+                          class="vbar-fill"
+                          [style.height]="barWidth(stageValue(brand, meta.key), brandChartMax)"
+                          [style.background]="meta.color"
+                        ></div>
+                      </div>
+                      <span class="vbar-label">{{ meta.label.slice(0, 3) }}</span>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+          <div class="legend">
+            @for (meta of stageMeta; track meta.key) {
+              <span class="legend-item">
+                <i class="legend-swatch" [style.background]="meta.color"></i>
+                {{ meta.label }}
+              </span>
+            }
+          </div>
+        }
+      </section>
+    </div>
+
+    <div class="sh-card sh-table-wrap results-card">
+      <div class="table-scroll">
+        <table class="pf-table">
+          <thead>
+            <tr>
+              <th class="col-text">Marca</th>
+              <th class="col-text">Requisición</th>
+              <th>Postulados</th>
+              <th>Seleccionados</th>
+              <th>Entrevistados</th>
+              <th>Evaluados</th>
+              <th>Precontratados</th>
+              <th>Contratados</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of rows; track row.positionId) {
+              <tr>
+                <td class="col-text">{{ row.brandName || '—' }}</td>
+                <td class="col-text">{{ row.requisitionLabel }}</td>
+                <td>{{ formatCell(row.applicants) }}</td>
+                <td>{{ formatCell(row.selected) }}</td>
+                <td>{{ formatCell(row.interviewed) }}</td>
+                <td>{{ formatCell(row.evaluated) }}</td>
+                <td>{{ formatCell(row.prehired) }}</td>
+                <td>{{ formatCell(row.hired) }}</td>
+              </tr>
+            } @empty {
+              <tr>
+                <td [attr.colspan]="8" class="empty-cell">No hay información</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+</div>
