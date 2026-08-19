@@ -23,6 +23,7 @@ import {
 } from '../../../shared/models/report.model';
 import { SecurityRecruiterGroup } from '../../../shared/models/security-recruiter-group.model';
 import { SecurityUser } from '../../../shared/models/security-user.model';
+import { formatReportCell, formatReportPercent } from '../shared/report-format';
 
 interface SelectOption {
   id: number;
@@ -128,17 +129,11 @@ export class RequisitionsBySourceReportComponent implements OnInit {
   }
 
   formatCell(value: number | null | undefined): string {
-    if (value == null || Number.isNaN(value)) {
-      return '-';
-    }
-    return Number.isInteger(value) ? String(value) : value.toFixed(1);
+    return formatReportCell(value);
   }
 
   formatPercent(value: number | null | undefined): string {
-    if (value == null || Number.isNaN(value)) {
-      return '-';
-    }
-    return `${value.toFixed(1)}%`;
+    return formatReportPercent(value);
   }
 
   private buildRequest(): RequisitionsBySourceFilterRequest {

@@ -27,6 +27,7 @@ import {
 } from '../../../shared/models/report.model';
 import { SecurityRecruiterGroup } from '../../../shared/models/security-recruiter-group.model';
 import { SecurityUser } from '../../../shared/models/security-user.model';
+import { formatReportCell } from '../shared/report-format';
 
 interface SelectOption {
   id: number;
@@ -200,17 +201,11 @@ export class ConsolidadoReportComponent implements OnInit {
   }
 
   formatCell(value: number | null | undefined, defined = true): string {
-    if (!defined || value == null) {
-      return '';
-    }
-    return Number.isInteger(value) ? String(value) : value.toFixed(1);
+    return formatReportCell(value, defined);
   }
 
   formatKpi(value: number | null | undefined): string {
-    if (value == null || Number.isNaN(value)) {
-      return '—';
-    }
-    return Number.isInteger(value) ? String(value) : value.toFixed(1);
+    return formatReportCell(value);
   }
 
   barWidth(value: number | null | undefined): string {
@@ -241,17 +236,19 @@ export class ConsolidadoReportComponent implements OnInit {
   private onYearMonthChange(): void {
     this.refreshDayOptions();
     const last = this.dayOptions[this.dayOptions.length - 1] ?? 31;
-    if (this.filters.controls.endDay.value > last) {
+    const endDay = this.filters.controls.endDay.value ?? last;
+    const startDay = this.filters.controls.startDay.value ?? 1;
+    if (endDay > last) {
       this.filters.controls.endDay.setValue(last, { emitEvent: false });
     }
-    if (this.filters.controls.startDay.value > last) {
+    if (startDay > last) {
       this.filters.controls.startDay.setValue(1, { emitEvent: false });
     }
   }
 
   private refreshDayOptions(): void {
-    const y = this.filters.controls.year.value;
-    const m = this.filters.controls.month.value;
+    const y = this.filters.controls.year.value ?? new Date().getFullYear();
+    const m = this.filters.controls.month.value ?? new Date().getMonth() + 1;
     const last = daysInMonth(y, m);
     this.dayOptions = Array.from({ length: last }, (_, i) => i + 1);
   }

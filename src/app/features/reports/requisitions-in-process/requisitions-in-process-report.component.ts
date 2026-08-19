@@ -17,6 +17,7 @@ import {
   RequisitionsInProcessFilterRequest,
   RequisitionsInProcessYearResponse,
 } from '../../../shared/models/report.model';
+import { formatReportCell } from '../shared/report-format';
 
 interface YearBarSeries {
   key: keyof Pick<
@@ -203,10 +204,7 @@ export class RequisitionsInProcessReportComponent implements OnInit {
   }
 
   formatCell(value: number | null | undefined): string {
-    if (value == null || Number.isNaN(value)) {
-      return '—';
-    }
-    return Number.isInteger(value) ? String(value) : value.toFixed(1);
+    return formatReportCell(value);
   }
 
   private buildRequest(): RequisitionsInProcessFilterRequest {
