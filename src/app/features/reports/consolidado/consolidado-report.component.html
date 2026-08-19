@@ -1,0 +1,240 @@
+<div class="cons-report">
+  <sh-page-header title="Consolidado" subtitle="Resumen de requisiciones por estado y día del mes">
+    <div class="header-filter-actions">
+      <button mat-flat-button color="primary" type="button" (click)="load()" [disabled]="loading">
+        <mat-icon>refresh</mat-icon>
+        Actualizar
+      </button>
+      <button mat-stroked-button type="button" (click)="clearFilters()" [disabled]="loading">
+        <mat-icon>filter_alt_off</mat-icon>
+        Limpiar filtros
+      </button>
+    </div>
+  </sh-page-header>
+
+  <form [formGroup]="filters" class="sh-filters sh-card cons-filters">
+    <div class="primary-filters-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>País</mat-label>
+        <mat-select formControlName="countryId">
+          <mat-option [value]="null">Todos</mat-option>
+          @for (c of countries; track c.id) {
+            <mat-option [value]="c.id">{{ c.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Tipo reclutamiento</mat-label>
+        <mat-select formControlName="recruitmentType">
+          <mat-option [value]="null">Todos</mat-option>
+          @for (opt of recruitmentTypeOptions; track opt.value) {
+            <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>U. Negocio</mat-label>
+        <mat-select formControlName="workplaceId">
+          <mat-option [value]="null">
+            {{ filters.controls.workplaceId.disabled ? 'Selecciona país' : 'Todos' }}
+          </mat-option>
+          @for (bu of businessUnitOptions; track bu.id) {
+            <mat-option [value]="bu.id">{{ bu.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Grupo</mat-label>
+        <mat-select formControlName="recruiterGroupId">
+          <mat-option [value]="null">
+            {{ filters.controls.recruiterGroupId.disabled ? 'Selecciona país' : 'Todos' }}
+          </mat-option>
+          @for (g of groupOptions; track g.id) {
+            <mat-option [value]="g.id">{{ g.description || g.code }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="primary-filters-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Reclutador</mat-label>
+        <mat-select formControlName="assignedUserId">
+          <mat-option [value]="null">Todos</mat-option>
+          @for (u of recruiterOptions; track u.id) {
+            <mat-option [value]="u.id">{{ u.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Año</mat-label>
+        <mat-select formControlName="year">
+          @for (y of yearOptions; track y) {
+            <mat-option [value]="y">{{ y }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Mes</mat-label>
+        <mat-select formControlName="month">
+          @for (m of monthOptions; track m.value) {
+            <mat-option [value]="m.value">{{ m.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Día inicial</mat-label>
+        <mat-select formControlName="startDay">
+          @for (d of dayOptions; track d) {
+            <mat-option [value]="d">{{ d }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="primary-filters-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Día final</mat-label>
+        <mat-select formControlName="endDay">
+          @for (d of dayOptions; track d) {
+            <mat-option [value]="d">{{ d }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Orden</mat-label>
+        <mat-select formControlName="positionId">
+          <mat-option [value]="null">Todas</mat-option>
+          @for (p of positionOptions; track p.id) {
+            <mat-option [value]="p.id">{{ p.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <sh-client-filter-field formControlName="clientKey" />
+
+      <mat-form-field appearance="outline">
+        <mat-label>Dimensión</mat-label>
+        <mat-select formControlName="dimension">
+          @for (opt of dimensionOptions; track opt.value) {
+            <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+
+  @if (errorMessage) {
+    <p class="error-msg">{{ errorMessage }}</p>
+  }
+
+  @if (loading || loadingCatalogs) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else {
+    <div class="summary-grid">
+      <div class="kpi-stack">
+        <div class="kpi-card">
+          <mat-icon>description</mat-icon>
+          <div>
+            <div class="kpi-value">{{ formatKpi(kpis.totalRequisitions) }}</div>
+            <div class="kpi-label">Total de requisiciones</div>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <mat-icon>group</mat-icon>
+          <div>
+            <div class="kpi-value">{{ formatKpi(kpis.recruiters) }}</div>
+            <div class="kpi-label">Reclutadores</div>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <mat-icon>how_to_reg</mat-icon>
+          <div>
+            <div class="kpi-value">{{ formatKpi(kpis.requisitionsPerRecruiter) }}</div>
+            <div class="kpi-label">Requis./Reclutadores</div>
+          </div>
+        </div>
+      </div>
+
+      <section class="sh-card chart-card">
+        <h3 class="chart-title">Requisiciones por estado</h3>
+        <div class="hbar-chart">
+          @for (row of statusTotals; track row.statusCode) {
+            <div class="hbar-row">
+              <span class="hbar-label">{{ row.status }}</span>
+              <div class="hbar-track">
+                @if (row.defined) {
+                  <div class="hbar-fill" [style.width]="barWidth(row.total)"></div>
+                }
+              </div>
+              <span class="hbar-value">{{ formatCell(row.total, row.defined) }}</span>
+            </div>
+          }
+        </div>
+      </section>
+    </div>
+
+    <div class="sh-card results-card">
+      <h3 class="section-title">Detalle de las requisiciones por estado y días del mes</h3>
+      <div class="table-scroll">
+        <table class="cons-table">
+          <thead>
+            <tr>
+              <th class="col-status">Estado/Día</th>
+              @for (d of days; track d) {
+                <th>{{ d }}</th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of matrix; track row.statusCode) {
+              <tr>
+                <td class="col-status">{{ row.status }}</td>
+                @for (val of row.values; track $index) {
+                  <td>{{ formatCell(val, row.defined) }}</td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    @if (dimensionRows.length) {
+      <div class="sh-card results-card">
+        <h3 class="section-title">Por dimensión</h3>
+        <div class="table-scroll">
+          <table class="cons-table">
+            <thead>
+              <tr>
+                <th class="col-status">Entidad</th>
+                <th>Total</th>
+                @for (d of days; track d) {
+                  <th>{{ d }}</th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of dimensionRows; track row.key) {
+                <tr>
+                  <td class="col-status">{{ row.label }}</td>
+                  <td>{{ formatKpi(row.totalRequisitions) }}</td>
+                  @for (val of row.values; track $index) {
+                    <td>{{ formatKpi(val) }}</td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    }
+  }
+</div>

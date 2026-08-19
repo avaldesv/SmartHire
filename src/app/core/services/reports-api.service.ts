@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
+  ConsolidadoFilterRequest,
+  ConsolidadoResponse,
   ProcessFunnelFilterRequest,
   ProcessFunnelResponse,
   ReportFilterRequest,
@@ -69,6 +71,14 @@ export class ReportsApiService {
   getProcessFunnel(request: ProcessFunnelFilterRequest): Observable<ProcessFunnelResponse> {
     return this.http.post<ProcessFunnelResponse>(
       this.api.apiUrl('/api/v1/reports/process-funnel'),
+      request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  getConsolidado(request: ConsolidadoFilterRequest): Observable<ConsolidadoResponse> {
+    return this.http.post<ConsolidadoResponse>(
+      this.api.apiUrl('/api/v1/reports/consolidado'),
       request,
       { headers: this.api.buildHeaders() },
     );

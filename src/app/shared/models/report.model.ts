@@ -171,3 +171,50 @@ export interface ProcessFunnelResponse {
   totalByStage: ProcessFunnelStageCounts;
   byBrand: ProcessFunnelBrandResponse[];
 }
+
+/** Filters for consolidado — no Marca UI; tenant from companyId header. */
+export interface ConsolidadoFilterRequest {
+  countryId?: number | null;
+  recruitmentType?: string | null;
+  workplaceId?: number | null;
+  recruiterGroupId?: number | null;
+  assignedUserId?: number | null;
+  year?: number | null;
+  month?: number | null;
+  startDay?: number | null;
+  endDay?: number | null;
+  positionId?: number | null;
+  clientKey?: string | null;
+  /** NONE | GROUP | CLIENT | RECRUITER */
+  dimension?: string | null;
+}
+
+export interface ConsolidadoKpisResponse {
+  totalRequisitions: number;
+  recruiters: number;
+  requisitionsPerRecruiter: number | null;
+}
+
+export interface ConsolidadoStatusRowResponse {
+  statusCode: string;
+  status: string;
+  defined: boolean;
+  total: number | null;
+  values: Array<number | null>;
+}
+
+export interface ConsolidadoDimensionRowResponse {
+  key: string;
+  label: string;
+  totalRequisitions: number;
+  values: number[];
+}
+
+export interface ConsolidadoResponse {
+  kpis: ConsolidadoKpisResponse;
+  days: number[];
+  statusTotals: ConsolidadoStatusRowResponse[];
+  matrix: ConsolidadoStatusRowResponse[];
+  dimension: string;
+  dimensionRows: ConsolidadoDimensionRowResponse[];
+}
