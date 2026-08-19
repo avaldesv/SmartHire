@@ -210,6 +210,13 @@ export const routes: Routes = [
               ),
           },
           {
+            path: 'process-funnel',
+            loadComponent: () =>
+              import('./features/reports/process-funnel/process-funnel-report.component').then(
+                (m) => m.ProcessFunnelReportComponent,
+              ),
+          },
+          {
             path: 'requisitions-in-process',
             loadComponent: () =>
               import('./features/reports/requisitions-in-process/requisitions-in-process-report.component').then(

@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
+  ProcessFunnelFilterRequest,
+  ProcessFunnelResponse,
   ReportFilterRequest,
   ReportMatrixResponse,
   RequisitionsBySourceFilterRequest,
@@ -59,6 +61,14 @@ export class ReportsApiService {
   ): Observable<RequisitionsBySourceResponse> {
     return this.http.post<RequisitionsBySourceResponse>(
       this.api.apiUrl('/api/v1/reports/requisitions-by-source'),
+      request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  getProcessFunnel(request: ProcessFunnelFilterRequest): Observable<ProcessFunnelResponse> {
+    return this.http.post<ProcessFunnelResponse>(
+      this.api.apiUrl('/api/v1/reports/process-funnel'),
       request,
       { headers: this.api.buildHeaders() },
     );

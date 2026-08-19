@@ -12,6 +12,7 @@ const IMPLEMENTED_REPORTS: ReportNavItem[] = [
   { label: 'MMR', slug: 'mmr', category: 'generales' },
   { label: 'Requisiciones por mes', slug: 'requisitions-by-month', category: 'generales' },
   { label: 'Estatus por requisición', slug: 'status-by-requisition', category: 'generales' },
+  { label: 'Funnel del proceso', slug: 'process-funnel', category: 'generales' },
   { label: 'Requisiciones en proceso', slug: 'requisitions-in-process', category: 'vacantes' },
   { label: 'Requisiciones por fuente', slug: 'requisitions-by-source', category: 'vacantes' },
 ];
