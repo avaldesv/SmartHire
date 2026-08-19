@@ -48,6 +48,7 @@ import { CatalogBusinessUnit } from '../../../shared/models/catalog-business-uni
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import { PositionListItem } from '../../../shared/models/position.model';
 import { ReportFilterRequest, ReportGroupResponse, ReportKpisResponse } from '../../../shared/models/report.model';
+import { formatReportCell } from '../shared/report-format';
 import { SecurityRecruiterGroup } from '../../../shared/models/security-recruiter-group.model';
 import { SecurityUser } from '../../../shared/models/security-user.model';
 
@@ -219,16 +220,13 @@ export class MmrReportComponent implements OnInit {
 
   formatKpi(value: number | null | undefined): string {
     if (value == null || Number.isNaN(value)) {
-      return '—';
+      return '';
     }
     return `${value.toFixed(1)}%`;
   }
 
   formatCell(value: number | null | undefined): string {
-    if (value == null || Number.isNaN(value)) {
-      return '—';
-    }
-    return Number.isInteger(value) ? String(value) : value.toFixed(1);
+    return formatReportCell(value);
   }
 
   private buildRequest(): ReportFilterRequest {

@@ -35,20 +35,6 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Marca</mat-label>
-        <mat-select formControlName="brandId">
-          <mat-option [value]="null">
-            {{ filters.controls.brandId.disabled ? 'Selecciona país' : 'Todas' }}
-          </mat-option>
-          @for (b of brandOptions; track b.id) {
-            <mat-option [value]="b.id">{{ b.name }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-    <div class="primary-filters-grid">
-      <mat-form-field appearance="outline">
         <mat-label>Requisición</mat-label>
         <mat-select formControlName="positionId">
           <mat-option [value]="null">Todas</mat-option>
@@ -77,7 +63,9 @@
           }
         </mat-select>
       </mat-form-field>
+    </div>
 
+    <div class="primary-filters-grid">
       <sh-client-filter-field formControlName="clientKey" />
     </div>
 
@@ -216,7 +204,7 @@
           <tbody>
             @for (row of rows; track row.positionId) {
               <tr>
-                <td class="col-text">{{ row.brandName || '—' }}</td>
+                <td class="col-text">{{ row.brandName || '' }}</td>
                 <td class="col-text">{{ row.requisitionLabel }}</td>
                 <td>{{ formatCell(row.applicants) }}</td>
                 <td>{{ formatCell(row.selected) }}</td>

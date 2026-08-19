@@ -8,7 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { catchError, forkJoin, of } from 'rxjs';
-import { CatalogBrandService } from '../../../core/services/catalog-brand.service';
 import { CatalogBusinessUnitService } from '../../../core/services/catalog-business-unit.service';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { PositionService } from '../../../core/services/position.service';
@@ -17,7 +16,6 @@ import { SecurityRecruiterGroupService } from '../../../core/services/security-r
 import { SecurityUserService } from '../../../core/services/security-user.service';
 import { ClientFilterFieldComponent } from '../../../shared/components/client-filter-field/client-filter-field.component';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
-import { CatalogBrand } from '../../../shared/models/catalog-brand.model';
 import { CatalogBusinessUnit } from '../../../shared/models/catalog-business-unit.model';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import { PositionListItem } from '../../../shared/models/position.model';
@@ -29,6 +27,7 @@ import {
 } from '../../../shared/models/report.model';
 import { SecurityRecruiterGroup } from '../../../shared/models/security-recruiter-group.model';
 import { SecurityUser } from '../../../shared/models/security-user.model';
+import { formatReportCell } from '../shared/report-format';
 
 interface SelectOption {
   id: number;
@@ -71,7 +70,6 @@ const STAGE_META: Array<{ key: keyof ProcessFunnelStageCounts; label: string; co
 export class ProcessFunnelReportComponent implements OnInit {
   private readonly reportsApi = inject(ReportsApiService);
   private readonly geography = inject(CatalogGeographyService);
-  private readonly brands = inject(CatalogBrandService);
   private readonly businessUnits = inject(CatalogBusinessUnitService);
   private readonly recruiterGroups = inject(SecurityRecruiterGroupService);
   private readonly positions = inject(PositionService);
@@ -84,7 +82,6 @@ export class ProcessFunnelReportComponent implements OnInit {
   errorMessage = '';
 
   countries: CatalogCountry[] = [];
-  brandOptions: CatalogBrand[] = [];
   businessUnitOptions: CatalogBusinessUnit[] = [];
   groupOptions: SecurityRecruiterGroup[] = [];
   positionOptions: SelectOption[] = [];
@@ -118,7 +115,6 @@ export class ProcessFunnelReportComponent implements OnInit {
     startDate: this.fb.control<string>(currentMonthStart()),
     endDate: this.fb.control<string>(currentMonthEnd()),
     countryId: this.fb.control<number | null>(null),
-    brandId: this.fb.control<number | null>(null),
     positionId: this.fb.control<number | null>(null),
     status: this.fb.control<string | null>(null),
     assignedUserId: this.fb.control<number | null>(null),
@@ -131,7 +127,6 @@ export class ProcessFunnelReportComponent implements OnInit {
   ngOnInit(): void {
     this.filters.controls.workplaceId.disable({ emitEvent: false });
     this.filters.controls.recruiterGroupId.disable({ emitEvent: false });
-    this.filters.controls.brandId.disable({ emitEvent: false });
 
     this.loadIndependentCatalogs();
     this.filters.controls.countryId.valueChanges
@@ -176,7 +171,6 @@ export class ProcessFunnelReportComponent implements OnInit {
       startDate: currentMonthStart(),
       endDate: currentMonthEnd(),
       countryId: null,
-      brandId: null,
       positionId: null,
       status: null,
       assignedUserId: null,
@@ -187,10 +181,8 @@ export class ProcessFunnelReportComponent implements OnInit {
     });
     this.filters.controls.workplaceId.disable({ emitEvent: false });
     this.filters.controls.recruiterGroupId.disable({ emitEvent: false });
-    this.filters.controls.brandId.disable({ emitEvent: false });
     this.businessUnitOptions = [];
     this.groupOptions = [];
-    this.brandOptions = [];
     this.load();
   }
 
@@ -222,10 +214,7 @@ export class ProcessFunnelReportComponent implements OnInit {
   }
 
   formatCell(value: number | null | undefined): string {
-    if (value == null || Number.isNaN(value)) {
-      return '—';
-    }
-    return Number.isInteger(value) ? String(value) : value.toFixed(1);
+    return formatReportCell(value);
   }
 
   barWidth(value: number, max: number): string {
@@ -250,7 +239,7 @@ export class ProcessFunnelReportComponent implements OnInit {
       startDate: v.startDate || null,
       endDate: v.endDate || null,
       countryId: v.countryId,
-      brandId: v.brandId,
+      brandId: null,
       positionId: v.positionId,
       status: v.status || null,
       assignedUserId: v.assignedUserId,
@@ -290,21 +279,17 @@ export class ProcessFunnelReportComponent implements OnInit {
   private onCountryChange(countryId: number | null): void {
     this.filters.controls.workplaceId.setValue(null, { emitEvent: false });
     this.filters.controls.recruiterGroupId.setValue(null, { emitEvent: false });
-    this.filters.controls.brandId.setValue(null, { emitEvent: false });
     this.businessUnitOptions = [];
     this.groupOptions = [];
-    this.brandOptions = [];
 
     if (countryId == null) {
       this.filters.controls.workplaceId.disable({ emitEvent: false });
       this.filters.controls.recruiterGroupId.disable({ emitEvent: false });
-      this.filters.controls.brandId.disable({ emitEvent: false });
       return;
     }
 
     this.filters.controls.workplaceId.enable({ emitEvent: false });
     this.filters.controls.recruiterGroupId.enable({ emitEvent: false });
-    this.filters.controls.brandId.enable({ emitEvent: false });
 
     forkJoin({
       businessUnits: this.businessUnits.list(countryId, 0, 200).pipe(
@@ -313,15 +298,11 @@ export class ProcessFunnelReportComponent implements OnInit {
       groups: this.recruiterGroups.list(countryId, 0, 200).pipe(
         catchError(() => of({ items: [] as SecurityRecruiterGroup[], total: 0 })),
       ),
-      brands: this.brands.list(countryId, 0, 200).pipe(
-        catchError(() => of({ items: [] as CatalogBrand[], total: 0 })),
-      ),
     })
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(({ businessUnits, groups, brands }) => {
+      .subscribe(({ businessUnits, groups }) => {
         this.businessUnitOptions = businessUnits.items;
         this.groupOptions = groups.items;
-        this.brandOptions = brands.items;
       });
   }
 }
