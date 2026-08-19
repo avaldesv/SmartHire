@@ -217,6 +217,13 @@ export const routes: Routes = [
               ),
           },
           {
+            path: 'consolidado',
+            loadComponent: () =>
+              import('./features/reports/consolidado/consolidado-report.component').then(
+                (m) => m.ConsolidadoReportComponent,
+              ),
+          },
+          {
             path: 'requisitions-in-process',
             loadComponent: () =>
               import('./features/reports/requisitions-in-process/requisitions-in-process-report.component').then(
