@@ -26,6 +26,7 @@ import {
 import { SecurityRecruiterGroup } from '../../../shared/models/security-recruiter-group.model';
 import { SecurityUser } from '../../../shared/models/security-user.model';
 import { formatReportCell, formatReportPercent } from '../shared/report-format';
+import { armReportTenantReload } from '../shared/report-tenant-reload';
 
 interface SelectOption {
   id: number;
@@ -58,6 +59,7 @@ export class StatusByRequisitionReportComponent implements OnInit {
   private readonly users = inject(SecurityUserService);
   private readonly fb = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly armTenantReload = armReportTenantReload(() => this.reloadForTenant());
 
   loading = false;
   loadingCatalogs = true;
@@ -109,6 +111,7 @@ export class StatusByRequisitionReportComponent implements OnInit {
       .subscribe((countryId) => this.onCountryChange(countryId));
 
     this.load();
+    this.armTenantReload();
   }
 
   clearFilters(): void {
@@ -157,6 +160,11 @@ export class StatusByRequisitionReportComponent implements OnInit {
 
   formatPercent(value: number | null | undefined): string {
     return formatReportPercent(value);
+  }
+
+  private reloadForTenant(): void {
+    this.loadIndependentCatalogs();
+    this.load();
   }
 
   private buildRequest(): StatusByRequisitionFilterRequest {

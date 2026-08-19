@@ -49,6 +49,7 @@ import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import { PositionListItem } from '../../../shared/models/position.model';
 import { ReportFilterRequest, ReportGroupResponse, ReportKpisResponse } from '../../../shared/models/report.model';
 import { formatReportCell } from '../shared/report-format';
+import { armReportTenantReload } from '../shared/report-tenant-reload';
 import { SecurityRecruiterGroup } from '../../../shared/models/security-recruiter-group.model';
 import { SecurityUser } from '../../../shared/models/security-user.model';
 
@@ -85,6 +86,7 @@ export class RequisitionsByMonthReportComponent implements OnInit {
   private readonly users = inject(SecurityUserService);
   private readonly fb = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly armTenantReload = armReportTenantReload(() => this.reloadForTenant());
 
   loading = false;
   loadingCatalogs = true;
@@ -167,6 +169,7 @@ export class RequisitionsByMonthReportComponent implements OnInit {
       .subscribe((countryId) => this.onCountryChange(countryId));
 
     this.load();
+    this.armTenantReload();
   }
 
   clearFilters(): void {
@@ -227,6 +230,11 @@ export class RequisitionsByMonthReportComponent implements OnInit {
 
   formatCell(value: number | null | undefined): string {
     return formatReportCell(value);
+  }
+
+  private reloadForTenant(): void {
+    this.loadIndependentCatalogs();
+    this.load();
   }
 
   private buildRequest(): ReportFilterRequest {

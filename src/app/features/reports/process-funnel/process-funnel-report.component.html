@@ -134,27 +134,13 @@
       </section>
 
       <section class="sh-card chart-card">
-        <div class="chart-header">
-          <h3 class="chart-title">Cubrimiento por Marca</h3>
-          <mat-form-field appearance="outline" class="brand-chart-select" subscriptSizing="dynamic">
-            <mat-label>Marcas en gráfico</mat-label>
-            <mat-select
-              multiple
-              [value]="selectedChartBrandIds"
-              (selectionChange)="onChartBrandsChange($event.value)"
-            >
-              @for (b of chartBrandOptions; track b.brandId) {
-                <mat-option [value]="b.brandId ?? -1">{{ b.brandName || 'Sin marca' }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-        </div>
+        <h3 class="chart-title">Cubrimiento por Marca</h3>
 
-        @if (!visibleBrands.length) {
+        @if (!byBrand.length) {
           <p class="empty-chart">No hay marcas para mostrar</p>
         } @else {
           <div class="grouped-chart">
-            @for (brand of visibleBrands; track brand.brandId) {
+            @for (brand of byBrand; track brand.brandId) {
               <div class="brand-group">
                 <div class="brand-name">{{ brand.brandName || 'Sin marca' }}</div>
                 <div class="grouped-bars">
@@ -191,7 +177,6 @@
         <table class="pf-table">
           <thead>
             <tr>
-              <th class="col-text">Marca</th>
               <th class="col-text">Requisición</th>
               <th>Postulados</th>
               <th>Seleccionados</th>
@@ -204,7 +189,6 @@
           <tbody>
             @for (row of rows; track row.positionId) {
               <tr>
-                <td class="col-text">{{ row.brandName || '' }}</td>
                 <td class="col-text">{{ row.requisitionLabel }}</td>
                 <td>{{ formatCell(row.applicants) }}</td>
                 <td>{{ formatCell(row.selected) }}</td>
@@ -215,7 +199,7 @@
               </tr>
             } @empty {
               <tr>
-                <td [attr.colspan]="8" class="empty-cell">No hay información</td>
+                <td [attr.colspan]="7" class="empty-cell">No hay información</td>
               </tr>
             }
           </tbody>
