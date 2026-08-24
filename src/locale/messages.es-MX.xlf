@@ -2971,10 +2971,6 @@
           <context context-type="linenumber">16</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">25</context>
-        </context-group>
-        <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
           <context context-type="linenumber">170</context>
         </context-group>
@@ -8900,14 +8896,14 @@
         </context-group>
       </trans-unit>
       <trans-unit id="interviewCalendar.tab.video" datatype="html">
-        <source>Videoconferencia</source>
+        <source>Entrevista por videoconferencia</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
           <context context-type="linenumber">5</context>
         </context-group>
       </trans-unit>
       <trans-unit id="interviewCalendar.tab.inPerson" datatype="html">
-        <source>Presencial</source>
+        <source>Entrevista presencial</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
           <context context-type="linenumber">6</context>
@@ -9011,158 +9007,193 @@
           <context context-type="linenumber">22</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="interviewCalendar.field.externalCalendar" datatype="html">
-        <source>URL calendario externo (stub)</source>
+      <trans-unit id="interviewCalendar.placeholder.address" datatype="html">
+        <source>Ingresa la dirección del lugar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
           <context context-type="linenumber">23</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="common.save" datatype="html">
-        <source>Guardar</source>
+      <trans-unit id="interviewCalendar.placeholder.instructions" datatype="html">
+        <source>Ingresa instrucciones adicionales</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
           <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviewCalendar.placeholder.references" datatype="html">
+        <source>Ingresa referencias para llegar al lugar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviewCalendar.close" datatype="html">
+        <source>Cerrar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviewCalendar.action.save" datatype="html">
+        <source>GUARDAR</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviewCalendar.action.cancel" datatype="html">
+        <source>CANCELAR</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
+          <context context-type="linenumber">28</context>
         </context-group>
       </trans-unit>
       <trans-unit id="interviewCalendar.success.save" datatype="html">
         <source>Configuración de calendario guardada</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">26</context>
+          <context context-type="linenumber">29</context>
         </context-group>
       </trans-unit>
       <trans-unit id="interviewCalendar.errors.load" datatype="html">
         <source>No se pudo cargar la configuración de calendario</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">27</context>
+          <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
       <trans-unit id="interviewCalendar.errors.save" datatype="html">
         <source>No se pudo guardar la configuración de calendario</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">28</context>
+          <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
       <trans-unit id="interviewCalendar.day.mon" datatype="html">
         <source>Lunes</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">29</context>
+          <context context-type="linenumber">32</context>
         </context-group>
       </trans-unit>
       <trans-unit id="interviewCalendar.day.tue" datatype="html">
         <source>Martes</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">30</context>
+          <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
       <trans-unit id="interviewCalendar.day.wed" datatype="html">
         <source>Miércoles</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">31</context>
+          <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
       <trans-unit id="interviewCalendar.day.thu" datatype="html">
         <source>Jueves</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">32</context>
+          <context context-type="linenumber">35</context>
         </context-group>
       </trans-unit>
       <trans-unit id="interviewCalendar.day.fri" datatype="html">
         <source>Viernes</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">33</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="interviewSchedule.title" datatype="html">
-        <source>Agendar entrevista</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">35</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="interviewSchedule.field.modality" datatype="html">
-        <source>Modalidad</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
           <context context-type="linenumber">36</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="interviewSchedule.field.startAt" datatype="html">
-        <source>Fecha y hora</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">37</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="interviewSchedule.field.meetingLink" datatype="html">
-        <source>Link de reunión</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">38</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="interviewSchedule.confirm" datatype="html">
-        <source>Agendar</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">39</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="interviewSchedule.success" datatype="html">
-        <source>Entrevista agendada</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">40</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="interviewSchedule.errors.save" datatype="html">
-        <source>No se pudo agendar la entrevista</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">41</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="interviewSchedule.selectOne" datatype="html">
-        <source>Seleccione un solo candidato para agendar la entrevista</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">42</context>
         </context-group>
       </trans-unit>
       <trans-unit id="interviewCalendar.mapHint" datatype="html">
         <source>OpenStreetMap — arrastra el pin o haz clic para ubicar.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">43</context>
+          <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
       <trans-unit id="interviewCalendar.locateAddress" datatype="html">
         <source>Ubicar en mapa</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">44</context>
+          <context context-type="linenumber">38</context>
         </context-group>
       </trans-unit>
       <trans-unit id="interviewCalendar.errors.addressRequired" datatype="html">
         <source>Ingrese una dirección</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">45</context>
+          <context context-type="linenumber">39</context>
         </context-group>
       </trans-unit>
       <trans-unit id="interviewCalendar.errors.geocode" datatype="html">
         <source>No se pudo ubicar la dirección en el mapa</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviewCalendar.option.durationMinutes" datatype="html">
+        <source><x id="PH" equiv-text="minutes"/> minutos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviewSchedule.title" datatype="html">
+        <source>Agendar entrevista</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
           <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviewSchedule.field.modality" datatype="html">
+        <source>Modalidad</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviewSchedule.field.startAt" datatype="html">
+        <source>Fecha y hora</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviewSchedule.field.meetingLink" datatype="html">
+        <source>Link de reunión</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviewSchedule.confirm" datatype="html">
+        <source>Agendar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviewSchedule.success" datatype="html">
+        <source>Entrevista agendada</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviewSchedule.errors.save" datatype="html">
+        <source>No se pudo agendar la entrevista</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviewSchedule.selectOne" datatype="html">
+        <source>Seleccione un solo candidato para agendar la entrevista</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
+          <context context-type="linenumber">53</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nav.main.home" datatype="html">

@@ -185,6 +185,30 @@ a:hover { text-decoration: underline; }
   flex-direction: column;
 }
 
+/* Interview calendar config — UX proposal layout (dark header, custom tabs/footer) */
+.sh-interview-calendar-dialog-panel .mat-mdc-dialog-container,
+.sh-interview-calendar-dialog-panel .mat-mdc-dialog-surface {
+  max-height: 92vh;
+  padding: 0 !important;
+  overflow: hidden;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sh-interview-calendar-dialog-panel .mat-mdc-dialog-content.cal-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: calc(92vh - 132px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.sh-interview-calendar-dialog-panel .mat-mdc-dialog-actions.cal-footer {
+  flex-shrink: 0;
+}
+
 .sh-catalog-form-dialog-panel .mat-mdc-dialog-actions {
   box-sizing: border-box;
   margin: 0 !important;

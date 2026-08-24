@@ -3913,12 +3913,12 @@
         <target>Calendar settings</target>
       </trans-unit>
       <trans-unit id="interviewCalendar.tab.video" datatype="html">
-        <source>Videoconferencia</source>
-        <target>Video conference</target>
+        <source>Entrevista por videoconferencia</source>
+        <target>Video conference interview</target>
       </trans-unit>
       <trans-unit id="interviewCalendar.tab.inPerson" datatype="html">
-        <source>Presencial</source>
-        <target>In person</target>
+        <source>Entrevista presencial</source>
+        <target>In-person interview</target>
       </trans-unit>
       <trans-unit id="interviewCalendar.field.duration" datatype="html">
         <source>Tiempo de duración</source>
@@ -3976,13 +3976,29 @@
         <source>Mapa</source>
         <target>Map</target>
       </trans-unit>
-      <trans-unit id="interviewCalendar.field.externalCalendar" datatype="html">
-        <source>URL calendario externo (stub)</source>
-        <target>External calendar URL (stub)</target>
+      <trans-unit id="interviewCalendar.placeholder.address" datatype="html">
+        <source>Ingresa la dirección del lugar</source>
+        <target>Enter the venue address</target>
       </trans-unit>
-      <trans-unit id="common.save" datatype="html">
-        <source>Guardar</source>
-        <target>Save</target>
+      <trans-unit id="interviewCalendar.placeholder.instructions" datatype="html">
+        <source>Ingresa instrucciones adicionales</source>
+        <target>Enter additional instructions</target>
+      </trans-unit>
+      <trans-unit id="interviewCalendar.placeholder.references" datatype="html">
+        <source>Ingresa referencias para llegar al lugar</source>
+        <target>Enter directions to reach the venue</target>
+      </trans-unit>
+      <trans-unit id="interviewCalendar.close" datatype="html">
+        <source>Cerrar</source>
+        <target>Close</target>
+      </trans-unit>
+      <trans-unit id="interviewCalendar.action.save" datatype="html">
+        <source>GUARDAR</source>
+        <target>SAVE</target>
+      </trans-unit>
+      <trans-unit id="interviewCalendar.action.cancel" datatype="html">
+        <source>CANCELAR</source>
+        <target>CANCEL</target>
       </trans-unit>
       <trans-unit id="interviewCalendar.success.save" datatype="html">
         <source>Configuración de calendario guardada</source>
@@ -4016,6 +4032,28 @@
         <source>Viernes</source>
         <target>Friday</target>
       </trans-unit>
+      <trans-unit id="interviewCalendar.mapHint" datatype="html">
+        <source>OpenStreetMap — arrastra el pin o haz clic para ubicar.</source>
+        <target>OpenStreetMap — drag the pin or click to set the location.</target>
+      </trans-unit>
+      <trans-unit id="interviewCalendar.locateAddress" datatype="html">
+        <source>Ubicar en mapa</source>
+        <target>Locate on map</target>
+      </trans-unit>
+      <trans-unit id="interviewCalendar.errors.addressRequired" datatype="html">
+        <source>Ingrese una dirección</source>
+        <target>Enter an address</target>
+      </trans-unit>
+      <trans-unit id="interviewCalendar.errors.geocode" datatype="html">
+        <source>No se pudo ubicar la dirección en el mapa</source>
+        <target>Could not locate the address on the map</target>
+      </trans-unit>
+      <trans-unit id="interviewCalendar.option.durationMinutes" datatype="html">
+        <source>
+          <x id="PH" equiv-text="minutes" /> minutos</source>
+        <target>
+          <x id="PH" equiv-text="minutes" /> minutos</target>
+      </trans-unit>
       <trans-unit id="interviewSchedule.title" datatype="html">
         <source>Agendar entrevista</source>
         <target>Schedule interview</target>
@@ -4047,22 +4085,6 @@
       <trans-unit id="interviewSchedule.selectOne" datatype="html">
         <source>Seleccione un solo candidato para agendar la entrevista</source>
         <target>Select a single candidate to schedule the interview</target>
-      </trans-unit>
-      <trans-unit id="interviewCalendar.mapHint" datatype="html">
-        <source>OpenStreetMap — arrastra el pin o haz clic para ubicar.</source>
-        <target>OpenStreetMap — drag the pin or click to set the location.</target>
-      </trans-unit>
-      <trans-unit id="interviewCalendar.locateAddress" datatype="html">
-        <source>Ubicar en mapa</source>
-        <target>Locate on map</target>
-      </trans-unit>
-      <trans-unit id="interviewCalendar.errors.addressRequired" datatype="html">
-        <source>Ingrese una dirección</source>
-        <target>Enter an address</target>
-      </trans-unit>
-      <trans-unit id="interviewCalendar.errors.geocode" datatype="html">
-        <source>No se pudo ubicar la dirección en el mapa</source>
-        <target>Could not locate the address on the map</target>
       </trans-unit>
       <trans-unit id="nav.main.home" datatype="html">
         <source>Inicio</source>

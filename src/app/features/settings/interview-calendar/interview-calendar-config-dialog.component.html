@@ -1,158 +1,206 @@
-<div class="sh-catalog-dialog-header" mat-dialog-title>
-  <span class="sh-catalog-dialog-header__text">{{ labels.title }}</span>
+<div class="cal-header" mat-dialog-title>
+  <span class="cal-header__title">{{ labels.title }}</span>
+  <button mat-icon-button type="button" class="cal-header__close" (click)="close()" [attr.aria-label]="labels.close">
+    <mat-icon>close</mat-icon>
+  </button>
 </div>
 
-<mat-dialog-content class="sh-catalog-dialog-body cal-dialog">
-  <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
+<mat-dialog-content class="cal-body">
   @if (loading) {
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else {
     <form [formGroup]="form">
-      <mat-tab-group (selectedTabChange)="onTabChange($event)">
+      <mat-tab-group class="cal-tabs" (selectedTabChange)="onTabChange($event)">
         <mat-tab [label]="labels.tabVideo">
-          <div class="tab-body tab-body--video">
-            <div class="fields-row">
-              <mat-form-field appearance="outline">
-                <mat-label>{{ labels.duration }}</mat-label>
-                <mat-select formControlName="durationMinutes">
-                  @for (opt of durationOptions; track opt) {
-                    <mat-option [value]="opt">{{ opt }} min</mat-option>
-                  }
-                </mat-select>
-              </mat-form-field>
-              <mat-form-field appearance="outline">
-                <mat-label>{{ labels.maxDays }}</mat-label>
-                <input matInput type="number" formControlName="maxWorkingDays" />
-              </mat-form-field>
-            </div>
-            <div class="fields-row">
-              <mat-form-field appearance="outline">
-                <mat-label>{{ labels.start }}</mat-label>
-                <mat-select formControlName="workStartTime">
-                  @for (t of pickerTimeOptions; track t) {
-                    <mat-option [value]="t">{{ t }}</mat-option>
-                  }
-                </mat-select>
-              </mat-form-field>
-              <mat-form-field appearance="outline">
-                <mat-label>{{ labels.end }}</mat-label>
-                <mat-select formControlName="workEndTime">
-                  @for (t of pickerTimeOptions; track t) {
-                    <mat-option [value]="t">{{ t }}</mat-option>
-                  }
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <div class="reminder-block">
-              <div class="section-label">{{ labels.reminder }}</div>
-              <mat-checkbox formControlName="reminder15Min">{{ labels.reminder15 }}</mat-checkbox>
-              <mat-checkbox formControlName="reminder1Hour">{{ labels.reminder1h }}</mat-checkbox>
-            </div>
-            <div class="exclude-block">
-              <div class="section-label">{{ labels.exclude }}</div>
-              <mat-radio-group formControlName="excludeNonWorkingDays">
-                <mat-radio-button [value]="true">{{ labels.yes }}</mat-radio-button>
-                <mat-radio-button [value]="false">{{ labels.no }}</mat-radio-button>
-              </mat-radio-group>
-            </div>
-            <mat-form-field appearance="outline" class="full">
-              <mat-label>{{ labels.externalUrl }}</mat-label>
-              <input matInput formControlName="externalCalendarUrl" />
-            </mat-form-field>
-            <div class="section-label">{{ labels.grid }}</div>
-            <div class="grid-wrap">
-              <table class="avail-grid">
-                <thead>
-                  <tr>
-                    <th></th>
-                    @for (day of dayLabels; track day) {
-                      <th>{{ day }}</th>
+          <div class="cal-tab-panel cal-tab-panel--video">
+            <div class="cal-row cal-row--schedule">
+              <div class="cal-field">
+                <span class="cal-field__label">{{ labels.duration }}</span>
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                  <mat-select formControlName="durationMinutes">
+                    @for (opt of durationOptions; track opt) {
+                      <mat-option [value]="opt">{{ formatDuration(opt) }}</mat-option>
                     }
-                  </tr>
-                </thead>
-                <tbody>
-                  @for (time of gridTimeOptions; track time) {
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="cal-field">
+                <span class="cal-field__label">{{ labels.maxDays }}</span>
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                  <input matInput type="number" formControlName="maxWorkingDays" />
+                </mat-form-field>
+              </div>
+              <div class="cal-field cal-field--hours">
+                <span class="cal-field__label">{{ labels.workHours }}</span>
+                <div class="cal-field__hours">
+                  <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                    <mat-label>{{ labels.start }}</mat-label>
+                    <mat-select formControlName="workStartTime">
+                      @for (t of pickerTimeOptions; track t) {
+                        <mat-option [value]="t">{{ formatTime(t) }}</mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                    <mat-label>{{ labels.end }}</mat-label>
+                    <mat-select formControlName="workEndTime">
+                      @for (t of pickerTimeOptions; track t) {
+                        <mat-option [value]="t">{{ formatTime(t) }}</mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+            <div class="cal-row cal-row--options">
+              <div class="cal-option">
+                <span class="cal-field__label">{{ labels.reminder }}</span>
+                <div class="cal-option__controls">
+                  <mat-checkbox formControlName="reminder15Min">{{ labels.reminder15 }}</mat-checkbox>
+                  <mat-checkbox formControlName="reminder1Hour">{{ labels.reminder1h }}</mat-checkbox>
+                </div>
+              </div>
+              <div class="cal-option">
+                <span class="cal-field__label">{{ labels.exclude }}</span>
+                <mat-radio-group formControlName="excludeNonWorkingDays" class="cal-option__controls cal-option__controls--inline">
+                  <mat-radio-button [value]="true">{{ labels.yes }}</mat-radio-button>
+                  <mat-radio-button [value]="false">{{ labels.no }}</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+
+            <div class="cal-section">
+              <span class="cal-section__title">{{ labels.grid }}</span>
+              <div class="grid-wrap">
+                <table class="avail-grid">
+                  <thead>
                     <tr>
-                      <td class="time-cell">{{ time }}</td>
-                      @for (day of [1, 2, 3, 4, 5]; track day) {
-                        <td>
-                          <mat-slide-toggle
-                            color="primary"
-                            [checked]="isAvailable(day, time)"
-                            (change)="toggleSlot(day, time)"
-                          />
-                        </td>
+                      <th></th>
+                      @for (day of dayLabels; track day) {
+                        <th>{{ day }}</th>
                       }
                     </tr>
-                  }
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    @for (time of gridTimeOptions; track time) {
+                      <tr>
+                        <td class="time-cell">{{ formatTime(time) }}</td>
+                        @for (day of [1, 2, 3, 4, 5]; track day) {
+                          <td>
+                            <mat-slide-toggle
+                              color="primary"
+                              [checked]="isAvailable(day, time)"
+                              (change)="toggleSlot(day, time)"
+                            />
+                          </td>
+                        }
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </mat-tab>
+
         <mat-tab [label]="labels.tabInPerson">
-          <div class="tab-body tab-body--in-person">
-            <div class="fields-row fields-row--schedule">
-              <mat-form-field appearance="outline">
-                <mat-label>{{ labels.duration }}</mat-label>
-                <mat-select formControlName="durationMinutes">
-                  @for (opt of durationOptions; track opt) {
-                    <mat-option [value]="opt">{{ opt }} min</mat-option>
-                  }
-                </mat-select>
-              </mat-form-field>
-              <mat-form-field appearance="outline">
-                <mat-label>{{ labels.maxDays }}</mat-label>
-                <input matInput type="number" formControlName="maxWorkingDays" />
-              </mat-form-field>
-              <mat-form-field appearance="outline">
-                <mat-label>{{ labels.start }}</mat-label>
-                <mat-select formControlName="workStartTime">
-                  @for (t of pickerTimeOptions; track t) {
-                    <mat-option [value]="t">{{ t }}</mat-option>
-                  }
-                </mat-select>
-              </mat-form-field>
-              <mat-form-field appearance="outline">
-                <mat-label>{{ labels.end }}</mat-label>
-                <mat-select formControlName="workEndTime">
-                  @for (t of pickerTimeOptions; track t) {
-                    <mat-option [value]="t">{{ t }}</mat-option>
-                  }
-                </mat-select>
-              </mat-form-field>
+          <div class="cal-tab-panel cal-tab-panel--in-person">
+            <div class="cal-row cal-row--schedule">
+              <div class="cal-field">
+                <span class="cal-field__label">{{ labels.duration }}</span>
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                  <mat-select formControlName="durationMinutes">
+                    @for (opt of durationOptions; track opt) {
+                      <mat-option [value]="opt">{{ formatDuration(opt) }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="cal-field">
+                <span class="cal-field__label">{{ labels.maxDays }}</span>
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                  <input matInput type="number" formControlName="maxWorkingDays" />
+                </mat-form-field>
+              </div>
+              <div class="cal-field cal-field--hours">
+                <span class="cal-field__label">{{ labels.workHours }}</span>
+                <div class="cal-field__hours">
+                  <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                    <mat-label>{{ labels.start }}</mat-label>
+                    <mat-select formControlName="workStartTime">
+                      @for (t of pickerTimeOptions; track t) {
+                        <mat-option [value]="t">{{ formatTime(t) }}</mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                    <mat-label>{{ labels.end }}</mat-label>
+                    <mat-select formControlName="workEndTime">
+                      @for (t of pickerTimeOptions; track t) {
+                        <mat-option [value]="t">{{ formatTime(t) }}</mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
             </div>
-            <div class="address-row">
-              <mat-form-field appearance="outline" class="address-field">
-                <mat-label>{{ labels.address }}</mat-label>
-                <textarea matInput rows="2" formControlName="address"></textarea>
-              </mat-form-field>
-              <button
-                mat-stroked-button
-                type="button"
-                class="locate-btn"
-                [disabled]="geocoding"
-                (click)="locateAddressOnMap()"
-              >
-                @if (geocoding) {
-                  <mat-spinner diameter="18" />
-                } @else {
-                  <mat-icon>location_searching</mat-icon>
-                }
-                {{ labels.locateAddress }}
-              </button>
+
+            <div class="cal-row cal-row--location">
+              <div class="cal-field cal-field--textarea">
+                <span class="cal-field__label">{{ labels.address }}</span>
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                  <textarea
+                    matInput
+                    rows="4"
+                    formControlName="address"
+                    [placeholder]="labels.addressPlaceholder"
+                  ></textarea>
+                </mat-form-field>
+                <button
+                  mat-stroked-button
+                  type="button"
+                  class="locate-btn"
+                  [disabled]="geocoding"
+                  (click)="locateAddressOnMap()"
+                >
+                  @if (geocoding) {
+                    <mat-spinner diameter="18" />
+                  } @else {
+                    <mat-icon>location_searching</mat-icon>
+                  }
+                  {{ labels.locateAddress }}
+                </button>
+              </div>
+              <div class="cal-field cal-field--textarea">
+                <span class="cal-field__label">{{ labels.instructions }}</span>
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                  <textarea
+                    matInput
+                    rows="4"
+                    formControlName="instructions"
+                    [placeholder]="labels.instructionsPlaceholder"
+                  ></textarea>
+                </mat-form-field>
+              </div>
+              <div class="cal-field cal-field--textarea">
+                <span class="cal-field__label">{{ labels.references }}</span>
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                  <textarea
+                    matInput
+                    rows="4"
+                    formControlName="locationReferences"
+                    [placeholder]="labels.referencesPlaceholder"
+                  ></textarea>
+                </mat-form-field>
+              </div>
             </div>
-            <mat-form-field appearance="outline" class="full">
-              <mat-label>{{ labels.instructions }}</mat-label>
-              <textarea matInput rows="2" formControlName="instructions"></textarea>
-            </mat-form-field>
-            <mat-form-field appearance="outline" class="full">
-              <mat-label>{{ labels.references }}</mat-label>
-              <textarea matInput rows="2" formControlName="locationReferences"></textarea>
-            </mat-form-field>
-            <div class="section-label">{{ labels.map }}</div>
-            <div id="interview-calendar-map" class="map"></div>
-            <p class="map-hint">{{ labels.mapHint }}</p>
+
+            <div class="cal-section cal-section--map">
+              <span class="cal-section__title">{{ labels.map }}</span>
+              <div id="interview-calendar-map" class="map"></div>
+              <p class="map-hint">{{ labels.mapHint }}</p>
+            </div>
           </div>
         </mat-tab>
       </mat-tab-group>
@@ -160,9 +208,16 @@
   }
 </mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <button mat-button type="button" (click)="close()">{{ labels.cancel }}</button>
-  <button mat-flat-button color="primary" type="button" [disabled]="loading || saving" (click)="save()">
+<mat-dialog-actions align="end" class="cal-footer">
+  <button mat-stroked-button type="button" class="cal-footer__cancel" (click)="close()">{{ labels.cancel }}</button>
+  <button
+    mat-flat-button
+    color="primary"
+    type="button"
+    class="cal-footer__save"
+    [disabled]="loading || saving"
+    (click)="save()"
+  >
     {{ labels.save }}
   </button>
 </mat-dialog-actions>

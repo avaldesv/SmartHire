@@ -862,6 +862,8 @@ EN_BY_SOURCE: dict[str, str] = {
     "Sábado": "Saturday",
     "Domingo": "Sunday",
     "Configuración de calendario": "Calendar settings",
+    "Entrevista por videoconferencia": "Video conference interview",
+    "Entrevista presencial": "In-person interview",
     "Videoconferencia": "Video conference",
     "Presencial": "In person",
     "Tiempo de duración": "Duration",
@@ -897,6 +899,16 @@ EN_BY_SOURCE: dict[str, str] = {
     "Ubicar en mapa": "Locate on map",
     "Ingrese una dirección": "Enter an address",
     "No se pudo ubicar la dirección en el mapa": "Could not locate the address on the map",
+    "Ingresa la dirección del lugar": "Enter the venue address",
+    "Ingresa instrucciones adicionales": "Enter additional instructions",
+    "Ingresa referencias para llegar al lugar": "Enter directions to reach the venue",
+    "Cerrar": "Close",
+    "GUARDAR": "SAVE",
+    "CANCELAR": "CANCEL",
+    "15 minutos": "15 minutes",
+    "30 minutos": "30 minutes",
+    "45 minutos": "45 minutes",
+    "60 minutos": "60 minutes",
 }
 
 ERROR_CATALOG_EN_MAP = load_error_catalog_en()
