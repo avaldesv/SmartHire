@@ -4,16 +4,21 @@ export interface InterviewAvailabilitySlot {
   available: boolean;
 }
 
-export interface InterviewCalendarConfig {
-  id?: number | null;
+export interface InterviewCalendarModalityConfig {
   durationMinutes: number;
   maxWorkingDays: number;
   workStartTime: string;
   workEndTime: string;
+  availabilitySlots: InterviewAvailabilitySlot[];
+}
+
+export interface InterviewCalendarConfig {
+  id?: number | null;
+  virtual: InterviewCalendarModalityConfig;
+  presential: InterviewCalendarModalityConfig;
   reminder15Min: boolean;
   reminder1Hour: boolean;
   excludeNonWorkingDays: boolean;
-  availabilitySlots: InterviewAvailabilitySlot[];
   externalCalendarUrl?: string | null;
   address?: string | null;
   instructions?: string | null;
@@ -38,4 +43,14 @@ export interface ScheduleInterviewResponse {
   calendarIcsUrl: string;
   calendarGoogleUrl: string;
   calendarOutlookUrl: string;
+}
+
+export function defaultInterviewCalendarModalityConfig(): InterviewCalendarModalityConfig {
+  return {
+    durationMinutes: 30,
+    maxWorkingDays: 5,
+    workStartTime: '08:00',
+    workEndTime: '18:00',
+    availabilitySlots: [],
+  };
 }
