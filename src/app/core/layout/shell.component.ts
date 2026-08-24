@@ -18,7 +18,7 @@ import { PortalLanguage } from '../../shared/models/portal-language.model';
 import { AppPermissions } from '../auth/app-permissions';
 import { MAIN_NAV_ITEMS } from '../i18n/nav-labels';
 import { INTERVIEW_CAL_MENU } from '../i18n/interview-calendar-labels';
-import { catalogDialogConfig } from '../dialog/catalog-dialog.constants';
+import { catalogTallDialogConfig } from '../dialog/catalog-dialog.constants';
 import { NotificationBellComponent } from './notification-bell/notification-bell.component';
 import { InterviewCalendarConfigDialogComponent } from '../../features/settings/interview-calendar/interview-calendar-config-dialog.component';
 
@@ -111,7 +111,7 @@ export class ShellComponent implements OnInit {
   }
 
   openInterviewCalendar(): void {
-    this.dialog.open(InterviewCalendarConfigDialogComponent, catalogDialogConfig('920px'));
+    this.dialog.open(InterviewCalendarConfigDialogComponent, catalogTallDialogConfig('920px'));
   }
 
   private loadTenantOptions(): void {

@@ -10,7 +10,7 @@
     <form [formGroup]="form">
       <mat-tab-group>
         <mat-tab [label]="labels.tabVideo">
-          <div class="tab-body">
+          <div class="tab-body tab-body--video">
             <div class="fields-row">
               <mat-form-field appearance="outline">
                 <mat-label>{{ labels.duration }}</mat-label>
@@ -29,7 +29,7 @@
               <mat-form-field appearance="outline">
                 <mat-label>{{ labels.start }}</mat-label>
                 <mat-select formControlName="workStartTime">
-                  @for (t of timeOptions; track t) {
+                  @for (t of pickerTimeOptions; track t) {
                     <mat-option [value]="t">{{ t }}</mat-option>
                   }
                 </mat-select>
@@ -37,7 +37,7 @@
               <mat-form-field appearance="outline">
                 <mat-label>{{ labels.end }}</mat-label>
                 <mat-select formControlName="workEndTime">
-                  @for (t of timeOptions; track t) {
+                  @for (t of pickerTimeOptions; track t) {
                     <mat-option [value]="t">{{ t }}</mat-option>
                   }
                 </mat-select>
@@ -71,7 +71,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @for (time of timeOptions; track time) {
+                  @for (time of gridTimeOptions; track time) {
                     <tr>
                       <td class="time-cell">{{ time }}</td>
                       @for (day of [1, 2, 3, 4, 5]; track day) {
