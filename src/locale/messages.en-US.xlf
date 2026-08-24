@@ -4052,6 +4052,18 @@
         <source>OpenStreetMap — arrastra el pin o haz clic para ubicar.</source>
         <target>OpenStreetMap — drag the pin or click to set the location.</target>
       </trans-unit>
+      <trans-unit id="interviewCalendar.locateAddress" datatype="html">
+        <source>Ubicar en mapa</source>
+        <target>Locate on map</target>
+      </trans-unit>
+      <trans-unit id="interviewCalendar.errors.addressRequired" datatype="html">
+        <source>Ingrese una dirección</source>
+        <target>Enter an address</target>
+      </trans-unit>
+      <trans-unit id="interviewCalendar.errors.geocode" datatype="html">
+        <source>No se pudo ubicar la dirección en el mapa</source>
+        <target>Could not locate the address on the map</target>
+      </trans-unit>
       <trans-unit id="nav.main.home" datatype="html">
         <source>Inicio</source>
         <target>Home</target>
