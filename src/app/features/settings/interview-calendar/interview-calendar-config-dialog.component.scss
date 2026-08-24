@@ -1,6 +1,12 @@
+:host {
+  display: block;
+}
+
 .cal-dialog {
   min-width: min(920px, 92vw);
-  max-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .loading-wrap {
@@ -9,17 +15,31 @@
   padding: 2rem;
 }
 
+form,
+mat-tab-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
 .tab-body {
   padding: 16px 4px 8px;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  min-height: 0;
+}
+
+.tab-body--video {
+  min-height: min(68vh, 720px);
 }
 
 .fields-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
+  flex-shrink: 0;
 }
 
 .full {
@@ -29,6 +49,7 @@
 .section-label {
   font-weight: 600;
   margin-bottom: 4px;
+  flex-shrink: 0;
 }
 
 .reminder-block,
@@ -36,11 +57,13 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  flex-shrink: 0;
 }
 
 .grid-wrap {
+  flex: 1 1 auto;
+  min-height: 220px;
   overflow: auto;
-  max-height: 280px;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
 }
@@ -66,7 +89,8 @@
 
 .map {
   width: 100%;
-  height: 260px;
+  height: min(42vh, 360px);
+  min-height: 240px;
   border-radius: 8px;
   border: 1px solid #e2e8f0;
 }

@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, OnDestroy, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -47,6 +48,7 @@ import {
 } from '../../../core/i18n/interview-calendar-labels';
 import { InterviewCalendarApiService } from '../../../core/services/interview-calendar-api.service';
 import { InterviewAvailabilitySlot } from '../../../shared/models/interview-calendar.model';
+import { merge } from 'rxjs';
 
 @Component({
   selector: 'sh-interview-calendar-config-dialog',
@@ -69,6 +71,7 @@ import { InterviewAvailabilitySlot } from '../../../shared/models/interview-cale
 })
 export class InterviewCalendarConfigDialogComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly dialogRef = inject(MatDialogRef<InterviewCalendarConfigDialogComponent>);
+  private readonly destroyRef = inject(DestroyRef);
   private readonly fb = inject(FormBuilder);
   private readonly api = inject(InterviewCalendarApiService);
   private readonly feedback = inject(FeedbackDialogService);
@@ -108,7 +111,8 @@ export class InterviewCalendarConfigDialogComponent implements OnInit, AfterView
     INTERVIEW_CAL_DAY_FRI,
   ];
   readonly durationOptions = [15, 30, 45, 60];
-  readonly timeOptions = this.buildTimeOptions();
+  readonly pickerTimeOptions = this.buildPickerTimeOptions();
+  gridTimeOptions: string[] = [];
 
   loading = true;
   saving = false;
@@ -133,6 +137,14 @@ export class InterviewCalendarConfigDialogComponent implements OnInit, AfterView
   });
 
   ngOnInit(): void {
+    merge(
+      this.form.controls.workStartTime.valueChanges,
+      this.form.controls.workEndTime.valueChanges,
+      this.form.controls.durationMinutes.valueChanges,
+    )
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.syncGridFromForm());
+
     this.api.getMyConfig().subscribe({
       next: (cfg) => {
         this.form.patchValue({
@@ -151,13 +163,13 @@ export class InterviewCalendarConfigDialogComponent implements OnInit, AfterView
           longitude: cfg.longitude ?? -99.1332,
         });
         this.slots = [...(cfg.availabilitySlots ?? [])];
-        this.ensureSlotGrid();
+        this.syncGridFromForm();
         this.loading = false;
         setTimeout(() => this.initMap(), 0);
       },
       error: (err) => {
         this.loading = false;
-        this.ensureSlotGrid();
+        this.syncGridFromForm();
         this.feedback.showApiError(err, { fallbackMessage: INTERVIEW_CAL_LOAD_ERROR });
       },
     });
@@ -226,28 +238,64 @@ export class InterviewCalendarConfigDialogComponent implements OnInit, AfterView
     this.dialogRef.close(false);
   }
 
-  private ensureSlotGrid(): void {
-    if (this.slots.length > 0) {
-      return;
+  private syncGridFromForm(): void {
+    const start = this.form.controls.workStartTime.value;
+    const end = this.form.controls.workEndTime.value;
+    const stepMinutes = this.form.controls.durationMinutes.value;
+
+    if (this.timeToMinutes(start) >= this.timeToMinutes(end)) {
+      const adjustedEnd = this.minutesToTime(this.timeToMinutes(start) + stepMinutes);
+      this.form.controls.workEndTime.setValue(adjustedEnd, { emitEvent: false });
     }
+
+    const effectiveEnd = this.form.controls.workEndTime.value;
+    const newTimes = this.buildGridTimeOptions(start, effectiveEnd, stepMinutes);
+    const allowed = new Set(newTimes);
+
+    this.slots = this.slots.filter((slot) => allowed.has(slot.time));
+
     for (let day = 1; day <= 5; day++) {
-      for (const time of this.timeOptions) {
-        this.slots.push({ dayOfWeek: day, time, available: false });
+      for (const time of newTimes) {
+        if (!this.slots.some((slot) => slot.dayOfWeek === day && slot.time === time)) {
+          this.slots.push({ dayOfWeek: day, time, available: false });
+        }
       }
     }
+
+    this.gridTimeOptions = newTimes;
   }
 
-  private buildTimeOptions(): string[] {
+  private buildGridTimeOptions(start: string, end: string, stepMinutes: number): string[] {
+    const startMin = this.timeToMinutes(start);
+    const endMin = this.timeToMinutes(end);
+    const step = stepMinutes > 0 ? stepMinutes : 30;
+    if (startMin >= endMin) {
+      return [];
+    }
     const times: string[] = [];
-    for (let h = 8; h <= 18; h++) {
-      for (const m of [0, 30]) {
-        if (h === 18 && m > 0) {
-          continue;
-        }
-        times.push(`${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`);
-      }
+    for (let minutes = startMin; minutes < endMin; minutes += step) {
+      times.push(this.minutesToTime(minutes));
     }
     return times;
+  }
+
+  private buildPickerTimeOptions(): string[] {
+    const times: string[] = [];
+    for (let minutes = 6 * 60; minutes <= 22 * 60; minutes += 15) {
+      times.push(this.minutesToTime(minutes));
+    }
+    return times;
+  }
+
+  private timeToMinutes(time: string): number {
+    const [hours, mins] = time.split(':').map(Number);
+    return hours * 60 + mins;
+  }
+
+  private minutesToTime(totalMinutes: number): string {
+    const hours = Math.floor(totalMinutes / 60);
+    const mins = totalMinutes % 60;
+    return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
   }
 
   private initMap(): void {
