@@ -8,7 +8,7 @@
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else {
     <form [formGroup]="form">
-      <mat-tab-group>
+      <mat-tab-group (selectedTabChange)="onTabChange($event)">
         <mat-tab [label]="labels.tabVideo">
           <div class="tab-body tab-body--video">
             <div class="fields-row">
@@ -91,11 +91,57 @@
           </div>
         </mat-tab>
         <mat-tab [label]="labels.tabInPerson">
-          <div class="tab-body">
-            <mat-form-field appearance="outline" class="full">
-              <mat-label>{{ labels.address }}</mat-label>
-              <textarea matInput rows="2" formControlName="address"></textarea>
-            </mat-form-field>
+          <div class="tab-body tab-body--in-person">
+            <div class="fields-row fields-row--schedule">
+              <mat-form-field appearance="outline">
+                <mat-label>{{ labels.duration }}</mat-label>
+                <mat-select formControlName="durationMinutes">
+                  @for (opt of durationOptions; track opt) {
+                    <mat-option [value]="opt">{{ opt }} min</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>{{ labels.maxDays }}</mat-label>
+                <input matInput type="number" formControlName="maxWorkingDays" />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>{{ labels.start }}</mat-label>
+                <mat-select formControlName="workStartTime">
+                  @for (t of pickerTimeOptions; track t) {
+                    <mat-option [value]="t">{{ t }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>{{ labels.end }}</mat-label>
+                <mat-select formControlName="workEndTime">
+                  @for (t of pickerTimeOptions; track t) {
+                    <mat-option [value]="t">{{ t }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="address-row">
+              <mat-form-field appearance="outline" class="address-field">
+                <mat-label>{{ labels.address }}</mat-label>
+                <textarea matInput rows="2" formControlName="address"></textarea>
+              </mat-form-field>
+              <button
+                mat-stroked-button
+                type="button"
+                class="locate-btn"
+                [disabled]="geocoding"
+                (click)="locateAddressOnMap()"
+              >
+                @if (geocoding) {
+                  <mat-spinner diameter="18" />
+                } @else {
+                  <mat-icon>location_searching</mat-icon>
+                }
+                {{ labels.locateAddress }}
+              </button>
+            </div>
             <mat-form-field appearance="outline" class="full">
               <mat-label>{{ labels.instructions }}</mat-label>
               <textarea matInput rows="2" formControlName="instructions"></textarea>

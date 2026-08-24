@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, DestroyRef, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnDestroy, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,8 +10,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTabsModule, MatTabChangeEvent } from '@angular/material/tabs';
 import * as L from 'leaflet';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import {
   INTERVIEW_CAL_ADDRESS,
@@ -28,6 +30,9 @@ import {
   INTERVIEW_CAL_GRID,
   INTERVIEW_CAL_INSTRUCTIONS,
   INTERVIEW_CAL_LOAD_ERROR,
+  INTERVIEW_CAL_LOCATE_ADDRESS,
+  INTERVIEW_CAL_GEOCODE_ERROR,
+  INTERVIEW_CAL_ADDRESS_REQUIRED,
   INTERVIEW_CAL_MAP,
   INTERVIEW_CAL_MAP_HINT,
   INTERVIEW_CAL_MAX_DAYS,
@@ -65,11 +70,12 @@ import { merge } from 'rxjs';
     MatTabsModule,
     MatSlideToggleModule,
     MatProgressSpinnerModule,
+    MatIconModule,
   ],
   templateUrl: './interview-calendar-config-dialog.component.html',
   styleUrl: './interview-calendar-config-dialog.component.scss',
 })
-export class InterviewCalendarConfigDialogComponent implements OnInit, AfterViewInit, OnDestroy {
+export class InterviewCalendarConfigDialogComponent implements OnInit, OnDestroy {
   private readonly dialogRef = inject(MatDialogRef<InterviewCalendarConfigDialogComponent>);
   private readonly destroyRef = inject(DestroyRef);
   private readonly fb = inject(FormBuilder);
@@ -98,6 +104,7 @@ export class InterviewCalendarConfigDialogComponent implements OnInit, AfterView
     references: INTERVIEW_CAL_REFERENCES,
     map: INTERVIEW_CAL_MAP,
     mapHint: INTERVIEW_CAL_MAP_HINT,
+    locateAddress: INTERVIEW_CAL_LOCATE_ADDRESS,
     externalUrl: INTERVIEW_CAL_EXTERNAL_URL,
     save: INTERVIEW_CAL_SAVE,
     cancel: INTERVIEW_CAL_CANCEL,
@@ -116,6 +123,7 @@ export class InterviewCalendarConfigDialogComponent implements OnInit, AfterView
 
   loading = true;
   saving = false;
+  geocoding = false;
   slots: InterviewAvailabilitySlot[] = [];
   private map?: L.Map;
   private marker?: L.Marker;
@@ -165,7 +173,6 @@ export class InterviewCalendarConfigDialogComponent implements OnInit, AfterView
         this.slots = [...(cfg.availabilitySlots ?? [])];
         this.syncGridFromForm();
         this.loading = false;
-        setTimeout(() => this.initMap(), 0);
       },
       error: (err) => {
         this.loading = false;
@@ -173,12 +180,6 @@ export class InterviewCalendarConfigDialogComponent implements OnInit, AfterView
         this.feedback.showApiError(err, { fallbackMessage: INTERVIEW_CAL_LOAD_ERROR });
       },
     });
-  }
-
-  ngAfterViewInit(): void {
-    if (!this.loading) {
-      this.initMap();
-    }
   }
 
   ngOnDestroy(): void {
@@ -236,6 +237,87 @@ export class InterviewCalendarConfigDialogComponent implements OnInit, AfterView
 
   close(): void {
     this.dialogRef.close(false);
+  }
+
+  onTabChange(event: MatTabChangeEvent): void {
+    if (event.index === 1) {
+      void this.ensureMapReady();
+    }
+  }
+
+  locateAddressOnMap(): void {
+    const address = this.form.controls.address.value.trim();
+    if (!address) {
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, INTERVIEW_CAL_ADDRESS_REQUIRED);
+      return;
+    }
+    if (this.geocoding) {
+      return;
+    }
+    this.geocoding = true;
+    void this.geocodeAddress(address)
+      .then(async (coords) => {
+        this.geocoding = false;
+        if (!coords) {
+          this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, INTERVIEW_CAL_GEOCODE_ERROR);
+          return;
+        }
+        this.form.patchValue({ latitude: coords.lat, longitude: coords.lng });
+        await this.ensureMapReady();
+        this.map?.setView([coords.lat, coords.lng], 16);
+        this.marker?.setLatLng([coords.lat, coords.lng]);
+      })
+      .catch(() => {
+        this.geocoding = false;
+        this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, INTERVIEW_CAL_GEOCODE_ERROR);
+      });
+  }
+
+  private ensureMapReady(): Promise<void> {
+    return new Promise((resolve) => {
+      const tryInit = (attempt: number) => {
+        setTimeout(() => {
+          if (!this.map) {
+            this.initMap();
+          }
+          if (this.map) {
+            this.map.invalidateSize();
+            const lat = this.form.controls.latitude.value ?? 19.4326;
+            const lng = this.form.controls.longitude.value ?? -99.1332;
+            this.map.setView([lat, lng], this.map.getZoom() || 13);
+            this.marker?.setLatLng([lat, lng]);
+            resolve();
+            return;
+          }
+          if (attempt < 5) {
+            tryInit(attempt + 1);
+          } else {
+            resolve();
+          }
+        }, 120);
+      };
+      tryInit(0);
+    });
+  }
+
+  private async geocodeAddress(address: string): Promise<{ lat: number; lng: number } | null> {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(address)}`;
+    const response = await fetch(url, {
+      headers: {
+        Accept: 'application/json',
+      },
+    });
+    if (!response.ok) {
+      return null;
+    }
+    const results = (await response.json()) as Array<{ lat: string; lon: string }>;
+    if (!results.length) {
+      return null;
+    }
+    return {
+      lat: Number.parseFloat(results[0].lat),
+      lng: Number.parseFloat(results[0].lon),
+    };
   }
 
   private syncGridFromForm(): void {
@@ -301,6 +383,9 @@ export class InterviewCalendarConfigDialogComponent implements OnInit, AfterView
   private initMap(): void {
     const el = document.getElementById('interview-calendar-map');
     if (!el || this.map) {
+      return;
+    }
+    if (el.clientHeight === 0) {
       return;
     }
     const lat = this.form.controls.latitude.value ?? 19.4326;

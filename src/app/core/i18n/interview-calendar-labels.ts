@@ -41,3 +41,6 @@ export const INTERVIEW_SCHEDULE_SUCCESS = $localize`:@@interviewSchedule.success
 export const INTERVIEW_SCHEDULE_ERROR = $localize`:@@interviewSchedule.errors.save:No se pudo agendar la entrevista`;
 export const INTERVIEW_SCHEDULE_SELECT_ONE = $localize`:@@interviewSchedule.selectOne:Seleccione un solo candidato para agendar la entrevista`;
 export const INTERVIEW_CAL_MAP_HINT = $localize`:@@interviewCalendar.mapHint:OpenStreetMap — arrastra el pin o haz clic para ubicar.`;
+export const INTERVIEW_CAL_LOCATE_ADDRESS = $localize`:@@interviewCalendar.locateAddress:Ubicar en mapa`;
+export const INTERVIEW_CAL_ADDRESS_REQUIRED = $localize`:@@interviewCalendar.errors.addressRequired:Ingrese una dirección`;
+export const INTERVIEW_CAL_GEOCODE_ERROR = $localize`:@@interviewCalendar.errors.geocode:No se pudo ubicar la dirección en el mapa`;

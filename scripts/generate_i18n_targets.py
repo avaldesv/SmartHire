@@ -894,6 +894,9 @@ EN_BY_SOURCE: dict[str, str] = {
     "OpenStreetMap — arrastra el pin o haz clic para ubicar.": (
         "OpenStreetMap — drag the pin or click to set the location."
     ),
+    "Ubicar en mapa": "Locate on map",
+    "Ingrese una dirección": "Enter an address",
+    "No se pudo ubicar la dirección en el mapa": "Could not locate the address on the map",
 }
 
 ERROR_CATALOG_EN_MAP = load_error_catalog_en()
