@@ -145,11 +145,6 @@ export const SETTINGS_NAV_ITEMS: SettingsNavItem[] = [
     authority: AppPermissions.SETTINGS_SYSTEM_READ,
   },
   {
-    label: $localize`:@@nav.settings.interviews:Entrevistas`,
-    path: 'interviews',
-    authority: AppPermissions.SETTINGS_SYSTEM_READ,
-  },
-  {
     label: $localize`:@@nav.settings.pipelineStages:Etapas`,
     path: 'pipeline-stages',
     authority: AppPermissions.SETTINGS_SYSTEM_READ,

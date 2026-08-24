@@ -1,0 +1,122 @@
+<div class="sh-catalog-dialog-header" mat-dialog-title>
+  <span class="sh-catalog-dialog-header__text">{{ labels.title }}</span>
+</div>
+
+<mat-dialog-content class="sh-catalog-dialog-body cal-dialog">
+  <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
+  @if (loading) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else {
+    <form [formGroup]="form">
+      <mat-tab-group>
+        <mat-tab [label]="labels.tabVideo">
+          <div class="tab-body">
+            <div class="fields-row">
+              <mat-form-field appearance="outline">
+                <mat-label>{{ labels.duration }}</mat-label>
+                <mat-select formControlName="durationMinutes">
+                  @for (opt of durationOptions; track opt) {
+                    <mat-option [value]="opt">{{ opt }} min</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>{{ labels.maxDays }}</mat-label>
+                <input matInput type="number" formControlName="maxWorkingDays" />
+              </mat-form-field>
+            </div>
+            <div class="fields-row">
+              <mat-form-field appearance="outline">
+                <mat-label>{{ labels.start }}</mat-label>
+                <mat-select formControlName="workStartTime">
+                  @for (t of timeOptions; track t) {
+                    <mat-option [value]="t">{{ t }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>{{ labels.end }}</mat-label>
+                <mat-select formControlName="workEndTime">
+                  @for (t of timeOptions; track t) {
+                    <mat-option [value]="t">{{ t }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="reminder-block">
+              <div class="section-label">{{ labels.reminder }}</div>
+              <mat-checkbox formControlName="reminder15Min">{{ labels.reminder15 }}</mat-checkbox>
+              <mat-checkbox formControlName="reminder1Hour">{{ labels.reminder1h }}</mat-checkbox>
+            </div>
+            <div class="exclude-block">
+              <div class="section-label">{{ labels.exclude }}</div>
+              <mat-radio-group formControlName="excludeNonWorkingDays">
+                <mat-radio-button [value]="true">{{ labels.yes }}</mat-radio-button>
+                <mat-radio-button [value]="false">{{ labels.no }}</mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <mat-form-field appearance="outline" class="full">
+              <mat-label>{{ labels.externalUrl }}</mat-label>
+              <input matInput formControlName="externalCalendarUrl" />
+            </mat-form-field>
+            <div class="section-label">{{ labels.grid }}</div>
+            <div class="grid-wrap">
+              <table class="avail-grid">
+                <thead>
+                  <tr>
+                    <th></th>
+                    @for (day of dayLabels; track day) {
+                      <th>{{ day }}</th>
+                    }
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (time of timeOptions; track time) {
+                    <tr>
+                      <td class="time-cell">{{ time }}</td>
+                      @for (day of [1, 2, 3, 4, 5]; track day) {
+                        <td>
+                          <mat-slide-toggle
+                            color="primary"
+                            [checked]="isAvailable(day, time)"
+                            (change)="toggleSlot(day, time)"
+                          />
+                        </td>
+                      }
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab [label]="labels.tabInPerson">
+          <div class="tab-body">
+            <mat-form-field appearance="outline" class="full">
+              <mat-label>{{ labels.address }}</mat-label>
+              <textarea matInput rows="2" formControlName="address"></textarea>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full">
+              <mat-label>{{ labels.instructions }}</mat-label>
+              <textarea matInput rows="2" formControlName="instructions"></textarea>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full">
+              <mat-label>{{ labels.references }}</mat-label>
+              <textarea matInput rows="2" formControlName="locationReferences"></textarea>
+            </mat-form-field>
+            <div class="section-label">{{ labels.map }}</div>
+            <div id="interview-calendar-map" class="map"></div>
+            <p class="map-hint">{{ labels.mapHint }}</p>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </form>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="close()">{{ labels.cancel }}</button>
+  <button mat-flat-button color="primary" type="button" [disabled]="loading || saving" (click)="save()">
+    {{ labels.save }}
+  </button>
+</mat-dialog-actions>

@@ -6,6 +6,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AuthService } from '../services/auth.service';
 import { LocaleService } from '../services/locale.service';
 import { PermissionService } from '../services/permission.service';
@@ -16,7 +17,10 @@ import { CatalogCompany } from '../../shared/models/catalog-company.model';
 import { PortalLanguage } from '../../shared/models/portal-language.model';
 import { AppPermissions } from '../auth/app-permissions';
 import { MAIN_NAV_ITEMS } from '../i18n/nav-labels';
+import { INTERVIEW_CAL_MENU } from '../i18n/interview-calendar-labels';
+import { catalogDialogConfig } from '../dialog/catalog-dialog.constants';
 import { NotificationBellComponent } from './notification-bell/notification-bell.component';
+import { InterviewCalendarConfigDialogComponent } from '../../features/settings/interview-calendar/interview-calendar-config-dialog.component';
 
 @Component({
   selector: 'sh-shell',
@@ -31,6 +35,7 @@ import { NotificationBellComponent } from './notification-bell/notification-bell
     MatBadgeModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatDialogModule,
     NotificationBellComponent,
   ],
   templateUrl: './shell.component.html',
@@ -43,7 +48,9 @@ export class ShellComponent implements OnInit {
   private readonly tenantContext = inject(TenantContextService);
   private readonly companyService = inject(CatalogCompanyService);
   private readonly userSettingsApi = inject(UserSettingsApiService);
+  private readonly dialog = inject(MatDialog);
 
+  readonly interviewCalendarMenuLabel = INTERVIEW_CAL_MENU;
   readonly user = this.auth.currentUser;
   readonly activeLocale = this.localeService.activeLocale;
   readonly activePortalLanguageId = this.localeService.portalLanguageId;
@@ -101,6 +108,10 @@ export class ShellComponent implements OnInit {
 
   logout(): void {
     this.auth.completeLogout();
+  }
+
+  openInterviewCalendar(): void {
+    this.dialog.open(InterviewCalendarConfigDialogComponent, catalogDialogConfig('920px'));
   }
 
   private loadTenantOptions(): void {

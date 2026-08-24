@@ -46,7 +46,7 @@ export const PRESELECTION_ROW_ACTIONS: readonly PreselectionRowAction[] = [
   },
   {
     id: 'scheduleInterview',
-    label: 'Solicitar cita entrevista',
+    label: 'Agendar entrevista',
     icon: 'event',
     permissions: [AppPermissions.SELECTION_EDIT],
   },

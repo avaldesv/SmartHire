@@ -1,0 +1,78 @@
+.cal-dialog {
+  min-width: min(920px, 92vw);
+  max-height: 75vh;
+}
+
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.tab-body {
+  padding: 16px 4px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fields-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.full {
+  width: 100%;
+}
+
+.section-label {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.reminder-block,
+.exclude-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.grid-wrap {
+  overflow: auto;
+  max-height: 280px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.avail-grid {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.avail-grid th,
+.avail-grid td {
+  padding: 6px 8px;
+  text-align: center;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.time-cell {
+  text-align: left !important;
+  white-space: nowrap;
+  color: #64748b;
+}
+
+.map {
+  width: 100%;
+  height: 260px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.map-hint {
+  margin: 0;
+  font-size: 12px;
+  color: #64748b;
+}

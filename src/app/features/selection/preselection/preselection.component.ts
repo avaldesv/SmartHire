@@ -12,6 +12,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { catalogDialogConfig } from '../../../core/dialog/catalog-dialog.constants';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
+import { INTERVIEW_SCHEDULE_SELECT_ONE } from '../../../core/i18n/interview-calendar-labels';
 import { CandidateApplicationApiService } from '../../../core/services/candidate-application-api.service';
 import { CandidateApiService } from '../../../core/services/candidate-api.service';
 import { PermissionService } from '../../../core/services/permission.service';
@@ -19,6 +20,10 @@ import {
   CandidatePoolDialogComponent,
   CandidatePoolDialogData,
 } from '../../candidates/dialogs/candidate-pool-dialog/candidate-pool-dialog.component';
+import {
+  ScheduleInterviewDialogComponent,
+  ScheduleInterviewDialogData,
+} from '../../candidates/dialogs/schedule-interview-dialog/schedule-interview-dialog.component';
 import {
   PositionApplicationsDialogComponent,
   PositionApplicationsDialogData,
@@ -248,7 +253,38 @@ export class PreselectionComponent implements OnInit {
   }
 
   action(name: string): void {
+    if (name === 'Agendar entrevista') {
+      this.scheduleSelectedInterview();
+      return;
+    }
     this.feedback.showSuccess(`${name}: ${this.selectedCount} candidato(s)`);
+  }
+
+  private scheduleSelectedInterview(): void {
+    const selected = this.data.filter((row) => row.selected);
+    if (selected.length !== 1) {
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, INTERVIEW_SCHEDULE_SELECT_ONE);
+      return;
+    }
+    this.openScheduleInterview(selected[0]);
+  }
+
+  private openScheduleInterview(row: PreselectionCandidate): void {
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    const dialogRef = this.dialog.open<
+      ScheduleInterviewDialogComponent,
+      ScheduleInterviewDialogData,
+      boolean | null
+    >(ScheduleInterviewDialogComponent, {
+      ...catalogDialogConfig('480px'),
+      data: { applicationId: row.applicationId, candidateName: name },
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(filter((ok): ok is true => ok === true))
+      .subscribe(() => {
+        row.interviewScheduled = true;
+      });
   }
 
   visibleRowActions(): PreselectionRowAction[] {
@@ -277,7 +313,7 @@ export class PreselectionComponent implements OnInit {
       return;
     }
     if (actionId === 'scheduleInterview') {
-      this.toggleInterviewSchedule(row);
+      this.openScheduleInterview(row);
       return;
     }
     if (actionId === 'viewDocuments') {
@@ -358,21 +394,6 @@ export class PreselectionComponent implements OnInit {
           },
         });
       });
-  }
-
-  private toggleInterviewSchedule(row: PreselectionCandidate): void {
-    const schedule = !row.interviewScheduled;
-    this.applicationApi.patchApplication(row.applicationId, { interviewScheduled: schedule }).subscribe({
-      next: (res) => {
-        row.interviewScheduled = res.interviewScheduled;
-        this.feedback.showSuccess(
-          res.interviewScheduled ? 'Cita de entrevista solicitada' : 'Cita de entrevista cancelada',
-        );
-      },
-      error: (err) => {
-        this.feedback.showApiError(err, { fallbackMessage: 'No se pudo actualizar la cita de entrevista' });
-      },
-    });
   }
 
   openAuditLogDialog(row: PreselectionCandidate): void {
