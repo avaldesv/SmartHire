@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, LOCALE_ID, OnDestroy, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,6 +18,7 @@ import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.se
 import {
   INTERVIEW_CAL_ADDRESS,
   INTERVIEW_CAL_CANCEL,
+  INTERVIEW_CAL_CLOSE,
   INTERVIEW_CAL_DAY_FRI,
   INTERVIEW_CAL_DAY_MON,
   INTERVIEW_CAL_DAY_THU,
@@ -26,18 +27,20 @@ import {
   INTERVIEW_CAL_DURATION,
   INTERVIEW_CAL_END,
   INTERVIEW_CAL_EXCLUDE_HOLIDAYS,
-  INTERVIEW_CAL_EXTERNAL_URL,
   INTERVIEW_CAL_GRID,
   INTERVIEW_CAL_INSTRUCTIONS,
+  INTERVIEW_CAL_INSTRUCTIONS_PLACEHOLDER,
   INTERVIEW_CAL_LOAD_ERROR,
   INTERVIEW_CAL_LOCATE_ADDRESS,
   INTERVIEW_CAL_GEOCODE_ERROR,
   INTERVIEW_CAL_ADDRESS_REQUIRED,
+  INTERVIEW_CAL_ADDRESS_PLACEHOLDER,
   INTERVIEW_CAL_MAP,
   INTERVIEW_CAL_MAP_HINT,
   INTERVIEW_CAL_MAX_DAYS,
   INTERVIEW_CAL_NO,
   INTERVIEW_CAL_REFERENCES,
+  INTERVIEW_CAL_REFERENCES_PLACEHOLDER,
   INTERVIEW_CAL_REMINDER,
   INTERVIEW_CAL_REMINDER_15,
   INTERVIEW_CAL_REMINDER_1H,
@@ -50,6 +53,7 @@ import {
   INTERVIEW_CAL_TITLE,
   INTERVIEW_CAL_WORK_HOURS,
   INTERVIEW_CAL_YES,
+  formatInterviewDurationMinutes,
 } from '../../../core/i18n/interview-calendar-labels';
 import { InterviewCalendarApiService } from '../../../core/services/interview-calendar-api.service';
 import { InterviewAvailabilitySlot } from '../../../shared/models/interview-calendar.model';
@@ -81,10 +85,12 @@ export class InterviewCalendarConfigDialogComponent implements OnInit, OnDestroy
   private readonly fb = inject(FormBuilder);
   private readonly api = inject(InterviewCalendarApiService);
   private readonly feedback = inject(FeedbackDialogService);
+  private readonly localeId = inject(LOCALE_ID);
   readonly data = inject(MAT_DIALOG_DATA, { optional: true });
 
   readonly labels = {
     title: INTERVIEW_CAL_TITLE,
+    close: INTERVIEW_CAL_CLOSE,
     tabVideo: INTERVIEW_CAL_TAB_VIDEO,
     tabInPerson: INTERVIEW_CAL_TAB_IN_PERSON,
     duration: INTERVIEW_CAL_DURATION,
@@ -100,12 +106,14 @@ export class InterviewCalendarConfigDialogComponent implements OnInit, OnDestroy
     no: INTERVIEW_CAL_NO,
     grid: INTERVIEW_CAL_GRID,
     address: INTERVIEW_CAL_ADDRESS,
+    addressPlaceholder: INTERVIEW_CAL_ADDRESS_PLACEHOLDER,
     instructions: INTERVIEW_CAL_INSTRUCTIONS,
+    instructionsPlaceholder: INTERVIEW_CAL_INSTRUCTIONS_PLACEHOLDER,
     references: INTERVIEW_CAL_REFERENCES,
+    referencesPlaceholder: INTERVIEW_CAL_REFERENCES_PLACEHOLDER,
     map: INTERVIEW_CAL_MAP,
     mapHint: INTERVIEW_CAL_MAP_HINT,
     locateAddress: INTERVIEW_CAL_LOCATE_ADDRESS,
-    externalUrl: INTERVIEW_CAL_EXTERNAL_URL,
     save: INTERVIEW_CAL_SAVE,
     cancel: INTERVIEW_CAL_CANCEL,
   };
@@ -237,6 +245,19 @@ export class InterviewCalendarConfigDialogComponent implements OnInit, OnDestroy
 
   close(): void {
     this.dialogRef.close(false);
+  }
+
+  formatDuration(minutes: number): string {
+    return formatInterviewDurationMinutes(minutes);
+  }
+
+  formatTime(time: string): string {
+    const [hours, mins] = time.split(':').map(Number);
+    return new Intl.DateTimeFormat(this.localeId, {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    }).format(new Date(2000, 0, 1, hours, mins));
   }
 
   onTabChange(event: MatTabChangeEvent): void {
