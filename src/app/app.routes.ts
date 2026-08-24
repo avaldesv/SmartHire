@@ -313,12 +313,6 @@ export const routes: Routes = [
             loadComponent: () => import('./features/settings/cvs/cvs-config.component').then((m) => m.CvsConfigComponent),
           },
           {
-            path: 'interviews',
-            canActivate: [permissionGuard],
-            data: { authorities: [AppPermissions.SETTINGS_SYSTEM_READ] },
-            loadComponent: () => import('./features/settings/interviews/interviews-config.component').then((m) => m.InterviewsConfigComponent),
-          },
-          {
             path: 'pipeline-stages',
             canActivate: [permissionGuard],
             data: { authorities: [AppPermissions.SETTINGS_SYSTEM_READ] },

@@ -861,6 +861,39 @@ EN_BY_SOURCE: dict[str, str] = {
     "Viernes": "Friday",
     "Sábado": "Saturday",
     "Domingo": "Sunday",
+    "Configuración de calendario": "Calendar settings",
+    "Videoconferencia": "Video conference",
+    "Presencial": "In person",
+    "Tiempo de duración": "Duration",
+    "Días laborales máximos": "Max working days",
+    "Horario laboral": "Working hours",
+    "Hora inicio": "Start time",
+    "Hora término": "End time",
+    "Recordatorio de cita": "Appointment reminder",
+    "15 minutos antes": "15 minutes before",
+    "1 hora antes": "1 hour before",
+    "Descuenta días inhábiles": "Exclude non-working days",
+    "Calendario de disponibilidad": "Availability calendar",
+    "Dirección": "Address",
+    "Instrucciones": "Instructions",
+    "Referencias": "References",
+    "Mapa": "Map",
+    "URL calendario externo (stub)": "External calendar URL (stub)",
+    "Configuración de calendario guardada": "Calendar settings saved",
+    "No se pudo cargar la configuración de calendario": "Could not load calendar settings",
+    "No se pudo guardar la configuración de calendario": "Could not save calendar settings",
+    "Agendar entrevista": "Schedule interview",
+    "Fecha y hora": "Date and time",
+    "Link de reunión": "Meeting link",
+    "Agendar": "Schedule",
+    "Entrevista agendada": "Interview scheduled",
+    "No se pudo agendar la entrevista": "Could not schedule the interview",
+    "Seleccione un solo candidato para agendar la entrevista": (
+        "Select a single candidate to schedule the interview"
+    ),
+    "OpenStreetMap — arrastra el pin o haz clic para ubicar.": (
+        "OpenStreetMap — drag the pin or click to set the location."
+    ),
 }
 
 ERROR_CATALOG_EN_MAP = load_error_catalog_en()
