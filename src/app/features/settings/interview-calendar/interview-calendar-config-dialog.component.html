@@ -17,7 +17,7 @@
               <div class="cal-field">
                 <span class="cal-field__label">{{ labels.duration }}</span>
                 <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                  <mat-select formControlName="durationMinutes">
+                  <mat-select formControlName="virtualDurationMinutes">
                     @for (opt of durationOptions; track opt) {
                       <mat-option [value]="opt">{{ formatDuration(opt) }}</mat-option>
                     }
@@ -27,7 +27,7 @@
               <div class="cal-field">
                 <span class="cal-field__label">{{ labels.maxDays }}</span>
                 <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                  <input matInput type="number" formControlName="maxWorkingDays" />
+                  <input matInput type="number" formControlName="virtualMaxWorkingDays" />
                 </mat-form-field>
               </div>
               <div class="cal-field cal-field--hours">
@@ -35,7 +35,7 @@
                 <div class="cal-field__hours">
                   <mat-form-field appearance="outline" subscriptSizing="dynamic">
                     <mat-label>{{ labels.start }}</mat-label>
-                    <mat-select formControlName="workStartTime">
+                    <mat-select formControlName="virtualWorkStartTime">
                       @for (t of pickerTimeOptions; track t) {
                         <mat-option [value]="t">{{ formatTime(t) }}</mat-option>
                       }
@@ -43,7 +43,7 @@
                   </mat-form-field>
                   <mat-form-field appearance="outline" subscriptSizing="dynamic">
                     <mat-label>{{ labels.end }}</mat-label>
-                    <mat-select formControlName="workEndTime">
+                    <mat-select formControlName="virtualWorkEndTime">
                       @for (t of pickerTimeOptions; track t) {
                         <mat-option [value]="t">{{ formatTime(t) }}</mat-option>
                       }
@@ -110,7 +110,7 @@
               <div class="cal-field">
                 <span class="cal-field__label">{{ labels.duration }}</span>
                 <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                  <mat-select formControlName="durationMinutes">
+                  <mat-select formControlName="presentialDurationMinutes">
                     @for (opt of durationOptions; track opt) {
                       <mat-option [value]="opt">{{ formatDuration(opt) }}</mat-option>
                     }
@@ -120,7 +120,7 @@
               <div class="cal-field">
                 <span class="cal-field__label">{{ labels.maxDays }}</span>
                 <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                  <input matInput type="number" formControlName="maxWorkingDays" />
+                  <input matInput type="number" formControlName="presentialMaxWorkingDays" />
                 </mat-form-field>
               </div>
               <div class="cal-field cal-field--hours">
@@ -128,7 +128,7 @@
                 <div class="cal-field__hours">
                   <mat-form-field appearance="outline" subscriptSizing="dynamic">
                     <mat-label>{{ labels.start }}</mat-label>
-                    <mat-select formControlName="workStartTime">
+                    <mat-select formControlName="presentialWorkStartTime">
                       @for (t of pickerTimeOptions; track t) {
                         <mat-option [value]="t">{{ formatTime(t) }}</mat-option>
                       }
@@ -136,7 +136,7 @@
                   </mat-form-field>
                   <mat-form-field appearance="outline" subscriptSizing="dynamic">
                     <mat-label>{{ labels.end }}</mat-label>
-                    <mat-select formControlName="workEndTime">
+                    <mat-select formControlName="presentialWorkEndTime">
                       @for (t of pickerTimeOptions; track t) {
                         <mat-option [value]="t">{{ formatTime(t) }}</mat-option>
                       }

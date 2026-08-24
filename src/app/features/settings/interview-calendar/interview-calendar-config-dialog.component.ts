@@ -57,6 +57,7 @@ import {
 } from '../../../core/i18n/interview-calendar-labels';
 import { InterviewCalendarApiService } from '../../../core/services/interview-calendar-api.service';
 import { InterviewAvailabilitySlot } from '../../../shared/models/interview-calendar.model';
+import { defaultInterviewCalendarModalityConfig } from '../../../shared/models/interview-calendar.model';
 import { merge } from 'rxjs';
 
 @Component({
@@ -132,15 +133,19 @@ export class InterviewCalendarConfigDialogComponent implements OnInit, OnDestroy
   loading = true;
   saving = false;
   geocoding = false;
-  slots: InterviewAvailabilitySlot[] = [];
+  virtualSlots: InterviewAvailabilitySlot[] = [];
   private map?: L.Map;
   private marker?: L.Marker;
 
   readonly form = this.fb.nonNullable.group({
-    durationMinutes: [30],
-    maxWorkingDays: [5],
-    workStartTime: ['08:00'],
-    workEndTime: ['18:00'],
+    virtualDurationMinutes: [30],
+    virtualMaxWorkingDays: [5],
+    virtualWorkStartTime: ['08:00'],
+    virtualWorkEndTime: ['18:00'],
+    presentialDurationMinutes: [30],
+    presentialMaxWorkingDays: [5],
+    presentialWorkStartTime: ['08:00'],
+    presentialWorkEndTime: ['18:00'],
     reminder15Min: [true],
     reminder1Hour: [false],
     excludeNonWorkingDays: [true],
@@ -154,20 +159,26 @@ export class InterviewCalendarConfigDialogComponent implements OnInit, OnDestroy
 
   ngOnInit(): void {
     merge(
-      this.form.controls.workStartTime.valueChanges,
-      this.form.controls.workEndTime.valueChanges,
-      this.form.controls.durationMinutes.valueChanges,
+      this.form.controls.virtualWorkStartTime.valueChanges,
+      this.form.controls.virtualWorkEndTime.valueChanges,
+      this.form.controls.virtualDurationMinutes.valueChanges,
     )
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.syncGridFromForm());
+      .subscribe(() => this.syncVirtualGridFromForm());
 
     this.api.getMyConfig().subscribe({
       next: (cfg) => {
+        const virtual = cfg.virtual ?? defaultInterviewCalendarModalityConfig();
+        const presential = cfg.presential ?? defaultInterviewCalendarModalityConfig();
         this.form.patchValue({
-          durationMinutes: cfg.durationMinutes ?? 30,
-          maxWorkingDays: cfg.maxWorkingDays ?? 5,
-          workStartTime: cfg.workStartTime ?? '08:00',
-          workEndTime: cfg.workEndTime ?? '18:00',
+          virtualDurationMinutes: virtual.durationMinutes ?? 30,
+          virtualMaxWorkingDays: virtual.maxWorkingDays ?? 5,
+          virtualWorkStartTime: virtual.workStartTime ?? '08:00',
+          virtualWorkEndTime: virtual.workEndTime ?? '18:00',
+          presentialDurationMinutes: presential.durationMinutes ?? 30,
+          presentialMaxWorkingDays: presential.maxWorkingDays ?? 5,
+          presentialWorkStartTime: presential.workStartTime ?? '08:00',
+          presentialWorkEndTime: presential.workEndTime ?? '18:00',
           reminder15Min: cfg.reminder15Min ?? true,
           reminder1Hour: cfg.reminder1Hour ?? false,
           excludeNonWorkingDays: cfg.excludeNonWorkingDays ?? true,
@@ -178,13 +189,13 @@ export class InterviewCalendarConfigDialogComponent implements OnInit, OnDestroy
           latitude: cfg.latitude ?? 19.4326,
           longitude: cfg.longitude ?? -99.1332,
         });
-        this.slots = [...(cfg.availabilitySlots ?? [])];
-        this.syncGridFromForm();
+        this.virtualSlots = [...(virtual.availabilitySlots ?? [])];
+        this.syncVirtualGridFromForm();
         this.loading = false;
       },
       error: (err) => {
         this.loading = false;
-        this.syncGridFromForm();
+        this.syncVirtualGridFromForm();
         this.feedback.showApiError(err, { fallbackMessage: INTERVIEW_CAL_LOAD_ERROR });
       },
     });
@@ -195,15 +206,15 @@ export class InterviewCalendarConfigDialogComponent implements OnInit, OnDestroy
   }
 
   isAvailable(dayOfWeek: number, time: string): boolean {
-    return this.slots.some((s) => s.dayOfWeek === dayOfWeek && s.time === time && s.available);
+    return this.virtualSlots.some((s) => s.dayOfWeek === dayOfWeek && s.time === time && s.available);
   }
 
   toggleSlot(dayOfWeek: number, time: string): void {
-    const idx = this.slots.findIndex((s) => s.dayOfWeek === dayOfWeek && s.time === time);
+    const idx = this.virtualSlots.findIndex((s) => s.dayOfWeek === dayOfWeek && s.time === time);
     if (idx >= 0) {
-      this.slots[idx] = { ...this.slots[idx], available: !this.slots[idx].available };
+      this.virtualSlots[idx] = { ...this.virtualSlots[idx], available: !this.virtualSlots[idx].available };
     } else {
-      this.slots.push({ dayOfWeek, time, available: true });
+      this.virtualSlots.push({ dayOfWeek, time, available: true });
     }
   }
 
@@ -215,14 +226,23 @@ export class InterviewCalendarConfigDialogComponent implements OnInit, OnDestroy
     const raw = this.form.getRawValue();
     this.api
       .saveMyConfig({
-        durationMinutes: raw.durationMinutes,
-        maxWorkingDays: raw.maxWorkingDays,
-        workStartTime: raw.workStartTime,
-        workEndTime: raw.workEndTime,
+        virtual: {
+          durationMinutes: raw.virtualDurationMinutes,
+          maxWorkingDays: raw.virtualMaxWorkingDays,
+          workStartTime: raw.virtualWorkStartTime,
+          workEndTime: raw.virtualWorkEndTime,
+          availabilitySlots: this.virtualSlots.filter((s) => s.available),
+        },
+        presential: {
+          durationMinutes: raw.presentialDurationMinutes,
+          maxWorkingDays: raw.presentialMaxWorkingDays,
+          workStartTime: raw.presentialWorkStartTime,
+          workEndTime: raw.presentialWorkEndTime,
+          availabilitySlots: [],
+        },
         reminder15Min: raw.reminder15Min,
         reminder1Hour: raw.reminder1Hour,
         excludeNonWorkingDays: raw.excludeNonWorkingDays,
-        availabilitySlots: this.slots.filter((s) => s.available),
         externalCalendarUrl: raw.externalCalendarUrl || null,
         address: raw.address || null,
         instructions: raw.instructions || null,
@@ -341,26 +361,26 @@ export class InterviewCalendarConfigDialogComponent implements OnInit, OnDestroy
     };
   }
 
-  private syncGridFromForm(): void {
-    const start = this.form.controls.workStartTime.value;
-    const end = this.form.controls.workEndTime.value;
-    const stepMinutes = this.form.controls.durationMinutes.value;
+  private syncVirtualGridFromForm(): void {
+    const start = this.form.controls.virtualWorkStartTime.value;
+    const end = this.form.controls.virtualWorkEndTime.value;
+    const stepMinutes = this.form.controls.virtualDurationMinutes.value;
 
     if (this.timeToMinutes(start) >= this.timeToMinutes(end)) {
       const adjustedEnd = this.minutesToTime(this.timeToMinutes(start) + stepMinutes);
-      this.form.controls.workEndTime.setValue(adjustedEnd, { emitEvent: false });
+      this.form.controls.virtualWorkEndTime.setValue(adjustedEnd, { emitEvent: false });
     }
 
-    const effectiveEnd = this.form.controls.workEndTime.value;
+    const effectiveEnd = this.form.controls.virtualWorkEndTime.value;
     const newTimes = this.buildGridTimeOptions(start, effectiveEnd, stepMinutes);
     const allowed = new Set(newTimes);
 
-    this.slots = this.slots.filter((slot) => allowed.has(slot.time));
+    this.virtualSlots = this.virtualSlots.filter((slot) => allowed.has(slot.time));
 
     for (let day = 1; day <= 5; day++) {
       for (const time of newTimes) {
-        if (!this.slots.some((slot) => slot.dayOfWeek === day && slot.time === time)) {
-          this.slots.push({ dayOfWeek: day, time, available: false });
+        if (!this.virtualSlots.some((slot) => slot.dayOfWeek === day && slot.time === time)) {
+          this.virtualSlots.push({ dayOfWeek: day, time, available: false });
         }
       }
     }
