@@ -113,6 +113,21 @@
   @if (loading || loadingCatalogs) {
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else {
+    <section class="sh-card chart-card">
+      <h3 class="chart-title">Requisiciones por estatus</h3>
+      <div class="hbar-chart">
+        @for (row of rows; track row.statusCode) {
+          <div class="hbar-row">
+            <span class="hbar-label">{{ row.status }}</span>
+            <div class="hbar-track">
+              <div class="hbar-fill" [style.width]="barWidth(row.requisitions)"></div>
+            </div>
+            <span class="hbar-value">{{ formatCell(row.requisitions) }}</span>
+          </div>
+        }
+      </div>
+    </section>
+
     <div class="sh-card sh-table-wrap results-card">
       <div class="table-scroll">
         <table class="sbr-table">
