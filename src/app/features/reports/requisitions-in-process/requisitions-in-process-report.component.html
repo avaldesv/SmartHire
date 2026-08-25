@@ -66,13 +66,17 @@
             <ul class="pie-legend">
               <li>
                 <span class="swatch on-time"></span>
-                En tiempo
-                <strong>{{ formatCell(onTimeCount) }}</strong>
+                En tiempo — {{ formatCell(onTimeCount) }}
+                @if (pieTotal > 0) {
+                  ({{ onTimePct }}%)
+                }
               </li>
               <li>
                 <span class="swatch expired"></span>
-                Vencidas
-                <strong>{{ formatCell(expiredCount) }}</strong>
+                Vencidas — {{ formatCell(expiredCount) }}
+                @if (pieTotal > 0) {
+                  ({{ expiredPct }}%)
+                }
               </li>
             </ul>
           </div>

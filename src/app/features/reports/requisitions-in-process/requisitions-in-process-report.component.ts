@@ -145,6 +145,22 @@ export class RequisitionsInProcessReportComponent implements OnInit {
     return this.onTimeCount + this.expiredCount;
   }
 
+  get onTimePct(): number {
+    const total = this.pieTotal;
+    if (total <= 0) {
+      return 0;
+    }
+    return Math.round((this.onTimeCount / total) * 100);
+  }
+
+  get expiredPct(): number {
+    const total = this.pieTotal;
+    if (total <= 0) {
+      return 0;
+    }
+    return Math.round((this.expiredCount / total) * 100);
+  }
+
   /** Circumference for r=54 donut. */
   readonly pieCircumference = 2 * Math.PI * 54;
 

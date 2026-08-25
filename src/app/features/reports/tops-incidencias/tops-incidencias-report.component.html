@@ -1,0 +1,139 @@
+<div class="tops-report">
+  <sh-page-header [title]="pageTitle" subtitle="Tops de incidencias (métricas pendientes de definición)">
+    <div class="header-filter-actions">
+      <button mat-flat-button color="primary" type="button" (click)="load()" [disabled]="loading">
+        <mat-icon>refresh</mat-icon>
+        Actualizar
+      </button>
+      <button mat-stroked-button type="button" (click)="clearFilters()" [disabled]="loading">
+        <mat-icon>filter_alt_off</mat-icon>
+        Limpiar filtros
+      </button>
+    </div>
+  </sh-page-header>
+
+  <form [formGroup]="filters" class="sh-filters sh-card tops-filters">
+    <div class="primary-filters-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha inicial</mat-label>
+        <input matInput type="date" formControlName="startDate" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha final</mat-label>
+        <input matInput type="date" formControlName="endDate" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>País</mat-label>
+        <mat-select formControlName="countryId">
+          <mat-option [value]="null">Todos</mat-option>
+          @for (c of countries; track c.id) {
+            <mat-option [value]="c.id">{{ c.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Dimensión</mat-label>
+        <mat-select formControlName="dimension">
+          @for (opt of dimensionOptions; track opt.value) {
+            <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="primary-filters-grid">
+      <sh-client-filter-field formControlName="clientKey" />
+
+      <mat-form-field appearance="outline">
+        <mat-label>Grupo</mat-label>
+        <mat-select formControlName="recruiterGroupId">
+          <mat-option [value]="null">
+            {{ filters.controls.recruiterGroupId.disabled ? 'Selecciona país' : 'Todos' }}
+          </mat-option>
+          @for (g of groupOptions; track g.id) {
+            <mat-option [value]="g.id">{{ g.description || g.code }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>U. Negocio</mat-label>
+        <mat-select formControlName="workplaceId">
+          <mat-option [value]="null">
+            {{ filters.controls.workplaceId.disabled ? 'Selecciona país' : 'Todos' }}
+          </mat-option>
+          @for (bu of businessUnitOptions; track bu.id) {
+            <mat-option [value]="bu.id">{{ bu.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+
+  @if (errorMessage) {
+    <p class="error-msg">{{ errorMessage }}</p>
+  }
+
+  @if (loading || loadingCatalogs) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else {
+    <div class="tops-grid">
+      <section class="sh-card tops-panel">
+        <div class="table-scroll">
+          <table class="tops-table">
+            <thead>
+              <tr>
+                <th class="col-label">Coordinador</th>
+                <th class="col-num">Requis.</th>
+              </tr>
+            </thead>
+            <tbody>
+              @if (coordinatorRows.length === 0) {
+                <tr>
+                  <td colspan="2" class="empty-cell">No hay información</td>
+                </tr>
+              } @else {
+                @for (row of coordinatorRows; track row.label) {
+                  <tr>
+                    <td class="col-label">{{ row.label }}</td>
+                    <td class="col-num">{{ row.requisitions }}</td>
+                  </tr>
+                }
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="sh-card tops-panel">
+        <div class="table-scroll">
+          <table class="tops-table">
+            <thead>
+              <tr>
+                <th class="col-label">Unidad de negocio</th>
+                <th class="col-num">Requis.</th>
+              </tr>
+            </thead>
+            <tbody>
+              @if (businessUnitRows.length === 0) {
+                <tr>
+                  <td colspan="2" class="empty-cell">No hay información</td>
+                </tr>
+              } @else {
+                @for (row of businessUnitRows; track row.label) {
+                  <tr>
+                    <td class="col-label">{{ row.label }}</td>
+                    <td class="col-num">{{ row.requisitions }}</td>
+                  </tr>
+                }
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  }
+</div>
