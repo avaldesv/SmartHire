@@ -10,6 +10,7 @@ export interface CandidateApplicationListItem {
   isInterested: boolean | null;
   isSelected: boolean | null;
   isHired: boolean | null;
+  hiredDate?: string | null;
   candidateFirstName: string | null;
   candidateLastName: string | null;
   candidateEmail: string | null;
@@ -125,6 +126,7 @@ export interface UpdateCandidateApplicationRequest {
   isSelected?: boolean | null;
   isInterested?: boolean | null;
   isHired?: boolean | null;
+  hiredDate?: string | null;
   compatibilityPercent?: number | null;
 }
 
@@ -136,6 +138,8 @@ export interface UpdateCandidateApplicationResponse {
   status: string;
   isInterested: boolean | null;
   isSelected: boolean | null;
+  isHired?: boolean | null;
+  hiredDate?: string | null;
   compatibilityPercent: number | null;
   preselectionDate: string | null;
 }
