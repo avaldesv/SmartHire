@@ -121,6 +121,20 @@ export interface SendQuestionnaireInviteResponse {
   sentAt: string;
 }
 
+/** POST /api/v1/candidate-applications/{id}/contact-questionnaire */
+export interface ContactQuestionnaireResponse {
+  inviteId: number;
+  applicationId: number;
+  questionnaireId: number;
+  examId: number;
+  attemptNo: number;
+  status: string;
+  expiresAt: string;
+  urlConfirm: string;
+  candidateEmail: string | null;
+  message: string;
+}
+
 export interface UpdateCandidateApplicationRequest {
   status?: string | null;
   isSelected?: boolean | null;

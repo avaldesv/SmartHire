@@ -8,6 +8,8 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { filter } from 'rxjs';
 import { AppPermissions } from '../../../../core/auth/app-permissions';
 import { catalogDialogConfig } from '../../../../core/dialog/catalog-dialog.constants';
 import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
@@ -16,18 +18,29 @@ import {
   APP_DIALOG_ACTION_PRESELECT,
   APP_DIALOG_ACTION_VIEW_DOCUMENTS,
   APP_DIALOG_ACTION_VIEW_PROFILE,
+  APP_DIALOG_APPOINTMENT_SCHEDULED_TOOLTIP,
+  APP_DIALOG_APPOINTMENT_TOOLTIP,
   APP_DIALOG_CLOSE,
   APP_DIALOG_COL_ACTIONS,
+  APP_DIALOG_COL_APPOINTMENT,
   APP_DIALOG_COL_CANDIDATE,
   APP_DIALOG_COL_COMPAT,
+  APP_DIALOG_COL_CONTACT,
   APP_DIALOG_COL_CREATED,
   APP_DIALOG_COL_EMAIL,
+  APP_DIALOG_COL_EVALUATION,
   APP_DIALOG_COL_SOURCE,
   APP_DIALOG_COL_STATUS,
+  APP_DIALOG_CONTACT_ERROR,
+  APP_DIALOG_CONTACT_SUCCESS,
+  APP_DIALOG_CONTACT_TOOLTIP,
   APP_DIALOG_EM_DASH,
   APP_DIALOG_EMPTY,
   APP_DIALOG_ERRORS_LIST,
   APP_DIALOG_ERRORS_PRESELECT,
+  APP_DIALOG_EVALUATION_PENDING_MSG,
+  APP_DIALOG_EVALUATION_PENDING_TITLE,
+  APP_DIALOG_EVALUATION_TOOLTIP,
   APP_DIALOG_POSITION_PREFIX,
   APP_DIALOG_PRESELECT_SUCCESS,
   APP_DIALOG_TITLE,
@@ -45,6 +58,10 @@ import {
   CandidateProfileDialogComponent,
   CandidateProfileDialogData,
 } from '../candidate-profile-dialog/candidate-profile-dialog.component';
+import {
+  ScheduleInterviewDialogComponent,
+  ScheduleInterviewDialogData,
+} from '../schedule-interview-dialog/schedule-interview-dialog.component';
 
 export interface PositionApplicationsDialogData {
   positionId: number;
@@ -78,6 +95,7 @@ const APPLICATIONS_SORT_FIELDS: Record<string, string> = {
     MatIconModule,
     MatMenuModule,
     MatProgressSpinnerModule,
+    MatTooltipModule,
     StatusBadgeComponent,
   ],
   templateUrl: './position-applications-dialog.component.html',
@@ -102,11 +120,18 @@ export class PositionApplicationsDialogComponent implements OnInit {
     colSource: APP_DIALOG_COL_SOURCE,
     colCompat: APP_DIALOG_COL_COMPAT,
     colCreated: APP_DIALOG_COL_CREATED,
+    colContact: APP_DIALOG_COL_CONTACT,
+    colEvaluation: APP_DIALOG_COL_EVALUATION,
+    colAppointment: APP_DIALOG_COL_APPOINTMENT,
     colActions: APP_DIALOG_COL_ACTIONS,
     actionsMenu: APP_DIALOG_ACTIONS_MENU,
     viewProfile: APP_DIALOG_ACTION_VIEW_PROFILE,
     viewDocuments: APP_DIALOG_ACTION_VIEW_DOCUMENTS,
     preselect: APP_DIALOG_ACTION_PRESELECT,
+    contactTooltip: APP_DIALOG_CONTACT_TOOLTIP,
+    evaluationTooltip: APP_DIALOG_EVALUATION_TOOLTIP,
+    appointmentTooltip: APP_DIALOG_APPOINTMENT_TOOLTIP,
+    appointmentScheduledTooltip: APP_DIALOG_APPOINTMENT_SCHEDULED_TOOLTIP,
     emDash: APP_DIALOG_EM_DASH,
   };
 
@@ -118,6 +143,7 @@ export class PositionApplicationsDialogComponent implements OnInit {
   sortActive = 'createdAt';
   sortDirection: 'asc' | 'desc' = 'desc';
   preselectingId: number | null = null;
+  contactingApplicationId: number | null = null;
   private changed = false;
 
   readonly columns = [
@@ -127,6 +153,9 @@ export class PositionApplicationsDialogComponent implements OnInit {
     'source',
     'compatibility',
     'createdAt',
+    'contact',
+    'evaluation',
+    'appointment',
     'actions',
   ];
 
@@ -192,6 +221,57 @@ export class PositionApplicationsDialogComponent implements OnInit {
     const last = row.candidateLastName ?? '';
     const name = `${first} ${last}`.trim();
     return name || applicationsDialogCandidateFallback(row.candidateId);
+  }
+
+  contactQuestionnaire(row: CandidateApplicationListItem): void {
+    if (!this.canEditSelection || this.contactingApplicationId != null) {
+      return;
+    }
+    this.contactingApplicationId = row.id;
+    this.applicationApi.contactQuestionnaire(row.id).subscribe({
+      next: (res) => {
+        this.contactingApplicationId = null;
+        this.feedback.showSuccess(res.message?.trim() || APP_DIALOG_CONTACT_SUCCESS);
+      },
+      error: (err) => {
+        this.contactingApplicationId = null;
+        this.feedback.showApiError(err, { fallbackMessage: APP_DIALOG_CONTACT_ERROR });
+      },
+    });
+  }
+
+  openEvaluationPending(row: CandidateApplicationListItem): void {
+    this.feedback.showInfo(
+      APP_DIALOG_EVALUATION_PENDING_TITLE,
+      `${APP_DIALOG_EVALUATION_PENDING_MSG} (${this.candidateName(row)})`,
+    );
+  }
+
+  scheduleInterview(row: CandidateApplicationListItem): void {
+    if (!this.canEditSelection) {
+      return;
+    }
+    const dialogRef = this.dialog.open<
+      ScheduleInterviewDialogComponent,
+      ScheduleInterviewDialogData,
+      boolean | null
+    >(ScheduleInterviewDialogComponent, {
+      ...catalogDialogConfig('480px'),
+      data: { applicationId: row.id, candidateName: this.candidateName(row) },
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(filter((ok): ok is true => ok === true))
+      .subscribe(() => {
+        row.interviewScheduled = true;
+        this.changed = true;
+      });
+  }
+
+  appointmentTooltip(row: CandidateApplicationListItem): string {
+    return row.interviewScheduled
+      ? this.labels.appointmentScheduledTooltip
+      : this.labels.appointmentTooltip;
   }
 
   preselect(row: CandidateApplicationListItem): void {

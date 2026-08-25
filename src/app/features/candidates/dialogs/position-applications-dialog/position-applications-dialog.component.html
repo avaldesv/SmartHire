@@ -50,6 +50,51 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header="createdAt">{{ labels.colCreated }}</th>
           <td mat-cell *matCellDef="let row">{{ row.createdAt | date:'dd/MM/yyyy' }}</td>
         </ng-container>
+        <ng-container matColumnDef="contact">
+          <th mat-header-cell *matHeaderCellDef class="col-action-header">{{ labels.colContact }}</th>
+          <td mat-cell *matCellDef="let row" class="col-action-cell">
+            <button
+              mat-stroked-button
+              type="button"
+              class="sh-col-action-btn"
+              [disabled]="!canEditSelection || contactingApplicationId === row.id"
+              [matTooltip]="labels.contactTooltip"
+              [attr.aria-label]="labels.contactTooltip"
+              (click)="contactQuestionnaire(row)">
+              <mat-icon>phone</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="evaluation">
+          <th mat-header-cell *matHeaderCellDef class="col-action-header">{{ labels.colEvaluation }}</th>
+          <td mat-cell *matCellDef="let row" class="col-action-cell">
+            <button
+              mat-stroked-button
+              type="button"
+              class="sh-col-action-btn sh-col-action-btn--pending"
+              [matTooltip]="labels.evaluationTooltip"
+              [attr.aria-label]="labels.evaluationTooltip"
+              (click)="openEvaluationPending(row)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="appointment">
+          <th mat-header-cell *matHeaderCellDef class="col-action-header">{{ labels.colAppointment }}</th>
+          <td mat-cell *matCellDef="let row" class="col-action-cell">
+            <button
+              mat-stroked-button
+              type="button"
+              class="sh-col-action-btn"
+              [class.sh-col-action-btn--done]="row.interviewScheduled"
+              [disabled]="!canEditSelection"
+              [matTooltip]="appointmentTooltip(row)"
+              [attr.aria-label]="appointmentTooltip(row)"
+              (click)="scheduleInterview(row)">
+              <mat-icon>event</mat-icon>
+            </button>
+          </td>
+        </ng-container>
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>{{ labels.colActions }}</th>
           <td mat-cell *matCellDef="let row">

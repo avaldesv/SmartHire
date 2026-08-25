@@ -3545,7 +3545,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
-          <context context-type="linenumber">26</context>
+          <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
       <trans-unit id="candidateDocuments.sizeBytes" datatype="html">
@@ -10798,60 +10798,137 @@
           <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="applicationsDialog.col.contact" datatype="html">
+        <source>Contactar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.col.evaluation" datatype="html">
+        <source>Evaluación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.col.appointment" datatype="html">
+        <source>Cita</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="applicationsDialog.actions.menu" datatype="html">
         <source>Acciones del candidato</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
-          <context context-type="linenumber">14</context>
+          <context context-type="linenumber">17</context>
         </context-group>
       </trans-unit>
       <trans-unit id="applicationsDialog.actions.viewProfile" datatype="html">
         <source>Ver perfil completo</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
-          <context context-type="linenumber">15</context>
+          <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
       <trans-unit id="applicationsDialog.actions.viewDocuments" datatype="html">
         <source>Ver documentos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
-          <context context-type="linenumber">16</context>
+          <context context-type="linenumber">19</context>
         </context-group>
       </trans-unit>
       <trans-unit id="applicationsDialog.actions.preselect" datatype="html">
         <source>Preseleccionar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
-          <context context-type="linenumber">17</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.contact.tooltip" datatype="html">
+        <source>Enviar cuestionario de contacto</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.contact.success" datatype="html">
+        <source>Cuestionario de contacto enviado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.contact.error" datatype="html">
+        <source>No se pudo enviar el cuestionario de contacto</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.evaluation.tooltip" datatype="html">
+        <source>Evaluación del cuestionario</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.evaluation.pendingTitle" datatype="html">
+        <source>Evaluación pendiente</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.evaluation.pendingMessage" datatype="html">
+        <source>Disponible cuando el candidato responda</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.appointment.tooltip" datatype="html">
+        <source>Agendar entrevista</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.appointment.scheduledTooltip" datatype="html">
+        <source>Entrevista agendada — reprogramar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
+          <context context-type="linenumber">28</context>
         </context-group>
       </trans-unit>
       <trans-unit id="applicationsDialog.preselect.success" datatype="html">
         <source>Candidato preseleccionado</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
-          <context context-type="linenumber">18</context>
+          <context context-type="linenumber">29</context>
         </context-group>
       </trans-unit>
       <trans-unit id="applicationsDialog.errors.preselect" datatype="html">
         <source>No se pudo preseleccionar al candidato</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
-          <context context-type="linenumber">19</context>
+          <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
       <trans-unit id="applicationsDialog.errors.list" datatype="html">
         <source>No se pudieron cargar las postulaciones</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
-          <context context-type="linenumber">20</context>
+          <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
       <trans-unit id="applicationsDialog.candidateFallback" datatype="html">
         <source>Candidato #<x id="id" equiv-text="id"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/position-applications-dialog-labels.ts</context>
-          <context context-type="linenumber">23</context>
+          <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
       <trans-unit id="positions.pageTitle" datatype="html">
@@ -11587,6 +11664,83 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
           <context context-type="linenumber">170</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="preselection.col.contact" datatype="html">
+        <source>Contactar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="preselection.col.evaluation" datatype="html">
+        <source>Evaluación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="preselection.col.appointment" datatype="html">
+        <source>Cita para entrevista</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="preselection.contact.tooltip" datatype="html">
+        <source>Enviar cuestionario de contacto</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="preselection.contact.success" datatype="html">
+        <source>Cuestionario de contacto enviado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="preselection.contact.error" datatype="html">
+        <source>No se pudo enviar el cuestionario de contacto</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="preselection.evaluation.tooltip" datatype="html">
+        <source>Evaluación del cuestionario</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="preselection.evaluation.pendingTitle" datatype="html">
+        <source>Evaluación pendiente</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="preselection.evaluation.pendingMessage" datatype="html">
+        <source>Disponible cuando el candidato responda</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="preselection.appointment.tooltip" datatype="html">
+        <source>Agendar entrevista</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="preselection.appointment.scheduledTooltip" datatype="html">
+        <source>Entrevista agendada — reprogramar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
+          <context context-type="linenumber">16</context>
         </context-group>
       </trans-unit>
       <trans-unit id="prompts.pageTitle" datatype="html">

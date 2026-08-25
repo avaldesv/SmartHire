@@ -9,10 +9,25 @@ import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { catalogDialogConfig } from '../../../core/dialog/catalog-dialog.constants';
+import { AppPermissions } from '../../../core/auth/app-permissions';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { INTERVIEW_SCHEDULE_SELECT_ONE } from '../../../core/i18n/interview-calendar-labels';
+import {
+  PRESELECTION_APPOINTMENT_SCHEDULED_TOOLTIP,
+  PRESELECTION_APPOINTMENT_TOOLTIP,
+  PRESELECTION_COL_APPOINTMENT,
+  PRESELECTION_COL_CONTACT,
+  PRESELECTION_COL_EVALUATION,
+  PRESELECTION_CONTACT_ERROR,
+  PRESELECTION_CONTACT_SUCCESS,
+  PRESELECTION_CONTACT_TOOLTIP,
+  PRESELECTION_EVALUATION_PENDING_MSG,
+  PRESELECTION_EVALUATION_PENDING_TITLE,
+  PRESELECTION_EVALUATION_TOOLTIP,
+} from '../../../core/i18n/preselection-actions-labels';
 import { CandidateApplicationApiService } from '../../../core/services/candidate-application-api.service';
 import { CandidateApiService } from '../../../core/services/candidate-api.service';
 import { PermissionService } from '../../../core/services/permission.service';
@@ -59,6 +74,7 @@ import {
     MatProgressSpinnerModule,
     MatMenuModule,
     MatDividerModule,
+    MatTooltipModule,
     RouterLink,
     StatusBadgeComponent,
   ],
@@ -77,15 +93,35 @@ export class PreselectionComponent implements OnInit {
 
   readonly positionId = +this.route.parent!.snapshot.paramMap.get('positionId')!;
   readonly rowActionCatalog = PRESELECTION_ROW_ACTIONS;
+  readonly labels = {
+    colContact: PRESELECTION_COL_CONTACT,
+    colEvaluation: PRESELECTION_COL_EVALUATION,
+    colAppointment: PRESELECTION_COL_APPOINTMENT,
+    contactTooltip: PRESELECTION_CONTACT_TOOLTIP,
+    evaluationTooltip: PRESELECTION_EVALUATION_TOOLTIP,
+    appointmentTooltip: PRESELECTION_APPOINTMENT_TOOLTIP,
+    appointmentScheduledTooltip: PRESELECTION_APPOINTMENT_SCHEDULED_TOOLTIP,
+  };
   loading = true;
   bulkLoading = false;
+  contactingApplicationId: number | null = null;
   data: PreselectionCandidate[] = [];
   selectedCount = 0;
   total = 0;
   pageIndex = 0;
   pageSize = 10;
 
-  readonly columns = ['select', 'name', 'compatibility', 'stage', 'documentsComplete', 'interviewScheduled', 'actions'];
+  readonly columns = [
+    'select',
+    'name',
+    'compatibility',
+    'stage',
+    'documentsComplete',
+    'contact',
+    'evaluation',
+    'appointment',
+    'actions',
+  ];
 
   ngOnInit(): void {
     this.loadApplications();
@@ -164,7 +200,7 @@ export class PreselectionComponent implements OnInit {
       .open<PositionApplicationsDialogComponent, PositionApplicationsDialogData, PositionApplicationsDialogResult>(
         PositionApplicationsDialogComponent,
         {
-          ...catalogDialogConfig('720px'),
+          ...catalogDialogConfig('1100px'),
           data: { positionId: this.positionId, requisitionNo: `REQ-${this.positionId}` },
         },
       )
@@ -287,8 +323,50 @@ export class PreselectionComponent implements OnInit {
       });
   }
 
+  get canEditSelection(): boolean {
+    return this.permission.hasAuthority(AppPermissions.SELECTION_EDIT);
+  }
+
   visibleRowActions(): PreselectionRowAction[] {
     return this.rowActionCatalog.filter((action) => this.permission.hasAnyPermission(action.permissions));
+  }
+
+  contactQuestionnaire(row: PreselectionCandidate): void {
+    if (!this.canEditSelection || this.contactingApplicationId != null) {
+      return;
+    }
+    this.contactingApplicationId = row.applicationId;
+    this.applicationApi.contactQuestionnaire(row.applicationId).subscribe({
+      next: (res) => {
+        this.contactingApplicationId = null;
+        this.feedback.showSuccess(res.message?.trim() || PRESELECTION_CONTACT_SUCCESS);
+      },
+      error: (err) => {
+        this.contactingApplicationId = null;
+        this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_CONTACT_ERROR });
+      },
+    });
+  }
+
+  openEvaluationPending(row: PreselectionCandidate): void {
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    this.feedback.showInfo(
+      PRESELECTION_EVALUATION_PENDING_TITLE,
+      `${PRESELECTION_EVALUATION_PENDING_MSG} (${name})`,
+    );
+  }
+
+  scheduleInterviewForRow(row: PreselectionCandidate): void {
+    if (!this.canEditSelection) {
+      return;
+    }
+    this.openScheduleInterview(row);
+  }
+
+  appointmentTooltip(row: PreselectionCandidate): string {
+    return row.interviewScheduled
+      ? this.labels.appointmentScheduledTooltip
+      : this.labels.appointmentTooltip;
   }
 
   onRowAction(actionId: PreselectionRowActionId, row: PreselectionCandidate): void {
