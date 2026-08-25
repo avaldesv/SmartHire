@@ -97,6 +97,7 @@ const REQUISITION_FIELD_LABELS: Record<string, string> = {
   clientExpansionDescription: $localize`:@@requisition.field.clientExpansionDescription:Descripción expansión cliente`,
   extraBenefitsText: $localize`:@@requisition.field.extraBenefitsText:Texto beneficios adicionales`,
   questionnaire: $localize`:@@requisition.field.questionnaire:Cuestionario`,
+  exam: $localize`:@@requisition.field.exam:Examen`,
   documentRequirements: $localize`:@@requisition.field.documentRequirements:Documentos requeridos`,
   primaryLanguageId: $localize`:@@requisition.field.primaryLanguageId:Idioma principal`,
   secondaryLanguageId: $localize`:@@requisition.field.secondaryLanguageId:Idioma secundario`,

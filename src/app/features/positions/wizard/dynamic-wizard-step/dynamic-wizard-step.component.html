@@ -135,23 +135,12 @@
         <div class="questionnaire-fields">
           <mat-form-field appearance="outline">
             <mat-label>{{ fieldLabel(field) }}</mat-label>
-            <mat-select formControlName="questionnaireId">
+            <mat-select formControlName="examId">
               <mat-option [value]="null">—</mat-option>
               @for (opt of optionsByField[field.fieldKey] ?? []; track opt.id) {
                 <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
               }
             </mat-select>
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>{{ evaluationTypeLabel }}</mat-label>
-            <mat-select formControlName="evaluationType">
-              <mat-option value="PERCENTAGE">{{ evalPercentageLabel }}</mat-option>
-              <mat-option value="SCORE">{{ evalScoreLabel }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>{{ acceptancePercentLabel }}</mat-label>
-            <input matInput type="number" formControlName="acceptancePercentage" min="0" max="100" />
           </mat-form-field>
         </div>
       </div>

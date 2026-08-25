@@ -26,6 +26,7 @@ import { CatalogShiftService } from './catalog-shift.service';
 import { CatalogRequirementService } from './catalog-requirement.service';
 import { CatalogToolService } from './catalog-tool.service';
 import { CatalogWorkplaceService } from './catalog-workplace.service';
+import { QuestionnaireExamApiService } from './questionnaire-exam-api.service';
 import { QuestionnaireQuestionnaireApiService } from './questionnaire-questionnaire-api.service';
 import { SecurityRecruiterGroupService } from './security-recruiter-group.service';
 import { SecurityUserService } from './security-user.service';
@@ -66,6 +67,7 @@ export class WizardFieldCatalogService {
   private readonly languageLevelService = inject(CatalogLanguageLevelService);
   private readonly userService = inject(SecurityUserService);
   private readonly questionnaireService = inject(QuestionnaireQuestionnaireApiService);
+  private readonly examService = inject(QuestionnaireExamApiService);
 
   /** In-flight / completed option lists keyed by datasource + context. */
   private readonly optionsCache = new Map<string, Observable<WizardFieldOption[]>>();
@@ -239,6 +241,10 @@ export class WizardFieldCatalogService {
       case 'questionnaires':
         return this.questionnaireService
           .list({ status: 'PUBLISHED', isActive: true }, 0, 200)
+          .pipe(map((r) => this.toOptions(r.items)));
+      case 'exams':
+        return this.examService
+          .list({ status: 'published', isActive: true }, 0, 200)
           .pipe(map((r) => this.toOptions(r.items)));
       case 'weekdays':
         return of(WEEKDAY_OPTIONS);

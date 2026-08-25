@@ -117,6 +117,7 @@ EN_BY_SOURCE: dict[str, str] = {
     # Catalog categories (3rd-level tabs)
     "Generales": "General",
     "Cuestionario": "Questionnaire",
+    "Examen": "Exam",
     "Empresas": "Companies",
     "Portal": "Portal",
     "Datos MP": "MP Data",
