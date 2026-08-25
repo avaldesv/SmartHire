@@ -2,25 +2,13 @@
   display: block;
 }
 
-.cal-header {
-  display: flex !important;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 !important;
-  padding: 14px 20px !important;
-  background: #1e293b;
-  color: #fff;
-  box-sizing: border-box;
+.cal-dialog-header {
+  justify-content: space-between !important;
 }
 
-.cal-header__title {
-  font-size: 1.125rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-}
-
-.cal-header__close {
-  color: #fff !important;
+.cal-dialog-header__close {
+  color: var(--mat-sys-on-primary, #fff) !important;
+  flex-shrink: 0;
 }
 
 .cal-body {
