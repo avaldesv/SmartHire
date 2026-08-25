@@ -1,0 +1,76 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+
+<mat-dialog-content>
+  @if (loading) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else {
+    <form [formGroup]="form" class="template-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ fieldName }}</mat-label>
+        <input matInput formControlName="name" />
+      </mat-form-field>
+
+      <div class="file-block">
+        <label class="file-label">{{ fieldFile }}</label>
+        @if (currentFileName && !selectedFile) {
+          <p class="current-file">{{ fileCurrent }}: <code>{{ currentFileName }}</code></p>
+        }
+        <div class="file-row">
+          <input
+            #fileInput
+            type="file"
+            accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            hidden
+            (change)="onFileSelected($event)"
+          />
+          <button mat-stroked-button type="button" (click)="fileInput.click()" [disabled]="saving || validating">
+            <mat-icon>upload_file</mat-icon>
+            {{ fieldFile }}
+          </button>
+          @if (selectedFile) {
+            <span class="selected-name">{{ selectedFile.name }}</span>
+          }
+        </div>
+        <p class="hint">{{ fileHint }}</p>
+      </div>
+
+      @if (validating) {
+        <div class="validating-row">
+          <mat-spinner diameter="20" />
+          <span>{{ validatingLabel }}</span>
+        </div>
+      }
+
+      @if (validCodes.length) {
+        <div class="chips-block">
+          <p class="chips-title">{{ validVarsLabel }}</p>
+          <mat-chip-set>
+            @for (code of validCodes; track code) {
+              <mat-chip class="chip-valid">{{ code }}</mat-chip>
+            }
+          </mat-chip-set>
+        </div>
+      }
+
+      @if (invalidCodes.length) {
+        <div class="chips-block">
+          <p class="chips-title warn">{{ invalidVarsLabel }}</p>
+          <mat-chip-set>
+            @for (code of invalidCodes; track code) {
+              <mat-chip class="chip-invalid">{{ code }}</mat-chip>
+            }
+          </mat-chip-set>
+        </div>
+      }
+
+      <mat-checkbox formControlName="isActive">{{ fieldActive }}</mat-checkbox>
+    </form>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="cancel()" [disabled]="saving">{{ cancelLabel }}</button>
+  <button mat-flat-button color="primary" type="button" (click)="save()" [disabled]="!canSave">
+    {{ saving ? savingLabel : saveLabel }}
+  </button>
+</mat-dialog-actions>

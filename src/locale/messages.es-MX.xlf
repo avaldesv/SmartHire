@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="es-MX" datatype="plaintext" original="ng2.template">
     <body>
@@ -9402,6 +9402,13 @@
           <context context-type="linenumber">138</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="nav.settings.documentTemplates" datatype="html">
+        <source>Plantillas de Documentos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+          <context context-type="linenumber">143</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="nav.settings.cvs" datatype="html">
         <source>CVs</source>
         <context-group purpose="location">
@@ -17477,6 +17484,349 @@
           <context context-type="linenumber">89</context>
         </context-group>
       </trans-unit>
-    </body>
+          <trans-unit id="documentTemplates.pageTitle" datatype="html">
+        <source>Plantillas de Documentos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.tab.variables" datatype="html">
+        <source>Variables</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.tab.templates" datatype="html">
+        <source>Plantillas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.newButton" datatype="html">
+        <source>Nueva variable</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.col.code" datatype="html">
+        <source>Código</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.col.label" datatype="html">
+        <source>Etiqueta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.col.description" datatype="html">
+        <source>Descripción</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.col.active" datatype="html">
+        <source>Activa</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.empty" datatype="html">
+        <source>No hay variables configuradas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.dialog.new" datatype="html">
+        <source>Nueva variable</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.dialog.edit" datatype="html">
+        <source>Editar variable</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.field.code" datatype="html">
+        <source>Código</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.field.label" datatype="html">
+        <source>Etiqueta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.field.description" datatype="html">
+        <source>Descripción</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.field.active" datatype="html">
+        <source>Activa</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.codeHint" datatype="html">
+        <source>Solo letras, números y guion bajo; debe empezar con letra. No se puede cambiar al editar.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.errors.list" datatype="html">
+        <source>No se pudieron cargar las variables</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.errors.save" datatype="html">
+        <source>No se pudo guardar la variable</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.success.saved" datatype="html">
+        <source>Variable guardada</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.newButton" datatype="html">
+        <source>Nueva plantilla</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.col.name" datatype="html">
+        <source>Nombre</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.col.fileName" datatype="html">
+        <source>Archivo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.col.active" datatype="html">
+        <source>Activa</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.col.variables" datatype="html">
+        <source>Variables usadas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.empty" datatype="html">
+        <source>No hay plantillas de documentos configuradas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.dialog.new" datatype="html">
+        <source>Nueva plantilla de documento</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.dialog.edit" datatype="html">
+        <source>Editar plantilla de documento</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.field.name" datatype="html">
+        <source>Nombre</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.field.file" datatype="html">
+        <source>Archivo .docx</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.field.active" datatype="html">
+        <source>Activa</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.fileHint" datatype="html">
+        <source>Solo archivos .docx. Al seleccionar se validan las variables.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.fileCurrent" datatype="html">
+        <source>Archivo actual</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.validVars" datatype="html">
+        <source>Variables válidas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.invalidVars" datatype="html">
+        <source>Variables no reconocidas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.validating" datatype="html">
+        <source>Validando archivo...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.download" datatype="html">
+        <source>Descargar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.errors.list" datatype="html">
+        <source>No se pudieron cargar las plantillas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.errors.save" datatype="html">
+        <source>No se pudo guardar la plantilla</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.errors.load" datatype="html">
+        <source>No se pudo cargar la plantilla</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.errors.validate" datatype="html">
+        <source>No se pudo validar el archivo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.errors.download" datatype="html">
+        <source>No se pudo obtener el enlace de descarga</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.errors.delete" datatype="html">
+        <source>No se pudo eliminar la plantilla</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.errors.fileType" datatype="html">
+        <source>Solo se permiten archivos .docx</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.success.saved" datatype="html">
+        <source>Plantilla guardada</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.success.deleted" datatype="html">
+        <source>Plantilla eliminada</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.cancel" datatype="html">
+        <source>Cancelar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.save" datatype="html">
+        <source>Guardar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.saving" datatype="html">
+        <source>Guardando...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.deleteConfirm" datatype="html">
+        <source>¿Eliminar la plantilla "<x id="name" equiv-text="name"/>"? Esta acción no se puede deshacer.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+      </trans-unit>
+</body>
   </file>
 </xliff>

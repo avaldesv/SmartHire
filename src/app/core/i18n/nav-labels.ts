@@ -140,6 +140,11 @@ export const SETTINGS_NAV_ITEMS: SettingsNavItem[] = [
     authority: AppPermissions.SETTINGS_PUBLICATION_READ,
   },
   {
+    label: $localize`:@@nav.settings.documentTemplates:Plantillas de Documentos`,
+    path: 'document-templates',
+    authority: AppPermissions.SETTINGS_CATALOGS_READ,
+  },
+  {
     label: $localize`:@@nav.settings.cvs:CVs`,
     path: 'cvs',
     authority: AppPermissions.SETTINGS_SYSTEM_READ,

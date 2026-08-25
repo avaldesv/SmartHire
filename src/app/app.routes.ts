@@ -342,6 +342,15 @@ export const routes: Routes = [
               ),
           },
           {
+            path: 'document-templates',
+            canActivate: [permissionGuard],
+            data: { authorities: [AppPermissions.SETTINGS_CATALOGS_READ] },
+            loadComponent: () =>
+              import('./features/settings/document-templates/document-templates-admin.component').then(
+                (m) => m.DocumentTemplatesAdminComponent,
+              ),
+          },
+          {
             path: 'cvs',
             canActivate: [permissionGuard],
             data: { authorities: [AppPermissions.SETTINGS_SYSTEM_READ] },
