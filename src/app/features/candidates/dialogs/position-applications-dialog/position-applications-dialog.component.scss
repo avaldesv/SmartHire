@@ -9,3 +9,41 @@
   color: var(--sh-text-muted, #64748b);
   text-align: center;
 }
+
+.col-action-header {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.col-action-cell {
+  text-align: center;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.sh-col-action-btn {
+  min-width: 36px;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  line-height: 36px;
+  border-color: var(--sh-primary, #0d9488);
+  color: var(--sh-primary, #0d9488);
+
+  mat-icon {
+    margin: 0;
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+  }
+
+  &--pending {
+    border-color: #94a3b8;
+    color: #94a3b8;
+  }
+
+  &--done {
+    background: color-mix(in srgb, var(--sh-primary, #0d9488) 12%, transparent);
+  }
+}

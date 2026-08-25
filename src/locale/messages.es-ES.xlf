@@ -4642,6 +4642,18 @@
         <source>Acciones</source>
         <target>Acciones</target>
       </trans-unit>
+      <trans-unit id="applicationsDialog.col.contact" datatype="html">
+        <source>Contactar</source>
+        <target>Contactar</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.col.evaluation" datatype="html">
+        <source>Evaluación</source>
+        <target>Evaluación</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.col.appointment" datatype="html">
+        <source>Cita</source>
+        <target>Cita</target>
+      </trans-unit>
       <trans-unit id="applicationsDialog.actions.menu" datatype="html">
         <source>Acciones del candidato</source>
         <target>Acciones del candidato</target>
@@ -4657,6 +4669,38 @@
       <trans-unit id="applicationsDialog.actions.preselect" datatype="html">
         <source>Preseleccionar</source>
         <target>Preseleccionar</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.contact.tooltip" datatype="html">
+        <source>Enviar cuestionario de contacto</source>
+        <target>Enviar cuestionario de contacto</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.contact.success" datatype="html">
+        <source>Cuestionario de contacto enviado</source>
+        <target>Cuestionario de contacto enviado</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.contact.error" datatype="html">
+        <source>No se pudo enviar el cuestionario de contacto</source>
+        <target>No se pudo enviar el cuestionario de contacto</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.evaluation.tooltip" datatype="html">
+        <source>Evaluación del cuestionario</source>
+        <target>Evaluación del cuestionario</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.evaluation.pendingTitle" datatype="html">
+        <source>Evaluación pendiente</source>
+        <target>Evaluación pendiente</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.evaluation.pendingMessage" datatype="html">
+        <source>Disponible cuando el candidato responda</source>
+        <target>Disponible cuando el candidato responda</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.appointment.tooltip" datatype="html">
+        <source>Agendar entrevista</source>
+        <target>Agendar entrevista</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.appointment.scheduledTooltip" datatype="html">
+        <source>Entrevista agendada — reprogramar</source>
+        <target>Entrevista agendada — reprogramar</target>
       </trans-unit>
       <trans-unit id="applicationsDialog.preselect.success" datatype="html">
         <source>Candidato preseleccionado</source>
@@ -5095,6 +5139,50 @@
       <trans-unit id="positions.history.event.directCancellation" datatype="html">
         <source>Cancelación directa</source>
         <target>Cancelación directa</target>
+      </trans-unit>
+      <trans-unit id="preselection.col.contact" datatype="html">
+        <source>Contactar</source>
+        <target>Contactar</target>
+      </trans-unit>
+      <trans-unit id="preselection.col.evaluation" datatype="html">
+        <source>Evaluación</source>
+        <target>Evaluación</target>
+      </trans-unit>
+      <trans-unit id="preselection.col.appointment" datatype="html">
+        <source>Cita para entrevista</source>
+        <target>Cita para entrevista</target>
+      </trans-unit>
+      <trans-unit id="preselection.contact.tooltip" datatype="html">
+        <source>Enviar cuestionario de contacto</source>
+        <target>Enviar cuestionario de contacto</target>
+      </trans-unit>
+      <trans-unit id="preselection.contact.success" datatype="html">
+        <source>Cuestionario de contacto enviado</source>
+        <target>Cuestionario de contacto enviado</target>
+      </trans-unit>
+      <trans-unit id="preselection.contact.error" datatype="html">
+        <source>No se pudo enviar el cuestionario de contacto</source>
+        <target>No se pudo enviar el cuestionario de contacto</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluation.tooltip" datatype="html">
+        <source>Evaluación del cuestionario</source>
+        <target>Evaluación del cuestionario</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluation.pendingTitle" datatype="html">
+        <source>Evaluación pendiente</source>
+        <target>Evaluación pendiente</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluation.pendingMessage" datatype="html">
+        <source>Disponible cuando el candidato responda</source>
+        <target>Disponible cuando el candidato responda</target>
+      </trans-unit>
+      <trans-unit id="preselection.appointment.tooltip" datatype="html">
+        <source>Agendar entrevista</source>
+        <target>Agendar entrevista</target>
+      </trans-unit>
+      <trans-unit id="preselection.appointment.scheduledTooltip" datatype="html">
+        <source>Entrevista agendada — reprogramar</source>
+        <target>Entrevista agendada — reprogramar</target>
       </trans-unit>
       <trans-unit id="prompts.pageTitle" datatype="html">
         <source>Prompts IA</source>
