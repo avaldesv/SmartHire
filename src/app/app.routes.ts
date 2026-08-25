@@ -259,6 +259,13 @@ export const routes: Routes = [
               ),
           },
           {
+            path: 'comportamiento',
+            loadComponent: () =>
+              import('./features/reports/comportamiento/comportamiento-report.component').then(
+                (m) => m.ComportamientoReportComponent,
+              ),
+          },
+          {
             path: 'requisitions-by-source',
             loadComponent: () =>
               import('./features/reports/requisitions-by-source/requisitions-by-source-report.component').then(
