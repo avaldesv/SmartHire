@@ -1,0 +1,26 @@
+.full-width {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.candidate-name {
+  margin: 0 0 12px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem 0;
+}
+
+.empty-msg,
+.error-msg {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.error-msg {
+  color: #b42318;
+}

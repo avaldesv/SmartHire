@@ -8516,6 +8516,38 @@
         <source>¿Eliminar la plantilla "<x id="name" equiv-text="name"/>"? Esta acción no se puede deshacer.</source>
         <target>Delete template "<x id="name" equiv-text="name"/>"? This action cannot be undone.</target>
       </trans-unit>
+      <trans-unit id="documentTemplates.generate.title" datatype="html">
+        <source>Generar formato</source>
+        <target>Generate document</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.generate.select" datatype="html">
+        <source>Plantilla</source>
+        <target>Template</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.generate.confirm" datatype="html">
+        <source>Generar y descargar</source>
+        <target>Generate and download</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.generate.generating" datatype="html">
+        <source>Generando...</source>
+        <target>Generating...</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.generate.empty" datatype="html">
+        <source>No hay plantillas activas disponibles</source>
+        <target>No active templates available</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.generate.success" datatype="html">
+        <source>Documento generado</source>
+        <target>Document generated</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.generate.errors.list" datatype="html">
+        <source>No se pudieron cargar las plantillas</source>
+        <target>Could not load templates</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.generate.errors.generate" datatype="html">
+        <source>No se pudo generar el documento</source>
+        <target>Could not generate the document</target>
+      </trans-unit>
 </body>
   </file>
 </xliff>

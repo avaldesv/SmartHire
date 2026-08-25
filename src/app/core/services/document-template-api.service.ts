@@ -20,8 +20,17 @@ export class DocumentTemplateApiService {
   private readonly localeService = inject(LocaleService);
   private readonly tenantContext = inject(TenantContextService);
 
-  list(page = 0, size = 10): Observable<{ items: DocumentTemplateItem[]; total: number }> {
-    const body = { name: null, isActive: null, filters: [], ordersBy: ['name:asc'] as string[] };
+  list(
+    page = 0,
+    size = 10,
+    options?: { isActive?: boolean | null },
+  ): Observable<{ items: DocumentTemplateItem[]; total: number }> {
+    const body = {
+      name: null,
+      isActive: options?.isActive ?? null,
+      filters: [] as unknown[],
+      ordersBy: ['name:asc'] as string[],
+    };
     return this.http
       .post<DocumentTemplateListResponse>(this.api.apiUrl('/api/v1/document-templates/list'), body, {
         headers: this.api.buildHeaders(page, size),
@@ -32,6 +41,17 @@ export class DocumentTemplateApiService {
           total: res.pagination?.total ?? 0,
         })),
       );
+  }
+
+  generate(templateId: number, applicationId: number): Observable<Blob> {
+    return this.http.post(
+      this.api.apiUrl(`/api/v1/document-templates/${templateId}/generate`),
+      { applicationId },
+      {
+        headers: this.api.buildHeaders(0, 1),
+        responseType: 'blob',
+      },
+    );
   }
 
   getById(id: number): Observable<DocumentTemplateItem> {

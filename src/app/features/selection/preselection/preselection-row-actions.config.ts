@@ -11,6 +11,7 @@ export type PreselectionRowActionId =
   | 'auditLog'
   | 'sendSmart'
   | 'generateContract'
+  | 'generateDocument'
   | 'notifyQuestionnaire'
   | 'deselectRow';
 
@@ -87,6 +88,12 @@ export const PRESELECTION_ROW_ACTIONS: readonly PreselectionRowAction[] = [
     label: 'Generar contrato',
     icon: 'description',
     permissions: [AppPermissions.SELECTION_EDIT],
+  },
+  {
+    id: 'generateDocument',
+    label: 'Generar formato',
+    icon: 'article',
+    permissions: [AppPermissions.SELECTION_READ],
   },
   {
     id: 'notifyQuestionnaire',
