@@ -52,6 +52,10 @@ import {
   PreselectionCompatibilityDialogComponent,
   PreselectionCompatibilityDialogData,
 } from '../dialogs/preselection-compatibility-dialog/preselection-compatibility-dialog.component';
+import {
+  QuestionnaireEvaluationDialogComponent,
+  QuestionnaireEvaluationDialogData,
+} from '../dialogs/questionnaire-evaluation-dialog/questionnaire-evaluation-dialog.component';
 import { QuestionnaireApiService } from '../../../core/services/questionnaire-api.service';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
 import { filter, switchMap } from 'rxjs';
@@ -161,6 +165,8 @@ export class PreselectionComponent implements OnInit {
           documentsComplete: app.documentsSaved ?? false,
           selected: app.isSelected ?? false,
           smartSent: false,
+          questionnaireStatus: app.questionnaireStatus ?? null,
+          questionnaireAutoScorePercent: app.questionnaireAutoScorePercent ?? null,
         }));
         this.total = res.total;
         this.loading = false;
@@ -350,10 +356,33 @@ export class PreselectionComponent implements OnInit {
 
   openEvaluationPending(row: PreselectionCandidate): void {
     const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
-    this.feedback.showInfo(
-      PRESELECTION_EVALUATION_PENDING_TITLE,
-      `${PRESELECTION_EVALUATION_PENDING_MSG} (${name})`,
-    );
+    if (row.questionnaireStatus !== 'ANSWERED') {
+      this.feedback.showInfo(
+        PRESELECTION_EVALUATION_PENDING_TITLE,
+        `${PRESELECTION_EVALUATION_PENDING_MSG} (${name})`,
+      );
+      return;
+    }
+    const data: QuestionnaireEvaluationDialogData = {
+      applicationId: row.applicationId,
+      candidateName: name,
+    };
+    this.dialog.open(QuestionnaireEvaluationDialogComponent, {
+      ...catalogDialogConfig,
+      width: '920px',
+      maxWidth: '96vw',
+      data,
+    });
+  }
+
+  evaluationTooltip(row: PreselectionCandidate): string {
+    if (row.questionnaireStatus === 'ANSWERED') {
+      const score = row.questionnaireAutoScorePercent;
+      return score != null
+        ? `${this.labels.evaluationTooltip} (${score}%)`
+        : this.labels.evaluationTooltip;
+    }
+    return this.labels.evaluationTooltip;
   }
 
   scheduleInterviewForRow(row: PreselectionCandidate): void {

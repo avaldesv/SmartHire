@@ -48,6 +48,10 @@ import {
 } from '../../../../core/i18n/position-applications-dialog-labels';
 import { CandidateApplicationApiService } from '../../../../core/services/candidate-application-api.service';
 import { PermissionService } from '../../../../core/services/permission.service';
+import {
+  QuestionnaireEvaluationDialogComponent,
+  QuestionnaireEvaluationDialogData,
+} from '../../../selection/dialogs/questionnaire-evaluation-dialog/questionnaire-evaluation-dialog.component';
 import { CandidateApplicationListItem } from '../../../../shared/models/candidate-application.model';
 import { StatusBadgeComponent } from '../../../../shared/components/status-badge/status-badge.component';
 import {
@@ -241,10 +245,22 @@ export class PositionApplicationsDialogComponent implements OnInit {
   }
 
   openEvaluationPending(row: CandidateApplicationListItem): void {
-    this.feedback.showInfo(
-      APP_DIALOG_EVALUATION_PENDING_TITLE,
-      `${APP_DIALOG_EVALUATION_PENDING_MSG} (${this.candidateName(row)})`,
-    );
+    if (row.questionnaireStatus !== 'ANSWERED') {
+      this.feedback.showInfo(
+        APP_DIALOG_EVALUATION_PENDING_TITLE,
+        `${APP_DIALOG_EVALUATION_PENDING_MSG} (${this.candidateName(row)})`,
+      );
+      return;
+    }
+    const data: QuestionnaireEvaluationDialogData = {
+      applicationId: row.id,
+      candidateName: this.candidateName(row),
+    };
+    this.dialog.open(QuestionnaireEvaluationDialogComponent, {
+      ...catalogDialogConfig('920px'),
+      maxWidth: '96vw',
+      data,
+    });
   }
 
   scheduleInterview(row: CandidateApplicationListItem): void {

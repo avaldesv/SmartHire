@@ -18,6 +18,7 @@ import {
   SendCandidateToSmartResponse,
   GenerateContractResponse,
   ContactQuestionnaireResponse,
+  QuestionnaireEvaluationResponse,
   SendQuestionnaireInviteRequest,
   SendQuestionnaireInviteResponse,
 } from '../../shared/models/candidate-application.model';
@@ -153,6 +154,13 @@ export class CandidateApplicationApiService {
     return this.http.post<ContactQuestionnaireResponse>(
       this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/contact-questionnaire`),
       {},
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  getQuestionnaireEvaluation(applicationId: number): Observable<QuestionnaireEvaluationResponse> {
+    return this.http.get<QuestionnaireEvaluationResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/questionnaire-evaluation`),
       { headers: this.api.buildHeaders() },
     );
   }
