@@ -4048,6 +4048,14 @@
         <source>No se pudo ubicar la dirección en el mapa</source>
         <target>Could not locate the address on the map</target>
       </trans-unit>
+      <trans-unit id="interviewCalendar.field.buffer" datatype="html">
+        <source>Antelación mínima (horas)</source>
+        <target>Minimum lead time (hours)</target>
+      </trans-unit>
+      <trans-unit id="interviewCalendar.field.expiration" datatype="html">
+        <source>Expiración de propuesta (horas)</source>
+        <target>Proposal expiration (hours)</target>
+      </trans-unit>
       <trans-unit id="interviewCalendar.option.durationMinutes" datatype="html">
         <source>
           <x id="PH" equiv-text="minutes" /> minutos</source>
@@ -4066,17 +4074,29 @@
         <source>Fecha y hora</source>
         <target>Date and time</target>
       </trans-unit>
+      <trans-unit id="interviewSchedule.field.proposed" datatype="html">
+        <source>Fecha y hora propuesta</source>
+        <target>Proposed date and time</target>
+      </trans-unit>
       <trans-unit id="interviewSchedule.field.meetingLink" datatype="html">
         <source>Link de reunión</source>
         <target>Meeting link</target>
       </trans-unit>
       <trans-unit id="interviewSchedule.confirm" datatype="html">
-        <source>Agendar</source>
-        <target>Schedule</target>
+        <source>Confirmar</source>
+        <target>Confirm</target>
       </trans-unit>
       <trans-unit id="interviewSchedule.success" datatype="html">
-        <source>Entrevista agendada</source>
-        <target>Interview scheduled</target>
+        <source>Propuesta de entrevista enviada al candidato</source>
+        <target>Interview proposal sent to the candidate</target>
+      </trans-unit>
+      <trans-unit id="interviewSchedule.loadingSlot" datatype="html">
+        <source>Calculando horario disponible…</source>
+        <target>Calculating available time slot…</target>
+      </trans-unit>
+      <trans-unit id="interviewSchedule.noSlot" datatype="html">
+        <source>No hay horarios disponibles para esta modalidad</source>
+        <target>No available time slots for this modality</target>
       </trans-unit>
       <trans-unit id="interviewSchedule.errors.save" datatype="html">
         <source>No se pudo agendar la entrevista</source>
@@ -6551,6 +6571,62 @@
       <trans-unit id="reports.rbm.loadError" datatype="html">
         <source>No se pudo cargar el reporte Requisiciones por mes. Intenta de nuevo.</source>
         <target>No se pudo cargar el reporte Requisiciones por mes. Intenta de nuevo.</target>
+      </trans-unit>
+      <trans-unit id="reports.perf.title" datatype="html">
+        <source>Desempeño</source>
+        <target>Desempeño</target>
+      </trans-unit>
+      <trans-unit id="reports.perf.subtitle" datatype="html">
+        <source>Resumen de desempeño por reclutador</source>
+        <target>Resumen de desempeño por reclutador</target>
+      </trans-unit>
+      <trans-unit id="reports.perf.loadError" datatype="html">
+        <source>No se pudo cargar el reporte de desempeño. Intenta de nuevo.</source>
+        <target>No se pudo cargar el reporte de desempeño. Intenta de nuevo.</target>
+      </trans-unit>
+      <trans-unit id="reports.perf.kpiTitle" datatype="html">
+        <source>FILL RATE</source>
+        <target>FILL RATE</target>
+      </trans-unit>
+      <trans-unit id="reports.perf.filter.month" datatype="html">
+        <source>Mes</source>
+        <target>Mes</target>
+      </trans-unit>
+      <trans-unit id="reports.perf.col.recruiter" datatype="html">
+        <source>Reclutador</source>
+        <target>Recruiter</target>
+      </trans-unit>
+      <trans-unit id="reports.perf.col.opening" datatype="html">
+        <source>Órdenes de apertura</source>
+        <target>Órdenes de apertura</target>
+      </trans-unit>
+      <trans-unit id="reports.perf.col.temp" datatype="html">
+        <source>Órdenes temporales obtenidas</source>
+        <target>Órdenes temporales obtenidas</target>
+      </trans-unit>
+      <trans-unit id="reports.perf.col.cancellations" datatype="html">
+        <source>Órdenes canceladas</source>
+        <target>Órdenes canceladas</target>
+      </trans-unit>
+      <trans-unit id="reports.perf.col.associateStarts" datatype="html">
+        <source>Inicios de asociados (Placement)</source>
+        <target>Inicios de asociados (Placement)</target>
+      </trans-unit>
+      <trans-unit id="reports.perf.col.monthEnd" datatype="html">
+        <source>Órdenes (fin de mes)</source>
+        <target>Órdenes (fin de mes)</target>
+      </trans-unit>
+      <trans-unit id="reports.perf.col.fillRate" datatype="html">
+        <source>Tasa de cubrimiento</source>
+        <target>Tasa de cubrimiento</target>
+      </trans-unit>
+      <trans-unit id="reports.perf.col.cancelRate" datatype="html">
+        <source>Tasa de cancelación</source>
+        <target>Tasa de cancelación</target>
+      </trans-unit>
+      <trans-unit id="reports.perf.col.total" datatype="html">
+        <source>TOTAL</source>
+        <target>TOTAL</target>
       </trans-unit>
       <trans-unit id="requisitionFormConfig.pageTitle" datatype="html">
         <source>Configuración del formulario de requisición</source>

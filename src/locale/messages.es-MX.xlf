@@ -9133,67 +9133,102 @@
           <context context-type="linenumber">40</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="interviewCalendar.field.buffer" datatype="html">
+        <source>Antelación mínima (horas)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviewCalendar.field.expiration" datatype="html">
+        <source>Expiración de propuesta (horas)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="interviewCalendar.option.durationMinutes" datatype="html">
         <source><x id="PH" equiv-text="minutes"/> minutos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">43</context>
+          <context context-type="linenumber">45</context>
         </context-group>
       </trans-unit>
       <trans-unit id="interviewSchedule.title" datatype="html">
         <source>Agendar entrevista</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">46</context>
+          <context context-type="linenumber">48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="interviewSchedule.field.modality" datatype="html">
         <source>Modalidad</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">47</context>
+          <context context-type="linenumber">49</context>
         </context-group>
       </trans-unit>
       <trans-unit id="interviewSchedule.field.startAt" datatype="html">
         <source>Fecha y hora</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">48</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviewSchedule.field.proposed" datatype="html">
+        <source>Fecha y hora propuesta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
+          <context context-type="linenumber">51</context>
         </context-group>
       </trans-unit>
       <trans-unit id="interviewSchedule.field.meetingLink" datatype="html">
         <source>Link de reunión</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">49</context>
+          <context context-type="linenumber">52</context>
         </context-group>
       </trans-unit>
       <trans-unit id="interviewSchedule.confirm" datatype="html">
-        <source>Agendar</source>
+        <source>Confirmar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">50</context>
+          <context context-type="linenumber">53</context>
         </context-group>
       </trans-unit>
       <trans-unit id="interviewSchedule.success" datatype="html">
-        <source>Entrevista agendada</source>
+        <source>Propuesta de entrevista enviada al candidato</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">51</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviewSchedule.loadingSlot" datatype="html">
+        <source>Calculando horario disponible…</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="interviewSchedule.noSlot" datatype="html">
+        <source>No hay horarios disponibles para esta modalidad</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
+          <context context-type="linenumber">56</context>
         </context-group>
       </trans-unit>
       <trans-unit id="interviewSchedule.errors.save" datatype="html">
         <source>No se pudo agendar la entrevista</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">57</context>
         </context-group>
       </trans-unit>
       <trans-unit id="interviewSchedule.selectOne" datatype="html">
         <source>Seleccione un solo candidato para agendar la entrevista</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/interview-calendar-labels.ts</context>
-          <context context-type="linenumber">53</context>
+          <context context-type="linenumber">58</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nav.main.home" datatype="html">
@@ -14283,6 +14318,104 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/reports-i18n-labels.ts</context>
           <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="reports.perf.title" datatype="html">
+        <source>Desempeño</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/reports-i18n-labels.ts</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="reports.perf.subtitle" datatype="html">
+        <source>Resumen de desempeño por reclutador</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/reports-i18n-labels.ts</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="reports.perf.loadError" datatype="html">
+        <source>No se pudo cargar el reporte de desempeño. Intenta de nuevo.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/reports-i18n-labels.ts</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="reports.perf.kpiTitle" datatype="html">
+        <source>FILL RATE</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/reports-i18n-labels.ts</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="reports.perf.filter.month" datatype="html">
+        <source>Mes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/reports-i18n-labels.ts</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="reports.perf.col.recruiter" datatype="html">
+        <source>Reclutador</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/reports-i18n-labels.ts</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="reports.perf.col.opening" datatype="html">
+        <source>Órdenes de apertura</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/reports-i18n-labels.ts</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="reports.perf.col.temp" datatype="html">
+        <source>Órdenes temporales obtenidas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/reports-i18n-labels.ts</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="reports.perf.col.cancellations" datatype="html">
+        <source>Órdenes canceladas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/reports-i18n-labels.ts</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="reports.perf.col.associateStarts" datatype="html">
+        <source>Inicios de asociados (Placement)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/reports-i18n-labels.ts</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="reports.perf.col.monthEnd" datatype="html">
+        <source>Órdenes (fin de mes)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/reports-i18n-labels.ts</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="reports.perf.col.fillRate" datatype="html">
+        <source>Tasa de cubrimiento</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/reports-i18n-labels.ts</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="reports.perf.col.cancelRate" datatype="html">
+        <source>Tasa de cancelación</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/reports-i18n-labels.ts</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="reports.perf.col.total" datatype="html">
+        <source>TOTAL</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/reports-i18n-labels.ts</context>
+          <context context-type="linenumber">49</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisitionFormConfig.pageTitle" datatype="html">
