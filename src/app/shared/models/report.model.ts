@@ -278,3 +278,53 @@ export interface MetricasResponse {
   total: MetricasRowResponse;
   rows: MetricasRowResponse[];
 }
+
+/** Vacantes → Comportamiento del cubrimiento. */
+export interface ComportamientoFilterRequest {
+  startDate?: string | null;
+  endDate?: string | null;
+  countryId?: number | null;
+  status?: string | null;
+  clientKey?: string | null;
+  positionId?: number | null;
+  workplaceId?: number | null;
+}
+
+export interface ComportamientoFillRateResponse {
+  positionsPct: number | null;
+  hiredPct: number | null;
+  uncoveredPct: number | null;
+}
+
+export interface ComportamientoStageTotalsResponse {
+  applicants: number;
+  preselected: number;
+  selected: number;
+  evaluated: number;
+  interviewed: number;
+  prehired: number;
+  hired: number;
+}
+
+export interface ComportamientoRowResponse {
+  requisitionLabel: string;
+  createDate: string | null;
+  commitmentDate: string | null;
+  coverageDate: string | null;
+  daysCreateToCoverage: number | null;
+  daysCoverageToCommitment: number | null;
+  positionsCount: number;
+  applicants: number;
+  preselected: number;
+  selected: number;
+  evaluated: number;
+  interviewed: number;
+  prehired: number;
+  hired: number;
+}
+
+export interface ComportamientoResponse {
+  fillRate: ComportamientoFillRateResponse;
+  stageTotals: ComportamientoStageTotalsResponse;
+  rows: ComportamientoRowResponse[];
+}

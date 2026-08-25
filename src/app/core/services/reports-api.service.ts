@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
+  ComportamientoFilterRequest,
+  ComportamientoResponse,
   ConsolidadoFilterRequest,
   ConsolidadoResponse,
   MetricasFilterRequest,
@@ -101,6 +103,14 @@ export class ReportsApiService {
   getMetricas(request: MetricasFilterRequest): Observable<MetricasResponse> {
     return this.http.post<MetricasResponse>(
       this.api.apiUrl('/api/v1/reports/metricas'),
+      request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  getComportamiento(request: ComportamientoFilterRequest): Observable<ComportamientoResponse> {
+    return this.http.post<ComportamientoResponse>(
+      this.api.apiUrl('/api/v1/reports/comportamiento'),
       request,
       { headers: this.api.buildHeaders() },
     );

@@ -136,12 +136,54 @@
   padding-bottom: 8px;
 }
 
+.stages-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  min-height: 140px;
+  padding-top: 8px;
+}
+
+.stage-col {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stage-bar-track {
+  width: 100%;
+  max-width: 36px;
+  height: 100px;
+  background: #f1f5f9;
+  border-radius: 4px 4px 0 0;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.stage-bar-fill {
+  width: 100%;
+  background: #2563eb;
+  border-radius: 4px 4px 0 0;
+}
+
+.stage-value {
+  font-size: 11px;
+  color: #0f172a;
+  font-weight: 600;
+}
+
 .stage-tick {
   font-size: 10px;
   color: #64748b;
   text-align: center;
   flex: 1 1 0;
   min-width: 64px;
+  line-height: 1.2;
+  word-break: break-word;
 }
 
 .results-card {
