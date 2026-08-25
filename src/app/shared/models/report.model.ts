@@ -251,3 +251,30 @@ export interface RecruiterPerformanceResponse {
   rows: RecruiterPerformanceRowResponse[];
   total: RecruiterPerformanceRowResponse;
 }
+
+/** Vacantes → Métricas — positions / applicants / hired by dimension. */
+export interface MetricasFilterRequest {
+  startDate?: string | null;
+  endDate?: string | null;
+  countryId?: number | null;
+  dimension?: string | null;
+  assignedUserId?: number | null;
+  clientKey?: string | null;
+  recruiterGroupId?: number | null;
+  workplaceId?: number | null;
+}
+
+export interface MetricasRowResponse {
+  key: string;
+  label: string;
+  positions: number;
+  applicants: number;
+  hired: number;
+  avgHireDays: number | null;
+}
+
+export interface MetricasResponse {
+  dimension: string;
+  total: MetricasRowResponse;
+  rows: MetricasRowResponse[];
+}

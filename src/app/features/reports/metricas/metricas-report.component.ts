@@ -10,12 +10,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { catchError, forkJoin, of } from 'rxjs';
 import { CatalogBusinessUnitService } from '../../../core/services/catalog-business-unit.service';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
+import { ReportsApiService } from '../../../core/services/reports-api.service';
 import { SecurityRecruiterGroupService } from '../../../core/services/security-recruiter-group.service';
 import { SecurityUserService } from '../../../core/services/security-user.service';
 import { ClientFilterFieldComponent } from '../../../shared/components/client-filter-field/client-filter-field.component';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { CatalogBusinessUnit } from '../../../shared/models/catalog-business-unit.model';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
+import { MetricasFilterRequest } from '../../../shared/models/report.model';
 import { SecurityRecruiterGroup } from '../../../shared/models/security-recruiter-group.model';
 import { SecurityUser } from '../../../shared/models/security-user.model';
 import { formatReportCell } from '../shared/report-format';
@@ -57,6 +59,7 @@ export class MetricasReportComponent implements OnInit {
   private readonly businessUnits = inject(CatalogBusinessUnitService);
   private readonly recruiterGroups = inject(SecurityRecruiterGroupService);
   private readonly users = inject(SecurityUserService);
+  private readonly reportsApi = inject(ReportsApiService);
   private readonly fb = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
   private readonly armTenantReload = armReportTenantReload(() => this.reloadForTenant());
@@ -160,10 +163,20 @@ export class MetricasReportComponent implements OnInit {
   load(): void {
     this.loading = true;
     this.errorMessage = '';
-    // API pending — empty UI until metrics endpoint exists.
-    this.rows = [];
-    this.totalRow = emptyTotal();
-    this.loading = false;
+    this.reportsApi
+      .getMetricas(this.buildRequest())
+      .pipe(
+        catchError(() => {
+          this.errorMessage = 'No se pudo cargar el reporte Métricas. Intenta de nuevo.';
+          return of(null);
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe((data) => {
+        this.rows = (data?.rows ?? []).map(mapRow);
+        this.totalRow = data?.total ? mapRow(data.total) : emptyTotal();
+        this.loading = false;
+      });
   }
 
   formatCell(value: number | null | undefined): string {
@@ -175,6 +188,20 @@ export class MetricasReportComponent implements OnInit {
       return '0%';
     }
     return `${Math.max(4, Math.min(100, (value / this.chartMax) * 100))}%`;
+  }
+
+  private buildRequest(): MetricasFilterRequest {
+    const v = this.filters.getRawValue();
+    return {
+      startDate: v.startDate || null,
+      endDate: v.endDate || null,
+      countryId: v.countryId,
+      dimension: v.dimension || 'GROUP',
+      assignedUserId: v.assignedUserId,
+      clientKey: v.clientKey?.trim() || null,
+      recruiterGroupId: v.recruiterGroupId,
+      workplaceId: v.workplaceId,
+    };
   }
 
   private reloadForTenant(): void {
@@ -237,6 +264,24 @@ function emptyTotal(): MetricasRow {
     applicants: null,
     hired: null,
     avgHireDays: null,
+  };
+}
+
+function mapRow(row: {
+  key: string;
+  label: string;
+  positions: number;
+  applicants: number;
+  hired: number;
+  avgHireDays: number | null;
+}): MetricasRow {
+  return {
+    key: row.key,
+    label: row.label,
+    positions: row.positions,
+    applicants: row.applicants,
+    hired: row.hired,
+    avgHireDays: row.avgHireDays,
   };
 }
 
