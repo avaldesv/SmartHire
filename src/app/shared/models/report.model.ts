@@ -218,3 +218,34 @@ export interface ConsolidadoResponse {
   dimension: string;
   dimensionRows: ConsolidadoDimensionRowResponse[];
 }
+
+/** Recruiter performance (Desempeño) — MMR metrics by assignedUserId for year+month. */
+export interface RecruiterPerformanceFilterRequest {
+  year: number;
+  month: number;
+  countryId?: number | null;
+  recruitmentType?: string | null;
+  workplaceId?: number | null;
+  recruiterGroupId?: number | null;
+  positionId?: number | null;
+  clientKey?: string | null;
+  assignedUserId?: number | null;
+}
+
+export interface RecruiterPerformanceRowResponse {
+  recruiterUserId: number | null;
+  recruiterName: string;
+  openingOrders: number;
+  tempJobOrders: number;
+  ordersCancellations: number;
+  associateStarts: number;
+  ordersMonthEnd: number;
+  orderFillRate: number | null;
+  orderCancellationRate: number | null;
+}
+
+export interface RecruiterPerformanceResponse {
+  kpis: ReportKpisResponse;
+  rows: RecruiterPerformanceRowResponse[];
+  total: RecruiterPerformanceRowResponse;
+}
