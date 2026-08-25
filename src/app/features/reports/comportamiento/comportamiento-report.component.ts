@@ -11,10 +11,12 @@ import { catchError, forkJoin, of } from 'rxjs';
 import { CatalogBusinessUnitService } from '../../../core/services/catalog-business-unit.service';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { PositionService } from '../../../core/services/position.service';
+import { ReportsApiService } from '../../../core/services/reports-api.service';
 import { ClientFilterFieldComponent } from '../../../shared/components/client-filter-field/client-filter-field.component';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { CatalogBusinessUnit } from '../../../shared/models/catalog-business-unit.model';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
+import { ComportamientoFilterRequest } from '../../../shared/models/report.model';
 import { PositionListItem } from '../../../shared/models/position.model';
 import { formatReportCell, formatReportPercent } from '../shared/report-format';
 import { armReportTenantReload } from '../shared/report-tenant-reload';
@@ -68,6 +70,7 @@ export class ComportamientoReportComponent implements OnInit {
   private readonly geography = inject(CatalogGeographyService);
   private readonly businessUnits = inject(CatalogBusinessUnitService);
   private readonly positions = inject(PositionService);
+  private readonly reportsApi = inject(ReportsApiService);
   private readonly fb = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
   private readonly armTenantReload = armReportTenantReload(() => this.reloadForTenant());
@@ -81,6 +84,7 @@ export class ComportamientoReportComponent implements OnInit {
   positionOptions: SelectOption[] = [];
 
   fillRate: ComportamientoFillRate = { positionsPct: 0, hiredPct: 0, uncoveredPct: 0 };
+  stageValues: number[] = [0, 0, 0, 0, 0, 0, 0];
   rows: ComportamientoRow[] = [];
 
   readonly stageLabels = [
@@ -93,15 +97,8 @@ export class ComportamientoReportComponent implements OnInit {
     'Contratados',
   ];
 
-  readonly statusOptions = [
-    { value: 'COVERED', label: 'Cubierta' },
-    { value: 'PARTIALLY_COVERED', label: 'Parcialmente cubierta' },
-    { value: 'IN_ANALYSIS', label: 'En análisis' },
-    { value: 'IN_SELECTION', label: 'En selección' },
-    { value: 'CANCELLED', label: 'Cancelada' },
-    { value: 'CANCELLATION_REQUESTED', label: 'Cancelación solicitada' },
-    { value: 'IN_PROCESS', label: 'En proceso' },
-  ];
+  /** Q6-A: universo fijo COVERED — selector informativo. */
+  readonly statusOptions = [{ value: 'COVERED', label: 'Cubierta' }];
 
   readonly filters = this.fb.nonNullable.group({
     startDate: this.fb.control<string>(todayIso()),
@@ -115,6 +112,7 @@ export class ComportamientoReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.filters.controls.workplaceId.disable({ emitEvent: false });
+    this.filters.controls.status.disable({ emitEvent: false });
     this.loadIndependentCatalogs();
     this.filters.controls.countryId.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -129,6 +127,14 @@ export class ComportamientoReportComponent implements OnInit {
     return Math.max(1, ...vals, 100);
   }
 
+  get stageChartMax(): number {
+    return Math.max(1, ...this.stageValues);
+  }
+
+  get hasStageData(): boolean {
+    return this.stageValues.some((v) => v > 0);
+  }
+
   clearFilters(): void {
     this.filters.reset({
       startDate: todayIso(),
@@ -140,6 +146,7 @@ export class ComportamientoReportComponent implements OnInit {
       workplaceId: null,
     });
     this.filters.controls.workplaceId.disable({ emitEvent: false });
+    this.filters.controls.status.disable({ emitEvent: false });
     this.businessUnitOptions = [];
     this.load();
   }
@@ -147,10 +154,39 @@ export class ComportamientoReportComponent implements OnInit {
   load(): void {
     this.loading = true;
     this.errorMessage = '';
-    // API pending — mock empty / zero fill rate.
-    this.fillRate = { positionsPct: 0, hiredPct: 0, uncoveredPct: 0 };
-    this.rows = [];
-    this.loading = false;
+    this.reportsApi
+      .getComportamiento(this.buildRequest())
+      .pipe(
+        catchError(() => {
+          this.errorMessage = 'No se pudo cargar el reporte Comportamiento. Intenta de nuevo.';
+          return of(null);
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe((data) => {
+        this.fillRate = data?.fillRate ?? { positionsPct: 0, hiredPct: 0, uncoveredPct: 0 };
+        const s = data?.stageTotals;
+        this.stageValues = s
+          ? [s.applicants, s.preselected, s.selected, s.evaluated, s.interviewed, s.prehired, s.hired]
+          : [0, 0, 0, 0, 0, 0, 0];
+        this.rows = (data?.rows ?? []).map((r) => ({
+          requisitionLabel: r.requisitionLabel,
+          createDate: r.createDate,
+          commitmentDate: r.commitmentDate,
+          coverageDate: r.coverageDate,
+          daysCreateToCoverage: r.daysCreateToCoverage,
+          daysCoverageToCommitment: r.daysCoverageToCommitment,
+          positionsCount: r.positionsCount,
+          applicants: r.applicants,
+          preselected: r.preselected,
+          selected: r.selected,
+          evaluated: r.evaluated,
+          interviewed: r.interviewed,
+          prehired: r.prehired,
+          hired: r.hired,
+        }));
+        this.loading = false;
+      });
   }
 
   formatCell(value: number | null | undefined): string {
@@ -166,6 +202,26 @@ export class ComportamientoReportComponent implements OnInit {
       return '0%';
     }
     return `${Math.max(0, Math.min(100, (value / this.chartMax) * 100))}%`;
+  }
+
+  stageBarHeight(value: number): string {
+    if (value <= 0) {
+      return '0%';
+    }
+    return `${Math.max(4, Math.min(100, (value / this.stageChartMax) * 100))}%`;
+  }
+
+  private buildRequest(): ComportamientoFilterRequest {
+    const v = this.filters.getRawValue();
+    return {
+      startDate: v.startDate || null,
+      endDate: v.endDate || null,
+      countryId: v.countryId,
+      status: 'COVERED',
+      clientKey: v.clientKey?.trim() || null,
+      positionId: v.positionId,
+      workplaceId: v.workplaceId,
+    };
   }
 
   private reloadForTenant(): void {

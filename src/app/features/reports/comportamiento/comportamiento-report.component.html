@@ -111,12 +111,26 @@
 
       <section class="sh-card chart-card">
         <h3 class="chart-title">Métricas de candidatos por etapa</h3>
-        <div class="stages-axis">
-          @for (label of stageLabels; track label) {
-            <span class="stage-tick">{{ label }}</span>
-          }
-        </div>
-        <p class="chart-empty stages-hint">Sin datos (métricas por definir)</p>
+        @if (hasStageData) {
+          <div class="stages-bars">
+            @for (label of stageLabels; track label; let i = $index) {
+              <div class="stage-col">
+                <div class="stage-bar-track">
+                  <div class="stage-bar-fill" [style.height]="stageBarHeight(stageValues[i])"></div>
+                </div>
+                <span class="stage-value">{{ formatCell(stageValues[i]) }}</span>
+                <span class="stage-tick">{{ label }}</span>
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="stages-axis">
+            @for (label of stageLabels; track label) {
+              <span class="stage-tick">{{ label }}</span>
+            }
+          </div>
+          <p class="chart-empty stages-hint">No hay información</p>
+        }
       </section>
     </div>
 
