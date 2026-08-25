@@ -4670,6 +4670,10 @@
         <source>Ver documentos</source>
         <target>Ver documentos</target>
       </trans-unit>
+      <trans-unit id="applicationsDialog.actions.generateDocuments" datatype="html">
+        <source>Generar Documentos</source>
+        <target>Generar Documentos</target>
+      </trans-unit>
       <trans-unit id="applicationsDialog.actions.preselect" datatype="html">
         <source>Preseleccionar</source>
         <target>Preseleccionar</target>
@@ -8436,6 +8440,10 @@
         <source>Archivo .docx</source>
         <target>Archivo .docx</target>
       </trans-unit>
+      <trans-unit id="documentTemplates.templates.pickFile" datatype="html">
+        <source>Seleccionar archivo .docx</source>
+        <target>Seleccionar archivo .docx</target>
+      </trans-unit>
       <trans-unit id="documentTemplates.templates.field.active" datatype="html">
         <source>Activa</source>
         <target>Activa</target>
@@ -8455,6 +8463,22 @@
       <trans-unit id="documentTemplates.templates.invalidVars" datatype="html">
         <source>Variables no reconocidas</source>
         <target>Variables no reconocidas</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.preview.title" datatype="html">
+        <source>Vista previa del documento</source>
+        <target>Vista previa del documento</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.preview.empty" datatype="html">
+        <source>Selecciona un archivo .docx para ver la vista previa</source>
+        <target>Selecciona un archivo .docx para ver la vista previa</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.preview.loading" datatype="html">
+        <source>Generando vista previa...</source>
+        <target>Generando vista previa...</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.preview.error" datatype="html">
+        <source>No se pudo mostrar la vista previa</source>
+        <target>No se pudo mostrar la vista previa</target>
       </trans-unit>
       <trans-unit id="documentTemplates.templates.validating" datatype="html">
         <source>Validando archivo...</source>
@@ -8517,8 +8541,20 @@
         <target>¿Eliminar la plantilla "<x id="name" equiv-text="name"/>"? Esta acción no se puede deshacer.</target>
       </trans-unit>
       <trans-unit id="documentTemplates.generate.title" datatype="html">
-        <source>Generar formato</source>
-        <target>Generar formato</target>
+        <source>Generar Documentos</source>
+        <target>Generar Documentos</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.generate.col.name" datatype="html">
+        <source>Nombre de la plantilla</source>
+        <target>Nombre de la plantilla</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.generate.col.actions" datatype="html">
+        <source>Acciones</source>
+        <target>Acciones</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.generate.wordAction" datatype="html">
+        <source>Generar documento Word</source>
+        <target>Generar documento Word</target>
       </trans-unit>
       <trans-unit id="documentTemplates.generate.select" datatype="html">
         <source>Plantilla</source>

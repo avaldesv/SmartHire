@@ -17,6 +17,8 @@ export const APP_DIALOG_COL_APPOINTMENT = $localize`:@@applicationsDialog.col.ap
 export const APP_DIALOG_ACTIONS_MENU = $localize`:@@applicationsDialog.actions.menu:Acciones del candidato`;
 export const APP_DIALOG_ACTION_VIEW_PROFILE = $localize`:@@applicationsDialog.actions.viewProfile:Ver perfil completo`;
 export const APP_DIALOG_ACTION_VIEW_DOCUMENTS = $localize`:@@applicationsDialog.actions.viewDocuments:Ver documentos`;
+export const APP_DIALOG_ACTION_DOWNLOAD_CV = $localize`:@@applicationsDialog.actions.downloadCv:Currículo`;
+export const APP_DIALOG_ACTION_GENERATE_DOCUMENTS = $localize`:@@applicationsDialog.actions.generateDocuments:Generar Documentos`;
 export const APP_DIALOG_ACTION_PRESELECT = $localize`:@@applicationsDialog.actions.preselect:Preseleccionar`;
 export const APP_DIALOG_CONTACT_TOOLTIP = $localize`:@@applicationsDialog.contact.tooltip:Enviar cuestionario de contacto`;
 export const APP_DIALOG_CONTACT_SUCCESS = $localize`:@@applicationsDialog.contact.success:Cuestionario de contacto enviado`;
@@ -29,6 +31,8 @@ export const APP_DIALOG_APPOINTMENT_SCHEDULED_TOOLTIP = $localize`:@@application
 export const APP_DIALOG_PRESELECT_SUCCESS = $localize`:@@applicationsDialog.preselect.success:Candidato preseleccionado`;
 export const APP_DIALOG_ERRORS_PRESELECT = $localize`:@@applicationsDialog.errors.preselect:No se pudo preseleccionar al candidato`;
 export const APP_DIALOG_ERRORS_LIST = $localize`:@@applicationsDialog.errors.list:No se pudieron cargar las postulaciones`;
+export const APP_DIALOG_ERRORS_CV_DOWNLOAD = $localize`:@@applicationsDialog.errors.cvDownload:No se pudo descargar el currículo`;
+export const APP_DIALOG_CV_DOWNLOAD_SUCCESS = $localize`:@@applicationsDialog.cvDownload.success:Currículo descargado`;
 
 export function applicationsDialogCandidateFallback(id: number): string {
   return $localize`:@@applicationsDialog.candidateFallback:Candidato #${id}:id:`;

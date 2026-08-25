@@ -1,23 +1,26 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
 import {
-  DOCTEMPLATES_CANCEL,
-  DOCTEMPLATES_GENERATE_CONFIRM,
+  DOCTEMPLATES_GENERATE_CLOSE,
+  DOCTEMPLATES_GENERATE_COL_ACTIONS,
+  DOCTEMPLATES_GENERATE_COL_NAME,
   DOCTEMPLATES_GENERATE_EMPTY,
   DOCTEMPLATES_GENERATE_ERRORS_GENERATE,
   DOCTEMPLATES_GENERATE_ERRORS_LIST,
-  DOCTEMPLATES_GENERATE_GENERATING,
-  DOCTEMPLATES_GENERATE_SELECT,
   DOCTEMPLATES_GENERATE_SUCCESS,
   DOCTEMPLATES_GENERATE_TITLE,
+  DOCTEMPLATES_GENERATE_WORD,
 } from '../../../../core/i18n/document-templates-labels';
 import { DocumentTemplateApiService } from '../../../../core/services/document-template-api.service';
+import { CatalogCompanyService } from '../../../../core/services/catalog-company.service';
+import { TenantContextService } from '../../../../core/services/tenant-context.service';
 import { downloadBlob } from '../../../../core/services/catalog-import-export.service';
 import { DocumentTemplateItem } from '../../../../shared/models/document-template.model';
 
@@ -30,12 +33,13 @@ export interface GenerateDocumentDialogData {
   selector: 'sh-generate-document-dialog',
   standalone: true,
   imports: [
-    ReactiveFormsModule,
     MatDialogModule,
     MatButtonModule,
-    MatFormFieldModule,
-    MatSelectModule,
+    MatIconModule,
+    MatTableModule,
+    MatPaginatorModule,
     MatProgressSpinnerModule,
+    MatTooltipModule,
   ],
   templateUrl: './generate-document-dialog.component.html',
   styleUrl: './generate-document-dialog.component.scss',
@@ -43,35 +47,54 @@ export interface GenerateDocumentDialogData {
 export class GenerateDocumentDialogComponent implements OnInit {
   readonly dialogRef = inject(MatDialogRef<GenerateDocumentDialogComponent, boolean>);
   readonly data = inject<GenerateDocumentDialogData>(MAT_DIALOG_DATA);
-  private readonly fb = inject(FormBuilder);
   private readonly templateApi = inject(DocumentTemplateApiService);
+  private readonly companyService = inject(CatalogCompanyService);
+  private readonly tenantContext = inject(TenantContextService);
   private readonly feedback = inject(FeedbackDialogService);
 
   readonly title = DOCTEMPLATES_GENERATE_TITLE;
-  readonly selectLabel = DOCTEMPLATES_GENERATE_SELECT;
-  readonly confirmLabel = DOCTEMPLATES_GENERATE_CONFIRM;
-  readonly generatingLabel = DOCTEMPLATES_GENERATE_GENERATING;
-  readonly cancelLabel = DOCTEMPLATES_CANCEL;
+  readonly colName = DOCTEMPLATES_GENERATE_COL_NAME;
+  readonly colActions = DOCTEMPLATES_GENERATE_COL_ACTIONS;
+  readonly wordActionLabel = DOCTEMPLATES_GENERATE_WORD;
+  readonly closeLabel = DOCTEMPLATES_GENERATE_CLOSE;
   readonly emptyLabel = DOCTEMPLATES_GENERATE_EMPTY;
   readonly listErrorLabel = DOCTEMPLATES_GENERATE_ERRORS_LIST;
+  readonly columns = ['name', 'actions'];
 
   templates: DocumentTemplateItem[] = [];
   loading = true;
-  generating = false;
   loadError = false;
-
-  readonly form = this.fb.nonNullable.group({
-    templateId: [null as number | null, Validators.required],
-  });
+  generatingId: number | null = null;
+  pageIndex = 0;
+  readonly pageSize = 10;
+  total = 0;
+  tenantName = '';
 
   ngOnInit(): void {
-    this.templateApi.list(0, 100, { isActive: true }).subscribe({
+    this.loadTenantName();
+    this.load();
+  }
+
+  private loadTenantName(): void {
+    this.companyService.getById(this.tenantContext.getCompanyId()).subscribe({
+      next: (company) => {
+        this.tenantName =
+          company.name?.trim() || company.tradeName?.trim() || `Tenant ${company.id}`;
+      },
+      error: () => {
+        this.tenantName = `Tenant ${this.tenantContext.getCompanyId()}`;
+      },
+    });
+  }
+
+  load(): void {
+    this.loading = true;
+    this.loadError = false;
+    this.templateApi.list(this.pageIndex, this.pageSize, { isActive: true }).subscribe({
       next: (res) => {
         this.templates = res.items;
+        this.total = res.total;
         this.loading = false;
-        if (this.templates.length === 1) {
-          this.form.controls.templateId.setValue(this.templates[0].id);
-        }
       },
       error: (err) => {
         this.loading = false;
@@ -81,39 +104,48 @@ export class GenerateDocumentDialogComponent implements OnInit {
     });
   }
 
-  cancel(): void {
-    this.dialogRef.close(false);
+  onPage(event: PageEvent): void {
+    if (event.pageIndex === this.pageIndex && event.pageSize === this.pageSize) {
+      return;
+    }
+    this.pageIndex = event.pageIndex;
+    this.load();
   }
 
-  confirm(): void {
-    if (this.form.invalid || this.generating) {
-      this.form.markAllAsTouched();
+  generate(row: DocumentTemplateItem): void {
+    if (this.generatingId != null) {
       return;
     }
-    const templateId = this.form.controls.templateId.value;
-    if (templateId == null) {
-      return;
-    }
-    const selected = this.templates.find((t) => t.id === templateId);
-    const baseName = selected?.name?.trim() || selected?.fileName?.replace(/\.docx$/i, '') || 'documento';
-    const filename = `${this.sanitizeFilename(baseName)}.docx`;
+    const filename = this.buildDownloadFilename(row);
 
-    this.generating = true;
-    this.templateApi.generate(templateId, this.data.applicationId).subscribe({
+    this.generatingId = row.id;
+    this.templateApi.generate(row.id, this.data.applicationId).subscribe({
       next: (blob) => {
         downloadBlob(blob, filename);
-        this.generating = false;
+        this.generatingId = null;
         this.feedback.showSuccess(DOCTEMPLATES_GENERATE_SUCCESS);
-        this.dialogRef.close(true);
       },
       error: (err) => {
-        this.generating = false;
+        this.generatingId = null;
         this.feedback.showApiError(err, { fallbackMessage: DOCTEMPLATES_GENERATE_ERRORS_GENERATE });
       },
     });
   }
 
-  private sanitizeFilename(name: string): string {
-    return name.replace(/[<>:"/\\|?*\u0000-\u001f]/g, '_').trim() || 'documento';
+  close(): void {
+    this.dialogRef.close(false);
+  }
+
+  private buildDownloadFilename(template: DocumentTemplateItem): string {
+    const candidatePart = this.sanitizeFilenamePart(this.data.candidateName?.trim() || 'Candidato');
+    const tenantPart = this.sanitizeFilenamePart(this.tenantName || `Tenant ${this.tenantContext.getCompanyId()}`);
+    const documentPart = this.sanitizeFilenamePart(
+      template.name?.trim() || template.fileName?.replace(/\.docx?$/i, '') || 'Documento',
+    );
+    return `${candidatePart} - ${tenantPart} - ${documentPart}.docx`;
+  }
+
+  private sanitizeFilenamePart(value: string): string {
+    return value.replace(/[<>:"/\\|?*\u0000-\u001f]/g, '_').replace(/\s+/g, ' ').trim() || 'documento';
   }
 }

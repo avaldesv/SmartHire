@@ -14,31 +14,52 @@
     </div>
   } @else if (loadError) {
     <p class="error-msg">{{ listErrorLabel }}</p>
-  } @else if (templates.length === 0) {
+  } @else if (templates.length === 0 && total === 0) {
     <p class="empty-msg">{{ emptyLabel }}</p>
   } @else {
-    <form [formGroup]="form">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>{{ selectLabel }}</mat-label>
-        <mat-select formControlName="templateId">
-          @for (tpl of templates; track tpl.id) {
-            <mat-option [value]="tpl.id">{{ tpl.name }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-    </form>
+    <div class="sh-table-wrap">
+      <table mat-table class="templates-table" [dataSource]="templates">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>{{ colName }}</th>
+          <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="col-actions-header">{{ colActions }}</th>
+          <td mat-cell *matCellDef="let row" class="col-actions-cell">
+            <button
+              mat-icon-button
+              type="button"
+              color="primary"
+              [disabled]="generatingId != null"
+              [matTooltip]="wordActionLabel"
+              [attr.aria-label]="wordActionLabel + ': ' + row.name"
+              (click)="generate(row)"
+            >
+              @if (generatingId === row.id) {
+                <mat-spinner diameter="20" />
+              } @else {
+                <mat-icon>description</mat-icon>
+              }
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns"></tr>
+      </table>
+    </div>
+
+    <mat-paginator
+      [length]="total"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      [pageSizeOptions]="[10]"
+      [hidePageSize]="true"
+      (page)="onPage($event)"
+      showFirstLastButtons
+    />
   }
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button type="button" (click)="cancel()" [disabled]="generating">{{ cancelLabel }}</button>
-  <button
-    mat-flat-button
-    color="primary"
-    type="button"
-    (click)="confirm()"
-    [disabled]="loading || loadError || templates.length === 0 || form.invalid || generating"
-  >
-    {{ generating ? generatingLabel : confirmLabel }}
-  </button>
+  <button mat-button type="button" (click)="close()" [disabled]="generatingId != null">{{ closeLabel }}</button>
 </mat-dialog-actions>

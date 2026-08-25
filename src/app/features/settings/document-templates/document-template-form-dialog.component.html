@@ -1,69 +1,134 @@
-<h2 mat-dialog-title>{{ title }}</h2>
+<div class="sh-catalog-dialog-header" mat-dialog-title>
+  <span class="sh-catalog-dialog-header__text">{{ title }}</span>
+</div>
 
-<mat-dialog-content>
+<mat-dialog-content class="sh-catalog-dialog-body template-dialog-body">
+  <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
   @if (loading) {
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else {
     <form [formGroup]="form" class="template-form">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>{{ fieldName }}</mat-label>
-        <input matInput formControlName="name" />
-      </mat-form-field>
+      <div class="form-main">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{ fieldName }}</mat-label>
+          <input matInput formControlName="name" />
+        </mat-form-field>
 
-      <div class="file-block">
-        <label class="file-label">{{ fieldFile }}</label>
-        @if (currentFileName && !selectedFile) {
-          <p class="current-file">{{ fileCurrent }}: <code>{{ currentFileName }}</code></p>
-        }
-        <div class="file-row">
-          <input
-            #fileInput
-            type="file"
-            accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-            hidden
-            (change)="onFileSelected($event)"
-          />
-          <button mat-stroked-button type="button" (click)="fileInput.click()" [disabled]="saving || validating">
-            <mat-icon>upload_file</mat-icon>
-            {{ fieldFile }}
-          </button>
-          @if (selectedFile) {
-            <span class="selected-name">{{ selectedFile.name }}</span>
+        <div class="file-block">
+          @if (currentFileName && !selectedFile) {
+            <p class="current-file">{{ fileCurrent }}: <code>{{ currentFileName }}</code></p>
           }
+          <div class="pickers">
+            <input
+              #fileInput
+              type="file"
+              accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+              hidden
+              (change)="onFileSelected($event)"
+            />
+            <button
+              mat-stroked-button
+              type="button"
+              (click)="fileInput.click()"
+              [disabled]="saving || validating"
+            >
+              {{ pickFileLabel }}
+            </button>
+            @if (selectedFile) {
+              <span class="selected-name">{{ selectedFile.name }}</span>
+            }
+          </div>
+          <p class="hint">{{ fileHint }}</p>
         </div>
-        <p class="hint">{{ fileHint }}</p>
+
+        @if (validating) {
+          <div class="validating-row">
+            <mat-spinner diameter="20" />
+            <span>{{ validatingLabel }}</span>
+          </div>
+        }
+
+        @if (validCodes.length) {
+          <div class="chips-block">
+            <p class="chips-title">{{ validVarsLabel }}</p>
+            <mat-chip-set>
+              @for (code of validCodes; track code) {
+                <mat-chip class="chip-valid">{{ code }}</mat-chip>
+              }
+            </mat-chip-set>
+          </div>
+        }
+
+        @if (invalidCodes.length) {
+          <div class="chips-block">
+            <p class="chips-title warn">{{ invalidVarsLabel }}</p>
+            <mat-chip-set>
+              @for (code of invalidCodes; track code) {
+                <mat-chip class="chip-invalid">{{ code }}</mat-chip>
+              }
+            </mat-chip-set>
+          </div>
+        }
+
+        <mat-checkbox formControlName="isActive">{{ fieldActive }}</mat-checkbox>
       </div>
 
-      @if (validating) {
-        <div class="validating-row">
-          <mat-spinner diameter="20" />
-          <span>{{ validatingLabel }}</span>
-        </div>
-      }
-
-      @if (validCodes.length) {
-        <div class="chips-block">
-          <p class="chips-title">{{ validVarsLabel }}</p>
-          <mat-chip-set>
-            @for (code of validCodes; track code) {
-              <mat-chip class="chip-valid">{{ code }}</mat-chip>
+      <aside class="preview-panel" aria-live="polite">
+        <div class="preview-header">
+          <h4>{{ previewTitle }}</h4>
+          <div class="preview-header-actions">
+            @if (previewReady && !previewError) {
+              <div class="preview-zoom-toolbar" [attr.aria-label]="previewZoomLabel">
+                <button
+                  mat-icon-button
+                  type="button"
+                  [attr.aria-label]="previewZoomOutLabel"
+                  [disabled]="previewZoom <= minPreviewZoom"
+                  (click)="zoomOut()"
+                >
+                  <mat-icon>remove</mat-icon>
+                </button>
+                <span class="preview-zoom-value">{{ previewZoomPercent }}%</span>
+                <button
+                  mat-icon-button
+                  type="button"
+                  [attr.aria-label]="previewZoomInLabel"
+                  [disabled]="previewZoom >= maxPreviewZoom"
+                  (click)="zoomIn()"
+                >
+                  <mat-icon>add</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  type="button"
+                  [attr.aria-label]="previewZoomResetLabel"
+                  (click)="resetPreviewZoom()"
+                >
+                  <mat-icon>fit_screen</mat-icon>
+                </button>
+              </div>
             }
-          </mat-chip-set>
-        </div>
-      }
-
-      @if (invalidCodes.length) {
-        <div class="chips-block">
-          <p class="chips-title warn">{{ invalidVarsLabel }}</p>
-          <mat-chip-set>
-            @for (code of invalidCodes; track code) {
-              <mat-chip class="chip-invalid">{{ code }}</mat-chip>
+            @if (previewLoading) {
+              <span class="preview-status">
+                <mat-spinner diameter="16" />
+                {{ previewLoadingLabel }}
+              </span>
             }
-          </mat-chip-set>
+          </div>
         </div>
-      }
 
-      <mat-checkbox formControlName="isActive">{{ fieldActive }}</mat-checkbox>
+        @if (previewError) {
+          <p class="preview-empty warn">{{ previewErrorLabel }}</p>
+        } @else if (previewReady) {
+          <div class="preview-docx-wrap">
+            <div class="preview-docx-scaler" [style.zoom]="previewZoom">
+              <div #previewHost class="preview-docx-host"></div>
+            </div>
+          </div>
+        } @else if (!previewLoading) {
+          <p class="preview-empty">{{ previewEmptyLabel }}</p>
+        }
+      </aside>
     </form>
   }
 </mat-dialog-content>

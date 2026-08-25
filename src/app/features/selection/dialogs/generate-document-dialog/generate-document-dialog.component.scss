@@ -1,12 +1,8 @@
-.full-width {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
 .candidate-name {
-  margin: 0 0 12px;
-  color: rgba(0, 0, 0, 0.6);
+  margin: 0 0 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .loading {
@@ -23,4 +19,27 @@
 
 .error-msg {
   color: #b42318;
+}
+
+.templates-table {
+  width: 100%;
+}
+
+.col-actions-header,
+.col-actions-cell {
+  width: 96px;
+  text-align: center;
+}
+
+.col-actions-cell {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+:host ::ng-deep .col-actions-cell .mat-mdc-icon-button {
+  --mdc-icon-button-state-layer-size: 40px;
+}
+
+mat-paginator {
+  margin-top: 8px;
 }

@@ -19,6 +19,7 @@
     <div class="sh-table-wrap">
       <table
         mat-table
+        class="applications-table"
         [dataSource]="rows"
         matSort
         [matSortActive]="sortActive"
@@ -26,7 +27,9 @@
         (matSortChange)="onSortChange($event)">
         <ng-container matColumnDef="candidate">
           <th mat-header-cell *matHeaderCellDef mat-sort-header="candidate">{{ labels.colCandidate }}</th>
-          <td mat-cell *matCellDef="let row">{{ candidateName(row) }}</td>
+          <td mat-cell *matCellDef="let row" class="col-candidate-name" [attr.title]="candidateName(row)">
+            {{ candidateName(row) }}
+          </td>
         </ng-container>
         <ng-container matColumnDef="email">
           <th mat-header-cell *matHeaderCellDef mat-sort-header="email">{{ labels.colEmail }}</th>
@@ -117,6 +120,16 @@
                   <button mat-menu-item type="button" (click)="openDocuments(row)">
                     <mat-icon>folder_open</mat-icon>
                     <span>{{ labels.viewDocuments }}</span>
+                  </button>
+                  <button mat-menu-item type="button" [disabled]="downloadingCvId === row.candidateId" (click)="downloadCv(row)">
+                    <mat-icon>download</mat-icon>
+                    <span>{{ labels.downloadCv }}</span>
+                  </button>
+                }
+                @if (canReadSelection) {
+                  <button mat-menu-item type="button" (click)="openGenerateDocuments(row)">
+                    <mat-icon>description</mat-icon>
+                    <span>{{ labels.generateDocuments }}</span>
                   </button>
                 }
                 @if (canPreselect(row)) {

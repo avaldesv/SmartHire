@@ -1,6 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
@@ -9,6 +8,10 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { filter } from 'rxjs';
 import { AppPermissions } from '../../../core/auth/app-permissions';
+import {
+  catalogDialogConfig,
+  catalogTallDialogConfig,
+} from '../../../core/dialog/catalog-dialog.constants';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import {
@@ -65,7 +68,6 @@ import {
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
-    MatChipsModule,
     TableRowActionsComponent,
   ],
   templateUrl: './document-templates-admin.component.html',
@@ -113,13 +115,13 @@ export class DocumentTemplatesAdminComponent implements OnInit {
   templatesPageSize = 10;
 
   readonly variableColumns = ['code', 'label', 'description', 'isActive', 'actions'];
-  readonly templateColumns = ['name', 'fileName', 'isActive', 'usedVariableCodes', 'actions'];
+  readonly templateColumns = ['name', 'usedVariableCodes', 'fileName', 'isActive', 'actions'];
 
   private variablesLoaded = false;
   private templatesLoaded = false;
 
   ngOnInit(): void {
-    this.loadVariables();
+    this.loadTemplates();
   }
 
   canCreate(): boolean {
@@ -135,11 +137,11 @@ export class DocumentTemplatesAdminComponent implements OnInit {
   }
 
   onTabChange(index: number): void {
-    if (index === 0 && !this.variablesLoaded) {
-      this.loadVariables();
-    }
-    if (index === 1 && !this.templatesLoaded) {
+    if (index === 0 && !this.templatesLoaded) {
       this.loadTemplates();
+    }
+    if (index === 1 && !this.variablesLoaded) {
+      this.loadVariables();
     }
   }
 
@@ -207,8 +209,7 @@ export class DocumentTemplatesAdminComponent implements OnInit {
       DocumentTemplateVariableFormDialogData,
       boolean
     >(DocumentTemplateVariableFormDialogComponent, {
-      width: '520px',
-      maxWidth: '95vw',
+      ...catalogDialogConfig('520px'),
       autoFocus: 'first-heading',
       data,
     });
@@ -239,8 +240,7 @@ export class DocumentTemplatesAdminComponent implements OnInit {
     const ref = this.dialog.open<DocumentTemplateFormDialogComponent, DocumentTemplateFormDialogData, boolean>(
       DocumentTemplateFormDialogComponent,
       {
-        width: '640px',
-        maxWidth: '95vw',
+        ...catalogTallDialogConfig('960px'),
         autoFocus: 'first-heading',
         data,
       },

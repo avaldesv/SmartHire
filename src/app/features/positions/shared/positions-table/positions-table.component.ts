@@ -165,6 +165,7 @@ import {
   PositionApplicationsDialogComponent,
   PositionApplicationsDialogData,
   PositionApplicationsDialogResult,
+  positionApplicationsDialogConfig,
 } from '../../../candidates/dialogs/position-applications-dialog/position-applications-dialog.component';
 import {
   CvBulkUploadDialogComponent,
@@ -1323,7 +1324,7 @@ export class PositionsTableComponent implements OnInit {
       .open<PositionApplicationsDialogComponent, PositionApplicationsDialogData, PositionApplicationsDialogResult>(
         PositionApplicationsDialogComponent,
         {
-          ...catalogDialogConfig('720px'),
+          ...positionApplicationsDialogConfig(),
           data: {
             positionId: row.id,
             requisitionNo: row.requisitionNo,

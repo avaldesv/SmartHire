@@ -29,12 +29,21 @@ export const DOCTEMPLATES_TPL_DIALOG_NEW = $localize`:@@documentTemplates.templa
 export const DOCTEMPLATES_TPL_DIALOG_EDIT = $localize`:@@documentTemplates.templates.dialog.edit:Editar plantilla de documento`;
 export const DOCTEMPLATES_TPL_FIELD_NAME = $localize`:@@documentTemplates.templates.field.name:Nombre`;
 export const DOCTEMPLATES_TPL_FIELD_FILE = $localize`:@@documentTemplates.templates.field.file:Archivo .docx`;
+export const DOCTEMPLATES_TPL_PICK_FILE = $localize`:@@documentTemplates.templates.pickFile:Seleccionar archivo .docx`;
 export const DOCTEMPLATES_TPL_FIELD_ACTIVE = $localize`:@@documentTemplates.templates.field.active:Activa`;
 export const DOCTEMPLATES_TPL_FILE_HINT = $localize`:@@documentTemplates.templates.fileHint:Solo archivos .docx. Al seleccionar se validan las variables.`;
 export const DOCTEMPLATES_TPL_FILE_CURRENT = $localize`:@@documentTemplates.templates.fileCurrent:Archivo actual`;
 export const DOCTEMPLATES_TPL_VALID_VARS = $localize`:@@documentTemplates.templates.validVars:Variables válidas`;
 export const DOCTEMPLATES_TPL_INVALID_VARS = $localize`:@@documentTemplates.templates.invalidVars:Variables no reconocidas`;
 export const DOCTEMPLATES_TPL_VALIDATING = $localize`:@@documentTemplates.templates.validating:Validando archivo...`;
+export const DOCTEMPLATES_TPL_PREVIEW_TITLE = $localize`:@@documentTemplates.templates.preview.title:Vista previa del documento`;
+export const DOCTEMPLATES_TPL_PREVIEW_EMPTY = $localize`:@@documentTemplates.templates.preview.empty:Selecciona un archivo .docx para ver la vista previa`;
+export const DOCTEMPLATES_TPL_PREVIEW_LOADING = $localize`:@@documentTemplates.templates.preview.loading:Generando vista previa...`;
+export const DOCTEMPLATES_TPL_PREVIEW_ERROR = $localize`:@@documentTemplates.templates.preview.error:No se pudo mostrar la vista previa`;
+export const DOCTEMPLATES_TPL_PREVIEW_ZOOM_TOOLBAR = $localize`:@@documentTemplates.templates.preview.zoomToolbar:Zoom de vista previa`;
+export const DOCTEMPLATES_TPL_PREVIEW_ZOOM_IN = $localize`:@@documentTemplates.templates.preview.zoomIn:Acercar vista previa`;
+export const DOCTEMPLATES_TPL_PREVIEW_ZOOM_OUT = $localize`:@@documentTemplates.templates.preview.zoomOut:Alejar vista previa`;
+export const DOCTEMPLATES_TPL_PREVIEW_ZOOM_RESET = $localize`:@@documentTemplates.templates.preview.zoomReset:Restablecer zoom`;
 export const DOCTEMPLATES_TPL_DOWNLOAD = $localize`:@@documentTemplates.templates.download:Descargar`;
 export const DOCTEMPLATES_TPL_ERRORS_LIST = $localize`:@@documentTemplates.templates.errors.list:No se pudieron cargar las plantillas`;
 export const DOCTEMPLATES_TPL_ERRORS_SAVE = $localize`:@@documentTemplates.templates.errors.save:No se pudo guardar la plantilla`;
@@ -50,7 +59,10 @@ export const DOCTEMPLATES_CANCEL = $localize`:@@documentTemplates.cancel:Cancela
 export const DOCTEMPLATES_SAVE = $localize`:@@documentTemplates.save:Guardar`;
 export const DOCTEMPLATES_SAVING = $localize`:@@documentTemplates.saving:Guardando...`;
 
-export const DOCTEMPLATES_GENERATE_TITLE = $localize`:@@documentTemplates.generate.title:Generar formato`;
+export const DOCTEMPLATES_GENERATE_TITLE = $localize`:@@documentTemplates.generate.title:Generar Documentos`;
+export const DOCTEMPLATES_GENERATE_COL_NAME = $localize`:@@documentTemplates.generate.col.name:Nombre de la plantilla`;
+export const DOCTEMPLATES_GENERATE_COL_ACTIONS = $localize`:@@documentTemplates.generate.col.actions:Acciones`;
+export const DOCTEMPLATES_GENERATE_WORD = $localize`:@@documentTemplates.generate.wordAction:Generar documento Word`;
 export const DOCTEMPLATES_GENERATE_SELECT = $localize`:@@documentTemplates.generate.select:Plantilla`;
 export const DOCTEMPLATES_GENERATE_CONFIRM = $localize`:@@documentTemplates.generate.confirm:Generar y descargar`;
 export const DOCTEMPLATES_GENERATE_GENERATING = $localize`:@@documentTemplates.generate.generating:Generando...`;
@@ -58,6 +70,7 @@ export const DOCTEMPLATES_GENERATE_EMPTY = $localize`:@@documentTemplates.genera
 export const DOCTEMPLATES_GENERATE_SUCCESS = $localize`:@@documentTemplates.generate.success:Documento generado`;
 export const DOCTEMPLATES_GENERATE_ERRORS_LIST = $localize`:@@documentTemplates.generate.errors.list:No se pudieron cargar las plantillas`;
 export const DOCTEMPLATES_GENERATE_ERRORS_GENERATE = $localize`:@@documentTemplates.generate.errors.generate:No se pudo generar el documento`;
+export const DOCTEMPLATES_GENERATE_CLOSE = $localize`:@@common.close:Cerrar`;
 
 export function documentTemplatesDeleteConfirm(name: string): string {
   return $localize`:@@documentTemplates.templates.deleteConfirm:¿Eliminar la plantilla "${name}:name:"? Esta acción no se puede deshacer.`;
