@@ -1,15 +1,55 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: min(92vh, 820px);
+  max-height: 92vh;
+}
+
 .loading-wrap {
   display: flex;
   justify-content: center;
   padding: 32px;
 }
 
+:host ::ng-deep .mat-mdc-dialog-content.template-dialog-body {
+  display: flex !important;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden !important;
+  box-sizing: border-box;
+}
+
+/* Tall catalog panel forces column flex on direct form children — keep 2-col grid here. */
+:host ::ng-deep .mat-mdc-dialog-content.template-dialog-body > form.template-form {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  grid-template-rows: 1fr;
+  align-items: stretch;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
 .template-form {
+  gap: 0 20px;
+}
+
+.form-main {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  min-width: 420px;
-  padding-top: 8px;
+  min-width: 0;
+  min-height: 0;
+  max-height: 100%;
+  overflow: auto;
+  padding-right: 4px;
+  align-self: stretch;
 }
 
 .full-width {
@@ -22,16 +62,11 @@
   gap: 6px;
 }
 
-.file-label {
-  font-size: 0.75rem;
-  color: rgba(0, 0, 0, 0.6);
-}
-
-.file-row {
+.pickers {
   display: flex;
-  align-items: center;
-  gap: 12px;
   flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
 }
 
 .selected-name,
@@ -75,6 +110,113 @@
   }
 }
 
+.preview-panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  align-self: stretch;
+  overflow: hidden;
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
+  padding-left: 16px;
+  box-sizing: border-box;
+}
+
+.preview-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+  flex: 0 0 auto;
+
+  h4 {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+}
+
+.preview-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.preview-zoom-toolbar {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  padding: 0 2px;
+  background: #fff;
+}
+
+.preview-zoom-value {
+  min-width: 42px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: rgba(0, 0, 0, 0.7);
+  user-select: none;
+}
+
+.preview-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.preview-docx-wrap {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  background: #fafafa;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.preview-docx-scaler {
+  display: inline-block;
+  min-width: 100%;
+  transform-origin: top left;
+}
+
+.preview-docx-host {
+  background: #fff;
+}
+
+:host ::ng-deep .preview-docx-host section.docx {
+  margin: 0 auto;
+}
+
+.preview-empty {
+  margin: 0;
+  flex: 1 1 auto;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.875rem;
+  text-align: center;
+  box-sizing: border-box;
+
+  &.warn {
+    border-style: solid;
+    border-color: rgba(237, 108, 2, 0.35);
+    color: #e65100;
+  }
+}
+
 :host ::ng-deep .chip-valid {
   --mdc-chip-elevated-container-color: #e8f5e9;
   --mdc-chip-label-text-color: #2e7d32;
@@ -83,4 +225,23 @@
 :host ::ng-deep .chip-invalid {
   --mdc-chip-elevated-container-color: #fff3e0;
   --mdc-chip-label-text-color: #e65100;
+}
+
+@media (max-width: 900px) {
+  .template-form {
+    grid-template-columns: 1fr;
+    overflow: auto;
+  }
+
+  :host ::ng-deep .mat-mdc-dialog-content.template-dialog-body {
+    overflow: auto !important;
+  }
+
+  .preview-panel {
+    border-left: none;
+    padding-left: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    padding-top: 12px;
+    min-height: 280px;
+  }
 }

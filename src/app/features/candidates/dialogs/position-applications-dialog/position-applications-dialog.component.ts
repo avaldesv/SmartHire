@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -17,6 +17,8 @@ import {
   APP_DIALOG_ACTIONS_MENU,
   APP_DIALOG_ACTION_PRESELECT,
   APP_DIALOG_ACTION_VIEW_DOCUMENTS,
+  APP_DIALOG_ACTION_DOWNLOAD_CV,
+  APP_DIALOG_ACTION_GENERATE_DOCUMENTS,
   APP_DIALOG_ACTION_VIEW_PROFILE,
   APP_DIALOG_APPOINTMENT_SCHEDULED_TOOLTIP,
   APP_DIALOG_APPOINTMENT_TOOLTIP,
@@ -36,6 +38,7 @@ import {
   APP_DIALOG_CONTACT_TOOLTIP,
   APP_DIALOG_EM_DASH,
   APP_DIALOG_EMPTY,
+  APP_DIALOG_ERRORS_CV_DOWNLOAD,
   APP_DIALOG_ERRORS_LIST,
   APP_DIALOG_ERRORS_PRESELECT,
   APP_DIALOG_EVALUATION_PENDING_MSG,
@@ -44,14 +47,20 @@ import {
   APP_DIALOG_POSITION_PREFIX,
   APP_DIALOG_PRESELECT_SUCCESS,
   APP_DIALOG_TITLE,
+  APP_DIALOG_CV_DOWNLOAD_SUCCESS,
   applicationsDialogCandidateFallback,
 } from '../../../../core/i18n/position-applications-dialog-labels';
 import { CandidateApplicationApiService } from '../../../../core/services/candidate-application-api.service';
+import { CandidateApiService } from '../../../../core/services/candidate-api.service';
 import { PermissionService } from '../../../../core/services/permission.service';
 import {
   QuestionnaireEvaluationDialogComponent,
   QuestionnaireEvaluationDialogData,
 } from '../../../selection/dialogs/questionnaire-evaluation-dialog/questionnaire-evaluation-dialog.component';
+import {
+  GenerateDocumentDialogComponent,
+  GenerateDocumentDialogData,
+} from '../../../selection/dialogs/generate-document-dialog/generate-document-dialog.component';
 import { CandidateApplicationListItem } from '../../../../shared/models/candidate-application.model';
 import { StatusBadgeComponent } from '../../../../shared/components/status-badge/status-badge.component';
 import {
@@ -75,6 +84,16 @@ export interface PositionApplicationsDialogData {
 
 export interface PositionApplicationsDialogResult {
   changed?: boolean;
+}
+
+/** Dialog width (2× former 720px default from Positions table). */
+export const POSITION_APPLICATIONS_DIALOG_WIDTH = '1440px';
+
+export function positionApplicationsDialogConfig(extra: MatDialogConfig = {}): MatDialogConfig {
+  return catalogDialogConfig(POSITION_APPLICATIONS_DIALOG_WIDTH, {
+    maxWidth: '96vw',
+    ...extra,
+  });
 }
 
 const APPLICATIONS_SORT_FIELDS: Record<string, string> = {
@@ -109,6 +128,7 @@ export class PositionApplicationsDialogComponent implements OnInit {
   private readonly dialogRef = inject(MatDialogRef<PositionApplicationsDialogComponent, PositionApplicationsDialogResult>);
   readonly data = inject<PositionApplicationsDialogData>(MAT_DIALOG_DATA);
   private readonly applicationApi = inject(CandidateApplicationApiService);
+  private readonly candidateApi = inject(CandidateApiService);
   private readonly feedback = inject(FeedbackDialogService);
   private readonly dialog = inject(MatDialog);
   private readonly permission = inject(PermissionService);
@@ -131,6 +151,8 @@ export class PositionApplicationsDialogComponent implements OnInit {
     actionsMenu: APP_DIALOG_ACTIONS_MENU,
     viewProfile: APP_DIALOG_ACTION_VIEW_PROFILE,
     viewDocuments: APP_DIALOG_ACTION_VIEW_DOCUMENTS,
+    downloadCv: APP_DIALOG_ACTION_DOWNLOAD_CV,
+    generateDocuments: APP_DIALOG_ACTION_GENERATE_DOCUMENTS,
     preselect: APP_DIALOG_ACTION_PRESELECT,
     contactTooltip: APP_DIALOG_CONTACT_TOOLTIP,
     evaluationTooltip: APP_DIALOG_EVALUATION_TOOLTIP,
@@ -148,6 +170,7 @@ export class PositionApplicationsDialogComponent implements OnInit {
   sortDirection: 'asc' | 'desc' = 'desc';
   preselectingId: number | null = null;
   contactingApplicationId: number | null = null;
+  downloadingCvId: number | null = null;
   private changed = false;
 
   readonly columns = [
@@ -167,6 +190,10 @@ export class PositionApplicationsDialogComponent implements OnInit {
     this.load();
   }
 
+  get canReadSelection(): boolean {
+    return this.permission.hasAuthority(AppPermissions.SELECTION_READ);
+  }
+
   get canReadCandidate(): boolean {
     return this.permission.hasAuthority(AppPermissions.CANDIDATE_READ);
   }
@@ -180,7 +207,7 @@ export class PositionApplicationsDialogComponent implements OnInit {
   }
 
   hasRowActions(row: CandidateApplicationListItem): boolean {
-    return this.canReadCandidate || this.canPreselect(row);
+    return this.canReadCandidate || this.canReadSelection || this.canPreselect(row);
   }
 
   canPreselect(row: CandidateApplicationListItem): boolean {
@@ -334,6 +361,40 @@ export class PositionApplicationsDialogComponent implements OnInit {
         data: {
           applicationId: row.id,
           candidateId: row.candidateId,
+          candidateName: this.candidateName(row),
+        },
+      },
+    );
+  }
+
+  downloadCv(row: CandidateApplicationListItem): void {
+    if (!this.canReadCandidate || this.downloadingCvId != null) {
+      return;
+    }
+    this.downloadingCvId = row.candidateId;
+    this.candidateApi.downloadCv(row.candidateId).subscribe({
+      next: () => {
+        this.downloadingCvId = null;
+        this.feedback.showSuccess(APP_DIALOG_CV_DOWNLOAD_SUCCESS);
+      },
+      error: (err) => {
+        this.downloadingCvId = null;
+        this.feedback.showApiError(err, { fallbackMessage: APP_DIALOG_ERRORS_CV_DOWNLOAD });
+      },
+    });
+  }
+
+  openGenerateDocuments(row: CandidateApplicationListItem): void {
+    if (!this.canReadSelection) {
+      return;
+    }
+    this.dialog.open<GenerateDocumentDialogComponent, GenerateDocumentDialogData>(
+      GenerateDocumentDialogComponent,
+      {
+        ...catalogDialogConfig('640px'),
+        autoFocus: false,
+        data: {
+          applicationId: row.id,
           candidateName: this.candidateName(row),
         },
       },

@@ -43,6 +43,7 @@ import {
   PositionApplicationsDialogComponent,
   PositionApplicationsDialogData,
   PositionApplicationsDialogResult,
+  positionApplicationsDialogConfig,
 } from '../../candidates/dialogs/position-applications-dialog/position-applications-dialog.component';
 import {
   ApplicationAuditLogDialogComponent,
@@ -210,7 +211,7 @@ export class PreselectionComponent implements OnInit {
       .open<PositionApplicationsDialogComponent, PositionApplicationsDialogData, PositionApplicationsDialogResult>(
         PositionApplicationsDialogComponent,
         {
-          ...catalogDialogConfig('1100px'),
+          ...positionApplicationsDialogConfig(),
           data: { positionId: this.positionId, requisitionNo: `REQ-${this.positionId}` },
         },
       )
@@ -527,9 +528,8 @@ export class PreselectionComponent implements OnInit {
   }
 
   downloadCandidateCv(row: PreselectionCandidate): void {
-    this.candidateApi.getCvDownloadUrl(row.id).subscribe({
+    this.candidateApi.downloadCv(row.id).subscribe({
       next: (res) => {
-        window.open(res.downloadUrl, '_blank', 'noopener,noreferrer');
         this.feedback.showSuccess(`CV: ${res.fileName}`);
       },
       error: (err) => {
@@ -609,7 +609,7 @@ export class PreselectionComponent implements OnInit {
     this.dialog.open<GenerateDocumentDialogComponent, GenerateDocumentDialogData, boolean>(
       GenerateDocumentDialogComponent,
       {
-        ...catalogDialogConfig('480px'),
+        ...catalogDialogConfig('640px'),
         data: {
           applicationId: row.applicationId,
           candidateName: name,

@@ -1,12 +1,17 @@
-<h2 mat-dialog-title>{{ title }}</h2>
+<div class="sh-catalog-dialog-header" mat-dialog-title>
+  <span class="sh-catalog-dialog-header__text">{{ title }}</span>
+</div>
 
-<mat-dialog-content>
+<mat-dialog-content class="sh-catalog-dialog-body">
+  <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
   <form [formGroup]="form" class="variable-form">
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>{{ fieldCode }}</mat-label>
-      <input matInput formControlName="code" autocomplete="off" />
-      <mat-hint>{{ codeHint }}</mat-hint>
-    </mat-form-field>
+    <div class="code-field-block">
+      <mat-form-field appearance="outline" class="full-width code-field">
+        <mat-label>{{ fieldCode }}</mat-label>
+        <input matInput formControlName="code" autocomplete="off" />
+      </mat-form-field>
+      <p class="code-hint">{{ codeHint }}</p>
+    </div>
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>{{ fieldLabel }}</mat-label>

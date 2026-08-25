@@ -91,7 +91,7 @@ export const PRESELECTION_ROW_ACTIONS: readonly PreselectionRowAction[] = [
   },
   {
     id: 'generateDocument',
-    label: 'Generar formato',
+    label: 'Generar Documentos',
     icon: 'article',
     permissions: [AppPermissions.SELECTION_READ],
   },

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, from, map, switchMap } from 'rxjs';
 import {
   CandidateDetail,
   CandidateCvDownloadUrlResponse,
@@ -11,6 +11,7 @@ import {
   UpdateCandidateRequest,
   UpdateCandidateResponse,
 } from '../../shared/models/candidate.model';
+import { downloadBlob } from './catalog-import-export.service';
 import { ApiClientService } from './api-client.service';
 
 @Injectable({ providedIn: 'root' })
@@ -58,6 +59,24 @@ export class CandidateApiService {
     return this.http.get<CandidateCvDownloadUrlResponse>(
       this.api.apiUrl(`/api/v1/candidates/${candidateId}/cv/download-url`),
       { headers: this.api.buildHeaders() },
+    );
+  }
+
+  /** Resolves signed URL from API and saves using the original document file name. */
+  downloadCv(candidateId: number): Observable<CandidateCvDownloadUrlResponse> {
+    return this.getCvDownloadUrl(candidateId).pipe(
+      switchMap((res) =>
+        from(
+          fetch(res.downloadUrl).then(async (response) => {
+            if (!response.ok) {
+              throw new Error(`CV download failed (${response.status})`);
+            }
+            const blob = await response.blob();
+            downloadBlob(blob, res.fileName);
+            return res;
+          }),
+        ),
+      ),
     );
   }
 

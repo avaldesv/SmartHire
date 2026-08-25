@@ -10,6 +10,18 @@
   text-align: center;
 }
 
+.applications-table {
+  width: 100%;
+}
+
+.col-candidate-name {
+  min-width: 12rem;
+  max-width: 28ch;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .col-action-header {
   text-align: center;
   white-space: nowrap;
@@ -46,4 +58,8 @@
   &--done {
     background: color-mix(in srgb, var(--sh-primary, #0d9488) 12%, transparent);
   }
+}
+
+mat-paginator {
+  padding: 0 4px;
 }
