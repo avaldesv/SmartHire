@@ -187,6 +187,8 @@ export interface ConsolidadoFilterRequest {
   clientKey?: string | null;
   /** NONE | GROUP | CLIENT | RECRUITER */
   dimension?: string | null;
+  /** Optional consolidado row status: CREATED | CANCELLED | COVERED */
+  statusCode?: string | null;
 }
 
 export interface ConsolidadoKpisResponse {

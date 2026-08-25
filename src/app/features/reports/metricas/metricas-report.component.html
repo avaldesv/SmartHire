@@ -1,0 +1,156 @@
+<div class="metricas-report">
+  <sh-page-header [title]="pageTitle" subtitle="Métricas de posiciones, postulados y contratados">
+    <div class="header-filter-actions">
+      <button mat-flat-button color="primary" type="button" (click)="load()" [disabled]="loading">
+        <mat-icon>refresh</mat-icon>
+        Actualizar
+      </button>
+      <button mat-stroked-button type="button" (click)="clearFilters()" [disabled]="loading">
+        <mat-icon>filter_alt_off</mat-icon>
+        Limpiar filtros
+      </button>
+    </div>
+  </sh-page-header>
+
+  <form [formGroup]="filters" class="sh-filters sh-card metricas-filters">
+    <div class="primary-filters-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha inicial</mat-label>
+        <input matInput type="date" formControlName="startDate" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha final</mat-label>
+        <input matInput type="date" formControlName="endDate" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>País</mat-label>
+        <mat-select formControlName="countryId">
+          <mat-option [value]="null">Todos</mat-option>
+          @for (c of countries; track c.id) {
+            <mat-option [value]="c.id">{{ c.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Dimensión</mat-label>
+        <mat-select formControlName="dimension">
+          @for (opt of dimensionOptions; track opt.value) {
+            <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="primary-filters-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Reclutador</mat-label>
+        <mat-select formControlName="assignedUserId">
+          <mat-option [value]="null">Todos</mat-option>
+          @for (u of recruiterOptions; track u.id) {
+            <mat-option [value]="u.id">{{ u.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <sh-client-filter-field formControlName="clientKey" />
+
+      <mat-form-field appearance="outline">
+        <mat-label>Grupo</mat-label>
+        <mat-select formControlName="recruiterGroupId">
+          <mat-option [value]="null">
+            {{ filters.controls.recruiterGroupId.disabled ? 'Selecciona país' : 'Todos' }}
+          </mat-option>
+          @for (g of groupOptions; track g.id) {
+            <mat-option [value]="g.id">{{ g.description || g.code }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>U. Negocio</mat-label>
+        <mat-select formControlName="workplaceId">
+          <mat-option [value]="null">
+            {{ filters.controls.workplaceId.disabled ? 'Selecciona país' : 'Todos' }}
+          </mat-option>
+          @for (bu of businessUnitOptions; track bu.id) {
+            <mat-option [value]="bu.id">{{ bu.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+
+  @if (errorMessage) {
+    <p class="error-msg">{{ errorMessage }}</p>
+  }
+
+  @if (loading || loadingCatalogs) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else {
+    <section class="sh-card chart-card">
+      <div class="chart-area">
+        @if (rows.length === 0) {
+          <p class="chart-empty">Sin datos para graficar</p>
+        } @else {
+          <div class="bar-groups">
+            @for (row of rows; track row.key) {
+              <div class="bar-group">
+                <div class="bars">
+                  <div class="bar" [style.height]="barHeight(row.positions)" [style.background]="chartSeries[0].color"></div>
+                  <div class="bar" [style.height]="barHeight(row.applicants)" [style.background]="chartSeries[1].color"></div>
+                  <div class="bar" [style.height]="barHeight(row.hired)" [style.background]="chartSeries[2].color"></div>
+                </div>
+                <span class="bar-label">{{ row.label }}</span>
+              </div>
+            }
+          </div>
+        }
+      </div>
+      <div class="chart-legend">
+        @for (s of chartSeries; track s.key) {
+          <span class="legend-item">
+            <span class="legend-dot" [style.background]="s.color"></span>
+            {{ s.label }}
+          </span>
+        }
+      </div>
+    </section>
+
+    <div class="sh-card results-card">
+      <div class="table-scroll">
+        <table class="metricas-table">
+          <thead>
+            <tr>
+              <th class="col-label">{{ dimensionColumnLabel }}</th>
+              <th>Posiciones</th>
+              <th>Postulados</th>
+              <th>Contratados</th>
+              <th>Promedio días contratación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="total-row">
+              <td class="col-label">{{ totalRow.label }}</td>
+              <td>{{ formatCell(totalRow.positions) }}</td>
+              <td>{{ formatCell(totalRow.applicants) }}</td>
+              <td>{{ formatCell(totalRow.hired) }}</td>
+              <td>{{ formatCell(totalRow.avgHireDays) }}</td>
+            </tr>
+            @for (row of rows; track row.key) {
+              <tr>
+                <td class="col-label">{{ row.label }}</td>
+                <td>{{ formatCell(row.positions) }}</td>
+                <td>{{ formatCell(row.applicants) }}</td>
+                <td>{{ formatCell(row.hired) }}</td>
+                <td>{{ formatCell(row.avgHireDays) }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+</div>

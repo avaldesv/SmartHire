@@ -231,6 +231,27 @@ export const routes: Routes = [
               ),
           },
           {
+            path: 'resumen-segmentado',
+            loadComponent: () =>
+              import('./features/reports/resumen-segmentado/resumen-segmentado-report.component').then(
+                (m) => m.ResumenSegmentadoReportComponent,
+              ),
+          },
+          {
+            path: 'tops-incidencias',
+            loadComponent: () =>
+              import('./features/reports/tops-incidencias/tops-incidencias-report.component').then(
+                (m) => m.TopsIncidenciasReportComponent,
+              ),
+          },
+          {
+            path: 'metricas',
+            loadComponent: () =>
+              import('./features/reports/metricas/metricas-report.component').then(
+                (m) => m.MetricasReportComponent,
+              ),
+          },
+          {
             path: 'requisitions-in-process',
             loadComponent: () =>
               import('./features/reports/requisitions-in-process/requisitions-in-process-report.component').then(
