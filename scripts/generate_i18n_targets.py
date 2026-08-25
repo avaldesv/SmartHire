@@ -886,13 +886,19 @@ EN_BY_SOURCE: dict[str, str] = {
     "No se pudo guardar la configuración de calendario": "Could not save calendar settings",
     "Agendar entrevista": "Schedule interview",
     "Fecha y hora": "Date and time",
+    "Fecha y hora propuesta": "Proposed date and time",
     "Link de reunión": "Meeting link",
     "Agendar": "Schedule",
     "Entrevista agendada": "Interview scheduled",
+    "Propuesta de entrevista enviada al candidato": "Interview proposal sent to the candidate",
+    "Calculando horario disponible…": "Calculating available time slot…",
+    "No hay horarios disponibles para esta modalidad": "No available time slots for this modality",
     "No se pudo agendar la entrevista": "Could not schedule the interview",
     "Seleccione un solo candidato para agendar la entrevista": (
         "Select a single candidate to schedule the interview"
     ),
+    "Antelación mínima (horas)": "Minimum lead time (hours)",
+    "Expiración de propuesta (horas)": "Proposal expiration (hours)",
     "OpenStreetMap — arrastra el pin o haz clic para ubicar.": (
         "OpenStreetMap — drag the pin or click to set the location."
     ),

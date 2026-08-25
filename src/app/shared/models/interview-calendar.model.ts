@@ -10,6 +10,7 @@ export interface InterviewCalendarModalityConfig {
   workStartTime: string;
   workEndTime: string;
   availabilitySlots: InterviewAvailabilitySlot[];
+  minScheduleBufferHours?: number;
 }
 
 export interface InterviewCalendarConfig {
@@ -19,6 +20,7 @@ export interface InterviewCalendarConfig {
   reminder15Min: boolean;
   reminder1Hour: boolean;
   excludeNonWorkingDays: boolean;
+  confirmationExpirationHours?: number;
   externalCalendarUrl?: string | null;
   address?: string | null;
   instructions?: string | null;
@@ -43,6 +45,15 @@ export interface ScheduleInterviewResponse {
   calendarIcsUrl: string;
   calendarGoogleUrl: string;
   calendarOutlookUrl: string;
+  urlConfirm?: string | null;
+  expiresAt?: string | null;
+}
+
+export interface SuggestedInterviewSlot {
+  startAt: string;
+  endAt: string;
+  modality: string;
+  durationMinutes: number;
 }
 
 export function defaultInterviewCalendarModalityConfig(): InterviewCalendarModalityConfig {
@@ -52,5 +63,6 @@ export function defaultInterviewCalendarModalityConfig(): InterviewCalendarModal
     workStartTime: '08:00',
     workEndTime: '18:00',
     availabilitySlots: [],
+    minScheduleBufferHours: 12,
   };
 }

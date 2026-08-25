@@ -1,6 +1,6 @@
-<div class="cal-header" mat-dialog-title>
-  <span class="cal-header__title">{{ labels.title }}</span>
-  <button mat-icon-button type="button" class="cal-header__close" (click)="close()" [attr.aria-label]="labels.close">
+<div class="sh-catalog-dialog-header cal-dialog-header" mat-dialog-title>
+  <span class="sh-catalog-dialog-header__text">{{ labels.title }}</span>
+  <button mat-icon-button type="button" class="cal-dialog-header__close" (click)="close()" [attr.aria-label]="labels.close">
     <mat-icon>close</mat-icon>
   </button>
 </div>
@@ -28,6 +28,12 @@
                 <span class="cal-field__label">{{ labels.maxDays }}</span>
                 <mat-form-field appearance="outline" subscriptSizing="dynamic">
                   <input matInput type="number" formControlName="virtualMaxWorkingDays" />
+                </mat-form-field>
+              </div>
+              <div class="cal-field">
+                <span class="cal-field__label">{{ labels.buffer }}</span>
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                  <input matInput type="number" formControlName="virtualMinScheduleBufferHours" />
                 </mat-form-field>
               </div>
               <div class="cal-field cal-field--hours">
@@ -60,6 +66,12 @@
                   <mat-checkbox formControlName="reminder15Min">{{ labels.reminder15 }}</mat-checkbox>
                   <mat-checkbox formControlName="reminder1Hour">{{ labels.reminder1h }}</mat-checkbox>
                 </div>
+              </div>
+              <div class="cal-option">
+                <span class="cal-field__label">{{ labels.expiration }}</span>
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                  <input matInput type="number" formControlName="confirmationExpirationHours" />
+                </mat-form-field>
               </div>
               <div class="cal-option">
                 <span class="cal-field__label">{{ labels.exclude }}</span>
@@ -121,6 +133,12 @@
                 <span class="cal-field__label">{{ labels.maxDays }}</span>
                 <mat-form-field appearance="outline" subscriptSizing="dynamic">
                   <input matInput type="number" formControlName="presentialMaxWorkingDays" />
+                </mat-form-field>
+              </div>
+              <div class="cal-field">
+                <span class="cal-field__label">{{ labels.buffer }}</span>
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                  <input matInput type="number" formControlName="presentialMinScheduleBufferHours" />
                 </mat-form-field>
               </div>
               <div class="cal-field cal-field--hours">

@@ -5,6 +5,7 @@ import {
   InterviewCalendarConfig,
   ScheduleInterviewRequest,
   ScheduleInterviewResponse,
+  SuggestedInterviewSlot,
 } from '../../shared/models/interview-calendar.model';
 import { ApiClientService } from './api-client.service';
 
@@ -25,6 +26,19 @@ export class InterviewCalendarApiService {
       this.api.apiUrl('/api/v1/users/me/interview-calendar-config'),
       body,
       { headers: this.api.buildHeaders() },
+    );
+  }
+
+  suggestedSlot(
+    applicationId: number,
+    modality: 'VIRTUAL' | 'PRESENTIAL',
+  ): Observable<SuggestedInterviewSlot> {
+    return this.http.get<SuggestedInterviewSlot>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/interviews/suggested-slot`),
+      {
+        headers: this.api.buildHeaders(),
+        params: { modality },
+      },
     );
   }
 

@@ -38,6 +38,8 @@ export const INTERVIEW_CAL_MAP_HINT = $localize`:@@interviewCalendar.mapHint:Ope
 export const INTERVIEW_CAL_LOCATE_ADDRESS = $localize`:@@interviewCalendar.locateAddress:Ubicar en mapa`;
 export const INTERVIEW_CAL_ADDRESS_REQUIRED = $localize`:@@interviewCalendar.errors.addressRequired:Ingrese una dirección`;
 export const INTERVIEW_CAL_GEOCODE_ERROR = $localize`:@@interviewCalendar.errors.geocode:No se pudo ubicar la dirección en el mapa`;
+export const INTERVIEW_CAL_BUFFER = $localize`:@@interviewCalendar.field.buffer:Antelación mínima (horas)`;
+export const INTERVIEW_CAL_EXPIRATION = $localize`:@@interviewCalendar.field.expiration:Expiración de propuesta (horas)`;
 
 export function formatInterviewDurationMinutes(minutes: number): string {
   return $localize`:@@interviewCalendar.option.durationMinutes:${minutes} minutos`;
@@ -46,8 +48,11 @@ export function formatInterviewDurationMinutes(minutes: number): string {
 export const INTERVIEW_SCHEDULE_TITLE = $localize`:@@interviewSchedule.title:Agendar entrevista`;
 export const INTERVIEW_SCHEDULE_MODALITY = $localize`:@@interviewSchedule.field.modality:Modalidad`;
 export const INTERVIEW_SCHEDULE_START = $localize`:@@interviewSchedule.field.startAt:Fecha y hora`;
+export const INTERVIEW_SCHEDULE_PROPOSED = $localize`:@@interviewSchedule.field.proposed:Fecha y hora propuesta`;
 export const INTERVIEW_SCHEDULE_MEETING_LINK = $localize`:@@interviewSchedule.field.meetingLink:Link de reunión`;
-export const INTERVIEW_SCHEDULE_CONFIRM = $localize`:@@interviewSchedule.confirm:Agendar`;
-export const INTERVIEW_SCHEDULE_SUCCESS = $localize`:@@interviewSchedule.success:Entrevista agendada`;
+export const INTERVIEW_SCHEDULE_CONFIRM = $localize`:@@interviewSchedule.confirm:Confirmar`;
+export const INTERVIEW_SCHEDULE_SUCCESS = $localize`:@@interviewSchedule.success:Propuesta de entrevista enviada al candidato`;
+export const INTERVIEW_SCHEDULE_LOADING_SLOT = $localize`:@@interviewSchedule.loadingSlot:Calculando horario disponible…`;
+export const INTERVIEW_SCHEDULE_NO_SLOT = $localize`:@@interviewSchedule.noSlot:No hay horarios disponibles para esta modalidad`;
 export const INTERVIEW_SCHEDULE_ERROR = $localize`:@@interviewSchedule.errors.save:No se pudo agendar la entrevista`;
 export const INTERVIEW_SCHEDULE_SELECT_ONE = $localize`:@@interviewSchedule.selectOne:Seleccione un solo candidato para agendar la entrevista`;
