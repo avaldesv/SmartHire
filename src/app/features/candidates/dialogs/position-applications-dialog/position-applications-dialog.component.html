@@ -71,11 +71,13 @@
             <button
               mat-stroked-button
               type="button"
-              class="sh-col-action-btn sh-col-action-btn--pending"
+              class="sh-col-action-btn"
+              [class.sh-col-action-btn--done]="row.questionnaireStatus === 'ANSWERED'"
+              [class.sh-col-action-btn--pending]="row.questionnaireStatus !== 'ANSWERED'"
               [matTooltip]="labels.evaluationTooltip"
               [attr.aria-label]="labels.evaluationTooltip"
               (click)="openEvaluationPending(row)">
-              <mat-icon>edit</mat-icon>
+              <mat-icon>{{ row.questionnaireStatus === 'ANSWERED' ? 'fact_check' : 'edit' }}</mat-icon>
             </button>
           </td>
         </ng-container>

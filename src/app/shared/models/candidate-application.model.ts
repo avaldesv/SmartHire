@@ -20,6 +20,8 @@ export interface CandidateApplicationListItem {
   infoValidated?: boolean | null;
   studiesValidated?: boolean | null;
   documentsSaved?: boolean | null;
+  questionnaireStatus?: string | null;
+  questionnaireAutoScorePercent?: number | null;
 }
 
 export interface ListCandidateApplicationsRequest {
@@ -133,6 +135,35 @@ export interface ContactQuestionnaireResponse {
   urlConfirm: string;
   candidateEmail: string | null;
   message: string;
+}
+
+/** GET /api/v1/candidate-applications/{id}/questionnaire-evaluation */
+export interface QuestionnaireEvaluationResponse {
+  applicationId: number;
+  inviteId: number;
+  inviteStatus: string;
+  evaluationStatus: string | null;
+  attemptNo: number | null;
+  answeredAt: string | null;
+  autoScorePercent: number | null;
+  autoPointsEarned: number | null;
+  autoPointsMax: number | null;
+  openPendingCount: number | null;
+  candidate: { candidateId: number | null; name: string; email: string };
+  position: { positionId: number | null; positionName: string };
+  exam: { examId: number | null; name: string };
+  answers: Array<{
+    answerId: number;
+    questionId: number;
+    questionText: string;
+    questionType: string;
+    answerText: string;
+    sortOrder: number | null;
+    weightApplied: number | null;
+    pointsEarned: number | null;
+    correct: boolean | null;
+    evaluationStatus: string | null;
+  }>;
 }
 
 export interface UpdateCandidateApplicationRequest {
