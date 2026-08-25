@@ -19,6 +19,7 @@ const IMPLEMENTED_REPORTS: ReportNavItem[] = [
   { label: 'Tops incidencias', slug: 'tops-incidencias', category: 'cubrimiento' },
   { label: 'Métricas', slug: 'metricas', category: 'vacantes' },
   { label: 'Posiciones en proceso', slug: 'requisitions-in-process', category: 'vacantes' },
+  { label: 'Comportamiento', slug: 'comportamiento', category: 'vacantes' },
   { label: 'Requisiciones por fuente', slug: 'requisitions-by-source', category: 'vacantes' },
 ];
 

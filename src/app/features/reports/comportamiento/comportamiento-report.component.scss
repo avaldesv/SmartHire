@@ -1,0 +1,184 @@
+.header-filter-actions {
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  align-items: stretch;
+  gap: 8px;
+
+  > button {
+    width: 100%;
+    white-space: nowrap;
+  }
+}
+
+.comp-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: stretch;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.primary-filters-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+  align-items: start;
+}
+
+@media (max-width: 1200px) {
+  .primary-filters-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .primary-filters-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 48px;
+}
+
+.error-msg {
+  color: #b91c1c;
+  margin: 0 0 12px;
+  font-size: 14px;
+}
+
+.charts-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 1100px) {
+  .charts-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.chart-card {
+  padding: 16px;
+  min-height: 180px;
+}
+
+.chart-title,
+.section-title {
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.chart-empty {
+  margin: 24px 0 0;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.stages-hint {
+  margin-top: 16px;
+}
+
+.hbar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hbar-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hbar-label {
+  font-size: 12px;
+  color: #475569;
+}
+
+.hbar-track {
+  height: 14px;
+  background: #f1f5f9;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.hbar-fill {
+  height: 100%;
+  background: #2563eb;
+  border-radius: 4px;
+
+  &.hired {
+    background: #16a34a;
+  }
+
+  &.uncovered {
+    background: #ea580c;
+  }
+}
+
+.stages-axis {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: space-between;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 8px;
+}
+
+.stage-tick {
+  font-size: 10px;
+  color: #64748b;
+  text-align: center;
+  flex: 1 1 0;
+  min-width: 64px;
+}
+
+.results-card {
+  padding: 16px;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.comp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+
+  th,
+  td {
+    padding: 8px 10px;
+    text-align: right;
+    border-bottom: 1px solid #e2e8f0;
+    white-space: nowrap;
+  }
+
+  th {
+    color: #64748b;
+    font-weight: 600;
+    background: #f8fafc;
+  }
+
+  .col-label {
+    text-align: left;
+    min-width: 140px;
+  }
+
+  .empty-cell {
+    text-align: center;
+    color: #94a3b8;
+    padding: 40px 16px;
+  }
+}

@@ -1,0 +1,175 @@
+<div class="comp-report">
+  <sh-page-header title="Comportamiento del cubrimiento" subtitle="Fill rate, etapas y detalle por requisición">
+    <div class="header-filter-actions">
+      <button mat-flat-button color="primary" type="button" (click)="load()" [disabled]="loading">
+        <mat-icon>refresh</mat-icon>
+        Actualizar
+      </button>
+      <button mat-stroked-button type="button" (click)="clearFilters()" [disabled]="loading">
+        <mat-icon>filter_alt_off</mat-icon>
+        Limpiar filtros
+      </button>
+    </div>
+  </sh-page-header>
+
+  <form [formGroup]="filters" class="sh-filters sh-card comp-filters">
+    <div class="primary-filters-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha inicial</mat-label>
+        <input matInput type="date" formControlName="startDate" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha final</mat-label>
+        <input matInput type="date" formControlName="endDate" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>País</mat-label>
+        <mat-select formControlName="countryId">
+          <mat-option [value]="null">Todos</mat-option>
+          @for (c of countries; track c.id) {
+            <mat-option [value]="c.id">{{ c.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="status">
+          <mat-option [value]="null">Todos</mat-option>
+          @for (opt of statusOptions; track opt.value) {
+            <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="primary-filters-grid">
+      <sh-client-filter-field formControlName="clientKey" />
+
+      <mat-form-field appearance="outline">
+        <mat-label>Requisición</mat-label>
+        <mat-select formControlName="positionId">
+          <mat-option [value]="null">Todas</mat-option>
+          @for (p of positionOptions; track p.id) {
+            <mat-option [value]="p.id">{{ p.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>U. Negocio</mat-label>
+        <mat-select formControlName="workplaceId">
+          <mat-option [value]="null">
+            {{ filters.controls.workplaceId.disabled ? 'Selecciona país' : 'Todos' }}
+          </mat-option>
+          @for (bu of businessUnitOptions; track bu.id) {
+            <mat-option [value]="bu.id">{{ bu.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+
+  @if (errorMessage) {
+    <p class="error-msg">{{ errorMessage }}</p>
+  }
+
+  @if (loading || loadingCatalogs) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else {
+    <div class="charts-row">
+      <section class="sh-card chart-card">
+        <h3 class="chart-title">Fill rate</h3>
+        <div class="hbar-chart">
+          <div class="hbar-row">
+            <span class="hbar-label">Posiciones ({{ formatPercent(fillRate.positionsPct) }})</span>
+            <div class="hbar-track">
+              <div class="hbar-fill" [style.width]="barWidth(fillRate.positionsPct)"></div>
+            </div>
+          </div>
+          <div class="hbar-row">
+            <span class="hbar-label">Contratados ({{ formatPercent(fillRate.hiredPct) }})</span>
+            <div class="hbar-track">
+              <div class="hbar-fill hired" [style.width]="barWidth(fillRate.hiredPct)"></div>
+            </div>
+          </div>
+          <div class="hbar-row">
+            <span class="hbar-label">Sin cubrir ({{ formatPercent(fillRate.uncoveredPct) }})</span>
+            <div class="hbar-track">
+              <div class="hbar-fill uncovered" [style.width]="barWidth(fillRate.uncoveredPct)"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sh-card chart-card">
+        <h3 class="chart-title">Por tipo de requisición</h3>
+        <p class="chart-empty">No hay datos disponibles</p>
+      </section>
+
+      <section class="sh-card chart-card">
+        <h3 class="chart-title">Métricas de candidatos por etapa</h3>
+        <div class="stages-axis">
+          @for (label of stageLabels; track label) {
+            <span class="stage-tick">{{ label }}</span>
+          }
+        </div>
+        <p class="chart-empty stages-hint">Sin datos (métricas por definir)</p>
+      </section>
+    </div>
+
+    <div class="sh-card results-card">
+      <h3 class="section-title">Comportamiento de las requisiciones cubiertas</h3>
+      <div class="table-scroll">
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th class="col-label">Requisición</th>
+              <th>Fecha de creación</th>
+              <th>Fecha de compromiso</th>
+              <th>Fecha de cobertura</th>
+              <th>Tiempo (días) Creación-Cobertura</th>
+              <th>Tiempo (días) Cobertura-Compromiso</th>
+              <th>Número de posiciones</th>
+              <th>Cantidad de postulados</th>
+              <th>Cantidad de preseleccionados</th>
+              <th>Cantidad de seleccionados</th>
+              <th>Cantidad de evaluados</th>
+              <th>Cantidad de entrevistados</th>
+              <th>Cantidad de precontratados</th>
+              <th>Cantidad de contratados</th>
+            </tr>
+          </thead>
+          <tbody>
+            @if (rows.length === 0) {
+              <tr>
+                <td colspan="14" class="empty-cell">No hay información</td>
+              </tr>
+            } @else {
+              @for (row of rows; track row.requisitionLabel) {
+                <tr>
+                  <td class="col-label">{{ row.requisitionLabel }}</td>
+                  <td>{{ row.createDate || '—' }}</td>
+                  <td>{{ row.commitmentDate || '—' }}</td>
+                  <td>{{ row.coverageDate || '—' }}</td>
+                  <td>{{ formatCell(row.daysCreateToCoverage) }}</td>
+                  <td>{{ formatCell(row.daysCoverageToCommitment) }}</td>
+                  <td>{{ formatCell(row.positionsCount) }}</td>
+                  <td>{{ formatCell(row.applicants) }}</td>
+                  <td>{{ formatCell(row.preselected) }}</td>
+                  <td>{{ formatCell(row.selected) }}</td>
+                  <td>{{ formatCell(row.evaluated) }}</td>
+                  <td>{{ formatCell(row.interviewed) }}</td>
+                  <td>{{ formatCell(row.prehired) }}</td>
+                  <td>{{ formatCell(row.hired) }}</td>
+                </tr>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+</div>
