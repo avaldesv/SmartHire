@@ -162,6 +162,18 @@ export class StatusByRequisitionReportComponent implements OnInit {
     return formatReportPercent(value);
   }
 
+  get chartMax(): number {
+    const totals = this.rows.map((r) => r.requisitions ?? 0);
+    return Math.max(1, ...totals);
+  }
+
+  barWidth(value: number | null | undefined): string {
+    if (value == null) {
+      return '0%';
+    }
+    return `${Math.max(0, Math.min(100, (value / this.chartMax) * 100))}%`;
+  }
+
   private reloadForTenant(): void {
     this.loadIndependentCatalogs();
     this.load();
