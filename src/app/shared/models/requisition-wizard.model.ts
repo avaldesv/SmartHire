@@ -39,7 +39,8 @@ export interface WizardDocumentRequirementRow {
 }
 
 export interface WizardQuestionnaireValue {
-  questionnaireId: number | null;
-  evaluationType: string;
-  acceptancePercentage: number | null;
+  examId: number | null;
+  questionnaireId?: number | null;
+  evaluationType?: string | null;
+  acceptancePercentage?: number | null;
 }

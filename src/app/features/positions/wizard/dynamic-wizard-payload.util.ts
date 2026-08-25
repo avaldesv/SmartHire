@@ -52,9 +52,7 @@ export function defaultValueForUiType(uiType: string): unknown {
       return [] as WizardDocumentRequirementRow[] | number[];
     case 'questionnaire-picker':
       return {
-        questionnaireId: null,
-        evaluationType: 'PERCENTAGE',
-        acceptancePercentage: null,
+        examId: null,
       } as WizardQuestionnaireValue;
     default:
       return '';
@@ -78,9 +76,7 @@ export function createFieldControl(
   }
   if (field.uiType === 'questionnaire-picker') {
     return fb.nonNullable.group({
-      questionnaireId: [null as number | null],
-      evaluationType: ['PERCENTAGE'],
-      acceptancePercentage: [null as number | null],
+      examId: [null as number | null],
     });
   }
   if (field.uiType === 'document-grid' && field.fieldKey === 'documentTypeIds') {
@@ -142,7 +138,7 @@ function requiredCompositeValidator(field: ResolvedRequisitionFormField): Valida
     }
     if (field.uiType === 'questionnaire-picker' && control instanceof FormGroup) {
       const q = control.getRawValue() as WizardQuestionnaireValue;
-      return q.questionnaireId != null ? null : { required: true };
+      return q.examId != null ? null : { required: true };
     }
     if (field.uiType === 'document-grid') {
       if (field.fieldKey === 'documentTypeIds') {
@@ -318,11 +314,12 @@ function assignPayloadField(
     }
     case 'questionnaire-picker': {
       const q = raw as WizardQuestionnaireValue;
-      if (q.questionnaireId != null) {
+      if (q.examId != null) {
         payload['questionnaire'] = {
-          questionnaireId: q.questionnaireId,
-          evaluationType: q.evaluationType,
-          acceptancePercentage: q.acceptancePercentage,
+          examId: q.examId,
+          questionnaireId: null,
+          evaluationType: null,
+          acceptancePercentage: null,
         } satisfies PositionQuestionnaireItem;
       }
       break;
@@ -464,9 +461,7 @@ function resolveHydratedValue(
     case 'questionnaire-picker':
       if (position.questionnaire) {
         return {
-          questionnaireId: position.questionnaire.questionnaireId,
-          evaluationType: position.questionnaire.evaluationType,
-          acceptancePercentage: position.questionnaire.acceptancePercentage,
+          examId: position.questionnaire.examId ?? null,
         };
       }
       return defaultValueForUiType(field.uiType);

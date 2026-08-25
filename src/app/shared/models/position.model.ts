@@ -11,9 +11,10 @@ export interface PositionDocumentRequirementItem {
 }
 
 export interface PositionQuestionnaireItem {
-  questionnaireId: number;
-  evaluationType: string;
-  acceptancePercentage: number | null;
+  examId?: number | null;
+  questionnaireId?: number | null;
+  evaluationType?: string | null;
+  acceptancePercentage?: number | null;
 }
 
 export interface CreatePositionRequest {

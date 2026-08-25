@@ -28,11 +28,7 @@ import { RequisitionFormFieldRules } from '../../../../shared/models/requisition
 import { resolveWizardFieldLabel } from '../requisition-wizard-labels';
 import {
   REQUISITION_SCOPE_LOADING,
-  REQUISITION_WIZARD_ACCEPTANCE_PERCENT,
   REQUISITION_WIZARD_ADD_LANGUAGE,
-  REQUISITION_WIZARD_EVAL_PERCENTAGE,
-  REQUISITION_WIZARD_EVAL_SCORE,
-  REQUISITION_WIZARD_EVALUATION_TYPE,
   REQUISITION_WIZARD_LANGUAGE,
   REQUISITION_WIZARD_LANGUAGE_LEVEL,
   REQUISITION_WIZARD_LOADING_DOCUMENTS,
@@ -73,10 +69,6 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
   readonly addLanguageLabel = REQUISITION_WIZARD_ADD_LANGUAGE;
   readonly loadingDocumentsLabel = REQUISITION_WIZARD_LOADING_DOCUMENTS;
   readonly noDocumentsLabel = REQUISITION_WIZARD_NO_DOCUMENTS;
-  readonly evaluationTypeLabel = REQUISITION_WIZARD_EVALUATION_TYPE;
-  readonly evalPercentageLabel = REQUISITION_WIZARD_EVAL_PERCENTAGE;
-  readonly evalScoreLabel = REQUISITION_WIZARD_EVAL_SCORE;
-  readonly acceptancePercentLabel = REQUISITION_WIZARD_ACCEPTANCE_PERCENT;
   readonly loadingOptionsLabel = REQUISITION_SCOPE_LOADING;
 
   @Input({ required: true }) step!: ResolvedRequisitionFormStep;
@@ -125,7 +117,9 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
     const questionnaireField = this.step.fields.find((f) => f.uiType === 'questionnaire-picker');
     if (questionnaireField) {
       this.loadingByField[questionnaireField.fieldKey] = true;
-      this.catalogService.loadOptions('questionnaires', {}).subscribe({
+      const dataSourceKey =
+        questionnaireField.dataSourceKey === 'questionnaires' ? 'questionnaires' : 'exams';
+      this.catalogService.loadOptions(dataSourceKey, {}).subscribe({
         next: (opts) => {
           this.optionsByField[questionnaireField.fieldKey] = opts;
           this.loadingByField[questionnaireField.fieldKey] = false;
