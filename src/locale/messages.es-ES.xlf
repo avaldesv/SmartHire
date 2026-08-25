@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="es-MX" target-language="es" datatype="plaintext" original="ng2.template">
     <body>
@@ -4190,6 +4190,10 @@
         <source>Plantillas de publicación</source>
         <target>Plantillas de publicación</target>
       </trans-unit>
+      <trans-unit id="nav.settings.documentTemplates" datatype="html">
+        <source>Plantillas de Documentos</source>
+        <target>Plantillas de Documentos</target>
+      </trans-unit>
       <trans-unit id="nav.settings.cvs" datatype="html">
         <source>CVs</source>
         <target>CVs</target>
@@ -8316,6 +8320,202 @@
         <source>Editar usuario</source>
         <target>Editar usuario</target>
       </trans-unit>
-    </body>
+          <trans-unit id="documentTemplates.pageTitle" datatype="html">
+        <source>Plantillas de Documentos</source>
+        <target>Plantillas de Documentos</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.tab.variables" datatype="html">
+        <source>Variables</source>
+        <target>Variables</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.tab.templates" datatype="html">
+        <source>Plantillas</source>
+        <target>Plantillas</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.newButton" datatype="html">
+        <source>Nueva variable</source>
+        <target>Nueva variable</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.col.code" datatype="html">
+        <source>Código</source>
+        <target>Código</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.col.label" datatype="html">
+        <source>Etiqueta</source>
+        <target>Etiqueta</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.col.description" datatype="html">
+        <source>Descripción</source>
+        <target>Descripción</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.col.active" datatype="html">
+        <source>Activa</source>
+        <target>Activa</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.empty" datatype="html">
+        <source>No hay variables configuradas</source>
+        <target>No hay variables configuradas</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.dialog.new" datatype="html">
+        <source>Nueva variable</source>
+        <target>Nueva variable</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.dialog.edit" datatype="html">
+        <source>Editar variable</source>
+        <target>Editar variable</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.field.code" datatype="html">
+        <source>Código</source>
+        <target>Código</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.field.label" datatype="html">
+        <source>Etiqueta</source>
+        <target>Etiqueta</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.field.description" datatype="html">
+        <source>Descripción</source>
+        <target>Descripción</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.field.active" datatype="html">
+        <source>Activa</source>
+        <target>Activa</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.codeHint" datatype="html">
+        <source>Solo letras, números y guion bajo; debe empezar con letra. No se puede cambiar al editar.</source>
+        <target>Solo letras, números y guion bajo; debe empezar con letra. No se puede cambiar al editar.</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.errors.list" datatype="html">
+        <source>No se pudieron cargar las variables</source>
+        <target>No se pudieron cargar las variables</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.errors.save" datatype="html">
+        <source>No se pudo guardar la variable</source>
+        <target>No se pudo guardar la variable</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.success.saved" datatype="html">
+        <source>Variable guardada</source>
+        <target>Variable guardada</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.newButton" datatype="html">
+        <source>Nueva plantilla</source>
+        <target>Nueva plantilla</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.col.name" datatype="html">
+        <source>Nombre</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.col.fileName" datatype="html">
+        <source>Archivo</source>
+        <target>Archivo</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.col.active" datatype="html">
+        <source>Activa</source>
+        <target>Activa</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.col.variables" datatype="html">
+        <source>Variables usadas</source>
+        <target>Variables usadas</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.empty" datatype="html">
+        <source>No hay plantillas de documentos configuradas</source>
+        <target>No hay plantillas de documentos configuradas</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.dialog.new" datatype="html">
+        <source>Nueva plantilla de documento</source>
+        <target>Nueva plantilla de documento</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.dialog.edit" datatype="html">
+        <source>Editar plantilla de documento</source>
+        <target>Editar plantilla de documento</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.field.name" datatype="html">
+        <source>Nombre</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.field.file" datatype="html">
+        <source>Archivo .docx</source>
+        <target>Archivo .docx</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.field.active" datatype="html">
+        <source>Activa</source>
+        <target>Activa</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.fileHint" datatype="html">
+        <source>Solo archivos .docx. Al seleccionar se validan las variables.</source>
+        <target>Solo archivos .docx. Al seleccionar se validan las variables.</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.fileCurrent" datatype="html">
+        <source>Archivo actual</source>
+        <target>Archivo actual</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.validVars" datatype="html">
+        <source>Variables válidas</source>
+        <target>Variables válidas</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.invalidVars" datatype="html">
+        <source>Variables no reconocidas</source>
+        <target>Variables no reconocidas</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.validating" datatype="html">
+        <source>Validando archivo...</source>
+        <target>Validando archivo...</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.download" datatype="html">
+        <source>Descargar</source>
+        <target>Descargar</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.errors.list" datatype="html">
+        <source>No se pudieron cargar las plantillas</source>
+        <target>No se pudieron cargar las plantillas</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.errors.save" datatype="html">
+        <source>No se pudo guardar la plantilla</source>
+        <target>No se pudo guardar la plantilla</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.errors.load" datatype="html">
+        <source>No se pudo cargar la plantilla</source>
+        <target>No se pudo cargar la plantilla</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.errors.validate" datatype="html">
+        <source>No se pudo validar el archivo</source>
+        <target>No se pudo validar el archivo</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.errors.download" datatype="html">
+        <source>No se pudo obtener el enlace de descarga</source>
+        <target>No se pudo obtener el enlace de descarga</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.errors.delete" datatype="html">
+        <source>No se pudo eliminar la plantilla</source>
+        <target>No se pudo eliminar la plantilla</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.errors.fileType" datatype="html">
+        <source>Solo se permiten archivos .docx</source>
+        <target>Solo se permiten archivos .docx</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.success.saved" datatype="html">
+        <source>Plantilla guardada</source>
+        <target>Plantilla guardada</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.success.deleted" datatype="html">
+        <source>Plantilla eliminada</source>
+        <target>Plantilla eliminada</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.cancel" datatype="html">
+        <source>Cancelar</source>
+        <target>Cancelar</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.save" datatype="html">
+        <source>Guardar</source>
+        <target>Guardar</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.saving" datatype="html">
+        <source>Guardando...</source>
+        <target>Guardando...</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.deleteConfirm" datatype="html">
+        <source>¿Eliminar la plantilla "<x id="name" equiv-text="name"/>"? Esta acción no se puede deshacer.</source>
+        <target>¿Eliminar la plantilla "<x id="name" equiv-text="name"/>"? Esta acción no se puede deshacer.</target>
+      </trans-unit>
+</body>
   </file>
 </xliff>
