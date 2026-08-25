@@ -543,6 +543,14 @@ export class PositionWizardComponent implements OnInit {
     if (!this.dynamicStepper || index < 0 || index >= this.dynamicStepper.steps.length) {
       return;
     }
+    // Linear steppers refuse selectedIndex jumps unless prior steps are completed.
+    // Custom tab headers update the caption immediately; without this, content stays on step 0/1.
+    if (this.dynamicStepper.linear) {
+      const steps = this.dynamicStepper.steps.toArray();
+      for (let i = 0; i < index; i++) {
+        steps[i].completed = true;
+      }
+    }
     this.dynamicStepper.selectedIndex = index;
     this.dynamicSelectedIndex = index;
   }
