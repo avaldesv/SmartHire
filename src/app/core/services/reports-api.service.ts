@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import {
   ConsolidadoFilterRequest,
   ConsolidadoResponse,
+  MetricasFilterRequest,
+  MetricasResponse,
   ProcessFunnelFilterRequest,
   ProcessFunnelResponse,
   RecruiterPerformanceFilterRequest,
@@ -91,6 +93,14 @@ export class ReportsApiService {
   ): Observable<RecruiterPerformanceResponse> {
     return this.http.post<RecruiterPerformanceResponse>(
       this.api.apiUrl('/api/v1/reports/recruiter-performance'),
+      request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  getMetricas(request: MetricasFilterRequest): Observable<MetricasResponse> {
+    return this.http.post<MetricasResponse>(
+      this.api.apiUrl('/api/v1/reports/metricas'),
       request,
       { headers: this.api.buildHeaders() },
     );
