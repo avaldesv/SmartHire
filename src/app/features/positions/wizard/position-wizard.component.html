@@ -57,7 +57,7 @@
       </div>
     </nav>
     <mat-stepper
-      linear
+      [linear]="!isEditMode"
       #dynamicStepper
       class="wizard-stepper wizard-stepper--compact"
       (selectionChange)="onDynamicStepSelectionChange($event)"
