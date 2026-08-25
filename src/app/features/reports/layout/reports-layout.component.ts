@@ -10,6 +10,7 @@ interface ReportNavItem {
 /** Only reports with a real screen (placeholders hidden). */
 const IMPLEMENTED_REPORTS: ReportNavItem[] = [
   { label: 'MMR', slug: 'mmr', category: 'generales' },
+  { label: 'Desempeño', slug: 'recruiter-performance', category: 'generales' },
   { label: 'Requisiciones por mes', slug: 'requisitions-by-month', category: 'generales' },
   { label: 'Estatus por requisición', slug: 'status-by-requisition', category: 'generales' },
   { label: 'Funnel del proceso', slug: 'process-funnel', category: 'generales' },

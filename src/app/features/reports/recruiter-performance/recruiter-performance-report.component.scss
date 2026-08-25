@@ -1,0 +1,80 @@
+.perf-report {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.header-filter-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.perf-filters .primary-filters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (max-width: 1100px) {
+  .kpi-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 32px;
+}
+
+.error-msg {
+  color: #b91c1c;
+  margin: 0;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.perf-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.perf-table th,
+.perf-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.perf-table th {
+  background: #f8fafc;
+  font-weight: 600;
+  color: #334155;
+}
+
+.perf-table .total-row td {
+  font-weight: 700;
+  background: #f1f5f9;
+}
+
+.perf-table .rate-zero {
+  background: #fecaca;
+}
+
+.empty-cell {
+  text-align: center;
+  color: #64748b;
+  padding: 24px !important;
+}

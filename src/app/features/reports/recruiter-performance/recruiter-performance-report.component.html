@@ -1,0 +1,176 @@
+<div class="perf-report">
+  <sh-page-header [title]="labels.title" [subtitle]="labels.subtitle">
+    <div class="header-filter-actions">
+      <button mat-flat-button color="primary" type="button" (click)="load()" [disabled]="loading">
+        <mat-icon>refresh</mat-icon>
+        {{ labels.update }}
+      </button>
+      <button mat-stroked-button type="button" (click)="clearFilters()" [disabled]="loading">
+        <mat-icon>filter_alt_off</mat-icon>
+        {{ labels.clear }}
+      </button>
+    </div>
+  </sh-page-header>
+
+  <form [formGroup]="filters" class="sh-filters sh-card perf-filters">
+    <div class="primary-filters-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ labels.filterCountry }}</mat-label>
+        <mat-select formControlName="countryId">
+          <mat-option [value]="null">{{ labels.all }}</mat-option>
+          @for (c of countries; track c.id) {
+            <mat-option [value]="c.id">{{ c.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ labels.filterRecruitment }}</mat-label>
+        <mat-select formControlName="recruitmentType">
+          <mat-option [value]="null">{{ labels.all }}</mat-option>
+          @for (opt of recruitmentTypeOptions; track opt.value) {
+            <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ labels.filterBu }}</mat-label>
+        <mat-select formControlName="workplaceId">
+          <mat-option [value]="null">
+            {{ filters.controls.workplaceId.disabled ? labels.selectCountry : labels.all }}
+          </mat-option>
+          @for (bu of businessUnitOptions; track bu.id) {
+            <mat-option [value]="bu.id">{{ bu.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ labels.filterGroup }}</mat-label>
+        <mat-select formControlName="recruiterGroupId">
+          <mat-option [value]="null">
+            {{ filters.controls.recruiterGroupId.disabled ? labels.selectCountry : labels.all }}
+          </mat-option>
+          @for (g of groupOptions; track g.id) {
+            <mat-option [value]="g.id">{{ g.description || g.code }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="primary-filters-grid">
+      <sh-year-stepper-field formControlName="year" [label]="labels.filterYear" />
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ labels.filterMonth }}</mat-label>
+        <mat-select formControlName="month">
+          @for (m of monthOptions; track m.value) {
+            <mat-option [value]="m.value">{{ m.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ labels.filterOrder }}</mat-label>
+        <mat-select formControlName="positionId">
+          <mat-option [value]="null">{{ labels.allFem }}</mat-option>
+          @for (p of positionOptions; track p.id) {
+            <mat-option [value]="p.id">{{ p.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <sh-client-filter-field formControlName="clientKey" />
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ labels.filterRecruiter }}</mat-label>
+        <mat-select formControlName="assignedUserId">
+          <mat-option [value]="null">{{ labels.all }}</mat-option>
+          @for (u of recruiterOptions; track u.id) {
+            <mat-option [value]="u.id">{{ u.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+
+  @if (errorMessage) {
+    <p class="error-msg">{{ errorMessage }}</p>
+  }
+
+  <div class="kpi-row">
+    <sh-kpi-card [label]="labels.kpiTitle" value="Fill Rate" icon="insights" iconBg="#2563eb" />
+    <sh-kpi-card
+      [label]="labels.kpiCurrent"
+      [value]="formatKpi(kpis.currentMonth)"
+      icon="trending_up"
+      iconBg="#0ea5e9"
+    />
+    <sh-kpi-card
+      [label]="labels.kpiPrior"
+      [value]="formatKpi(kpis.priorMonth)"
+      icon="history"
+      iconBg="#64748b"
+    />
+    <sh-kpi-card
+      [label]="labels.kpiYtd"
+      [value]="formatKpi(kpis.ytd)"
+      icon="calendar_month"
+      iconBg="#16a34a"
+    />
+  </div>
+
+  @if (loading || loadingCatalogs) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else {
+    <div class="sh-card sh-table-wrap results-card">
+      <div class="table-scroll">
+        <table class="perf-table">
+          <thead>
+            <tr>
+              <th>{{ labels.colRecruiter }}</th>
+              <th>{{ labels.colOpening }}</th>
+              <th>{{ labels.colTemp }}</th>
+              <th>{{ labels.colCancel }}</th>
+              <th>{{ labels.colStarts }}</th>
+              <th>{{ labels.colMonthEnd }}</th>
+              <th>{{ labels.colFill }}</th>
+              <th>{{ labels.colCancelRate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of rows; track row.recruiterUserId ?? row.recruiterName) {
+              <tr>
+                <td>{{ row.recruiterName }}</td>
+                <td>{{ formatCell(row.openingOrders) }}</td>
+                <td>{{ formatCell(row.tempJobOrders) }}</td>
+                <td>{{ formatCell(row.ordersCancellations) }}</td>
+                <td>{{ formatCell(row.associateStarts) }}</td>
+                <td>{{ formatCell(row.ordersMonthEnd) }}</td>
+                <td [class]="fillClass(row.orderFillRate)">{{ formatPercent(row.orderFillRate) }}</td>
+                <td>{{ formatPercent(row.orderCancellationRate) }}</td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="8" class="empty-cell">{{ labels.empty }}</td>
+              </tr>
+            }
+            @if (total) {
+              <tr class="total-row">
+                <td>{{ labels.total }}</td>
+                <td>{{ formatCell(total.openingOrders) }}</td>
+                <td>{{ formatCell(total.tempJobOrders) }}</td>
+                <td>{{ formatCell(total.ordersCancellations) }}</td>
+                <td>{{ formatCell(total.associateStarts) }}</td>
+                <td>{{ formatCell(total.ordersMonthEnd) }}</td>
+                <td [class]="fillClass(total.orderFillRate)">{{ formatPercent(total.orderFillRate) }}</td>
+                <td>{{ formatPercent(total.orderCancellationRate) }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+</div>

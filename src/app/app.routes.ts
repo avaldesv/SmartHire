@@ -196,6 +196,13 @@ export const routes: Routes = [
             loadComponent: () => import('./features/reports/mmr/mmr-report.component').then((m) => m.MmrReportComponent),
           },
           {
+            path: 'recruiter-performance',
+            loadComponent: () =>
+              import('./features/reports/recruiter-performance/recruiter-performance-report.component').then(
+                (m) => m.RecruiterPerformanceReportComponent,
+              ),
+          },
+          {
             path: 'requisitions-by-month',
             loadComponent: () =>
               import('./features/reports/requisitions-by-month/requisitions-by-month-report.component').then(

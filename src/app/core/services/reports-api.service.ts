@@ -6,6 +6,8 @@ import {
   ConsolidadoResponse,
   ProcessFunnelFilterRequest,
   ProcessFunnelResponse,
+  RecruiterPerformanceFilterRequest,
+  RecruiterPerformanceResponse,
   ReportFilterRequest,
   ReportMatrixResponse,
   RequisitionsBySourceFilterRequest,
@@ -79,6 +81,16 @@ export class ReportsApiService {
   getConsolidado(request: ConsolidadoFilterRequest): Observable<ConsolidadoResponse> {
     return this.http.post<ConsolidadoResponse>(
       this.api.apiUrl('/api/v1/reports/consolidado'),
+      request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  getRecruiterPerformance(
+    request: RecruiterPerformanceFilterRequest,
+  ): Observable<RecruiterPerformanceResponse> {
+    return this.http.post<RecruiterPerformanceResponse>(
+      this.api.apiUrl('/api/v1/reports/recruiter-performance'),
       request,
       { headers: this.api.buildHeaders() },
     );
