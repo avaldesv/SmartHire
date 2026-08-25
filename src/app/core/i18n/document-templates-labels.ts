@@ -50,6 +50,15 @@ export const DOCTEMPLATES_CANCEL = $localize`:@@documentTemplates.cancel:Cancela
 export const DOCTEMPLATES_SAVE = $localize`:@@documentTemplates.save:Guardar`;
 export const DOCTEMPLATES_SAVING = $localize`:@@documentTemplates.saving:Guardando...`;
 
+export const DOCTEMPLATES_GENERATE_TITLE = $localize`:@@documentTemplates.generate.title:Generar formato`;
+export const DOCTEMPLATES_GENERATE_SELECT = $localize`:@@documentTemplates.generate.select:Plantilla`;
+export const DOCTEMPLATES_GENERATE_CONFIRM = $localize`:@@documentTemplates.generate.confirm:Generar y descargar`;
+export const DOCTEMPLATES_GENERATE_GENERATING = $localize`:@@documentTemplates.generate.generating:Generando...`;
+export const DOCTEMPLATES_GENERATE_EMPTY = $localize`:@@documentTemplates.generate.empty:No hay plantillas activas disponibles`;
+export const DOCTEMPLATES_GENERATE_SUCCESS = $localize`:@@documentTemplates.generate.success:Documento generado`;
+export const DOCTEMPLATES_GENERATE_ERRORS_LIST = $localize`:@@documentTemplates.generate.errors.list:No se pudieron cargar las plantillas`;
+export const DOCTEMPLATES_GENERATE_ERRORS_GENERATE = $localize`:@@documentTemplates.generate.errors.generate:No se pudo generar el documento`;
+
 export function documentTemplatesDeleteConfirm(name: string): string {
   return $localize`:@@documentTemplates.templates.deleteConfirm:¿Eliminar la plantilla "${name}:name:"? Esta acción no se puede deshacer.`;
 }

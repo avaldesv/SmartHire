@@ -49,6 +49,10 @@ import {
   ApplicationAuditLogDialogData,
 } from '../dialogs/application-audit-log-dialog/application-audit-log-dialog.component';
 import {
+  GenerateDocumentDialogComponent,
+  GenerateDocumentDialogData,
+} from '../dialogs/generate-document-dialog/generate-document-dialog.component';
+import {
   PreselectionCompatibilityDialogComponent,
   PreselectionCompatibilityDialogData,
 } from '../dialogs/preselection-compatibility-dialog/preselection-compatibility-dialog.component';
@@ -447,6 +451,10 @@ export class PreselectionComponent implements OnInit {
       this.generateCandidateContract(row);
       return;
     }
+    if (actionId === 'generateDocument') {
+      this.openGenerateDocumentDialog(row);
+      return;
+    }
     if (actionId === 'notifyQuestionnaire') {
       this.notifyCandidateQuestionnaire(row);
       return;
@@ -594,6 +602,20 @@ export class PreselectionComponent implements OnInit {
         this.feedback.showApiError(err, { fallbackMessage: 'No se pudo generar el contrato' });
       },
     });
+  }
+
+  private openGenerateDocumentDialog(row: PreselectionCandidate): void {
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    this.dialog.open<GenerateDocumentDialogComponent, GenerateDocumentDialogData, boolean>(
+      GenerateDocumentDialogComponent,
+      {
+        ...catalogDialogConfig('480px'),
+        data: {
+          applicationId: row.applicationId,
+          candidateName: name,
+        },
+      },
+    );
   }
 
   private notifyCandidateQuestionnaire(row: PreselectionCandidate): void {
