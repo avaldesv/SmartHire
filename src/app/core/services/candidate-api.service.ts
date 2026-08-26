@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, from, map, switchMap } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 import {
   CandidateDetail,
   CandidateCvDownloadUrlResponse,
@@ -11,7 +11,6 @@ import {
   UpdateCandidateRequest,
   UpdateCandidateResponse,
 } from '../../shared/models/candidate.model';
-import { downloadBlob } from './catalog-import-export.service';
 import { ApiClientService } from './api-client.service';
 
 @Injectable({ providedIn: 'root' })
@@ -62,21 +61,18 @@ export class CandidateApiService {
     );
   }
 
-  /** Resolves signed URL from API and saves using the original document file name. */
+  /**
+   * Opens the S3 signed URL in a new tab (no CORS fetch). The API embeds
+   * Content-Disposition so the browser saves with the original file name.
+   */
   downloadCv(candidateId: number): Observable<CandidateCvDownloadUrlResponse> {
     return this.getCvDownloadUrl(candidateId).pipe(
-      switchMap((res) =>
-        from(
-          fetch(res.downloadUrl).then(async (response) => {
-            if (!response.ok) {
-              throw new Error(`CV download failed (${response.status})`);
-            }
-            const blob = await response.blob();
-            downloadBlob(blob, res.fileName);
-            return res;
-          }),
-        ),
-      ),
+      tap((res) => {
+        if (!res.downloadUrl) {
+          throw new Error('CV download URL missing');
+        }
+        window.open(res.downloadUrl, '_blank', 'noopener,noreferrer');
+      }),
     );
   }
 
