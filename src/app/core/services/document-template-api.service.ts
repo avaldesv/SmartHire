@@ -113,6 +113,14 @@ export class DocumentTemplateApiService {
     );
   }
 
+  /** Same-origin proxy of the S3 object for in-app preview (avoids CORS on signed URLs). */
+  fetchFileContent(id: number): Observable<ArrayBuffer> {
+    return this.http.get(this.api.apiUrl(`/api/v1/document-templates/${id}/file`), {
+      headers: this.api.buildHeaders(),
+      responseType: 'arraybuffer',
+    });
+  }
+
   delete(id: number): Observable<void> {
     return this.http.delete<void>(this.api.apiUrl(`/api/v1/document-templates/${id}`), {
       headers: this.api.buildHeaders(),

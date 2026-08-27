@@ -1,18 +1,22 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
-import { filter } from 'rxjs';
+import { debounceTime, filter } from 'rxjs';
 import { AppPermissions } from '../../../core/auth/app-permissions';
 import {
   catalogDialogConfig,
   catalogTallDialogConfig,
 } from '../../../core/dialog/catalog-dialog.constants';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { COMMON_CLEAR_FILTERS } from '../../../core/i18n/common-labels';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import {
   DOCTEMPLATES_PAGE_TITLE,
@@ -28,6 +32,7 @@ import {
   DOCTEMPLATES_TPL_ERRORS_DOWNLOAD,
   DOCTEMPLATES_TPL_ERRORS_LIST,
   DOCTEMPLATES_TPL_NEW_BUTTON,
+  DOCTEMPLATES_TPL_SEARCH,
   DOCTEMPLATES_TPL_SUCCESS_DELETED,
   DOCTEMPLATES_TPL_SUCCESS_SAVED,
   DOCTEMPLATES_VAR_COL_ACTIVE,
@@ -41,6 +46,7 @@ import {
   DOCTEMPLATES_VAR_IN_USE_NO,
   DOCTEMPLATES_VAR_IN_USE_YES,
   DOCTEMPLATES_VAR_NEW_BUTTON,
+  DOCTEMPLATES_VAR_SEARCH,
   DOCTEMPLATES_VAR_SUCCESS_DELETED,
   DOCTEMPLATES_VAR_SUCCESS_SAVED,
   documentTemplateVariableDeleteConfirm,
@@ -68,6 +74,7 @@ import {
   selector: 'sh-document-templates-admin',
   standalone: true,
   imports: [
+    ReactiveFormsModule,
     MatTabsModule,
     MatTableModule,
     ShPaginatorComponent,
@@ -75,6 +82,8 @@ import {
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
     TableRowActionsComponent,
   ],
   templateUrl: './document-templates-admin.component.html',
@@ -86,12 +95,15 @@ export class DocumentTemplatesAdminComponent implements OnInit {
   private readonly permissions = inject(PermissionService);
   private readonly feedback = inject(FeedbackDialogService);
   private readonly dialog = inject(MatDialog);
+  private readonly fb = inject(FormBuilder);
 
   readonly pageTitle = DOCTEMPLATES_PAGE_TITLE;
   readonly tabVariables = DOCTEMPLATES_TAB_VARIABLES;
   readonly tabTemplates = DOCTEMPLATES_TAB_TEMPLATES;
+  readonly clearFiltersLabel = COMMON_CLEAR_FILTERS;
 
   readonly varNewButton = DOCTEMPLATES_VAR_NEW_BUTTON;
+  readonly varSearchLabel = DOCTEMPLATES_VAR_SEARCH;
   readonly varColCode = DOCTEMPLATES_VAR_COL_CODE;
   readonly varColLabel = DOCTEMPLATES_VAR_COL_LABEL;
   readonly varColDescription = DOCTEMPLATES_VAR_COL_DESCRIPTION;
@@ -102,6 +114,7 @@ export class DocumentTemplatesAdminComponent implements OnInit {
   readonly varInUseNo = DOCTEMPLATES_VAR_IN_USE_NO;
 
   readonly tplNewButton = DOCTEMPLATES_TPL_NEW_BUTTON;
+  readonly tplSearchLabel = DOCTEMPLATES_TPL_SEARCH;
   readonly tplColName = DOCTEMPLATES_TPL_COL_NAME;
   readonly tplColFileName = DOCTEMPLATES_TPL_COL_FILENAME;
   readonly tplColActive = DOCTEMPLATES_TPL_COL_ACTIVE;
@@ -109,16 +122,19 @@ export class DocumentTemplatesAdminComponent implements OnInit {
   readonly tplEmpty = DOCTEMPLATES_TPL_EMPTY;
   readonly tplDownload = DOCTEMPLATES_TPL_DOWNLOAD;
 
+  activeTabIndex = 0;
   variablesLoading = true;
   templatesLoading = true;
   deletingId: number | null = null;
   downloadingId: number | null = null;
 
+  private allVariables: DocumentTemplateVariableItem[] = [];
   variables: DocumentTemplateVariableItem[] = [];
   variablesTotal = 0;
   variablesPageIndex = 0;
   variablesPageSize = 10;
 
+  private allTemplates: DocumentTemplateItem[] = [];
   templates: DocumentTemplateItem[] = [];
   templatesTotal = 0;
   templatesPageIndex = 0;
@@ -127,11 +143,22 @@ export class DocumentTemplatesAdminComponent implements OnInit {
   readonly variableColumns = ['code', 'label', 'description', 'inUse', 'isActive', 'actions'];
   readonly templateColumns = ['name', 'usedVariableCodes', 'fileName', 'isActive', 'actions'];
 
+  readonly templatesSearchForm = this.fb.nonNullable.group({ search: [''] });
+  readonly variablesSearchForm = this.fb.nonNullable.group({ search: [''] });
+
   private variablesLoaded = false;
   private templatesLoaded = false;
 
   ngOnInit(): void {
     this.loadTemplates();
+    this.templatesSearchForm.controls.search.valueChanges.pipe(debounceTime(300)).subscribe(() => {
+      this.templatesPageIndex = 0;
+      this.applyTemplatesFilter();
+    });
+    this.variablesSearchForm.controls.search.valueChanges.pipe(debounceTime(300)).subscribe(() => {
+      this.variablesPageIndex = 0;
+      this.applyVariablesFilter();
+    });
   }
 
   canCreate(): boolean {
@@ -147,6 +174,7 @@ export class DocumentTemplatesAdminComponent implements OnInit {
   }
 
   onTabChange(index: number): void {
+    this.activeTabIndex = index;
     if (index === 0 && !this.templatesLoaded) {
       this.loadTemplates();
     }
@@ -157,10 +185,10 @@ export class DocumentTemplatesAdminComponent implements OnInit {
 
   loadVariables(): void {
     this.variablesLoading = true;
-    this.variableApi.list(this.variablesPageIndex, this.variablesPageSize).subscribe({
-      next: ({ items, total }) => {
-        this.variables = items;
-        this.variablesTotal = total;
+    this.variableApi.list(0, 500).subscribe({
+      next: ({ items }) => {
+        this.allVariables = items;
+        this.applyVariablesFilter();
         this.variablesLoading = false;
         this.variablesLoaded = true;
       },
@@ -173,10 +201,10 @@ export class DocumentTemplatesAdminComponent implements OnInit {
 
   loadTemplates(): void {
     this.templatesLoading = true;
-    this.templateApi.list(this.templatesPageIndex, this.templatesPageSize).subscribe({
-      next: ({ items, total }) => {
-        this.templates = items;
-        this.templatesTotal = total;
+    this.templateApi.list(0, 500).subscribe({
+      next: ({ items }) => {
+        this.allTemplates = items;
+        this.applyTemplatesFilter();
         this.templatesLoading = false;
         this.templatesLoaded = true;
       },
@@ -187,16 +215,58 @@ export class DocumentTemplatesAdminComponent implements OnInit {
     });
   }
 
+  private applyVariablesFilter(): void {
+    const q = this.variablesSearchForm.controls.search.value.trim().toLowerCase();
+    const filtered = !q
+      ? this.allVariables
+      : this.allVariables.filter(
+          (row) =>
+            row.code?.toLowerCase().includes(q) ||
+            row.label?.toLowerCase().includes(q) ||
+            (row.description ?? '').toLowerCase().includes(q),
+        );
+    this.variablesTotal = filtered.length;
+    const start = this.variablesPageIndex * this.variablesPageSize;
+    this.variables = filtered.slice(start, start + this.variablesPageSize);
+  }
+
+  private applyTemplatesFilter(): void {
+    const q = this.templatesSearchForm.controls.search.value.trim().toLowerCase();
+    const filtered = !q
+      ? this.allTemplates
+      : this.allTemplates.filter(
+          (row) =>
+            row.name?.toLowerCase().includes(q) ||
+            (row.fileName ?? '').toLowerCase().includes(q) ||
+            (row.usedVariableCodes ?? []).some((code) => code.toLowerCase().includes(q)),
+        );
+    this.templatesTotal = filtered.length;
+    const start = this.templatesPageIndex * this.templatesPageSize;
+    this.templates = filtered.slice(start, start + this.templatesPageSize);
+  }
+
   onVariablesPage(event: PageEvent): void {
     this.variablesPageIndex = event.pageIndex;
     this.variablesPageSize = event.pageSize;
-    this.loadVariables();
+    this.applyVariablesFilter();
   }
 
   onTemplatesPage(event: PageEvent): void {
     this.templatesPageIndex = event.pageIndex;
     this.templatesPageSize = event.pageSize;
-    this.loadTemplates();
+    this.applyTemplatesFilter();
+  }
+
+  clearTemplatesFilters(): void {
+    this.templatesSearchForm.controls.search.setValue('');
+    this.templatesPageIndex = 0;
+    this.applyTemplatesFilter();
+  }
+
+  clearVariablesFilters(): void {
+    this.variablesSearchForm.controls.search.setValue('');
+    this.variablesPageIndex = 0;
+    this.applyVariablesFilter();
   }
 
   openCreateVariable(): void {

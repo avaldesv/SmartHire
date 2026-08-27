@@ -1,14 +1,26 @@
-<h3>{{ pageTitle }}</h3>
+<h3 class="page-title">{{ pageTitle }}</h3>
 
 <mat-tab-group (selectedIndexChange)="onTabChange($event)">
   <mat-tab [label]="tabTemplates">
-    @if (canCreate()) {
-      <div class="toolbar">
+    <div class="tab-toolbar">
+      @if (canCreate()) {
         <button mat-flat-button color="primary" type="button" (click)="openCreateTemplate()">
           <mat-icon>add</mat-icon> {{ tplNewButton }}
         </button>
+      }
+    </div>
+
+    <form [formGroup]="templatesSearchForm" class="sh-filters sh-card">
+      <div class="filter-fields">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>{{ tplSearchLabel }}</mat-label>
+          <input matInput formControlName="search" />
+        </mat-form-field>
       </div>
-    }
+      <div class="filter-actions">
+        <button mat-stroked-button type="button" (click)="clearTemplatesFilters()">{{ clearFiltersLabel }}</button>
+      </div>
+    </form>
 
     @if (templatesLoading) {
       <div class="loading-wrap"><mat-spinner diameter="36" /></div>
@@ -89,13 +101,25 @@
   </mat-tab>
 
   <mat-tab [label]="tabVariables">
-    @if (canCreate()) {
-      <div class="toolbar">
+    <div class="tab-toolbar">
+      @if (canCreate()) {
         <button mat-flat-button color="primary" type="button" (click)="openCreateVariable()">
           <mat-icon>add</mat-icon> {{ varNewButton }}
         </button>
+      }
+    </div>
+
+    <form [formGroup]="variablesSearchForm" class="sh-filters sh-card">
+      <div class="filter-fields">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>{{ varSearchLabel }}</mat-label>
+          <input matInput formControlName="search" />
+        </mat-form-field>
       </div>
-    }
+      <div class="filter-actions">
+        <button mat-stroked-button type="button" (click)="clearVariablesFilters()">{{ clearFiltersLabel }}</button>
+      </div>
+    </form>
 
     @if (variablesLoading) {
       <div class="loading-wrap"><mat-spinner diameter="36" /></div>
