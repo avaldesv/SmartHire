@@ -284,24 +284,12 @@ export class DocumentTemplateFormDialogComponent implements OnInit, AfterViewIni
   }
 
   private loadExistingPreview(templateId: number): void {
-    this.api.download(templateId).subscribe({
-      next: ({ downloadUrl }) => {
-        if (!downloadUrl) {
-          return;
-        }
-        void fetch(downloadUrl)
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error('download failed');
-            }
-            return response.arrayBuffer();
-          })
-          .then((buffer) => this.queuePreview(buffer))
-          .catch(() => {
-            this.previewError = true;
-            this.previewReady = false;
-            this.cdr.markForCheck();
-          });
+    this.api.fetchFileContent(templateId).subscribe({
+      next: (buffer) => void this.queuePreview(buffer),
+      error: () => {
+        this.previewError = true;
+        this.previewReady = false;
+        this.cdr.markForCheck();
       },
     });
   }

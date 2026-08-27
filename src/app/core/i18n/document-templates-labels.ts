@@ -3,6 +3,7 @@ export const DOCTEMPLATES_TAB_VARIABLES = $localize`:@@documentTemplates.tab.var
 export const DOCTEMPLATES_TAB_TEMPLATES = $localize`:@@documentTemplates.tab.templates:Plantillas`;
 
 export const DOCTEMPLATES_VAR_NEW_BUTTON = $localize`:@@documentTemplates.variables.newButton:Nueva variable`;
+export const DOCTEMPLATES_VAR_SEARCH = $localize`:@@documentTemplates.variables.search:Buscar variable`;
 export const DOCTEMPLATES_VAR_COL_CODE = $localize`:@@documentTemplates.variables.col.code:Código`;
 export const DOCTEMPLATES_VAR_COL_LABEL = $localize`:@@documentTemplates.variables.col.label:Etiqueta`;
 export const DOCTEMPLATES_VAR_COL_DESCRIPTION = $localize`:@@documentTemplates.variables.col.description:Descripción`;
@@ -34,6 +35,7 @@ export const DOCTEMPLATES_VAR_SUCCESS_SAVED = $localize`:@@documentTemplates.var
 export const DOCTEMPLATES_VAR_SUCCESS_DELETED = $localize`:@@documentTemplates.variables.success.deleted:Variable eliminada`;
 
 export const DOCTEMPLATES_TPL_NEW_BUTTON = $localize`:@@documentTemplates.templates.newButton:Nueva plantilla`;
+export const DOCTEMPLATES_TPL_SEARCH = $localize`:@@documentTemplates.templates.search:Buscar plantilla`;
 export const DOCTEMPLATES_TPL_COL_NAME = $localize`:@@documentTemplates.templates.col.name:Nombre`;
 export const DOCTEMPLATES_TPL_COL_FILENAME = $localize`:@@documentTemplates.templates.col.fileName:Archivo`;
 export const DOCTEMPLATES_TPL_COL_ACTIVE = $localize`:@@documentTemplates.templates.col.active:Activa`;
