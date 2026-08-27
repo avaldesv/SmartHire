@@ -1,142 +1,146 @@
-<h3 i18n="@@nav.settings.users">Usuarios</h3>
+<div class="sh-list-page-header">
+  <h3 i18n="@@nav.settings.users">Usuarios</h3>
+  <div class="sh-list-page-header__actions">
+    <button mat-flat-button color="primary" type="button" (click)="openCreate()">
+      <mat-icon>add</mat-icon>
+      <span i18n="@@users.new">Nuevo usuario</span>
+    </button>
+  </div>
+</div>
 
-<div class="toolbar">
-  <form [formGroup]="searchForm" class="sh-filters">
-    <mat-form-field appearance="outline">
+<form [formGroup]="searchForm" class="sh-filters sh-card">
+  <div class="filter-fields">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
       <mat-label i18n="@@users.search">Buscar usuario</mat-label>
       <input matInput formControlName="search" />
     </mat-form-field>
-  </form>
-  <button mat-flat-button color="primary" type="button" (click)="openCreate()">
-    <mat-icon>add</mat-icon>
-    <span i18n="@@users.new">Nuevo usuario</span>
-  </button>
-</div>
-
-@if (showForm) {
-  <div class="sh-card form-card">
-    <h4>{{ editingUserId ? editTitle : createTitle }}</h4>
-    <form [formGroup]="userForm" class="user-form" (ngSubmit)="save()">
-      <mat-form-field appearance="outline">
-        <mat-label i18n="@@users.form.username">Usuario</mat-label>
-        <input matInput formControlName="username" />
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label i18n="@@users.form.email">Correo</mat-label>
-        <input matInput type="email" formControlName="email" />
-      </mat-form-field>
-      @if (!editingUserId) {
-        <mat-form-field appearance="outline">
-          <mat-label i18n="@@users.form.password">Contraseña</mat-label>
-          <input matInput type="password" formControlName="password" />
-        </mat-form-field>
-      }
-      <mat-form-field appearance="outline">
-        <mat-label i18n="@@users.form.firstName">Nombre</mat-label>
-        <input matInput formControlName="name" />
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label i18n="@@users.form.lastName">Apellidos</mat-label>
-        <input matInput formControlName="lastName" />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="phone-code">
-        <mat-label i18n="@@users.form.phoneCode">Cód. tel.</mat-label>
-        <mat-select formControlName="phoneCountryCode">
-          <mat-option [value]="''">—</mat-option>
-          @for (option of dialCodeOptions; track option.dialCode) {
-            <mat-option [value]="option.dialCode">{{ dialCodeLabel(option) }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="phone-number">
-        <mat-label i18n="@@users.form.phone">Teléfono</mat-label>
-        <input matInput formControlName="phone" />
-      </mat-form-field>
-      @if (tenantCountryName) {
-        <div class="tenant-country-badge">
-          <span class="label" i18n="@@users.form.tenantCountry">País (tenant)</span>
-          <span class="value">{{ tenantCountryName }}</span>
-        </div>
-      }
-      <mat-form-field appearance="outline">
-        <mat-label i18n="@@users.form.supervisor">Supervisor</mat-label>
-        <input matInput formControlName="supervisorSearch" [matAutocomplete]="supervisorAuto" (focus)="onSupervisorFocus()" />
-        @if (userForm.controls.supervisorId.value) {
-          <button matSuffix mat-icon-button type="button" i18n-aria-label="@@users.form.clearSupervisor" aria-label="Quitar supervisor" (click)="clearSupervisor()">
-            <mat-icon>close</mat-icon>
-          </button>
-        }
-        <mat-autocomplete
-          #supervisorAuto="matAutocomplete"
-          [displayWith]="displaySupervisorFn"
-          (optionSelected)="onSupervisorSelected($event.option.value)"
-        >
-          @for (opt of supervisorOptions; track opt.id) {
-            <mat-option [value]="opt">{{ opt.label }}</mat-option>
-          }
-        </mat-autocomplete>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label i18n="@@users.form.branch">Sucursal</mat-label>
-        <mat-select formControlName="branchId" [disabled]="!tenantCountryId">
-          <mat-option [value]="null">—</mat-option>
-          @for (branch of branchOptions; track branch.id) {
-            <mat-option [value]="branch.id">{{ branch.name }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label i18n="@@users.form.area">Área</mat-label>
-        <mat-select formControlName="companyAreaId">
-          <mat-option [value]="null">—</mat-option>
-          @for (area of areaOptions; track area.id) {
-            <mat-option [value]="area.id">{{ area.name }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label i18n="@@users.form.department">Departamento</mat-label>
-        <mat-select formControlName="companyDepartmentId">
-          <mat-option [value]="null">—</mat-option>
-          @for (dept of departmentOptions; track dept.id) {
-            <mat-option [value]="dept.id">{{ dept.name }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label i18n="@@users.form.legacyR3">Usuario R3</mat-label>
-        <input matInput formControlName="legacyR3Username" />
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label i18n="@@users.form.legacyAppian">Perfil Appian</mat-label>
-        <input matInput formControlName="legacyAppianProfile" />
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label i18n="@@users.form.manpowerPosition">Puesto Manpower</mat-label>
-        <input matInput formControlName="manpowerPosition" />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label i18n="@@users.form.address">Dirección</mat-label>
-        <textarea matInput rows="2" formControlName="address"></textarea>
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label i18n="@@users.form.roles">Roles</mat-label>
-        <mat-select formControlName="roleIds" multiple>
-          @for (role of roleOptions; track role.id) {
-            <mat-option [value]="role.id">{{ role.name }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-      <mat-checkbox formControlName="isActive" i18n="@@users.form.active">Activo</mat-checkbox>
-      <div class="form-actions">
-        <button mat-button type="button" (click)="cancelForm()" i18n="@@common.cancel">Cancelar</button>
-        <button mat-flat-button color="primary" type="submit" [disabled]="saving">
-          {{ saving ? savingLabel : saveLabel }}
-        </button>
-      </div>
-    </form>
   </div>
-}
+  <div class="filter-actions">
+    <button mat-stroked-button type="button" (click)="clearFilters()">{{ clearFiltersLabel }}</button>
+  </div>
+</form>
+
+<ng-template #userFormTpl>
+  <form id="sh-user-admin-form" [formGroup]="userForm" class="user-form" (ngSubmit)="save()">
+    <mat-form-field appearance="outline">
+      <mat-label i18n="@@users.form.username">Usuario</mat-label>
+      <input matInput formControlName="username" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label i18n="@@users.form.email">Correo</mat-label>
+      <input matInput type="email" formControlName="email" />
+    </mat-form-field>
+    @if (!editingUserId) {
+      <mat-form-field appearance="outline">
+        <mat-label i18n="@@users.form.password">Contraseña</mat-label>
+        <input matInput type="password" formControlName="password" />
+      </mat-form-field>
+    }
+    <mat-form-field appearance="outline">
+      <mat-label i18n="@@users.form.firstName">Nombre</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label i18n="@@users.form.lastName">Apellidos</mat-label>
+      <input matInput formControlName="lastName" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="phone-code">
+      <mat-label i18n="@@users.form.phoneCode">Cód. tel.</mat-label>
+      <mat-select formControlName="phoneCountryCode">
+        <mat-option [value]="''">—</mat-option>
+        @for (option of dialCodeOptions; track option.dialCode) {
+          <mat-option [value]="option.dialCode">{{ dialCodeLabel(option) }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="phone-number">
+      <mat-label i18n="@@users.form.phone">Teléfono</mat-label>
+      <input matInput formControlName="phone" />
+    </mat-form-field>
+    @if (tenantCountryName) {
+      <div class="tenant-country-badge">
+        <span class="label" i18n="@@users.form.tenantCountry">País (tenant)</span>
+        <span class="value">{{ tenantCountryName }}</span>
+      </div>
+    }
+    <mat-form-field appearance="outline">
+      <mat-label i18n="@@users.form.supervisor">Supervisor</mat-label>
+      <input matInput formControlName="supervisorSearch" [matAutocomplete]="supervisorAuto" (focus)="onSupervisorFocus()" />
+      @if (userForm.controls.supervisorId.value) {
+        <button matSuffix mat-icon-button type="button" i18n-aria-label="@@users.form.clearSupervisor" aria-label="Quitar supervisor" (click)="clearSupervisor()">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+      <mat-autocomplete
+        #supervisorAuto="matAutocomplete"
+        [displayWith]="displaySupervisorFn"
+        (optionSelected)="onSupervisorSelected($event.option.value)"
+      >
+        @for (opt of supervisorOptions; track opt.id) {
+          <mat-option [value]="opt">{{ opt.label }}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label i18n="@@users.form.branch">Sucursal</mat-label>
+      <mat-select formControlName="branchId" [disabled]="!tenantCountryId">
+        <mat-option [value]="null">—</mat-option>
+        @for (branch of branchOptions; track branch.id) {
+          <mat-option [value]="branch.id">{{ branch.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label i18n="@@users.form.area">Área</mat-label>
+      <mat-select formControlName="companyAreaId">
+        <mat-option [value]="null">—</mat-option>
+        @for (area of areaOptions; track area.id) {
+          <mat-option [value]="area.id">{{ area.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label i18n="@@users.form.department">Departamento</mat-label>
+      <mat-select formControlName="companyDepartmentId">
+        <mat-option [value]="null">—</mat-option>
+        @for (dept of departmentOptions; track dept.id) {
+          <mat-option [value]="dept.id">{{ dept.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label i18n="@@users.form.legacyR3">Usuario R3</mat-label>
+      <input matInput formControlName="legacyR3Username" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label i18n="@@users.form.legacyAppian">Perfil Appian</mat-label>
+      <input matInput formControlName="legacyAppianProfile" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label i18n="@@users.form.manpowerPosition">Puesto Manpower</mat-label>
+      <input matInput formControlName="manpowerPosition" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label i18n="@@users.form.address">Dirección</mat-label>
+      <textarea matInput rows="2" formControlName="address"></textarea>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label i18n="@@users.form.roles">Roles</mat-label>
+      <mat-select formControlName="roleIds" multiple>
+        @for (role of roleOptions; track role.id) {
+          <mat-option [value]="role.id">{{ role.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-checkbox formControlName="isActive" i18n="@@users.form.active">Activo</mat-checkbox>
+    <div shModalActions>
+      <button mat-stroked-button type="button" (click)="cancelForm()" i18n="@@common.cancel">Cancelar</button>
+      <button mat-flat-button color="primary" type="submit" form="sh-user-admin-form" [disabled]="saving">
+        {{ saving ? savingLabel : saveLabel }}
+      </button>
+    </div>
+  </form>
+</ng-template>
 
 @if (loading) {
   <div class="loading-wrap"><mat-spinner diameter="36" /></div>

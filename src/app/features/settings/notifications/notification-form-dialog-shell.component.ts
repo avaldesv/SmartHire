@@ -1,59 +1,53 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, ViewEncapsulation, inject, TemplateRef } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {
+  ShModalFormComponent,
+} from '../../../shared/components/modal-form/sh-modal-form.component';
 
 export interface NotificationFormDialogData {
   title: string;
   content: TemplateRef<unknown>;
 }
 
-/** Applied to MatDialog overlay pane — styles live in styles.scss (global). */
-export const NOTIFICATION_FORM_DIALOG_PANEL_CLASS = 'sh-notification-form-dialog-panel';
+/** Prefer catalog form panel; keep alias for existing open() calls. */
+export const NOTIFICATION_FORM_DIALOG_PANEL_CLASS = 'sh-catalog-form-dialog-panel';
 
 @Component({
   selector: 'sh-notification-form-dialog-shell',
   standalone: true,
-  imports: [MatDialogModule, NgTemplateOutlet],
+  imports: [NgTemplateOutlet, ShModalFormComponent],
   encapsulation: ViewEncapsulation.None,
   template: `
-    <div class="sh-notification-dialog-header" mat-dialog-title>
-      <span class="sh-notification-dialog-header__text">{{ data.title }}</span>
-    </div>
-    <mat-dialog-content class="sh-notification-dialog-body">
-      <div class="sh-notification-dialog-gap" aria-hidden="true"></div>
+    <sh-modal-form [title]="data.title">
       <ng-container *ngTemplateOutlet="data.content" />
-    </mat-dialog-content>
+    </sh-modal-form>
   `,
   styles: [
     `
       sh-notification-form-dialog-shell {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        min-height: 0;
+        height: 100%;
       }
 
-      sh-notification-form-dialog-shell .sh-notification-dialog-body .template-form {
+      sh-notification-form-dialog-shell .sh-catalog-dialog-body .template-form {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 8px 12px;
         align-items: start;
       }
 
-      sh-notification-form-dialog-shell .sh-notification-dialog-body .template-form > .message-field,
-      sh-notification-form-dialog-shell .sh-notification-dialog-body .template-form > .variables-panel,
-      sh-notification-form-dialog-shell .sh-notification-dialog-body .template-form > .form-actions,
-      sh-notification-form-dialog-shell .sh-notification-dialog-body .template-form > mat-checkbox {
+      sh-notification-form-dialog-shell .sh-catalog-dialog-body .template-form > .message-field,
+      sh-notification-form-dialog-shell .sh-catalog-dialog-body .template-form > .variables-panel,
+      sh-notification-form-dialog-shell .sh-catalog-dialog-body .template-form > mat-checkbox {
         grid-column: 1 / -1;
       }
 
-      sh-notification-form-dialog-shell .sh-notification-dialog-body .form-actions {
-        display: flex;
-        justify-content: flex-end;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-top: 8px;
-      }
-
       @media (max-width: 700px) {
-        sh-notification-form-dialog-shell .sh-notification-dialog-body .template-form {
+        sh-notification-form-dialog-shell .sh-catalog-dialog-body .template-form {
           grid-template-columns: 1fr;
         }
       }

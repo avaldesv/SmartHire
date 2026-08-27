@@ -69,6 +69,10 @@ import {
 } from '../../../shared/models/security-recruiter-group.model';
 import { SecurityUser } from '../../../shared/models/security-user.model';
 import { TenantDataScope } from '../../../shared/models/tenant-data-scope.model';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../shared/components/modal-form/sh-modal-form.component';
 
 export interface RecruiterGroupFormDialogData {
   groupId?: number | null;
@@ -100,6 +104,8 @@ export interface RecruiterGroupUserOption {
     MatIconModule,
     MatAutocompleteModule,
     MatProgressSpinnerModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
   ],
   templateUrl: './recruiter-group-form-dialog.component.html',
   styleUrl: './recruiter-group-form-dialog.component.scss',

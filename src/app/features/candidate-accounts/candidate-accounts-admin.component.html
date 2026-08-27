@@ -7,12 +7,17 @@
     }
   </sh-page-header>
 
-  <div class="toolbar sh-filters sh-card">
-    <mat-form-field appearance="outline" class="filter">
-      <mat-label>{{ filterEmail }}</mat-label>
-      <input matInput [formControl]="emailFilter" />
-    </mat-form-field>
-  </div>
+  <form class="sh-filters sh-card" (submit)="$event.preventDefault()">
+    <div class="filter-fields">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>{{ filterEmail }}</mat-label>
+        <input matInput [formControl]="emailFilter" />
+      </mat-form-field>
+    </div>
+    <div class="filter-actions">
+      <button mat-stroked-button type="button" (click)="clearFilters()">{{ clearFiltersLabel }}</button>
+    </div>
+  </form>
 
   @if (loading) {
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>

@@ -1,9 +1,4 @@
-<div class="sh-catalog-dialog-header" mat-dialog-title>
-  <span class="sh-catalog-dialog-header__text">{{ dialogTitle }}</span>
-</div>
-
-<mat-dialog-content class="dialog-body sh-catalog-dialog-body">
-  <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
+<sh-modal-form [title]="dialogTitle" contentClass="dialog-body">
   <div class="generate-layout">
     <section class="form-column" [attr.aria-label]="dialogTitle">
       <form [formGroup]="configForm" class="column-form">
@@ -138,8 +133,8 @@
       }
     </aside>
   </div>
-</mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <button mat-button type="button" (click)="close()">{{ closeLabel }}</button>
-</mat-dialog-actions>
+  <div shModalActions>
+    <button mat-stroked-button type="button" (click)="close()">{{ closeLabel }}</button>
+  </div>
+</sh-modal-form>

@@ -48,7 +48,7 @@
       <mat-checkbox formControlName="isActive">{{ fieldActive }}</mat-checkbox>
 
       <div class="form-actions">
-        <button mat-button type="button" (click)="cancelForm()" [disabled]="saving">{{ cancelLabel }}</button>
+        <button mat-stroked-button type="button" (click)="cancelForm()" [disabled]="saving">{{ cancelLabel }}</button>
         <button mat-flat-button color="primary" type="submit" [disabled]="saving">
           {{ saving ? savingLabel : saveLabel }}
         </button>

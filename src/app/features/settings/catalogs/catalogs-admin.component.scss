@@ -1,7 +1,36 @@
 h3 { margin: 0 0 16px; font-size: 1.1rem; }
-.category-shell { margin-top: 16px; }
-.catalog-select { min-width: 320px; max-width: 480px; }
-.catalog-panels { margin-top: 16px; }
+.category-shell {
+  margin-top: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.category-shell.sh-list-page-header {
+  flex-wrap: nowrap;
+  align-items: center;
+}
+.category-shell.sh-list-page-header > .catalog-select {
+  flex: 1 1 auto;
+  min-width: 12rem;
+  max-width: 480px;
+  margin: 0;
+}
+.category-shell .sh-list-page-header__actions {
+  flex: 0 0 auto;
+  margin-left: auto;
+  white-space: nowrap;
+}
+.catalog-select { min-width: 280px; max-width: 480px; }
+.catalog-panels {
+  margin-top: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+}
+.tab-content {
+  margin-top: 0;
+  width: 100%;
+  min-width: 0;
+}
 .pending-catalog {
   display: flex;
   align-items: flex-start;
@@ -13,7 +42,6 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
   p { margin: 0; line-height: 1.5; }
   code { font-size: 0.85rem; }
 }
-.tab-content { margin-top: 16px; }
 .loading-wrap { display: flex; justify-content: center; padding: 48px; }
 .toolbar { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
 .country-field { min-width: 220px; }
@@ -52,4 +80,21 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
   white-space: nowrap;
   padding-top: 4px;
   padding-bottom: 4px;
+}
+
+/* Align catalog selector height with Nuevo in row 1 */
+:host ::ng-deep .category-shell .catalog-select.mat-mdc-form-field {
+  height: 52px;
+}
+:host ::ng-deep .category-shell .catalog-select .mat-mdc-text-field-wrapper,
+:host ::ng-deep .category-shell .catalog-select .mat-mdc-form-field-flex {
+  height: 52px;
+}
+:host ::ng-deep .category-shell .catalog-select .mat-mdc-form-field-infix {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  min-height: 0;
+}
+:host ::ng-deep .category-shell .catalog-select .mat-mdc-form-field-subscript-wrapper {
+  display: none;
 }

@@ -18,6 +18,10 @@ import {
 } from '../../../core/i18n/positions-labels';
 import { SecurityUserService } from '../../../core/services/security-user.service';
 import { SecurityUser } from '../../../shared/models/security-user.model';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../shared/components/modal-form/sh-modal-form.component';
 
 export interface ReassignPositionDialogData {
   currentAssignedUserId?: number | null;
@@ -40,13 +44,11 @@ export interface ReassignPositionDialogResult {
     MatSelectModule,
     MatInputModule,
     MatProgressSpinnerModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
   ],
   template: `
-    <div class="sh-catalog-dialog-header" mat-dialog-title>
-      <span class="sh-catalog-dialog-header__text">{{ title }}</span>
-    </div>
-    <mat-dialog-content class="sh-catalog-dialog-body">
-      <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
+    <sh-modal-form [title]="title">
       @if (loading) {
         <div class="loading-wrap"><mat-spinner diameter="32" /></div>
       } @else {
@@ -65,19 +67,19 @@ export interface ReassignPositionDialogResult {
           </mat-form-field>
         </form>
       }
-    </mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button mat-button type="button" (click)="dialogRef.close(null)">{{ cancelLabel }}</button>
-      <button
-        mat-flat-button
-        color="primary"
-        type="button"
-        [disabled]="loading || form.invalid"
-        (click)="confirm()"
-      >
-        {{ confirmLabel }}
-      </button>
-    </mat-dialog-actions>
+      <div shModalActions>
+        <button mat-button type="button" (click)="dialogRef.close(null)">{{ cancelLabel }}</button>
+        <button
+          mat-flat-button
+          color="primary"
+          type="button"
+          [disabled]="loading || form.invalid"
+          (click)="confirm()"
+        >
+          {{ confirmLabel }}
+        </button>
+      </div>
+    </sh-modal-form>
   `,
   styles: `
     .full-width {

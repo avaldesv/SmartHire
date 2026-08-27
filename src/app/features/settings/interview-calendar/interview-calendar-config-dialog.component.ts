@@ -60,6 +60,10 @@ import {
 import { InterviewCalendarApiService } from '../../../core/services/interview-calendar-api.service';
 import { InterviewAvailabilitySlot } from '../../../shared/models/interview-calendar.model';
 import { defaultInterviewCalendarModalityConfig } from '../../../shared/models/interview-calendar.model';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../shared/components/modal-form/sh-modal-form.component';
 import { merge } from 'rxjs';
 
 @Component({
@@ -78,6 +82,8 @@ import { merge } from 'rxjs';
     MatSlideToggleModule,
     MatProgressSpinnerModule,
     MatIconModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
   ],
   templateUrl: './interview-calendar-config-dialog.component.html',
   styleUrl: './interview-calendar-config-dialog.component.scss',

@@ -4,6 +4,10 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../../shared/components/modal-form/sh-modal-form.component';
 
 export interface PreselectionCompatibilityDialogData {
   candidateName: string;
@@ -13,7 +17,15 @@ export interface PreselectionCompatibilityDialogData {
 @Component({
   selector: 'sh-preselection-compatibility-dialog',
   standalone: true,
-  imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  imports: [
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
+  ],
   templateUrl: './preselection-compatibility-dialog.component.html',
   styleUrl: './preselection-compatibility-dialog.component.scss',
 })

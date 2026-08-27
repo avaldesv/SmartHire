@@ -1,16 +1,4 @@
-<div class="sh-catalog-dialog-header" mat-dialog-title>
-  <span class="sh-catalog-dialog-header__text">{{ labels.title }}</span>
-</div>
-
-<mat-dialog-content class="sh-catalog-dialog-body">
-  <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
-  <p class="sh-catalog-dialog-subtitle">
-    {{ positionLabel() }}
-    @if (data.positionName) {
-      — {{ data.positionName }}
-    }
-  </p>
-
+<sh-modal-form [title]="labels.title">
   @if (loading) {
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else if (rows.length === 0) {
@@ -153,16 +141,15 @@
       </table>
     </div>
 
-    <mat-paginator
+    <sh-paginator
       [length]="total"
       [pageSize]="pageSize"
       [pageIndex]="pageIndex"
-      [pageSizeOptions]="[5, 10, 25]"
       (page)="onPage($event)"
-      showFirstLastButtons />
+    />
   }
-</mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <button mat-button type="button" (click)="close()">{{ labels.close }}</button>
-</mat-dialog-actions>
+  <div shModalActions>
+    <button mat-stroked-button type="button" (click)="close()">{{ labels.close }}</button>
+  </div>
+</sh-modal-form>

@@ -34,6 +34,7 @@ import { PermissionService } from '../../../core/services/permission.service';
 import {
   CandidatePoolDialogComponent,
   CandidatePoolDialogData,
+  candidatePoolDialogConfig,
 } from '../../candidates/dialogs/candidate-pool-dialog/candidate-pool-dialog.component';
 import {
   ScheduleInterviewDialogComponent,
@@ -194,7 +195,7 @@ export class PreselectionComponent implements OnInit {
     const ref = this.dialog.open<CandidatePoolDialogComponent, CandidatePoolDialogData>(
       CandidatePoolDialogComponent,
       {
-        ...catalogDialogConfig('760px'),
+        ...candidatePoolDialogConfig(),
         data: { positionId: this.positionId, requisitionNo: `REQ-${this.positionId}` },
       },
     );

@@ -1,6 +1,4 @@
-<h2 mat-dialog-title>{{ importTitle }}</h2>
-
-<mat-dialog-content>
+<sh-modal-form [title]="importTitle">
   <p class="hint">{{ hint }}</p>
 
   <div class="actions-row">
@@ -47,31 +45,31 @@
   @if (errorMessage) {
     <p class="error">{{ errorMessage }}</p>
   }
-</mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  @if (!isImportDone) {
-    <button mat-button type="button" [disabled]="isBusy" (click)="close()">{{ closeLabel }}</button>
-  }
-  @if (showValidateAction) {
-    <button mat-stroked-button type="button" [disabled]="isBusy" (click)="validateStructure()">
-      @if (validating) {
-        <mat-spinner diameter="18" />
-      } @else {
-        {{ validateLabel }}
-      }
-    </button>
-  }
-  @if (showImportAction) {
-    <button mat-flat-button color="primary" type="button" [disabled]="isBusy" (click)="importCsv()">
-      @if (importing) {
-        <mat-spinner diameter="18" />
-      } @else {
-        {{ importLabel }}
-      }
-    </button>
-  }
-  @if (isImportDone) {
-    <button mat-flat-button color="primary" type="button" (click)="close()">{{ closeLabel }}</button>
-  }
-</mat-dialog-actions>
+  <div shModalActions>
+    @if (!isImportDone) {
+      <button mat-stroked-button type="button" [disabled]="isBusy" (click)="close()">{{ closeLabel }}</button>
+    }
+    @if (showValidateAction) {
+      <button mat-stroked-button type="button" [disabled]="isBusy" (click)="validateStructure()">
+        @if (validating) {
+          <mat-spinner diameter="18" />
+        } @else {
+          {{ validateLabel }}
+        }
+      </button>
+    }
+    @if (showImportAction) {
+      <button mat-flat-button color="primary" type="button" [disabled]="isBusy" (click)="importCsv()">
+        @if (importing) {
+          <mat-spinner diameter="18" />
+        } @else {
+          {{ importLabel }}
+        }
+      </button>
+    }
+    @if (isImportDone) {
+      <button mat-flat-button color="primary" type="button" (click)="close()">{{ closeLabel }}</button>
+    }
+  </div>
+</sh-modal-form>

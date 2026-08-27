@@ -1,9 +1,4 @@
-<div class="sh-catalog-dialog-header" mat-dialog-title>
-  <span class="sh-catalog-dialog-header__text">{{ title }}</span>
-</div>
-
-<mat-dialog-content class="sh-catalog-dialog-body">
-  <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
+<sh-modal-form [title]="title">
   <form [formGroup]="form" class="variable-form">
     <div class="code-field-block">
       <mat-form-field appearance="outline" class="full-width code-field">
@@ -25,11 +20,11 @@
 
     <mat-checkbox formControlName="isActive">{{ fieldActive }}</mat-checkbox>
   </form>
-</mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <button mat-button type="button" (click)="cancel()" [disabled]="saving">{{ cancelLabel }}</button>
-  <button mat-flat-button color="primary" type="button" (click)="save()" [disabled]="saving">
-    {{ saving ? savingLabel : saveLabel }}
-  </button>
-</mat-dialog-actions>
+  <div shModalActions>
+    <button mat-stroked-button type="button" (click)="cancel()" [disabled]="saving">{{ cancelLabel }}</button>
+    <button mat-flat-button color="primary" type="button" (click)="save()" [disabled]="saving">
+      {{ saving ? savingLabel : saveLabel }}
+    </button>
+  </div>
+</sh-modal-form>

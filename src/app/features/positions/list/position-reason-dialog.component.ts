@@ -11,6 +11,10 @@ import {
   POSITIONS_REASON_DIALOG_REQUIRED,
   POSITIONS_REASON_DIALOG_TITLE,
 } from '../../../core/i18n/positions-labels';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../shared/components/modal-form/sh-modal-form.component';
 
 export interface PositionReasonDialogData {
   title?: string;
@@ -22,13 +26,17 @@ export interface PositionReasonDialogData {
 @Component({
   selector: 'sh-position-reason-dialog',
   standalone: true,
-  imports: [ReactiveFormsModule, MatDialogModule, MatButtonModule, MatFormFieldModule, MatInputModule],
+  imports: [
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
+  ],
   template: `
-    <div class="sh-catalog-dialog-header" mat-dialog-title>
-      <span class="sh-catalog-dialog-header__text">{{ title }}</span>
-    </div>
-    <mat-dialog-content class="sh-catalog-dialog-body">
-      <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
+    <sh-modal-form [title]="title">
       <form [formGroup]="form">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>{{ label }}</mat-label>
@@ -38,13 +46,13 @@ export interface PositionReasonDialogData {
           }
         </mat-form-field>
       </form>
-    </mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button mat-button type="button" (click)="dialogRef.close(null)">{{ cancelLabel }}</button>
-      <button mat-flat-button color="primary" type="button" [disabled]="form.invalid" (click)="confirm()">
-        {{ confirmLabel }}
-      </button>
-    </mat-dialog-actions>
+      <div shModalActions>
+        <button mat-button type="button" (click)="dialogRef.close(null)">{{ cancelLabel }}</button>
+        <button mat-flat-button color="primary" type="button" [disabled]="form.invalid" (click)="confirm()">
+          {{ confirmLabel }}
+        </button>
+      </div>
+    </sh-modal-form>
   `,
   styles: `
     .full-width {

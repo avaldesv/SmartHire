@@ -1,9 +1,4 @@
-<div class="sh-catalog-dialog-header" mat-dialog-title>
-  <span class="sh-catalog-dialog-header__text">{{ labels.newTitle }}</span>
-</div>
-
-<mat-dialog-content class="sh-catalog-dialog-body">
-  <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
+<sh-modal-form [title]="labels.newTitle">
   <p class="sh-catalog-dialog-subtitle">
     {{ labels.hint }}
   </p>
@@ -36,18 +31,19 @@
           <mat-error>{{ labels.coverageRequired }}</mat-error>
         }
       </mat-form-field>
-
-      <div class="form-actions">
-        <button mat-button type="button" (click)="cancel()">{{ labels.cancel }}</button>
-        <button
-          mat-flat-button
-          color="primary"
-          type="submit"
-          [disabled]="loadingCoverage"
-        >
-          {{ labels.continue }}
-        </button>
-      </div>
     </form>
   }
-</mat-dialog-content>
+
+  <div shModalActions>
+    <button mat-stroked-button type="button" (click)="cancel()">{{ labels.cancel }}</button>
+    <button
+      mat-flat-button
+      color="primary"
+      type="button"
+      [disabled]="loadingCountries || loadingTenant || loadingCoverage"
+      (click)="continue()"
+    >
+      {{ labels.continue }}
+    </button>
+  </div>
+</sh-modal-form>

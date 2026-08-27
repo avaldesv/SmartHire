@@ -40,6 +40,10 @@ import {
   ExcelBulkCreateResponse,
   ExcelBulkPreviewResponse,
 } from '../../../../shared/models/excel-bulk-upload.model';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../../shared/components/modal-form/sh-modal-form.component';
 
 export interface ExcelBulkUploadDialogData {
   positionId: number;
@@ -66,6 +70,8 @@ const ALLOWED_EXTENSIONS = ['xlsx', 'xls'];
     MatIconModule,
     MatProgressBarModule,
     MatTabsModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
   ],
   templateUrl: './excel-bulk-upload-dialog.component.html',
   styleUrl: './excel-bulk-upload-dialog.component.scss',

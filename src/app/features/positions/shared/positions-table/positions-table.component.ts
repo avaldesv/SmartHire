@@ -160,6 +160,7 @@ import { SecurityUser } from '../../../../shared/models/security-user.model';
 import {
   CandidatePoolDialogComponent,
   CandidatePoolDialogData,
+  candidatePoolDialogConfig,
 } from '../../../candidates/dialogs/candidate-pool-dialog/candidate-pool-dialog.component';
 import {
   PositionApplicationsDialogComponent,
@@ -1307,7 +1308,7 @@ export class PositionsTableComponent implements OnInit {
     const ref = this.dialog.open<CandidatePoolDialogComponent, CandidatePoolDialogData>(
       CandidatePoolDialogComponent,
       {
-        ...catalogDialogConfig('760px'),
+        ...candidatePoolDialogConfig(),
         data: { positionId: row.id, requisitionNo: row.requisitionNo },
       },
     );

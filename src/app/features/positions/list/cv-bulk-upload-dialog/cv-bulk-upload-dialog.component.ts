@@ -22,6 +22,10 @@ import {
 import { CvBulkUploadApiService } from '../../../../core/services/cv-bulk-upload-api.service';
 import { packCvBulkFiles } from '../../../../core/utils/cv-bulk-packer';
 import { CvBulkUploadCreateResponse } from '../../../../shared/models/cv-bulk-upload.model';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../../shared/components/modal-form/sh-modal-form.component';
 
 export interface CvBulkUploadDialogData {
   positionId: number;
@@ -44,6 +48,8 @@ export interface CvBulkUploadDialogResult {
     MatCheckboxModule,
     MatIconModule,
     MatProgressBarModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
   ],
   templateUrl: './cv-bulk-upload-dialog.component.html',
   styleUrl: './cv-bulk-upload-dialog.component.scss',

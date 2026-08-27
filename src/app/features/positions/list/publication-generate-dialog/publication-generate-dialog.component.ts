@@ -58,6 +58,10 @@ import {
   CountryDialCodeOption,
   ReferenceDataService,
 } from '../../../../core/services/reference-data.service';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../../shared/components/modal-form/sh-modal-form.component';
 import { PublicationNoTemplateDialogComponent } from '../publication-no-template-dialog.component';
 
 export interface PublicationGenerateDialogData {
@@ -90,6 +94,8 @@ const DEV_DEFAULT_SHARE_EMAIL = 'smarthirebtech@gmail.com';
     MatIconModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
   ],
   templateUrl: './publication-generate-dialog.component.html',
   styleUrl: './publication-generate-dialog.component.scss',

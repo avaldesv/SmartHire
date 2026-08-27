@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -43,6 +43,7 @@ import {
 import { DocumentTemplateApiService } from '../../../core/services/document-template-api.service';
 import { DocumentTemplateVariableApiService } from '../../../core/services/document-template-variable-api.service';
 import { PermissionService } from '../../../core/services/permission.service';
+import { ShPaginatorComponent } from '../../../shared/components/paginator/sh-paginator.component';
 import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 import {
   DocumentTemplateItem,
@@ -63,7 +64,7 @@ import {
   imports: [
     MatTabsModule,
     MatTableModule,
-    MatPaginatorModule,
+    ShPaginatorComponent,
     MatProgressSpinnerModule,
     MatButtonModule,
     MatIconModule,

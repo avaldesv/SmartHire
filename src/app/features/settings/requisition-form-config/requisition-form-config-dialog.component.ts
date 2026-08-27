@@ -79,6 +79,10 @@ import {
 import { buildFullCatalogState } from '../../../shared/utils/requisition-form-catalog.util';
 import { parseFormRoleIds, serializeFormRoleIds } from '../../../shared/utils/requisition-form-role.util';
 import { SecurityRole } from '../../../shared/models/security-role.model';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../shared/components/modal-form/sh-modal-form.component';
 
 export interface RequisitionFormConfigDialogData {
   config: RequisitionFormConfigDetail;
@@ -104,6 +108,8 @@ interface SelectedFieldRef {
     MatInputModule,
     MatSelectModule,
     MatProgressSpinnerModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
   ],
   templateUrl: './requisition-form-config-dialog.component.html',
   styleUrl: './requisition-form-config-dialog.component.scss',

@@ -10,6 +10,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
 import { FeedbackDialogService } from '../../core/feedback/feedback-dialog.service';
+import { COMMON_CLEAR_FILTERS } from '../../core/i18n/common-labels';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../core/i18n/feedback-labels';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
 import { AppPermissions } from '../../core/auth/app-permissions';
@@ -97,6 +98,7 @@ export class CandidateAccountsAdminComponent implements OnInit {
   readonly columnLastLogin = CANDIDATE_ACCOUNTS_COL_LAST_LOGIN;
   readonly emptyLabel = CANDIDATE_ACCOUNTS_EMPTY;
   readonly hardButton = CANDIDATE_ACCOUNTS_HARD_BUTTON;
+  readonly clearFiltersLabel = COMMON_CLEAR_FILTERS;
 
   ngOnInit(): void {
     this.emailFilter.valueChanges.pipe(debounceTime(300), distinctUntilChanged()).subscribe(() => {
@@ -164,6 +166,12 @@ export class CandidateAccountsAdminComponent implements OnInit {
   onPage(event: PageEvent): void {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
+    this.load();
+  }
+
+  clearFilters(): void {
+    this.emailFilter.setValue('');
+    this.pageIndex = 0;
     this.load();
   }
 

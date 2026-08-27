@@ -46,6 +46,10 @@ import {
 } from '../../../core/i18n/publication-templates-labels';
 import { PublicationTemplateApiService } from '../../../core/services/publication-template-api.service';
 import { PublicationTemplateItem } from '../../../shared/models/publication-template.model';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../shared/components/modal-form/sh-modal-form.component';
 
 export interface PublicationTemplateFormDialogData {
   templateId?: number;
@@ -71,6 +75,8 @@ const ALL_LOCALES = [
     MatSelectModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
   ],
   templateUrl: './publication-template-form-dialog.component.html',
   styleUrl: './publication-template-form-dialog.component.scss',

@@ -15,7 +15,7 @@
   padding: 32px;
 }
 
-.exam-dialog-content {
+:host ::ng-deep .exam-dialog-content {
   padding-top: 8px;
   min-height: 580px;
   box-sizing: border-box;

@@ -22,6 +22,10 @@ import {
 } from '../../../../core/i18n/interview-calendar-labels';
 import { InterviewCalendarApiService } from '../../../../core/services/interview-calendar-api.service';
 import { SuggestedInterviewSlot } from '../../../../shared/models/interview-calendar.model';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../../shared/components/modal-form/sh-modal-form.component';
 
 export interface ScheduleInterviewDialogData {
   applicationId: number;
@@ -38,13 +42,11 @@ export interface ScheduleInterviewDialogData {
     MatFormFieldModule,
     MatSelectModule,
     MatProgressSpinnerModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
   ],
   template: `
-    <div class="sh-catalog-dialog-header" mat-dialog-title>
-      <span class="sh-catalog-dialog-header__text">{{ title }}</span>
-    </div>
-    <mat-dialog-content class="sh-catalog-dialog-body">
-      <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
+    <sh-modal-form [title]="title">
       @if (data.candidateName) {
         <p class="candidate">{{ data.candidateName }}</p>
       }
@@ -71,19 +73,19 @@ export interface ScheduleInterviewDialogData {
           }
         </div>
       </form>
-    </mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button mat-button type="button" (click)="dialogRef.close(null)">{{ cancelLabel }}</button>
-      <button
-        mat-flat-button
-        color="primary"
-        type="button"
-        [disabled]="form.invalid || saving || loadingSlot || !suggested || slotError"
-        (click)="confirm()"
-      >
-        {{ confirmLabel }}
-      </button>
-    </mat-dialog-actions>
+      <div shModalActions>
+        <button mat-button type="button" (click)="dialogRef.close(null)">{{ cancelLabel }}</button>
+        <button
+          mat-flat-button
+          color="primary"
+          type="button"
+          [disabled]="form.invalid || saving || loadingSlot || !suggested || slotError"
+          (click)="confirm()"
+        >
+          {{ confirmLabel }}
+        </button>
+      </div>
+    </sh-modal-form>
   `,
   styles: `
     .full { width: 100%; }

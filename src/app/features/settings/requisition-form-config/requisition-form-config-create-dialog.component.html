@@ -1,6 +1,4 @@
-<h2 mat-dialog-title>{{ title }}</h2>
-
-<mat-dialog-content>
+<sh-modal-form [title]="title">
   <div class="scope-banner" role="status">
     <p class="scope-hint">{{ scopeHint }}</p>
     <p class="scope-value">
@@ -20,11 +18,11 @@
       }
     </mat-form-field>
   </form>
-</mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <button mat-button type="button" (click)="cancel()">{{ cancelLabel }}</button>
-  <button mat-flat-button color="primary" type="button" (click)="confirm()" [disabled]="form.invalid">
-    {{ confirmLabel }}
-  </button>
-</mat-dialog-actions>
+  <div shModalActions>
+    <button mat-stroked-button type="button" (click)="cancel()">{{ cancelLabel }}</button>
+    <button mat-flat-button color="primary" type="button" (click)="confirm()" [disabled]="form.invalid">
+      {{ confirmLabel }}
+    </button>
+  </div>
+</sh-modal-form>

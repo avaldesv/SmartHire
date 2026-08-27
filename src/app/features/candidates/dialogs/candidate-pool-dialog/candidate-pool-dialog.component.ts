@@ -1,13 +1,14 @@
 import { DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { catalogDialogConfig } from '../../../../core/dialog/catalog-dialog.constants';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
@@ -16,10 +17,31 @@ import { catchError } from 'rxjs/operators';
 import { CandidateApiService } from '../../../../core/services/candidate-api.service';
 import { CandidateApplicationApiService } from '../../../../core/services/candidate-application-api.service';
 import { CandidateListItem } from '../../../../shared/models/candidate.model';
+import { ShPaginatorComponent } from '../../../../shared/components/paginator/sh-paginator.component';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../../shared/components/modal-form/sh-modal-form.component';
 
 export interface CandidatePoolDialogData {
   positionId: number;
   requisitionNo?: string;
+}
+
+/** Dialog width: former 760px + 40% to avoid horizontal scroll. */
+export const CANDIDATE_POOL_DIALOG_WIDTH = '1064px';
+
+/** Fixed height so filter/load does not collapse or resize the modal. */
+export const CANDIDATE_POOL_DIALOG_HEIGHT = '850px';
+
+export function candidatePoolDialogConfig(extra: MatDialogConfig = {}): MatDialogConfig {
+  return catalogDialogConfig(CANDIDATE_POOL_DIALOG_WIDTH, {
+    height: CANDIDATE_POOL_DIALOG_HEIGHT,
+    maxHeight: CANDIDATE_POOL_DIALOG_HEIGHT,
+    maxWidth: '96vw',
+    panelClass: ['sh-catalog-form-dialog-panel', 'sh-candidate-pool-dialog-panel'],
+    ...extra,
+  });
 }
 
 @Component({
@@ -30,7 +52,9 @@ export interface CandidatePoolDialogData {
     ReactiveFormsModule,
     MatDialogModule,
     MatTableModule,
-    MatPaginatorModule,
+    ShPaginatorComponent,
+    ShModalFormComponent,
+    ShModalActionsDirective,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,

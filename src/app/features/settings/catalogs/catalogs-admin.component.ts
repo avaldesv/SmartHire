@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -13,7 +13,9 @@ import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dial
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { COMMON_CLEAR_FILTERS } from '../../../core/i18n/common-labels';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
+import { NOTIFICATIONS_NEW_BUTTON } from '../../../core/i18n/notifications-labels';
 import { ApiErrorTranslationService } from '../../../core/services/api-error-translation.service';
 import { CatalogCareerService } from '../../../core/services/catalog-career.service';
 import { CatalogBenefitService } from '../../../core/services/catalog-benefit.service';
@@ -62,6 +64,7 @@ import {
   RecruiterGroupFormDialogData,
 } from './recruiter-group-form-dialog.component';
 import { CatalogFormTplDirective } from './catalog-form-tpl.directive';
+import { ShModalActionsDirective } from '../../../shared/components/modal-form/sh-modal-form.component';
 import {
   CatalogFormDialogShellComponent,
   CatalogFormDialogData,
@@ -219,6 +222,7 @@ import { catalogPanelUi } from '../../../core/i18n/catalog-panel-ui-labels';
     CatalogListActionsComponent,
     CatalogTableImportExportActionsComponent,
     CatalogFormTplDirective,
+    ShModalActionsDirective,
   ],
   templateUrl: './catalogs-admin.component.html',
   styleUrl: './catalogs-admin.component.scss',
@@ -234,6 +238,7 @@ export class CatalogsAdminComponent implements OnInit {
   readonly catalogsSaving = CATALOGS_SAVING;
   readonly catalogsSave = CATALOGS_SAVE;
   readonly panelUi = catalogPanelUi;
+  readonly clearFiltersLabel = COMMON_CLEAR_FILTERS;
   readonly colTradeName = CATALOG_COLUMN_TRADE_NAME;
   readonly colTaxId = CATALOG_COLUMN_TAX_ID;
   readonly colSymbol = CATALOG_COLUMN_SYMBOL;
@@ -341,6 +346,7 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly feedback = inject(FeedbackDialogService);
   private readonly dialog = inject(MatDialog);
   @ViewChildren(CatalogFormTplDirective) private readonly catalogFormTpls!: QueryList<CatalogFormTplDirective>;
+  @ViewChild(NotificationsAdminComponent) private notificationsAdmin?: NotificationsAdminComponent;
   private activeCatalogFormDialog: MatDialogRef<CatalogFormDialogShellComponent, boolean> | null = null;
 
   private readonly apiError = inject(ApiErrorTranslationService);
@@ -1838,6 +1844,244 @@ export class CatalogsAdminComponent implements OnInit {
     this.cancelNeighborhoodForm();
     this.loadStateOptions();
     this.loadCountryCatalogs();
+  }
+
+  /** Reset country filter to MX (default) for country-scoped catalogs. */
+  clearCountryCatalogFilters(): void {
+    const mexico = this.countries.find((c) => c.code === 'MX');
+    const fallback = mexico?.id ?? this.countries[0]?.id;
+    if (fallback == null) {
+      return;
+    }
+    this.onCountryChange(fallback);
+  }
+
+  clearMunicipalityCatalogFilters(): void {
+    this.clearCountryCatalogFilters();
+  }
+
+  clearNeighborhoodCatalogFilters(): void {
+    this.clearCountryCatalogFilters();
+  }
+
+  clearCancellationReasonFilters(): void {
+    this.onCancellationTypeFilterChange(null);
+  }
+
+  clearCompanyCatalogFilters(): void {
+    const first = this.companies[0]?.id;
+    if (first == null) {
+      return;
+    }
+    this.onCatalogCompanyChange(first);
+  }
+
+  showCatalogNewButton(): boolean {
+    const panel = this.activePanel;
+    if (!panel) {
+      return false;
+    }
+    // Log / Cobertura / Fallidos: sin botón Nuevo en el shell.
+    if (
+      panel === 'notificationLogs' ||
+      panel === 'notificationCoverage' ||
+      panel === 'notificationFailed'
+    ) {
+      return false;
+    }
+    return this.isActiveCatalogImplemented();
+  }
+
+  isNotificationPanelVisible(): boolean {
+    const panel = this.activePanel;
+    return (
+      panel === 'messages' ||
+      panel === 'notificationLogs' ||
+      panel === 'notificationCoverage' ||
+      panel === 'notificationFailed'
+    );
+  }
+
+  activeNotificationSection(): 'templates' | 'logs' | 'coverage' | 'failed' {
+    switch (this.activePanel) {
+      case 'notificationLogs':
+        return 'logs';
+      case 'notificationCoverage':
+        return 'coverage';
+      case 'notificationFailed':
+        return 'failed';
+      default:
+        return 'templates';
+    }
+  }
+
+  activeCatalogNewButtonLabel(): string {
+    const panel = this.activePanel;
+    if (!panel) {
+      return '';
+    }
+    if (panel === 'messages') {
+      return NOTIFICATIONS_NEW_BUTTON;
+    }
+    return this.panelUi(panel)?.newButton ?? '';
+  }
+
+  isCatalogCreateDisabled(): boolean {
+    switch (this.activePanel) {
+      case 'companyArea':
+      case 'companyDepartment':
+        return this.selectedCatalogCompanyId == null;
+      case 'branch':
+      case 'questionnaireCategory':
+      case 'questionnaireQuestion':
+      case 'jobPortal':
+      case 'recruiterGroup':
+        return this.selectedCountryId == null;
+      default:
+        return false;
+    }
+  }
+
+  openCreateActiveCatalog(): void {
+    switch (this.activePanel) {
+      case 'gender':
+        this.openCreateGender();
+        break;
+      case 'career':
+        this.openCreateCareer();
+        break;
+      case 'currency':
+        this.openCreateCurrency();
+        break;
+      case 'language':
+        this.openCreateLanguage();
+        break;
+      case 'shift':
+        this.openCreateShift();
+        break;
+      case 'benefit':
+        this.openCreateBenefit();
+        break;
+      case 'contractType':
+        this.openCreateContractType();
+        break;
+      case 'educationLevel':
+        this.openCreateEducationLevel();
+        break;
+      case 'languageLevel':
+        this.openCreateLanguageLevel();
+        break;
+      case 'country':
+        this.openCreateCountry();
+        break;
+      case 'state':
+        this.openCreateState();
+        break;
+      case 'municipality':
+        this.openCreateMunicipality();
+        break;
+      case 'neighborhood':
+        this.openCreateNeighborhood();
+        break;
+      case 'client':
+        this.openCreateClient();
+        break;
+      case 'coverageCategory':
+        this.openCreateCoverageCategory();
+        break;
+      case 'characteristic':
+        this.openCreateCharacteristic();
+        break;
+      case 'category':
+        this.openCreateCategory();
+        break;
+      case 'maritalStatus':
+        this.openCreateMaritalStatus();
+        break;
+      case 'experienceLevel':
+        this.openCreateExperienceLevel();
+        break;
+      case 'tool':
+        this.openCreateTool();
+        break;
+      case 'workSchedule':
+        this.openCreateWorkSchedule();
+        break;
+      case 'workplace':
+        this.openCreateWorkplace();
+        break;
+      case 'requirement':
+        this.openCreateRequirement();
+        break;
+      case 'responsibilityLevel':
+        this.openCreateResponsibilityLevel();
+        break;
+      case 'disabilityType':
+        this.openCreateDisabilityType();
+        break;
+      case 'businessUnit':
+        this.openCreateBusinessUnit();
+        break;
+      case 'positionType':
+        this.openCreatePositionType();
+        break;
+      case 'recruiterGroup':
+        this.openCreateRecruiterGroup();
+        break;
+      case 'kinship':
+        this.openCreateKinship();
+        break;
+      case 'cancellationType':
+        this.openCreateCancellationType();
+        break;
+      case 'cancellationReason':
+        this.openCreateCancellationReason();
+        break;
+      case 'positionStatus':
+        this.openCreatePositionStatus();
+        break;
+      case 'company':
+        this.openCreateCompany();
+        break;
+      case 'brand':
+        this.openCreateBrand();
+        break;
+      case 'documentType':
+        this.openCreateDocumentType();
+        break;
+      case 'fileExtension':
+        this.openCreateFileExtension();
+        break;
+      case 'requisitionType':
+        this.openCreateRequisitionType();
+        break;
+      case 'coverageType':
+        this.openCreateCoverageType();
+        break;
+      case 'companyArea':
+        this.openCreateCompanyArea();
+        break;
+      case 'companyDepartment':
+        this.openCreateCompanyDepartment();
+        break;
+      case 'branch':
+        this.openCreateBranch();
+        break;
+      case 'questionnaireCategory':
+        this.openCreateQuestionnaireCategory();
+        break;
+      case 'questionnaireQuestion':
+        this.openCreateQuestionnaireQuestion();
+        break;
+      case 'jobPortal':
+        this.openCreateJobPortal();
+        break;
+      case 'messages':
+        this.notificationsAdmin?.openCreate();
+        break;
+      default:
+        break;
+    }
   }
 
   onGeoStateChange(stateId: number): void {

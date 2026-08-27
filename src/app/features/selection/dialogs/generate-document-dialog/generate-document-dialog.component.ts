@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -23,6 +23,11 @@ import { CatalogCompanyService } from '../../../../core/services/catalog-company
 import { TenantContextService } from '../../../../core/services/tenant-context.service';
 import { downloadBlob } from '../../../../core/services/catalog-import-export.service';
 import { DocumentTemplateItem } from '../../../../shared/models/document-template.model';
+import { ShPaginatorComponent } from '../../../../shared/components/paginator/sh-paginator.component';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../../shared/components/modal-form/sh-modal-form.component';
 
 export interface GenerateDocumentDialogData {
   applicationId: number;
@@ -37,9 +42,11 @@ export interface GenerateDocumentDialogData {
     MatButtonModule,
     MatIconModule,
     MatTableModule,
-    MatPaginatorModule,
+    ShPaginatorComponent,
     MatProgressSpinnerModule,
     MatTooltipModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
   ],
   templateUrl: './generate-document-dialog.component.html',
   styleUrl: './generate-document-dialog.component.scss',
