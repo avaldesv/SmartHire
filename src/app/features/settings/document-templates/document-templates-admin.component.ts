@@ -33,11 +33,17 @@ import {
   DOCTEMPLATES_VAR_COL_ACTIVE,
   DOCTEMPLATES_VAR_COL_CODE,
   DOCTEMPLATES_VAR_COL_DESCRIPTION,
+  DOCTEMPLATES_VAR_COL_IN_USE,
   DOCTEMPLATES_VAR_COL_LABEL,
   DOCTEMPLATES_VAR_EMPTY,
+  DOCTEMPLATES_VAR_ERRORS_DELETE,
   DOCTEMPLATES_VAR_ERRORS_LIST,
+  DOCTEMPLATES_VAR_IN_USE_NO,
+  DOCTEMPLATES_VAR_IN_USE_YES,
   DOCTEMPLATES_VAR_NEW_BUTTON,
+  DOCTEMPLATES_VAR_SUCCESS_DELETED,
   DOCTEMPLATES_VAR_SUCCESS_SAVED,
+  documentTemplateVariableDeleteConfirm,
   documentTemplatesDeleteConfirm,
 } from '../../../core/i18n/document-templates-labels';
 import { DocumentTemplateApiService } from '../../../core/services/document-template-api.service';
@@ -89,8 +95,11 @@ export class DocumentTemplatesAdminComponent implements OnInit {
   readonly varColCode = DOCTEMPLATES_VAR_COL_CODE;
   readonly varColLabel = DOCTEMPLATES_VAR_COL_LABEL;
   readonly varColDescription = DOCTEMPLATES_VAR_COL_DESCRIPTION;
+  readonly varColInUse = DOCTEMPLATES_VAR_COL_IN_USE;
   readonly varColActive = DOCTEMPLATES_VAR_COL_ACTIVE;
   readonly varEmpty = DOCTEMPLATES_VAR_EMPTY;
+  readonly varInUseYes = DOCTEMPLATES_VAR_IN_USE_YES;
+  readonly varInUseNo = DOCTEMPLATES_VAR_IN_USE_NO;
 
   readonly tplNewButton = DOCTEMPLATES_TPL_NEW_BUTTON;
   readonly tplColName = DOCTEMPLATES_TPL_COL_NAME;
@@ -115,7 +124,7 @@ export class DocumentTemplatesAdminComponent implements OnInit {
   templatesPageIndex = 0;
   templatesPageSize = 10;
 
-  readonly variableColumns = ['code', 'label', 'description', 'isActive', 'actions'];
+  readonly variableColumns = ['code', 'label', 'description', 'inUse', 'isActive', 'actions'];
   readonly templateColumns = ['name', 'usedVariableCodes', 'fileName', 'isActive', 'actions'];
 
   private variablesLoaded = false;
@@ -202,6 +211,39 @@ export class DocumentTemplatesAdminComponent implements OnInit {
       return;
     }
     this.openVariableDialog({ variable: row });
+  }
+
+  deleteVariable(row: DocumentTemplateVariableItem): void {
+    if (!this.canDelete() || row.inUse) {
+      return;
+    }
+    this.feedback
+      .confirm({
+        title: FEEDBACK_GENERIC_WARNING_TITLE,
+        message: documentTemplateVariableDeleteConfirm(row.code),
+        confirmWarn: true,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
+        this.deletingId = row.id;
+        this.variableApi.delete(row.id).subscribe({
+          next: () => {
+            this.deletingId = null;
+            this.feedback.showSuccess(DOCTEMPLATES_VAR_SUCCESS_DELETED);
+            this.loadVariables();
+          },
+          error: (err) => {
+            this.deletingId = null;
+            this.feedback.showApiError(err, { fallbackMessage: DOCTEMPLATES_VAR_ERRORS_DELETE });
+          },
+        });
+      });
+  }
+
+  inUseTitle(row: DocumentTemplateVariableItem): string {
+    return row.usedInTemplateNames?.length ? row.usedInTemplateNames.join(', ') : '';
   }
 
   private openVariableDialog(data: DocumentTemplateVariableFormDialogData): void {

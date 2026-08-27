@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import {
   CreateDocumentTemplateVariableRequest,
+  DocumentTemplateAvailableFieldsResponse,
   DocumentTemplateVariableItem,
   DocumentTemplateVariableListResponse,
   UpdateDocumentTemplateVariableRequest,
@@ -15,7 +16,13 @@ export class DocumentTemplateVariableApiService {
   private readonly api = inject(ApiClientService);
 
   list(page = 0, size = 10): Observable<{ items: DocumentTemplateVariableItem[]; total: number }> {
-    const body = { code: null, isActive: null, filters: [], ordersBy: ['code:asc'] as string[] };
+    const body = {
+      code: null,
+      isActive: null,
+      inUse: null,
+      filters: [],
+      ordersBy: ['code:asc'] as string[],
+    };
     return this.http
       .post<DocumentTemplateVariableListResponse>(
         this.api.apiUrl('/api/v1/document-template-variables/list'),
@@ -28,6 +35,13 @@ export class DocumentTemplateVariableApiService {
           total: res.pagination?.total ?? 0,
         })),
       );
+  }
+
+  availableFields(): Observable<DocumentTemplateAvailableFieldsResponse> {
+    return this.http.get<DocumentTemplateAvailableFieldsResponse>(
+      this.api.apiUrl('/api/v1/document-template-variables/available-fields'),
+      { headers: this.api.buildHeaders() },
+    );
   }
 
   create(request: CreateDocumentTemplateVariableRequest): Observable<DocumentTemplateVariableItem> {
@@ -44,5 +58,11 @@ export class DocumentTemplateVariableApiService {
       request,
       { headers: this.api.buildHeaders() },
     );
+  }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(this.api.apiUrl(`/api/v1/document-template-variables/${id}`), {
+      headers: this.api.buildHeaders(),
+    });
   }
 }

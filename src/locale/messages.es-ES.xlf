@@ -8380,6 +8380,10 @@
         <source>Descripción</source>
         <target>Descripción</target>
       </trans-unit>
+      <trans-unit id="documentTemplates.variables.col.inUse" datatype="html">
+        <source>En uso</source>
+        <target>En uso</target>
+      </trans-unit>
       <trans-unit id="documentTemplates.variables.col.active" datatype="html">
         <source>Activa</source>
         <target>Activa</target>
@@ -8413,8 +8417,8 @@
         <target>Activa</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.codeHint" datatype="html">
-        <source>Solo letras, números y guion bajo; debe empezar con letra. No se puede cambiar al editar.</source>
-        <target>Solo letras, números y guion bajo; debe empezar con letra. No se puede cambiar al editar.</target>
+        <source>El código se genera del campo elegido y no se puede cambiar.</source>
+        <target>El código se genera del campo elegido y no se puede cambiar.</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.errors.list" datatype="html">
         <source>No se pudieron cargar las variables</source>
@@ -8423,6 +8427,62 @@
       <trans-unit id="documentTemplates.variables.errors.save" datatype="html">
         <source>No se pudo guardar la variable</source>
         <target>No se pudo guardar la variable</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.field.origin" datatype="html">
+        <source>Origen</source>
+        <target>Origen</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.field.source" datatype="html">
+        <source>Campo</source>
+        <target>Campo</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.noFields" datatype="html">
+        <source>No hay campos disponibles en este origen</source>
+        <target>No hay campos disponibles en este origen</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.origin.candidate" datatype="html">
+        <source>Candidato</source>
+        <target>Candidato</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.origin.position" datatype="html">
+        <source>Posición</source>
+        <target>Posición</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.origin.recruiter" datatype="html">
+        <source>Reclutador</source>
+        <target>Reclutador</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.origin.application" datatype="html">
+        <source>Postulación</source>
+        <target>Postulación</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.origin.company" datatype="html">
+        <source>Empresa</source>
+        <target>Empresa</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.inUse.yes" datatype="html">
+        <source>Sí</source>
+        <target>Sí</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.inUse.no" datatype="html">
+        <source>No</source>
+        <target>No</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.errors.fields" datatype="html">
+        <source>No se pudieron cargar los campos disponibles</source>
+        <target>No se pudieron cargar los campos disponibles</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.errors.delete" datatype="html">
+        <source>No se pudo eliminar la variable</source>
+        <target>No se pudo eliminar la variable</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.success.deleted" datatype="html">
+        <source>Variable eliminada</source>
+        <target>Variable eliminada</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.deleteConfirm" datatype="html">
+        <source>¿Eliminar la variable "<x id="code" equiv-text="code"/>"? Esta acción no se puede deshacer.</source>
+        <target>¿Eliminar la variable "<x id="code" equiv-text="code"/>"? Esta acción no se puede deshacer.</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.success.saved" datatype="html">
         <source>Variable guardada</source>
