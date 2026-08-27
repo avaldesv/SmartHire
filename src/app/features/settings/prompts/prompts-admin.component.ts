@@ -10,7 +10,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
+import { debounceTime } from 'rxjs';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { COMMON_CLEAR_FILTERS } from '../../../core/i18n/common-labels';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { AppPermissions } from '../../../core/auth/app-permissions';
 import {
@@ -88,6 +90,8 @@ export class PromptsAdminComponent implements OnInit {
   deletingId: number | null = null;
   showForm = false;
   editingId: number | null = null;
+  /** Full list for client-side search (prompts API has no search param). */
+  private allItems: AiPromptItem[] = [];
   data: AiPromptItem[] = [];
   total = 0;
   pageIndex = 0;
@@ -99,6 +103,8 @@ export class PromptsAdminComponent implements OnInit {
   private readonly expandedDescriptionIds = new Set<number>();
 
   readonly pageTitle = PROMPTS_PAGE_TITLE;
+  readonly clearFiltersLabel = COMMON_CLEAR_FILTERS;
+  readonly searchLabel = $localize`:@@prompts.search:Buscar prompt`;
   readonly newButton = PROMPTS_NEW_BUTTON;
   readonly editTitle = PROMPTS_EDIT_TITLE;
   readonly newTitle = PROMPTS_NEW_TITLE;
@@ -119,6 +125,8 @@ export class PromptsAdminComponent implements OnInit {
   readonly savingLabel = PROMPTS_SAVING;
   readonly saveLabel = PROMPTS_SAVE;
 
+  readonly searchForm = this.fb.nonNullable.group({ search: [''] });
+
   readonly promptForm = this.fb.nonNullable.group({
     clave: ['', Validators.required],
     promptText: ['', Validators.required],
@@ -132,6 +140,10 @@ export class PromptsAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.load();
+    this.searchForm.controls.search.valueChanges.pipe(debounceTime(300)).subscribe(() => {
+      this.pageIndex = 0;
+      this.applyFilter();
+    });
   }
 
   canCreate(): boolean {
@@ -158,10 +170,10 @@ export class PromptsAdminComponent implements OnInit {
     this.loading = true;
     this.expandedPromptTextIds.clear();
     this.expandedDescriptionIds.clear();
-    this.aiPromptApi.list(this.pageIndex, this.pageSize).subscribe({
-      next: ({ items, total }) => {
-        this.data = items;
-        this.total = total;
+    this.aiPromptApi.list(0, 500).subscribe({
+      next: ({ items }) => {
+        this.allItems = items;
+        this.applyFilter();
         this.loading = false;
       },
       error: (err) => {
@@ -171,10 +183,31 @@ export class PromptsAdminComponent implements OnInit {
     });
   }
 
+  private applyFilter(): void {
+    const q = this.searchForm.controls.search.value.trim().toLowerCase();
+    const filtered = !q
+      ? this.allItems
+      : this.allItems.filter(
+          (r) =>
+            r.clave?.toLowerCase().includes(q) ||
+            (r.promptText ?? '').toLowerCase().includes(q) ||
+            (r.description ?? '').toLowerCase().includes(q),
+        );
+    this.total = filtered.length;
+    const start = this.pageIndex * this.pageSize;
+    this.data = filtered.slice(start, start + this.pageSize);
+  }
+
   onPage(event: PageEvent): void {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
-    this.load();
+    this.applyFilter();
+  }
+
+  clearFilters(): void {
+    this.searchForm.controls.search.setValue('');
+    this.pageIndex = 0;
+    this.applyFilter();
   }
 
   openCreate(): void {

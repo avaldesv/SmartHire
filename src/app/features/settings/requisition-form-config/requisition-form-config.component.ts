@@ -10,6 +10,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { COMMON_CLEAR_FILTERS } from '../../../core/i18n/common-labels';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { catchError, filter, forkJoin, Observable, of, tap } from 'rxjs';
 import { AppPermissions } from '../../../core/auth/app-permissions';
@@ -29,7 +30,6 @@ import {
   REQ_FORM_CONFIG_LIST_ERROR,
   REQ_FORM_CONFIG_LOAD_ERROR,
   REQ_FORM_CONFIG_PAGE_TITLE,
-  REQ_FORM_CONFIG_REFRESH_LIST,
   REQ_FORM_CONFIG_SELECT_COUNTRY_COVERAGE,
   REQ_FORM_CONFIG_SELECTORS_HINT,
   REQ_FORM_CONFIG_SNACK_CLOSE,
@@ -92,7 +92,6 @@ export class RequisitionFormConfigComponent implements OnInit {
   readonly fieldCountry = REQ_FORM_CONFIG_FIELD_COUNTRY;
   readonly fieldCoverage = REQ_FORM_CONFIG_FIELD_COVERAGE;
   readonly createDraftLabel = REQ_FORM_CONFIG_CREATE_DRAFT;
-  readonly refreshListLabel = REQ_FORM_CONFIG_REFRESH_LIST;
   readonly listTitle = REQ_FORM_CONFIG_LIST_TITLE;
   readonly emptyListLabel = REQ_FORM_CONFIG_EMPTY_LIST;
   readonly listErrorLabel = REQ_FORM_CONFIG_LIST_ERROR;
@@ -110,6 +109,7 @@ export class RequisitionFormConfigComponent implements OnInit {
   readonly colStatus = REQ_FORM_CONFIG_COL_STATUS;
   readonly colPublishedAt = REQ_FORM_CONFIG_COL_PUBLISHED_AT;
   readonly colActions = REQ_FORM_CONFIG_COL_ACTIONS;
+  readonly clearFiltersLabel = COMMON_CLEAR_FILTERS;
   readonly listColumns = ['name', 'country', 'coverage', 'version', 'status', 'publishedAt', 'actions'];
 
   readonly canWrite = computed(() => this.permissions.hasAuthority(AppPermissions.REQUISITION_FORM_CONFIG_WRITE));
@@ -210,6 +210,16 @@ export class RequisitionFormConfigComponent implements OnInit {
   onListPageChange(event: PageEvent): void {
     this.listPageIndex = event.pageIndex;
     this.listPageSize = event.pageSize;
+    this.loadConfigsList();
+  }
+
+  clearFilters(): void {
+    this.selectorForm.reset(
+      { countryId: null, coverageTypeId: null, status: null },
+      { emitEvent: false },
+    );
+    this.coverageTypes = [];
+    this.listPageIndex = 0;
     this.loadConfigsList();
   }
 

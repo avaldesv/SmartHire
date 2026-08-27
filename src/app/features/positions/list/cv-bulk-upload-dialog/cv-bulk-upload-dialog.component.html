@@ -1,9 +1,4 @@
-<div class="sh-catalog-dialog-header" mat-dialog-title>
-  <span class="sh-catalog-dialog-header__text">{{ labels.title }}</span>
-</div>
-
-<mat-dialog-content class="sh-catalog-dialog-body">
-  <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
+<sh-modal-form [title]="labels.title">
   @if (positionName) {
     <p class="position-line">{{ positionName }}</p>
   }
@@ -56,17 +51,17 @@
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     <p class="upload-label">{{ uploadLabel() }}</p>
   }
-</mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <button mat-button type="button" [disabled]="uploading()" (click)="cancel()">{{ labels.cancel }}</button>
-  <button
-    mat-flat-button
-    color="primary"
-    type="button"
-    [disabled]="uploading() || selectedCount() === 0"
-    (click)="startUpload()"
-  >
-    {{ labels.start }}
-  </button>
-</mat-dialog-actions>
+  <div shModalActions>
+    <button mat-stroked-button type="button" [disabled]="uploading()" (click)="cancel()">{{ labels.cancel }}</button>
+    <button
+      mat-flat-button
+      color="primary"
+      type="button"
+      [disabled]="uploading() || selectedCount() === 0"
+      (click)="startUpload()"
+    >
+      {{ labels.start }}
+    </button>
+  </div>
+</sh-modal-form>

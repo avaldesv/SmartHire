@@ -1,9 +1,4 @@
-<div class="sh-catalog-dialog-header" mat-dialog-title>
-  <span class="sh-catalog-dialog-header__text">{{ title }}</span>
-</div>
-
-<mat-dialog-content class="sh-catalog-dialog-body">
-  <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
+<sh-modal-form [title]="title">
   @if (data.candidateName) {
     <p class="candidate-name">{{ data.candidateName }}</p>
   }
@@ -48,18 +43,17 @@
       </table>
     </div>
 
-    <mat-paginator
+    <sh-paginator
       [length]="total"
       [pageSize]="pageSize"
       [pageIndex]="pageIndex"
       [pageSizeOptions]="[10]"
       [hidePageSize]="true"
       (page)="onPage($event)"
-      showFirstLastButtons
     />
   }
-</mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <button mat-button type="button" (click)="close()" [disabled]="generatingId != null">{{ closeLabel }}</button>
-</mat-dialog-actions>
+  <div shModalActions>
+    <button mat-stroked-button type="button" (click)="close()" [disabled]="generatingId != null">{{ closeLabel }}</button>
+  </div>
+</sh-modal-form>

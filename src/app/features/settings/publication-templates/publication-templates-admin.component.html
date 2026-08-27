@@ -1,12 +1,25 @@
-<h3>{{ pageTitle }}</h3>
-
-@if (canCreate()) {
-  <div class="toolbar">
-    <button mat-flat-button color="primary" type="button" (click)="openCreate()">
-      <mat-icon>add</mat-icon> {{ newButton }}
-    </button>
+<div class="sh-list-page-header">
+  <h3>{{ pageTitle }}</h3>
+  <div class="sh-list-page-header__actions">
+    @if (canCreate()) {
+      <button mat-flat-button color="primary" type="button" (click)="openCreate()">
+        <mat-icon>add</mat-icon> {{ newButton }}
+      </button>
+    }
   </div>
-}
+</div>
+
+<form [formGroup]="searchForm" class="sh-filters sh-card">
+  <div class="filter-fields">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-label>{{ searchLabel }}</mat-label>
+      <input matInput formControlName="search" />
+    </mat-form-field>
+  </div>
+  <div class="filter-actions">
+    <button mat-stroked-button type="button" (click)="clearFilters()">{{ clearFiltersLabel }}</button>
+  </div>
+</form>
 
 @if (loading) {
   <div class="loading-wrap"><mat-spinner diameter="36" /></div>

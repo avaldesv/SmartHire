@@ -16,6 +16,10 @@ import {
 } from '../../core/i18n/candidate-accounts-labels';
 import { CandidateAccountApiService } from '../../core/services/candidate-account-api.service';
 import { CandidateAccountItem } from '../../shared/models/candidate-account.model';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../shared/components/modal-form/sh-modal-form.component';
 
 export interface CandidateAccountHardDeleteDialogData {
   account: CandidateAccountItem;
@@ -24,7 +28,15 @@ export interface CandidateAccountHardDeleteDialogData {
 @Component({
   selector: 'sh-candidate-account-hard-delete-dialog',
   standalone: true,
-  imports: [ReactiveFormsModule, MatDialogModule, MatButtonModule, MatFormFieldModule, MatInputModule],
+  imports: [
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
+  ],
   templateUrl: './candidate-account-hard-delete-dialog.component.html',
   styleUrl: './candidate-account-hard-delete-dialog.component.scss',
 })

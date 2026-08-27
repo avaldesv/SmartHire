@@ -1,13 +1,17 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { COMMON_CLEAR_FILTERS } from '../../../core/i18n/common-labels';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
-import { filter } from 'rxjs';
+import { debounceTime, filter } from 'rxjs';
 import { AppPermissions } from '../../../core/auth/app-permissions';
 import {
   PUBTEMPLATES_COL_ACTIVE,
@@ -20,7 +24,6 @@ import {
   PUBTEMPLATES_ERRORS_LIST,
   PUBTEMPLATES_NEW_BUTTON,
   PUBTEMPLATES_PAGE_TITLE,
-  PUBTEMPLATES_SNACK_CLOSE,
   PUBTEMPLATES_SUCCESS_DELETED,
   PUBTEMPLATES_SUCCESS_SAVED,
   publicationTemplatesDeleteConfirm,
@@ -38,11 +41,14 @@ import {
   selector: 'sh-publication-templates-admin',
   standalone: true,
   imports: [
+    ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatButtonModule,
     MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatDialogModule,
     TableRowActionsComponent,
   ],
@@ -54,9 +60,11 @@ export class PublicationTemplatesAdminComponent implements OnInit {
   private readonly permissions = inject(PermissionService);
   private readonly feedback = inject(FeedbackDialogService);
   private readonly dialog = inject(MatDialog);
+  private readonly fb = inject(FormBuilder);
 
   loading = true;
   deletingId: number | null = null;
+  private allItems: PublicationTemplateItem[] = [];
   data: PublicationTemplateItem[] = [];
   total = 0;
   pageIndex = 0;
@@ -71,9 +79,17 @@ export class PublicationTemplatesAdminComponent implements OnInit {
   readonly columnDefault = PUBTEMPLATES_COL_DEFAULT;
   readonly columnActive = PUBTEMPLATES_COL_ACTIVE;
   readonly emptyLabel = PUBTEMPLATES_EMPTY;
+  readonly clearFiltersLabel = COMMON_CLEAR_FILTERS;
+  readonly searchLabel = $localize`:@@pubtemplates.search:Buscar plantilla`;
+
+  readonly searchForm = this.fb.nonNullable.group({ search: [''] });
 
   ngOnInit(): void {
     this.load();
+    this.searchForm.controls.search.valueChanges.pipe(debounceTime(300)).subscribe(() => {
+      this.pageIndex = 0;
+      this.applyFilter();
+    });
   }
 
   canCreate(): boolean {
@@ -90,10 +106,10 @@ export class PublicationTemplatesAdminComponent implements OnInit {
 
   load(): void {
     this.loading = true;
-    this.api.list(this.pageIndex, this.pageSize).subscribe({
-      next: ({ items, total }) => {
-        this.data = items;
-        this.total = total;
+    this.api.list(0, 100).subscribe({
+      next: ({ items }) => {
+        this.allItems = items;
+        this.applyFilter();
         this.loading = false;
       },
       error: (err) => {
@@ -103,10 +119,30 @@ export class PublicationTemplatesAdminComponent implements OnInit {
     });
   }
 
+  private applyFilter(): void {
+    const q = this.searchForm.controls.search.value.trim().toLowerCase();
+    const filtered = !q
+      ? this.allItems
+      : this.allItems.filter(
+          (r) =>
+            r.name?.toLowerCase().includes(q) ||
+            (r.locale ?? '').toLowerCase().includes(q),
+        );
+    this.total = filtered.length;
+    const start = this.pageIndex * this.pageSize;
+    this.data = filtered.slice(start, start + this.pageSize);
+  }
+
   onPage(event: PageEvent): void {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
-    this.load();
+    this.applyFilter();
+  }
+
+  clearFilters(): void {
+    this.searchForm.controls.search.setValue('');
+    this.pageIndex = 0;
+    this.applyFilter();
   }
 
   openCreate(): void {
@@ -171,18 +207,18 @@ export class PublicationTemplatesAdminComponent implements OnInit {
         if (!ok) {
           return;
         }
-    this.deletingId = row.id;
-    this.api.delete(row.id).subscribe({
-      next: () => {
-        this.deletingId = null;
-        this.feedback.showSuccess(PUBTEMPLATES_SUCCESS_DELETED);
-        this.load();
-      },
-      error: (err) => {
-        this.deletingId = null;
-        this.feedback.showApiError(err, { fallbackMessage: PUBTEMPLATES_ERRORS_DELETE });
-      },
-    });
+        this.deletingId = row.id;
+        this.api.delete(row.id).subscribe({
+          next: () => {
+            this.deletingId = null;
+            this.feedback.showSuccess(PUBTEMPLATES_SUCCESS_DELETED);
+            this.load();
+          },
+          error: (err) => {
+            this.deletingId = null;
+            this.feedback.showApiError(err, { fallbackMessage: PUBTEMPLATES_ERRORS_DELETE });
+          },
+        });
       });
   }
 }

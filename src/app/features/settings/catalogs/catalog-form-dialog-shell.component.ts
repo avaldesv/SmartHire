@@ -1,7 +1,10 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, ViewEncapsulation, inject, TemplateRef } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CATALOG_FORM_DIALOG_PANEL_CLASS } from '../../../core/dialog/catalog-dialog.constants';
+import {
+  ShModalFormComponent,
+} from '../../../shared/components/modal-form/sh-modal-form.component';
 
 export { CATALOG_FORM_DIALOG_PANEL_CLASS };
 
@@ -13,21 +16,21 @@ export interface CatalogFormDialogData {
 @Component({
   selector: 'sh-catalog-form-dialog-shell',
   standalone: true,
-  imports: [MatDialogModule, NgTemplateOutlet],
+  imports: [NgTemplateOutlet, ShModalFormComponent],
   encapsulation: ViewEncapsulation.None,
   template: `
-    <div class="sh-catalog-dialog-header" mat-dialog-title>
-      <span class="sh-catalog-dialog-header__text">{{ data.title }}</span>
-    </div>
-    <mat-dialog-content class="sh-catalog-dialog-body">
-      <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
+    <sh-modal-form [title]="data.title">
       <ng-container *ngTemplateOutlet="data.content" />
-    </mat-dialog-content>
+    </sh-modal-form>
   `,
   styles: [
     `
       sh-catalog-form-dialog-shell {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        min-height: 0;
+        height: 100%;
       }
 
       sh-catalog-form-dialog-shell .sh-catalog-dialog-body .gender-form,
@@ -40,19 +43,10 @@ export interface CatalogFormDialogData {
         align-items: start;
       }
 
-      sh-catalog-form-dialog-shell .sh-catalog-dialog-body .gender-form > .form-actions,
-      sh-catalog-form-dialog-shell .sh-catalog-dialog-body .doc-type-form > .form-actions,
       sh-catalog-form-dialog-shell .sh-catalog-dialog-body .gender-form > mat-checkbox,
       sh-catalog-form-dialog-shell .sh-catalog-dialog-body .doc-type-form > mat-checkbox,
       sh-catalog-form-dialog-shell .sh-catalog-dialog-body .scope-selector {
         grid-column: 1 / -1;
-      }
-
-      sh-catalog-form-dialog-shell .sh-catalog-dialog-body .form-actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 8px;
-        margin-top: 8px;
       }
 
       @media (max-width: 700px) {

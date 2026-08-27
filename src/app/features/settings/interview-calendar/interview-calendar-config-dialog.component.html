@@ -1,11 +1,15 @@
-<div class="sh-catalog-dialog-header cal-dialog-header" mat-dialog-title>
-  <span class="sh-catalog-dialog-header__text">{{ labels.title }}</span>
-  <button mat-icon-button type="button" class="cal-dialog-header__close" (click)="close()" [attr.aria-label]="labels.close">
+<sh-modal-form [title]="labels.title" contentClass="cal-body">
+  <button
+    shModalHeaderExtra
+    mat-icon-button
+    type="button"
+    class="cal-dialog-header__close"
+    (click)="close()"
+    [attr.aria-label]="labels.close"
+  >
     <mat-icon>close</mat-icon>
   </button>
-</div>
 
-<mat-dialog-content class="cal-body">
   @if (loading) {
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else {
@@ -224,18 +228,18 @@
       </mat-tab-group>
     </form>
   }
-</mat-dialog-content>
 
-<mat-dialog-actions align="end" class="cal-footer">
-  <button mat-stroked-button type="button" class="cal-footer__cancel" (click)="close()">{{ labels.cancel }}</button>
-  <button
-    mat-flat-button
-    color="primary"
-    type="button"
-    class="cal-footer__save"
-    [disabled]="loading || saving"
-    (click)="save()"
-  >
-    {{ labels.save }}
-  </button>
-</mat-dialog-actions>
+  <div shModalActions class="cal-footer">
+    <button mat-stroked-button type="button" class="cal-footer__cancel" (click)="close()">{{ labels.cancel }}</button>
+    <button
+      mat-flat-button
+      color="primary"
+      type="button"
+      class="cal-footer__save"
+      [disabled]="loading || saving"
+      (click)="save()"
+    >
+      {{ labels.save }}
+    </button>
+  </div>
+</sh-modal-form>

@@ -1,5 +1,4 @@
-<h2 mat-dialog-title>{{ title }}</h2>
-<mat-dialog-content>
+<sh-modal-form [title]="title">
   <form [formGroup]="form" class="form" (ngSubmit)="save()">
     <mat-form-field appearance="outline" class="full">
       <mat-label>{{ fieldEmail }}</mat-label>
@@ -20,10 +19,11 @@
       </mat-form-field>
     }
   </form>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button type="button" [mat-dialog-close]="false" [disabled]="saving">{{ cancelLabel }}</button>
-  <button mat-flat-button color="primary" type="button" (click)="save()" [disabled]="saving">
-    {{ saving ? savingLabel : saveLabel }}
-  </button>
-</mat-dialog-actions>
+
+  <div shModalActions>
+    <button mat-stroked-button type="button" [mat-dialog-close]="false" [disabled]="saving">{{ cancelLabel }}</button>
+    <button mat-flat-button color="primary" type="button" (click)="save()" [disabled]="saving">
+      {{ saving ? savingLabel : saveLabel }}
+    </button>
+  </div>
+</sh-modal-form>

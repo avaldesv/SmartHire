@@ -2,8 +2,8 @@
 <mat-tab-group [selectedIndex]="categoryTabIndex" (selectedIndexChange)="onCategoryTabChange($event)">
   @for (category of visibleCategories(); track category.id) {
     <mat-tab [label]="category.label">
-      <div class="category-shell">
-        <mat-form-field appearance="outline" class="catalog-select">
+      <div class="category-shell sh-list-page-header">
+        <mat-form-field appearance="outline" class="catalog-select" subscriptSizing="dynamic">
           <mat-label i18n="@@catalogs.selectorLabel">Catálogos</mat-label>
           <mat-select
             [value]="selectedCatalogIdByCategory[category.id]"
@@ -14,6 +14,19 @@
             }
           </mat-select>
         </mat-form-field>
+        <div class="sh-list-page-header__actions">
+          @if (category.id === activeCategoryId && showCatalogNewButton()) {
+            <button
+              mat-flat-button
+              color="primary"
+              type="button"
+              (click)="openCreateActiveCatalog()"
+              [disabled]="isCatalogCreateDisabled()"
+            >
+              <mat-icon>add</mat-icon> {{ activeCatalogNewButtonLabel() }}
+            </button>
+          }
+        </div>
       </div>
     </mat-tab>
   }
@@ -31,18 +44,20 @@
   <div class="catalog-panels">
 @if (isPanelVisible("gender")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateGender()">
-          <mat-icon>add</mat-icon> {{ panelUi('gender').newButton }}
-        </button>
+      <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
 
       <ng-template catalogFormTpl="gender">
@@ -79,8 +94,8 @@
               <input matInput formControlName="value" />
             </mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelGenderForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelGenderForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingGender">
                 {{ savingGender ? catalogsSaving : catalogsSave }}
               </button>
@@ -145,11 +160,6 @@
 
   @if (isPanelVisible("kinship")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <button mat-flat-button color="primary" type="button" (click)="openCreateKinship()">
-          <mat-icon>add</mat-icon> {{ panelUi('kinship').newButton }}
-        </button>
-      </div>
       <ng-template catalogFormTpl="kinship">
             @if (isGlobalAdmin() && !editingKinshipId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
@@ -165,8 +175,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelKinshipForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelKinshipForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingKinship">{{ savingKinship ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -204,11 +214,6 @@
 
   @if (isPanelVisible("cancellationType")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <button mat-flat-button color="primary" type="button" (click)="openCreateCancellationType()">
-          <mat-icon>add</mat-icon> {{ panelUi('cancellationType').newButton }}
-        </button>
-      </div>
       <ng-template catalogFormTpl="cancellationType">
         <form [formGroup]="cancellationTypeForm" class="gender-form" (ngSubmit)="saveCancellationType()">
           <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
@@ -216,8 +221,8 @@
           <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
           <mat-form-field appearance="outline"><mat-label>{{ fieldSortOrder }}</mat-label><input matInput type="number" formControlName="sortOrder" /></mat-form-field>
           <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-          <div class="form-actions">
-            <button mat-button type="button" (click)="cancelCancellationTypeForm()" i18n="@@common.cancel">Cancelar</button>
+          <div shModalActions>
+            <button mat-stroked-button type="button" (click)="cancelCancellationTypeForm()" i18n="@@common.cancel">Cancelar</button>
             <button mat-flat-button color="primary" type="submit" [disabled]="savingCancellationType">{{ savingCancellationType ? catalogsSaving : catalogsSave }}</button>
           </div>
         </form>
@@ -244,21 +249,24 @@
 
   @if (isPanelVisible("cancellationReason")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label>{{ fieldCancellationType }}</mat-label>
-          <mat-select [value]="selectedCancellationTypeFilterId" (selectionChange)="onCancellationTypeFilterChange($event.value)">
-            <mat-option [value]="null">{{ fieldAllCancellationTypes }}</mat-option>
-            @for (type of cancellationTypeOptions; track type.id) {
-              <mat-option [value]="type.id">{{ type.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateCancellationReason()">
-          <mat-icon>add</mat-icon> {{ panelUi('cancellationReason').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ fieldCancellationType }}</mat-label>
+            <mat-select [value]="selectedCancellationTypeFilterId" (selectionChange)="onCancellationTypeFilterChange($event.value)">
+              <mat-option [value]="null">{{ fieldAllCancellationTypes }}</mat-option>
+              @for (type of cancellationTypeOptions; track type.id) {
+                <mat-option [value]="type.id">{{ type.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCancellationReasonFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="cancellationReason">
+
+<ng-template catalogFormTpl="cancellationReason">
         <form [formGroup]="cancellationReasonForm" class="gender-form" (ngSubmit)="saveCancellationReason()">
           <mat-form-field appearance="outline">
             <mat-label>{{ fieldCancellationType }}</mat-label>
@@ -273,8 +281,8 @@
           <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
           <mat-form-field appearance="outline"><mat-label>{{ fieldSortOrder }}</mat-label><input matInput type="number" formControlName="sortOrder" /></mat-form-field>
           <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-          <div class="form-actions">
-            <button mat-button type="button" (click)="cancelCancellationReasonForm()" i18n="@@common.cancel">Cancelar</button>
+          <div shModalActions>
+            <button mat-stroked-button type="button" (click)="cancelCancellationReasonForm()" i18n="@@common.cancel">Cancelar</button>
             <button mat-flat-button color="primary" type="submit" [disabled]="savingCancellationReason">{{ savingCancellationReason ? catalogsSaving : catalogsSave }}</button>
           </div>
         </form>
@@ -302,11 +310,6 @@
 
   @if (isPanelVisible("positionStatus")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <button mat-flat-button color="primary" type="button" (click)="openCreatePositionStatus()">
-          <mat-icon>add</mat-icon> {{ panelUi('positionStatus').newButton }}
-        </button>
-      </div>
       <ng-template catalogFormTpl="positionStatus">
         <form [formGroup]="positionStatusForm" class="gender-form" (ngSubmit)="savePositionStatus()">
           <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
@@ -333,8 +336,8 @@
             }
           </div>
           <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-          <div class="form-actions">
-            <button mat-button type="button" (click)="cancelPositionStatusForm()" i18n="@@common.cancel">Cancelar</button>
+          <div shModalActions>
+            <button mat-stroked-button type="button" (click)="cancelPositionStatusForm()" i18n="@@common.cancel">Cancelar</button>
             <button mat-flat-button color="primary" type="submit" [disabled]="savingPositionStatus">{{ savingPositionStatus ? catalogsSaving : catalogsSave }}</button>
           </div>
         </form>
@@ -372,20 +375,23 @@
 
   @if (isPanelVisible("company")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateCompany()">
-          <mat-icon>add</mat-icon> {{ panelUi('company').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="company">
+
+<ng-template catalogFormTpl="company">
           @if (loadingCompanyDetail) {
             <div class="loading-wrap"><mat-spinner diameter="28" /></div>
           } @else {
@@ -423,8 +429,8 @@
             <mat-checkbox formControlName="r3Interface">{{ fieldR3Interface }}</mat-checkbox>
             <mat-checkbox formControlName="wsSignature">{{ fieldWsSignature }}</mat-checkbox>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelCompanyForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelCompanyForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingCompany">{{ savingCompany ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -461,20 +467,23 @@
 
   @if (isPanelVisible("currency")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateCurrency()">
-          <mat-icon>add</mat-icon> {{ panelUi('currency').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="currency">
+
+<ng-template catalogFormTpl="currency">
             @if (isGlobalAdmin() && !editingCurrencyId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -500,8 +509,8 @@
             <mat-form-field appearance="outline"><mat-label>{{ colSymbol }}</mat-label><input matInput formControlName="symbol" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ colDenomination }}</mat-label><input matInput formControlName="denomination" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelCurrencyForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelCurrencyForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingCurrency">{{ savingCurrency ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -541,20 +550,23 @@
 
   @if (isPanelVisible("career")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateCareer()">
-          <mat-icon>add</mat-icon> {{ panelUi('career').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="career">
+
+<ng-template catalogFormTpl="career">
             @if (isGlobalAdmin() && !editingCareerId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -578,8 +590,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelCareerForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelCareerForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingCareer">{{ savingCareer ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -617,11 +629,6 @@
 
   @if (isPanelVisible("language")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <button mat-flat-button color="primary" type="button" (click)="openCreateLanguage()">
-          <mat-icon>add</mat-icon> {{ panelUi('language').newButton }}
-        </button>
-      </div>
       <ng-template catalogFormTpl="language">
             @if (isGlobalAdmin() && !editingLanguageId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
@@ -646,8 +653,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelLanguageForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelLanguageForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingLanguage">{{ savingLanguage ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -685,20 +692,23 @@
 
   @if (isPanelVisible("shift")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateShift()">
-          <mat-icon>add</mat-icon> {{ panelUi('shift').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="shift">
+
+<ng-template catalogFormTpl="shift">
             @if (isGlobalAdmin() && !editingShiftId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -722,8 +732,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelShiftForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelShiftForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingShift">{{ savingShift ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -761,20 +771,23 @@
 
   @if (isPanelVisible("benefit")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateBenefit()">
-          <mat-icon>add</mat-icon> {{ panelUi('benefit').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="benefit">
+
+<ng-template catalogFormTpl="benefit">
             @if (isGlobalAdmin() && !editingBenefitId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -798,8 +811,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelBenefitForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelBenefitForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingBenefit">{{ savingBenefit ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -837,20 +850,23 @@
 
   @if (isPanelVisible("documentType")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateDocumentType()">
-          <mat-icon>add</mat-icon> {{ panelUi('documentType').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="documentType">
+
+<ng-template catalogFormTpl="documentType">
             @if (isGlobalAdmin() && !editingDocumentTypeId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -920,8 +936,8 @@
               <textarea matInput formControlName="description" rows="3"></textarea>
             </mat-form-field>
 
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelDocumentTypeForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelDocumentTypeForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingDocumentType">{{ savingDocumentType ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -963,20 +979,23 @@
 
   @if (isPanelVisible("fileExtension")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateFileExtension()">
-          <mat-icon>add</mat-icon> {{ panelUi('fileExtension').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="fileExtension">
+
+<ng-template catalogFormTpl="fileExtension">
             @if (isGlobalAdmin() && !editingFileExtensionId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1002,8 +1021,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.mimeType">MIME type</mat-label><input matInput formControlName="mimeType" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelFileExtensionForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelFileExtensionForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingFileExtension">{{ savingFileExtension ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -1043,20 +1062,23 @@
 
   @if (isPanelVisible("brand")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateBrand()">
-          <mat-icon>add</mat-icon> {{ panelUi('brand').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="brand">
+
+<ng-template catalogFormTpl="brand">
             @if (isGlobalAdmin() && !editingBrandId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1080,8 +1102,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelBrandForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelBrandForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingBrand">{{ savingBrand ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -1119,20 +1141,23 @@
 
   @if (isPanelVisible("contractType")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateContractType()">
-          <mat-icon>add</mat-icon> {{ panelUi('documentType').newButton }} de contrato
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="contractType">
+
+<ng-template catalogFormTpl="contractType">
             @if (isGlobalAdmin() && !editingContractTypeId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1157,8 +1182,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelContractTypeForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelContractTypeForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingContractType">{{ savingContractType ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -1197,21 +1222,23 @@
 
   @if (isPanelVisible("coverageType")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateCoverageType()">
-          <mat-icon>add</mat-icon>
-          {{ panelUi('coverageType').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="coverageType">
+
+<ng-template catalogFormTpl="coverageType">
             @if (isGlobalAdmin() && !editingCoverageTypeId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1236,8 +1263,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelCoverageTypeForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelCoverageTypeForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingCoverageType">
                 @if (savingCoverageType) {
                   <span i18n="@@catalogs.common.saving">Guardando...</span>
@@ -1282,20 +1309,23 @@
 
   @if (isPanelVisible("educationLevel")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateEducationLevel()">
-          <mat-icon>add</mat-icon> {{ panelUi('educationLevel').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="educationLevel">
+
+<ng-template catalogFormTpl="educationLevel">
             @if (isGlobalAdmin() && !editingEducationLevelId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1321,8 +1351,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-checkbox formControlName="requiresCareer">{{ colRequiresCareer }}</mat-checkbox>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelEducationLevelForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelEducationLevelForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingEducationLevel">{{ savingEducationLevel ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -1362,20 +1392,23 @@
 
   @if (isPanelVisible("languageLevel")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateLanguageLevel()">
-          <mat-icon>add</mat-icon> {{ panelUi('languageLevel').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="languageLevel">
+
+<ng-template catalogFormTpl="languageLevel">
             @if (isGlobalAdmin() && !editingLanguageLevelId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1400,8 +1433,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-checkbox formControlName="appliesToCareer">{{ colAppliesToCareer }}</mat-checkbox>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelLanguageLevelForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelLanguageLevelForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingLanguageLevel">{{ savingLanguageLevel ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -1440,20 +1473,23 @@
 
   @if (isPanelVisible("requisitionType")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateRequisitionType()">
-          <mat-icon>add</mat-icon> {{ panelUi('documentType').newButton }} de requisición
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="requisitionType">
+
+<ng-template catalogFormTpl="requisitionType">
             @if (isGlobalAdmin() && !editingRequisitionTypeId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1478,8 +1514,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelRequisitionTypeForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelRequisitionTypeForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingRequisitionType">{{ savingRequisitionType ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -1519,20 +1555,23 @@
 
   @if (isPanelVisible("companyArea")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label>{{ fieldCompany }}</mat-label>
-          <mat-select [value]="selectedCatalogCompanyId" (selectionChange)="onCatalogCompanyChange($event.value)">
-            @for (company of companies; track company.id) {
-              <mat-option [value]="company.id">{{ company.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateCompanyArea()" [disabled]="selectedCatalogCompanyId == null">
-          <mat-icon>add</mat-icon> {{ panelUi('companyArea').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ fieldCompany }}</mat-label>
+            <mat-select [value]="selectedCatalogCompanyId" (selectionChange)="onCatalogCompanyChange($event.value)">
+              @for (company of companies; track company.id) {
+                <mat-option [value]="company.id">{{ company.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCompanyCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="companyArea">
+
+<ng-template catalogFormTpl="companyArea">
           @if (isGlobalAdmin() && !editingCompanyAreaId) {
             <div class="scope-selector" [formGroup]="createScopeForm">
               <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1560,8 +1599,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelCompanyAreaForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelCompanyAreaForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingCompanyArea">{{ savingCompanyArea ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -1596,20 +1635,23 @@
   }
   @if (isPanelVisible("companyDepartment")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label>{{ fieldCompany }}</mat-label>
-          <mat-select [value]="selectedCatalogCompanyId" (selectionChange)="onCatalogCompanyChange($event.value)">
-            @for (company of companies; track company.id) {
-              <mat-option [value]="company.id">{{ company.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateCompanyDepartment()" [disabled]="selectedCatalogCompanyId == null">
-          <mat-icon>add</mat-icon> {{ panelUi('companyDepartment').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ fieldCompany }}</mat-label>
+            <mat-select [value]="selectedCatalogCompanyId" (selectionChange)="onCatalogCompanyChange($event.value)">
+              @for (company of companies; track company.id) {
+                <mat-option [value]="company.id">{{ company.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCompanyCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="companyDepartment">
+
+<ng-template catalogFormTpl="companyDepartment">
           @if (isGlobalAdmin() && !editingCompanyDepartmentId) {
             <div class="scope-selector" [formGroup]="createScopeForm">
               <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1637,8 +1679,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelCompanyDepartmentForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelCompanyDepartmentForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingCompanyDepartment">{{ savingCompanyDepartment ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -1673,20 +1715,23 @@
   }
   @if (isPanelVisible("branch")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateBranch()" [disabled]="selectedCountryId == null">
-          <mat-icon>add</mat-icon> {{ panelUi('branch').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="branch">
+
+<ng-template catalogFormTpl="branch">
           @if (isGlobalAdmin() && !editingBranchId) {
             <div class="scope-selector" [formGroup]="createScopeForm">
               <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1716,8 +1761,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelBranchForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelBranchForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingBranch">{{ savingBranch ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -1753,28 +1798,34 @@
   }
 
 
-  @if (isPanelVisible("messages")) {
+  @if (isNotificationPanelVisible()) {
     <div class="tab-content">
-      <sh-notifications-admin />
+      <sh-notifications-admin
+        [embedded]="true"
+        [section]="activeNotificationSection()"
+      />
     </div>
   }
 
   @if (isPanelVisible("questionnaireCategory")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateQuestionnaireCategory()" [disabled]="selectedCountryId == null">
-          <mat-icon>add</mat-icon> {{ panelUi('questionnaireCategory').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="questionnaireCategory">
+
+<ng-template catalogFormTpl="questionnaireCategory">
           <form [formGroup]="questionnaireCategoryForm" class="gender-form" (ngSubmit)="saveQuestionnaireCategory()">
             <mat-form-field appearance="outline">
               <mat-label i18n="@@catalogs.field.country">País</mat-label>
@@ -1789,8 +1840,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelQuestionnaireCategoryForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelQuestionnaireCategoryForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingQuestionnaireCategory">{{ savingQuestionnaireCategory ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -1824,20 +1875,23 @@
 
   @if (isPanelVisible("questionnaireQuestion")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateQuestionnaireQuestion()" [disabled]="selectedCountryId == null">
-          <mat-icon>add</mat-icon> {{ panelUi('questionnaireQuestion').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="questionnaireQuestion">
+
+<ng-template catalogFormTpl="questionnaireQuestion">
           <form [formGroup]="questionnaireQuestionForm" class="gender-form" (ngSubmit)="saveQuestionnaireQuestion()">
             <mat-form-field appearance="outline">
               <mat-label>{{ colCategory }}</mat-label>
@@ -1851,8 +1905,8 @@
             <mat-form-field appearance="outline" class="full-width"><mat-label>{{ colQuestion }}</mat-label><textarea matInput rows="2" formControlName="questionText"></textarea></mat-form-field>
             <mat-form-field appearance="outline" class="full-width"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><textarea matInput rows="2" formControlName="description"></textarea></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelQuestionnaireQuestionForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelQuestionnaireQuestionForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingQuestionnaireQuestion">{{ savingQuestionnaireQuestion ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -1887,20 +1941,23 @@
 
   @if (isPanelVisible("recruiterGroup")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateRecruiterGroup()" [disabled]="selectedCountryId == null">
-          <mat-icon>add</mat-icon> {{ panelUi('recruiterGroup').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      @if (loadingRecruiterGroups) {
+
+@if (loadingRecruiterGroups) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
@@ -1936,20 +1993,23 @@
 
   @if (isPanelVisible("jobPortal")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateJobPortal()" [disabled]="selectedCountryId == null">
-          <mat-icon>add</mat-icon> {{ panelUi('jobPortal').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="jobPortal">
+
+<ng-template catalogFormTpl="jobPortal">
           @if (isGlobalAdmin() && !editingJobPortalId) {
             <div class="scope-selector" [formGroup]="createScopeForm">
               <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -1973,8 +2033,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelJobPortalForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelJobPortalForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingJobPortal">{{ savingJobPortal ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -2010,12 +2070,6 @@
   }
   @if (isPanelVisible("country")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <button mat-flat-button color="primary" type="button" (click)="openCreateCountry()">
-          <mat-icon>add</mat-icon>
-          {{ panelUi('country').newButton }}
-        </button>
-      </div>
       <ng-template catalogFormTpl="country">
             @if (isGlobalAdmin() && !editingCountryId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
@@ -2045,8 +2099,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.region">Región</mat-label><input matInput formControlName="region" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.jobPortalUrl">Portal empleo</mat-label><input matInput formControlName="jobPortalUrl" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelCountryForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelCountryForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingCountry">
                 @if (savingCountry) {
                   <span i18n="@@catalogs.common.saving">Guardando...</span>
@@ -2094,20 +2148,23 @@
 
   @if (isPanelVisible("state")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateState()">
-          <mat-icon>add</mat-icon> {{ panelUi('state').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="state">
+
+<ng-template catalogFormTpl="state">
             @if (isGlobalAdmin() && !editingStateId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2123,8 +2180,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ fieldShortDescription }}</mat-label><input matInput formControlName="shortDescription" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelStateForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelStateForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingState">{{ savingState ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -2163,28 +2220,31 @@
 
   @if (isPanelVisible("municipality")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label>{{ fieldFederalState }}</mat-label>
-          <mat-select [value]="selectedStateId" (selectionChange)="onGeoStateChange($event.value)">
-            @for (state of stateOptions; track state.id) {
-              <mat-option [value]="state.id">{{ state.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateMunicipality()">
-          <mat-icon>add</mat-icon> {{ panelUi('municipality').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ fieldFederalState }}</mat-label>
+            <mat-select [value]="selectedStateId" (selectionChange)="onGeoStateChange($event.value)">
+              @for (state of stateOptions; track state.id) {
+                <mat-option [value]="state.id">{{ state.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearMunicipalityCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="municipality">
+
+<ng-template catalogFormTpl="municipality">
             @if (isGlobalAdmin() && !editingMunicipalityId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2199,8 +2259,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelMunicipalityForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelMunicipalityForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingMunicipality">{{ savingMunicipality ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -2238,36 +2298,39 @@
 
   @if (isPanelVisible("neighborhood")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label>{{ fieldFederalState }}</mat-label>
-          <mat-select [value]="selectedStateId" (selectionChange)="onGeoStateChange($event.value)">
-            @for (state of stateOptions; track state.id) {
-              <mat-option [value]="state.id">{{ state.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label>{{ fieldMunicipality }}</mat-label>
-          <mat-select [value]="selectedMunicipalityId" (selectionChange)="onMunicipalityChange($event.value)">
-            @for (m of municipalityOptions; track m.id) {
-              <mat-option [value]="m.id">{{ m.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateNeighborhood()">
-          <mat-icon>add</mat-icon> {{ panelUi('neighborhood').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ fieldFederalState }}</mat-label>
+            <mat-select [value]="selectedStateId" (selectionChange)="onGeoStateChange($event.value)">
+              @for (state of stateOptions; track state.id) {
+                <mat-option [value]="state.id">{{ state.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ fieldMunicipality }}</mat-label>
+            <mat-select [value]="selectedMunicipalityId" (selectionChange)="onMunicipalityChange($event.value)">
+              @for (m of municipalityOptions; track m.id) {
+                <mat-option [value]="m.id">{{ m.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearNeighborhoodCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="neighborhood">
+
+<ng-template catalogFormTpl="neighborhood">
             @if (isGlobalAdmin() && !editingNeighborhoodId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2282,8 +2345,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ fieldPostalCode }}</mat-label><input matInput formControlName="postalCode" maxlength="5" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelNeighborhoodForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelNeighborhoodForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingNeighborhood">{{ savingNeighborhood ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -2322,20 +2385,23 @@
 
   @if (isPanelVisible("coverageCategory")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateCoverageCategory()">
-          <mat-icon>add</mat-icon> {{ panelUi('coverageCategory').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="coverageCategory">
+
+<ng-template catalogFormTpl="coverageCategory">
             @if (isGlobalAdmin() && !editingCoverageCategoryId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2360,8 +2426,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ fieldManpowerId }}</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelCoverageCategoryForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelCoverageCategoryForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingCoverageCategory">{{ savingCoverageCategory ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -2399,20 +2465,23 @@
   }
   @if (isPanelVisible("characteristic")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateCharacteristic()">
-          <mat-icon>add</mat-icon> {{ panelUi('characteristic').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="characteristic">
+
+<ng-template catalogFormTpl="characteristic">
             @if (isGlobalAdmin() && !editingCharacteristicId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2437,8 +2506,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ fieldManpowerId }}</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelCharacteristicForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelCharacteristicForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingCharacteristic">{{ savingCharacteristic ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -2476,20 +2545,23 @@
   }
   @if (isPanelVisible("category")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateCategory()">
-          <mat-icon>add</mat-icon> {{ panelUi('category').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="category">
+
+<ng-template catalogFormTpl="category">
             @if (isGlobalAdmin() && !editingCategoryId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2513,8 +2585,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelCategoryForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelCategoryForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingCategory">{{ savingCategory ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -2552,20 +2624,23 @@
   }
   @if (isPanelVisible("maritalStatus")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateMaritalStatus()">
-          <mat-icon>add</mat-icon> {{ panelUi('maritalStatus').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="maritalStatus">
+
+<ng-template catalogFormTpl="maritalStatus">
             @if (isGlobalAdmin() && !editingMaritalStatusId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2590,8 +2665,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ fieldManpowerId }}</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelMaritalStatusForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelMaritalStatusForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingMaritalStatus">{{ savingMaritalStatus ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -2629,20 +2704,23 @@
   }
   @if (isPanelVisible("experienceLevel")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateExperienceLevel()">
-          <mat-icon>add</mat-icon> {{ panelUi('experienceLevel').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="experienceLevel">
+
+<ng-template catalogFormTpl="experienceLevel">
             @if (isGlobalAdmin() && !editingExperienceLevelId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2667,8 +2745,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ fieldManpowerId }}</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelExperienceLevelForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelExperienceLevelForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingExperienceLevel">{{ savingExperienceLevel ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -2706,20 +2784,23 @@
   }
   @if (isPanelVisible("tool")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateTool()">
-          <mat-icon>add</mat-icon> {{ panelUi('tool').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="tool">
+
+<ng-template catalogFormTpl="tool">
             @if (isGlobalAdmin() && !editingToolId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2744,8 +2825,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ fieldManpowerId }}</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelToolForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelToolForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingTool">{{ savingTool ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -2783,20 +2864,23 @@
   }
   @if (isPanelVisible("workSchedule")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateWorkSchedule()">
-          <mat-icon>add</mat-icon> {{ panelUi('workSchedule').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="workSchedule">
+
+<ng-template catalogFormTpl="workSchedule">
             @if (isGlobalAdmin() && !editingWorkScheduleId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2821,8 +2905,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ fieldManpowerId }}</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelWorkScheduleForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelWorkScheduleForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingWorkSchedule">{{ savingWorkSchedule ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -2860,20 +2944,23 @@
   }
   @if (isPanelVisible("workplace")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateWorkplace()">
-          <mat-icon>add</mat-icon> {{ panelUi('workplace').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="workplace">
+
+<ng-template catalogFormTpl="workplace">
             @if (isGlobalAdmin() && !editingWorkplaceId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2898,8 +2985,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ fieldManpowerId }}</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelWorkplaceForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelWorkplaceForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingWorkplace">{{ savingWorkplace ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -2937,20 +3024,23 @@
   }
   @if (isPanelVisible("requirement")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateRequirement()">
-          <mat-icon>add</mat-icon> {{ panelUi('requirement').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="requirement">
+
+<ng-template catalogFormTpl="requirement">
             @if (isGlobalAdmin() && !editingRequirementId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -2975,8 +3065,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ fieldManpowerId }}</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelRequirementForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelRequirementForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingRequirement">{{ savingRequirement ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -3014,20 +3104,23 @@
   }
   @if (isPanelVisible("responsibilityLevel")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateResponsibilityLevel()">
-          <mat-icon>add</mat-icon> {{ panelUi('responsibilityLevel').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="responsibilityLevel">
+
+<ng-template catalogFormTpl="responsibilityLevel">
             @if (isGlobalAdmin() && !editingResponsibilityLevelId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -3052,8 +3145,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ fieldManpowerId }}</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelResponsibilityLevelForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelResponsibilityLevelForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingResponsibilityLevel">{{ savingResponsibilityLevel ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -3091,20 +3184,23 @@
   }
   @if (isPanelVisible("disabilityType")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateDisabilityType()">
-          <mat-icon>add</mat-icon> {{ panelUi('documentType').newButton }} discapacidad
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="disabilityType">
+
+<ng-template catalogFormTpl="disabilityType">
             @if (isGlobalAdmin() && !editingDisabilityTypeId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -3129,8 +3225,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ fieldManpowerId }}</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelDisabilityTypeForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelDisabilityTypeForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingDisabilityType">{{ savingDisabilityType ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -3168,20 +3264,23 @@
   }
   @if (isPanelVisible("businessUnit")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreateBusinessUnit()">
-          <mat-icon>add</mat-icon> {{ panelUi('businessUnit').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="businessUnit">
+
+<ng-template catalogFormTpl="businessUnit">
             @if (isGlobalAdmin() && !editingBusinessUnitId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -3206,8 +3305,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ fieldManpowerId }}</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelBusinessUnitForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelBusinessUnitForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingBusinessUnit">{{ savingBusinessUnit ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -3245,20 +3344,23 @@
   }
   @if (isPanelVisible("positionType")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <mat-form-field appearance="outline" class="country-field">
-          <mat-label i18n="@@catalogs.field.country">País</mat-label>
-          <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
-            @for (country of countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="openCreatePositionType()">
-          <mat-icon>add</mat-icon> {{ panelUi('positionType').newButton }}
-        </button>
+            <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+        </div>
       </div>
-      <ng-template catalogFormTpl="positionType">
+
+<ng-template catalogFormTpl="positionType">
             @if (isGlobalAdmin() && !editingPositionTypeId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
                 <span class="scope-label" i18n="@@catalogs.common.recordScope">Ámbito del registro:</span>
@@ -3283,8 +3385,8 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ fieldManpowerId }}</mat-label><input matInput type="number" formControlName="legacyManpowerId" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelPositionTypeForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelPositionTypeForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingPositionType">{{ savingPositionType ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
@@ -3322,11 +3424,6 @@
   }
   @if (isPanelVisible("client")) {
     <div class="tab-content">
-      <div class="toolbar">
-        <button mat-flat-button color="primary" type="button" (click)="openCreateClient()">
-          <mat-icon>add</mat-icon> {{ panelUi('client').newButton }}
-        </button>
-      </div>
       <ng-template catalogFormTpl="client">
             @if (isGlobalAdmin() && !editingClientId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
@@ -3356,8 +3453,8 @@
             <mat-form-field appearance="outline"><mat-label>{{ colTradeName }}</mat-label><input matInput formControlName="tradeName" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ colLegalName }}</mat-label><input matInput formControlName="legalName" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-            <div class="form-actions">
-              <button mat-button type="button" (click)="cancelClientForm()" i18n="@@common.cancel">Cancelar</button>
+            <div shModalActions>
+              <button mat-stroked-button type="button" (click)="cancelClientForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingClient">{{ savingClient ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>

@@ -25,6 +25,10 @@ import {
   REQUISITION_SCOPE_LOAD_COUNTRIES_ERROR,
   REQUISITION_SCOPE_LOAD_COVERAGE_ERROR,
 } from '../requisition-wizard-labels';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../../shared/components/modal-form/sh-modal-form.component';
 
 export interface RequisitionScopeDialogData {
   countryId?: number | null;
@@ -46,6 +50,8 @@ export interface RequisitionScopeDialogResult {
     MatFormFieldModule,
     MatSelectModule,
     MatProgressSpinnerModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
   ],
   templateUrl: './requisition-scope-dialog.component.html',
   styleUrl: './requisition-scope-dialog.component.scss',

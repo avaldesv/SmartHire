@@ -63,6 +63,10 @@ import {
   QuestionnaireQuestionLinkItem,
   TenantDataScope,
 } from '../../../shared/models/questionnaire-v2.model';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../shared/components/modal-form/sh-modal-form.component';
 
 export interface QuestionnaireFormDialogData {
   questionnaire?: QuestionnaireItem;
@@ -94,6 +98,8 @@ export type QuestionnaireFormDialogResult = boolean | 'published' | 'archived';
     MatRadioModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
   ],
   templateUrl: './questionnaire-form-dialog.component.html',
   styleUrl: './questionnaire-form-dialog.component.scss',

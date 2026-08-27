@@ -48,6 +48,10 @@ import {
 } from '../../../core/i18n/document-templates-labels';
 import { DocumentTemplateApiService } from '../../../core/services/document-template-api.service';
 import { DocumentTemplateDocxPreviewService } from '../../../core/services/document-template-docx-preview.service';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../shared/components/modal-form/sh-modal-form.component';
 
 export interface DocumentTemplateFormDialogData {
   templateId?: number;
@@ -66,6 +70,8 @@ export interface DocumentTemplateFormDialogData {
     MatProgressSpinnerModule,
     MatChipsModule,
     MatIconModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
   ],
   templateUrl: './document-template-form-dialog.component.html',
   styleUrl: './document-template-form-dialog.component.scss',

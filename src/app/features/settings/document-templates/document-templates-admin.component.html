@@ -77,7 +77,7 @@
             <tr mat-row *matRowDef="let row; columns: templateColumns"></tr>
           </table>
         }
-        <mat-paginator
+        <sh-paginator
           [length]="templatesTotal"
           [pageSize]="templatesPageSize"
           [pageIndex]="templatesPageIndex"
@@ -137,7 +137,7 @@
             <tr mat-row *matRowDef="let row; columns: variableColumns"></tr>
           </table>
         }
-        <mat-paginator
+        <sh-paginator
           [length]="variablesTotal"
           [pageSize]="variablesPageSize"
           [pageIndex]="variablesPageIndex"

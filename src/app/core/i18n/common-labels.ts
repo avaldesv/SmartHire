@@ -2,6 +2,8 @@ export const COMMON_VIEW = $localize`:@@common.view:Ver`;
 export const COMMON_EDIT = $localize`:@@common.edit:Editar`;
 export const COMMON_DELETE = $localize`:@@common.delete:Eliminar`;
 export const COMMON_OTHERS = $localize`:@@common.others:Otros`;
+export const COMMON_CLEAR_FILTERS = $localize`:@@common.clearFilters:Limpiar`;
+export const COMMON_SEARCH = $localize`:@@common.search:Buscar`;
 
 export const STATUS_CREATED = $localize`:@@status.created:Creada`;
 export const STATUS_ANALYSIS = $localize`:@@status.analysis:Análisis`;

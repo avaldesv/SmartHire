@@ -61,7 +61,7 @@ const PANEL_UI: Record<string, CatalogPanelUiLabels> = {
     newTitle: $localize`:@@catalogs.benefit.newTitle:Nueva prestación`,
   },
   documentType: {
-    newButton: $localize`:@@catalogs.documentType.newButton:Nuevo tipo`,
+    newButton: $localize`:@@catalogs.documentType.newButton:Nuevo tipo de documento`,
     editTitle: $localize`:@@catalogs.documentType.editTitle:Editar tipo de documento`,
     newTitle: $localize`:@@catalogs.documentType.newTitle:Nuevo tipo de documento`,
   },
@@ -101,19 +101,19 @@ const PANEL_UI: Record<string, CatalogPanelUiLabels> = {
     newTitle: $localize`:@@catalogs.requisitionType.newTitle:Nuevo tipo de requisición`,
   },
   companyArea: {
-    newButton: $localize`:@@catalogs.companyArea.newButton:Nuevo áreas`,
-    editTitle: $localize`:@@catalogs.companyArea.editTitle:Editar áreas`,
-    newTitle: $localize`:@@catalogs.companyArea.newTitle:Nuevo áreas`,
+    newButton: $localize`:@@catalogs.companyArea.newButton:Nueva área`,
+    editTitle: $localize`:@@catalogs.companyArea.editTitle:Editar área`,
+    newTitle: $localize`:@@catalogs.companyArea.newTitle:Nueva área`,
   },
   companyDepartment: {
-    newButton: $localize`:@@catalogs.companyDepartment.newButton:Nuevo departamentos`,
-    editTitle: $localize`:@@catalogs.companyDepartment.editTitle:Editar departamentos`,
-    newTitle: $localize`:@@catalogs.companyDepartment.newTitle:Nuevo departamentos`,
+    newButton: $localize`:@@catalogs.companyDepartment.newButton:Nuevo departamento`,
+    editTitle: $localize`:@@catalogs.companyDepartment.editTitle:Editar departamento`,
+    newTitle: $localize`:@@catalogs.companyDepartment.newTitle:Nuevo departamento`,
   },
   branch: {
-    newButton: $localize`:@@catalogs.branch.newButton:Nueva sucursales`,
-    editTitle: $localize`:@@catalogs.branch.editTitle:Editar sucursales`,
-    newTitle: $localize`:@@catalogs.branch.newTitle:Nueva sucursales`,
+    newButton: $localize`:@@catalogs.branch.newButton:Nueva sucursal`,
+    editTitle: $localize`:@@catalogs.branch.editTitle:Editar sucursal`,
+    newTitle: $localize`:@@catalogs.branch.newTitle:Nueva sucursal`,
   },
   questionnaireCategory: {
     newButton: $localize`:@@catalogs.questionnaireCategory.newButton:Nueva categoría`,

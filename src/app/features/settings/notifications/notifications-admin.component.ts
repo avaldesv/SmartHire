@@ -1,4 +1,14 @@
-import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  TemplateRef,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -27,6 +37,7 @@ import {
 } from '../../../shared/models/notification-template.model';
 import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 import { CatalogTableImportExportActionsComponent } from '../catalogs/catalog-table-import-export-actions.component';
+import { ShModalActionsDirective } from '../../../shared/components/modal-form/sh-modal-form.component';
 import {
   NotificationFormDialogShellComponent,
   NOTIFICATION_FORM_DIALOG_PANEL_CLASS,
@@ -133,12 +144,18 @@ import {
     MatDialogModule,
     TableRowActionsComponent,
     CatalogTableImportExportActionsComponent,
+    ShModalActionsDirective,
   ],
   templateUrl: './notifications-admin.component.html',
   styleUrl: './notifications-admin.component.scss',
 })
-export class NotificationsAdminComponent implements OnInit, OnDestroy {
+export class NotificationsAdminComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('templateFormTpl') templateFormTpl!: TemplateRef<unknown>;
+
+  /** When true, hides page title and tab headers (used from Catálogos → Notificaciones). */
+  @Input() embedded = false;
+  /** Which section to show when embedded (or to sync tab index). */
+  @Input() section: 'templates' | 'logs' | 'coverage' | 'failed' = 'templates';
 
   private readonly notificationApi = inject(NotificationTemplateApiService);
   private readonly feedback = inject(FeedbackDialogService);
@@ -284,7 +301,7 @@ export class NotificationsAdminComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadActions();
-    this.load();
+    this.applySection(true);
     this.templatesFilterForm.controls.search.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe(() => {
@@ -297,6 +314,30 @@ export class NotificationsAdminComponent implements OnInit, OnDestroy {
         this.coveragePageIndex = 0;
         this.loadCoverage();
       });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['section'] && !changes['section'].firstChange) {
+      this.applySection(true);
+    }
+  }
+
+  private applySection(loadData: boolean): void {
+    const index =
+      this.section === 'logs' ? 1 : this.section === 'coverage' ? 2 : this.section === 'failed' ? 3 : 0;
+    this.selectedTabIndex = index;
+    if (!loadData) {
+      return;
+    }
+    if (index === 1) {
+      this.loadLogs();
+    } else if (index === 2) {
+      this.loadCoverage();
+    } else if (index === 3) {
+      this.loadFailedOutbox();
+    } else {
+      this.load();
+    }
   }
 
   ngOnDestroy(): void {

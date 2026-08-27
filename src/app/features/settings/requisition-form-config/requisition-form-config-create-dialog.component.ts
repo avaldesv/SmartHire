@@ -15,6 +15,10 @@ import {
   REQ_FORM_CONFIG_SCOPE_HINT,
   REQ_FORM_CONFIG_SCOPE_LABEL,
 } from '../../../core/i18n/requisition-form-config-labels';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../shared/components/modal-form/sh-modal-form.component';
 
 export interface RequisitionFormConfigCreateDialogData {
   countryId: number;
@@ -30,7 +34,15 @@ export interface RequisitionFormConfigCreateDialogResult {
 @Component({
   selector: 'sh-requisition-form-config-create-dialog',
   standalone: true,
-  imports: [ReactiveFormsModule, MatDialogModule, MatButtonModule, MatFormFieldModule, MatInputModule],
+  imports: [
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
+  ],
   templateUrl: './requisition-form-config-create-dialog.component.html',
   styleUrl: './requisition-form-config-create-dialog.component.scss',
 })

@@ -1,5 +1,4 @@
-<h2 mat-dialog-title>{{ title }}</h2>
-<mat-dialog-content>
+<sh-modal-form [title]="title">
   <p class="hint">{{ hint }}</p>
   <p class="email"><code>{{ expectedEmail }}</code></p>
   <form [formGroup]="form" class="form" (ngSubmit)="confirm()">
@@ -8,10 +7,11 @@
       <input matInput type="email" formControlName="confirmEmail" autocomplete="off" />
     </mat-form-field>
   </form>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button type="button" [mat-dialog-close]="false" [disabled]="deleting">{{ cancelLabel }}</button>
-  <button mat-flat-button color="warn" type="button" (click)="confirm()" [disabled]="deleting || !matches">
-    {{ confirmLabel }}
-  </button>
-</mat-dialog-actions>
+
+  <div shModalActions>
+    <button mat-stroked-button type="button" [mat-dialog-close]="false" [disabled]="deleting">{{ cancelLabel }}</button>
+    <button mat-flat-button color="warn" type="button" (click)="confirm()" [disabled]="deleting || !matches">
+      {{ confirmLabel }}
+    </button>
+  </div>
+</sh-modal-form>

@@ -56,6 +56,10 @@ import { ExamMaxAttemptsHelpDialogComponent } from './exam-max-attempts-help-dia
 import { ExamRandomSeedHelpDialogComponent } from './exam-random-seed-help-dialog.component';
 import { countEligibleQuestions } from './exam-generation-config.util';
 import { maxAttemptsValidator, toDateTimeLocalValue, toIsoDateTime } from './exam-form.util';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../shared/components/modal-form/sh-modal-form.component';
 
 export interface ExamFormDialogData {
   examId?: number;
@@ -75,6 +79,8 @@ export interface ExamFormDialogData {
     MatProgressSpinnerModule,
     MatTabsModule,
     ExamGenerationConfigPanelComponent,
+    ShModalFormComponent,
+    ShModalActionsDirective,
   ],
   templateUrl: './exam-form-dialog.component.html',
   styleUrl: './exam-form-dialog.component.scss',

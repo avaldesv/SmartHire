@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogModule, MatDialog
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
@@ -44,7 +44,6 @@ import {
   APP_DIALOG_EVALUATION_PENDING_MSG,
   APP_DIALOG_EVALUATION_PENDING_TITLE,
   APP_DIALOG_EVALUATION_TOOLTIP,
-  APP_DIALOG_POSITION_PREFIX,
   APP_DIALOG_PRESELECT_SUCCESS,
   APP_DIALOG_TITLE,
   APP_DIALOG_CV_DOWNLOAD_SUCCESS,
@@ -63,6 +62,11 @@ import {
 } from '../../../selection/dialogs/generate-document-dialog/generate-document-dialog.component';
 import { CandidateApplicationListItem } from '../../../../shared/models/candidate-application.model';
 import { StatusBadgeComponent } from '../../../../shared/components/status-badge/status-badge.component';
+import { ShPaginatorComponent } from '../../../../shared/components/paginator/sh-paginator.component';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../../shared/components/modal-form/sh-modal-form.component';
 import {
   CandidateDocumentsDialogComponent,
   CandidateDocumentsDialogData,
@@ -113,13 +117,15 @@ const APPLICATIONS_SORT_FIELDS: Record<string, string> = {
     MatDialogModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule,
+    ShPaginatorComponent,
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
     StatusBadgeComponent,
+    ShModalFormComponent,
+    ShModalActionsDirective,
   ],
   templateUrl: './position-applications-dialog.component.html',
   styleUrl: './position-applications-dialog.component.scss',
@@ -135,7 +141,6 @@ export class PositionApplicationsDialogComponent implements OnInit {
 
   readonly labels = {
     title: APP_DIALOG_TITLE,
-    positionPrefix: APP_DIALOG_POSITION_PREFIX,
     empty: APP_DIALOG_EMPTY,
     close: APP_DIALOG_CLOSE,
     colCandidate: APP_DIALOG_COL_CANDIDATE,
@@ -200,10 +205,6 @@ export class PositionApplicationsDialogComponent implements OnInit {
 
   get canEditSelection(): boolean {
     return this.permission.hasAuthority(AppPermissions.SELECTION_EDIT);
-  }
-
-  positionLabel(): string {
-    return this.data.requisitionNo ?? `${this.labels.positionPrefix} ${this.data.positionId}`;
   }
 
   hasRowActions(row: CandidateApplicationListItem): boolean {

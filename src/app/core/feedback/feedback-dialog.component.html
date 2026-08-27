@@ -10,7 +10,7 @@
 
   <mat-dialog-actions align="end" class="sh-feedback-dialog__actions">
     @if (data.type === 'confirm') {
-      <button mat-button type="button" (click)="close(false)">{{ cancelLabel }}</button>
+      <button mat-stroked-button type="button" (click)="close(false)">{{ cancelLabel }}</button>
       <button
         mat-flat-button
         type="button"

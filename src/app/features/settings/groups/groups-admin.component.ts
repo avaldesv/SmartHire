@@ -1,8 +1,9 @@
-import { Component, computed, effect, inject, OnInit } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -11,6 +12,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
+import { catalogDialogConfig } from '../../../core/dialog/catalog-dialog.constants';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { PermissionService } from '../../../core/services/permission.service';
@@ -18,12 +20,15 @@ import { SecurityModulePermissionService } from '../../../core/services/security
 import { SecurityRoleService } from '../../../core/services/security-role.service';
 import { TenantContextService } from '../../../core/services/tenant-context.service';
 import { ScopeBadgeComponent } from '../../../shared/components/scope-badge/scope-badge.component';
+import { ShModalActionsDirective } from '../../../shared/components/modal-form/sh-modal-form.component';
 import { SecurityModulePermission } from '../../../shared/models/security-module-permission.model';
 import { SecurityRole } from '../../../shared/models/security-role.model';
 import { TenantDataScope } from '../../../shared/models/tenant-data-scope.model';
 import { canEditScopedRecord } from '../../../shared/utils/tenant-scope.util';
-import { COMMON_OTHERS } from '../../../core/i18n/common-labels';
+import { COMMON_CLEAR_FILTERS, COMMON_OTHERS } from '../../../core/i18n/common-labels';
+import { debounceTime } from 'rxjs';
 import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
+import { CatalogFormDialogShellComponent } from '../catalogs/catalog-form-dialog-shell.component';
 import {
   GROUPS_CANCEL,
   GROUPS_COLUMN_GROUP,
@@ -70,20 +75,26 @@ import {
     MatCheckboxModule,
     MatSelectModule,
     MatRadioModule,
+    MatDialogModule,
     ScopeBadgeComponent,
     TableRowActionsComponent,
+    ShModalActionsDirective,
   ],
   templateUrl: './groups-admin.component.html',
   styleUrl: './groups-admin.component.scss',
 })
 export class GroupsAdminComponent implements OnInit {
+  @ViewChild('groupFormTpl') groupFormTpl!: TemplateRef<unknown>;
+
   private readonly roleService = inject(SecurityRoleService);
   private readonly permissionService = inject(SecurityModulePermissionService);
   private readonly tenantContext = inject(TenantContextService);
   private readonly appPermissions = inject(PermissionService);
   private readonly feedback = inject(FeedbackDialogService);
   private readonly fb = inject(FormBuilder);
+  private readonly dialog = inject(MatDialog);
   private tenantReloadReady = false;
+  private formDialogRef: MatDialogRef<CatalogFormDialogShellComponent, boolean> | null = null;
 
   readonly isGlobalAdmin = computed(() => this.appPermissions.isGlobalAdmin());
 
@@ -106,9 +117,13 @@ export class GroupsAdminComponent implements OnInit {
   readonly groupsSave = GROUPS_SAVE;
   readonly groupsYes = GROUPS_YES;
   readonly groupsNo = GROUPS_NO;
+  readonly clearFiltersLabel = COMMON_CLEAR_FILTERS;
+  readonly groupsSearchLabel = $localize`:@@groups.search:Buscar grupo`;
 
   loading = true;
   saving = false;
+  /** Full list for client-side search (roles API has no search param). */
+  private allItems: SecurityRole[] = [];
   data: SecurityRole[] = [];
   permissionOptions: SecurityModulePermission[] = [];
   total = 0;
@@ -116,8 +131,8 @@ export class GroupsAdminComponent implements OnInit {
   pageSize = 10;
   editingRoleId: number | null = null;
   deletingRoleId: number | null = null;
-  showForm = false;
 
+  readonly searchForm = this.fb.nonNullable.group({ search: [''] });
   readonly roleForm = this.fb.nonNullable.group({
     name: ['', Validators.required],
     description: [''],
@@ -164,6 +179,10 @@ export class GroupsAdminComponent implements OnInit {
     this.tenantReloadReady = true;
     this.loadPermissions();
     this.load();
+    this.searchForm.controls.search.valueChanges.pipe(debounceTime(300)).subscribe(() => {
+      this.pageIndex = 0;
+      this.applyFilter();
+    });
   }
 
   canEditRecord(companyId?: number | null): boolean {
@@ -188,10 +207,10 @@ export class GroupsAdminComponent implements OnInit {
 
   load(): void {
     this.loading = true;
-    this.roleService.list(this.pageIndex, this.pageSize).subscribe({
+    this.roleService.list(0, 500).subscribe({
       next: (res) => {
-        this.data = res.items;
-        this.total = res.total;
+        this.allItems = res.items;
+        this.applyFilter();
         this.loading = false;
       },
       error: (err) => {
@@ -199,6 +218,20 @@ export class GroupsAdminComponent implements OnInit {
         this.feedback.showApiError(err, { fallbackMessage: GROUPS_LOAD_ERROR });
       },
     });
+  }
+
+  private applyFilter(): void {
+    const q = this.searchForm.controls.search.value.trim().toLowerCase();
+    const filtered = !q
+      ? this.allItems
+      : this.allItems.filter(
+          (r) =>
+            r.name?.toLowerCase().includes(q) ||
+            (r.description ?? '').toLowerCase().includes(q),
+        );
+    this.total = filtered.length;
+    const start = this.pageIndex * this.pageSize;
+    this.data = filtered.slice(start, start + this.pageSize);
   }
 
   permissionNames(role: SecurityRole): string[] {
@@ -210,14 +243,20 @@ export class GroupsAdminComponent implements OnInit {
   onPage(e: PageEvent): void {
     this.pageIndex = e.pageIndex;
     this.pageSize = e.pageSize;
-    this.load();
+    this.applyFilter();
+  }
+
+  clearFilters(): void {
+    this.searchForm.controls.search.setValue('');
+    this.pageIndex = 0;
+    this.applyFilter();
   }
 
   openCreate(): void {
     this.editingRoleId = null;
-    this.showForm = true;
     this.createScopeForm.controls.scope.setValue('TENANT');
     this.roleForm.reset({ name: '', description: '', isActive: true, modulePermissionIds: [] });
+    this.openFormDialog(this.groupsNewTitle);
   }
 
   openEdit(row: SecurityRole): void {
@@ -225,7 +264,6 @@ export class GroupsAdminComponent implements OnInit {
       return;
     }
     this.editingRoleId = row.id;
-    this.showForm = true;
     this.roleService.getById(row.id).subscribe({
       next: (role) => {
         this.roleForm.patchValue({
@@ -235,8 +273,9 @@ export class GroupsAdminComponent implements OnInit {
           modulePermissionIds:
             role.permissions?.map((p) => p.modulePermission?.id).filter((id): id is number => id != null) ?? [],
         });
+        this.openFormDialog(this.groupsEditTitle);
       },
-      error: (err) => {
+      error: () => {
         this.roleForm.patchValue({
           name: row.name,
           description: row.description ?? '',
@@ -244,13 +283,30 @@ export class GroupsAdminComponent implements OnInit {
           modulePermissionIds:
             row.permissions?.map((p) => p.modulePermission?.id).filter((id): id is number => id != null) ?? [],
         });
+        this.openFormDialog(this.groupsEditTitle);
       },
     });
   }
 
+  private openFormDialog(title: string): void {
+    this.formDialogRef?.close(false);
+    queueMicrotask(() => {
+      if (!this.groupFormTpl) {
+        return;
+      }
+      this.formDialogRef = this.dialog.open(CatalogFormDialogShellComponent, {
+        ...catalogDialogConfig('720px'),
+        data: { title, content: this.groupFormTpl },
+      });
+      this.formDialogRef.afterClosed().subscribe(() => {
+        this.formDialogRef = null;
+        this.editingRoleId = null;
+      });
+    });
+  }
+
   cancelForm(): void {
-    this.showForm = false;
-    this.editingRoleId = null;
+    this.formDialogRef?.close(false);
   }
 
   save(): void {
@@ -292,7 +348,7 @@ export class GroupsAdminComponent implements OnInit {
 
   private onSaveSuccess(): void {
     this.saving = false;
-    this.cancelForm();
+    this.formDialogRef?.close(true);
     this.load();
     this.feedback.showSuccess(GROUPS_SAVE_SUCCESS);
   }

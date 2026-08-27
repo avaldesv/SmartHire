@@ -1,8 +1,9 @@
-import { Component, effect, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -12,6 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { debounceTime, distinctUntilChanged, switchMap, catchError, map } from 'rxjs';
 import { of } from 'rxjs';
+import { catalogDialogConfig } from '../../../core/dialog/catalog-dialog.constants';
 import { CatalogBranchService } from '../../../core/services/catalog-branch.service';
 import { CatalogCompanyAreaService } from '../../../core/services/catalog-company-area.service';
 import { CatalogCompanyDepartmentService } from '../../../core/services/catalog-company-department.service';
@@ -50,7 +52,12 @@ import {
   USERS_YES,
   usersDeleteConfirm,
 } from '../../../core/i18n/users-labels';
+import { COMMON_CLEAR_FILTERS } from '../../../core/i18n/common-labels';
 import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
+import { ShModalActionsDirective } from '../../../shared/components/modal-form/sh-modal-form.component';
+import {
+  CatalogFormDialogShellComponent,
+} from '../catalogs/catalog-form-dialog-shell.component';
 
 @Component({
   selector: 'sh-users-admin',
@@ -67,12 +74,16 @@ import { TableRowActionsComponent } from '../../../shared/components/table-row-a
     MatCheckboxModule,
     MatSelectModule,
     MatAutocompleteModule,
+    MatDialogModule,
     TableRowActionsComponent,
+    ShModalActionsDirective,
   ],
   templateUrl: './users-admin.component.html',
   styleUrl: './users-admin.component.scss',
 })
 export class UsersAdminComponent implements OnInit {
+  @ViewChild('userFormTpl') userFormTpl!: TemplateRef<unknown>;
+
   private readonly userService = inject(SecurityUserService);
   private readonly roleService = inject(SecurityRoleService);
   private readonly referenceDataService = inject(ReferenceDataService);
@@ -83,7 +94,9 @@ export class UsersAdminComponent implements OnInit {
   private readonly feedback = inject(FeedbackDialogService);
   private readonly apiErrors = inject(ApiErrorTranslationService);
   private readonly fb = inject(FormBuilder);
+  private readonly dialog = inject(MatDialog);
   private tenantReloadReady = false;
+  private formDialogRef: MatDialogRef<CatalogFormDialogShellComponent, boolean> | null = null;
 
   readonly createTitle = $localize`:@@users.form.createTitle:Nuevo usuario`;
   readonly editTitle = $localize`:@@users.form.editTitle:Editar usuario`;
@@ -91,6 +104,7 @@ export class UsersAdminComponent implements OnInit {
   readonly savingLabel = USERS_SAVING;
   readonly yesLabel = USERS_YES;
   readonly noLabel = USERS_NO;
+  readonly clearFiltersLabel = COMMON_CLEAR_FILTERS;
 
   loading = true;
   saving = false;
@@ -108,7 +122,6 @@ export class UsersAdminComponent implements OnInit {
   pageIndex = 0;
   pageSize = 10;
   editingUserId: number | null = null;
-  showForm = false;
 
   readonly searchForm = this.fb.nonNullable.group({ search: [''] });
   readonly userForm = this.fb.nonNullable.group({
@@ -272,6 +285,12 @@ export class UsersAdminComponent implements OnInit {
     this.load();
   }
 
+  clearFilters(): void {
+    this.searchForm.controls.search.setValue('');
+    this.pageIndex = 0;
+    this.load();
+  }
+
   roleNames(user: SecurityUser): string {
     return user.roles?.length ? user.roles.map((r) => r.name).join(', ') : '—';
   }
@@ -320,7 +339,6 @@ export class UsersAdminComponent implements OnInit {
 
   openCreate(): void {
     this.editingUserId = null;
-    this.showForm = true;
     const defaultDialCode = this.defaultTenantDialCode();
     this.userForm.reset({
       username: '',
@@ -345,17 +363,41 @@ export class UsersAdminComponent implements OnInit {
     this.userForm.controls.username.enable();
     this.userForm.controls.password.setValidators([Validators.required]);
     this.userForm.controls.password.updateValueAndValidity();
+    this.openFormDialog(this.createTitle);
   }
 
   openEdit(row: SecurityUser): void {
     this.editingUserId = row.id;
-    this.showForm = true;
     this.userForm.controls.username.disable();
     this.userForm.controls.password.clearValidators();
     this.userForm.controls.password.updateValueAndValidity();
     this.userService.getById(row.id).subscribe({
-      next: (user) => this.patchUserForm(user),
-      error: (err) => this.patchUserForm(row),
+      next: (user) => {
+        this.patchUserForm(user);
+        this.openFormDialog(this.editTitle);
+      },
+      error: () => {
+        this.patchUserForm(row);
+        this.openFormDialog(this.editTitle);
+      },
+    });
+  }
+
+  private openFormDialog(title: string): void {
+    this.formDialogRef?.close(false);
+    queueMicrotask(() => {
+      if (!this.userFormTpl) {
+        return;
+      }
+      this.formDialogRef = this.dialog.open(CatalogFormDialogShellComponent, {
+        ...catalogDialogConfig('720px'),
+        data: { title, content: this.userFormTpl },
+      });
+      this.formDialogRef.afterClosed().subscribe(() => {
+        this.formDialogRef = null;
+        this.editingUserId = null;
+        this.userForm.controls.username.enable();
+      });
     });
   }
 
@@ -389,9 +431,7 @@ export class UsersAdminComponent implements OnInit {
   }
 
   cancelForm(): void {
-    this.showForm = false;
-    this.editingUserId = null;
-    this.userForm.controls.username.enable();
+    this.formDialogRef?.close(false);
   }
 
   save(): void {
@@ -454,7 +494,7 @@ export class UsersAdminComponent implements OnInit {
 
   private onSaveSuccess(): void {
     this.saving = false;
-    this.cancelForm();
+    this.formDialogRef?.close(true);
     this.load();
     this.feedback.showSuccess(USERS_SAVE_SUCCESS);
   }

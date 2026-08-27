@@ -1,9 +1,4 @@
-<div class="sh-catalog-dialog-header" mat-dialog-title>
-  <span class="sh-catalog-dialog-header__text">{{ labels.title }}</span>
-</div>
-
-<mat-dialog-content class="sh-catalog-dialog-body">
-  <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
+<sh-modal-form [title]="labels.title">
   @if (positionName) {
     <p class="position-line">{{ positionName }}</p>
   }
@@ -98,17 +93,17 @@
   @if (busy()) {
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   }
-</mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <button mat-button type="button" [disabled]="busy()" (click)="cancel()">{{ labels.cancel }}</button>
-  @if (!preview()) {
-    <button mat-flat-button color="primary" type="button" [disabled]="!canValidate()" (click)="validateFile()">
-      {{ labels.validate }}
-    </button>
-  } @else {
-    <button mat-flat-button color="primary" type="button" [disabled]="!canConfirm()" (click)="confirmUpload()">
-      {{ labels.confirm }}
-    </button>
-  }
-</mat-dialog-actions>
+  <div shModalActions>
+    <button mat-stroked-button type="button" [disabled]="busy()" (click)="cancel()">{{ labels.cancel }}</button>
+    @if (!preview()) {
+      <button mat-flat-button color="primary" type="button" [disabled]="!canValidate()" (click)="validateFile()">
+        {{ labels.validate }}
+      </button>
+    } @else {
+      <button mat-flat-button color="primary" type="button" [disabled]="!canConfirm()" (click)="confirmUpload()">
+        {{ labels.confirm }}
+      </button>
+    }
+  </div>
+</sh-modal-form>

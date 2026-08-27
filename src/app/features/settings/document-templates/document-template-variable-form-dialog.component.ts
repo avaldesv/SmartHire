@@ -21,6 +21,10 @@ import {
   DOCTEMPLATES_VAR_FIELD_LABEL,
 } from '../../../core/i18n/document-templates-labels';
 import { DocumentTemplateVariableApiService } from '../../../core/services/document-template-variable-api.service';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../shared/components/modal-form/sh-modal-form.component';
 import { DocumentTemplateVariableItem } from '../../../shared/models/document-template.model';
 
 export interface DocumentTemplateVariableFormDialogData {
@@ -40,6 +44,8 @@ const CODE_PATTERN = /^[A-Za-z][A-Za-z0-9_]*$/;
     MatInputModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
   ],
   templateUrl: './document-template-variable-form-dialog.component.html',
   styleUrl: './document-template-variable-form-dialog.component.scss',

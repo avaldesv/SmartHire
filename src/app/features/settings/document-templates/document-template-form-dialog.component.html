@@ -1,9 +1,4 @@
-<div class="sh-catalog-dialog-header" mat-dialog-title>
-  <span class="sh-catalog-dialog-header__text">{{ title }}</span>
-</div>
-
-<mat-dialog-content class="sh-catalog-dialog-body template-dialog-body">
-  <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
+<sh-modal-form [title]="title" contentClass="template-dialog-body">
   @if (loading) {
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else {
@@ -131,11 +126,11 @@
       </aside>
     </form>
   }
-</mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <button mat-button type="button" (click)="cancel()" [disabled]="saving">{{ cancelLabel }}</button>
-  <button mat-flat-button color="primary" type="button" (click)="save()" [disabled]="!canSave">
-    {{ saving ? savingLabel : saveLabel }}
-  </button>
-</mat-dialog-actions>
+  <div shModalActions>
+    <button mat-stroked-button type="button" (click)="cancel()" [disabled]="saving">{{ cancelLabel }}</button>
+    <button mat-flat-button color="primary" type="button" (click)="save()" [disabled]="!canSave">
+      {{ saving ? savingLabel : saveLabel }}
+    </button>
+  </div>
+</sh-modal-form>

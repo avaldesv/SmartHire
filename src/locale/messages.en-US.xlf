@@ -3530,6 +3530,34 @@
         <source>Paginación de solicitudes</source>
         <target>Requests pagination</target>
       </trans-unit>
+      <trans-unit id="paginator.itemsPerPage" datatype="html">
+        <source>Elementos por página:</source>
+        <target>Items per page:</target>
+      </trans-unit>
+      <trans-unit id="paginator.nextPage" datatype="html">
+        <source>Página siguiente</source>
+        <target>Next page</target>
+      </trans-unit>
+      <trans-unit id="paginator.previousPage" datatype="html">
+        <source>Página anterior</source>
+        <target>Previous page</target>
+      </trans-unit>
+      <trans-unit id="paginator.firstPage" datatype="html">
+        <source>Primera página</source>
+        <target>First page</target>
+      </trans-unit>
+      <trans-unit id="paginator.lastPage" datatype="html">
+        <source>Última página</source>
+        <target>Last page</target>
+      </trans-unit>
+      <trans-unit id="paginator.rangeEmpty" datatype="html">
+        <source>0 de <x id="total" equiv-text="length"/></source>
+        <target>0 of <x id="total" equiv-text="length"/></target>
+      </trans-unit>
+      <trans-unit id="paginator.range" datatype="html">
+        <source><x id="start" equiv-text="start"/> – <x id="end" equiv-text="end"/> de <x id="total" equiv-text="length"/></source>
+        <target><x id="start" equiv-text="start"/> – <x id="end" equiv-text="end"/> of <x id="total" equiv-text="length"/></target>
+      </trans-unit>
       <trans-unit id="dashboard.errors.loadKpis" datatype="html">
         <source>No se pudieron cargar los KPIs</source>
         <target>Could not load KPIs</target>

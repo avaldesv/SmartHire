@@ -1,6 +1,4 @@
-<h2 mat-dialog-title>{{ title }}</h2>
-
-<mat-dialog-content class="dialog-body">
+<sh-modal-form [title]="title" contentClass="dialog-body">
   @if (loading) {
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else {
@@ -57,11 +55,11 @@
       </aside>
     </form>
   }
-</mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <button mat-button type="button" (click)="cancel()" [disabled]="saving">{{ cancelLabel }}</button>
-  <button mat-flat-button color="primary" type="button" (click)="save()" [disabled]="saving || loading">
-    {{ saving ? savingLabel : saveLabel }}
-  </button>
-</mat-dialog-actions>
+  <div shModalActions>
+    <button mat-stroked-button type="button" (click)="cancel()" [disabled]="saving">{{ cancelLabel }}</button>
+    <button mat-flat-button color="primary" type="button" (click)="save()" [disabled]="saving || loading">
+      {{ saving ? savingLabel : saveLabel }}
+    </button>
+  </div>
+</sh-modal-form>

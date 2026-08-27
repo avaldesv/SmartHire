@@ -62,6 +62,10 @@ import {
   TagItem,
   TenantDataScope,
 } from '../../../shared/models/questionnaire-v2.model';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../shared/components/modal-form/sh-modal-form.component';
 
 export interface QuestionFormDialogData {
   questionId?: number;
@@ -82,6 +86,8 @@ export interface QuestionFormDialogData {
     MatRadioModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
   ],
   templateUrl: './question-form-dialog.component.html',
   styleUrl: './question-form-dialog.component.scss',

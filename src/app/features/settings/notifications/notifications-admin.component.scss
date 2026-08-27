@@ -1,16 +1,51 @@
-h3 { margin: 0 0 16px; font-size: 1.1rem; }
+h3.page-title,
+.page-title {
+  margin: 0 0 16px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
 code { font-size: 12px; background: #f1f5f9; padding: 2px 6px; border-radius: 4px; }
 .loading-wrap { display: flex; justify-content: center; padding: 48px; }
 .toolbar { margin-bottom: 16px; }
-.filters-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: center;
-  margin-bottom: 16px;
+
+:host {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
-.filters-bar mat-form-field { width: 200px; }
-.filters-bar .filters-search { width: min(280px, 100%); }
+
+:host ::ng-deep .embedded-tabs {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+:host ::ng-deep .embedded-tabs > .mat-mdc-tab-header {
+  display: none;
+}
+
+:host ::ng-deep .embedded-tabs .mat-mdc-tab-body-wrapper,
+:host ::ng-deep .embedded-tabs .mat-mdc-tab-body-content {
+  overflow: visible;
+}
+
+.tab-body {
+  padding-top: 0;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.templates-actions {
+  margin-bottom: 12px;
+  justify-content: flex-end;
+}
+
+.templates-actions .sh-list-page-header__actions {
+  margin-left: auto;
+}
+
 .message-field { width: 100%; }
 .message-cell { max-width: 280px; }
 .message-full { white-space: pre-wrap; word-break: break-word; }
@@ -31,7 +66,6 @@ code { font-size: 12px; background: #f1f5f9; padding: 2px 6px; border-radius: 4p
   }
 }
 .form-actions { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
-.tab-body { padding-top: 16px; }
 .action-hint { font-size: 12px; color: #64748b; margin: 0 0 4px; }
 .variables-hint { font-size: 12px; color: #64748b; margin: 0 0 8px; }
 .variables-panel { margin-bottom: 8px; }

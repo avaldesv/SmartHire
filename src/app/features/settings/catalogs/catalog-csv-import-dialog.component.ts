@@ -25,6 +25,10 @@ import {
   catalogImportStructureValid,
   catalogImportTitle,
 } from '../../../core/i18n/catalog-import-labels';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../shared/components/modal-form/sh-modal-form.component';
 
 export interface CatalogCsvImportDialogData {
   catalogKey: string;
@@ -34,7 +38,14 @@ export interface CatalogCsvImportDialogData {
 @Component({
   selector: 'sh-catalog-csv-import-dialog',
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule],
+  imports: [
+    MatDialogModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
+  ],
   templateUrl: './catalog-csv-import-dialog.component.html',
   styleUrl: './catalog-csv-import-dialog.component.scss',
 })

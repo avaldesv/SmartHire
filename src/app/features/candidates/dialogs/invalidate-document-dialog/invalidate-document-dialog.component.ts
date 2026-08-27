@@ -10,6 +10,10 @@ import {
   CANDIDATE_DOCS_INVALIDATE_REASON,
   CANDIDATE_DOCS_INVALIDATE_TITLE,
 } from '../../../../core/i18n/candidate-documents-dialog-labels';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../../shared/components/modal-form/sh-modal-form.component';
 
 export interface InvalidateDocumentDialogData {
   fileName?: string | null;
@@ -28,13 +32,11 @@ export interface InvalidateDocumentDialogResult {
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
   ],
   template: `
-    <div class="sh-catalog-dialog-header" mat-dialog-title>
-      <span class="sh-catalog-dialog-header__text">{{ title }}</span>
-    </div>
-    <mat-dialog-content class="sh-catalog-dialog-body">
-      <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
+    <sh-modal-form [title]="title">
       @if (data.fileName) {
         <p class="file-name">{{ data.fileName }}</p>
       }
@@ -44,19 +46,19 @@ export interface InvalidateDocumentDialogResult {
           <textarea matInput rows="4" formControlName="rejectionReason"></textarea>
         </mat-form-field>
       </form>
-    </mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button mat-button type="button" (click)="dialogRef.close(null)">{{ cancelLabel }}</button>
-      <button
-        mat-flat-button
-        color="primary"
-        type="button"
-        [disabled]="form.invalid"
-        (click)="confirm()"
-      >
-        {{ confirmLabel }}
-      </button>
-    </mat-dialog-actions>
+      <div shModalActions>
+        <button mat-button type="button" (click)="dialogRef.close(null)">{{ cancelLabel }}</button>
+        <button
+          mat-flat-button
+          color="primary"
+          type="button"
+          [disabled]="form.invalid"
+          (click)="confirm()"
+        >
+          {{ confirmLabel }}
+        </button>
+      </div>
+    </sh-modal-form>
   `,
   styles: `
     .full-width {

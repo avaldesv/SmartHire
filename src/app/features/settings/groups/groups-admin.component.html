@@ -1,54 +1,64 @@
-<h3>{{ groupsPageTitle }}</h3>
-
-<div class="toolbar">
-  <button mat-flat-button color="primary" type="button" (click)="openCreate()">
-    <mat-icon>add</mat-icon> {{ groupsNewButton }}
-  </button>
+<div class="sh-list-page-header">
+  <h3>{{ groupsPageTitle }}</h3>
+  <div class="sh-list-page-header__actions">
+    <button mat-flat-button color="primary" type="button" (click)="openCreate()">
+      <mat-icon>add</mat-icon> {{ groupsNewButton }}
+    </button>
+  </div>
 </div>
 
-@if (showForm) {
-  <div class="sh-card form-card">
-    <h4>{{ editingRoleId ? groupsEditTitle : groupsNewTitle }}</h4>
-    @if (isGlobalAdmin() && !editingRoleId) {
-      <div class="scope-selector" [formGroup]="createScopeForm">
-        <span class="scope-label">{{ groupsRecordScope }}</span>
-        <mat-radio-group formControlName="scope">
-          <mat-radio-button value="TENANT">{{ groupsScopeTenant }}</mat-radio-button>
-          <mat-radio-button value="GLOBAL">{{ groupsScopeGlobal }}</mat-radio-button>
-        </mat-radio-group>
-      </div>
-    }
-    <form [formGroup]="roleForm" class="group-form" (ngSubmit)="save()">
-      <mat-form-field appearance="outline">
-        <mat-label>{{ groupsFieldName }}</mat-label>
-        <input matInput formControlName="name" />
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>{{ groupsFieldDescription }}</mat-label>
-        <input matInput formControlName="description" />
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>{{ groupsFieldModulePermissions }}</mat-label>
-        <mat-select formControlName="modulePermissionIds" multiple>
-          @for (group of permissionGroups; track group.moduleName) {
-            <mat-optgroup [label]="group.moduleName">
-              @for (permission of group.permissions; track permission.id) {
-                <mat-option [value]="permission.id">{{ permission.name }} ({{ permission.authority }})</mat-option>
-              }
-            </mat-optgroup>
-          }
-        </mat-select>
-      </mat-form-field>
-      <mat-checkbox formControlName="isActive">{{ groupsFieldActive }}</mat-checkbox>
-      <div class="form-actions">
-        <button mat-button type="button" (click)="cancelForm()">{{ groupsCancel }}</button>
-        <button mat-flat-button color="primary" type="submit" [disabled]="saving">
-          {{ saving ? groupsSaving : groupsSave }}
-        </button>
-      </div>
-    </form>
+<form [formGroup]="searchForm" class="sh-filters sh-card">
+  <div class="filter-fields">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-label>{{ groupsSearchLabel }}</mat-label>
+      <input matInput formControlName="search" />
+    </mat-form-field>
   </div>
-}
+  <div class="filter-actions">
+    <button mat-stroked-button type="button" (click)="clearFilters()">{{ clearFiltersLabel }}</button>
+  </div>
+</form>
+
+<ng-template #groupFormTpl>
+  @if (isGlobalAdmin() && !editingRoleId) {
+    <div class="scope-selector" [formGroup]="createScopeForm">
+      <span class="scope-label">{{ groupsRecordScope }}</span>
+      <mat-radio-group formControlName="scope">
+        <mat-radio-button value="TENANT">{{ groupsScopeTenant }}</mat-radio-button>
+        <mat-radio-button value="GLOBAL">{{ groupsScopeGlobal }}</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  }
+  <form id="sh-group-admin-form" [formGroup]="roleForm" class="group-form" (ngSubmit)="save()">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ groupsFieldName }}</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{ groupsFieldDescription }}</mat-label>
+      <input matInput formControlName="description" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{ groupsFieldModulePermissions }}</mat-label>
+      <mat-select formControlName="modulePermissionIds" multiple>
+        @for (group of permissionGroups; track group.moduleName) {
+          <mat-optgroup [label]="group.moduleName">
+            @for (permission of group.permissions; track permission.id) {
+              <mat-option [value]="permission.id">{{ permission.name }} ({{ permission.authority }})</mat-option>
+            }
+          </mat-optgroup>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-checkbox formControlName="isActive">{{ groupsFieldActive }}</mat-checkbox>
+    <div shModalActions>
+      <button mat-stroked-button type="button" (click)="cancelForm()">{{ groupsCancel }}</button>
+      <button mat-flat-button color="primary" type="submit" form="sh-group-admin-form" [disabled]="saving">
+        {{ saving ? groupsSaving : groupsSave }}
+      </button>
+    </div>
+  </form>
+</ng-template>
 
 @if (loading) {
   <div class="loading-wrap"><mat-spinner diameter="36" /></div>

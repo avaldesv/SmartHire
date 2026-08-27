@@ -49,6 +49,10 @@ import {
   PositionCancellationImpact,
   PositionCancellationImpactCandidate,
 } from '../../../shared/models/position.model';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../shared/components/modal-form/sh-modal-form.component';
 
 const MAX_EVIDENCE_BYTES = 10 * 1024 * 1024;
 const ALLOWED_EVIDENCE_EXTENSIONS = new Set([
@@ -87,6 +91,8 @@ export interface PositionCancelDialogResult {
     MatProgressSpinnerModule,
     MatTableModule,
     MatIconModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
   ],
   templateUrl: './position-cancel-dialog.component.html',
   styleUrl: './position-cancel-dialog.component.scss',

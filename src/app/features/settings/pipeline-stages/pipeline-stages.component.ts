@@ -10,8 +10,10 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { COMMON_CLEAR_FILTERS } from '../../../core/i18n/common-labels';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { PermissionService } from '../../../core/services/permission.service';
+import { debounceTime } from 'rxjs';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { CatalogPipelineStageService } from '../../../core/services/catalog-pipeline-stage.service';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
@@ -108,11 +110,14 @@ export class PipelineStagesComponent implements OnInit {
   readonly saveLabel = PIPELINE_STAGES_SAVE;
   readonly yesLabel = PIPELINE_STAGES_YES;
   readonly noLabel = PIPELINE_STAGES_NO;
+  readonly clearFiltersLabel = COMMON_CLEAR_FILTERS;
+  readonly searchLabel = $localize`:@@pipelineStages.search:Buscar etapa`;
 
   loading = true;
   saving = false;
   reordering = false;
   deletingId: number | null = null;
+  private allItems: CatalogPipelineStage[] = [];
   data: CatalogPipelineStage[] = [];
   countries: CatalogCountry[] = [];
   editingStageId: number | null = null;
@@ -120,6 +125,7 @@ export class PipelineStagesComponent implements OnInit {
 
   readonly columns = ['order', 'name', 'color', 'code', 'active', 'reorder', 'actions'];
 
+  readonly searchForm = this.fb.nonNullable.group({ search: [''] });
   readonly stageForm = this.fb.nonNullable.group({
     countryId: this.fb.control<number | null>(null),
     code: ['', Validators.required],
@@ -135,12 +141,15 @@ export class PipelineStagesComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.searchForm.controls.search.valueChanges.pipe(debounceTime(300)).subscribe(() => {
+      this.applyFilter();
+    });
     this.geographyService.listCountries().subscribe({
       next: (countries) => {
         this.countries = countries;
         this.load();
       },
-      error: (err) => {
+      error: () => {
         this.load();
       },
     });
@@ -150,7 +159,8 @@ export class PipelineStagesComponent implements OnInit {
     this.loading = true;
     this.pipelineStageService.list().subscribe({
       next: ({ items }) => {
-        this.data = [...items].sort((a, b) => a.sortOrder - b.sortOrder);
+        this.allItems = [...items].sort((a, b) => a.sortOrder - b.sortOrder);
+        this.applyFilter();
         this.loading = false;
       },
       error: (err) => {
@@ -160,12 +170,38 @@ export class PipelineStagesComponent implements OnInit {
     });
   }
 
+  private applyFilter(): void {
+    const q = this.searchForm.controls.search.value.trim().toLowerCase();
+    this.data = !q
+      ? [...this.allItems]
+      : this.allItems.filter(
+          (r) =>
+            r.name?.toLowerCase().includes(q) ||
+            r.code?.toLowerCase().includes(q) ||
+            (r.description ?? '').toLowerCase().includes(q),
+        );
+  }
+
+  clearFilters(): void {
+    this.searchForm.controls.search.setValue('');
+    this.applyFilter();
+  }
+
+  isFirstStage(stage: CatalogPipelineStage): boolean {
+    return this.allItems[0]?.id === stage.id;
+  }
+
+  isLastStage(stage: CatalogPipelineStage): boolean {
+    return this.allItems[this.allItems.length - 1]?.id === stage.id;
+  }
+
   canEditRecord(companyId?: number | null): boolean {
     return canEditScopedRecord(companyId, this.isGlobalAdmin());
   }
 
   openCreate(): void {
-    const nextOrder = this.data.length > 0 ? Math.max(...this.data.map((s) => s.sortOrder)) + 1 : 1;
+    const nextOrder =
+      this.allItems.length > 0 ? Math.max(...this.allItems.map((s) => s.sortOrder)) + 1 : 1;
     this.stageForm.reset({
       countryId: this.countries[0]?.id ?? null,
       code: '',
@@ -266,13 +302,13 @@ export class PipelineStagesComponent implements OnInit {
   }
 
   moveStage(stage: CatalogPipelineStage, direction: -1 | 1): void {
-    const index = this.data.findIndex((item) => item.id === stage.id);
+    const index = this.allItems.findIndex((item) => item.id === stage.id);
     const targetIndex = index + direction;
-    if (index < 0 || targetIndex < 0 || targetIndex >= this.data.length) {
+    if (index < 0 || targetIndex < 0 || targetIndex >= this.allItems.length) {
       return;
     }
 
-    const target = this.data[targetIndex];
+    const target = this.allItems[targetIndex];
     const payload = [
       { id: stage.id, sortOrder: target.sortOrder },
       { id: target.id, sortOrder: stage.sortOrder },

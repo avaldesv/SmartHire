@@ -1,9 +1,4 @@
-<div class="sh-catalog-dialog-header" mat-dialog-title>
-  <span class="sh-catalog-dialog-header__text">{{ title }}</span>
-</div>
-
-<mat-dialog-content class="sh-position-cancel-dialog-body">
-  <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
+<sh-modal-form [title]="title" contentClass="sh-position-cancel-dialog-body">
   @if (loading) {
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else if (loadError) {
@@ -130,17 +125,17 @@
       </div>
     </form>
   }
-</mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <button mat-button type="button" (click)="dialogRef.close(null)">{{ cancelLabel }}</button>
-  <button
-    mat-flat-button
-    color="primary"
-    type="button"
-    [disabled]="loading || !!loadError || form.invalid || !!evidenceError || !!reasonsError || loadingReasons"
-    (click)="confirm()"
-  >
-    {{ confirmLabel }}
-  </button>
-</mat-dialog-actions>
+  <div shModalActions>
+    <button mat-stroked-button type="button" (click)="dialogRef.close(null)">{{ cancelLabel }}</button>
+    <button
+      mat-flat-button
+      color="primary"
+      type="button"
+      [disabled]="loading || !!loadError || form.invalid || !!evidenceError || !!reasonsError || loadingReasons"
+      (click)="confirm()"
+    >
+      {{ confirmLabel }}
+    </button>
+  </div>
+</sh-modal-form>

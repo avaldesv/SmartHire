@@ -1,13 +1,9 @@
-<div class="sh-catalog-dialog-header" mat-dialog-title>
-  <span class="sh-catalog-dialog-header__text">{{ title }}</span>
-</div>
-
-@if (loadingDetail) {
-  <mat-dialog-content class="loading-wrap">
-    <mat-spinner diameter="36" />
-  </mat-dialog-content>
-} @else {
-  <mat-dialog-content class="dialog-body sh-catalog-dialog-body">
+<sh-modal-form [title]="title" contentClass="dialog-body">
+  @if (loadingDetail) {
+    <div class="loading-wrap">
+      <mat-spinner diameter="36" />
+    </div>
+  } @else {
     @if (data.isGlobalAdmin && !isEdit) {
       <div class="scope-selector" [formGroup]="scopeForm">
         <span class="scope-label">{{ labels.scopeLabel }}</span>
@@ -183,18 +179,18 @@
         </section>
       </div>
     </form>
-  </mat-dialog-content>
-}
+  }
 
-<mat-dialog-actions align="end">
-  <button mat-button type="button" [mat-dialog-close]="false" [disabled]="saving">{{ labels.cancel }}</button>
-  <button
-    mat-flat-button
-    color="primary"
-    type="button"
-    (click)="save()"
-    [disabled]="saving || loadingDetail"
-  >
-    {{ saving ? labels.saving : labels.save }}
-  </button>
-</mat-dialog-actions>
+  <div shModalActions>
+    <button mat-stroked-button type="button" [mat-dialog-close]="false" [disabled]="saving">{{ labels.cancel }}</button>
+    <button
+      mat-flat-button
+      color="primary"
+      type="button"
+      (click)="save()"
+      [disabled]="saving || loadingDetail"
+    >
+      {{ saving ? labels.saving : labels.save }}
+    </button>
+  </div>
+</sh-modal-form>

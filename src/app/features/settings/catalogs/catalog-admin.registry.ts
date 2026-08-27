@@ -56,6 +56,9 @@ export type CatalogPanelKey =
   | 'questionnaireCategory'
   | 'questionnaireQuestion'
   | 'messages'
+  | 'notificationLogs'
+  | 'notificationCoverage'
+  | 'notificationFailed'
   | 'jobPortal'
   | 'recruiterGroup';
 
@@ -136,7 +139,12 @@ const CATALOG_CATEGORIES_RAW: CatalogCategoryDefinition[] = [
   {
     id: 'notificaciones',
     label: 'Notificaciones',
-    catalogs: [{ id: 'messages', label: 'Mensajes', panelKey: 'messages', implemented: true }],
+    catalogs: [
+      { id: 'messages', label: 'Plantillas', panelKey: 'messages', implemented: true },
+      { id: 'notificationLogs', label: 'Log de envíos', panelKey: 'notificationLogs', implemented: true },
+      { id: 'notificationCoverage', label: 'Cobertura', panelKey: 'notificationCoverage', implemented: true },
+      { id: 'notificationFailed', label: 'Fallidos', panelKey: 'notificationFailed', implemented: true },
+    ],
   },
   {
     id: 'empresas',

@@ -14,7 +14,7 @@ h5 {
   font-size: 0.9rem;
 }
 
-.form-config-dialog-content {
+:host ::ng-deep .form-config-dialog-content {
   min-width: min(960px, 92vw);
   max-width: 1100px;
   min-height: 420px;
