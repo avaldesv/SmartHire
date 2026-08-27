@@ -17589,6 +17589,13 @@
           <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="documentTemplates.variables.col.inUse" datatype="html">
+        <source>En uso</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="documentTemplates.variables.col.active" datatype="html">
         <source>Activa</source>
         <context-group purpose="location">
@@ -17646,7 +17653,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.codeHint" datatype="html">
-        <source>Solo letras, números y guion bajo; debe empezar con letra. No se puede cambiar al editar.</source>
+        <source>El código se genera del campo elegido y no se puede cambiar.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
           <context context-type="linenumber">16</context>
@@ -17665,6 +17672,48 @@
           <context context-type="sourcefile">src/app/core/i18n/document-templates-labels.ts</context>
           <context context-type="linenumber">18</context>
         </context-group>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.field.origin" datatype="html">
+        <source>Origen</source>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.field.source" datatype="html">
+        <source>Campo</source>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.noFields" datatype="html">
+        <source>No hay campos disponibles en este origen</source>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.origin.candidate" datatype="html">
+        <source>Candidato</source>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.origin.position" datatype="html">
+        <source>Posición</source>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.origin.recruiter" datatype="html">
+        <source>Reclutador</source>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.origin.application" datatype="html">
+        <source>Postulación</source>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.origin.company" datatype="html">
+        <source>Empresa</source>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.inUse.yes" datatype="html">
+        <source>Sí</source>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.inUse.no" datatype="html">
+        <source>No</source>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.errors.fields" datatype="html">
+        <source>No se pudieron cargar los campos disponibles</source>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.errors.delete" datatype="html">
+        <source>No se pudo eliminar la variable</source>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.success.deleted" datatype="html">
+        <source>Variable eliminada</source>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.deleteConfirm" datatype="html">
+        <source>¿Eliminar la variable "<x id="code" equiv-text="code"/>"? Esta acción no se puede deshacer.</source>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.success.saved" datatype="html">
         <source>Variable guardada</source>

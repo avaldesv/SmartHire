@@ -1,9 +1,32 @@
 <sh-modal-form [title]="title">
   <form [formGroup]="form" class="variable-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ fieldOrigin }}</mat-label>
+      <mat-select formControlName="origin" (selectionChange)="onOriginChange()">
+        @for (option of originOptions; track option.value) {
+          <mat-option [value]="option.value">{{ option.label }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    @if (!editingId) {
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ fieldSource }}</mat-label>
+        <mat-select formControlName="sourceKey" (selectionChange)="onSourceKeyChange()">
+          @for (field of fieldsForOrigin; track field.sourceKey) {
+            <mat-option [value]="field.sourceKey">{{ field.label }} ({{ field.suggestedCode }})</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      @if (form.controls.origin.value && !loadingFields && fieldsForOrigin.length === 0) {
+        <p class="code-hint">{{ noFields }}</p>
+      }
+    }
+
     <div class="code-field-block">
       <mat-form-field appearance="outline" class="full-width code-field">
         <mat-label>{{ fieldCode }}</mat-label>
-        <input matInput formControlName="code" autocomplete="off" />
+        <input matInput formControlName="code" autocomplete="off" readonly />
       </mat-form-field>
       <p class="code-hint">{{ codeHint }}</p>
     </div>
@@ -23,7 +46,7 @@
 
   <div shModalActions>
     <button mat-stroked-button type="button" (click)="cancel()" [disabled]="saving">{{ cancelLabel }}</button>
-    <button mat-flat-button color="primary" type="button" (click)="save()" [disabled]="saving">
+    <button mat-flat-button color="primary" type="button" (click)="save()" [disabled]="saving || loadingFields">
       {{ saving ? savingLabel : saveLabel }}
     </button>
   </div>

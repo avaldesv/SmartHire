@@ -6,18 +6,32 @@ export const DOCTEMPLATES_VAR_NEW_BUTTON = $localize`:@@documentTemplates.variab
 export const DOCTEMPLATES_VAR_COL_CODE = $localize`:@@documentTemplates.variables.col.code:Código`;
 export const DOCTEMPLATES_VAR_COL_LABEL = $localize`:@@documentTemplates.variables.col.label:Etiqueta`;
 export const DOCTEMPLATES_VAR_COL_DESCRIPTION = $localize`:@@documentTemplates.variables.col.description:Descripción`;
+export const DOCTEMPLATES_VAR_COL_IN_USE = $localize`:@@documentTemplates.variables.col.inUse:En uso`;
 export const DOCTEMPLATES_VAR_COL_ACTIVE = $localize`:@@documentTemplates.variables.col.active:Activa`;
 export const DOCTEMPLATES_VAR_EMPTY = $localize`:@@documentTemplates.variables.empty:No hay variables configuradas`;
 export const DOCTEMPLATES_VAR_DIALOG_NEW = $localize`:@@documentTemplates.variables.dialog.new:Nueva variable`;
 export const DOCTEMPLATES_VAR_DIALOG_EDIT = $localize`:@@documentTemplates.variables.dialog.edit:Editar variable`;
+export const DOCTEMPLATES_VAR_FIELD_ORIGIN = $localize`:@@documentTemplates.variables.field.origin:Origen`;
+export const DOCTEMPLATES_VAR_FIELD_SOURCE = $localize`:@@documentTemplates.variables.field.source:Campo`;
 export const DOCTEMPLATES_VAR_FIELD_CODE = $localize`:@@documentTemplates.variables.field.code:Código`;
 export const DOCTEMPLATES_VAR_FIELD_LABEL = $localize`:@@documentTemplates.variables.field.label:Etiqueta`;
 export const DOCTEMPLATES_VAR_FIELD_DESCRIPTION = $localize`:@@documentTemplates.variables.field.description:Descripción`;
 export const DOCTEMPLATES_VAR_FIELD_ACTIVE = $localize`:@@documentTemplates.variables.field.active:Activa`;
-export const DOCTEMPLATES_VAR_CODE_HINT = $localize`:@@documentTemplates.variables.codeHint:Solo letras, números y guion bajo; debe empezar con letra. No se puede cambiar al editar.`;
+export const DOCTEMPLATES_VAR_CODE_HINT = $localize`:@@documentTemplates.variables.codeHint:El código se genera del campo elegido y no se puede cambiar.`;
+export const DOCTEMPLATES_VAR_NO_FIELDS = $localize`:@@documentTemplates.variables.noFields:No hay campos disponibles en este origen`;
+export const DOCTEMPLATES_VAR_ORIGIN_CANDIDATE = $localize`:@@documentTemplates.variables.origin.candidate:Candidato`;
+export const DOCTEMPLATES_VAR_ORIGIN_POSITION = $localize`:@@documentTemplates.variables.origin.position:Posición`;
+export const DOCTEMPLATES_VAR_ORIGIN_RECRUITER = $localize`:@@documentTemplates.variables.origin.recruiter:Reclutador`;
+export const DOCTEMPLATES_VAR_ORIGIN_APPLICATION = $localize`:@@documentTemplates.variables.origin.application:Postulación`;
+export const DOCTEMPLATES_VAR_ORIGIN_COMPANY = $localize`:@@documentTemplates.variables.origin.company:Empresa`;
+export const DOCTEMPLATES_VAR_IN_USE_YES = $localize`:@@documentTemplates.variables.inUse.yes:Sí`;
+export const DOCTEMPLATES_VAR_IN_USE_NO = $localize`:@@documentTemplates.variables.inUse.no:No`;
 export const DOCTEMPLATES_VAR_ERRORS_LIST = $localize`:@@documentTemplates.variables.errors.list:No se pudieron cargar las variables`;
 export const DOCTEMPLATES_VAR_ERRORS_SAVE = $localize`:@@documentTemplates.variables.errors.save:No se pudo guardar la variable`;
+export const DOCTEMPLATES_VAR_ERRORS_FIELDS = $localize`:@@documentTemplates.variables.errors.fields:No se pudieron cargar los campos disponibles`;
+export const DOCTEMPLATES_VAR_ERRORS_DELETE = $localize`:@@documentTemplates.variables.errors.delete:No se pudo eliminar la variable`;
 export const DOCTEMPLATES_VAR_SUCCESS_SAVED = $localize`:@@documentTemplates.variables.success.saved:Variable guardada`;
+export const DOCTEMPLATES_VAR_SUCCESS_DELETED = $localize`:@@documentTemplates.variables.success.deleted:Variable eliminada`;
 
 export const DOCTEMPLATES_TPL_NEW_BUTTON = $localize`:@@documentTemplates.templates.newButton:Nueva plantilla`;
 export const DOCTEMPLATES_TPL_COL_NAME = $localize`:@@documentTemplates.templates.col.name:Nombre`;
@@ -74,4 +88,8 @@ export const DOCTEMPLATES_GENERATE_CLOSE = $localize`:@@common.close:Cerrar`;
 
 export function documentTemplatesDeleteConfirm(name: string): string {
   return $localize`:@@documentTemplates.templates.deleteConfirm:¿Eliminar la plantilla "${name}:name:"? Esta acción no se puede deshacer.`;
+}
+
+export function documentTemplateVariableDeleteConfirm(code: string): string {
+  return $localize`:@@documentTemplates.variables.deleteConfirm:¿Eliminar la variable "${code}:code:"? Esta acción no se puede deshacer.`;
 }
