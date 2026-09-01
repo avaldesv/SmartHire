@@ -31,7 +31,14 @@
   color: #334155;
 }
 
-.summary-bar__badge {
+.summary-bar--ok {
+  background: #ecfdf5;
+  border-color: #bbf7d0;
+}
+
+.summary-bar--ok .summary-bar__text {
+  color: #166534;
+}
   display: inline-flex;
   align-items: center;
   padding: 2px 10px;

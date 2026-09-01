@@ -49,11 +49,24 @@ export class CandidateDocumentApiService {
       )
       .pipe(
         map((res) => ({
-          items: res.data ?? [],
+          items: (res.data ?? []).map((item) => this.normalizeListItem(item)),
           total: res.pagination?.total ?? 0,
           summary: res.summary ?? null,
         })),
       );
+  }
+
+  private normalizeListItem(item: CandidateDocumentListItem): CandidateDocumentListItem {
+    const raw = item as CandidateDocumentListItem & {
+      missing?: boolean | null;
+      requiredForPosition?: boolean | null;
+    };
+    return {
+      ...item,
+      isMissing: item.isMissing === true || raw.missing === true,
+      isRequiredForPosition:
+        item.isRequiredForPosition === true || raw.requiredForPosition === true,
+    };
   }
 
   uploadForApplication(
