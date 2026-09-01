@@ -14,10 +14,15 @@ import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.se
 import { catalogDialogConfig } from '../../../core/dialog/catalog-dialog.constants';
 import { AppPermissions } from '../../../core/auth/app-permissions';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
-import { INTERVIEW_SCHEDULE_SELECT_ONE } from '../../../core/i18n/interview-calendar-labels';
 import {
   PRESELECTION_APPOINTMENT_SCHEDULED_TOOLTIP,
   PRESELECTION_APPOINTMENT_TOOLTIP,
+  PRESELECTION_BULK_APPOINTMENT,
+  PRESELECTION_BULK_CONTACT,
+  PRESELECTION_BULK_CONTACT_CONFIRM,
+  PRESELECTION_BULK_CONTACT_PARTIAL,
+  PRESELECTION_BULK_CONTACT_SUCCESS,
+  PRESELECTION_BULK_NONE_SELECTED,
   PRESELECTION_COL_APPOINTMENT,
   PRESELECTION_COL_CONTACT,
   PRESELECTION_COL_EVALUATION,
@@ -47,6 +52,11 @@ import {
   positionApplicationsDialogConfig,
 } from '../../candidates/dialogs/position-applications-dialog/position-applications-dialog.component';
 import {
+  BulkScheduleInterviewsDialogComponent,
+  BulkScheduleInterviewsDialogData,
+  BulkScheduleInterviewsDialogResult,
+} from '../dialogs/bulk-schedule-interviews-dialog/bulk-schedule-interviews-dialog.component';
+import {
   ApplicationAuditLogDialogComponent,
   ApplicationAuditLogDialogData,
 } from '../dialogs/application-audit-log-dialog/application-audit-log-dialog.component';
@@ -64,7 +74,7 @@ import {
 } from '../dialogs/questionnaire-evaluation-dialog/questionnaire-evaluation-dialog.component';
 import { QuestionnaireApiService } from '../../../core/services/questionnaire-api.service';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
-import { filter, switchMap } from 'rxjs';
+import { filter, switchMap, catchError, concatMap, from, map, of, toArray } from 'rxjs';
 import { PreselectionCandidate } from '../../../shared/models';
 import {
   PRESELECTION_ROW_ACTIONS,
@@ -111,6 +121,8 @@ export class PreselectionComponent implements OnInit {
     evaluationTooltip: PRESELECTION_EVALUATION_TOOLTIP,
     appointmentTooltip: PRESELECTION_APPOINTMENT_TOOLTIP,
     appointmentScheduledTooltip: PRESELECTION_APPOINTMENT_SCHEDULED_TOOLTIP,
+    bulkContact: PRESELECTION_BULK_CONTACT,
+    bulkAppointment: PRESELECTION_BULK_APPOINTMENT,
   };
   loading = true;
   bulkLoading = false;
@@ -301,20 +313,91 @@ export class PreselectionComponent implements OnInit {
   }
 
   action(name: string): void {
-    if (name === 'Agendar entrevista') {
-      this.scheduleSelectedInterview();
-      return;
-    }
     this.feedback.showSuccess(`${name}: ${this.selectedCount} candidato(s)`);
   }
 
-  private scheduleSelectedInterview(): void {
-    const selected = this.data.filter((row) => row.selected);
-    if (selected.length !== 1) {
-      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, INTERVIEW_SCHEDULE_SELECT_ONE);
+  bulkContactSelectedCandidates(): void {
+    if (!this.canEditSelection || this.bulkLoading) {
       return;
     }
-    this.openScheduleInterview(selected[0]);
+    const selected = this.data.filter((row) => row.selected);
+    if (selected.length === 0) {
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, PRESELECTION_BULK_NONE_SELECTED);
+      return;
+    }
+    this.feedback
+      .confirm({
+        title: PRESELECTION_BULK_CONTACT,
+        message: PRESELECTION_BULK_CONTACT_CONFIRM,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
+        this.bulkLoading = true;
+        from(selected)
+          .pipe(
+            concatMap((row) =>
+              this.applicationApi.contactQuestionnaire(row.applicationId).pipe(
+                map(() => true),
+                catchError(() => of(false)),
+              ),
+            ),
+            toArray(),
+          )
+          .subscribe({
+            next: (results) => {
+              this.bulkLoading = false;
+              const succeeded = results.filter(Boolean).length;
+              const failed = results.length - succeeded;
+              if (failed === 0) {
+                this.feedback.showSuccess(`${PRESELECTION_BULK_CONTACT_SUCCESS} (${succeeded})`);
+              } else if (succeeded === 0) {
+                this.feedback.showApiError(null, { fallbackMessage: PRESELECTION_CONTACT_ERROR });
+              } else {
+                this.feedback.showWarning(
+                  PRESELECTION_BULK_CONTACT_PARTIAL,
+                  `${succeeded} enviados, ${failed} fallaron`,
+                );
+              }
+              this.loadApplications();
+            },
+            error: (err) => {
+              this.bulkLoading = false;
+              this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_CONTACT_ERROR });
+            },
+          });
+      });
+  }
+
+  bulkSendInterviewAppointments(): void {
+    if (!this.canEditSelection || this.bulkLoading) {
+      return;
+    }
+    const selected = this.data.filter((row) => row.selected);
+    if (selected.length === 0) {
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, PRESELECTION_BULK_NONE_SELECTED);
+      return;
+    }
+    const candidates = selected.map((row) => ({
+      applicationId: row.applicationId,
+      name: `${row.firstName} ${row.lastName}`.trim() || row.email,
+    }));
+    this.dialog
+      .open<
+        BulkScheduleInterviewsDialogComponent,
+        BulkScheduleInterviewsDialogData,
+        BulkScheduleInterviewsDialogResult | null
+      >(BulkScheduleInterviewsDialogComponent, {
+        ...catalogDialogConfig('480px'),
+        data: { candidates },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result && result.scheduled > 0) {
+          this.loadApplications();
+        }
+      });
   }
 
   private openScheduleInterview(row: PreselectionCandidate): void {

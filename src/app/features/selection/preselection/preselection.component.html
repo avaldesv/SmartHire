@@ -20,8 +20,22 @@
       <mat-icon>clear_all</mat-icon> Liberar todos
     </button>
     <span class="toolbar-divider"></span>
+    <button
+      mat-stroked-button
+      (click)="bulkContactSelectedCandidates()"
+      [disabled]="bulkLoading || selectedCount === 0 || !canEditSelection"
+    >
+      <mat-icon>phone</mat-icon> {{ labels.bulkContact }} ({{ selectedCount }})
+    </button>
+    <button
+      mat-stroked-button
+      (click)="bulkSendInterviewAppointments()"
+      [disabled]="bulkLoading || selectedCount === 0 || !canEditSelection"
+    >
+      <mat-icon>event</mat-icon> {{ labels.bulkAppointment }} ({{ selectedCount }})
+    </button>
+    <span class="toolbar-divider"></span>
     <button mat-stroked-button (click)="action('Enviar Smart')"><mat-icon>send</mat-icon> Enviar Smart</button>
-    <button mat-stroked-button (click)="action('Agendar entrevista')"><mat-icon>event</mat-icon> Agendar</button>
     <button mat-stroked-button (click)="action('Solicitar documentos')"><mat-icon>description</mat-icon> Documentos</button>
     <button mat-flat-button color="primary" (click)="action('Avanzar etapa')"><mat-icon>arrow_forward</mat-icon> Avanzar ({{ selectedCount }})</button>
   </div>
