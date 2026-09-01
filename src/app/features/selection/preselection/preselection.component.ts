@@ -39,6 +39,7 @@ import { PermissionService } from '../../../core/services/permission.service';
 import {
   CandidateDocumentsDialogComponent,
   CandidateDocumentsDialogData,
+  candidateDocumentsDialogConfig,
 } from '../../candidates/dialogs/candidate-documents-dialog/candidate-documents-dialog.component';
 import {
   CandidatePoolDialogComponent,
@@ -573,7 +574,7 @@ export class PreselectionComponent implements OnInit {
     this.dialog.open<CandidateDocumentsDialogComponent, CandidateDocumentsDialogData>(
       CandidateDocumentsDialogComponent,
       {
-        ...catalogDialogConfig('960px'),
+        ...candidateDocumentsDialogConfig(),
         autoFocus: false,
         data: {
           applicationId: row.applicationId,

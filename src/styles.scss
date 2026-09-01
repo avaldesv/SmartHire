@@ -404,6 +404,34 @@ a:hover { text-decoration: underline; }
   overflow: hidden !important;
 }
 
+/* Candidate documents — wide modal, body grows; scroll only inside table when needed */
+.sh-candidate-documents-dialog-panel .mat-mdc-dialog-container,
+.sh-candidate-documents-dialog-panel .mat-mdc-dialog-surface {
+  max-height: 88vh;
+}
+
+.sh-candidate-documents-dialog-panel .mat-mdc-dialog-surface {
+  display: flex !important;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sh-candidate-documents-dialog-panel .mat-mdc-dialog-component-host,
+.sh-candidate-documents-dialog-panel sh-candidate-documents-dialog {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.sh-candidate-documents-dialog-panel .mat-mdc-dialog-content.sh-catalog-dialog-body,
+.sh-candidate-documents-dialog-panel .mat-mdc-dialog-title + .mat-mdc-dialog-content.sh-catalog-dialog-body {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: hidden !important;
+}
+
 /* Structural gap — survives Material zeroing content padding-top */
 .sh-catalog-dialog-gap {
   height: 16px;

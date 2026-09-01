@@ -70,6 +70,7 @@ import {
 import {
   CandidateDocumentsDialogComponent,
   CandidateDocumentsDialogData,
+  candidateDocumentsDialogConfig,
 } from '../candidate-documents-dialog/candidate-documents-dialog.component';
 import {
   CandidateProfileDialogComponent,
@@ -357,7 +358,7 @@ export class PositionApplicationsDialogComponent implements OnInit {
     this.dialog.open<CandidateDocumentsDialogComponent, CandidateDocumentsDialogData>(
       CandidateDocumentsDialogComponent,
       {
-        ...catalogDialogConfig('960px'),
+        ...candidateDocumentsDialogConfig(),
         autoFocus: false,
         data: {
           applicationId: row.id,
