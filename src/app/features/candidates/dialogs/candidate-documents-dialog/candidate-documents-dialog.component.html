@@ -9,9 +9,9 @@
   } @else if (rows.length === 0) {
     <p class="empty-msg">{{ labels.empty }}</p>
   } @else {
-    @if (summaryLabel()) {
-      <div class="summary-bar">
-        <span class="summary-bar__text">{{ summaryLabel() }}</span>
+    @if (summaryLabel() || complianceHint()) {
+      <div class="summary-bar" [class.summary-bar--ok]="summary && summary.missingCount === 0">
+        <span class="summary-bar__text">{{ summaryLabel() ?? complianceHint() }}</span>
         @if (summary && summary.missingCount > 0) {
           <span class="summary-bar__badge">{{ summary.missingCount }} faltantes</span>
         }

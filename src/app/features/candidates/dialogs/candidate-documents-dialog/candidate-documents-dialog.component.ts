@@ -31,6 +31,8 @@ import {
   CANDIDATE_DOCS_MARK_AS_VALIDATED,
   CANDIDATE_DOCS_MARK_VALIDATED,
   CANDIDATE_DOCS_MISSING_FILE,
+  CANDIDATE_DOCS_NO_REQUIREMENTS,
+  CANDIDATE_DOCS_ALL_DELIVERED,
   CANDIDATE_DOCS_REQUIRED_BADGE,
   CANDIDATE_DOCS_SUCCESS_VALIDATE,
   CANDIDATE_DOCS_SUMMARY_MISSING,
@@ -111,6 +113,8 @@ export class CandidateDocumentsDialogComponent implements OnInit {
     chooseFile: CANDIDATE_DOCS_CHOOSE_FILE,
     summaryRequired: CANDIDATE_DOCS_SUMMARY_REQUIRED,
     summaryMissing: CANDIDATE_DOCS_SUMMARY_MISSING,
+    noRequirements: CANDIDATE_DOCS_NO_REQUIREMENTS,
+    allDelivered: CANDIDATE_DOCS_ALL_DELIVERED,
   };
 
   loading = true;
@@ -151,7 +155,17 @@ export class CandidateDocumentsDialogComponent implements OnInit {
     const delivered = this.summary.uploadedRequiredCount;
     const total = this.summary.requiredCount;
     const missing = this.summary.missingCount;
+    if (missing === 0) {
+      return `${this.labels.allDelivered} (${delivered} de ${total})`;
+    }
     return `${this.labels.summaryRequired}: ${delivered} de ${total} · ${missing} ${this.labels.summaryMissing}`;
+  }
+
+  complianceHint(): string | null {
+    if (this.summary && this.summary.requiredCount > 0) {
+      return null;
+    }
+    return this.labels.noRequirements;
   }
 
   load(): void {

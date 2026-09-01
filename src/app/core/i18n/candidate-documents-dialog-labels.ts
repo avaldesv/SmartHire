@@ -39,6 +39,8 @@ export const CANDIDATE_DOCS_UPLOAD_ERROR = $localize`:@@candidateDocuments.uploa
 export const CANDIDATE_DOCS_SUMMARY_REQUIRED = $localize`:@@candidateDocuments.summary.required:Obligatorios entregados`;
 export const CANDIDATE_DOCS_SUMMARY_MISSING = $localize`:@@candidateDocuments.summary.missing:pendientes de subir`;
 export const CANDIDATE_DOCS_CHOOSE_FILE = $localize`:@@candidateDocuments.chooseFile:Seleccionar archivo`;
+export const CANDIDATE_DOCS_NO_REQUIREMENTS = $localize`:@@candidateDocuments.noRequirements:Esta vacante no tiene documentos configurados en la requisición. Configure el paso Documentos en el wizard para ver obligatorios y faltantes.`;
+export const CANDIDATE_DOCS_ALL_DELIVERED = $localize`:@@candidateDocuments.allDelivered:Todos los documentos obligatorios fueron entregados`;
 
 export function candidateDocumentsSizeLabel(bytes: number | null | undefined): string {
   if (bytes == null || bytes <= 0) {
