@@ -2,10 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import {
+  ApplicationDocumentsSummary,
   CandidateDocumentListItem,
   CandidateDocumentListResponse,
   UpdateApplicationDocumentValidationRequest,
   UpdateApplicationDocumentValidationResponse,
+  UploadApplicationDocumentResponse,
 } from '../../shared/models/candidate-document.model';
 import { ApiClientService } from './api-client.service';
 
@@ -32,16 +34,41 @@ export class CandidateDocumentApiService {
   listForApplication(
     applicationId: number,
     page = 0,
-    size = 20,
+    size = 100,
     documentTypeId: number | null = null,
-  ): Observable<{ items: CandidateDocumentListItem[]; total: number }> {
+  ): Observable<{
+    items: CandidateDocumentListItem[];
+    total: number;
+    summary: ApplicationDocumentsSummary | null;
+  }> {
     return this.http
       .post<CandidateDocumentListResponse>(
         this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/documents/list`),
         { documentTypeId, filters: [], ordersBy: [] },
         { headers: this.api.buildHeaders(page, size) },
       )
-      .pipe(map((res) => ({ items: res.data ?? [], total: res.pagination?.total ?? 0 })));
+      .pipe(
+        map((res) => ({
+          items: res.data ?? [],
+          total: res.pagination?.total ?? 0,
+          summary: res.summary ?? null,
+        })),
+      );
+  }
+
+  uploadForApplication(
+    applicationId: number,
+    documentTypeId: number,
+    file: File,
+  ): Observable<UploadApplicationDocumentResponse> {
+    const formData = new FormData();
+    formData.append('documentTypeId', String(documentTypeId));
+    formData.append('file', file, file.name);
+    return this.http.post<UploadApplicationDocumentResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/documents`),
+      formData,
+      { headers: this.api.buildHeaders() },
+    );
   }
 
   updateValidation(

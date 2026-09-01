@@ -1,5 +1,5 @@
 export interface CandidateDocumentListItem {
-  id: number;
+  id: number | null;
   documentTypeId: number | null;
   documentTypeName: string | null;
   fileName: string | null;
@@ -12,6 +12,25 @@ export interface CandidateDocumentListItem {
   rejectionReason?: string | null;
   validatedAt?: string | null;
   isRequiredForPosition?: boolean | null;
+  isMissing?: boolean | null;
+}
+
+export interface ApplicationDocumentsSummary {
+  requiredCount: number;
+  missingCount: number;
+  uploadedRequiredCount: number;
+  validatedRequiredCount: number;
+}
+
+export interface UploadApplicationDocumentResponse {
+  id: number;
+  documentTypeId: number;
+  fileName: string;
+  contentType: string | null;
+  sizeBytes: number | null;
+  status: string | null;
+  downloadUrl: string | null;
+  createAt: string | null;
 }
 
 export interface UpdateApplicationDocumentValidationRequest {
@@ -31,4 +50,5 @@ export interface UpdateApplicationDocumentValidationResponse {
 export interface CandidateDocumentListResponse {
   data?: CandidateDocumentListItem[];
   pagination?: { page?: number; size?: number; total?: number };
+  summary?: ApplicationDocumentsSummary | null;
 }

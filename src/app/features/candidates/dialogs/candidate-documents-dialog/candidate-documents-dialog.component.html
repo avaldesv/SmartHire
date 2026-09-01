@@ -9,12 +9,29 @@
   } @else if (rows.length === 0) {
     <p class="empty-msg">{{ labels.empty }}</p>
   } @else {
+    @if (summaryLabel()) {
+      <div class="summary-bar">
+        <span class="summary-bar__text">{{ summaryLabel() }}</span>
+        @if (summary && summary.missingCount > 0) {
+          <span class="summary-bar__badge">{{ summary.missingCount }} faltantes</span>
+        }
+      </div>
+    }
+
+    <input
+      #inlineFileInput
+      type="file"
+      class="hidden-file-input"
+      accept=".pdf,.png,.jpg,.jpeg"
+      (change)="onInlineFileSelected($event)"
+    />
+
     <div class="sh-table-wrap">
       <table mat-table [dataSource]="rows">
         <ng-container matColumnDef="documentTypeName">
           <th mat-header-cell *matHeaderCellDef>{{ labels.colType }}</th>
           <td mat-cell *matCellDef="let row">
-            <div class="type-cell">
+            <div class="type-cell" [class.type-cell--missing]="isMissingRow(row)">
               <span>{{ row.documentTypeName ?? labels.emDash }}</span>
               @if (row.isRequiredForPosition) {
                 <span class="required-badge">{{ labels.requiredBadge }}</span>
@@ -24,7 +41,9 @@
         </ng-container>
         <ng-container matColumnDef="fileName">
           <th mat-header-cell *matHeaderCellDef>{{ labels.colFile }}</th>
-          <td mat-cell *matCellDef="let row">{{ row.fileName ?? labels.emDash }}</td>
+          <td mat-cell *matCellDef="let row" [class.file-cell--missing]="isMissingRow(row)">
+            {{ fileNameLabel(row) }}
+          </td>
         </ng-container>
         <ng-container matColumnDef="sizeBytes">
           <th mat-header-cell *matHeaderCellDef>{{ labels.colSize }}</th>
@@ -42,64 +61,100 @@
         </ng-container>
         <ng-container matColumnDef="createAt">
           <th mat-header-cell *matHeaderCellDef>{{ labels.colCreated }}</th>
-          <td mat-cell *matCellDef="let row">{{ row.createAt | date:'dd/MM/yyyy' }}</td>
+          <td mat-cell *matCellDef="let row">
+            @if (row.createAt) {
+              {{ row.createAt | date:'dd/MM/yyyy' }}
+            } @else {
+              {{ labels.emDash }}
+            }
+          </td>
         </ng-container>
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>{{ labels.colActions }}</th>
           <td mat-cell *matCellDef="let row">
             <div class="actions-cell">
-              <button
-                mat-icon-button
-                type="button"
-                [attr.aria-label]="labels.download"
-                [disabled]="!row.downloadUrl"
-                (click)="download(row)">
-                <mat-icon>download</mat-icon>
-              </button>
-              @if (isValidationPending(row)) {
+              @if (isMissingRow(row)) {
                 <button
                   mat-icon-button
                   type="button"
-                  [class]="validateIconClass(row)"
-                  [attr.aria-label]="validateActionAriaLabel(row)"
-                  [matMenuTriggerFor]="pendingValidateMenu"
-                  [disabled]="saving">
-                  <mat-icon>fact_check</mat-icon>
+                  class="upload-action"
+                  [attr.aria-label]="labels.upload"
+                  [disabled]="!canUploadDocuments || uploadingTypeId != null"
+                  (click)="toggleInlineUpload(row)"
+                >
+                  <mat-icon>upload</mat-icon>
                 </button>
-                <mat-menu #pendingValidateMenu="matMenu">
-                  <button mat-menu-item type="button" (click)="markValidated(row)">
-                    {{ labels.markAsValidated }}
-                  </button>
-                  <button mat-menu-item type="button" (click)="markNotValidated(row)">
-                    {{ labels.markAsNotValid }}
-                  </button>
-                </mat-menu>
               } @else {
                 <button
                   mat-icon-button
                   type="button"
-                  [class]="validateIconClass(row)"
-                  [attr.aria-label]="validateActionAriaLabel(row)"
-                  [disabled]="saving"
-                  (click)="onValidateAction(row)">
-                  <mat-icon>fact_check</mat-icon>
+                  [attr.aria-label]="labels.download"
+                  [disabled]="!row.downloadUrl"
+                  (click)="download(row)"
+                >
+                  <mat-icon>download</mat-icon>
                 </button>
+                @if (isValidationPending(row)) {
+                  <button
+                    mat-icon-button
+                    type="button"
+                    [class]="validateIconClass(row)"
+                    [attr.aria-label]="validateActionAriaLabel(row)"
+                    [matMenuTriggerFor]="pendingValidateMenu"
+                    [disabled]="saving"
+                  >
+                    <mat-icon>fact_check</mat-icon>
+                  </button>
+                  <mat-menu #pendingValidateMenu="matMenu">
+                    <button mat-menu-item type="button" (click)="markValidated(row)">
+                      {{ labels.markAsValidated }}
+                    </button>
+                    <button mat-menu-item type="button" (click)="markNotValidated(row)">
+                      {{ labels.markAsNotValid }}
+                    </button>
+                  </mat-menu>
+                } @else {
+                  <button
+                    mat-icon-button
+                    type="button"
+                    [class]="validateIconClass(row)"
+                    [attr.aria-label]="validateActionAriaLabel(row)"
+                    [disabled]="saving"
+                    (click)="onValidateAction(row)"
+                  >
+                    <mat-icon>fact_check</mat-icon>
+                  </button>
+                }
               }
             </div>
+            @if (
+              isMissingRow(row) &&
+              expandedUploadTypeId === row.documentTypeId
+            ) {
+              <div class="inline-upload">
+                <button
+                  mat-stroked-button
+                  type="button"
+                  color="primary"
+                  [disabled]="uploadingTypeId === row.documentTypeId"
+                  (click)="openInlineFilePicker(row)"
+                >
+                  @if (uploadingTypeId === row.documentTypeId) {
+                    <mat-spinner diameter="18" />
+                    <span>{{ labels.uploading }}</span>
+                  } @else {
+                    <mat-icon>attach_file</mat-icon>
+                    <span>{{ labels.chooseFile }}</span>
+                  }
+                </button>
+              </div>
+            }
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="columns"></tr>
         <tr mat-row *matRowDef="let row; columns: columns" [class]="rowClass(row)"></tr>
       </table>
     </div>
-
-    <mat-paginator
-      [length]="total"
-      [pageSize]="pageSize"
-      [pageIndex]="pageIndex"
-      [pageSizeOptions]="[5, 10, 25]"
-      (page)="onPage($event)"
-      showFirstLastButtons />
   }
 </mat-dialog-content>
 
