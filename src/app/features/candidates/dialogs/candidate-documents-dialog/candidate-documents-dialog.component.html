@@ -1,19 +1,62 @@
-<div class="sh-catalog-dialog-header" mat-dialog-title>
-  <span class="sh-catalog-dialog-header__text">{{ dialogTitle() }}</span>
+<div class="documents-dialog-header sh-catalog-dialog-header" mat-dialog-title>
+  <div class="documents-dialog-header__main">
+    <mat-icon class="documents-dialog-header__icon" aria-hidden="true">description</mat-icon>
+    <div class="documents-dialog-header__titles">
+      <span class="documents-dialog-header__title">{{ labels.title }}</span>
+      @if (headerSubtitle()) {
+        <span class="documents-dialog-header__subtitle">{{ headerSubtitle() }}</span>
+      }
+    </div>
+  </div>
+  <button
+    mat-icon-button
+    type="button"
+    class="documents-dialog-header__close"
+    [attr.aria-label]="labels.close"
+    (click)="close()"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
 </div>
 
 <mat-dialog-content class="sh-catalog-dialog-body documents-dialog-body">
-  <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
   @if (loading) {
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else if (rows.length === 0) {
     <p class="empty-msg">{{ labels.empty }}</p>
   } @else {
-    @if (summaryLabel() || complianceHint()) {
-      <div class="summary-bar" [class.summary-bar--ok]="summary && summary.missingCount === 0">
-        <span class="summary-bar__text">{{ summaryLabel() ?? complianceHint() }}</span>
+    @if (showComplianceCard()) {
+      <div class="compliance-card" [class.compliance-card--ok]="summary && summary.missingCount === 0">
+        @if (summary && summary.requiredCount > 0) {
+          <div class="progress-ring" aria-hidden="true">
+            <svg class="progress-ring__svg" viewBox="0 0 80 80">
+              <circle class="progress-ring__track" cx="40" cy="40" r="34" />
+              <circle
+                class="progress-ring__fill"
+                cx="40"
+                cy="40"
+                r="34"
+                [attr.stroke-dasharray]="progressDashArray()"
+                [attr.stroke-dashoffset]="progressDashOffset()"
+              />
+            </svg>
+            <span class="progress-ring__label">{{ progressPercent() }}%</span>
+          </div>
+        }
+        <div class="compliance-card__text">
+          @if (summaryHeadline()) {
+            <strong class="compliance-card__headline">{{ summaryHeadline() }}</strong>
+          }
+          @if (summarySubline()) {
+            <span class="compliance-card__subline">{{ summarySubline() }}</span>
+          } @else if (complianceHint()) {
+            <span class="compliance-card__subline compliance-card__subline--hint">{{ complianceHint() }}</span>
+          }
+        </div>
         @if (summary && summary.missingCount > 0) {
-          <span class="summary-bar__badge">{{ summary.missingCount }} faltantes</span>
+          <span class="compliance-card__badge">
+            {{ summary.missingCount }} {{ labels.summaryMissingBadge }}
+          </span>
         }
       </div>
     }
@@ -32,10 +75,10 @@
           <th mat-header-cell *matHeaderCellDef class="col-type">{{ labels.colType }}</th>
           <td mat-cell *matCellDef="let row">
             <div class="type-cell" [class.type-cell--missing]="isMissingRow(row)">
-              <span>{{ row.documentTypeName ?? labels.emDash }}</span>
               @if (row.isRequiredForPosition) {
-                <span class="required-badge">{{ labels.requiredBadge }}</span>
+                <mat-icon class="type-cell__lock" aria-hidden="true">lock</mat-icon>
               }
+              <span>{{ row.documentTypeName ?? labels.emDash }}</span>
             </div>
           </td>
         </ng-container>
@@ -51,12 +94,15 @@
         </ng-container>
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef class="col-status">{{ labels.colStatus }}</th>
-          <td mat-cell *matCellDef="let row">{{ row.status ?? labels.emDash }}</td>
+          <td mat-cell *matCellDef="let row">{{ statusLabel(row.status) }}</td>
         </ng-container>
         <ng-container matColumnDef="validation">
           <th mat-header-cell *matHeaderCellDef class="col-validation">{{ labels.colValidation }}</th>
           <td mat-cell *matCellDef="let row">
-            <span [class]="validationClass(row)">{{ validationLabel(row) }}</span>
+            <span [class]="validationClass(row)">
+              <mat-icon class="validation-badge__icon" aria-hidden="true">{{ validationIcon(row) }}</mat-icon>
+              {{ validationLabel(row) }}
+            </span>
           </td>
         </ng-container>
         <ng-container matColumnDef="createAt">
@@ -75,19 +121,26 @@
             <div class="actions-cell">
               @if (isMissingRow(row)) {
                 <button
-                  mat-icon-button
+                  mat-stroked-button
                   type="button"
-                  class="upload-action"
-                  [attr.aria-label]="labels.upload"
+                  color="primary"
+                  class="upload-btn"
                   [disabled]="!canUploadDocuments || uploadingTypeId != null"
-                  (click)="toggleInlineUpload(row)"
+                  (click)="openInlineFilePicker(row)"
                 >
-                  <mat-icon>upload</mat-icon>
+                  @if (uploadingTypeId === row.documentTypeId) {
+                    <mat-spinner diameter="18" />
+                    <span>{{ labels.uploading }}</span>
+                  } @else {
+                    <mat-icon>upload</mat-icon>
+                    <span>{{ labels.upload }}</span>
+                  }
                 </button>
               } @else {
                 <button
                   mat-icon-button
                   type="button"
+                  class="action-icon"
                   [attr.aria-label]="labels.download"
                   [disabled]="!row.downloadUrl"
                   (click)="download(row)"
@@ -103,7 +156,7 @@
                     [matMenuTriggerFor]="pendingValidateMenu"
                     [disabled]="saving"
                   >
-                    <mat-icon>fact_check</mat-icon>
+                    <mat-icon>check_circle</mat-icon>
                   </button>
                   <mat-menu #pendingValidateMenu="matMenu">
                     <button mat-menu-item type="button" (click)="markValidated(row)">
@@ -122,35 +175,11 @@
                     [disabled]="saving"
                     (click)="onValidateAction(row)"
                   >
-                    <mat-icon>fact_check</mat-icon>
+                    <mat-icon>check_circle</mat-icon>
                   </button>
                 }
               }
             </div>
-            @if (
-              isMissingRow(row) &&
-              expandedUploadTypeId === row.documentTypeId
-            ) {
-              <div class="inline-upload">
-                <button
-                  mat-stroked-button
-                  type="button"
-                  color="primary"
-                  [disabled]="uploadingTypeId === row.documentTypeId"
-                  (click)="openInlineFilePicker(row)"
-                >
-                  @if (uploadingTypeId === row.documentTypeId) {
-                    <mat-spinner diameter="18" />
-                    <span>{{ labels.uploading }}</span>
-                  } @else {
-                    <ng-container>
-                      <mat-icon>attach_file</mat-icon>
-                      <span>{{ labels.chooseFile }}</span>
-                    </ng-container>
-                  }
-                </button>
-              </div>
-            }
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="columns; sticky: true"></tr>
@@ -160,6 +189,6 @@
   }
 </mat-dialog-content>
 
-<mat-dialog-actions align="end">
+<mat-dialog-actions align="end" class="documents-dialog-actions">
   <button mat-stroked-button type="button" (click)="close()">{{ labels.close }}</button>
 </mat-dialog-actions>

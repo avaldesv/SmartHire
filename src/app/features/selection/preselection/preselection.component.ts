@@ -580,6 +580,7 @@ export class PreselectionComponent implements OnInit {
           applicationId: row.applicationId,
           candidateId: row.id,
           candidateName: name,
+          requisitionNo: `REQ-${this.positionId}`,
         },
       },
     );
