@@ -1,15 +1,16 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { catalogDialogConfig } from '../../../../core/dialog/catalog-dialog.constants';
 import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
+import { AppPermissions } from '../../../../core/auth/app-permissions';
 import {
+  CANDIDATE_DOCS_CHOOSE_FILE,
   CANDIDATE_DOCS_COL_ACTIONS,
   CANDIDATE_DOCS_COL_CREATED,
   CANDIDATE_DOCS_COL_FILE,
@@ -29,16 +30,25 @@ import {
   CANDIDATE_DOCS_MARK_AS_NOT_VALID,
   CANDIDATE_DOCS_MARK_AS_VALIDATED,
   CANDIDATE_DOCS_MARK_VALIDATED,
+  CANDIDATE_DOCS_MISSING_FILE,
   CANDIDATE_DOCS_REQUIRED_BADGE,
   CANDIDATE_DOCS_SUCCESS_VALIDATE,
+  CANDIDATE_DOCS_SUMMARY_MISSING,
+  CANDIDATE_DOCS_SUMMARY_REQUIRED,
+  CANDIDATE_DOCS_UPLOAD,
+  CANDIDATE_DOCS_UPLOAD_ERROR,
+  CANDIDATE_DOCS_UPLOAD_SUCCESS,
+  CANDIDATE_DOCS_UPLOADING,
   CANDIDATE_DOCS_VALIDATE,
+  CANDIDATE_DOCS_VALIDATION_MISSING,
   CANDIDATE_DOCS_VALIDATION_NOT_VALIDATED,
   CANDIDATE_DOCS_VALIDATION_PENDING,
   CANDIDATE_DOCS_VALIDATION_VALIDATED,
   candidateDocumentsSizeLabel,
 } from '../../../../core/i18n/candidate-documents-dialog-labels';
 import { CandidateDocumentApiService } from '../../../../core/services/candidate-document-api.service';
-import { CandidateDocumentListItem } from '../../../../shared/models/candidate-document.model';
+import { PermissionService } from '../../../../core/services/permission.service';
+import { ApplicationDocumentsSummary, CandidateDocumentListItem } from '../../../../shared/models/candidate-document.model';
 import {
   InvalidateDocumentDialogComponent,
   InvalidateDocumentDialogData,
@@ -58,7 +68,6 @@ export interface CandidateDocumentsDialogData {
     DatePipe,
     MatDialogModule,
     MatTableModule,
-    MatPaginatorModule,
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
@@ -73,6 +82,9 @@ export class CandidateDocumentsDialogComponent implements OnInit {
   private readonly documentApi = inject(CandidateDocumentApiService);
   private readonly feedback = inject(FeedbackDialogService);
   private readonly dialog = inject(MatDialog);
+  private readonly permission = inject(PermissionService);
+
+  @ViewChild('inlineFileInput') inlineFileInput?: ElementRef<HTMLInputElement>;
 
   readonly labels = {
     title: CANDIDATE_DOCS_DIALOG_TITLE,
@@ -93,14 +105,21 @@ export class CandidateDocumentsDialogComponent implements OnInit {
     markAsNotValid: CANDIDATE_DOCS_MARK_AS_NOT_VALID,
     requiredBadge: CANDIDATE_DOCS_REQUIRED_BADGE,
     emDash: CANDIDATE_DOCS_EM_DASH,
+    missingFile: CANDIDATE_DOCS_MISSING_FILE,
+    upload: CANDIDATE_DOCS_UPLOAD,
+    uploading: CANDIDATE_DOCS_UPLOADING,
+    chooseFile: CANDIDATE_DOCS_CHOOSE_FILE,
+    summaryRequired: CANDIDATE_DOCS_SUMMARY_REQUIRED,
+    summaryMissing: CANDIDATE_DOCS_SUMMARY_MISSING,
   };
 
   loading = true;
   saving = false;
+  uploadingTypeId: number | null = null;
+  expandedUploadTypeId: number | null = null;
+  pendingUploadTypeId: number | null = null;
   rows: CandidateDocumentListItem[] = [];
-  total = 0;
-  pageIndex = 0;
-  pageSize = 10;
+  summary: ApplicationDocumentsSummary | null = null;
 
   readonly columns = [
     'documentTypeName',
@@ -116,18 +135,33 @@ export class CandidateDocumentsDialogComponent implements OnInit {
     this.load();
   }
 
+  get canUploadDocuments(): boolean {
+    return this.permission.hasAuthority(AppPermissions.SELECTION_EDIT);
+  }
+
   dialogTitle(): string {
     const name = this.data.candidateName?.trim();
     return name ? `${this.labels.title} — ${name}` : this.labels.title;
   }
 
+  summaryLabel(): string | null {
+    if (!this.summary || this.summary.requiredCount <= 0) {
+      return null;
+    }
+    const delivered = this.summary.uploadedRequiredCount;
+    const total = this.summary.requiredCount;
+    const missing = this.summary.missingCount;
+    return `${this.labels.summaryRequired}: ${delivered} de ${total} · ${missing} ${this.labels.summaryMissing}`;
+  }
+
   load(): void {
     this.loading = true;
-    this.documentApi.listForApplication(this.data.applicationId, this.pageIndex, this.pageSize).subscribe({
+    this.documentApi.listForApplication(this.data.applicationId).subscribe({
       next: (res) => {
         this.rows = res.items;
-        this.total = res.total;
+        this.summary = res.summary;
         this.loading = false;
+        this.expandedUploadTypeId = null;
       },
       error: (err) => {
         this.loading = false;
@@ -136,17 +170,25 @@ export class CandidateDocumentsDialogComponent implements OnInit {
     });
   }
 
-  onPage(e: PageEvent): void {
-    this.pageIndex = e.pageIndex;
-    this.pageSize = e.pageSize;
-    this.load();
-  }
-
   sizeLabel(bytes: number | null | undefined): string {
     return candidateDocumentsSizeLabel(bytes);
   }
 
+  isMissingRow(row: CandidateDocumentListItem): boolean {
+    return row.isMissing === true;
+  }
+
+  fileNameLabel(row: CandidateDocumentListItem): string {
+    if (this.isMissingRow(row)) {
+      return this.labels.missingFile;
+    }
+    return row.fileName ?? this.labels.emDash;
+  }
+
   validationLabel(row: CandidateDocumentListItem): string {
+    if (this.isMissingRow(row)) {
+      return CANDIDATE_DOCS_VALIDATION_MISSING;
+    }
     if (row.isValidated === true) {
       return CANDIDATE_DOCS_VALIDATION_VALIDATED;
     }
@@ -157,6 +199,9 @@ export class CandidateDocumentsDialogComponent implements OnInit {
   }
 
   isValidationPending(row: CandidateDocumentListItem): boolean {
+    if (this.isMissingRow(row)) {
+      return false;
+    }
     return row.isValidated !== true && row.isValidated !== false;
   }
 
@@ -195,6 +240,9 @@ export class CandidateDocumentsDialogComponent implements OnInit {
   }
 
   validationClass(row: CandidateDocumentListItem): string {
+    if (this.isMissingRow(row)) {
+      return 'validation-badge validation-badge--missing';
+    }
     if (row.isValidated === true) {
       return 'validation-badge validation-badge--validated';
     }
@@ -205,6 +253,9 @@ export class CandidateDocumentsDialogComponent implements OnInit {
   }
 
   rowClass(row: CandidateDocumentListItem): string {
+    if (this.isMissingRow(row)) {
+      return row.isRequiredForPosition ? 'row-missing-required' : 'row-missing-optional';
+    }
     return row.isRequiredForPosition ? 'row-required' : '';
   }
 
@@ -216,11 +267,63 @@ export class CandidateDocumentsDialogComponent implements OnInit {
     window.open(row.downloadUrl, '_blank', 'noopener,noreferrer');
   }
 
+  toggleInlineUpload(row: CandidateDocumentListItem): void {
+    if (!this.canUploadDocuments || !row.documentTypeId) {
+      return;
+    }
+    this.expandedUploadTypeId =
+      this.expandedUploadTypeId === row.documentTypeId ? null : row.documentTypeId;
+  }
+
+  openInlineFilePicker(row: CandidateDocumentListItem): void {
+    if (!this.canUploadDocuments || !row.documentTypeId) {
+      return;
+    }
+    this.pendingUploadTypeId = row.documentTypeId;
+    this.inlineFileInput?.nativeElement.click();
+  }
+
+  onInlineFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    const documentTypeId = this.pendingUploadTypeId;
+    input.value = '';
+    this.pendingUploadTypeId = null;
+    if (!file || documentTypeId == null) {
+      return;
+    }
+    this.uploadDocument(documentTypeId, file);
+  }
+
+  uploadDocument(documentTypeId: number, file: File): void {
+    if (this.uploadingTypeId != null) {
+      return;
+    }
+    this.uploadingTypeId = documentTypeId;
+    this.documentApi.uploadForApplication(this.data.applicationId, documentTypeId, file).subscribe({
+      next: () => {
+        this.uploadingTypeId = null;
+        this.feedback.showSuccess(CANDIDATE_DOCS_UPLOAD_SUCCESS);
+        this.load();
+      },
+      error: (err) => {
+        this.uploadingTypeId = null;
+        this.feedback.showApiError(err, { fallbackMessage: CANDIDATE_DOCS_UPLOAD_ERROR });
+      },
+    });
+  }
+
   markValidated(row: CandidateDocumentListItem): void {
+    if (!row.id) {
+      return;
+    }
     this.saveValidation(row, true);
   }
 
   markNotValidated(row: CandidateDocumentListItem): void {
+    if (!row.id) {
+      return;
+    }
     this.dialog
       .open<InvalidateDocumentDialogComponent, InvalidateDocumentDialogData, InvalidateDocumentDialogResult | null>(
         InvalidateDocumentDialogComponent,
@@ -240,7 +343,7 @@ export class CandidateDocumentsDialogComponent implements OnInit {
   }
 
   private saveValidation(row: CandidateDocumentListItem, isValidated: boolean, rejectionReason?: string): void {
-    if (this.saving) {
+    if (this.saving || !row.id) {
       return;
     }
     this.saving = true;

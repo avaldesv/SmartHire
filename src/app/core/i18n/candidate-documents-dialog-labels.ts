@@ -30,6 +30,16 @@ export const CANDIDATE_DOCS_ERRORS_VALIDATE = $localize`:@@candidateDocuments.er
 export const CANDIDATE_DOCS_SUCCESS_VALIDATE = $localize`:@@candidateDocuments.success.validate:Validación del documento actualizada`;
 export const CANDIDATE_DOCS_EM_DASH = $localize`:@@common.emDash:—`;
 
+export const CANDIDATE_DOCS_MISSING_FILE = $localize`:@@candidateDocuments.missing.file:Documento no entregado`;
+export const CANDIDATE_DOCS_VALIDATION_MISSING = $localize`:@@candidateDocuments.validation.missing:faltante`;
+export const CANDIDATE_DOCS_UPLOAD = $localize`:@@candidateDocuments.upload:Subir documento`;
+export const CANDIDATE_DOCS_UPLOADING = $localize`:@@candidateDocuments.uploading:Subiendo…`;
+export const CANDIDATE_DOCS_UPLOAD_SUCCESS = $localize`:@@candidateDocuments.upload.success:Documento subido correctamente`;
+export const CANDIDATE_DOCS_UPLOAD_ERROR = $localize`:@@candidateDocuments.upload.error:No se pudo subir el documento`;
+export const CANDIDATE_DOCS_SUMMARY_REQUIRED = $localize`:@@candidateDocuments.summary.required:Obligatorios entregados`;
+export const CANDIDATE_DOCS_SUMMARY_MISSING = $localize`:@@candidateDocuments.summary.missing:pendientes de subir`;
+export const CANDIDATE_DOCS_CHOOSE_FILE = $localize`:@@candidateDocuments.chooseFile:Seleccionar archivo`;
+
 export function candidateDocumentsSizeLabel(bytes: number | null | undefined): string {
   if (bytes == null || bytes <= 0) {
     return CANDIDATE_DOCS_EM_DASH;

@@ -10,11 +10,53 @@
   text-align: center;
 }
 
+.hidden-file-input {
+  display: none;
+}
+
+.summary-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.summary-bar__text {
+  font-size: 0.9rem;
+  color: #334155;
+}
+
+.summary-bar__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #fee2e2;
+  color: #991b1b;
+}
+
 .type-cell {
   display: flex;
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
+}
+
+.type-cell--missing {
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.file-cell--missing {
+  color: #b91c1c;
+  font-style: italic;
 }
 
 .required-badge {
@@ -52,11 +94,33 @@
   color: #991b1b;
 }
 
+.validation-badge--missing {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
 .actions-cell {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
   gap: 4px;
+}
+
+.inline-upload {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.inline-upload button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.upload-action {
+  color: #0f766e;
 }
 
 .validate-action--invalidate {
@@ -73,4 +137,12 @@
 
 :host ::ng-deep tr.row-required {
   background: rgba(254, 243, 199, 0.35);
+}
+
+:host ::ng-deep tr.row-missing-required {
+  background: rgba(254, 226, 226, 0.45);
+}
+
+:host ::ng-deep tr.row-missing-optional {
+  background: rgba(241, 245, 249, 0.8);
 }

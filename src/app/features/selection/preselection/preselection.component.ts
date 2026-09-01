@@ -37,6 +37,10 @@ import { CandidateApplicationApiService } from '../../../core/services/candidate
 import { CandidateApiService } from '../../../core/services/candidate-api.service';
 import { PermissionService } from '../../../core/services/permission.service';
 import {
+  CandidateDocumentsDialogComponent,
+  CandidateDocumentsDialogData,
+} from '../../candidates/dialogs/candidate-documents-dialog/candidate-documents-dialog.component';
+import {
   CandidatePoolDialogComponent,
   CandidatePoolDialogData,
   candidatePoolDialogConfig,
@@ -565,9 +569,19 @@ export class PreselectionComponent implements OnInit {
   }
 
   private openCandidateDocuments(row: PreselectionCandidate): void {
-    void this.router.navigate(['/candidates', row.id], {
-      queryParams: { from: 'preselection', positionId: this.positionId, section: 'documents' },
-    });
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    this.dialog.open<CandidateDocumentsDialogComponent, CandidateDocumentsDialogData>(
+      CandidateDocumentsDialogComponent,
+      {
+        ...catalogDialogConfig('960px'),
+        autoFocus: false,
+        data: {
+          applicationId: row.applicationId,
+          candidateId: row.id,
+          candidateName: name,
+        },
+      },
+    );
   }
 
   private openCompatibilityDialog(row: PreselectionCandidate): void {
