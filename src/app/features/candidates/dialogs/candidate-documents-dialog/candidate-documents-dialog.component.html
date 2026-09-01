@@ -143,8 +143,10 @@
                     <mat-spinner diameter="18" />
                     <span>{{ labels.uploading }}</span>
                   } @else {
-                    <mat-icon>attach_file</mat-icon>
-                    <span>{{ labels.chooseFile }}</span>
+                    <ng-container>
+                      <mat-icon>attach_file</mat-icon>
+                      <span>{{ labels.chooseFile }}</span>
+                    </ng-container>
                   }
                 </button>
               </div>
