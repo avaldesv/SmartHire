@@ -364,6 +364,7 @@ export class PositionApplicationsDialogComponent implements OnInit {
           applicationId: row.id,
           candidateId: row.candidateId,
           candidateName: this.candidateName(row),
+          requisitionNo: this.data.requisitionNo,
         },
       },
     );

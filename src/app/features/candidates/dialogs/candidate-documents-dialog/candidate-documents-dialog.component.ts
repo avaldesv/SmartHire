@@ -16,6 +16,7 @@ import { catalogDialogConfig } from '../../../../core/dialog/catalog-dialog.cons
 import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
 import { AppPermissions } from '../../../../core/auth/app-permissions';
 import {
+  CANDIDATE_DOCS_ALL_DELIVERED,
   CANDIDATE_DOCS_CHOOSE_FILE,
   CANDIDATE_DOCS_COL_ACTIONS,
   CANDIDATE_DOCS_COL_CREATED,
@@ -32,17 +33,17 @@ import {
   CANDIDATE_DOCS_ERRORS_DOWNLOAD,
   CANDIDATE_DOCS_ERRORS_LIST,
   CANDIDATE_DOCS_ERRORS_VALIDATE,
-  CANDIDATE_DOCS_MARK_NOT_VALIDATED,
   CANDIDATE_DOCS_MARK_AS_NOT_VALID,
   CANDIDATE_DOCS_MARK_AS_VALIDATED,
+  CANDIDATE_DOCS_MARK_NOT_VALIDATED,
   CANDIDATE_DOCS_MARK_VALIDATED,
   CANDIDATE_DOCS_MISSING_FILE,
   CANDIDATE_DOCS_NO_REQUIREMENTS,
-  CANDIDATE_DOCS_ALL_DELIVERED,
-  CANDIDATE_DOCS_REQUIRED_BADGE,
+  CANDIDATE_DOCS_STATUS_EXTRACTED,
   CANDIDATE_DOCS_SUCCESS_VALIDATE,
-  CANDIDATE_DOCS_SUMMARY_MISSING,
-  CANDIDATE_DOCS_SUMMARY_REQUIRED,
+  CANDIDATE_DOCS_SUMMARY_HEADLINE,
+  CANDIDATE_DOCS_SUMMARY_MISSING_BADGE,
+  CANDIDATE_DOCS_SUMMARY_PENDING,
   CANDIDATE_DOCS_UPLOAD,
   CANDIDATE_DOCS_UPLOAD_ERROR,
   CANDIDATE_DOCS_UPLOAD_SUCCESS,
@@ -52,6 +53,7 @@ import {
   CANDIDATE_DOCS_VALIDATION_NOT_VALIDATED,
   CANDIDATE_DOCS_VALIDATION_PENDING,
   CANDIDATE_DOCS_VALIDATION_VALIDATED,
+  candidateDocumentsHeaderSubtitle,
   candidateDocumentsSizeLabel,
 } from '../../../../core/i18n/candidate-documents-dialog-labels';
 import { CandidateDocumentApiService } from '../../../../core/services/candidate-document-api.service';
@@ -67,10 +69,13 @@ export interface CandidateDocumentsDialogData {
   applicationId: number;
   candidateId: number;
   candidateName?: string;
+  requisitionNo?: string;
 }
 
 export const CANDIDATE_DOCUMENTS_DIALOG_WIDTH = '1200px';
 export const CANDIDATE_DOCUMENTS_DIALOG_MAX_HEIGHT = '88vh';
+const PROGRESS_RING_RADIUS = 34;
+const PROGRESS_RING_CIRCUMFERENCE = 2 * Math.PI * PROGRESS_RING_RADIUS;
 
 export function candidateDocumentsDialogConfig(extra: MatDialogConfig = {}): MatDialogConfig {
   return catalogDialogConfig(CANDIDATE_DOCUMENTS_DIALOG_WIDTH, {
@@ -123,22 +128,17 @@ export class CandidateDocumentsDialogComponent implements OnInit {
     markNotValidated: CANDIDATE_DOCS_MARK_NOT_VALIDATED,
     markAsValidated: CANDIDATE_DOCS_MARK_AS_VALIDATED,
     markAsNotValid: CANDIDATE_DOCS_MARK_AS_NOT_VALID,
-    requiredBadge: CANDIDATE_DOCS_REQUIRED_BADGE,
     emDash: CANDIDATE_DOCS_EM_DASH,
     missingFile: CANDIDATE_DOCS_MISSING_FILE,
     upload: CANDIDATE_DOCS_UPLOAD,
     uploading: CANDIDATE_DOCS_UPLOADING,
     chooseFile: CANDIDATE_DOCS_CHOOSE_FILE,
-    summaryRequired: CANDIDATE_DOCS_SUMMARY_REQUIRED,
-    summaryMissing: CANDIDATE_DOCS_SUMMARY_MISSING,
-    noRequirements: CANDIDATE_DOCS_NO_REQUIREMENTS,
-    allDelivered: CANDIDATE_DOCS_ALL_DELIVERED,
+    summaryMissingBadge: CANDIDATE_DOCS_SUMMARY_MISSING_BADGE,
   };
 
   loading = true;
   saving = false;
   uploadingTypeId: number | null = null;
-  expandedUploadTypeId: number | null = null;
   pendingUploadTypeId: number | null = null;
   rows: CandidateDocumentListItem[] = [];
   summary: ApplicationDocumentsSummary | null = null;
@@ -161,29 +161,55 @@ export class CandidateDocumentsDialogComponent implements OnInit {
     return this.permission.hasAuthority(AppPermissions.SELECTION_EDIT);
   }
 
-  dialogTitle(): string {
-    const name = this.data.candidateName?.trim();
-    return name ? `${this.labels.title} — ${name}` : this.labels.title;
+  headerSubtitle(): string | null {
+    return candidateDocumentsHeaderSubtitle(this.data.candidateName, this.data.requisitionNo);
   }
 
-  summaryLabel(): string | null {
+  showComplianceCard(): boolean {
+    return this.summary != null || this.complianceHint() != null;
+  }
+
+  summaryHeadline(): string | null {
     if (!this.summary || this.summary.requiredCount <= 0) {
       return null;
     }
-    const delivered = this.summary.uploadedRequiredCount;
-    const total = this.summary.requiredCount;
-    const missing = this.summary.missingCount;
-    if (missing === 0) {
-      return `${this.labels.allDelivered} (${delivered} de ${total})`;
+    if (this.summary.missingCount === 0) {
+      return CANDIDATE_DOCS_ALL_DELIVERED;
     }
-    return `${this.labels.summaryRequired}: ${delivered} de ${total} · ${missing} ${this.labels.summaryMissing}`;
+    return `${this.summary.uploadedRequiredCount} de ${this.summary.requiredCount} ${CANDIDATE_DOCS_SUMMARY_HEADLINE}`;
+  }
+
+  summarySubline(): string | null {
+    if (!this.summary || this.summary.requiredCount <= 0) {
+      return null;
+    }
+    if (this.summary.missingCount === 0) {
+      return `${this.summary.uploadedRequiredCount} de ${this.summary.requiredCount} ${CANDIDATE_DOCS_SUMMARY_HEADLINE}`;
+    }
+    return `${this.summary.missingCount} ${CANDIDATE_DOCS_SUMMARY_PENDING}`;
   }
 
   complianceHint(): string | null {
     if (this.summary && this.summary.requiredCount > 0) {
       return null;
     }
-    return this.labels.noRequirements;
+    return CANDIDATE_DOCS_NO_REQUIREMENTS;
+  }
+
+  progressPercent(): number {
+    if (!this.summary || this.summary.requiredCount <= 0) {
+      return 0;
+    }
+    return Math.round((this.summary.uploadedRequiredCount / this.summary.requiredCount) * 100);
+  }
+
+  progressDashArray(): string {
+    return `${PROGRESS_RING_CIRCUMFERENCE} ${PROGRESS_RING_CIRCUMFERENCE}`;
+  }
+
+  progressDashOffset(): number {
+    const ratio = this.progressPercent() / 100;
+    return PROGRESS_RING_CIRCUMFERENCE * (1 - ratio);
   }
 
   load(): void {
@@ -193,7 +219,6 @@ export class CandidateDocumentsDialogComponent implements OnInit {
         this.rows = res.items;
         this.summary = res.summary;
         this.loading = false;
-        this.expandedUploadTypeId = null;
       },
       error: (err) => {
         this.loading = false;
@@ -204,6 +229,16 @@ export class CandidateDocumentsDialogComponent implements OnInit {
 
   sizeLabel(bytes: number | null | undefined): string {
     return candidateDocumentsSizeLabel(bytes);
+  }
+
+  statusLabel(status: string | null | undefined): string {
+    if (!status) {
+      return this.labels.emDash;
+    }
+    if (status.toUpperCase() === 'EXTRACTED') {
+      return CANDIDATE_DOCS_STATUS_EXTRACTED;
+    }
+    return status;
   }
 
   isMissingRow(row: CandidateDocumentListItem): boolean {
@@ -230,6 +265,19 @@ export class CandidateDocumentsDialogComponent implements OnInit {
     return CANDIDATE_DOCS_VALIDATION_PENDING;
   }
 
+  validationIcon(row: CandidateDocumentListItem): string {
+    if (this.isMissingRow(row)) {
+      return 'error_outline';
+    }
+    if (row.isValidated === true) {
+      return 'check_circle';
+    }
+    if (row.isValidated === false) {
+      return 'cancel';
+    }
+    return 'schedule';
+  }
+
   isValidationPending(row: CandidateDocumentListItem): boolean {
     if (this.isMissingRow(row)) {
       return false;
@@ -253,10 +301,10 @@ export class CandidateDocumentsDialogComponent implements OnInit {
 
   validateIconClass(row: CandidateDocumentListItem): string {
     if (this.isValidationValidated(row)) {
-      return 'validate-action validate-action--invalidate';
+      return 'validate-action validate-action--validated';
     }
     if (row.isValidated === false) {
-      return 'validate-action validate-action--validate';
+      return 'validate-action validate-action--rejected';
     }
     return 'validate-action validate-action--pending';
   }
@@ -288,7 +336,7 @@ export class CandidateDocumentsDialogComponent implements OnInit {
     if (this.isMissingRow(row)) {
       return row.isRequiredForPosition ? 'row-missing-required' : 'row-missing-optional';
     }
-    return row.isRequiredForPosition ? 'row-required' : '';
+    return '';
   }
 
   download(row: CandidateDocumentListItem): void {
@@ -297,14 +345,6 @@ export class CandidateDocumentsDialogComponent implements OnInit {
       return;
     }
     window.open(row.downloadUrl, '_blank', 'noopener,noreferrer');
-  }
-
-  toggleInlineUpload(row: CandidateDocumentListItem): void {
-    if (!this.canUploadDocuments || !row.documentTypeId) {
-      return;
-    }
-    this.expandedUploadTypeId =
-      this.expandedUploadTypeId === row.documentTypeId ? null : row.documentTypeId;
   }
 
   openInlineFilePicker(row: CandidateDocumentListItem): void {

@@ -14,9 +14,9 @@ export const CANDIDATE_DOCS_DOWNLOAD = $localize`:@@candidateDocuments.download:
 export const CANDIDATE_DOCS_VALIDATE = $localize`:@@candidateDocuments.validate:Validar documento`;
 export const CANDIDATE_DOCS_MARK_VALIDATED = $localize`:@@candidateDocuments.markValidated:Marcar validado`;
 export const CANDIDATE_DOCS_MARK_NOT_VALIDATED = $localize`:@@candidateDocuments.markNotValidated:Marcar no validado`;
-export const CANDIDATE_DOCS_VALIDATION_PENDING = $localize`:@@candidateDocuments.validation.pending:pendiente`;
-export const CANDIDATE_DOCS_VALIDATION_VALIDATED = $localize`:@@candidateDocuments.validation.validated:validado`;
-export const CANDIDATE_DOCS_VALIDATION_NOT_VALIDATED = $localize`:@@candidateDocuments.validation.notValidated:no valido`;
+export const CANDIDATE_DOCS_VALIDATION_PENDING = $localize`:@@candidateDocuments.validation.pending:Pendiente`;
+export const CANDIDATE_DOCS_VALIDATION_VALIDATED = $localize`:@@candidateDocuments.validation.validated:Validado`;
+export const CANDIDATE_DOCS_VALIDATION_NOT_VALIDATED = $localize`:@@candidateDocuments.validation.notValidated:No válido`;
 export const CANDIDATE_DOCS_MARK_AS_VALIDATED = $localize`:@@candidateDocuments.markAsValidated:Marcar como validado`;
 export const CANDIDATE_DOCS_MARK_AS_NOT_VALID = $localize`:@@candidateDocuments.markAsNotValid:Marcar como no valido`;
 export const CANDIDATE_DOCS_REQUIRED_BADGE = $localize`:@@candidateDocuments.requiredBadge:Obligatorio`;
@@ -30,17 +30,38 @@ export const CANDIDATE_DOCS_ERRORS_VALIDATE = $localize`:@@candidateDocuments.er
 export const CANDIDATE_DOCS_SUCCESS_VALIDATE = $localize`:@@candidateDocuments.success.validate:Validación del documento actualizada`;
 export const CANDIDATE_DOCS_EM_DASH = $localize`:@@common.emDash:—`;
 
-export const CANDIDATE_DOCS_MISSING_FILE = $localize`:@@candidateDocuments.missing.file:Documento no entregado`;
-export const CANDIDATE_DOCS_VALIDATION_MISSING = $localize`:@@candidateDocuments.validation.missing:faltante`;
-export const CANDIDATE_DOCS_UPLOAD = $localize`:@@candidateDocuments.upload:Subir documento`;
+export const CANDIDATE_DOCS_MISSING_FILE = $localize`:@@candidateDocuments.missing.file:Sin archivo`;
+export const CANDIDATE_DOCS_VALIDATION_MISSING = $localize`:@@candidateDocuments.validation.missing:Faltante`;
+export const CANDIDATE_DOCS_UPLOAD = $localize`:@@candidateDocuments.upload:Subir archivo`;
 export const CANDIDATE_DOCS_UPLOADING = $localize`:@@candidateDocuments.uploading:Subiendo…`;
 export const CANDIDATE_DOCS_UPLOAD_SUCCESS = $localize`:@@candidateDocuments.upload.success:Documento subido correctamente`;
 export const CANDIDATE_DOCS_UPLOAD_ERROR = $localize`:@@candidateDocuments.upload.error:No se pudo subir el documento`;
-export const CANDIDATE_DOCS_SUMMARY_REQUIRED = $localize`:@@candidateDocuments.summary.required:Obligatorios entregados`;
-export const CANDIDATE_DOCS_SUMMARY_MISSING = $localize`:@@candidateDocuments.summary.missing:pendientes de subir`;
+export const CANDIDATE_DOCS_SUMMARY_HEADLINE = $localize`:@@candidateDocuments.summary.headline:obligatorios entregados`;
+export const CANDIDATE_DOCS_SUMMARY_PENDING = $localize`:@@candidateDocuments.summary.pending:documentos pendientes de subir`;
+export const CANDIDATE_DOCS_SUMMARY_MISSING_BADGE = $localize`:@@candidateDocuments.summary.missingBadge:faltantes`;
 export const CANDIDATE_DOCS_CHOOSE_FILE = $localize`:@@candidateDocuments.chooseFile:Seleccionar archivo`;
 export const CANDIDATE_DOCS_NO_REQUIREMENTS = $localize`:@@candidateDocuments.noRequirements:Esta vacante no tiene documentos configurados en la requisición. Configure el paso Documentos en el wizard para ver obligatorios y faltantes.`;
 export const CANDIDATE_DOCS_ALL_DELIVERED = $localize`:@@candidateDocuments.allDelivered:Todos los documentos obligatorios fueron entregados`;
+export const CANDIDATE_DOCS_STATUS_EXTRACTED = $localize`:@@candidateDocuments.status.extracted:Extraído`;
+export const CANDIDATE_DOCS_HEADER_REQUISITION = $localize`:@@candidateDocuments.header.requisition:Requisición`;
+
+export function candidateDocumentsHeaderSubtitle(
+  candidateName: string | undefined,
+  requisitionNo: string | undefined,
+): string | null {
+  const name = candidateName?.trim();
+  const req = requisitionNo?.trim();
+  if (name && req) {
+    return `${name} · ${CANDIDATE_DOCS_HEADER_REQUISITION} #${req}`;
+  }
+  if (name) {
+    return name;
+  }
+  if (req) {
+    return `${CANDIDATE_DOCS_HEADER_REQUISITION} #${req}`;
+  }
+  return null;
+}
 
 export function candidateDocumentsSizeLabel(bytes: number | null | undefined): string {
   if (bytes == null || bytes <= 0) {
