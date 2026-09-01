@@ -432,6 +432,26 @@ a:hover { text-decoration: underline; }
   overflow: hidden !important;
 }
 
+/* Candidate documents — taller header (title + subtitle) and close on the right */
+.sh-candidate-documents-dialog-panel .documents-dialog-header.sh-catalog-dialog-header.mat-mdc-dialog-title {
+  flex-wrap: nowrap !important;
+  align-items: flex-start !important;
+  height: auto !important;
+  min-height: 72px !important;
+  max-height: none !important;
+  padding: 14px 8px 14px 16px !important;
+}
+
+.sh-candidate-documents-dialog-panel .documents-dialog-header__close {
+  flex: 0 0 auto;
+  align-self: flex-start;
+  margin: -4px 0 0 auto;
+}
+
+.sh-candidate-documents-dialog-panel .mat-mdc-dialog-actions.documents-dialog-actions {
+  justify-content: flex-end !important;
+}
+
 /* Structural gap — survives Material zeroing content padding-top */
 .sh-catalog-dialog-gap {
   height: 16px;
