@@ -1,7 +1,13 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogConfig,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -61,6 +67,18 @@ export interface CandidateDocumentsDialogData {
   applicationId: number;
   candidateId: number;
   candidateName?: string;
+}
+
+export const CANDIDATE_DOCUMENTS_DIALOG_WIDTH = '1200px';
+export const CANDIDATE_DOCUMENTS_DIALOG_MAX_HEIGHT = '88vh';
+
+export function candidateDocumentsDialogConfig(extra: MatDialogConfig = {}): MatDialogConfig {
+  return catalogDialogConfig(CANDIDATE_DOCUMENTS_DIALOG_WIDTH, {
+    maxWidth: '96vw',
+    maxHeight: CANDIDATE_DOCUMENTS_DIALOG_MAX_HEIGHT,
+    panelClass: ['sh-catalog-form-dialog-panel', 'sh-candidate-documents-dialog-panel'],
+    ...extra,
+  });
 }
 
 @Component({
