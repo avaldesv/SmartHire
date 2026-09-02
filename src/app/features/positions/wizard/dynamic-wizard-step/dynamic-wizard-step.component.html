@@ -86,6 +86,14 @@
           [control]="$any(fieldControl(field.fieldKey))"
           [countryId]="countryId"
           [disabled]="isReadOnly(field)"
+          [showValidateAiName]="documentSectionVisible('documentValidateAiName')"
+          [showValidateAiValidity]="documentSectionVisible('documentValidateAiValidity')"
+          [showValidityMonths]="documentSectionVisible('documentValidityMonths')"
+          [showMandatory]="documentSectionVisible('documentIsRequired')"
+          [validateAiNameReadOnly]="documentSectionReadOnly('documentValidateAiName')"
+          [validateAiValidityReadOnly]="documentSectionReadOnly('documentValidateAiValidity')"
+          [validityMonthsReadOnly]="documentSectionReadOnly('documentValidityMonths')"
+          [mandatoryReadOnly]="documentSectionReadOnly('documentIsRequired')"
         />
       </div>
     } @else if (field.uiType === 'document-grid' && field.fieldKey === 'documentTypeIds') {

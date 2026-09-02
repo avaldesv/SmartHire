@@ -15,6 +15,17 @@ import {
   isClientCatalogFillTarget,
 } from '../constants/requisition-client-catalog-fill';
 
+const DOCUMENT_CONFIG_FIELD_KEYS = new Set([
+  'documentValidateAiName',
+  'documentValidateAiValidity',
+  'documentValidityMonths',
+  'documentIsRequired',
+]);
+
+function defaultFieldVisible(fieldKey: string): boolean {
+  return fieldKey === CLIENT_ID_FIELD_KEY || DOCUMENT_CONFIG_FIELD_KEYS.has(fieldKey);
+}
+
 export interface RequisitionFormCatalogState {
   steps: RequisitionFormStepConfig[];
   fields: RequisitionFormFieldConfig[];
@@ -57,7 +68,7 @@ export function buildFullCatalogState(
         stepKey,
         fieldDefId: def.id,
         orderIndex: saved?.orderIndex ?? orderIndex,
-        isVisible: saved?.isVisible ?? fieldKey === CLIENT_ID_FIELD_KEY,
+        isVisible: saved?.isVisible ?? defaultFieldVisible(fieldKey),
         isRequired: saved?.isRequired ?? fieldKey === CLIENT_ID_FIELD_KEY,
         overridesJson: saved?.overridesJson ?? null,
         rulesJson: saved?.rulesJson ?? defaultRulesJsonForField(fieldKey),
@@ -77,7 +88,7 @@ export function buildFullCatalogState(
       stepKey: saved?.stepKey ?? 'general',
       fieldDefId: def.id,
       orderIndex: saved?.orderIndex ?? generalOrder,
-      isVisible: saved?.isVisible ?? def.fieldKey === CLIENT_ID_FIELD_KEY,
+      isVisible: saved?.isVisible ?? defaultFieldVisible(def.fieldKey),
       isRequired: saved?.isRequired ?? def.fieldKey === CLIENT_ID_FIELD_KEY,
       overridesJson: saved?.overridesJson ?? null,
       rulesJson: saved?.rulesJson ?? defaultRulesJsonForField(def.fieldKey),

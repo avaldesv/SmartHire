@@ -162,6 +162,9 @@ export function buildDynamicStepForms(
   for (const step of config.steps) {
     const stepGroup = fb.nonNullable.group({});
     for (const field of step.fields) {
+      if (field.uiType === 'document-config-section') {
+        continue;
+      }
       stepGroup.addControl(field.fieldKey, createFieldControl(fb, field, flatValues));
       flatValues[field.fieldKey] = stepGroup.get(field.fieldKey)?.value;
     }
@@ -208,6 +211,9 @@ export function refreshDynamicValidators(
     for (const field of step.fields) {
       const control = stepGroup.get(field.fieldKey);
       if (!control) {
+        continue;
+      }
+      if (field.uiType === 'document-config-section') {
         continue;
       }
       const visible = isFieldVisible(field, values);

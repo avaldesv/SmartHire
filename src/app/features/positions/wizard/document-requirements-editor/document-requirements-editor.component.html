@@ -28,51 +28,61 @@
         </mat-form-field>
 
         <div class="document-requirements-editor__ai-group">
-          <span class="document-requirements-editor__group-label">{{ labels.validateAi }}</span>
-          <div class="document-requirements-editor__checkboxes">
-            <mat-checkbox
-              [checked]="draft.validateAiName"
-              [disabled]="disabled"
-              (change)="draft.validateAiName = $event.checked"
+          @if (showAiGroup) {
+            <span class="document-requirements-editor__group-label">{{ labels.validateAi }}</span>
+            <div class="document-requirements-editor__checkboxes">
+              @if (showValidateAiName) {
+                <mat-checkbox
+                  [checked]="draft.validateAiName"
+                  [disabled]="disabled || validateAiNameReadOnly"
+                  (change)="draft.validateAiName = $event.checked"
+                >
+                  {{ labels.validateName }}
+                </mat-checkbox>
+              }
+              @if (showValidateAiValidity) {
+                <mat-checkbox
+                  [checked]="draft.validateAiValidity"
+                  [disabled]="disabled || validateAiValidityReadOnly"
+                  (change)="onValidateValidityChange($event.checked)"
+                >
+                  {{ labels.validateValidity }}
+                </mat-checkbox>
+              }
+            </div>
+          }
+        </div>
+
+        @if (showValidityMonths) {
+          <mat-form-field appearance="outline" subscriptSizing="dynamic" class="document-requirements-editor__months">
+            <mat-label>{{ labels.validityMonths }}</mat-label>
+            <input
+              matInput
+              type="number"
+              min="1"
+              max="120"
+              [placeholder]="labels.validityMonthsPlaceholder"
+              [disabled]="disabled || validityMonthsReadOnly || !draft.validateAiValidity"
+              [value]="draft.validityMonths ?? ''"
+              (input)="onValidityMonthsInput($any($event.target).value)"
+            />
+          </mat-form-field>
+        }
+
+        @if (showMandatory) {
+          <div class="document-requirements-editor__mandatory-group">
+            <span class="document-requirements-editor__group-label">{{ labels.mandatory }}</span>
+            <mat-radio-group
+              class="document-requirements-editor__radio-group"
+              [disabled]="disabled || mandatoryReadOnly"
+              [value]="draft.isRequired"
+              (change)="draft.isRequired = $event.value"
             >
-              {{ labels.validateName }}
-            </mat-checkbox>
-            <mat-checkbox
-              [checked]="draft.validateAiValidity"
-              [disabled]="disabled"
-              (change)="onValidateValidityChange($event.checked)"
-            >
-              {{ labels.validateValidity }}
-            </mat-checkbox>
+              <mat-radio-button [value]="true">{{ labels.yes }}</mat-radio-button>
+              <mat-radio-button [value]="false">{{ labels.no }}</mat-radio-button>
+            </mat-radio-group>
           </div>
-        </div>
-
-        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="document-requirements-editor__months">
-          <mat-label>{{ labels.validityMonths }}</mat-label>
-          <input
-            matInput
-            type="number"
-            min="1"
-            max="120"
-            [placeholder]="labels.validityMonthsPlaceholder"
-            [disabled]="disabled || !draft.validateAiValidity"
-            [value]="draft.validityMonths ?? ''"
-            (input)="onValidityMonthsInput($any($event.target).value)"
-          />
-        </mat-form-field>
-
-        <div class="document-requirements-editor__mandatory-group">
-          <span class="document-requirements-editor__group-label">{{ labels.mandatory }}</span>
-          <mat-radio-group
-            class="document-requirements-editor__radio-group"
-            [disabled]="disabled"
-            [value]="draft.isRequired"
-            (change)="draft.isRequired = $event.value"
-          >
-            <mat-radio-button [value]="true">{{ labels.yes }}</mat-radio-button>
-            <mat-radio-button [value]="false">{{ labels.no }}</mat-radio-button>
-          </mat-radio-group>
-        </div>
+        }
 
         <div class="document-requirements-editor__actions">
           <button
@@ -149,8 +159,8 @@
               </button>
             </td>
           </ng-container>
-          <tr mat-header-row *matHeaderRowDef="columns"></tr>
-          <tr mat-row *matRowDef="let row; columns: columns"></tr>
+          <tr mat-header-row *matHeaderRowDef="visibleColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: visibleColumns"></tr>
         </table>
       }
     </div>

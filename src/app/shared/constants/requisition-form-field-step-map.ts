@@ -84,7 +84,13 @@ export const REQUISITION_FIELDS_BY_STEP: Record<(typeof REQUISITION_FORM_DEFAULT
   clientDescription: ['clientExpansionDescription'],
   extraBenefits: ['extraBenefitsText'],
   preselection: ['questionnaire'],
-  documents: ['documentRequirements'],
+  documents: [
+    'documentRequirements',
+    'documentValidateAiName',
+    'documentValidateAiValidity',
+    'documentValidityMonths',
+    'documentIsRequired',
+  ],
 };
 
 const FIELD_TO_STEP = new Map<string, string>();

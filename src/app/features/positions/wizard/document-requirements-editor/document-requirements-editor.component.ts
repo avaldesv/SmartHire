@@ -75,6 +75,14 @@ export class DocumentRequirementsEditorComponent implements OnChanges {
   @Input({ required: true }) control!: FormControl<WizardDocumentRequirementRow[]>;
   @Input() countryId: number | null = null;
   @Input() disabled = false;
+  @Input() showValidateAiName = true;
+  @Input() showValidateAiValidity = true;
+  @Input() showValidityMonths = true;
+  @Input() showMandatory = true;
+  @Input() validateAiNameReadOnly = false;
+  @Input() validateAiValidityReadOnly = false;
+  @Input() validityMonthsReadOnly = false;
+  @Input() mandatoryReadOnly = false;
 
   readonly labels = {
     subtitle: REQUISITION_DOCS_WIZARD_SUBTITLE,
@@ -107,6 +115,25 @@ export class DocumentRequirementsEditorComponent implements OnChanges {
   };
 
   readonly columns = ['documentTypeName', 'validateAi', 'validityMonths', 'isRequired', 'actions'];
+
+  get visibleColumns(): string[] {
+    const cols: string[] = ['documentTypeName'];
+    if (this.showValidateAiName || this.showValidateAiValidity) {
+      cols.push('validateAi');
+    }
+    if (this.showValidityMonths) {
+      cols.push('validityMonths');
+    }
+    if (this.showMandatory) {
+      cols.push('isRequired');
+    }
+    cols.push('actions');
+    return cols;
+  }
+
+  get showAiGroup(): boolean {
+    return this.showValidateAiName || this.showValidateAiValidity;
+  }
 
   documentTypes: CatalogDocumentType[] = [];
   loading = false;
@@ -145,7 +172,9 @@ export class DocumentRequirementsEditorComponent implements OnChanges {
   }
 
   aiSummary(row: WizardDocumentRequirementRow): string {
-    return requisitionDocumentsWizardAiSummary(row.validateAiName, row.validateAiValidity);
+    const name = this.showValidateAiName ? row.validateAiName : false;
+    const validity = this.showValidateAiValidity ? row.validateAiValidity : false;
+    return requisitionDocumentsWizardAiSummary(name, validity);
   }
 
   documentLabel(documentTypeId: number): string {
@@ -163,7 +192,7 @@ export class DocumentRequirementsEditorComponent implements OnChanges {
       return;
     }
     const catalogType = this.documentTypes.find((doc) => doc.id === documentTypeId);
-    if (catalogType?.validatesWithAi) {
+    if (this.showValidateAiName && catalogType?.validatesWithAi) {
       this.draft.validateAiName = true;
     }
   }
@@ -189,17 +218,23 @@ export class DocumentRequirementsEditorComponent implements OnChanges {
     if (this.draft.documentTypeId == null) {
       return;
     }
-    if (this.draft.validateAiValidity && (this.draft.validityMonths == null || this.draft.validityMonths < 1)) {
+    this.applyHiddenSectionDefaults();
+    if (
+      this.showValidateAiValidity &&
+      this.draft.validateAiValidity &&
+      (this.draft.validityMonths == null || this.draft.validityMonths < 1)
+    ) {
       this.draftError = this.labels.validityMonthsRequired;
       return;
     }
     const row: WizardDocumentRequirementRow = {
       documentTypeId: this.draft.documentTypeId,
-      isRequired: this.draft.isRequired,
+      isRequired: this.showMandatory ? this.draft.isRequired : false,
       selected: true,
-      validateAiName: this.draft.validateAiName,
-      validateAiValidity: this.draft.validateAiValidity,
-      validityMonths: this.draft.validateAiValidity ? this.draft.validityMonths : null,
+      validateAiName: this.showValidateAiName ? this.draft.validateAiName : false,
+      validateAiValidity: this.showValidateAiValidity ? this.draft.validateAiValidity : false,
+      validityMonths:
+        this.showValidityMonths && this.draft.validateAiValidity ? this.draft.validityMonths : null,
     };
     const current = [...this.rows];
     const index = current.findIndex((item) => item.documentTypeId === row.documentTypeId);
@@ -283,5 +318,24 @@ export class DocumentRequirementsEditorComponent implements OnChanges {
       validityMonths: null,
       isRequired: false,
     };
+  }
+
+  private applyHiddenSectionDefaults(): void {
+    const catalogType =
+      this.draft.documentTypeId != null
+        ? this.documentTypes.find((doc) => doc.id === this.draft.documentTypeId)
+        : undefined;
+    if (!this.showValidateAiName) {
+      this.draft.validateAiName = catalogType?.validatesWithAi ?? false;
+    }
+    if (!this.showValidateAiValidity) {
+      this.draft.validateAiValidity = false;
+    }
+    if (!this.showValidityMonths || !this.showValidateAiValidity) {
+      this.draft.validityMonths = null;
+    }
+    if (!this.showMandatory) {
+      this.draft.isRequired = false;
+    }
   }
 }

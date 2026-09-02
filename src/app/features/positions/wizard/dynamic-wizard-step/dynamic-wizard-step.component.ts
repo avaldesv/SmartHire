@@ -92,11 +92,15 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.rootForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.flatValues = this.flattenRootValues();
-      this.visibleFields = this.step.fields.filter((f) => isFieldVisible(f, this.flatValues));
+      this.visibleFields = this.step.fields.filter(
+        (f) => f.uiType !== 'document-config-section' && isFieldVisible(f, this.flatValues),
+      );
       this.syncMirroredFields();
     });
     this.flatValues = this.flattenRootValues();
-    this.visibleFields = this.step.fields.filter((f) => isFieldVisible(f, this.flatValues));
+    this.visibleFields = this.step.fields.filter(
+      (f) => f.uiType !== 'document-config-section' && isFieldVisible(f, this.flatValues),
+    );
     this.syncMirroredFields();
 
     const langField = this.step.fields.find((f) => f.uiType === 'language-grid');
@@ -220,7 +224,9 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
           }
         }
         this.flatValues = this.flattenRootValues();
-        this.visibleFields = this.step.fields.filter((f) => isFieldVisible(f, this.flatValues));
+        this.visibleFields = this.step.fields.filter(
+          (f) => f.uiType !== 'document-config-section' && isFieldVisible(f, this.flatValues),
+        );
         this.syncMirroredFields();
       },
     });
@@ -251,7 +257,9 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
 
   private refreshVisibleFields(): void {
     this.flatValues = this.flattenRootValues();
-    this.visibleFields = this.step.fields.filter((f) => isFieldVisible(f, this.flatValues));
+    this.visibleFields = this.step.fields.filter(
+      (f) => f.uiType !== 'document-config-section' && isFieldVisible(f, this.flatValues),
+    );
     this.syncMirroredFields();
   }
 
@@ -461,5 +469,22 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
 
   isClientSearchField(field: ResolvedRequisitionFormField): boolean {
     return field.fieldKey === CLIENT_ID_FIELD_KEY || field.dataSourceKey === 'clients';
+  }
+
+  /** Config-only document sections: visible when configured and marked visible (default true if absent). */
+  documentSectionVisible(fieldKey: string): boolean {
+    const field = this.step.fields.find((f) => f.fieldKey === fieldKey);
+    if (!field) {
+      return true;
+    }
+    return isFieldVisible(field, this.flatValues);
+  }
+
+  documentSectionReadOnly(fieldKey: string): boolean {
+    const field = this.step.fields.find((f) => f.fieldKey === fieldKey);
+    if (!field) {
+      return false;
+    }
+    return isFieldReadOnly(field, this.flatValues);
   }
 }
