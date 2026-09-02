@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
@@ -40,6 +40,11 @@ import {
 import { CandidateApplicationApiService } from '../../../core/services/candidate-application-api.service';
 import { CandidateApiService } from '../../../core/services/candidate-api.service';
 import { PermissionService } from '../../../core/services/permission.service';
+import {
+  CandidateEditDialogComponent,
+  CandidateEditDialogData,
+  CandidateEditDialogResult,
+} from '../../candidates/dialogs/candidate-edit-dialog/candidate-edit-dialog.component';
 import {
   CandidateDocumentsDialogComponent,
   CandidateDocumentsDialogData,
@@ -118,7 +123,6 @@ import {
 })
 export class PreselectionComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
   private readonly applicationApi = inject(CandidateApplicationApiService);
   private readonly candidateApi = inject(CandidateApiService);
   private readonly questionnaireApi = inject(QuestionnaireApiService);
@@ -623,9 +627,28 @@ export class PreselectionComponent implements OnInit {
   }
 
   openCandidateProfile(row: PreselectionCandidate): void {
-    void this.router.navigate(['/candidates', row.id], {
-      queryParams: { from: 'preselection', positionId: this.positionId },
-    });
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    this.dialog
+      .open<CandidateEditDialogComponent, CandidateEditDialogData, CandidateEditDialogResult | null>(
+        CandidateEditDialogComponent,
+        {
+          ...catalogDialogConfig('720px'),
+          maxWidth: '96vw',
+          maxHeight: '90vh',
+          autoFocus: false,
+          data: {
+            candidateId: row.id,
+            applicationId: row.applicationId,
+            candidateName: name,
+          },
+        },
+      )
+      .afterClosed()
+      .subscribe((result) => {
+        if (result?.saved) {
+          this.loadApplications();
+        }
+      });
   }
 
   private openCandidateDocuments(row: PreselectionCandidate): void {

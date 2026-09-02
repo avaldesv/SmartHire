@@ -31,6 +31,7 @@ export const PRESELECTION_BULK_MARK_SELECTED = $localize`:@@preselection.bulk.ma
 export const PRESELECTION_BULK_RELEASE = $localize`:@@preselection.bulk.release:Liberar`;
 export const PRESELECTION_BULK_RELEASE_ALL = $localize`:@@preselection.bulk.releaseAll:Liberar todos`;
 export const PRESELECTION_ROW_DESELECT = $localize`:@@preselection.row.deselect:Deseleccionar`;
+export const PRESELECTION_ROW_EDIT_PROFILE = $localize`:@@preselection.row.editProfile:Editar perfil`;
 
 export const PRESELECTION_CHANGE_STAGE = $localize`:@@preselection.changeStage.action:Cambiar etapa`;
 export const PRESELECTION_CHANGE_STAGE_TITLE = $localize`:@@preselection.changeStage.title:Cambiar etapa`;

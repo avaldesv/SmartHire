@@ -1,5 +1,5 @@
 import { AppPermissions } from '../../../core/auth/app-permissions';
-import { PRESELECTION_CHANGE_STAGE, PRESELECTION_ROW_DESELECT } from '../../../core/i18n/preselection-actions-labels';
+import { PRESELECTION_CHANGE_STAGE, PRESELECTION_ROW_DESELECT, PRESELECTION_ROW_EDIT_PROFILE } from '../../../core/i18n/preselection-actions-labels';
 
 export type PreselectionRowActionId =
   | 'viewProfile'
@@ -30,7 +30,7 @@ export interface PreselectionRowAction {
 export const PRESELECTION_ROW_ACTIONS: readonly PreselectionRowAction[] = [
   {
     id: 'viewProfile',
-    label: 'Ver perfil',
+    label: PRESELECTION_ROW_EDIT_PROFILE,
     icon: 'person',
     permissions: [AppPermissions.CANDIDATE_READ],
   },
