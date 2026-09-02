@@ -5,9 +5,30 @@
   height: 100%;
 }
 
-.header-icon {
-  vertical-align: middle;
-  margin-right: 0.35rem;
+.notifications-dialog-header {
+  align-items: center !important;
+  padding: 0 16px !important;
+}
+
+.notifications-dialog-header__text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  line-height: 1.25;
+}
+
+.notifications-dialog-header__icon {
+  flex-shrink: 0;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+}
+
+.notifications-dialog-header__title {
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .notifications-body {
