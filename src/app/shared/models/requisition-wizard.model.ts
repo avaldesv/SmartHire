@@ -35,7 +35,10 @@ export interface WizardLanguageRow {
 export interface WizardDocumentRequirementRow {
   documentTypeId: number;
   isRequired: boolean;
-  selected: boolean;
+  selected?: boolean;
+  validateAiName: boolean;
+  validateAiValidity: boolean;
+  validityMonths: number | null;
 }
 
 export interface WizardQuestionnaireValue {

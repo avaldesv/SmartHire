@@ -253,6 +253,45 @@ export const REQUISITION_WIZARD_EVAL_SCORE = $localize`:@@requisition.wizard.eva
 export const REQUISITION_WIZARD_ACCEPTANCE_PERCENT = $localize`:@@requisition.wizard.acceptancePercent:% aceptación`;
 export const REQUISITION_WIZARD_SELECT_COUNTRY_HINT = $localize`:@@requisition.wizard.selectCountryHint:Seleccione el país del cliente en el paso anterior para cargar la geografía.`;
 export const REQUISITION_WIZARD_SELECT_COUNTRY_DOCUMENTS_HINT = $localize`:@@requisition.wizard.selectCountryDocumentsHint:Seleccione el país del cliente para cargar tipos de documento.`;
+
+export const REQUISITION_DOCS_WIZARD_SUBTITLE = $localize`:@@requisition.documents.wizard.subtitle:Configure los documentos que el candidato debe entregar`;
+export const REQUISITION_DOCS_WIZARD_TYPE = $localize`:@@requisition.documents.wizard.type:Tipo de documento`;
+export const REQUISITION_DOCS_WIZARD_VALIDATE_AI = $localize`:@@requisition.documents.wizard.validateAi:Validar con IA`;
+export const REQUISITION_DOCS_WIZARD_VALIDATE_NAME = $localize`:@@requisition.documents.wizard.validateName:Nombre`;
+export const REQUISITION_DOCS_WIZARD_VALIDATE_VALIDITY = $localize`:@@requisition.documents.wizard.validateValidity:Vigencia`;
+export const REQUISITION_DOCS_WIZARD_VALIDITY_MONTHS = $localize`:@@requisition.documents.wizard.validityMonths:Tiempo de validez (meses)`;
+export const REQUISITION_DOCS_WIZARD_VALIDITY_MONTHS_PLACEHOLDER = $localize`:@@requisition.documents.wizard.validityMonthsPlaceholder:Número de meses`;
+export const REQUISITION_DOCS_WIZARD_MANDATORY = $localize`:@@requisition.documents.wizard.mandatory:Obligatorio`;
+export const REQUISITION_DOCS_WIZARD_YES = $localize`:@@common.yes:Sí`;
+export const REQUISITION_DOCS_WIZARD_NO = $localize`:@@common.no:No`;
+export const REQUISITION_DOCS_WIZARD_ADD = $localize`:@@requisition.documents.wizard.add:Agregar documento`;
+export const REQUISITION_DOCS_WIZARD_UPDATE = $localize`:@@requisition.documents.wizard.update:Actualizar documento`;
+export const REQUISITION_DOCS_WIZARD_CONFIGURED_TITLE = $localize`:@@requisition.documents.wizard.configuredTitle:Documentos configurados`;
+export const REQUISITION_DOCS_WIZARD_COL_TYPE = $localize`:@@requisition.documents.wizard.colType:Tipo`;
+export const REQUISITION_DOCS_WIZARD_COL_AI = $localize`:@@requisition.documents.wizard.colAi:Validar IA`;
+export const REQUISITION_DOCS_WIZARD_COL_MONTHS = $localize`:@@requisition.documents.wizard.colMonths:Vigencia (meses)`;
+export const REQUISITION_DOCS_WIZARD_COL_MANDATORY = $localize`:@@requisition.documents.wizard.colMandatory:Obligatorio`;
+export const REQUISITION_DOCS_WIZARD_COL_ACTIONS = $localize`:@@requisition.documents.wizard.colActions:Acciones`;
+export const REQUISITION_DOCS_WIZARD_EMPTY = $localize`:@@requisition.documents.wizard.empty:No hay documentos configurados. Agregue al menos uno.`;
+export const REQUISITION_DOCS_WIZARD_DUPLICATE_TYPE = $localize`:@@requisition.documents.wizard.duplicateType:Este tipo de documento ya está en la lista`;
+export const REQUISITION_DOCS_WIZARD_VALIDITY_MONTHS_REQUIRED = $localize`:@@requisition.documents.wizard.validityMonthsRequired:Indique el tiempo de validez en meses`;
+export const REQUISITION_DOCS_WIZARD_EDIT = $localize`:@@requisition.documents.wizard.edit:Editar`;
+export const REQUISITION_DOCS_WIZARD_DELETE = $localize`:@@requisition.documents.wizard.delete:Eliminar`;
+export const REQUISITION_DOCS_WIZARD_AI_NONE = $localize`:@@common.emDash:—`;
+
+export function requisitionDocumentsWizardAiSummary(
+  validateAiName: boolean,
+  validateAiValidity: boolean,
+): string {
+  const parts: string[] = [];
+  if (validateAiName) {
+    parts.push(REQUISITION_DOCS_WIZARD_VALIDATE_NAME);
+  }
+  if (validateAiValidity) {
+    parts.push(REQUISITION_DOCS_WIZARD_VALIDATE_VALIDITY);
+  }
+  return parts.length ? parts.join(', ') : REQUISITION_DOCS_WIZARD_AI_NONE;
+}
 export const REQUISITION_WIZARD_OPEN_TIME_PICKER = $localize`:@@requisition.wizard.openTimePicker:Abrir selector de hora`;
 export const REQUISITION_WIZARD_CLIENT_SEARCH_PLACEHOLDER = $localize`:@@requisition.wizard.clientSearchPlaceholder:Buscar por nombre, email, código o nombre comercial`;
 export const REQUISITION_WIZARD_CLIENT_SEARCH_NO_COUNTRY = $localize`:@@requisition.wizard.clientSearchNoCountry:Seleccione un país para buscar clientes`;

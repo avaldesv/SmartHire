@@ -20,7 +20,6 @@ import {
   ResolvedRequisitionFormConfig,
   ResolvedRequisitionFormField,
   ResolvedRequisitionFormStep,
-  WizardDocumentRequirementRow,
   WizardFieldOption,
 } from '../../../../shared/models/requisition-wizard.model';
 import { isFieldReadOnly, isFieldVisible, fieldValueFrom, fieldFillFromCatalog } from '../dynamic-wizard-rules.util';
@@ -34,6 +33,7 @@ import {
   REQUISITION_WIZARD_LOADING_DOCUMENTS,
   REQUISITION_WIZARD_NO_DOCUMENTS,
 } from '../../../../core/i18n/requisition-wizard-labels';
+import { DocumentRequirementsEditorComponent } from '../document-requirements-editor/document-requirements-editor.component';
 import { DynamicWizardFieldComponent } from '../dynamic-wizard-field/dynamic-wizard-field.component';
 import { JobDescriptionAiFieldComponent } from '../job-description-ai-field/job-description-ai-field.component';
 import { WizardClientSearchFieldComponent } from '../wizard-client-search-field/wizard-client-search-field.component';
@@ -51,6 +51,7 @@ import { CLIENT_ID_FIELD_KEY } from '../../../../shared/constants/requisition-cl
     MatButtonModule,
     MatIconModule,
     DynamicWizardFieldComponent,
+    DocumentRequirementsEditorComponent,
     JobDescriptionAiFieldComponent,
     WizardClientSearchFieldComponent,
   ],
@@ -62,8 +63,6 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
   private readonly fb = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
 
-  readonly documentColumnLabel = $localize`:@@requisition.documents.columnDocument:Documento`;
-  readonly documentRequiredLabel = $localize`:@@requisition.documents.required:Obligatorio`;
   readonly languageLabel = REQUISITION_WIZARD_LANGUAGE;
   readonly languageLevelLabel = REQUISITION_WIZARD_LANGUAGE_LEVEL;
   readonly addLanguageLabel = REQUISITION_WIZARD_ADD_LANGUAGE;
@@ -142,7 +141,6 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
       }
       this.catalogFillStop$.next();
       this.setupCatalogFill();
-      this.syncDocumentGrid();
     }
     if (changes['countryId'] && !changes['countryId'].firstChange) {
       this.loadFieldOptions();
@@ -298,7 +296,6 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
         next: (opts) => {
           this.documentTypeOptions = opts;
           this.loadingByField['__documents__'] = false;
-          this.syncDocumentGrid();
         },
         error: () => {
           this.documentTypeOptions = [];
@@ -405,55 +402,6 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
 
   languageLevelOptions(): WizardFieldOption[] {
     return this.optionsByField['__languageLevels__'] ?? [];
-  }
-
-  private syncDocumentGrid(): void {
-    const docField = this.step.fields.find(
-      (f) => f.uiType === 'document-grid' && f.fieldKey === 'documentRequirements',
-    );
-    if (!docField) {
-      return;
-    }
-    const control = this.stepForm.get(docField.fieldKey) as FormControl<WizardDocumentRequirementRow[]> | null;
-    const current = control?.value ?? [];
-    const selectedMap = new Map(current.map((r) => [r.documentTypeId, r]));
-    const rows = this.documentTypeOptions.map((opt) => {
-      const existing = selectedMap.get(opt.id);
-      return existing ?? { documentTypeId: opt.id, isRequired: false, selected: false };
-    });
-    control?.setValue(rows, { emitEvent: false });
-  }
-
-  toggleDocumentSelected(fieldKey: string, documentTypeId: number, checked: boolean): void {
-    const control = this.stepForm.get(fieldKey) as FormControl<WizardDocumentRequirementRow[]>;
-    const rows = [...(control.value ?? [])];
-    const index = rows.findIndex((r) => r.documentTypeId === documentTypeId);
-    if (index >= 0) {
-      rows[index] = { ...rows[index], selected: checked };
-    } else {
-      rows.push({ documentTypeId, isRequired: false, selected: checked });
-    }
-    control.setValue(rows);
-  }
-
-  toggleDocumentRequired(fieldKey: string, documentTypeId: number, required: boolean): void {
-    const control = this.stepForm.get(fieldKey) as FormControl<WizardDocumentRequirementRow[]>;
-    const rows = [...(control.value ?? [])];
-    const index = rows.findIndex((r) => r.documentTypeId === documentTypeId);
-    if (index >= 0) {
-      rows[index] = { ...rows[index], isRequired: required };
-      control.setValue(rows);
-    }
-  }
-
-  isDocumentSelected(fieldKey: string, documentTypeId: number): boolean {
-    const control = this.stepForm.get(fieldKey) as FormControl<WizardDocumentRequirementRow[]>;
-    return (control.value ?? []).some((r) => r.documentTypeId === documentTypeId && r.selected);
-  }
-
-  isDocumentRequired(fieldKey: string, documentTypeId: number): boolean {
-    const control = this.stepForm.get(fieldKey) as FormControl<WizardDocumentRequirementRow[]>;
-    return (control.value ?? []).find((r) => r.documentTypeId === documentTypeId)?.isRequired ?? false;
   }
 
   toggleLegacyDocument(fieldKey: string, documentTypeId: number, checked: boolean): void {
