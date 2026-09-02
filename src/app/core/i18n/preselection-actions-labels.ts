@@ -35,6 +35,8 @@ export const PRESELECTION_ROW_EDIT_PROFILE = $localize`:@@preselection.row.editP
 
 export const PRESELECTION_CHANGE_STAGE = $localize`:@@preselection.changeStage.action:Cambiar etapa`;
 export const PRESELECTION_CHANGE_STAGE_TITLE = $localize`:@@preselection.changeStage.title:Cambiar etapa`;
+export const PRESELECTION_CHANGE_STAGE_SUBTITLE = $localize`:@@preselection.changeStage.subtitle:Se actualizará la etapa de los candidatos seleccionados.`;
+export const PRESELECTION_CHANGE_STAGE_CANDIDATES_LABEL = $localize`:@@preselection.changeStage.candidatesLabel:Candidatos`;
 export const PRESELECTION_CHANGE_STAGE_LABEL = $localize`:@@preselection.changeStage.field:Nueva etapa`;
 export const PRESELECTION_CHANGE_STAGE_SAVE = $localize`:@@preselection.changeStage.save:Aplicar`;
 export const PRESELECTION_CHANGE_STAGE_CANCEL = $localize`:@@preselection.changeStage.cancel:Cancelar`;

@@ -27,6 +27,7 @@ import {
   PRESELECTION_BULK_RELEASE,
   PRESELECTION_BULK_RELEASE_ALL,
   PRESELECTION_CHANGE_STAGE,
+  PRESELECTION_CHANGE_STAGE_TITLE,
   PRESELECTION_COL_APPOINTMENT,
   PRESELECTION_COL_CONTACT,
   PRESELECTION_COL_EVALUATION,
@@ -360,7 +361,10 @@ export class PreselectionComponent implements OnInit {
         ChangeApplicationStageDialogData,
         ChangeApplicationStageDialogResult | null
       >(ChangeApplicationStageDialogComponent, {
-        ...catalogDialogConfig('480px'),
+        ...catalogDialogConfig('560px'),
+        maxWidth: '96vw',
+        autoFocus: false,
+        ariaLabel: PRESELECTION_CHANGE_STAGE_TITLE,
         data: { positionId: this.positionId, candidates },
       })
       .afterClosed()

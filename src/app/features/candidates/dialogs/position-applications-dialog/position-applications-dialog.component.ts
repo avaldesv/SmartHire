@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogModule, MatDialog
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule, Sort } from '@angular/material/sort';
@@ -13,9 +14,13 @@ import { filter } from 'rxjs';
 import { AppPermissions } from '../../../../core/auth/app-permissions';
 import { catalogDialogConfig } from '../../../../core/dialog/catalog-dialog.constants';
 import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../../core/i18n/feedback-labels';
 import {
   APP_DIALOG_ACTIONS_MENU,
   APP_DIALOG_ACTION_PRESELECT,
+  APP_DIALOG_BULK_PRESELECT,
+  APP_DIALOG_BULK_PRESELECT_SUCCESS,
+  APP_DIALOG_BULK_NONE_SELECTED,
   APP_DIALOG_ACTION_VIEW_DOCUMENTS,
   APP_DIALOG_ACTION_DOWNLOAD_CV,
   APP_DIALOG_ACTION_GENERATE_DOCUMENTS,
@@ -124,6 +129,7 @@ const APPLICATIONS_SORT_FIELDS: Record<string, string> = {
     MatMenuModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
+    MatCheckboxModule,
     StatusBadgeComponent,
     ShModalFormComponent,
     ShModalActionsDirective,
@@ -160,6 +166,8 @@ export class PositionApplicationsDialogComponent implements OnInit {
     downloadCv: APP_DIALOG_ACTION_DOWNLOAD_CV,
     generateDocuments: APP_DIALOG_ACTION_GENERATE_DOCUMENTS,
     preselect: APP_DIALOG_ACTION_PRESELECT,
+    bulkPreselect: APP_DIALOG_BULK_PRESELECT,
+    bulkNoneSelected: APP_DIALOG_BULK_NONE_SELECTED,
     contactTooltip: APP_DIALOG_CONTACT_TOOLTIP,
     evaluationTooltip: APP_DIALOG_EVALUATION_TOOLTIP,
     appointmentTooltip: APP_DIALOG_APPOINTMENT_TOOLTIP,
@@ -168,18 +176,21 @@ export class PositionApplicationsDialogComponent implements OnInit {
   };
 
   loading = true;
-  rows: CandidateApplicationListItem[] = [];
+  rows: (CandidateApplicationListItem & { selected: boolean })[] = [];
   total = 0;
   pageIndex = 0;
   pageSize = 10;
   sortActive = 'createdAt';
   sortDirection: 'asc' | 'desc' = 'desc';
   preselectingId: number | null = null;
+  bulkPreselecting = false;
+  selectedCount = 0;
   contactingApplicationId: number | null = null;
   downloadingCvId: number | null = null;
   private changed = false;
 
   readonly columns = [
+    'select',
     'candidate',
     'email',
     'status',
@@ -216,6 +227,20 @@ export class PositionApplicationsDialogComponent implements OnInit {
     return this.canEditSelection && row.status?.toUpperCase() !== 'PRESELECTED';
   }
 
+  get preselectableRows(): (CandidateApplicationListItem & { selected: boolean })[] {
+    return this.rows.filter((row) => this.canPreselect(row));
+  }
+
+  get allPreselectableSelected(): boolean {
+    const preselectable = this.preselectableRows;
+    return preselectable.length > 0 && preselectable.every((row) => row.selected);
+  }
+
+  get somePreselectableSelected(): boolean {
+    const preselectable = this.preselectableRows;
+    return preselectable.some((row) => row.selected) && !this.allPreselectableSelected;
+  }
+
   load(): void {
     this.loading = true;
     this.applicationApi
@@ -225,9 +250,10 @@ export class PositionApplicationsDialogComponent implements OnInit {
       })
       .subscribe({
         next: (res) => {
-          this.rows = res.items;
+          this.rows = res.items.map((item) => ({ ...item, selected: false }));
           this.total = res.total;
           this.loading = false;
+          this.updateSelectedCount();
         },
         error: (err) => {
           this.loading = false;
@@ -317,6 +343,55 @@ export class PositionApplicationsDialogComponent implements OnInit {
     return row.interviewScheduled
       ? this.labels.appointmentScheduledTooltip
       : this.labels.appointmentTooltip;
+  }
+
+  toggleAllPreselectable(checked: boolean): void {
+    this.preselectableRows.forEach((row) => (row.selected = checked));
+    this.updateSelectedCount();
+  }
+
+  setRowSelected(row: CandidateApplicationListItem & { selected: boolean }, checked: boolean): void {
+    if (!this.canPreselect(row)) {
+      return;
+    }
+    row.selected = checked;
+    this.updateSelectedCount();
+  }
+
+  updateSelectedCount(): void {
+    this.selectedCount = this.rows.filter((row) => row.selected).length;
+  }
+
+  bulkPreselect(): void {
+    if (!this.canEditSelection || this.bulkPreselecting) {
+      return;
+    }
+    const applicationIds = this.rows
+      .filter((row) => row.selected && this.canPreselect(row))
+      .map((row) => row.id);
+    if (applicationIds.length === 0) {
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, this.labels.bulkNoneSelected);
+      return;
+    }
+    this.bulkPreselecting = true;
+    this.applicationApi
+      .updateStatus({
+        positionId: this.data.positionId,
+        applicationIds,
+        status: 'PRESELECTED',
+      })
+      .subscribe({
+        next: (res) => {
+          this.bulkPreselecting = false;
+          this.changed = true;
+          this.feedback.showSuccess(`${APP_DIALOG_BULK_PRESELECT_SUCCESS} (${res.updatedCount})`);
+          this.load();
+        },
+        error: (err) => {
+          this.bulkPreselecting = false;
+          this.feedback.showApiError(err, { fallbackMessage: APP_DIALOG_ERRORS_PRESELECT });
+        },
+      });
   }
 
   preselect(row: CandidateApplicationListItem): void {

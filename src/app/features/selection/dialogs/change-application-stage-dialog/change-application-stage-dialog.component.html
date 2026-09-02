@@ -1,0 +1,64 @@
+<div class="sh-catalog-dialog-header-bar">
+  <span class="sh-catalog-dialog-header-bar__text">
+    <mat-icon aria-hidden="true">swap_horiz</mat-icon>
+    <span>{{ title }}</span>
+  </span>
+</div>
+
+<mat-dialog-content class="sh-catalog-dialog-body change-stage-body">
+  <p class="change-stage-subtitle">{{ subtitle }}</p>
+
+  <section class="change-stage-section" aria-labelledby="change-stage-candidates-heading">
+    <h3 id="change-stage-candidates-heading" class="change-stage-section__title">
+      {{ candidatesLabel }}
+      <span class="change-stage-count">({{ data.candidates.length }})</span>
+    </h3>
+    <ul class="change-stage-candidate-list" role="list">
+      @for (c of data.candidates; track c.applicationId) {
+        <li class="change-stage-candidate-card" role="listitem">
+          <div class="change-stage-candidate-card__main">
+            <mat-icon class="change-stage-candidate-card__icon" aria-hidden="true">person</mat-icon>
+            <span class="change-stage-candidate-card__name">{{ c.name }}</span>
+          </div>
+          @if (c.currentStatus) {
+            <span class="change-stage-current-badge">{{ stageLabel(c.currentStatus) }}</span>
+          }
+        </li>
+      }
+    </ul>
+  </section>
+
+  <form [formGroup]="form" class="change-stage-form">
+    <mat-form-field appearance="outline" class="change-stage-field">
+      <mat-label>{{ stageFieldLabel }}</mat-label>
+      <mat-select formControlName="status">
+        @for (stage of stages; track stage) {
+          <mat-option [value]="stage">{{ stageLabel(stage) }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </form>
+
+  @if (processing) {
+    <div class="change-stage-processing" aria-live="polite">
+      <mat-spinner diameter="28" />
+      <span>{{ processingLabel }}</span>
+    </div>
+  }
+</mat-dialog-content>
+
+<div class="change-stage-footer" mat-dialog-actions>
+  <button mat-stroked-button type="button" class="change-stage-cancel-btn" [disabled]="processing" (click)="dialogRef.close(null)">
+    {{ cancelLabel }}
+  </button>
+  <button
+    mat-flat-button
+    color="primary"
+    type="button"
+    class="change-stage-apply-btn"
+    [disabled]="processing || form.invalid"
+    (click)="submit()"
+  >
+    {{ saveLabel }}
+  </button>
+</div>
