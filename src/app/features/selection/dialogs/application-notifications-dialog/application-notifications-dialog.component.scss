@@ -1,0 +1,213 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+}
+
+.header-icon {
+  vertical-align: middle;
+  margin-right: 0.35rem;
+}
+
+.notifications-body {
+  padding-top: 12px !important;
+}
+
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 2.5rem 1rem;
+}
+
+.empty-msg {
+  margin: 1.5rem 0;
+  color: var(--sh-text-muted, #64748b);
+  text-align: center;
+}
+
+.notification-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.notification-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+  background: #fff;
+}
+
+.notification-card__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.notification-card__meta-left {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-width: 0;
+}
+
+.notification-card__date {
+  font-size: 0.8125rem;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.channel-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.channel-pill__icon {
+  width: 16px;
+  height: 16px;
+  font-size: 16px;
+}
+
+.channel-pill--whatsapp {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.channel-pill--email {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.channel-pill--inbox {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.channel-pill--default {
+  background: #f8fafc;
+  color: #64748b;
+}
+
+.status-pill {
+  flex-shrink: 0;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.2;
+  border: 1px solid transparent;
+}
+
+.status-pill--sent {
+  background: #ecfdf5;
+  color: #059669;
+  border-color: #a7f3d0;
+}
+
+.status-pill--fallback {
+  background: #fffbeb;
+  color: #d97706;
+  border-color: #fcd34d;
+}
+
+.status-pill--failed {
+  background: #fef2f2;
+  color: #dc2626;
+  border-color: #fca5a5;
+}
+
+.status-pill--skipped {
+  background: #f8fafc;
+  color: #64748b;
+  border-color: #e2e8f0;
+}
+
+.status-pill--default {
+  background: #f8fafc;
+  color: #475569;
+  border-color: #e2e8f0;
+}
+
+.notification-card__recipient {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 0.9375rem;
+  color: #1e293b;
+}
+
+.recipient-icon {
+  width: 18px;
+  height: 18px;
+  font-size: 18px;
+  color: #94a3b8;
+}
+
+.notification-card__message {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #334155;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.notifications-footer {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 16px;
+  margin: 0 !important;
+  padding: 12px 16px 16px !important;
+  border-top: 1px solid #e2e8f0;
+  min-height: 60px !important;
+  box-sizing: border-box;
+}
+
+.notifications-footer--solo {
+  justify-content: flex-end !important;
+  border-top: 1px solid #e2e8f0;
+}
+
+.notifications-pagination {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.notifications-pagination__range {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin-right: 4px;
+}
+
+.notifications-pagination__btn {
+  color: #64748b;
+
+  &:disabled {
+    opacity: 0.4;
+  }
+}
+
+.notifications-close-btn {
+  height: 36px;
+  min-height: 36px;
+  min-width: 7.5rem;
+  --mdc-outlined-button-outline-color: #0d9488;
+  border-color: #0d9488 !important;
+  color: #0d9488 !important;
+}

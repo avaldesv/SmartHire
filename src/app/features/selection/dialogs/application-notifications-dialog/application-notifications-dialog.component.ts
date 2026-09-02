@@ -3,21 +3,22 @@ import { Component, inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatTableModule } from '@angular/material/table';
 import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
 import {
-  APP_NOTIFICATIONS_COL_ACTION,
-  APP_NOTIFICATIONS_COL_CHANNEL,
-  APP_NOTIFICATIONS_COL_DATE,
-  APP_NOTIFICATIONS_COL_PREVIEW,
-  APP_NOTIFICATIONS_COL_RECIPIENT,
-  APP_NOTIFICATIONS_COL_STATUS,
+  APP_NOTIFICATIONS_CHANNEL_EMAIL,
+  APP_NOTIFICATIONS_CHANNEL_INBOX,
+  APP_NOTIFICATIONS_CHANNEL_WHATSAPP,
   APP_NOTIFICATIONS_DIALOG_CLOSE,
   APP_NOTIFICATIONS_DIALOG_TITLE,
   APP_NOTIFICATIONS_EMPTY,
   APP_NOTIFICATIONS_LOAD_ERROR,
+  APP_NOTIFICATIONS_PAGINATION_NEXT,
+  APP_NOTIFICATIONS_PAGINATION_PREV,
+  APP_NOTIFICATIONS_STATUS_FAILED,
+  APP_NOTIFICATIONS_STATUS_FALLBACK,
+  APP_NOTIFICATIONS_STATUS_SENT,
+  APP_NOTIFICATIONS_STATUS_SKIPPED,
 } from '../../../../core/i18n/application-notifications-dialog-labels';
 import { ApplicationNotificationApiService } from '../../../../core/services/application-notification-api.service';
 import { ApplicationNotificationItem } from '../../../../shared/models/application-notification.model';
@@ -27,104 +28,29 @@ export interface ApplicationNotificationsDialogData {
   candidateName: string;
 }
 
+interface ChannelMeta {
+  label: string;
+  icon: string;
+  cssClass: string;
+}
+
+interface StatusMeta {
+  label: string;
+  cssClass: string;
+}
+
 @Component({
   selector: 'sh-application-notifications-dialog',
   standalone: true,
   imports: [
     DatePipe,
     MatDialogModule,
-    MatTableModule,
-    MatPaginatorModule,
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
   ],
-  template: `
-    <div class="sh-catalog-dialog-header" mat-dialog-title>
-      <span class="sh-catalog-dialog-header__text">
-        <mat-icon class="header-icon">notifications</mat-icon>
-        {{ title }} — {{ data.candidateName }}
-      </span>
-    </div>
-
-    <mat-dialog-content class="sh-catalog-dialog-body">
-      <div class="sh-catalog-dialog-gap" aria-hidden="true"></div>
-      @if (loading) {
-        <div class="loading-wrap"><mat-spinner diameter="36" /></div>
-      } @else {
-        <div class="table-wrap">
-          <table mat-table [dataSource]="rows" class="notifications-table">
-            <ng-container matColumnDef="createdAt">
-              <th mat-header-cell *matHeaderCellDef>{{ colDate }}</th>
-              <td mat-cell *matCellDef="let row">{{ row.createAt | date: 'dd/MM/yyyy HH:mm' }}</td>
-            </ng-container>
-            <ng-container matColumnDef="actionCode">
-              <th mat-header-cell *matHeaderCellDef>{{ colAction }}</th>
-              <td mat-cell *matCellDef="let row">{{ row.actionCode }}</td>
-            </ng-container>
-            <ng-container matColumnDef="channel">
-              <th mat-header-cell *matHeaderCellDef>{{ colChannel }}</th>
-              <td mat-cell *matCellDef="let row">{{ row.channel }}</td>
-            </ng-container>
-            <ng-container matColumnDef="recipient">
-              <th mat-header-cell *matHeaderCellDef>{{ colRecipient }}</th>
-              <td mat-cell *matCellDef="let row">{{ row.recipient || '—' }}</td>
-            </ng-container>
-            <ng-container matColumnDef="status">
-              <th mat-header-cell *matHeaderCellDef>{{ colStatus }}</th>
-              <td mat-cell *matCellDef="let row">{{ row.status }}</td>
-            </ng-container>
-            <ng-container matColumnDef="preview">
-              <th mat-header-cell *matHeaderCellDef>{{ colPreview }}</th>
-              <td mat-cell *matCellDef="let row" class="preview-cell">{{ row.renderedPreview || '—' }}</td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="columns"></tr>
-            <tr mat-row *matRowDef="let row; columns: columns"></tr>
-          </table>
-          @if (!rows.length) {
-            <p class="empty-msg">{{ empty }}</p>
-          }
-          <mat-paginator
-            [length]="total"
-            [pageIndex]="pageIndex"
-            [pageSize]="pageSize"
-            [pageSizeOptions]="[5, 10, 20]"
-            (page)="onPage($event)"
-          />
-        </div>
-      }
-    </mat-dialog-content>
-
-    <mat-dialog-actions align="end">
-      <button mat-stroked-button type="button" (click)="close()">{{ closeLabel }}</button>
-    </mat-dialog-actions>
-  `,
-  styles: `
-    .header-icon {
-      vertical-align: middle;
-      margin-right: 0.35rem;
-    }
-    .loading-wrap {
-      display: flex;
-      justify-content: center;
-      padding: 2rem;
-    }
-    .table-wrap {
-      overflow-x: auto;
-    }
-    .notifications-table {
-      width: 100%;
-    }
-    .preview-cell {
-      max-width: 280px;
-      white-space: normal;
-      font-size: 0.875rem;
-    }
-    .empty-msg {
-      margin: 1rem 0;
-      color: var(--sh-text-muted, #64748b);
-    }
-  `,
+  templateUrl: './application-notifications-dialog.component.html',
+  styleUrl: './application-notifications-dialog.component.scss',
 })
 export class ApplicationNotificationsDialogComponent implements OnInit {
   private readonly dialogRef = inject(MatDialogRef<ApplicationNotificationsDialogComponent>);
@@ -134,13 +60,9 @@ export class ApplicationNotificationsDialogComponent implements OnInit {
 
   readonly title = APP_NOTIFICATIONS_DIALOG_TITLE;
   readonly closeLabel = APP_NOTIFICATIONS_DIALOG_CLOSE;
-  readonly colDate = APP_NOTIFICATIONS_COL_DATE;
-  readonly colAction = APP_NOTIFICATIONS_COL_ACTION;
-  readonly colChannel = APP_NOTIFICATIONS_COL_CHANNEL;
-  readonly colRecipient = APP_NOTIFICATIONS_COL_RECIPIENT;
-  readonly colStatus = APP_NOTIFICATIONS_COL_STATUS;
-  readonly colPreview = APP_NOTIFICATIONS_COL_PREVIEW;
   readonly empty = APP_NOTIFICATIONS_EMPTY;
+  readonly paginationPrevLabel = APP_NOTIFICATIONS_PAGINATION_PREV;
+  readonly paginationNextLabel = APP_NOTIFICATIONS_PAGINATION_NEXT;
 
   loading = true;
   rows: ApplicationNotificationItem[] = [];
@@ -148,10 +70,71 @@ export class ApplicationNotificationsDialogComponent implements OnInit {
   pageIndex = 0;
   pageSize = 10;
 
-  readonly columns = ['createdAt', 'actionCode', 'channel', 'recipient', 'status', 'preview'];
-
   ngOnInit(): void {
     this.load();
+  }
+
+  get paginationLabel(): string {
+    if (this.total === 0) {
+      return '0–0 de 0';
+    }
+    const start = this.pageIndex * this.pageSize + 1;
+    const end = Math.min((this.pageIndex + 1) * this.pageSize, this.total);
+    return `${start}–${end} de ${this.total}`;
+  }
+
+  get canGoPrev(): boolean {
+    return this.pageIndex > 0;
+  }
+
+  get canGoNext(): boolean {
+    return (this.pageIndex + 1) * this.pageSize < this.total;
+  }
+
+  channelMeta(channel: string): ChannelMeta {
+    const normalized = (channel || '').trim().toUpperCase();
+    switch (normalized) {
+      case 'WHATSAPP':
+        return {
+          label: APP_NOTIFICATIONS_CHANNEL_WHATSAPP,
+          icon: 'chat',
+          cssClass: 'channel-pill--whatsapp',
+        };
+      case 'EMAIL':
+        return {
+          label: APP_NOTIFICATIONS_CHANNEL_EMAIL,
+          icon: 'mail',
+          cssClass: 'channel-pill--email',
+        };
+      case 'INBOX':
+        return {
+          label: APP_NOTIFICATIONS_CHANNEL_INBOX,
+          icon: 'inbox',
+          cssClass: 'channel-pill--inbox',
+        };
+      default:
+        return {
+          label: channel || '—',
+          icon: 'notifications',
+          cssClass: 'channel-pill--default',
+        };
+    }
+  }
+
+  statusMeta(status: string): StatusMeta {
+    const normalized = (status || '').trim().toUpperCase();
+    switch (normalized) {
+      case 'SENT':
+        return { label: APP_NOTIFICATIONS_STATUS_SENT, cssClass: 'status-pill--sent' };
+      case 'FAILED':
+        return { label: APP_NOTIFICATIONS_STATUS_FAILED, cssClass: 'status-pill--failed' };
+      case 'FALLBACK':
+        return { label: APP_NOTIFICATIONS_STATUS_FALLBACK, cssClass: 'status-pill--fallback' };
+      case 'SKIPPED':
+        return { label: APP_NOTIFICATIONS_STATUS_SKIPPED, cssClass: 'status-pill--skipped' };
+      default:
+        return { label: status || '—', cssClass: 'status-pill--default' };
+    }
   }
 
   load(): void {
@@ -169,9 +152,19 @@ export class ApplicationNotificationsDialogComponent implements OnInit {
     });
   }
 
-  onPage(e: PageEvent): void {
-    this.pageIndex = e.pageIndex;
-    this.pageSize = e.pageSize;
+  goPrev(): void {
+    if (!this.canGoPrev) {
+      return;
+    }
+    this.pageIndex -= 1;
+    this.load();
+  }
+
+  goNext(): void {
+    if (!this.canGoNext) {
+      return;
+    }
+    this.pageIndex += 1;
     this.load();
   }
 
