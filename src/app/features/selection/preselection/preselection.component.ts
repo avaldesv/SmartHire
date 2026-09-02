@@ -726,6 +726,7 @@ export class PreselectionComponent implements OnInit {
         maxWidth: '96vw',
         maxHeight: '88vh',
         autoFocus: false,
+        ariaLabel: `Notificaciones — ${name}`,
         data: {
           applicationId: row.applicationId,
           candidateName: name,
