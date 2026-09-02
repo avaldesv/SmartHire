@@ -214,16 +214,21 @@ a:hover { text-decoration: underline; }
 }
 
 .sh-catalog-dialog-header__text {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  line-height: 1.25;
 }
 
 .sh-catalog-dialog-header__text .header-icon,
 .sh-catalog-dialog-header__text mat-icon {
-  vertical-align: middle;
-  margin-right: 6px;
+  flex-shrink: 0;
+  margin-right: 0;
   font-size: 20px;
   width: 20px;
   height: 20px;
+  line-height: 20px;
 }
 
 .sh-catalog-form-dialog-panel .mat-mdc-dialog-container,
@@ -238,6 +243,15 @@ a:hover { text-decoration: underline; }
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+}
+
+/* Surface padding is zeroed — reset Material legacy negative title/actions margins */
+.sh-catalog-form-dialog-panel .mat-mdc-dialog-container .mat-mdc-dialog-title {
+  margin: 0 !important;
+}
+
+.sh-catalog-form-dialog-panel .mat-mdc-dialog-container .mat-mdc-dialog-actions {
+  margin: 0 !important;
 }
 
 .sh-catalog-form-dialog-panel .mat-mdc-dialog-component-host,
