@@ -17047,7 +17047,21 @@
         <source>Escribe una instrucción o borrador en el campo antes de generar.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/positions/wizard/job-description-ai-field/job-description-ai-field.component.ts</context>
-          <context context-type="linenumber">67</context>
+          <context context-type="linenumber">75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.jobDescription.autoGenerateFromJobRequirement" datatype="html">
+        <source>Pulsa Entendido para escribir una instrucción o borrador en el campo. Pulsa Auto Generar para crear el texto a partir de Requerimiento del Empleo.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/positions/wizard/job-description-ai-field/job-description-ai-field.component.ts</context>
+          <context context-type="linenumber">76</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.jobDescription.autoGenerateFromPositionName" datatype="html">
+        <source>Pulsa Entendido para escribir una instrucción o borrador en el campo. Pulsa Auto Generar para crear el texto a partir del nombre del puesto.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/positions/wizard/job-description-ai-field/job-description-ai-field.component.ts</context>
+          <context context-type="linenumber">77</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.jobDescription.emptySourceForAutoGenerate" datatype="html">

@@ -33,6 +33,9 @@
               [disabled]="isReadOnly(generalRequirementsBlock!.requirementsOptional)"
               [fieldLabel]="fieldLabel(generalRequirementsBlock!.requirementsOptional)"
               [sectionTitle]="null"
+              [sourceControl]="$any(fieldControl(generalRequirementsBlock!.jobDescription.fieldKey))"
+              autoGenerateMode="requirementsOptional"
+              [showCharCount]="true"
               [rows]="3"
             />
             <sh-job-description-ai-field
@@ -40,6 +43,9 @@
               [disabled]="isReadOnly(generalRequirementsBlock!.requirementsDesirable)"
               [fieldLabel]="fieldLabel(generalRequirementsBlock!.requirementsDesirable)"
               [sectionTitle]="null"
+              [sourceControl]="$any(fieldControl(generalRequirementsBlock!.jobDescription.fieldKey))"
+              autoGenerateMode="requirementsDesirable"
+              [showCharCount]="true"
               [rows]="3"
             />
           </div>

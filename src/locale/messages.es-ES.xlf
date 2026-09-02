@@ -8120,6 +8120,14 @@
         <source>Escribe una instrucción o borrador en el campo antes de generar.</source>
         <target>Escribe una instrucción o borrador en el campo antes de generar.</target>
       </trans-unit>
+      <trans-unit id="requisition.jobDescription.autoGenerateFromJobRequirement" datatype="html">
+        <source>Pulsa Entendido para escribir una instrucción o borrador en el campo. Pulsa Auto Generar para crear el texto a partir de Requerimiento del Empleo.</source>
+        <target>Pulsa Entendido para escribir una instrucción o borrador en el campo. Pulsa Auto Generar para crear el texto a partir de Requerimiento del Empleo.</target>
+      </trans-unit>
+      <trans-unit id="requisition.jobDescription.autoGenerateFromPositionName" datatype="html">
+        <source>Pulsa Entendido para escribir una instrucción o borrador en el campo. Pulsa Auto Generar para crear el texto a partir del nombre del puesto.</source>
+        <target>Pulsa Entendido para escribir una instrucción o borrador en el campo. Pulsa Auto Generar para crear el texto a partir del nombre del puesto.</target>
+      </trans-unit>
       <trans-unit id="requisition.jobDescription.emptySourceForAutoGenerate" datatype="html">
         <source>Escribe o genera la descripción del puesto antes de auto generar requisitos.</source>
         <target>Escribe o genera la descripción del puesto antes de auto generar requisitos.</target>
