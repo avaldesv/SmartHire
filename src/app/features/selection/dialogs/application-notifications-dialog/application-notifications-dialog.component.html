@@ -1,0 +1,75 @@
+<div class="sh-catalog-dialog-header" mat-dialog-title>
+  <span class="sh-catalog-dialog-header__text">
+    <mat-icon class="header-icon">notifications</mat-icon>
+    {{ title }} — {{ data.candidateName }}
+  </span>
+</div>
+
+<mat-dialog-content class="sh-catalog-dialog-body notifications-body">
+  @if (loading) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else if (!rows.length) {
+    <p class="empty-msg">{{ empty }}</p>
+  } @else {
+    <ul class="notification-list" role="list">
+      @for (row of rows; track row.id) {
+        <li class="notification-card" role="listitem">
+          <div class="notification-card__meta">
+            <div class="notification-card__meta-left">
+              <time class="notification-card__date">{{ row.createAt | date: 'dd/MM/yyyy HH:mm' }}</time>
+              <span class="channel-pill" [class]="channelMeta(row.channel).cssClass">
+                <mat-icon class="channel-pill__icon">{{ channelMeta(row.channel).icon }}</mat-icon>
+                {{ channelMeta(row.channel).label }}
+              </span>
+            </div>
+            <span class="status-pill" [class]="statusMeta(row.status).cssClass">
+              {{ statusMeta(row.status).label }}
+            </span>
+          </div>
+          <div class="notification-card__recipient">
+            <mat-icon class="recipient-icon" aria-hidden="true">person</mat-icon>
+            <span>{{ row.recipient || '—' }}</span>
+          </div>
+          <p class="notification-card__message">{{ row.renderedPreview || '—' }}</p>
+        </li>
+      }
+    </ul>
+  }
+</mat-dialog-content>
+
+@if (!loading && total > 0) {
+  <div class="notifications-footer" mat-dialog-actions>
+    <div class="notifications-pagination">
+      <span class="notifications-pagination__range">{{ paginationLabel }}</span>
+      <button
+        mat-icon-button
+        type="button"
+        class="notifications-pagination__btn"
+        [disabled]="!canGoPrev"
+        [attr.aria-label]="paginationPrevLabel"
+        (click)="goPrev()"
+      >
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        type="button"
+        class="notifications-pagination__btn"
+        [disabled]="!canGoNext"
+        [attr.aria-label]="paginationNextLabel"
+        (click)="goNext()"
+      >
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+    <button mat-stroked-button type="button" class="notifications-close-btn" (click)="close()">
+      {{ closeLabel }}
+    </button>
+  </div>
+} @else {
+  <mat-dialog-actions align="end" class="notifications-footer notifications-footer--solo">
+    <button mat-stroked-button type="button" class="notifications-close-btn" (click)="close()">
+      {{ closeLabel }}
+    </button>
+  </mat-dialog-actions>
+}

@@ -722,7 +722,7 @@ export class PreselectionComponent implements OnInit {
     this.dialog.open<ApplicationNotificationsDialogComponent, ApplicationNotificationsDialogData>(
       ApplicationNotificationsDialogComponent,
       {
-        ...catalogDialogConfig('960px'),
+        ...catalogDialogConfig('720px'),
         maxWidth: '96vw',
         maxHeight: '88vh',
         autoFocus: false,
