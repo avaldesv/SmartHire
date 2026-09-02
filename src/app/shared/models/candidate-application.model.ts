@@ -28,6 +28,7 @@ export interface ListCandidateApplicationsRequest {
   positionId?: number | null;
   candidateId?: number | null;
   status?: string | null;
+  postPreselectedOnly?: boolean | null;
   filters?: string[];
   ordersBy?: string[];
 }
@@ -62,6 +63,12 @@ export interface ReleaseAllCandidateApplicationsRequest {
 export interface BulkCandidateApplicationsResponse {
   positionId: number;
   updatedCount: number;
+}
+
+export interface BulkUpdateCandidateApplicationStatusRequest {
+  positionId: number;
+  applicationIds: number[];
+  status: string;
 }
 
 export interface ValidateCandidateApplicationFlagsResponse {

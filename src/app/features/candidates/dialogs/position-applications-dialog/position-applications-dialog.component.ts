@@ -325,7 +325,7 @@ export class PositionApplicationsDialogComponent implements OnInit {
     }
     this.preselectingId = row.id;
     this.applicationApi
-      .updateApplication(row.id, { status: 'PRESELECTED', isSelected: true })
+      .updateApplication(row.id, { status: 'PRESELECTED' })
       .subscribe({
         next: () => {
           this.preselectingId = null;

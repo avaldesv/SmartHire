@@ -23,6 +23,10 @@ import {
   PRESELECTION_BULK_CONTACT_PARTIAL,
   PRESELECTION_BULK_CONTACT_SUCCESS,
   PRESELECTION_BULK_NONE_SELECTED,
+  PRESELECTION_BULK_MARK_SELECTED,
+  PRESELECTION_BULK_RELEASE,
+  PRESELECTION_BULK_RELEASE_ALL,
+  PRESELECTION_CHANGE_STAGE,
   PRESELECTION_COL_APPOINTMENT,
   PRESELECTION_COL_CONTACT,
   PRESELECTION_COL_EVALUATION,
@@ -62,6 +66,11 @@ import {
   BulkScheduleInterviewsDialogResult,
 } from '../dialogs/bulk-schedule-interviews-dialog/bulk-schedule-interviews-dialog.component';
 import {
+  ChangeApplicationStageDialogComponent,
+  ChangeApplicationStageDialogData,
+  ChangeApplicationStageDialogResult,
+} from '../dialogs/change-application-stage-dialog/change-application-stage-dialog.component';
+import {
   ApplicationAuditLogDialogComponent,
   ApplicationAuditLogDialogData,
 } from '../dialogs/application-audit-log-dialog/application-audit-log-dialog.component';
@@ -78,6 +87,7 @@ import {
   QuestionnaireEvaluationDialogData,
 } from '../dialogs/questionnaire-evaluation-dialog/questionnaire-evaluation-dialog.component';
 import { QuestionnaireApiService } from '../../../core/services/questionnaire-api.service';
+import { getCandidateApplicationStageLabel, isApplicationSelected } from '../../../shared/constants/candidate-application-stage';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
 import { filter, switchMap, catchError, concatMap, from, map, of, toArray } from 'rxjs';
 import { PreselectionCandidate } from '../../../shared/models';
@@ -128,6 +138,10 @@ export class PreselectionComponent implements OnInit {
     appointmentScheduledTooltip: PRESELECTION_APPOINTMENT_SCHEDULED_TOOLTIP,
     bulkContact: PRESELECTION_BULK_CONTACT,
     bulkAppointment: PRESELECTION_BULK_APPOINTMENT,
+    bulkMarkSelected: PRESELECTION_BULK_MARK_SELECTED,
+    bulkRelease: PRESELECTION_BULK_RELEASE,
+    bulkReleaseAll: PRESELECTION_BULK_RELEASE_ALL,
+    changeStage: PRESELECTION_CHANGE_STAGE,
   };
   loading = true;
   bulkLoading = false;
@@ -164,7 +178,9 @@ export class PreselectionComponent implements OnInit {
 
   loadApplications(): void {
     this.loading = true;
-    this.applicationApi.list(this.pageIndex, this.pageSize, { positionId: this.positionId }).subscribe({
+    this.applicationApi
+      .list(this.pageIndex, this.pageSize, { positionId: this.positionId, postPreselectedOnly: true })
+      .subscribe({
       next: (res) => {
         this.data = res.items.map((app) => ({
           applicationId: app.id,
@@ -186,7 +202,7 @@ export class PreselectionComponent implements OnInit {
           studiesValidated: app.studiesValidated ?? false,
           documentsSaved: app.documentsSaved ?? false,
           documentsComplete: app.documentsSaved ?? false,
-          selected: app.isSelected ?? false,
+          selected: isApplicationSelected(app),
           smartSent: false,
           questionnaireStatus: app.questionnaireStatus ?? null,
           questionnaireAutoScorePercent: app.questionnaireAutoScorePercent ?? null,
@@ -319,6 +335,45 @@ export class PreselectionComponent implements OnInit {
 
   action(name: string): void {
     this.feedback.showSuccess(`${name}: ${this.selectedCount} candidato(s)`);
+  }
+
+  openChangeStageDialog(rows: PreselectionCandidate[]): void {
+    if (!this.canEditSelection || this.bulkLoading || rows.length === 0) {
+      return;
+    }
+    const candidates = rows.map((row) => ({
+      applicationId: row.applicationId,
+      name: `${row.firstName} ${row.lastName}`.trim() || row.email,
+      currentStatus: row.stage,
+    }));
+    this.dialog
+      .open<
+        ChangeApplicationStageDialogComponent,
+        ChangeApplicationStageDialogData,
+        ChangeApplicationStageDialogResult | null
+      >(ChangeApplicationStageDialogComponent, {
+        ...catalogDialogConfig('480px'),
+        data: { positionId: this.positionId, candidates },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result && result.updated > 0) {
+          this.loadApplications();
+        }
+      });
+  }
+
+  bulkChangeStage(): void {
+    const selected = this.data.filter((row) => row.selected);
+    if (selected.length === 0) {
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, PRESELECTION_BULK_NONE_SELECTED);
+      return;
+    }
+    this.openChangeStageDialog(selected);
+  }
+
+  stageLabel(status: string | null | undefined): string {
+    return getCandidateApplicationStageLabel(status);
   }
 
   bulkContactSelectedCandidates(): void {
@@ -547,6 +602,10 @@ export class PreselectionComponent implements OnInit {
     }
     if (actionId === 'notifyQuestionnaire') {
       this.notifyCandidateQuestionnaire(row);
+      return;
+    }
+    if (actionId === 'changeStage') {
+      this.openChangeStageDialog([row]);
       return;
     }
     const name = `${row.firstName} ${row.lastName}`.trim();
