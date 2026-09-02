@@ -7428,6 +7428,22 @@
         <source>Documentos requeridos</source>
         <target>Required documents</target>
       </trans-unit>
+      <trans-unit id="requisition.field.documentValidateAiName" datatype="html">
+        <source>Validar con IA — Nombre</source>
+        <target>Validate with AI — Name</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.documentValidateAiValidity" datatype="html">
+        <source>Validar con IA — Vigencia</source>
+        <target>Validate with AI — Validity</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.documentValidityMonths" datatype="html">
+        <source>Tiempo de validez (meses)</source>
+        <target>Validity period (months)</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.documentIsRequired" datatype="html">
+        <source>Obligatorio</source>
+        <target>Mandatory</target>
+      </trans-unit>
       <trans-unit id="requisition.field.primaryLanguageId" datatype="html">
         <source>Idioma principal</source>
         <target>Primary language</target>
