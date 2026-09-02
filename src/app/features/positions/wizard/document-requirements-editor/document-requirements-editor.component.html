@@ -1,0 +1,158 @@
+<div class="document-requirements-editor">
+  <p class="document-requirements-editor__subtitle">{{ labels.subtitle }}</p>
+
+  @if (countryId == null) {
+    <p class="document-requirements-editor__hint">{{ labels.selectCountryHint }}</p>
+  } @else if (loading) {
+    <p class="document-requirements-editor__hint">{{ labels.loading }}</p>
+  } @else if (!documentTypes.length) {
+    <p class="document-requirements-editor__hint">{{ labels.noDocuments }}</p>
+  } @else {
+    <div class="document-requirements-editor__form-card">
+      <div class="document-requirements-editor__form-grid">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="document-requirements-editor__type">
+          <mat-label>{{ labels.type }}</mat-label>
+          <mat-select
+            [value]="draft.documentTypeId"
+            [disabled]="disabled"
+            (valueChange)="onDocumentTypeChange($event)"
+          >
+            <mat-option [value]="null">—</mat-option>
+            @for (doc of availableDocumentTypes; track doc.id) {
+              <mat-option [value]="doc.id">{{ doc.name }}</mat-option>
+            }
+            @if (editingDocumentTypeId != null) {
+              <mat-option [value]="editingDocumentTypeId">{{ documentLabel(editingDocumentTypeId) }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <div class="document-requirements-editor__ai-group">
+          <span class="document-requirements-editor__group-label">{{ labels.validateAi }}</span>
+          <div class="document-requirements-editor__checkboxes">
+            <mat-checkbox
+              [checked]="draft.validateAiName"
+              [disabled]="disabled"
+              (change)="draft.validateAiName = $event.checked"
+            >
+              {{ labels.validateName }}
+            </mat-checkbox>
+            <mat-checkbox
+              [checked]="draft.validateAiValidity"
+              [disabled]="disabled"
+              (change)="onValidateValidityChange($event.checked)"
+            >
+              {{ labels.validateValidity }}
+            </mat-checkbox>
+          </div>
+        </div>
+
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="document-requirements-editor__months">
+          <mat-label>{{ labels.validityMonths }}</mat-label>
+          <input
+            matInput
+            type="number"
+            min="1"
+            max="120"
+            [placeholder]="labels.validityMonthsPlaceholder"
+            [disabled]="disabled || !draft.validateAiValidity"
+            [value]="draft.validityMonths ?? ''"
+            (input)="onValidityMonthsInput($any($event.target).value)"
+          />
+        </mat-form-field>
+
+        <div class="document-requirements-editor__mandatory-group">
+          <span class="document-requirements-editor__group-label">{{ labels.mandatory }}</span>
+          <mat-radio-group
+            class="document-requirements-editor__radio-group"
+            [disabled]="disabled"
+            [value]="draft.isRequired"
+            (change)="draft.isRequired = $event.value"
+          >
+            <mat-radio-button [value]="true">{{ labels.yes }}</mat-radio-button>
+            <mat-radio-button [value]="false">{{ labels.no }}</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <div class="document-requirements-editor__actions">
+          <button
+            mat-flat-button
+            color="primary"
+            type="button"
+            [disabled]="disabled || draft.documentTypeId == null"
+            (click)="submitDraft()"
+          >
+            <mat-icon>{{ editingDocumentTypeId != null ? 'save' : 'add' }}</mat-icon>
+            {{ submitLabel }}
+          </button>
+          @if (editingDocumentTypeId != null) {
+            <button mat-stroked-button type="button" [disabled]="disabled" (click)="cancelEdit()">
+              {{ labels.cancel }}
+            </button>
+          }
+        </div>
+      </div>
+
+      @if (draftError) {
+        <p class="document-requirements-editor__error" role="alert">{{ draftError }}</p>
+      }
+    </div>
+
+    <div class="document-requirements-editor__table-wrap">
+      <h4 class="document-requirements-editor__table-title">{{ labels.configuredTitle }}</h4>
+      @if (!rows.length) {
+        <p class="document-requirements-editor__empty">{{ labels.empty }}</p>
+      } @else {
+        <table mat-table class="document-requirements-editor__table" [dataSource]="rows">
+          <ng-container matColumnDef="documentTypeName">
+            <th mat-header-cell *matHeaderCellDef>{{ labels.colType }}</th>
+            <td mat-cell *matCellDef="let row">{{ documentLabel(row.documentTypeId) }}</td>
+          </ng-container>
+          <ng-container matColumnDef="validateAi">
+            <th mat-header-cell *matHeaderCellDef>{{ labels.colAi }}</th>
+            <td mat-cell *matCellDef="let row">{{ aiSummary(row) }}</td>
+          </ng-container>
+          <ng-container matColumnDef="validityMonths">
+            <th mat-header-cell *matHeaderCellDef>{{ labels.colMonths }}</th>
+            <td mat-cell *matCellDef="let row">
+              @if (row.validityMonths != null) {
+                {{ row.validityMonths }}
+              } @else {
+                —
+              }
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="isRequired">
+            <th mat-header-cell *matHeaderCellDef>{{ labels.colMandatory }}</th>
+            <td mat-cell *matCellDef="let row">{{ mandatoryLabel(row.isRequired) }}</td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>{{ labels.colActions }}</th>
+            <td mat-cell *matCellDef="let row">
+              <button
+                mat-icon-button
+                type="button"
+                [attr.aria-label]="labels.edit"
+                [disabled]="disabled"
+                (click)="editRow(row)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                type="button"
+                [attr.aria-label]="labels.delete"
+                [disabled]="disabled"
+                (click)="removeRow(row.documentTypeId)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="columns"></tr>
+          <tr mat-row *matRowDef="let row; columns: columns"></tr>
+        </table>
+      }
+    </div>
+  }
+</div>

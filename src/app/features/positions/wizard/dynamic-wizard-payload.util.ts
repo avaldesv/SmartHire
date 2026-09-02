@@ -146,7 +146,7 @@ function requiredCompositeValidator(field: ResolvedRequisitionFormField): Valida
         return ids?.length ? null : { required: true };
       }
       const rows = (control.value ?? []) as WizardDocumentRequirementRow[];
-      return rows.some((r) => r.selected) ? null : { required: true };
+      return rows.length > 0 ? null : { required: true };
     }
     return control.value != null && control.value !== '' ? null : { required: true };
   };
@@ -300,12 +300,15 @@ function assignPayloadField(
       if (fieldKey === 'documentTypeIds') {
         payload['documentTypeIds'] = (raw as number[]) ?? [];
       } else {
-        const rows = (raw as WizardDocumentRequirementRow[]).filter((r) => r.selected);
+        const rows = (raw as WizardDocumentRequirementRow[]) ?? [];
         payload['documentRequirements'] = rows.map(
           (r) =>
             ({
               documentTypeId: r.documentTypeId,
               isRequired: r.isRequired,
+              validateAiName: r.validateAiName ?? false,
+              validateAiValidity: r.validateAiValidity ?? false,
+              validityMonths: r.validateAiValidity ? r.validityMonths ?? null : null,
             }) satisfies PositionDocumentRequirementItem,
         );
         payload['documentTypeIds'] = rows.map((r) => r.documentTypeId);
@@ -451,12 +454,18 @@ function resolveHydratedValue(
           documentTypeId: d.documentTypeId,
           isRequired: d.isRequired,
           selected: true,
+          validateAiName: d.validateAiName ?? false,
+          validateAiValidity: d.validateAiValidity ?? false,
+          validityMonths: d.validityMonths ?? null,
         }));
       }
       return (position.documentTypeIds ?? []).map((id) => ({
         documentTypeId: id,
         isRequired: false,
         selected: true,
+        validateAiName: false,
+        validateAiValidity: false,
+        validityMonths: null,
       }));
     case 'questionnaire-picker':
       if (position.questionnaire) {

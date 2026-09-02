@@ -80,38 +80,13 @@
         </button>
       </div>
     } @else if (field.uiType === 'document-grid' && field.fieldKey === 'documentRequirements') {
-      <div class="span-2 document-grid">
+      <div class="span-2">
         <h4 class="grid-title">{{ fieldLabel(field) }}</h4>
-        @if (loadingByField['__documents__']) {
-          <p>{{ loadingDocumentsLabel }}</p>
-        } @else if (!documentTypeOptions.length) {
-          <p>{{ noDocumentsLabel }}</p>
-        } @else {
-          <div class="document-grid__header" aria-hidden="true">
-            <span class="document-grid__col-req">{{ documentRequiredLabel }}</span>
-            <span class="document-grid__col-doc">{{ documentColumnLabel }}</span>
-          </div>
-          @for (doc of documentTypeOptions; track doc.id) {
-            <div class="document-row">
-              <div class="document-row__required">
-                @if (isDocumentSelected(field.fieldKey, doc.id)) {
-                  <mat-checkbox
-                    [checked]="isDocumentRequired(field.fieldKey, doc.id)"
-                    (change)="toggleDocumentRequired(field.fieldKey, doc.id, $event.checked)"
-                    [attr.aria-label]="documentRequiredLabel + ': ' + doc.label"
-                  ></mat-checkbox>
-                }
-              </div>
-              <mat-checkbox
-                class="document-row__doc"
-                [checked]="isDocumentSelected(field.fieldKey, doc.id)"
-                (change)="toggleDocumentSelected(field.fieldKey, doc.id, $event.checked)"
-              >
-                {{ doc.label }}
-              </mat-checkbox>
-            </div>
-          }
-        }
+        <sh-document-requirements-editor
+          [control]="$any(fieldControl(field.fieldKey))"
+          [countryId]="countryId"
+          [disabled]="isReadOnly(field)"
+        />
       </div>
     } @else if (field.uiType === 'document-grid' && field.fieldKey === 'documentTypeIds') {
       <div class="span-2 document-grid">

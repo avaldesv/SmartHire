@@ -8092,6 +8092,90 @@
         <source>Obligatorio</source>
         <target>Required</target>
       </trans-unit>
+      <trans-unit id="requisition.documents.wizard.subtitle" datatype="html">
+        <source>Configure los documentos que el candidato debe entregar</source>
+        <target>Configure the documents the candidate must provide</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.wizard.type" datatype="html">
+        <source>Tipo de documento</source>
+        <target>Document type</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.wizard.validateAi" datatype="html">
+        <source>Validar con IA</source>
+        <target>Validate with AI</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.wizard.validateName" datatype="html">
+        <source>Nombre</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.wizard.validateValidity" datatype="html">
+        <source>Vigencia</source>
+        <target>Validity</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.wizard.validityMonths" datatype="html">
+        <source>Tiempo de validez (meses)</source>
+        <target>Validity period (months)</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.wizard.validityMonthsPlaceholder" datatype="html">
+        <source>Número de meses</source>
+        <target>Number of months</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.wizard.mandatory" datatype="html">
+        <source>Obligatorio</source>
+        <target>Required</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.wizard.add" datatype="html">
+        <source>Agregar documento</source>
+        <target>Add document</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.wizard.update" datatype="html">
+        <source>Actualizar documento</source>
+        <target>Update document</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.wizard.configuredTitle" datatype="html">
+        <source>Documentos configurados</source>
+        <target>Configured documents</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.wizard.colType" datatype="html">
+        <source>Tipo</source>
+        <target>Type</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.wizard.colAi" datatype="html">
+        <source>Validar IA</source>
+        <target>AI validation</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.wizard.colMonths" datatype="html">
+        <source>Vigencia (meses)</source>
+        <target>Validity (months)</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.wizard.colMandatory" datatype="html">
+        <source>Obligatorio</source>
+        <target>Required</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.wizard.colActions" datatype="html">
+        <source>Acciones</source>
+        <target>Actions</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.wizard.empty" datatype="html">
+        <source>No hay documentos configurados. Agregue al menos uno.</source>
+        <target>No documents configured. Add at least one.</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.wizard.duplicateType" datatype="html">
+        <source>Este tipo de documento ya está en la lista</source>
+        <target>This document type is already in the list</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.wizard.validityMonthsRequired" datatype="html">
+        <source>Indique el tiempo de validez en meses</source>
+        <target>Enter the validity period in months</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.wizard.edit" datatype="html">
+        <source>Editar</source>
+        <target>Edit</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.wizard.delete" datatype="html">
+        <source>Eliminar</source>
+        <target>Delete</target>
+      </trans-unit>
       <trans-unit id="requisition.section.jobRequirement" datatype="html">
         <source>Requerimiento del Empleo</source>
         <target>Requerimiento del Empleo</target>

@@ -8,6 +8,9 @@ export interface PositionLanguageItem {
 export interface PositionDocumentRequirementItem {
   documentTypeId: number;
   isRequired: boolean;
+  validateAiName?: boolean;
+  validateAiValidity?: boolean;
+  validityMonths?: number | null;
 }
 
 export interface PositionQuestionnaireItem {
