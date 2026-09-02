@@ -43,7 +43,7 @@ export function getCandidateApplicationStageLabel(status: string | null | undefi
 
 export const PRESELECTION_CHANGEABLE_STAGES: readonly CandidateApplicationStage[] = CANDIDATE_APPLICATION_STAGES;
 
-/** Checkbox «seleccionado»: status SELECTED (o legacy isSelected en PRESELECTED). */
+/** Postulación en etapa SELECTED (o legacy isSelected en PRESELECTED). No usar para checkboxes de UI. */
 export function isApplicationSelected(
   app: { status?: string | null; isSelected?: boolean | null },
 ): boolean {

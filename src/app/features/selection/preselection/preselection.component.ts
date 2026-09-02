@@ -96,7 +96,7 @@ import {
   QuestionnaireEvaluationDialogData,
 } from '../dialogs/questionnaire-evaluation-dialog/questionnaire-evaluation-dialog.component';
 import { QuestionnaireApiService } from '../../../core/services/questionnaire-api.service';
-import { getCandidateApplicationStageLabel, isApplicationSelected } from '../../../shared/constants/candidate-application-stage';
+import { getCandidateApplicationStageLabel } from '../../../shared/constants/candidate-application-stage';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
 import { filter, switchMap, catchError, concatMap, from, map, of, toArray } from 'rxjs';
 import { PreselectionCandidate } from '../../../shared/models';
@@ -210,7 +210,7 @@ export class PreselectionComponent implements OnInit {
           studiesValidated: app.studiesValidated ?? false,
           documentsSaved: app.documentsSaved ?? false,
           documentsComplete: app.documentsSaved ?? false,
-          selected: isApplicationSelected(app),
+          selected: false,
           smartSent: false,
           questionnaireStatus: app.questionnaireStatus ?? null,
           questionnaireAutoScorePercent: app.questionnaireAutoScorePercent ?? null,
