@@ -29,8 +29,13 @@ import {
   PRESELECTION_CHANGE_STAGE,
   PRESELECTION_CHANGE_STAGE_TITLE,
   PRESELECTION_COL_APPOINTMENT,
+  PRESELECTION_COL_INTERVIEWED,
   PRESELECTION_COL_CONTACT,
   PRESELECTION_COL_EVALUATION,
+  PRESELECTION_INTERVIEWED_ERROR,
+  PRESELECTION_INTERVIEWED_SUCCESS,
+  PRESELECTION_INTERVIEWED_TOOLTIP,
+  PRESELECTION_INTERVIEWED_UNMARK_SUCCESS,
   PRESELECTION_CONTACT_ERROR,
   PRESELECTION_CONTACT_SUCCESS,
   PRESELECTION_CONTACT_TOOLTIP,
@@ -141,6 +146,8 @@ export class PreselectionComponent implements OnInit {
     colContact: PRESELECTION_COL_CONTACT,
     colEvaluation: PRESELECTION_COL_EVALUATION,
     colAppointment: PRESELECTION_COL_APPOINTMENT,
+    colInterviewed: PRESELECTION_COL_INTERVIEWED,
+    interviewedTooltip: PRESELECTION_INTERVIEWED_TOOLTIP,
     contactTooltip: PRESELECTION_CONTACT_TOOLTIP,
     evaluationTooltip: PRESELECTION_EVALUATION_TOOLTIP,
     appointmentTooltip: PRESELECTION_APPOINTMENT_TOOLTIP,
@@ -155,6 +162,7 @@ export class PreselectionComponent implements OnInit {
   loading = true;
   bulkLoading = false;
   contactingApplicationId: number | null = null;
+  interviewingApplicationId: number | null = null;
   data: PreselectionCandidate[] = [];
   selectedCount = 0;
   total = 0;
@@ -169,6 +177,7 @@ export class PreselectionComponent implements OnInit {
     'documentsComplete',
     'contact',
     'evaluation',
+    'interviewed',
     'appointment',
     'actions',
   ];
@@ -207,6 +216,7 @@ export class PreselectionComponent implements OnInit {
           compatibility: app.compatibilityPercent ?? 0,
           stage: app.status,
           interviewScheduled: app.interviewScheduled ?? false,
+          interviewed: app.interviewed ?? false,
           infoValidated: app.infoValidated ?? false,
           studiesValidated: app.studiesValidated ?? false,
           documentsSaved: app.documentsSaved ?? false,
@@ -557,6 +567,26 @@ export class PreselectionComponent implements OnInit {
     return row.interviewScheduled
       ? this.labels.appointmentScheduledTooltip
       : this.labels.appointmentTooltip;
+  }
+
+  toggleInterviewed(row: PreselectionCandidate, interviewed: boolean): void {
+    if (!this.canEditSelection || this.interviewingApplicationId != null) {
+      return;
+    }
+    this.interviewingApplicationId = row.applicationId;
+    this.applicationApi.patchApplication(row.applicationId, { interviewed }).subscribe({
+      next: () => {
+        this.interviewingApplicationId = null;
+        row.interviewed = interviewed;
+        this.feedback.showSuccess(
+          interviewed ? PRESELECTION_INTERVIEWED_SUCCESS : PRESELECTION_INTERVIEWED_UNMARK_SUCCESS,
+        );
+      },
+      error: (err) => {
+        this.interviewingApplicationId = null;
+        this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_INTERVIEWED_ERROR });
+      },
+    });
   }
 
   onRowAction(actionId: PreselectionRowActionId, row: PreselectionCandidate): void {

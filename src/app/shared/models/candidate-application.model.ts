@@ -17,6 +17,8 @@ export interface CandidateApplicationListItem {
   candidatePhone: string | null;
   createdAt: string;
   interviewScheduled?: boolean | null;
+  interviewed?: boolean | null;
+  interviewedAt?: string | null;
   infoValidated?: boolean | null;
   studiesValidated?: boolean | null;
   documentsSaved?: boolean | null;
@@ -103,6 +105,7 @@ export interface GenerateContractResponse {
 export interface PatchCandidateApplicationRequest {
   compatibilityPercent?: number | null;
   interviewScheduled?: boolean | null;
+  interviewed?: boolean | null;
 }
 
 export interface PatchCandidateApplicationResponse {
@@ -112,6 +115,8 @@ export interface PatchCandidateApplicationResponse {
   compatibilityPercent: number | null;
   interviewScheduled: boolean;
   interviewId: string | null;
+  interviewed: boolean;
+  interviewedAt: string | null;
 }
 
 export interface SendQuestionnaireInviteRequest {
