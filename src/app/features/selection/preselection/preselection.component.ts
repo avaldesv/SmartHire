@@ -76,6 +76,10 @@ import {
   ChangeApplicationStageDialogResult,
 } from '../dialogs/change-application-stage-dialog/change-application-stage-dialog.component';
 import {
+  ApplicationNotificationsDialogComponent,
+  ApplicationNotificationsDialogData,
+} from '../dialogs/application-notifications-dialog/application-notifications-dialog.component';
+import {
   ApplicationAuditLogDialogComponent,
   ApplicationAuditLogDialogData,
 } from '../dialogs/application-audit-log-dialog/application-audit-log-dialog.component';
@@ -604,6 +608,10 @@ export class PreselectionComponent implements OnInit {
       this.openGenerateDocumentDialog(row);
       return;
     }
+    if (actionId === 'viewNotifications') {
+      this.openApplicationNotificationsDialog(row);
+      return;
+    }
     if (actionId === 'notifyQuestionnaire') {
       this.notifyCandidateQuestionnaire(row);
       return;
@@ -704,6 +712,23 @@ export class PreselectionComponent implements OnInit {
           applicationId: row.applicationId,
           candidateName: name,
           positionId: this.positionId,
+        },
+      },
+    );
+  }
+
+  private openApplicationNotificationsDialog(row: PreselectionCandidate): void {
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    this.dialog.open<ApplicationNotificationsDialogComponent, ApplicationNotificationsDialogData>(
+      ApplicationNotificationsDialogComponent,
+      {
+        ...catalogDialogConfig('960px'),
+        maxWidth: '96vw',
+        maxHeight: '88vh',
+        autoFocus: false,
+        data: {
+          applicationId: row.applicationId,
+          candidateName: name,
         },
       },
     );

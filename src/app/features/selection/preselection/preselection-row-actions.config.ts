@@ -1,5 +1,6 @@
 import { AppPermissions } from '../../../core/auth/app-permissions';
 import { PRESELECTION_CHANGE_STAGE, PRESELECTION_ROW_DESELECT, PRESELECTION_ROW_EDIT_PROFILE } from '../../../core/i18n/preselection-actions-labels';
+import { PRESELECTION_ROW_VIEW_NOTIFICATIONS } from '../../../core/i18n/application-notifications-dialog-labels';
 
 export type PreselectionRowActionId =
   | 'viewProfile'
@@ -14,6 +15,7 @@ export type PreselectionRowActionId =
   | 'generateContract'
   | 'generateDocument'
   | 'notifyQuestionnaire'
+  | 'viewNotifications'
   | 'changeStage'
   | 'deselectRow';
 
@@ -95,6 +97,12 @@ export const PRESELECTION_ROW_ACTIONS: readonly PreselectionRowAction[] = [
     id: 'generateDocument',
     label: 'Generar Documentos',
     icon: 'article',
+    permissions: [AppPermissions.SELECTION_READ],
+  },
+  {
+    id: 'viewNotifications',
+    label: PRESELECTION_ROW_VIEW_NOTIFICATIONS,
+    icon: 'notifications',
     permissions: [AppPermissions.SELECTION_READ],
   },
   {
