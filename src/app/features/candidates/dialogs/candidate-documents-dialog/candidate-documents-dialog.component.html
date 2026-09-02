@@ -1,22 +1,24 @@
 <div class="documents-dialog-header sh-catalog-dialog-header" mat-dialog-title>
-  <div class="documents-dialog-header__main">
-    <mat-icon class="documents-dialog-header__icon" aria-hidden="true">description</mat-icon>
-    <div class="documents-dialog-header__titles">
-      <span class="documents-dialog-header__title">{{ labels.title }}</span>
-      @if (headerSubtitle()) {
-        <span class="documents-dialog-header__subtitle">{{ headerSubtitle() }}</span>
-      }
+  <div class="documents-dialog-header__content">
+    <div class="documents-dialog-header__top-row">
+      <div class="documents-dialog-header__title-row">
+        <mat-icon class="documents-dialog-header__icon" aria-hidden="true">description</mat-icon>
+        <span class="documents-dialog-header__title">{{ labels.title }}</span>
+      </div>
+      <button
+        mat-icon-button
+        type="button"
+        class="documents-dialog-header__close"
+        [attr.aria-label]="labels.close"
+        (click)="close()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
     </div>
+    @if (headerSubtitle()) {
+      <span class="documents-dialog-header__subtitle">{{ headerSubtitle() }}</span>
+    }
   </div>
-  <button
-    mat-icon-button
-    type="button"
-    class="documents-dialog-header__close"
-    [attr.aria-label]="labels.close"
-    (click)="close()"
-  >
-    <mat-icon>close</mat-icon>
-  </button>
 </div>
 
 <mat-dialog-content class="sh-catalog-dialog-body documents-dialog-body">
@@ -147,6 +149,22 @@
                 >
                   <mat-icon>download</mat-icon>
                 </button>
+                @if (canUploadDocuments) {
+                  <button
+                    mat-icon-button
+                    type="button"
+                    class="action-icon action-icon--upload"
+                    [attr.aria-label]="labels.reupload"
+                    [disabled]="uploadingTypeId != null"
+                    (click)="openInlineFilePicker(row)"
+                  >
+                    @if (uploadingTypeId === row.documentTypeId) {
+                      <mat-spinner diameter="18" />
+                    } @else {
+                      <mat-icon>upload</mat-icon>
+                    }
+                  </button>
+                }
                 @if (isValidationPending(row)) {
                   <button
                     mat-icon-button

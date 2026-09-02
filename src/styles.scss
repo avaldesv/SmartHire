@@ -302,14 +302,14 @@ a:hover { text-decoration: underline; }
   flex-shrink: 0;
 }
 
-/* Standard form dialog footer: 60px, aligned buttons */
+/* Standard form dialog footer: aligned buttons with bottom breathing room */
 .sh-catalog-form-dialog-panel .mat-mdc-dialog-actions {
   box-sizing: border-box !important;
-  height: 60px !important;
+  height: auto !important;
   min-height: 60px !important;
-  max-height: 60px !important;
+  max-height: none !important;
   margin: 0 !important;
-  padding: 0 16px !important;
+  padding: 12px 16px 16px !important;
   align-items: center !important;
   gap: 8px;
 }
@@ -432,7 +432,7 @@ a:hover { text-decoration: underline; }
   overflow: hidden !important;
 }
 
-/* Candidate documents — taller header (title + subtitle) and close on the right */
+/* Candidate documents — taller header (title + subtitle) */
 .sh-candidate-documents-dialog-panel .documents-dialog-header.sh-catalog-dialog-header.mat-mdc-dialog-title {
   flex-wrap: nowrap !important;
   align-items: flex-start !important;
@@ -442,10 +442,9 @@ a:hover { text-decoration: underline; }
   padding: 14px 8px 14px 16px !important;
 }
 
-.sh-candidate-documents-dialog-panel .documents-dialog-header__close {
-  flex: 0 0 auto;
-  align-self: flex-start;
-  margin: -4px 0 0 auto;
+.sh-candidate-documents-dialog-panel .documents-dialog-header__content {
+  width: 100%;
+  min-width: 0;
 }
 
 .sh-candidate-documents-dialog-panel .mat-mdc-dialog-actions.documents-dialog-actions {
