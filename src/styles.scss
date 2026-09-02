@@ -193,11 +193,10 @@ a:hover { text-decoration: underline; }
   box-sizing: border-box !important;
   width: 100%;
   margin: 0 !important;
-  padding-block: 0 !important;
-  padding-inline: 16px !important;
-  height: 60px !important;
+  padding: 20px 16px !important;
+  height: auto !important;
   min-height: 60px !important;
-  max-height: 60px !important;
+  max-height: none !important;
   flex-shrink: 0 !important;
   background: var(--mat-sys-primary, #0d9488) !important;
   border-bottom: none !important;
@@ -207,10 +206,22 @@ a:hover { text-decoration: underline; }
   line-height: 1.25 !important;
 }
 
+.sh-catalog-form-dialog-panel .mat-mdc-dialog-surface {
+  padding: 0 !important;
+  overflow: hidden;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+}
+
+.sh-catalog-form-dialog-panel .sh-catalog-dialog-header-bar {
+  border-radius: 12px 12px 0 0;
+}
+
 .sh-catalog-form-dialog-panel .mat-mdc-dialog-container .sh-catalog-dialog-header.mat-mdc-dialog-title {
   --mat-dialog-headline-padding: 0 16px 0 16px;
-  padding-block: 0 !important;
-  padding-inline: 16px !important;
+  padding: 20px 16px !important;
   margin: 0 !important;
 }
 
@@ -248,14 +259,6 @@ a:hover { text-decoration: underline; }
 .sh-catalog-form-dialog-panel .mat-mdc-dialog-surface {
   max-height: 92vh;
   box-sizing: border-box;
-}
-
-.sh-catalog-form-dialog-panel .mat-mdc-dialog-surface {
-  padding: 0 !important;
-  overflow: hidden;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
 }
 
 /* Surface padding is zeroed — reset Material legacy negative title/actions margins */
