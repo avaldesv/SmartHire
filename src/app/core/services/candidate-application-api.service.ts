@@ -4,6 +4,7 @@ import { Observable, map } from 'rxjs';
 import {
   BulkCandidateApplicationsRequest,
   BulkCandidateApplicationsResponse,
+  BulkUpdateCandidateApplicationStatusRequest,
   CandidateApplicationListItem,
   CandidateApplicationListResponse,
   CreateCandidateApplicationRequest,
@@ -38,6 +39,7 @@ export class CandidateApplicationApiService {
       positionId: request.positionId ?? null,
       candidateId: request.candidateId ?? null,
       status: request.status?.trim() || null,
+      postPreselectedOnly: request.postPreselectedOnly ?? null,
       filters: request.filters ?? [],
       ordersBy: request.ordersBy ?? ['createAt:desc'],
     };
@@ -80,6 +82,14 @@ export class CandidateApplicationApiService {
   releaseAll(request: ReleaseAllCandidateApplicationsRequest): Observable<BulkCandidateApplicationsResponse> {
     return this.http.post<BulkCandidateApplicationsResponse>(
       this.api.apiUrl('/api/v1/candidate-applications/release-all'),
+      request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  updateStatus(request: BulkUpdateCandidateApplicationStatusRequest): Observable<BulkCandidateApplicationsResponse> {
+    return this.http.post<BulkCandidateApplicationsResponse>(
+      this.api.apiUrl('/api/v1/candidate-applications/update-status'),
       request,
       { headers: this.api.buildHeaders() },
     );

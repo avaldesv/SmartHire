@@ -18,4 +18,8 @@ export const API_ERROR_CATALOG_CANDIDATE: Record<string, ApiErrorI18nEntry> = {
     title: $localize`:@@errors.DOCUMENT_NOT_FOUND_FOR_APPLICATION.title:Documento no encontrado`,
     message: $localize`:@@errors.DOCUMENT_NOT_FOUND_FOR_APPLICATION.message:El documento no pertenece a esta postulación.`,
   },
+  APPLICATION_INVALID_STATUS: {
+    title: $localize`:@@errors.APPLICATION_INVALID_STATUS.title:Etapa no válida`,
+    message: $localize`:@@errors.APPLICATION_INVALID_STATUS.message:La etapa indicada no es válida para la postulación.`,
+  },
 };

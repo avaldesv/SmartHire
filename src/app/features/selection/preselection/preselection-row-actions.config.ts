@@ -1,4 +1,5 @@
 import { AppPermissions } from '../../../core/auth/app-permissions';
+import { PRESELECTION_CHANGE_STAGE, PRESELECTION_ROW_DESELECT, PRESELECTION_ROW_EDIT_PROFILE } from '../../../core/i18n/preselection-actions-labels';
 
 export type PreselectionRowActionId =
   | 'viewProfile'
@@ -13,6 +14,7 @@ export type PreselectionRowActionId =
   | 'generateContract'
   | 'generateDocument'
   | 'notifyQuestionnaire'
+  | 'changeStage'
   | 'deselectRow';
 
 export interface PreselectionRowAction {
@@ -28,7 +30,7 @@ export interface PreselectionRowAction {
 export const PRESELECTION_ROW_ACTIONS: readonly PreselectionRowAction[] = [
   {
     id: 'viewProfile',
-    label: 'Ver perfil',
+    label: PRESELECTION_ROW_EDIT_PROFILE,
     icon: 'person',
     permissions: [AppPermissions.CANDIDATE_READ],
   },
@@ -102,8 +104,15 @@ export const PRESELECTION_ROW_ACTIONS: readonly PreselectionRowAction[] = [
     permissions: [AppPermissions.SELECTION_EDIT],
   },
   {
+    id: 'changeStage',
+    label: PRESELECTION_CHANGE_STAGE,
+    icon: 'swap_horiz',
+    permissions: [AppPermissions.SELECTION_EDIT],
+    dividerBefore: true,
+  },
+  {
     id: 'deselectRow',
-    label: 'Deseleccionar',
+    label: PRESELECTION_ROW_DESELECT,
     icon: 'person_remove',
     permissions: [AppPermissions.SELECTION_EDIT],
     dividerBefore: true,

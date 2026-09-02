@@ -26,3 +26,17 @@ export const PRESELECTION_BULK_APPOINTMENT_HINT = $localize`:@@preselection.bulk
 export const PRESELECTION_BULK_APPOINTMENT_SUCCESS = $localize`:@@preselection.bulk.appointmentSuccess:Citas de entrevista enviadas`;
 export const PRESELECTION_BULK_APPOINTMENT_PARTIAL = $localize`:@@preselection.bulk.appointmentPartial:Algunas citas no se agendaron`;
 export const PRESELECTION_BULK_NONE_SELECTED = $localize`:@@preselection.bulk.noneSelected:Seleccione al menos un candidato en la tabla`;
+
+export const PRESELECTION_BULK_MARK_SELECTED = $localize`:@@preselection.bulk.markSelected:Marcar como seleccionado`;
+export const PRESELECTION_BULK_RELEASE = $localize`:@@preselection.bulk.release:Liberar`;
+export const PRESELECTION_BULK_RELEASE_ALL = $localize`:@@preselection.bulk.releaseAll:Liberar todos`;
+export const PRESELECTION_ROW_DESELECT = $localize`:@@preselection.row.deselect:Deseleccionar`;
+export const PRESELECTION_ROW_EDIT_PROFILE = $localize`:@@preselection.row.editProfile:Editar perfil`;
+
+export const PRESELECTION_CHANGE_STAGE = $localize`:@@preselection.changeStage.action:Cambiar etapa`;
+export const PRESELECTION_CHANGE_STAGE_TITLE = $localize`:@@preselection.changeStage.title:Cambiar etapa`;
+export const PRESELECTION_CHANGE_STAGE_LABEL = $localize`:@@preselection.changeStage.field:Nueva etapa`;
+export const PRESELECTION_CHANGE_STAGE_SAVE = $localize`:@@preselection.changeStage.save:Aplicar`;
+export const PRESELECTION_CHANGE_STAGE_CANCEL = $localize`:@@preselection.changeStage.cancel:Cancelar`;
+export const PRESELECTION_CHANGE_STAGE_SUCCESS = $localize`:@@preselection.changeStage.success:Etapa actualizada`;
+export const PRESELECTION_CHANGE_STAGE_ERROR = $localize`:@@preselection.changeStage.error:No se pudo cambiar la etapa`;
