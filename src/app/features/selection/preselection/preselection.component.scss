@@ -28,8 +28,19 @@
   padding-right: 8px;
 }
 
-.col-interviewed-cell mat-checkbox {
-  margin: 0 auto;
+.sh-interviewed-wrap {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-height: 40px;
+}
+
+.sh-interviewed-date {
+  font-size: 10px;
+  line-height: 1.2;
+  color: var(--sh-text-muted, #64748b);
+  white-space: nowrap;
 }
 
 .sh-col-action-btn {
@@ -38,6 +49,7 @@
   height: 40px;
   padding: 0;
   line-height: 40px;
+  border-radius: 50%;
   border-color: var(--sh-primary, #0d9488);
   color: var(--sh-primary, #0d9488);
 
@@ -55,6 +67,14 @@
   }
 
   &--done {
-    background: color-mix(in srgb, var(--sh-primary, #0d9488) 12%, transparent);
+    background: var(--sh-primary, #0d9488);
+    border-color: var(--sh-primary, #0d9488);
+    color: #fff;
+
+    &:hover:not([disabled]) {
+      background: color-mix(in srgb, var(--sh-primary, #0d9488) 88%, #000);
+      border-color: color-mix(in srgb, var(--sh-primary, #0d9488) 88%, #000);
+      color: #fff;
+    }
   }
 }

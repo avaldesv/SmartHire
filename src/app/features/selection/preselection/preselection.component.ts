@@ -35,10 +35,12 @@ import {
   PRESELECTION_INTERVIEWED_ERROR,
   PRESELECTION_INTERVIEWED_SUCCESS,
   PRESELECTION_INTERVIEWED_TOOLTIP,
+  PRESELECTION_INTERVIEWED_DONE_TOOLTIP,
   PRESELECTION_INTERVIEWED_UNMARK_SUCCESS,
   PRESELECTION_CONTACT_ERROR,
   PRESELECTION_CONTACT_SUCCESS,
   PRESELECTION_CONTACT_TOOLTIP,
+  PRESELECTION_CONTACT_DONE_TOOLTIP,
   PRESELECTION_EVALUATION_PENDING_MSG,
   PRESELECTION_EVALUATION_PENDING_TITLE,
   PRESELECTION_EVALUATION_TOOLTIP,
@@ -148,7 +150,9 @@ export class PreselectionComponent implements OnInit {
     colAppointment: PRESELECTION_COL_APPOINTMENT,
     colInterviewed: PRESELECTION_COL_INTERVIEWED,
     interviewedTooltip: PRESELECTION_INTERVIEWED_TOOLTIP,
+    interviewedDoneTooltip: PRESELECTION_INTERVIEWED_DONE_TOOLTIP,
     contactTooltip: PRESELECTION_CONTACT_TOOLTIP,
+    contactDoneTooltip: PRESELECTION_CONTACT_DONE_TOOLTIP,
     evaluationTooltip: PRESELECTION_EVALUATION_TOOLTIP,
     appointmentTooltip: PRESELECTION_APPOINTMENT_TOOLTIP,
     appointmentScheduledTooltip: PRESELECTION_APPOINTMENT_SCHEDULED_TOOLTIP,
@@ -217,6 +221,7 @@ export class PreselectionComponent implements OnInit {
           stage: app.status,
           interviewScheduled: app.interviewScheduled ?? false,
           interviewed: app.interviewed ?? false,
+          interviewedAt: app.interviewedAt ?? null,
           infoValidated: app.infoValidated ?? false,
           studiesValidated: app.studiesValidated ?? false,
           documentsSaved: app.documentsSaved ?? false,
@@ -421,7 +426,12 @@ export class PreselectionComponent implements OnInit {
           .pipe(
             concatMap((row) =>
               this.applicationApi.contactQuestionnaire(row.applicationId).pipe(
-                map(() => true),
+                map(() => {
+                  if (!row.questionnaireStatus) {
+                    row.questionnaireStatus = 'PENDING';
+                  }
+                  return true;
+                }),
                 catchError(() => of(false)),
               ),
             ),
@@ -516,6 +526,9 @@ export class PreselectionComponent implements OnInit {
     this.applicationApi.contactQuestionnaire(row.applicationId).subscribe({
       next: (res) => {
         this.contactingApplicationId = null;
+        if (!row.questionnaireStatus) {
+          row.questionnaireStatus = 'PENDING';
+        }
         this.feedback.showSuccess(res.message?.trim() || PRESELECTION_CONTACT_SUCCESS);
       },
       error: (err) => {
@@ -523,6 +536,14 @@ export class PreselectionComponent implements OnInit {
         this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_CONTACT_ERROR });
       },
     });
+  }
+
+  isContacted(row: PreselectionCandidate): boolean {
+    return row.questionnaireStatus === 'PENDING' || row.questionnaireStatus === 'ANSWERED';
+  }
+
+  contactTooltip(row: PreselectionCandidate): string {
+    return this.isContacted(row) ? this.labels.contactDoneTooltip : this.labels.contactTooltip;
   }
 
   openEvaluationPending(row: PreselectionCandidate): void {
@@ -569,15 +590,17 @@ export class PreselectionComponent implements OnInit {
       : this.labels.appointmentTooltip;
   }
 
-  toggleInterviewed(row: PreselectionCandidate, interviewed: boolean): void {
+  toggleInterviewed(row: PreselectionCandidate): void {
     if (!this.canEditSelection || this.interviewingApplicationId != null) {
       return;
     }
+    const interviewed = !row.interviewed;
     this.interviewingApplicationId = row.applicationId;
     this.applicationApi.patchApplication(row.applicationId, { interviewed }).subscribe({
-      next: () => {
+      next: (res) => {
         this.interviewingApplicationId = null;
-        row.interviewed = interviewed;
+        row.interviewed = res.interviewed ?? interviewed;
+        row.interviewedAt = res.interviewedAt ?? null;
         this.feedback.showSuccess(
           interviewed ? PRESELECTION_INTERVIEWED_SUCCESS : PRESELECTION_INTERVIEWED_UNMARK_SUCCESS,
         );
@@ -587,6 +610,21 @@ export class PreselectionComponent implements OnInit {
         this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_INTERVIEWED_ERROR });
       },
     });
+  }
+
+  interviewedTooltip(row: PreselectionCandidate): string {
+    return row.interviewed ? this.labels.interviewedDoneTooltip : this.labels.interviewedTooltip;
+  }
+
+  formatInterviewedAt(value: string): string {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) {
+      return '';
+    }
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
   }
 
   onRowAction(actionId: PreselectionRowActionId, row: PreselectionCandidate): void {
