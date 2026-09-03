@@ -87,6 +87,7 @@ export interface PreselectionCandidate extends Candidate {
   stage: string;
   interviewScheduled: boolean;
   interviewed: boolean;
+  interviewedAt?: string | null;
   infoValidated: boolean;
   studiesValidated: boolean;
   documentsSaved: boolean;

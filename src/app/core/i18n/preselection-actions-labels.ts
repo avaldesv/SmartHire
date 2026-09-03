@@ -4,12 +4,14 @@ export const PRESELECTION_COL_CONTACT = $localize`:@@preselection.col.contact:Co
 export const PRESELECTION_COL_EVALUATION = $localize`:@@preselection.col.evaluation:Evaluación`;
 export const PRESELECTION_COL_APPOINTMENT = $localize`:@@preselection.col.appointment:Cita para entrevista`;
 export const PRESELECTION_COL_INTERVIEWED = $localize`:@@preselection.col.interviewed:Entrevistado`;
-export const PRESELECTION_INTERVIEWED_TOOLTIP = $localize`:@@preselection.interviewed.tooltip:Marcar si ya se realizó la entrevista`;
+export const PRESELECTION_INTERVIEWED_TOOLTIP = $localize`:@@preselection.interviewed.tooltip:Clic para marcar/desmarcar · Fecha automática al marcar`;
+export const PRESELECTION_INTERVIEWED_DONE_TOOLTIP = $localize`:@@preselection.interviewed.doneTooltip:Entrevista realizada · Clic para desmarcar`;
 export const PRESELECTION_INTERVIEWED_SUCCESS = $localize`:@@preselection.interviewed.success:Entrevista registrada`;
 export const PRESELECTION_INTERVIEWED_UNMARK_SUCCESS = $localize`:@@preselection.interviewed.unmarkSuccess:Marca de entrevista eliminada`;
 export const PRESELECTION_INTERVIEWED_ERROR = $localize`:@@preselection.interviewed.error:No se pudo actualizar el estado de entrevista`;
 
 export const PRESELECTION_CONTACT_TOOLTIP = $localize`:@@preselection.contact.tooltip:Enviar cuestionario de contacto`;
+export const PRESELECTION_CONTACT_DONE_TOOLTIP = $localize`:@@preselection.contact.doneTooltip:Cuestionario de contacto enviado`;
 export const PRESELECTION_CONTACT_SUCCESS = $localize`:@@preselection.contact.success:Cuestionario de contacto enviado`;
 export const PRESELECTION_CONTACT_ERROR = $localize`:@@preselection.contact.error:No se pudo enviar el cuestionario de contacto`;
 
