@@ -97,7 +97,7 @@ const REQUISITION_FIELD_LABELS: Record<string, string> = {
   clientExpansionDescription: $localize`:@@requisition.field.clientExpansionDescription:Descripción expansión cliente`,
   extraBenefitsText: $localize`:@@requisition.field.extraBenefitsText:Texto beneficios adicionales`,
   questionnaire: $localize`:@@requisition.field.questionnaire:Cuestionario`,
-  exam: $localize`:@@requisition.field.exam:Examen`,
+  exam: $localize`:@@requisition.field.exam:Exámen`,
   documentRequirements: $localize`:@@requisition.field.documentRequirements:Documentos requeridos`,
   documentValidateAiName: $localize`:@@requisition.field.documentValidateAiName:Validar con IA — Nombre`,
   documentValidateAiValidity: $localize`:@@requisition.field.documentValidateAiValidity:Validar con IA — Vigencia`,

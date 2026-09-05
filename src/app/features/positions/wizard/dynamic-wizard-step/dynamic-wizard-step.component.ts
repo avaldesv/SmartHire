@@ -22,7 +22,13 @@ import {
   ResolvedRequisitionFormStep,
   WizardFieldOption,
 } from '../../../../shared/models/requisition-wizard.model';
-import { isFieldReadOnly, isFieldVisible, fieldValueFrom, fieldFillFromCatalog } from '../dynamic-wizard-rules.util';
+import {
+  isFieldReadOnly,
+  isFieldRequired,
+  isFieldVisible,
+  fieldValueFrom,
+  fieldFillFromCatalog,
+} from '../dynamic-wizard-rules.util';
 import { RequisitionFormFieldRules } from '../../../../shared/models/requisition-form.model';
 import { resolveWizardFieldLabel } from '../requisition-wizard-labels';
 import {
@@ -66,6 +72,7 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
   readonly languageLabel = REQUISITION_WIZARD_LANGUAGE;
   readonly languageLevelLabel = REQUISITION_WIZARD_LANGUAGE_LEVEL;
   readonly addLanguageLabel = REQUISITION_WIZARD_ADD_LANGUAGE;
+  readonly examFieldLabel = resolveWizardFieldLabel('exam', 'requisition.field.exam');
   readonly loadingDocumentsLabel = REQUISITION_WIZARD_LOADING_DOCUMENTS;
   readonly noDocumentsLabel = REQUISITION_WIZARD_NO_DOCUMENTS;
   readonly loadingOptionsLabel = REQUISITION_SCOPE_LOADING;
@@ -158,6 +165,10 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
 
   isReadOnly(field: ResolvedRequisitionFormField): boolean {
     return isFieldReadOnly(field, this.flatValues);
+  }
+
+  isRequired(field: ResolvedRequisitionFormField): boolean {
+    return isFieldRequired(field, this.flatValues);
   }
 
   private syncMirroredFields(): void {
