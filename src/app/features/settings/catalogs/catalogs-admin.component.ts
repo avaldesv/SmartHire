@@ -1,4 +1,5 @@
-import { Component, computed, effect, inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, computed, DestroyRef, effect, inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -13,7 +14,7 @@ import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dial
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
-import { COMMON_CLEAR_FILTERS } from '../../../core/i18n/common-labels';
+import { COMMON_CLEAR_FILTERS, COMMON_SEARCH } from '../../../core/i18n/common-labels';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { NOTIFICATIONS_NEW_BUTTON } from '../../../core/i18n/notifications-labels';
 import { ApiErrorTranslationService } from '../../../core/services/api-error-translation.service';
@@ -199,6 +200,7 @@ import {
 } from '../../../core/i18n/catalog-messages-labels';
 
 import { catalogPanelUi } from '../../../core/i18n/catalog-panel-ui-labels';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'sh-catalogs-admin',
@@ -239,6 +241,7 @@ export class CatalogsAdminComponent implements OnInit {
   readonly catalogsSave = CATALOGS_SAVE;
   readonly panelUi = catalogPanelUi;
   readonly clearFiltersLabel = COMMON_CLEAR_FILTERS;
+  readonly searchLabel = COMMON_SEARCH;
   readonly colTradeName = CATALOG_COLUMN_TRADE_NAME;
   readonly colTaxId = CATALOG_COLUMN_TAX_ID;
   readonly colSymbol = CATALOG_COLUMN_SYMBOL;
@@ -364,6 +367,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   private readonly fb = inject(FormBuilder);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly createScopeForm = this.fb.nonNullable.group({
     scope: ['TENANT' as TenantDataScope],
@@ -940,6 +944,7 @@ export class CatalogsAdminComponent implements OnInit {
   recruiterGroupPageIndex = 0;
   recruiterGroupPageSize = 10;
   loadingRecruiterGroups = false;
+  readonly recruiterGroupSearchForm = this.fb.nonNullable.group({ search: [''] });
 
   jobPortals: CatalogJobPortal[] = [];
   jobPortalTotal = 0;
@@ -1664,6 +1669,12 @@ export class CatalogsAdminComponent implements OnInit {
     this.loadPortalLanguages();
     this.loadCountryRecords();
     this.reloadCountryDropdown();
+    this.recruiterGroupSearchForm.controls.search.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.recruiterGroupPageIndex = 0;
+        this.loadRecruiterGroups();
+      });
   }
 
   private reloadCountryDropdown(): void {
@@ -1841,6 +1852,12 @@ export class CatalogsAdminComponent implements OnInit {
       return;
     }
     this.onCountryChange(fallback);
+  }
+
+  clearRecruiterGroupFilters(): void {
+    this.recruiterGroupSearchForm.controls.search.setValue('', { emitEvent: false });
+    this.recruiterGroupPageIndex = 0;
+    this.clearCountryCatalogFilters();
   }
 
   clearMunicipalityCatalogFilters(): void {
@@ -2905,17 +2922,24 @@ export class CatalogsAdminComponent implements OnInit {
   loadRecruiterGroups(): void {
     if (this.selectedCountryId == null) return;
     this.loadingRecruiterGroups = true;
-    this.recruiterGroupService.list(this.selectedCountryId, this.recruiterGroupPageIndex, this.recruiterGroupPageSize).subscribe({
-      next: (res) => {
-        this.recruiterGroups = res.items;
-        this.recruiterGroupTotal = res.total;
-        this.loadingRecruiterGroups = false;
-      },
-      error: (err) => {
-        this.loadingRecruiterGroups = false;
-        this.catalogLoadError(err, getCatalogEntryLabel('recruiterGroup'));
-      },
-    });
+    this.recruiterGroupService
+      .list(
+        this.selectedCountryId,
+        this.recruiterGroupPageIndex,
+        this.recruiterGroupPageSize,
+        this.recruiterGroupSearchForm.controls.search.value,
+      )
+      .subscribe({
+        next: (res) => {
+          this.recruiterGroups = res.items;
+          this.recruiterGroupTotal = res.total;
+          this.loadingRecruiterGroups = false;
+        },
+        error: (err) => {
+          this.loadingRecruiterGroups = false;
+          this.catalogLoadError(err, getCatalogEntryLabel('recruiterGroup'));
+        },
+      });
   }
 
   onRecruiterGroupPage(e: PageEvent): void {

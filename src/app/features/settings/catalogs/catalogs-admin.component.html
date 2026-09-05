@@ -1941,8 +1941,12 @@
 
   @if (isPanelVisible("recruiterGroup")) {
     <div class="tab-content">
-            <div class="sh-filters sh-card">
+            <div class="sh-filters sh-card" [formGroup]="recruiterGroupSearchForm">
         <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput formControlName="search" />
+          </mat-form-field>
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
@@ -1953,7 +1957,7 @@
           </mat-form-field>
         </div>
         <div class="filter-actions">
-          <button mat-stroked-button type="button" (click)="clearCountryCatalogFilters()">{{ clearFiltersLabel }}</button>
+          <button mat-stroked-button type="button" (click)="clearRecruiterGroupFilters()">{{ clearFiltersLabel }}</button>
         </div>
       </div>
 
