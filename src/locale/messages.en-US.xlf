@@ -7996,6 +7996,34 @@
         <source>Guardar</source>
         <target>Save</target>
       </trans-unit>
+      <trans-unit id="users.errors.usernameRequired" datatype="html">
+        <source>El usuario es obligatorio</source>
+        <target>Username is required</target>
+      </trans-unit>
+      <trans-unit id="users.errors.usernameTaken" datatype="html">
+        <source>Este usuario ya existe</source>
+        <target>This username already exists</target>
+      </trans-unit>
+      <trans-unit id="users.errors.emailRequired" datatype="html">
+        <source>El correo es obligatorio</source>
+        <target>Email is required</target>
+      </trans-unit>
+      <trans-unit id="users.errors.emailInvalid" datatype="html">
+        <source>El correo no es válido</source>
+        <target>Email is invalid</target>
+      </trans-unit>
+      <trans-unit id="users.errors.passwordRequired" datatype="html">
+        <source>La contraseña es obligatoria</source>
+        <target>Password is required</target>
+      </trans-unit>
+      <trans-unit id="users.errors.nameRequired" datatype="html">
+        <source>El nombre es obligatorio</source>
+        <target>First name is required</target>
+      </trans-unit>
+      <trans-unit id="users.errors.lastNameRequired" datatype="html">
+        <source>Los apellidos son obligatorios</source>
+        <target>Last name is required</target>
+      </trans-unit>
       <trans-unit id="shell.notifications" datatype="html">
         <source>Notificaciones</source>
         <target>Notifications</target>

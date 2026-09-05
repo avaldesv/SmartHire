@@ -1,5 +1,5 @@
 import { Component, effect, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators, type AsyncValidatorFn } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -49,6 +49,13 @@ import {
   USERS_SAVE_SUCCESS,
   USERS_SAVING,
   USERS_TENANT_CONTEXT_ERROR,
+  USERS_USERNAME_REQUIRED,
+  USERS_USERNAME_TAKEN,
+  USERS_EMAIL_REQUIRED,
+  USERS_EMAIL_INVALID,
+  USERS_PASSWORD_REQUIRED,
+  USERS_NAME_REQUIRED,
+  USERS_LAST_NAME_REQUIRED,
   USERS_YES,
   usersDeleteConfirm,
 } from '../../../core/i18n/users-labels';
@@ -102,6 +109,13 @@ export class UsersAdminComponent implements OnInit {
   readonly editTitle = $localize`:@@users.form.editTitle:Editar usuario`;
   readonly saveLabel = USERS_SAVE;
   readonly savingLabel = USERS_SAVING;
+  readonly usernameRequired = USERS_USERNAME_REQUIRED;
+  readonly usernameTaken = USERS_USERNAME_TAKEN;
+  readonly emailRequired = USERS_EMAIL_REQUIRED;
+  readonly emailInvalid = USERS_EMAIL_INVALID;
+  readonly passwordRequired = USERS_PASSWORD_REQUIRED;
+  readonly nameRequired = USERS_NAME_REQUIRED;
+  readonly lastNameRequired = USERS_LAST_NAME_REQUIRED;
   readonly yesLabel = USERS_YES;
   readonly noLabel = USERS_NO;
   readonly clearFiltersLabel = COMMON_CLEAR_FILTERS;
@@ -123,9 +137,32 @@ export class UsersAdminComponent implements OnInit {
   pageSize = 10;
   editingUserId: number | null = null;
 
+  private readonly usernameAvailableAsync: AsyncValidatorFn = (control) => {
+    if (this.editingUserId != null) {
+      return of(null);
+    }
+    const username = String(control.value ?? '').trim();
+    if (!username) {
+      return of(null);
+    }
+    return this.userService.usernameAvailable(username).pipe(
+      map((available) => {
+        if (String(control.value ?? '').trim() !== username) {
+          return null;
+        }
+        return available ? null : { usernameTaken: true };
+      }),
+      catchError(() => of(null)),
+    );
+  };
+
   readonly searchForm = this.fb.nonNullable.group({ search: [''] });
   readonly userForm = this.fb.nonNullable.group({
-    username: ['', Validators.required],
+    username: this.fb.nonNullable.control('', {
+      validators: [Validators.required],
+      asyncValidators: [this.usernameAvailableAsync],
+      updateOn: 'blur',
+    }),
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
     name: ['', Validators.required],
@@ -146,6 +183,10 @@ export class UsersAdminComponent implements OnInit {
   });
 
   readonly columns = ['username', 'name', 'lastName', 'email', 'roles', 'active', 'actions'];
+
+  get canSave(): boolean {
+    return this.userForm.valid && !this.userForm.pending && !this.saving;
+  }
 
   constructor() {
     effect(() => {
@@ -435,6 +476,9 @@ export class UsersAdminComponent implements OnInit {
   }
 
   save(): void {
+    if (this.userForm.pending || this.saving) {
+      return;
+    }
     if (this.userForm.invalid) {
       this.userForm.markAllAsTouched();
       return;

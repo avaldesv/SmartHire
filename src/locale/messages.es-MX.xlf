@@ -16781,6 +16781,55 @@
           <context context-type="linenumber">19</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="users.errors.usernameRequired" datatype="html">
+        <source>El usuario es obligatorio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.errors.usernameTaken" datatype="html">
+        <source>Este usuario ya existe</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.errors.emailRequired" datatype="html">
+        <source>El correo es obligatorio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.errors.emailInvalid" datatype="html">
+        <source>El correo no es válido</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.errors.passwordRequired" datatype="html">
+        <source>La contraseña es obligatoria</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.errors.nameRequired" datatype="html">
+        <source>El nombre es obligatorio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.errors.lastNameRequired" datatype="html">
+        <source>Los apellidos son obligatorios</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="shell.notifications" datatype="html">
         <source>Notificaciones</source>
         <context-group purpose="location">

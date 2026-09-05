@@ -33,6 +33,15 @@ export class SecurityUserService {
       );
   }
 
+  usernameAvailable(username: string): Observable<boolean> {
+    return this.http
+      .get<{ available: boolean }>(this.api.apiUrl('/api/v1/users/username-available'), {
+        headers: this.api.buildHeaders(),
+        params: { username: username.trim() },
+      })
+      .pipe(map((res) => res.available === true));
+  }
+
   getById(id: number): Observable<SecurityUser> {
     return this.http.get<SecurityUser>(this.api.apiUrl(`/api/v1/users/${id}`), {
       headers: this.api.buildHeaders(),

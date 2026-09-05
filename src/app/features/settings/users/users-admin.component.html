@@ -24,25 +24,42 @@
   <form id="sh-user-admin-form" [formGroup]="userForm" class="user-form" (ngSubmit)="save()">
     <mat-form-field appearance="outline">
       <mat-label i18n="@@users.form.username">Usuario</mat-label>
-      <input matInput formControlName="username" />
+      <input matInput formControlName="username" autocomplete="off" />
+      <mat-error>
+        @if (userForm.controls.username.hasError('required')) {
+          {{ usernameRequired }}
+        } @else if (userForm.controls.username.hasError('usernameTaken')) {
+          {{ usernameTaken }}
+        }
+      </mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label i18n="@@users.form.email">Correo</mat-label>
       <input matInput type="email" formControlName="email" />
+      <mat-error>
+        @if (userForm.controls.email.hasError('required')) {
+          {{ emailRequired }}
+        } @else if (userForm.controls.email.hasError('email')) {
+          {{ emailInvalid }}
+        }
+      </mat-error>
     </mat-form-field>
     @if (!editingUserId) {
       <mat-form-field appearance="outline">
         <mat-label i18n="@@users.form.password">Contraseña</mat-label>
         <input matInput type="password" formControlName="password" />
+        <mat-error>{{ passwordRequired }}</mat-error>
       </mat-form-field>
     }
     <mat-form-field appearance="outline">
       <mat-label i18n="@@users.form.firstName">Nombre</mat-label>
       <input matInput formControlName="name" />
+      <mat-error>{{ nameRequired }}</mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label i18n="@@users.form.lastName">Apellidos</mat-label>
       <input matInput formControlName="lastName" />
+      <mat-error>{{ lastNameRequired }}</mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline" class="phone-code">
       <mat-label i18n="@@users.form.phoneCode">Cód. tel.</mat-label>
@@ -135,7 +152,9 @@
     <mat-checkbox formControlName="isActive" i18n="@@users.form.active">Activo</mat-checkbox>
     <div shModalActions>
       <button mat-stroked-button type="button" (click)="cancelForm()" i18n="@@common.cancel">Cancelar</button>
-      <button mat-flat-button color="primary" type="submit" form="sh-user-admin-form" [disabled]="saving">
+      <button mat-flat-button color="primary" type="submit" form="sh-user-admin-form" [disabled]="!canSave">
+        {{ saving ? savingLabel : saveLabel }}
+      </button>
         {{ saving ? savingLabel : saveLabel }}
       </button>
     </div>
