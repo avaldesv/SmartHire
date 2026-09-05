@@ -877,7 +877,7 @@
               </div>
             }
 
-          <form [formGroup]="documentTypeForm" class="doc-type-form" (ngSubmit)="saveDocumentType()">
+          <form id="sh-catalog-document-type-form" [formGroup]="documentTypeForm" class="doc-type-form" (ngSubmit)="saveDocumentType()">
             <!-- Row 1: País, Clave, Nombre -->
             <mat-form-field appearance="outline">
               <mat-label i18n="@@catalogs.field.country">País</mat-label>
@@ -938,7 +938,7 @@
 
             <div shModalActions>
               <button mat-stroked-button type="button" (click)="cancelDocumentTypeForm()" i18n="@@common.cancel">Cancelar</button>
-              <button mat-flat-button color="primary" type="submit" [disabled]="savingDocumentType">{{ savingDocumentType ? catalogsSaving : catalogsSave }}</button>
+              <button mat-flat-button color="primary" type="button" form="sh-catalog-document-type-form" (click)="saveDocumentType()" [disabled]="savingDocumentType">{{ savingDocumentType ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
       </ng-template>

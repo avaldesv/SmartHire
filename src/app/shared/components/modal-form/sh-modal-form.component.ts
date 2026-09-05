@@ -135,6 +135,14 @@ export class ShModalFormComponent implements AfterViewInit, OnDestroy {
         if (!btn.getAttribute('form')) {
           btn.setAttribute('form', form.id);
         }
+        // MatButton in the teleported footer does not reliably fire native submit.
+        btn.addEventListener('click', (event) => {
+          event.preventDefault();
+          if (btn.disabled) {
+            return;
+          }
+          form.requestSubmit();
+        });
       });
     }
     // display:contents so buttons join mat-dialog-actions flex row
