@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { catalogDialogConfig } from '../../../../core/dialog/catalog-dialog.constants';
 import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
 import { AppPermissions } from '../../../../core/auth/app-permissions';
@@ -45,6 +46,7 @@ import {
   CANDIDATE_DOCS_SUMMARY_MISSING_BADGE,
   CANDIDATE_DOCS_SUMMARY_PENDING,
   CANDIDATE_DOCS_UPLOAD,
+  CANDIDATE_DOCS_UPLOAD_HINT,
   CANDIDATE_DOCS_REUPLOAD,
   CANDIDATE_DOCS_UPLOAD_ERROR,
   CANDIDATE_DOCS_UPLOAD_SUCCESS,
@@ -98,6 +100,7 @@ export function candidateDocumentsDialogConfig(extra: MatDialogConfig = {}): Mat
     MatIconModule,
     MatMenuModule,
     MatProgressSpinnerModule,
+    MatTooltipModule,
   ],
   templateUrl: './candidate-documents-dialog.component.html',
   styleUrl: './candidate-documents-dialog.component.scss',
@@ -132,6 +135,7 @@ export class CandidateDocumentsDialogComponent implements OnInit {
     emDash: CANDIDATE_DOCS_EM_DASH,
     missingFile: CANDIDATE_DOCS_MISSING_FILE,
     upload: CANDIDATE_DOCS_UPLOAD,
+    uploadHint: CANDIDATE_DOCS_UPLOAD_HINT,
     reupload: CANDIDATE_DOCS_REUPLOAD,
     uploading: CANDIDATE_DOCS_UPLOADING,
     chooseFile: CANDIDATE_DOCS_CHOOSE_FILE,
