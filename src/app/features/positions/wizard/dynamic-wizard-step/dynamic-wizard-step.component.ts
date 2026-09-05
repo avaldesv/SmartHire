@@ -38,6 +38,7 @@ import {
   REQUISITION_WIZARD_LANGUAGE_LEVEL,
   REQUISITION_WIZARD_LOADING_DOCUMENTS,
   REQUISITION_WIZARD_NO_DOCUMENTS,
+  REQUISITION_WIZARD_NO_EXAMS,
 } from '../../../../core/i18n/requisition-wizard-labels';
 import { DocumentRequirementsEditorComponent } from '../document-requirements-editor/document-requirements-editor.component';
 import { DynamicWizardFieldComponent } from '../dynamic-wizard-field/dynamic-wizard-field.component';
@@ -75,6 +76,7 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
   readonly examFieldLabel = resolveWizardFieldLabel('exam', 'requisition.field.exam');
   readonly loadingDocumentsLabel = REQUISITION_WIZARD_LOADING_DOCUMENTS;
   readonly noDocumentsLabel = REQUISITION_WIZARD_NO_DOCUMENTS;
+  readonly noExamsLabel = REQUISITION_WIZARD_NO_EXAMS;
   readonly loadingOptionsLabel = REQUISITION_SCOPE_LOADING;
 
   @Input({ required: true }) step!: ResolvedRequisitionFormStep;
@@ -124,28 +126,14 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
       });
     }
 
-    const questionnaireField = this.step.fields.find((f) => f.uiType === 'questionnaire-picker');
-    if (questionnaireField) {
-      this.loadingByField[questionnaireField.fieldKey] = true;
-      const dataSourceKey =
-        questionnaireField.dataSourceKey === 'questionnaires' ? 'questionnaires' : 'exams';
-      this.catalogService.loadOptions(dataSourceKey, {}).subscribe({
-        next: (opts) => {
-          this.optionsByField[questionnaireField.fieldKey] = opts;
-          this.loadingByField[questionnaireField.fieldKey] = false;
-        },
-        error: () => {
-          this.optionsByField[questionnaireField.fieldKey] = [];
-          this.loadingByField[questionnaireField.fieldKey] = false;
-        },
-      });
-    }
+    this.loadExamOptions();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['stepForm'] || changes['config'] || changes['step']) {
       this.refreshVisibleFields();
       this.loadFieldOptions();
+      this.loadExamOptions();
       if (!this.geographySetup) {
         this.setupGeographyCascade();
         this.geographySetup = true;
@@ -291,7 +279,12 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
 
   private loadFieldOptions(): void {
     for (const field of this.step.fields) {
-      if (!field.dataSourceKey || field.uiType === 'document-grid' || field.uiType === 'language-grid') {
+      if (
+        !field.dataSourceKey ||
+        field.uiType === 'document-grid' ||
+        field.uiType === 'language-grid' ||
+        field.uiType === 'questionnaire-picker'
+      ) {
         continue;
       }
       if (['states', 'municipalities', 'neighborhoods', 'clients'].includes(field.dataSourceKey)) {
@@ -323,6 +316,24 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
       });
     }
     this.loadStates();
+  }
+
+  private loadExamOptions(): void {
+    const questionnaireField = this.step?.fields.find((f) => f.uiType === 'questionnaire-picker');
+    if (!questionnaireField) {
+      return;
+    }
+    this.loadingByField[questionnaireField.fieldKey] = true;
+    this.catalogService.loadOptions('exams', {}).subscribe({
+      next: (opts) => {
+        this.optionsByField[questionnaireField.fieldKey] = opts;
+        this.loadingByField[questionnaireField.fieldKey] = false;
+      },
+      error: () => {
+        this.optionsByField[questionnaireField.fieldKey] = [];
+        this.loadingByField[questionnaireField.fieldKey] = false;
+      },
+    });
   }
 
   private loadStates(): void {

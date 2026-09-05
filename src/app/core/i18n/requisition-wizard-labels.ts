@@ -251,6 +251,7 @@ export const REQUISITION_WIZARD_LANGUAGE_LEVEL = $localize`:@@requisition.wizard
 export const REQUISITION_WIZARD_ADD_LANGUAGE = $localize`:@@requisition.wizard.addLanguage:Agregar idioma`;
 export const REQUISITION_WIZARD_LOADING_DOCUMENTS = $localize`:@@requisition.wizard.loadingDocuments:Cargando tipos de documento...`;
 export const REQUISITION_WIZARD_NO_DOCUMENTS = $localize`:@@requisition.wizard.noDocuments:Sin tipos de documento para el país seleccionado.`;
+export const REQUISITION_WIZARD_NO_EXAMS = $localize`:@@requisition.wizard.noExams:No hay exámenes publicados. Publíquelos en Cuestionarios → Exámenes.`;
 export const REQUISITION_WIZARD_EVALUATION_TYPE = $localize`:@@requisition.wizard.evaluationType:Tipo evaluación`;
 export const REQUISITION_WIZARD_EVAL_PERCENTAGE = $localize`:@@requisition.wizard.evalPercentage:Porcentaje`;
 export const REQUISITION_WIZARD_EVAL_SCORE = $localize`:@@requisition.wizard.evalScore:Puntaje`;

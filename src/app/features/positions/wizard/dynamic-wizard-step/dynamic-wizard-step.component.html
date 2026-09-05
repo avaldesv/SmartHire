@@ -125,6 +125,9 @@
             <mat-label>{{ examFieldLabel }}</mat-label>
             <mat-select formControlName="examId" [required]="isRequired(field)">
               <mat-option [value]="null">—</mat-option>
+              @if (!(optionsByField[field.fieldKey] ?? []).length && !loadingByField[field.fieldKey]) {
+                <mat-option disabled>{{ noExamsLabel }}</mat-option>
+              }
               @for (opt of optionsByField[field.fieldKey] ?? []; track opt.id) {
                 <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
               }
