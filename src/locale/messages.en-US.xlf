@@ -6285,8 +6285,8 @@
         <target>No hay preguntas registradas</target>
       </trans-unit>
       <trans-unit id="questionnaires.questions.filter.text" datatype="html">
-        <source>Buscar enunciado</source>
-        <target>Buscar enunciado</target>
+        <source>Buscar</source>
+        <target>Search</target>
       </trans-unit>
       <trans-unit id="questionnaires.questions.filter.category" datatype="html">
         <source>Categoría</source>

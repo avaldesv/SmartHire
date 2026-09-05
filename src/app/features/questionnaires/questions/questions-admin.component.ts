@@ -1,4 +1,5 @@
-import { Component, OnInit, computed, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, computed, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -12,7 +13,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
-import { filter, switchMap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, switchMap } from 'rxjs';
 import { AppPermissions } from '../../../core/auth/app-permissions';
 import {
   QQUEST_COL_CATEGORY,
@@ -27,7 +28,6 @@ import {
   QQUEST_ERRORS_SAVE,
   QQUEST_FIELD_ACTIVE,
   QQUEST_FILTER_ALL,
-  QQUEST_FILTER_APPLY,
   QQUEST_FILTER_CATEGORY,
   QQUEST_FILTER_CLEAR,
   QQUEST_FILTER_TEXT,
@@ -86,6 +86,7 @@ export class QuestionsAdminComponent implements OnInit {
   private readonly feedback = inject(FeedbackDialogService);
   private readonly dialog = inject(MatDialog);
   private readonly fb = inject(FormBuilder);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly csvQuestions = QUESTIONNAIRE_CSV_PANELS.questions;
   readonly csvQuestionOptions = QUESTIONNAIRE_CSV_PANELS.questionOptions;
@@ -108,11 +109,10 @@ export class QuestionsAdminComponent implements OnInit {
 
   readonly newButton = QQUEST_NEW_BUTTON;
   readonly emptyLabel = QQUEST_EMPTY;
-  readonly filterText = QQUEST_FILTER_TEXT;
+  readonly filterSearch = QQUEST_FILTER_TEXT;
   readonly filterCategory = QQUEST_FILTER_CATEGORY;
   readonly filterType = QQUEST_FILTER_TYPE;
   readonly filterAll = QQUEST_FILTER_ALL;
-  readonly filterApply = QQUEST_FILTER_APPLY;
   readonly filterClear = QQUEST_FILTER_CLEAR;
   readonly columnText = QQUEST_COL_TEXT;
   readonly columnType = QQUEST_COL_TYPE;
@@ -143,6 +143,15 @@ export class QuestionsAdminComponent implements OnInit {
         this.categoryMap = new Map(items.map((c) => [c.id, c.name]));
       },
     });
+    this.filterForm.controls.text.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.applyFilters());
+    this.filterForm.controls.knowledgeCategoryId.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.applyFilters());
+    this.filterForm.controls.type.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.applyFilters());
     this.load();
   }
 
@@ -210,7 +219,7 @@ export class QuestionsAdminComponent implements OnInit {
   }
 
   clearFilters(): void {
-    this.filterForm.reset({ text: '', knowledgeCategoryId: null, type: '' });
+    this.filterForm.reset({ text: '', knowledgeCategoryId: null, type: '' }, { emitEvent: false });
     this.pageIndex = 0;
     this.load();
   }
