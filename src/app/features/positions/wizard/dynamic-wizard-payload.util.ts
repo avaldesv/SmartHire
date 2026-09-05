@@ -75,9 +75,13 @@ export function createFieldControl(
     return fb.array([createLanguageRowGroup(fb)], buildFieldValidators(field, formValues));
   }
   if (field.uiType === 'questionnaire-picker') {
-    return fb.nonNullable.group({
-      examId: [null as number | null],
-    });
+    const required = isFieldRequired(field, formValues);
+    return fb.nonNullable.group(
+      {
+        examId: [null as number | null, required ? [Validators.required] : []],
+      },
+      { validators: buildFieldValidators(field, formValues) },
+    );
   }
   if (field.uiType === 'document-grid' && field.fieldKey === 'documentTypeIds') {
     return fb.nonNullable.control<number[]>([]);
@@ -231,6 +235,11 @@ export function refreshDynamicValidators(
       }
       control.enable({ emitEvent: false });
       control.setValidators(buildFieldValidators(field, values));
+      if (field.uiType === 'questionnaire-picker' && control instanceof FormGroup) {
+        const examId = control.get('examId');
+        examId?.setValidators(isFieldRequired(field, values) ? [Validators.required] : []);
+        examId?.updateValueAndValidity({ emitEvent: false });
+      }
       control.updateValueAndValidity({ emitEvent: false });
     }
   }
