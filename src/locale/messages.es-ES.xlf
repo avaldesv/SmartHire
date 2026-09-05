@@ -1782,6 +1782,10 @@
         <source>Descargar</source>
         <target>Descargar</target>
       </trans-unit>
+      <trans-unit id="candidateDocuments.uploadHint" datatype="html">
+        <source>Cargar</source>
+        <target>Cargar</target>
+      </trans-unit>
       <trans-unit id="candidateDocuments.validate" datatype="html">
         <source>Validar documento</source>
         <target>Validar documento</target>

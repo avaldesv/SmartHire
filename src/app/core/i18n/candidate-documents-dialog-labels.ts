@@ -33,6 +33,7 @@ export const CANDIDATE_DOCS_EM_DASH = $localize`:@@common.emDash:—`;
 export const CANDIDATE_DOCS_MISSING_FILE = $localize`:@@candidateDocuments.missing.file:Sin archivo`;
 export const CANDIDATE_DOCS_VALIDATION_MISSING = $localize`:@@candidateDocuments.validation.missing:Faltante`;
 export const CANDIDATE_DOCS_UPLOAD = $localize`:@@candidateDocuments.upload:Subir archivo`;
+export const CANDIDATE_DOCS_UPLOAD_HINT = $localize`:@@candidateDocuments.uploadHint:Cargar`;
 export const CANDIDATE_DOCS_REUPLOAD = $localize`:@@candidateDocuments.reupload:Reemplazar archivo`;
 export const CANDIDATE_DOCS_UPLOADING = $localize`:@@candidateDocuments.uploading:Subiendo…`;
 export const CANDIDATE_DOCS_UPLOAD_SUCCESS = $localize`:@@candidateDocuments.upload.success:Documento subido correctamente`;

@@ -127,6 +127,8 @@
                   type="button"
                   color="primary"
                   class="upload-btn"
+                  [matTooltip]="labels.uploadHint"
+                  [attr.aria-label]="labels.uploadHint"
                   [disabled]="!canUploadDocuments || uploadingTypeId != null"
                   (click)="openInlineFilePicker(row)"
                 >
@@ -139,31 +141,35 @@
                   }
                 </button>
               } @else {
-                <button
-                  mat-icon-button
-                  type="button"
-                  class="action-icon"
-                  [attr.aria-label]="labels.download"
-                  [disabled]="!row.downloadUrl"
-                  (click)="download(row)"
-                >
-                  <mat-icon>download</mat-icon>
-                </button>
-                @if (canUploadDocuments) {
+                <span class="action-tooltip-host" [matTooltip]="labels.download">
                   <button
                     mat-icon-button
                     type="button"
-                    class="action-icon action-icon--upload"
-                    [attr.aria-label]="labels.reupload"
-                    [disabled]="uploadingTypeId != null"
-                    (click)="openInlineFilePicker(row)"
+                    class="action-icon"
+                    [attr.aria-label]="labels.download"
+                    [disabled]="!row.downloadUrl"
+                    (click)="download(row)"
                   >
-                    @if (uploadingTypeId === row.documentTypeId) {
-                      <mat-spinner diameter="18" />
-                    } @else {
-                      <mat-icon>upload</mat-icon>
-                    }
+                    <mat-icon>download</mat-icon>
                   </button>
+                </span>
+                @if (canUploadDocuments) {
+                  <span class="action-tooltip-host" [matTooltip]="labels.uploadHint">
+                    <button
+                      mat-icon-button
+                      type="button"
+                      class="action-icon action-icon--upload"
+                      [attr.aria-label]="labels.uploadHint"
+                      [disabled]="uploadingTypeId != null"
+                      (click)="openInlineFilePicker(row)"
+                    >
+                      @if (uploadingTypeId === row.documentTypeId) {
+                        <mat-spinner diameter="18" />
+                      } @else {
+                        <mat-icon>upload</mat-icon>
+                      }
+                    </button>
+                  </span>
                 }
                 @if (isValidationPending(row)) {
                   <button
