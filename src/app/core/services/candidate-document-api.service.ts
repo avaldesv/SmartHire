@@ -80,7 +80,7 @@ export class CandidateDocumentApiService {
     return this.http.post<UploadApplicationDocumentResponse>(
       this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/documents`),
       formData,
-      { headers: this.api.buildHeaders() },
+      { headers: this.api.buildMultipartHeaders() },
     );
   }
 

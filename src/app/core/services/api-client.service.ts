@@ -19,6 +19,18 @@ export class ApiClientService {
     });
   }
 
+  /** Tenant/auth headers without Content-Type so the browser sets multipart boundary. */
+  buildMultipartHeaders(page = 0, size = 100): HttpHeaders {
+    const token = sessionStorage.getItem('sh_token') ?? '';
+    return new HttpHeaders({
+      applicationId: environment.applicationId,
+      companyId: String(this.tenantContext.getCompanyId()),
+      page: String(page),
+      size: String(size),
+      authorization: token ? `Bearer ${token}` : '',
+    });
+  }
+
   apiUrl(path: string): string {
     return `${environment.apiBaseUrl}${path}`;
   }
