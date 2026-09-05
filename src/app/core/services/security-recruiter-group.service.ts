@@ -14,8 +14,19 @@ export class SecurityRecruiterGroupService {
   private readonly http = inject(HttpClient);
   private readonly api = inject(ApiClientService);
 
-  list(countryId: number, page = 0, size = 20): Observable<{ items: SecurityRecruiterGroup[]; total: number }> {
-    const body = { countryId, isActive: null, filters: [], ordersBy: ['description:asc'] as string[] };
+  list(
+    countryId: number,
+    page = 0,
+    size = 20,
+    search?: string | null,
+  ): Observable<{ items: SecurityRecruiterGroup[]; total: number }> {
+    const body = {
+      countryId,
+      isActive: null,
+      search: search?.trim() || null,
+      filters: [],
+      ordersBy: ['description:asc'] as string[],
+    };
     return this.http
       .post<RecruiterGroupListResponse>(this.api.apiUrl('/api/v1/recruiter-groups/list'), body, {
         headers: this.api.buildHeaders(page, size),
