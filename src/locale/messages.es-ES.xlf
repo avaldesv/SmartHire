@@ -6344,10 +6344,6 @@
         <source>Abierta</source>
         <target>Abierta</target>
       </trans-unit>
-      <trans-unit id="questionnaires.questionTypes.intro" datatype="html">
-        <source>Tipos de pregunta definidos por el sistema. No son editables; se usan al crear preguntas e importar CSV.</source>
-        <target>Tipos de pregunta definidos por el sistema. No son editables; se usan al crear preguntas e importar CSV.</target>
-      </trans-unit>
       <trans-unit id="questionnaires.questionTypes.col.code" datatype="html">
         <source>Código</source>
         <target>Código</target>
