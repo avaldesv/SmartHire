@@ -1500,7 +1500,7 @@
               </div>
             }
 
-          <form [formGroup]="requisitionTypeForm" class="gender-form" (ngSubmit)="saveRequisitionType()">
+          <form id="sh-catalog-requisition-type-form" [formGroup]="requisitionTypeForm" class="gender-form" (ngSubmit)="saveRequisitionType()">
             <mat-form-field appearance="outline">
               <mat-label i18n="@@catalogs.field.country">País</mat-label>
               <mat-select formControlName="countryId">
@@ -1516,7 +1516,7 @@
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
             <div shModalActions>
               <button mat-stroked-button type="button" (click)="cancelRequisitionTypeForm()" i18n="@@common.cancel">Cancelar</button>
-              <button mat-flat-button color="primary" type="submit" [disabled]="savingRequisitionType">{{ savingRequisitionType ? catalogsSaving : catalogsSave }}</button>
+              <button mat-flat-button color="primary" type="button" form="sh-catalog-requisition-type-form" (click)="saveRequisitionType()" [disabled]="savingRequisitionType">{{ savingRequisitionType ? catalogsSaving : catalogsSave }}</button>
             </div>
           </form>
       </ng-template>

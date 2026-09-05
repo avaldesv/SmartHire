@@ -641,19 +641,6 @@ export class CatalogsAdminComponent implements OnInit {
         break;
       case 'requisitionType':
         this.loadRequisitionTypes();
-    this.loadCoverageCategorys();
-    this.loadCharacteristics();
-    this.loadCategorys();
-    this.loadMaritalStatuss();
-    this.loadExperienceLevels();
-    this.loadTools();
-    this.loadWorkSchedules();
-    this.loadWorkplaces();
-    this.loadRequirements();
-    this.loadResponsibilityLevels();
-    this.loadDisabilityTypes();
-    this.loadBusinessUnits();
-    this.loadPositionTypes();
         break;
       case 'recruiterGroup':
         this.loadRecruiterGroups();
@@ -3320,19 +3307,6 @@ export class CatalogsAdminComponent implements OnInit {
     this.requisitionTypePageIndex = e.pageIndex;
     this.requisitionTypePageSize = e.pageSize;
     this.loadRequisitionTypes();
-    this.loadCoverageCategorys();
-    this.loadCharacteristics();
-    this.loadCategorys();
-    this.loadMaritalStatuss();
-    this.loadExperienceLevels();
-    this.loadTools();
-    this.loadWorkSchedules();
-    this.loadWorkplaces();
-    this.loadRequirements();
-    this.loadResponsibilityLevels();
-    this.loadDisabilityTypes();
-    this.loadBusinessUnits();
-    this.loadPositionTypes();
   }
 
   openCreateGender(): void {
@@ -5526,19 +5500,6 @@ export class CatalogsAdminComponent implements OnInit {
         this.savingRequisitionType = false;
         this.cancelRequisitionTypeForm();
         this.loadRequisitionTypes();
-    this.loadCoverageCategorys();
-    this.loadCharacteristics();
-    this.loadCategorys();
-    this.loadMaritalStatuss();
-    this.loadExperienceLevels();
-    this.loadTools();
-    this.loadWorkSchedules();
-    this.loadWorkplaces();
-    this.loadRequirements();
-    this.loadResponsibilityLevels();
-    this.loadDisabilityTypes();
-    this.loadBusinessUnits();
-    this.loadPositionTypes();
         this.catalogSuccess(catalogSaveSuccess(getCatalogEntryLabel('requisitionType')));
       },
       error: (err) => {

@@ -78,6 +78,8 @@ export class ShModalActionsDirective implements AfterViewInit, OnDestroy {
   ],
 })
 export class ShModalFormComponent implements AfterViewInit, OnDestroy {
+  private static formIdSeq = 0;
+
   private readonly hostRef = inject(ElementRef<HTMLElement>);
 
   @Input({ required: true }) title!: string;
@@ -120,6 +122,20 @@ export class ShModalFormComponent implements AfterViewInit, OnDestroy {
     const host = this.actionsHost.nativeElement;
     if (this.attached.has(source) || host.contains(source)) {
       return;
+    }
+    // Bind submit buttons to the original form before teleporting them into
+    // mat-dialog-actions (outside <form>), otherwise Guardar never fires ngSubmit.
+    const form = source.closest('form');
+    if (form) {
+      if (!form.id) {
+        ShModalFormComponent.formIdSeq += 1;
+        form.id = `sh-modal-form-${ShModalFormComponent.formIdSeq}`;
+      }
+      source.querySelectorAll<HTMLButtonElement>('button[type="submit"]').forEach((btn) => {
+        if (!btn.getAttribute('form')) {
+          btn.setAttribute('form', form.id);
+        }
+      });
     }
     // display:contents so buttons join mat-dialog-actions flex row
     source.style.display = 'contents';
