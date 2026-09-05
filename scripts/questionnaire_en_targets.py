@@ -229,9 +229,6 @@ QUESTIONNAIRE_EN_BY_ID: dict[str, str] = {
     "questionnaires.questions.type.multipleChoice": "Multiple choice",
     "questionnaires.questions.type.yesNo": "Yes/No",
     "questionnaires.questions.type.open": "Open",
-    "questionnaires.questionTypes.intro": (
-        "System-defined question types. They are not editable; they are used when creating questions and importing CSV."
-    ),
     "questionnaires.questionTypes.col.code": "Code",
     "questionnaires.questionTypes.col.label": "Label",
     "questionnaires.questionTypes.col.description": "Description",

@@ -27,7 +27,6 @@ export const QQUEST_TYPE_MULTIPLE = $localize`:@@questionnaires.questions.type.m
 export const QQUEST_TYPE_YES_NO = $localize`:@@questionnaires.questions.type.yesNo:Sí/No`;
 export const QQUEST_TYPE_OPEN = $localize`:@@questionnaires.questions.type.open:Abierta`;
 
-export const QQUEST_TYPES_INTRO = $localize`:@@questionnaires.questionTypes.intro:Tipos de pregunta definidos por el sistema. No son editables; se usan al crear preguntas e importar CSV.`;
 export const QQUEST_TYPES_COL_CODE = $localize`:@@questionnaires.questionTypes.col.code:Código`;
 export const QQUEST_TYPES_COL_LABEL = $localize`:@@questionnaires.questionTypes.col.label:Etiqueta`;
 export const QQUEST_TYPES_COL_DESCRIPTION = $localize`:@@questionnaires.questionTypes.col.description:Descripción`;
