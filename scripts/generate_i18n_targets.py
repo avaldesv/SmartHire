@@ -3,8 +3,11 @@
 from __future__ import annotations
 
 import json
+import re
 import xml.etree.ElementTree as ET
 from pathlib import Path
+
+from questionnaire_en_targets import QUESTIONNAIRE_EN_BY_ID
 
 NS = {"x": "urn:oasis:names:tc:xliff:document:1.2"}
 ROOT = Path(__file__).resolve().parents[1]
@@ -27,6 +30,16 @@ EN_BY_SOURCE: dict[str, str] = {
     "Posiciones": "Positions",
     "Candidatos": "Candidates",
     "Cuestionarios": "Questionnaires",
+    "Exámenes": "Exams",
+    "Preguntas": "Questions",
+    "Tipos de pregunta": "Question types",
+    "Categorías": "Categories",
+    "Preguntas tags": "Question tags",
+    "Nuevo examen": "New exam",
+    "No hay exámenes registrados": "No exams registered",
+    "Buscar por nombre": "Search by name",
+    "Limpiar": "Clear",
+    "Buscar": "Search",
     "Seguimiento": "Tracking",
     "Reportes": "Reports",
     "Configuraciones": "Settings",
@@ -1291,6 +1304,21 @@ def clone_source_content(parent: ET.Element, source_el: ET.Element, *, translate
             placeholder.tail = fn(child.tail)
 
 
+def apply_id_target(parent: ET.Element, source_el: ET.Element, template: str) -> None:
+    """Fill target from an ID template, preserving <x id="..."> placeholders."""
+    placeholders = {child.get("id"): child for child in list(source_el)}
+    parts = re.split(r"\{([A-Za-z0-9_]+)\}", template)
+    parent.text = parts[0]
+    for i in range(1, len(parts), 2):
+        pid = parts[i]
+        tail = parts[i + 1] if i + 1 < len(parts) else ""
+        src_x = placeholders.get(pid)
+        if src_x is None:
+            raise ValueError(f"Missing placeholder {{{pid}}} for template {template!r}")
+        node = ET.SubElement(parent, "x", dict(src_x.attrib))
+        node.tail = tail
+
+
 def build(file_locale: str, target_lang: str) -> None:
     tree = ET.parse(SRC)
     file_el = tree.getroot().find("x:file", NS)
@@ -1318,7 +1346,11 @@ def build(file_locale: str, target_lang: str) -> None:
         clone_source_content(new_source, source_el, translate=False)
 
         new_target = ET.SubElement(new_unit, "target")
-        clone_source_content(new_target, source_el, translate=target_lang.startswith("en"))
+        template = QUESTIONNAIRE_EN_BY_ID.get(uid) if target_lang.startswith("en") else None
+        if template:
+            apply_id_target(new_target, source_el, template)
+        else:
+            clone_source_content(new_target, source_el, translate=target_lang.startswith("en"))
 
     ET.indent(out, space="  ")
     path = ROOT / f"src/locale/messages.{file_locale}.xlf"
