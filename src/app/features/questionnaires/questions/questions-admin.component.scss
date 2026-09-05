@@ -10,29 +10,6 @@
   margin-left: auto;
 }
 
-.filter-card {
-  margin-bottom: 16px;
-  padding: 16px;
-}
-
-.filter-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: flex-start;
-
-  mat-form-field {
-    flex: 1 1 180px;
-  }
-}
-
-.filter-actions {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  padding-top: 4px;
-}
-
 .loading-wrap {
   display: flex;
   justify-content: center;

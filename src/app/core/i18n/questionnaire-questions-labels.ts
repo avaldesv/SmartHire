@@ -9,7 +9,7 @@ export type QuestionTypeValue = (typeof QQUEST_TYPES)[number]['value'];
 
 export const QQUEST_NEW_BUTTON = $localize`:@@questionnaires.questions.newButton:Nueva pregunta`;
 export const QQUEST_EMPTY = $localize`:@@questionnaires.questions.empty:No hay preguntas registradas`;
-export const QQUEST_FILTER_TEXT = $localize`:@@questionnaires.questions.filter.text:Buscar enunciado`;
+export const QQUEST_FILTER_TEXT = $localize`:@@questionnaires.questions.filter.text:Buscar`;
 export const QQUEST_FILTER_CATEGORY = $localize`:@@questionnaires.questions.filter.category:Categoría`;
 export const QQUEST_FILTER_TYPE = $localize`:@@questionnaires.questions.filter.type:Tipo`;
 export const QQUEST_FILTER_ALL = $localize`:@@questionnaires.questions.filter.all:Todas`;

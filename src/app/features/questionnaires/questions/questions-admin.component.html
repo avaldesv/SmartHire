@@ -22,13 +22,13 @@
   </div>
 }
 
-<div class="sh-card filter-card">
-  <form [formGroup]="filterForm" class="filter-form" (ngSubmit)="applyFilters()">
-    <mat-form-field appearance="outline">
-      <mat-label>{{ filterText }}</mat-label>
+<form [formGroup]="filterForm" class="sh-filters sh-card" (ngSubmit)="applyFilters()">
+  <div class="filter-fields">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-label>{{ filterSearch }}</mat-label>
       <input matInput formControlName="text" />
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
       <mat-label>{{ filterCategory }}</mat-label>
       <mat-select formControlName="knowledgeCategoryId">
         <mat-option [value]="null">{{ filterAll }}</mat-option>
@@ -37,7 +37,7 @@
         }
       </mat-select>
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
       <mat-label>{{ filterType }}</mat-label>
       <mat-select formControlName="type">
         @for (opt of typeOptions; track opt.value) {
@@ -45,12 +45,11 @@
         }
       </mat-select>
     </mat-form-field>
-    <div class="filter-actions">
-      <button mat-stroked-button type="button" (click)="clearFilters()">{{ filterClear }}</button>
-      <button mat-flat-button color="primary" type="submit">{{ filterApply }}</button>
-    </div>
-  </form>
-</div>
+  </div>
+  <div class="filter-actions">
+    <button mat-stroked-button type="button" (click)="clearFilters()">{{ filterClear }}</button>
+  </div>
+</form>
 
 @if (loading) {
   <div class="loading-wrap"><mat-spinner diameter="36" /></div>
