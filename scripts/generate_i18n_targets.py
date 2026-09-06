@@ -9,6 +9,9 @@ from pathlib import Path
 
 from positions_en_targets import POSITIONS_EN_BY_ID
 from questionnaire_en_targets import QUESTIONNAIRE_EN_BY_ID
+from reports_en_targets import REPORTS_EN_BY_ID
+
+EN_BY_ID = {**QUESTIONNAIRE_EN_BY_ID, **REPORTS_EN_BY_ID}
 
 EN_BY_ID = {**QUESTIONNAIRE_EN_BY_ID, **POSITIONS_EN_BY_ID}
 
@@ -42,6 +45,7 @@ EN_BY_SOURCE: dict[str, str] = {
     "No hay exámenes registrados": "No exams registered",
     "Buscar por nombre": "Search by name",
     "Limpiar": "Clear",
+    "Actualizar": "Update",
     "Buscar": "Search",
     "Mostrar más filtros": "Show more filters",
     "Ocultar filtros": "Hide filters",

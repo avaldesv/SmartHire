@@ -3,11 +3,11 @@
     <div class="header-filter-actions">
       <button mat-flat-button color="primary" type="button" (click)="load()" [disabled]="loading">
         <mat-icon>refresh</mat-icon>
-        Actualizar
+        {{ updateLabel }}
       </button>
       <button mat-stroked-button type="button" (click)="clearFilters()" [disabled]="loading">
         <mat-icon>filter_alt_off</mat-icon>
-        Limpiar filtros
+        {{ clearFiltersLabel }}
       </button>
     </div>
   </sh-page-header>

@@ -2,6 +2,21 @@
 
 export const REPORTS_UPDATE = $localize`:@@reports.action.update:Actualizar`;
 export const REPORTS_CLEAR_FILTERS = $localize`:@@reports.action.clearFilters:Limpiar filtros`;
+
+export const REPORTS_PAGE_TITLE = $localize`:@@reports.pageTitle:Reportes`;
+export const REPORTS_NAV_CATEGORY_GENERAL = $localize`:@@reports.nav.category.general:Generales`;
+export const REPORTS_NAV_CATEGORY_COVERAGE = $localize`:@@reports.nav.category.coverage:Cubrimiento`;
+export const REPORTS_NAV_CATEGORY_VACANCIES = $localize`:@@reports.nav.category.vacancies:Vacantes`;
+export const REPORTS_NAV_MMR = $localize`:@@reports.nav.mmr:MMR`;
+export const REPORTS_NAV_STATUS_BY_REQUISITION = $localize`:@@reports.nav.statusByRequisition:Estatus por requisición`;
+export const REPORTS_NAV_PROCESS_FUNNEL = $localize`:@@reports.nav.processFunnel:Funnel del proceso`;
+export const REPORTS_NAV_CONSOLIDATED = $localize`:@@reports.nav.consolidated:Consolidado`;
+export const REPORTS_NAV_SEGMENTED_SUMMARY = $localize`:@@reports.nav.segmentedSummary:Resumen segmentado`;
+export const REPORTS_NAV_TOP_INCIDENTS = $localize`:@@reports.nav.topIncidents:Tops incidencias`;
+export const REPORTS_NAV_METRICS = $localize`:@@reports.nav.metrics:Métricas`;
+export const REPORTS_NAV_POSITIONS_IN_PROCESS = $localize`:@@reports.nav.positionsInProcess:Posiciones en proceso`;
+export const REPORTS_NAV_BEHAVIOR = $localize`:@@reports.nav.behavior:Comportamiento`;
+export const REPORTS_NAV_REQUISITIONS_BY_SOURCE = $localize`:@@reports.nav.requisitionsBySource:Requisiciones por fuente`;
 export const REPORTS_INDICATORS = $localize`:@@reports.section.indicators:Indicadores`;
 export const REPORTS_INDICATOR_COL = $localize`:@@reports.column.indicator:Indicador`;
 export const REPORTS_EMPTY_MATRIX = $localize`:@@reports.empty.matrix:Sin datos para los filtros seleccionados`;
