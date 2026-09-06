@@ -1,15 +1,15 @@
 <div class="sh-page">
-  <sh-page-header title="Candidatos" subtitle="Administración de candidatos en el sistema">
+  <sh-page-header [title]="ui.title" [subtitle]="ui.subtitle">
     <button mat-flat-button color="primary" routerLink="/candidates/new">
-      <mat-icon>person_add</mat-icon> Nuevo candidato
+      <mat-icon>person_add</mat-icon> {{ ui.newCandidate }}
     </button>
   </sh-page-header>
 
   <form [formGroup]="searchForm" class="sh-filters">
     <mat-form-field appearance="outline" class="search-field">
-      <mat-label>Buscar candidato</mat-label>
+      <mat-label>{{ ui.search }}</mat-label>
       <mat-icon matPrefix>search</mat-icon>
-      <input matInput formControlName="search" placeholder="Nombre, correo…" />
+      <input matInput formControlName="search" [placeholder]="ui.searchPlaceholder" />
     </mat-form-field>
   </form>
 
@@ -18,15 +18,15 @@
   } @else {
     <div class="sh-card sh-table-wrap">
       <table mat-table [dataSource]="data">
-        <ng-container matColumnDef="id"><th mat-header-cell *matHeaderCellDef>ID</th><td mat-cell *matCellDef="let row">{{ row.id }}</td></ng-container>
-        <ng-container matColumnDef="firstName"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.firstName }}</td></ng-container>
-        <ng-container matColumnDef="lastName"><th mat-header-cell *matHeaderCellDef>Apellidos</th><td mat-cell *matCellDef="let row">{{ row.lastName }}</td></ng-container>
-        <ng-container matColumnDef="email"><th mat-header-cell *matHeaderCellDef>Correo</th><td mat-cell *matCellDef="let row">{{ row.email }}</td></ng-container>
-        <ng-container matColumnDef="phone"><th mat-header-cell *matHeaderCellDef>Teléfono</th><td mat-cell *matCellDef="let row">{{ row.phone }}</td></ng-container>
-        <ng-container matColumnDef="city"><th mat-header-cell *matHeaderCellDef>Ciudad</th><td mat-cell *matCellDef="let row">{{ row.city }}</td></ng-container>
-        <ng-container matColumnDef="source"><th mat-header-cell *matHeaderCellDef>Origen</th><td mat-cell *matCellDef="let row">{{ row.source }}</td></ng-container>
-        <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? 'Sí' : 'No' }}</td></ng-container>
-        <ng-container matColumnDef="createdAt"><th mat-header-cell *matHeaderCellDef>Alta</th><td mat-cell *matCellDef="let row">{{ row.createdAt | date:'dd/MM/yyyy' }}</td></ng-container>
+        <ng-container matColumnDef="id"><th mat-header-cell *matHeaderCellDef>{{ ui.colId }}</th><td mat-cell *matCellDef="let row">{{ row.id }}</td></ng-container>
+        <ng-container matColumnDef="firstName"><th mat-header-cell *matHeaderCellDef>{{ ui.colFirstName }}</th><td mat-cell *matCellDef="let row">{{ row.firstName }}</td></ng-container>
+        <ng-container matColumnDef="lastName"><th mat-header-cell *matHeaderCellDef>{{ ui.colLastName }}</th><td mat-cell *matCellDef="let row">{{ row.lastName }}</td></ng-container>
+        <ng-container matColumnDef="email"><th mat-header-cell *matHeaderCellDef>{{ ui.colEmail }}</th><td mat-cell *matCellDef="let row">{{ row.email }}</td></ng-container>
+        <ng-container matColumnDef="phone"><th mat-header-cell *matHeaderCellDef>{{ ui.colPhone }}</th><td mat-cell *matCellDef="let row">{{ row.phone }}</td></ng-container>
+        <ng-container matColumnDef="city"><th mat-header-cell *matHeaderCellDef>{{ ui.colCity }}</th><td mat-cell *matCellDef="let row">{{ row.city }}</td></ng-container>
+        <ng-container matColumnDef="source"><th mat-header-cell *matHeaderCellDef>{{ ui.colSource }}</th><td mat-cell *matCellDef="let row">{{ sourceLabel(row.source) }}</td></ng-container>
+        <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>{{ ui.colActive }}</th><td mat-cell *matCellDef="let row">{{ row.isActive ? ui.yes : ui.no }}</td></ng-container>
+        <ng-container matColumnDef="createdAt"><th mat-header-cell *matHeaderCellDef>{{ ui.colCreated }}</th><td mat-cell *matCellDef="let row">{{ row.createdAt | date:'dd/MM/yyyy' }}</td></ng-container>
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let row">

@@ -11,6 +11,26 @@ import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { debounceTime } from 'rxjs';
+import {
+  CANDIDATES_LIST_COL_ACTIVE,
+  CANDIDATES_LIST_COL_CITY,
+  CANDIDATES_LIST_COL_CREATED,
+  CANDIDATES_LIST_COL_EMAIL,
+  CANDIDATES_LIST_COL_FIRST_NAME,
+  CANDIDATES_LIST_COL_ID,
+  CANDIDATES_LIST_COL_LAST_NAME,
+  CANDIDATES_LIST_COL_PHONE,
+  CANDIDATES_LIST_COL_SOURCE,
+  CANDIDATES_LIST_LOAD_ERROR,
+  CANDIDATES_LIST_NEW,
+  CANDIDATES_LIST_NO,
+  CANDIDATES_LIST_SEARCH,
+  CANDIDATES_LIST_SEARCH_PLACEHOLDER,
+  CANDIDATES_LIST_SUBTITLE,
+  CANDIDATES_LIST_TITLE,
+  CANDIDATES_LIST_YES,
+  candidatesSourceLabel,
+} from '../../../core/i18n/candidates-labels';
 import { CandidateApiService } from '../../../core/services/candidate-api.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { CandidateListItem } from '../../../shared/models/candidate.model';
@@ -41,6 +61,26 @@ export class CandidatesListComponent implements OnInit {
   private readonly feedback = inject(FeedbackDialogService);
   private readonly fb = inject(FormBuilder);
 
+  readonly ui = {
+    title: CANDIDATES_LIST_TITLE,
+    subtitle: CANDIDATES_LIST_SUBTITLE,
+    newCandidate: CANDIDATES_LIST_NEW,
+    search: CANDIDATES_LIST_SEARCH,
+    searchPlaceholder: CANDIDATES_LIST_SEARCH_PLACEHOLDER,
+    colId: CANDIDATES_LIST_COL_ID,
+    colFirstName: CANDIDATES_LIST_COL_FIRST_NAME,
+    colLastName: CANDIDATES_LIST_COL_LAST_NAME,
+    colEmail: CANDIDATES_LIST_COL_EMAIL,
+    colPhone: CANDIDATES_LIST_COL_PHONE,
+    colCity: CANDIDATES_LIST_COL_CITY,
+    colSource: CANDIDATES_LIST_COL_SOURCE,
+    colActive: CANDIDATES_LIST_COL_ACTIVE,
+    colCreated: CANDIDATES_LIST_COL_CREATED,
+    yes: CANDIDATES_LIST_YES,
+    no: CANDIDATES_LIST_NO,
+  };
+  readonly sourceLabel = candidatesSourceLabel;
+
   loading = true;
   data: CandidateListItem[] = [];
   total = 0;
@@ -68,7 +108,7 @@ export class CandidatesListComponent implements OnInit {
       },
       error: (err) => {
         this.loading = false;
-        this.feedback.showSuccess('No se pudieron cargar los candidatos');
+        this.feedback.showSuccess(CANDIDATES_LIST_LOAD_ERROR);
       },
     });
   }

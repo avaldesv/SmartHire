@@ -9402,6 +9402,138 @@
         <source>No se pudo cargar el reporte Requisiciones por fuente de reclutamiento. Intenta de nuevo.</source>
         <target>No se pudo cargar el reporte Requisiciones por fuente de reclutamiento. Intenta de nuevo.</target>
       </trans-unit>
+      <trans-unit id="candidates.list.subtitle" datatype="html">
+        <source>Administración de candidatos en el sistema</source>
+        <target>Administración de candidatos en el sistema</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.new" datatype="html">
+        <source>Nuevo candidato</source>
+        <target>Nuevo candidato</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.search" datatype="html">
+        <source>Buscar candidato</source>
+        <target>Buscar candidato</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.searchPlaceholder" datatype="html">
+        <source>Nombre, correo…</source>
+        <target>Nombre, correo…</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.loadError" datatype="html">
+        <source>No se pudieron cargar los candidatos</source>
+        <target>No se pudieron cargar los candidatos</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.id" datatype="html">
+        <source>ID</source>
+        <target>ID</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.firstName" datatype="html">
+        <source>Nombre</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.lastName" datatype="html">
+        <source>Apellidos</source>
+        <target>Apellidos</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.email" datatype="html">
+        <source>Correo</source>
+        <target>Correo</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.phone" datatype="html">
+        <source>Teléfono</source>
+        <target>Teléfono</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.city" datatype="html">
+        <source>Ciudad</source>
+        <target>Ciudad</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.source" datatype="html">
+        <source>Origen</source>
+        <target>Origen</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.active" datatype="html">
+        <source>Activo</source>
+        <target>Activo</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.createdAt" datatype="html">
+        <source>Alta</source>
+        <target>Alta</target>
+      </trans-unit>
+      <trans-unit id="candidates.source.portal" datatype="html">
+        <source>Portal</source>
+        <target>Portal</target>
+      </trans-unit>
+      <trans-unit id="candidates.source.recruiterExcelBulk" datatype="html">
+        <source>Carga Excel reclutador</source>
+        <target>Carga Excel reclutador</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.titleEdit" datatype="html">
+        <source>Editar candidato</source>
+        <target>Editar candidato</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.subtitle" datatype="html">
+        <source>Complete la información del candidato</source>
+        <target>Complete la información del candidato</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.loading" datatype="html">
+        <source>Cargando...</source>
+        <target>Cargando...</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.gender.female" datatype="html">
+        <source>Femenino</source>
+        <target>Femenino</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.gender.male" datatype="html">
+        <source>Masculino</source>
+        <target>Masculino</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.source.manual" datatype="html">
+        <source>Carga Manual</source>
+        <target>Carga Manual</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.source.jobboard" datatype="html">
+        <source>Jobboard</source>
+        <target>Jobboard</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.source.buc" datatype="html">
+        <source>BUC</source>
+        <target>BUC</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.created" datatype="html">
+        <source>Candidato creado</source>
+        <target>Candidato creado</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.updated" datatype="html">
+        <source>Candidato actualizado</source>
+        <target>Candidato actualizado</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.saveError" datatype="html">
+        <source>No se pudo guardar el candidato</source>
+        <target>No se pudo guardar el candidato</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.loadError" datatype="html">
+        <source>No se pudo cargar el candidato</source>
+        <target>No se pudo cargar el candidato</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.countriesError" datatype="html">
+        <source>No se pudieron cargar los países</source>
+        <target>No se pudieron cargar los países</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.statesError" datatype="html">
+        <source>No se pudieron cargar los estados</source>
+        <target>No se pudieron cargar los estados</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.municipalitiesError" datatype="html">
+        <source>No se pudieron cargar los municipios</source>
+        <target>No se pudieron cargar los municipios</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.neighborhoodsError" datatype="html">
+        <source>No se pudieron cargar las colonias</source>
+        <target>No se pudieron cargar las colonias</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.noNeighborhoods" datatype="html">
+        <source>Sin colonias para ese código postal</source>
+        <target>Sin colonias para ese código postal</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

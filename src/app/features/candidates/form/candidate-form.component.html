@@ -1,30 +1,30 @@
 <div class="sh-page">
-  <sh-page-header [title]="isEdit ? 'Editar candidato' : 'Nuevo candidato'" subtitle="Complete la información del candidato" />
+  <sh-page-header [title]="isEdit ? ui.titleEdit : ui.titleNew" [subtitle]="ui.subtitle" />
 
   @if (loading) {
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else {
     <form [formGroup]="form" (ngSubmit)="save()" class="sh-card form-grid">
-      <mat-form-field appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="firstName" /></mat-form-field>
-      <mat-form-field appearance="outline"><mat-label>Apellidos</mat-label><input matInput formControlName="lastName" /></mat-form-field>
-      <mat-form-field appearance="outline"><mat-label>Correo</mat-label><input matInput type="email" formControlName="email" /></mat-form-field>
-      <mat-form-field appearance="outline"><mat-label>Teléfono</mat-label><input matInput formControlName="phone" /></mat-form-field>
-      <mat-form-field appearance="outline"><mat-label>CURP</mat-label><input matInput formControlName="curp" /></mat-form-field>
-      <mat-form-field appearance="outline"><mat-label>RFC</mat-label><input matInput formControlName="rfc" /></mat-form-field>
-      <mat-form-field appearance="outline"><mat-label>NSS</mat-label><input matInput formControlName="nss" /></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>{{ ui.firstName }}</mat-label><input matInput formControlName="firstName" /></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>{{ ui.lastName }}</mat-label><input matInput formControlName="lastName" /></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>{{ ui.email }}</mat-label><input matInput type="email" formControlName="email" /></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>{{ ui.phone }}</mat-label><input matInput formControlName="phone" /></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>{{ ui.curp }}</mat-label><input matInput formControlName="curp" /></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>{{ ui.rfc }}</mat-label><input matInput formControlName="rfc" /></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>{{ ui.nss }}</mat-label><input matInput formControlName="nss" /></mat-form-field>
       <mat-form-field appearance="outline">
-        <mat-label>Género</mat-label>
+        <mat-label>{{ ui.gender }}</mat-label>
         <mat-select formControlName="gender">
-          <mat-option value="Femenino">Femenino</mat-option>
-          <mat-option value="Masculino">Masculino</mat-option>
+          <mat-option value="Femenino">{{ ui.genderFemale }}</mat-option>
+          <mat-option value="Masculino">{{ ui.genderMale }}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>País</mat-label>
+        <mat-label>{{ ui.country }}</mat-label>
         <mat-select formControlName="countryId">
           @if (loadingGeo.countries) {
-            <mat-option disabled>Cargando...</mat-option>
+            <mat-option disabled>{{ ui.loading }}</mat-option>
           }
           @for (c of countries; track c.id) {
             <mat-option [value]="c.id">{{ c.name }}</mat-option>
@@ -33,10 +33,10 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Estado</mat-label>
+        <mat-label>{{ ui.state }}</mat-label>
         <mat-select formControlName="stateId">
           @if (loadingGeo.states) {
-            <mat-option disabled>Cargando...</mat-option>
+            <mat-option disabled>{{ ui.loading }}</mat-option>
           }
           @for (s of states; track s.id) {
             <mat-option [value]="s.id">{{ s.name }}</mat-option>
@@ -45,10 +45,10 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Municipio</mat-label>
+        <mat-label>{{ ui.municipality }}</mat-label>
         <mat-select formControlName="municipalityId">
           @if (loadingGeo.municipalities) {
-            <mat-option disabled>Cargando...</mat-option>
+            <mat-option disabled>{{ ui.loading }}</mat-option>
           }
           @for (m of municipalities; track m.id) {
             <mat-option [value]="m.id">{{ m.name }}</mat-option>
@@ -57,15 +57,15 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Código postal</mat-label>
+        <mat-label>{{ ui.postalCode }}</mat-label>
         <input matInput formControlName="postalCode" maxlength="5" inputmode="numeric" />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Colonia</mat-label>
+        <mat-label>{{ ui.neighborhood }}</mat-label>
         <mat-select formControlName="neighborhoodId">
           @if (loadingGeo.neighborhoods) {
-            <mat-option disabled>Cargando...</mat-option>
+            <mat-option disabled>{{ ui.loading }}</mat-option>
           }
           @for (n of neighborhoods; track n.id) {
             <mat-option [value]="n.id">{{ n.name }}</mat-option>
@@ -73,23 +73,23 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="outline"><mat-label>Salario deseado</mat-label><input matInput type="number" formControlName="desiredSalary" /></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>{{ ui.salary }}</mat-label><input matInput type="number" formControlName="desiredSalary" /></mat-form-field>
       <mat-form-field appearance="outline">
-        <mat-label>Origen</mat-label>
+        <mat-label>{{ ui.source }}</mat-label>
         <mat-select formControlName="source">
-          <mat-option value="Carga Manual">Carga Manual</mat-option>
-          <mat-option value="Jobboard">Jobboard</mat-option>
-          <mat-option value="BUC">BUC</mat-option>
+          <mat-option value="Carga Manual">{{ ui.sourceManual }}</mat-option>
+          <mat-option value="Jobboard">{{ ui.sourceJobboard }}</mat-option>
+          <mat-option value="BUC">{{ ui.sourceBuc }}</mat-option>
         </mat-select>
       </mat-form-field>
-      <div class="toggle-row"><mat-slide-toggle formControlName="active">Activo</mat-slide-toggle></div>
+      <div class="toggle-row"><mat-slide-toggle formControlName="active">{{ ui.active }}</mat-slide-toggle></div>
       <div class="form-actions span-2">
-        <button mat-stroked-button type="button" (click)="cancel()" [disabled]="saving">Cancelar</button>
+        <button mat-stroked-button type="button" (click)="cancel()" [disabled]="saving">{{ ui.cancel }}</button>
         <button mat-flat-button color="primary" type="submit" [disabled]="saving">
           @if (saving) {
             <mat-spinner diameter="20"></mat-spinner>
           } @else {
-            Guardar
+            {{ ui.save }}
           }
         </button>
       </div>

@@ -1938,7 +1938,7 @@
       </trans-unit>
       <trans-unit id="candidateProfile.field.source" datatype="html">
         <source>Origen</source>
-        <target>Origen</target>
+        <target>Source</target>
       </trans-unit>
       <trans-unit id="candidateProfile.field.createdAt" datatype="html">
         <source>Alta</source>
@@ -3588,37 +3588,34 @@
       </trans-unit>
       <trans-unit id="paginator.itemsPerPage" datatype="html">
         <source>Elementos por página:</source>
-        <target>Elementos por página:</target>
+        <target>Items per page:</target>
       </trans-unit>
       <trans-unit id="paginator.nextPage" datatype="html">
         <source>Página siguiente</source>
-        <target>Página siguiente</target>
+        <target>Next page</target>
       </trans-unit>
       <trans-unit id="paginator.previousPage" datatype="html">
         <source>Página anterior</source>
-        <target>Página anterior</target>
+        <target>Previous page</target>
       </trans-unit>
       <trans-unit id="paginator.firstPage" datatype="html">
         <source>Primera página</source>
-        <target>Primera página</target>
+        <target>First page</target>
       </trans-unit>
       <trans-unit id="paginator.lastPage" datatype="html">
         <source>Última página</source>
-        <target>Última página</target>
+        <target>Last page</target>
       </trans-unit>
       <trans-unit id="paginator.rangeEmpty" datatype="html">
         <source>0 de <x id="total" equiv-text="length" />
         </source>
-        <target>0 de <x id="total" equiv-text="length" />
-        </target>
+        <target>0 of <x id="total" equiv-text="length" /></target>
       </trans-unit>
       <trans-unit id="paginator.range" datatype="html">
         <source>
           <x id="start" equiv-text="start" /> – <x id="end" equiv-text="end" /> de <x id="total" equiv-text="length" />
         </source>
-        <target>
-          <x id="start" equiv-text="start" /> – <x id="end" equiv-text="end" /> de <x id="total" equiv-text="length" />
-        </target>
+        <target><x id="start" equiv-text="start" /> – <x id="end" equiv-text="end" /> of <x id="total" equiv-text="length" /></target>
       </trans-unit>
       <trans-unit id="dashboard.errors.loadKpis" datatype="html">
         <source>No se pudieron cargar los KPIs</source>
@@ -9401,6 +9398,138 @@
       <trans-unit id="reports.rbs.loadError" datatype="html">
         <source>No se pudo cargar el reporte Requisiciones por fuente de reclutamiento. Intenta de nuevo.</source>
         <target>Could not load the Requisitions by recruitment source report. Please try again.</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.subtitle" datatype="html">
+        <source>Administración de candidatos en el sistema</source>
+        <target>Candidate administration in the system</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.new" datatype="html">
+        <source>Nuevo candidato</source>
+        <target>New candidate</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.search" datatype="html">
+        <source>Buscar candidato</source>
+        <target>Search candidate</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.searchPlaceholder" datatype="html">
+        <source>Nombre, correo…</source>
+        <target>Name, email…</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.loadError" datatype="html">
+        <source>No se pudieron cargar los candidatos</source>
+        <target>Could not load candidates</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.id" datatype="html">
+        <source>ID</source>
+        <target>ID</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.firstName" datatype="html">
+        <source>Nombre</source>
+        <target>First name</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.lastName" datatype="html">
+        <source>Apellidos</source>
+        <target>Last name</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.email" datatype="html">
+        <source>Correo</source>
+        <target>Email</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.phone" datatype="html">
+        <source>Teléfono</source>
+        <target>Phone</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.city" datatype="html">
+        <source>Ciudad</source>
+        <target>City</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.source" datatype="html">
+        <source>Origen</source>
+        <target>Source</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.active" datatype="html">
+        <source>Activo</source>
+        <target>Active</target>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.createdAt" datatype="html">
+        <source>Alta</source>
+        <target>Created</target>
+      </trans-unit>
+      <trans-unit id="candidates.source.portal" datatype="html">
+        <source>Portal</source>
+        <target>Portal</target>
+      </trans-unit>
+      <trans-unit id="candidates.source.recruiterExcelBulk" datatype="html">
+        <source>Carga Excel reclutador</source>
+        <target>Recruiter Excel bulk</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.titleEdit" datatype="html">
+        <source>Editar candidato</source>
+        <target>Edit candidate</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.subtitle" datatype="html">
+        <source>Complete la información del candidato</source>
+        <target>Complete the candidate information</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.loading" datatype="html">
+        <source>Cargando...</source>
+        <target>Loading...</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.gender.female" datatype="html">
+        <source>Femenino</source>
+        <target>Female</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.gender.male" datatype="html">
+        <source>Masculino</source>
+        <target>Male</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.source.manual" datatype="html">
+        <source>Carga Manual</source>
+        <target>Manual entry</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.source.jobboard" datatype="html">
+        <source>Jobboard</source>
+        <target>Job board</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.source.buc" datatype="html">
+        <source>BUC</source>
+        <target>BUC</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.created" datatype="html">
+        <source>Candidato creado</source>
+        <target>Candidate created</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.updated" datatype="html">
+        <source>Candidato actualizado</source>
+        <target>Candidate updated</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.saveError" datatype="html">
+        <source>No se pudo guardar el candidato</source>
+        <target>Could not save the candidate</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.loadError" datatype="html">
+        <source>No se pudo cargar el candidato</source>
+        <target>Could not load the candidate</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.countriesError" datatype="html">
+        <source>No se pudieron cargar los países</source>
+        <target>Could not load countries</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.statesError" datatype="html">
+        <source>No se pudieron cargar los estados</source>
+        <target>Could not load states</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.municipalitiesError" datatype="html">
+        <source>No se pudieron cargar los municipios</source>
+        <target>Could not load municipalities</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.neighborhoodsError" datatype="html">
+        <source>No se pudieron cargar las colonias</source>
+        <target>Could not load neighborhoods</target>
+      </trans-unit>
+      <trans-unit id="candidates.form.noNeighborhoods" datatype="html">
+        <source>Sin colonias para ese código postal</source>
+        <target>No neighborhoods for that postal code</target>
       </trans-unit>
     </body>
   </file>
