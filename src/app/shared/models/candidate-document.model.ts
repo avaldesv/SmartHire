@@ -8,6 +8,8 @@ export interface CandidateDocumentListItem {
   status: string | null;
   downloadUrl: string | null;
   createAt: string | null;
+  issueDate?: string | null;
+  dueDate?: string | null;
   isValidated?: boolean | null;
   rejectionReason?: string | null;
   validatedAt?: string | null;
@@ -31,6 +33,8 @@ export interface UploadApplicationDocumentResponse {
   status: string | null;
   downloadUrl: string | null;
   createAt: string | null;
+  issueDate?: string | null;
+  dueDate?: string | null;
 }
 
 export interface UpdateApplicationDocumentValidationRequest {
