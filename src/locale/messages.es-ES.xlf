@@ -9034,6 +9034,374 @@
         <source>Sin marca</source>
         <target>Sin marca</target>
       </trans-unit>
+      <trans-unit id="reports.filter.dimension" datatype="html">
+        <source>Dimensión</source>
+        <target>Dimensión</target>
+      </trans-unit>
+      <trans-unit id="reports.filter.startDay" datatype="html">
+        <source>Día inicial</source>
+        <target>Día inicial</target>
+      </trans-unit>
+      <trans-unit id="reports.filter.endDay" datatype="html">
+        <source>Día final</source>
+        <target>Día final</target>
+      </trans-unit>
+      <trans-unit id="reports.pager.range" datatype="html">
+        <source><x id="from"/> - <x id="to"/> de <x id="total"/></source>
+        <target><x id="from"/> - <x id="to"/> de <x id="total"/></target>
+      </trans-unit>
+      <trans-unit id="reports.month.january" datatype="html">
+        <source>Enero</source>
+        <target>Enero</target>
+      </trans-unit>
+      <trans-unit id="reports.month.february" datatype="html">
+        <source>Febrero</source>
+        <target>Febrero</target>
+      </trans-unit>
+      <trans-unit id="reports.month.march" datatype="html">
+        <source>Marzo</source>
+        <target>Marzo</target>
+      </trans-unit>
+      <trans-unit id="reports.month.april" datatype="html">
+        <source>Abril</source>
+        <target>Abril</target>
+      </trans-unit>
+      <trans-unit id="reports.month.june" datatype="html">
+        <source>Junio</source>
+        <target>Junio</target>
+      </trans-unit>
+      <trans-unit id="reports.month.july" datatype="html">
+        <source>Julio</source>
+        <target>Julio</target>
+      </trans-unit>
+      <trans-unit id="reports.month.august" datatype="html">
+        <source>Agosto</source>
+        <target>Agosto</target>
+      </trans-unit>
+      <trans-unit id="reports.month.september" datatype="html">
+        <source>Septiembre</source>
+        <target>Septiembre</target>
+      </trans-unit>
+      <trans-unit id="reports.month.october" datatype="html">
+        <source>Octubre</source>
+        <target>Octubre</target>
+      </trans-unit>
+      <trans-unit id="reports.month.november" datatype="html">
+        <source>Noviembre</source>
+        <target>Noviembre</target>
+      </trans-unit>
+      <trans-unit id="reports.month.december" datatype="html">
+        <source>Diciembre</source>
+        <target>Diciembre</target>
+      </trans-unit>
+      <trans-unit id="reports.dim.none" datatype="html">
+        <source>Resumen (sin dimensión)</source>
+        <target>Resumen (sin dimensión)</target>
+      </trans-unit>
+      <trans-unit id="reports.cons.status.created" datatype="html">
+        <source>Creada</source>
+        <target>Creada</target>
+      </trans-unit>
+      <trans-unit id="reports.cons.status.analysis" datatype="html">
+        <source>Análisis</source>
+        <target>Análisis</target>
+      </trans-unit>
+      <trans-unit id="reports.cons.status.selection" datatype="html">
+        <source>Selección</source>
+        <target>Selección</target>
+      </trans-unit>
+      <trans-unit id="reports.cons.subtitle" datatype="html">
+        <source>Resumen de requisiciones por estado y día del mes</source>
+        <target>Resumen de requisiciones por estado y día del mes</target>
+      </trans-unit>
+      <trans-unit id="reports.cons.loadError" datatype="html">
+        <source>No se pudo cargar el reporte Consolidado. Intenta de nuevo.</source>
+        <target>No se pudo cargar el reporte Consolidado. Intenta de nuevo.</target>
+      </trans-unit>
+      <trans-unit id="reports.cons.kpi.totalRequisitions" datatype="html">
+        <source>Total de requisiciones</source>
+        <target>Total de requisiciones</target>
+      </trans-unit>
+      <trans-unit id="reports.cons.kpi.recruiters" datatype="html">
+        <source>Reclutadores</source>
+        <target>Reclutadores</target>
+      </trans-unit>
+      <trans-unit id="reports.cons.kpi.reqPerRecruiter" datatype="html">
+        <source>Requis./Reclutadores</source>
+        <target>Requis./Reclutadores</target>
+      </trans-unit>
+      <trans-unit id="reports.cons.chart.status" datatype="html">
+        <source>Requisiciones por estado</source>
+        <target>Requisiciones por estado</target>
+      </trans-unit>
+      <trans-unit id="reports.cons.section.detail" datatype="html">
+        <source>Detalle de las requisiciones por estado y días del mes</source>
+        <target>Detalle de las requisiciones por estado y días del mes</target>
+      </trans-unit>
+      <trans-unit id="reports.cons.col.statusDay" datatype="html">
+        <source>Estado/Día</source>
+        <target>Estado/Día</target>
+      </trans-unit>
+      <trans-unit id="reports.cons.section.byDimension" datatype="html">
+        <source>Por dimensión</source>
+        <target>Por dimensión</target>
+      </trans-unit>
+      <trans-unit id="reports.cons.col.entity" datatype="html">
+        <source>Entidad</source>
+        <target>Entidad</target>
+      </trans-unit>
+      <trans-unit id="reports.seg.subtitle" datatype="html">
+        <source>Requisiciones por estado y totales por dimensión</source>
+        <target>Requisiciones por estado y totales por dimensión</target>
+      </trans-unit>
+      <trans-unit id="reports.seg.loadError" datatype="html">
+        <source>No se pudo cargar el Resumen segmentado. Intenta de nuevo.</source>
+        <target>No se pudo cargar el Resumen segmentado. Intenta de nuevo.</target>
+      </trans-unit>
+      <trans-unit id="reports.seg.section.daily" datatype="html">
+        <source>Resumen diario de requisiciones por Grupo / Reclutador</source>
+        <target>Resumen diario de requisiciones por Grupo / Reclutador</target>
+      </trans-unit>
+      <trans-unit id="reports.seg.col.groupRecruiter" datatype="html">
+        <source>Grupo/Reclutador</source>
+        <target>Grupo/Reclutador</target>
+      </trans-unit>
+      <trans-unit id="reports.tops.subtitle" datatype="html">
+        <source>Tops de incidencias (métricas pendientes de definición)</source>
+        <target>Tops de incidencias (métricas pendientes de definición)</target>
+      </trans-unit>
+      <trans-unit id="reports.tops.dim.pendingAssignment" datatype="html">
+        <source>Pendientes por asignar</source>
+        <target>Pendientes por asignar</target>
+      </trans-unit>
+      <trans-unit id="reports.tops.title" datatype="html">
+        <source>Tops de incidencias - Requisiciones <x id="dim"/></source>
+        <target>Tops de incidencias - Requisiciones <x id="dim"/></target>
+      </trans-unit>
+      <trans-unit id="reports.tops.col.coordinator" datatype="html">
+        <source>Coordinador</source>
+        <target>Coordinador</target>
+      </trans-unit>
+      <trans-unit id="reports.tops.col.requis" datatype="html">
+        <source>Requis.</source>
+        <target>Requis.</target>
+      </trans-unit>
+      <trans-unit id="reports.tops.col.businessUnit" datatype="html">
+        <source>Unidad de negocio</source>
+        <target>Unidad de negocio</target>
+      </trans-unit>
+      <trans-unit id="reports.tops.loadError" datatype="html">
+        <source>No se pudo cargar el reporte Tops de incidencias. Intenta de nuevo.</source>
+        <target>No se pudo cargar el reporte Tops de incidencias. Intenta de nuevo.</target>
+      </trans-unit>
+      <trans-unit id="reports.met.subtitle" datatype="html">
+        <source>Métricas de posiciones, postulados y contratados</source>
+        <target>Métricas de posiciones, postulados y contratados</target>
+      </trans-unit>
+      <trans-unit id="reports.met.titleBy" datatype="html">
+        <source>Métricas de requisiciones cubiertas por <x id="dim"/></source>
+        <target>Métricas de requisiciones cubiertas por <x id="dim"/></target>
+      </trans-unit>
+      <trans-unit id="reports.met.dim.byGroup" datatype="html">
+        <source>Por grupo</source>
+        <target>Por grupo</target>
+      </trans-unit>
+      <trans-unit id="reports.met.dim.byRecruiter" datatype="html">
+        <source>Por reclutador</source>
+        <target>Por reclutador</target>
+      </trans-unit>
+      <trans-unit id="reports.met.dim.byClient" datatype="html">
+        <source>Por cliente</source>
+        <target>Por cliente</target>
+      </trans-unit>
+      <trans-unit id="reports.met.dim.byBusinessUnit" datatype="html">
+        <source>Por U. Negocio</source>
+        <target>Por U. Negocio</target>
+      </trans-unit>
+      <trans-unit id="reports.met.emptyChart" datatype="html">
+        <source>Sin datos para graficar</source>
+        <target>Sin datos para graficar</target>
+      </trans-unit>
+      <trans-unit id="reports.met.col.positions" datatype="html">
+        <source>Posiciones</source>
+        <target>Posiciones</target>
+      </trans-unit>
+      <trans-unit id="reports.met.col.avgHireDays" datatype="html">
+        <source>Promedio días contratación</source>
+        <target>Promedio días contratación</target>
+      </trans-unit>
+      <trans-unit id="reports.met.loadError" datatype="html">
+        <source>No se pudo cargar el reporte Métricas. Intenta de nuevo.</source>
+        <target>No se pudo cargar el reporte Métricas. Intenta de nuevo.</target>
+      </trans-unit>
+      <trans-unit id="reports.rip.subtitle" datatype="html">
+        <source>En tiempo vs vencidas y detalle por cliente</source>
+        <target>En tiempo vs vencidas y detalle por cliente</target>
+      </trans-unit>
+      <trans-unit id="reports.rip.chart.onTimeVsExpired" datatype="html">
+        <source>Requisiciones en proceso vs. vencidas</source>
+        <target>Requisiciones en proceso vs. vencidas</target>
+      </trans-unit>
+      <trans-unit id="reports.rip.aria.pie" datatype="html">
+        <source>En tiempo vs vencidas</source>
+        <target>En tiempo vs vencidas</target>
+      </trans-unit>
+      <trans-unit id="reports.rip.onTime" datatype="html">
+        <source>En tiempo</source>
+        <target>En tiempo</target>
+      </trans-unit>
+      <trans-unit id="reports.rip.expired" datatype="html">
+        <source>Vencidas</source>
+        <target>Vencidas</target>
+      </trans-unit>
+      <trans-unit id="reports.rip.chart.byYear" datatype="html">
+        <source>Requisiciones en proceso y cantidad de postulados por año</source>
+        <target>Requisiciones en proceso y cantidad de postulados por año</target>
+      </trans-unit>
+      <trans-unit id="reports.rip.emptyYear" datatype="html">
+        <source>No hay información por año</source>
+        <target>No hay información por año</target>
+      </trans-unit>
+      <trans-unit id="reports.rip.aria.yearBars" datatype="html">
+        <source>Barras por año</source>
+        <target>Barras por año</target>
+      </trans-unit>
+      <trans-unit id="reports.rip.clients" datatype="html">
+        <source>Clientes</source>
+        <target>Clientes</target>
+      </trans-unit>
+      <trans-unit id="reports.rip.col.inProcess" datatype="html">
+        <source>En proceso</source>
+        <target>En proceso</target>
+      </trans-unit>
+      <trans-unit id="reports.rip.loadError" datatype="html">
+        <source>No se pudo cargar el reporte Requisiciones en proceso. Intenta de nuevo.</source>
+        <target>No se pudo cargar el reporte Requisiciones en proceso. Intenta de nuevo.</target>
+      </trans-unit>
+      <trans-unit id="reports.beh.title" datatype="html">
+        <source>Comportamiento del cubrimiento</source>
+        <target>Comportamiento del cubrimiento</target>
+      </trans-unit>
+      <trans-unit id="reports.beh.subtitle" datatype="html">
+        <source>Fill rate, etapas y detalle por requisición</source>
+        <target>Fill rate, etapas y detalle por requisición</target>
+      </trans-unit>
+      <trans-unit id="reports.beh.chart.fillRate" datatype="html">
+        <source>Fill rate</source>
+        <target>Fill rate</target>
+      </trans-unit>
+      <trans-unit id="reports.beh.chart.byType" datatype="html">
+        <source>Por tipo de requisición</source>
+        <target>Por tipo de requisición</target>
+      </trans-unit>
+      <trans-unit id="reports.beh.chart.stages" datatype="html">
+        <source>Métricas de candidatos por etapa</source>
+        <target>Métricas de candidatos por etapa</target>
+      </trans-unit>
+      <trans-unit id="reports.beh.noData" datatype="html">
+        <source>No hay datos disponibles</source>
+        <target>No hay datos disponibles</target>
+      </trans-unit>
+      <trans-unit id="reports.beh.section.covered" datatype="html">
+        <source>Comportamiento de las requisiciones cubiertas</source>
+        <target>Comportamiento de las requisiciones cubiertas</target>
+      </trans-unit>
+      <trans-unit id="reports.beh.fill.positions" datatype="html">
+        <source>Posiciones (<x id="pct"/>)</source>
+        <target>Posiciones (<x id="pct"/>)</target>
+      </trans-unit>
+      <trans-unit id="reports.beh.fill.hired" datatype="html">
+        <source>Contratados (<x id="pct"/>)</source>
+        <target>Contratados (<x id="pct"/>)</target>
+      </trans-unit>
+      <trans-unit id="reports.beh.fill.uncovered" datatype="html">
+        <source>Sin cubrir (<x id="pct"/>)</source>
+        <target>Sin cubrir (<x id="pct"/>)</target>
+      </trans-unit>
+      <trans-unit id="reports.beh.col.createDate" datatype="html">
+        <source>Fecha de creación</source>
+        <target>Fecha de creación</target>
+      </trans-unit>
+      <trans-unit id="reports.beh.col.commitmentDate" datatype="html">
+        <source>Fecha de compromiso</source>
+        <target>Fecha de compromiso</target>
+      </trans-unit>
+      <trans-unit id="reports.beh.col.coverageDate" datatype="html">
+        <source>Fecha de cobertura</source>
+        <target>Fecha de cobertura</target>
+      </trans-unit>
+      <trans-unit id="reports.beh.col.daysCreateCoverage" datatype="html">
+        <source>Tiempo (días) Creación-Cobertura</source>
+        <target>Tiempo (días) Creación-Cobertura</target>
+      </trans-unit>
+      <trans-unit id="reports.beh.col.daysCoverageCommitment" datatype="html">
+        <source>Tiempo (días) Cobertura-Compromiso</source>
+        <target>Tiempo (días) Cobertura-Compromiso</target>
+      </trans-unit>
+      <trans-unit id="reports.beh.col.positionsCount" datatype="html">
+        <source>Número de posiciones</source>
+        <target>Número de posiciones</target>
+      </trans-unit>
+      <trans-unit id="reports.beh.col.qtyApplicants" datatype="html">
+        <source>Cantidad de postulados</source>
+        <target>Cantidad de postulados</target>
+      </trans-unit>
+      <trans-unit id="reports.beh.col.qtyPreselected" datatype="html">
+        <source>Cantidad de preseleccionados</source>
+        <target>Cantidad de preseleccionados</target>
+      </trans-unit>
+      <trans-unit id="reports.beh.col.qtySelected" datatype="html">
+        <source>Cantidad de seleccionados</source>
+        <target>Cantidad de seleccionados</target>
+      </trans-unit>
+      <trans-unit id="reports.beh.col.qtyEvaluated" datatype="html">
+        <source>Cantidad de evaluados</source>
+        <target>Cantidad de evaluados</target>
+      </trans-unit>
+      <trans-unit id="reports.beh.col.qtyInterviewed" datatype="html">
+        <source>Cantidad de entrevistados</source>
+        <target>Cantidad de entrevistados</target>
+      </trans-unit>
+      <trans-unit id="reports.beh.col.qtyPrehired" datatype="html">
+        <source>Cantidad de precontratados</source>
+        <target>Cantidad de precontratados</target>
+      </trans-unit>
+      <trans-unit id="reports.beh.col.qtyHired" datatype="html">
+        <source>Cantidad de contratados</source>
+        <target>Cantidad de contratados</target>
+      </trans-unit>
+      <trans-unit id="reports.beh.loadError" datatype="html">
+        <source>No se pudo cargar el reporte Comportamiento. Intenta de nuevo.</source>
+        <target>No se pudo cargar el reporte Comportamiento. Intenta de nuevo.</target>
+      </trans-unit>
+      <trans-unit id="reports.rbs.subtitle" datatype="html">
+        <source>Desempeño por fuente de candidatos</source>
+        <target>Desempeño por fuente de candidatos</target>
+      </trans-unit>
+      <trans-unit id="reports.rbs.col.source" datatype="html">
+        <source>Fuente de reclutamiento</source>
+        <target>Fuente de reclutamiento</target>
+      </trans-unit>
+      <trans-unit id="reports.rbs.col.hiredPct" datatype="html">
+        <source>% de Contratados</source>
+        <target>% de Contratados</target>
+      </trans-unit>
+      <trans-unit id="reports.rbs.col.notHired" datatype="html">
+        <source>No contratados</source>
+        <target>No contratados</target>
+      </trans-unit>
+      <trans-unit id="reports.rbs.col.notHiredPct" datatype="html">
+        <source>% No Contratados</source>
+        <target>% No Contratados</target>
+      </trans-unit>
+      <trans-unit id="reports.rbs.col.sourceCoverage" datatype="html">
+        <source>% Cubrimiento fuentes</source>
+        <target>% Cubrimiento fuentes</target>
+      </trans-unit>
+      <trans-unit id="reports.rbs.loadError" datatype="html">
+        <source>No se pudo cargar el reporte Requisiciones por fuente de reclutamiento. Intenta de nuevo.</source>
+        <target>No se pudo cargar el reporte Requisiciones por fuente de reclutamiento. Intenta de nuevo.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

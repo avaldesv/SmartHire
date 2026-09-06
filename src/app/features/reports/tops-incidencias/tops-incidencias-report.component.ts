@@ -13,7 +13,25 @@ import { CatalogGeographyService } from '../../../core/services/catalog-geograph
 import { SecurityRecruiterGroupService } from '../../../core/services/security-recruiter-group.service';
 import { ClientFilterFieldComponent } from '../../../shared/components/client-filter-field/client-filter-field.component';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
-import { REPORTS_CLEAR_FILTERS, REPORTS_UPDATE } from '../../../core/i18n/reports-i18n-labels';
+import {
+  REPORTS_CLEAR_FILTERS,
+  REPORTS_FILTER_ALL,
+  REPORTS_FILTER_BUSINESS_UNIT_SHORT,
+  REPORTS_FILTER_COUNTRY,
+  REPORTS_FILTER_DIMENSION,
+  REPORTS_FILTER_END_DATE,
+  REPORTS_FILTER_GROUP,
+  REPORTS_FILTER_SELECT_COUNTRY,
+  REPORTS_FILTER_START_DATE,
+  REPORTS_SBR_EMPTY,
+  REPORTS_TOPS_COL_BUSINESS_UNIT,
+  REPORTS_TOPS_COL_COORDINATOR,
+  REPORTS_TOPS_COL_REQUIS,
+  REPORTS_TOPS_DIM_PENDING_ASSIGNMENT,
+  REPORTS_TOPS_SUBTITLE,
+  REPORTS_UPDATE,
+  reportsTopsTitle,
+} from '../../../core/i18n/reports-i18n-labels';
 import { CatalogBusinessUnit } from '../../../shared/models/catalog-business-unit.model';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import { SecurityRecruiterGroup } from '../../../shared/models/security-recruiter-group.model';
@@ -49,8 +67,23 @@ export class TopsIncidenciasReportComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
   private readonly armTenantReload = armReportTenantReload(() => this.reloadForTenant());
-  readonly updateLabel = REPORTS_UPDATE;
-  readonly clearFiltersLabel = REPORTS_CLEAR_FILTERS;
+  readonly ui = {
+    subtitle: REPORTS_TOPS_SUBTITLE,
+    update: REPORTS_UPDATE,
+    clearFilters: REPORTS_CLEAR_FILTERS,
+    startDate: REPORTS_FILTER_START_DATE,
+    endDate: REPORTS_FILTER_END_DATE,
+    country: REPORTS_FILTER_COUNTRY,
+    dimension: REPORTS_FILTER_DIMENSION,
+    group: REPORTS_FILTER_GROUP,
+    businessUnit: REPORTS_FILTER_BUSINESS_UNIT_SHORT,
+    all: REPORTS_FILTER_ALL,
+    selectCountry: REPORTS_FILTER_SELECT_COUNTRY,
+    colCoordinator: REPORTS_TOPS_COL_COORDINATOR,
+    colRequis: REPORTS_TOPS_COL_REQUIS,
+    colBusinessUnit: REPORTS_TOPS_COL_BUSINESS_UNIT,
+    empty: REPORTS_SBR_EMPTY,
+  };
 
   loading = false;
   loadingCatalogs = true;
@@ -65,7 +98,7 @@ export class TopsIncidenciasReportComponent implements OnInit {
   businessUnitRows: TopsIncidenciaRow[] = [];
 
   readonly dimensionOptions = [
-    { value: 'PENDING_ASSIGNMENT', label: 'Pendientes por asignar' },
+    { value: 'PENDING_ASSIGNMENT', label: REPORTS_TOPS_DIM_PENDING_ASSIGNMENT },
   ];
 
   readonly filters = this.fb.nonNullable.group({
@@ -93,8 +126,8 @@ export class TopsIncidenciasReportComponent implements OnInit {
 
   get pageTitle(): string {
     const dim = this.dimensionOptions.find((d) => d.value === this.filters.controls.dimension.value);
-    const suffix = dim?.label ?? 'Pendientes por asignar';
-    return `Tops de incidencias - Requisiciones ${suffix.toLowerCase()}`;
+    const suffix = dim?.label ?? REPORTS_TOPS_DIM_PENDING_ASSIGNMENT;
+    return reportsTopsTitle(suffix.toLocaleLowerCase());
   }
 
   clearFilters(): void {

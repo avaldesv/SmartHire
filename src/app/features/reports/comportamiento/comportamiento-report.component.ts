@@ -14,7 +14,53 @@ import { PositionService } from '../../../core/services/position.service';
 import { ReportsApiService } from '../../../core/services/reports-api.service';
 import { ClientFilterFieldComponent } from '../../../shared/components/client-filter-field/client-filter-field.component';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
-import { REPORTS_CLEAR_FILTERS, REPORTS_UPDATE } from '../../../core/i18n/reports-i18n-labels';
+import {
+  REPORTS_BEH_CHART_BY_TYPE,
+  REPORTS_BEH_CHART_FILL_RATE,
+  REPORTS_BEH_CHART_STAGES,
+  REPORTS_BEH_COL_COMMITMENT_DATE,
+  REPORTS_BEH_COL_COVERAGE_DATE,
+  REPORTS_BEH_COL_CREATE_DATE,
+  REPORTS_BEH_COL_DAYS_COVERAGE_COMMITMENT,
+  REPORTS_BEH_COL_DAYS_CREATE_COVERAGE,
+  REPORTS_BEH_COL_POSITIONS_COUNT,
+  REPORTS_BEH_COL_QTY_APPLICANTS,
+  REPORTS_BEH_COL_QTY_EVALUATED,
+  REPORTS_BEH_COL_QTY_HIRED,
+  REPORTS_BEH_COL_QTY_INTERVIEWED,
+  REPORTS_BEH_COL_QTY_PREHIRED,
+  REPORTS_BEH_COL_QTY_PRESELECTED,
+  REPORTS_BEH_COL_QTY_SELECTED,
+  REPORTS_BEH_LOAD_ERROR,
+  REPORTS_BEH_NO_DATA,
+  REPORTS_BEH_SECTION_COVERED,
+  REPORTS_BEH_SUBTITLE,
+  REPORTS_BEH_TITLE,
+  REPORTS_CLEAR_FILTERS,
+  REPORTS_FILTER_ALL,
+  REPORTS_FILTER_ALL_FEM,
+  REPORTS_FILTER_BUSINESS_UNIT_SHORT,
+  REPORTS_FILTER_COUNTRY,
+  REPORTS_FILTER_END_DATE,
+  REPORTS_FILTER_REQUISITION,
+  REPORTS_FILTER_SELECT_COUNTRY,
+  REPORTS_FILTER_START_DATE,
+  REPORTS_FILTER_STATUS,
+  REPORTS_SBR_COL_APPLICANTS,
+  REPORTS_SBR_COL_EVALUATED,
+  REPORTS_SBR_COL_HIRED,
+  REPORTS_SBR_COL_INTERVIEWED,
+  REPORTS_SBR_COL_PREHIRED,
+  REPORTS_SBR_COL_PRESELECTED,
+  REPORTS_SBR_COL_SELECTED,
+  REPORTS_SBR_EMPTY,
+  REPORTS_SBR_STATUS_COVERED,
+  REPORTS_UPDATE,
+  reportsBehaviorHired,
+  reportsBehaviorPositions,
+  reportsBehaviorUncovered,
+  reportsOrderNumber,
+} from '../../../core/i18n/reports-i18n-labels';
 import { CatalogBusinessUnit } from '../../../shared/models/catalog-business-unit.model';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import { ComportamientoFilterRequest } from '../../../shared/models/report.model';
@@ -75,8 +121,40 @@ export class ComportamientoReportComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
   private readonly armTenantReload = armReportTenantReload(() => this.reloadForTenant());
-  readonly updateLabel = REPORTS_UPDATE;
-  readonly clearFiltersLabel = REPORTS_CLEAR_FILTERS;
+  readonly ui = {
+    title: REPORTS_BEH_TITLE,
+    subtitle: REPORTS_BEH_SUBTITLE,
+    update: REPORTS_UPDATE,
+    clearFilters: REPORTS_CLEAR_FILTERS,
+    startDate: REPORTS_FILTER_START_DATE,
+    endDate: REPORTS_FILTER_END_DATE,
+    country: REPORTS_FILTER_COUNTRY,
+    status: REPORTS_FILTER_STATUS,
+    requisition: REPORTS_FILTER_REQUISITION,
+    businessUnit: REPORTS_FILTER_BUSINESS_UNIT_SHORT,
+    all: REPORTS_FILTER_ALL,
+    allFem: REPORTS_FILTER_ALL_FEM,
+    selectCountry: REPORTS_FILTER_SELECT_COUNTRY,
+    chartFillRate: REPORTS_BEH_CHART_FILL_RATE,
+    chartByType: REPORTS_BEH_CHART_BY_TYPE,
+    chartStages: REPORTS_BEH_CHART_STAGES,
+    noData: REPORTS_BEH_NO_DATA,
+    empty: REPORTS_SBR_EMPTY,
+    sectionCovered: REPORTS_BEH_SECTION_COVERED,
+    colCreateDate: REPORTS_BEH_COL_CREATE_DATE,
+    colCommitmentDate: REPORTS_BEH_COL_COMMITMENT_DATE,
+    colCoverageDate: REPORTS_BEH_COL_COVERAGE_DATE,
+    colDaysCreateCoverage: REPORTS_BEH_COL_DAYS_CREATE_COVERAGE,
+    colDaysCoverageCommitment: REPORTS_BEH_COL_DAYS_COVERAGE_COMMITMENT,
+    colPositionsCount: REPORTS_BEH_COL_POSITIONS_COUNT,
+    colQtyApplicants: REPORTS_BEH_COL_QTY_APPLICANTS,
+    colQtyPreselected: REPORTS_BEH_COL_QTY_PRESELECTED,
+    colQtySelected: REPORTS_BEH_COL_QTY_SELECTED,
+    colQtyEvaluated: REPORTS_BEH_COL_QTY_EVALUATED,
+    colQtyInterviewed: REPORTS_BEH_COL_QTY_INTERVIEWED,
+    colQtyPrehired: REPORTS_BEH_COL_QTY_PREHIRED,
+    colQtyHired: REPORTS_BEH_COL_QTY_HIRED,
+  };
 
   loading = false;
   loadingCatalogs = true;
@@ -91,17 +169,17 @@ export class ComportamientoReportComponent implements OnInit {
   rows: ComportamientoRow[] = [];
 
   readonly stageLabels = [
-    'Postulados',
-    'Preseleccionados',
-    'Seleccionados',
-    'Evaluados',
-    'Entrevistados',
-    'Precontratados',
-    'Contratados',
+    REPORTS_SBR_COL_APPLICANTS,
+    REPORTS_SBR_COL_PRESELECTED,
+    REPORTS_SBR_COL_SELECTED,
+    REPORTS_SBR_COL_EVALUATED,
+    REPORTS_SBR_COL_INTERVIEWED,
+    REPORTS_SBR_COL_PREHIRED,
+    REPORTS_SBR_COL_HIRED,
   ];
 
   /** Q6-A: universo fijo COVERED — selector informativo. */
-  readonly statusOptions = [{ value: 'COVERED', label: 'Cubierta' }];
+  readonly statusOptions = [{ value: 'COVERED', label: REPORTS_SBR_STATUS_COVERED }];
 
   readonly filters = this.fb.nonNullable.group({
     startDate: this.fb.control<string>(todayIso()),
@@ -161,7 +239,7 @@ export class ComportamientoReportComponent implements OnInit {
       .getComportamiento(this.buildRequest())
       .pipe(
         catchError(() => {
-          this.errorMessage = 'No se pudo cargar el reporte Comportamiento. Intenta de nuevo.';
+          this.errorMessage = REPORTS_BEH_LOAD_ERROR;
           return of(null);
         }),
         takeUntilDestroyed(this.destroyRef),
@@ -198,6 +276,18 @@ export class ComportamientoReportComponent implements OnInit {
 
   formatPercent(value: number | null | undefined): string {
     return formatReportPercent(value);
+  }
+
+  positionsFillLabel(): string {
+    return reportsBehaviorPositions(this.formatPercent(this.fillRate.positionsPct));
+  }
+
+  hiredFillLabel(): string {
+    return reportsBehaviorHired(this.formatPercent(this.fillRate.hiredPct));
+  }
+
+  uncoveredFillLabel(): string {
+    return reportsBehaviorUncovered(this.formatPercent(this.fillRate.uncoveredPct));
   }
 
   barWidth(value: number | null | undefined): string {
@@ -245,7 +335,7 @@ export class ComportamientoReportComponent implements OnInit {
         this.countries = countries;
         this.positionOptions = positions.items.map((p) => ({
           id: p.id,
-          label: [p.ot || p.requisitionNo, p.name].filter(Boolean).join(' — ') || `Orden #${p.id}`,
+          label: [p.ot || p.requisitionNo, p.name].filter(Boolean).join(' — ') || reportsOrderNumber(p.id),
         }));
         this.loadingCatalogs = false;
       });

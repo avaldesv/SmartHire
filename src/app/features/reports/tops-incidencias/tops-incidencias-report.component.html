@@ -1,13 +1,13 @@
 <div class="tops-report">
-  <sh-page-header [title]="pageTitle" subtitle="Tops de incidencias (métricas pendientes de definición)">
+  <sh-page-header [title]="pageTitle" [subtitle]="ui.subtitle">
     <div class="header-filter-actions">
       <button mat-flat-button color="primary" type="button" (click)="load()" [disabled]="loading">
         <mat-icon>refresh</mat-icon>
-        {{ updateLabel }}
+        {{ ui.update }}
       </button>
       <button mat-stroked-button type="button" (click)="clearFilters()" [disabled]="loading">
         <mat-icon>filter_alt_off</mat-icon>
-        {{ clearFiltersLabel }}
+        {{ ui.clearFilters }}
       </button>
     </div>
   </sh-page-header>
@@ -15,19 +15,19 @@
   <form [formGroup]="filters" class="sh-filters sh-card tops-filters">
     <div class="primary-filters-grid">
       <mat-form-field appearance="outline">
-        <mat-label>Fecha inicial</mat-label>
+        <mat-label>{{ ui.startDate }}</mat-label>
         <input matInput type="date" formControlName="startDate" />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Fecha final</mat-label>
+        <mat-label>{{ ui.endDate }}</mat-label>
         <input matInput type="date" formControlName="endDate" />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>País</mat-label>
+        <mat-label>{{ ui.country }}</mat-label>
         <mat-select formControlName="countryId">
-          <mat-option [value]="null">Todos</mat-option>
+          <mat-option [value]="null">{{ ui.all }}</mat-option>
           @for (c of countries; track c.id) {
             <mat-option [value]="c.id">{{ c.name }}</mat-option>
           }
@@ -35,7 +35,7 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Dimensión</mat-label>
+        <mat-label>{{ ui.dimension }}</mat-label>
         <mat-select formControlName="dimension">
           @for (opt of dimensionOptions; track opt.value) {
             <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
@@ -48,10 +48,10 @@
       <sh-client-filter-field formControlName="clientKey" />
 
       <mat-form-field appearance="outline">
-        <mat-label>Grupo</mat-label>
+        <mat-label>{{ ui.group }}</mat-label>
         <mat-select formControlName="recruiterGroupId">
           <mat-option [value]="null">
-            {{ filters.controls.recruiterGroupId.disabled ? 'Selecciona país' : 'Todos' }}
+            {{ filters.controls.recruiterGroupId.disabled ? ui.selectCountry : ui.all }}
           </mat-option>
           @for (g of groupOptions; track g.id) {
             <mat-option [value]="g.id">{{ g.description || g.code }}</mat-option>
@@ -60,10 +60,10 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>U. Negocio</mat-label>
+        <mat-label>{{ ui.businessUnit }}</mat-label>
         <mat-select formControlName="workplaceId">
           <mat-option [value]="null">
-            {{ filters.controls.workplaceId.disabled ? 'Selecciona país' : 'Todos' }}
+            {{ filters.controls.workplaceId.disabled ? ui.selectCountry : ui.all }}
           </mat-option>
           @for (bu of businessUnitOptions; track bu.id) {
             <mat-option [value]="bu.id">{{ bu.name }}</mat-option>
@@ -86,14 +86,14 @@
           <table class="tops-table">
             <thead>
               <tr>
-                <th class="col-label">Coordinador</th>
-                <th class="col-num">Requis.</th>
+                <th class="col-label">{{ ui.colCoordinator }}</th>
+                <th class="col-num">{{ ui.colRequis }}</th>
               </tr>
             </thead>
             <tbody>
               @if (coordinatorRows.length === 0) {
                 <tr>
-                  <td colspan="2" class="empty-cell">No hay información</td>
+                  <td colspan="2" class="empty-cell">{{ ui.empty }}</td>
                 </tr>
               } @else {
                 @for (row of coordinatorRows; track row.label) {
@@ -113,14 +113,14 @@
           <table class="tops-table">
             <thead>
               <tr>
-                <th class="col-label">Unidad de negocio</th>
-                <th class="col-num">Requis.</th>
+                <th class="col-label">{{ ui.colBusinessUnit }}</th>
+                <th class="col-num">{{ ui.colRequis }}</th>
               </tr>
             </thead>
             <tbody>
               @if (businessUnitRows.length === 0) {
                 <tr>
-                  <td colspan="2" class="empty-cell">No hay información</td>
+                  <td colspan="2" class="empty-cell">{{ ui.empty }}</td>
                 </tr>
               } @else {
                 @for (row of businessUnitRows; track row.label) {

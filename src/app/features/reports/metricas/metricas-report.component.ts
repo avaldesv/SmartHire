@@ -15,7 +15,33 @@ import { SecurityRecruiterGroupService } from '../../../core/services/security-r
 import { SecurityUserService } from '../../../core/services/security-user.service';
 import { ClientFilterFieldComponent } from '../../../shared/components/client-filter-field/client-filter-field.component';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
-import { REPORTS_CLEAR_FILTERS, REPORTS_UPDATE } from '../../../core/i18n/reports-i18n-labels';
+import {
+  REPORTS_CLEAR_FILTERS,
+  REPORTS_FILTER_ALL,
+  REPORTS_FILTER_BUSINESS_UNIT_SHORT,
+  REPORTS_FILTER_CLIENT,
+  REPORTS_FILTER_COUNTRY,
+  REPORTS_FILTER_DIMENSION,
+  REPORTS_FILTER_END_DATE,
+  REPORTS_FILTER_GROUP,
+  REPORTS_FILTER_RECRUITER,
+  REPORTS_FILTER_SELECT_COUNTRY,
+  REPORTS_FILTER_START_DATE,
+  REPORTS_MET_COL_AVG_HIRE_DAYS,
+  REPORTS_MET_COL_POSITIONS,
+  REPORTS_MET_DIM_BY_BUSINESS_UNIT,
+  REPORTS_MET_DIM_BY_CLIENT,
+  REPORTS_MET_DIM_BY_GROUP,
+  REPORTS_MET_DIM_BY_RECRUITER,
+  REPORTS_MET_EMPTY_CHART,
+  REPORTS_MET_LOAD_ERROR,
+  REPORTS_MET_SUBTITLE,
+  REPORTS_PERF_COL_TOTAL,
+  REPORTS_SBR_COL_APPLICANTS,
+  REPORTS_SBR_COL_HIRED,
+  REPORTS_UPDATE,
+  reportsMetricsTitleBy,
+} from '../../../core/i18n/reports-i18n-labels';
 import { CatalogBusinessUnit } from '../../../shared/models/catalog-business-unit.model';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import { MetricasFilterRequest } from '../../../shared/models/report.model';
@@ -64,8 +90,25 @@ export class MetricasReportComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
   private readonly armTenantReload = armReportTenantReload(() => this.reloadForTenant());
-  readonly updateLabel = REPORTS_UPDATE;
-  readonly clearFiltersLabel = REPORTS_CLEAR_FILTERS;
+  readonly ui = {
+    subtitle: REPORTS_MET_SUBTITLE,
+    update: REPORTS_UPDATE,
+    clearFilters: REPORTS_CLEAR_FILTERS,
+    startDate: REPORTS_FILTER_START_DATE,
+    endDate: REPORTS_FILTER_END_DATE,
+    country: REPORTS_FILTER_COUNTRY,
+    dimension: REPORTS_FILTER_DIMENSION,
+    recruiter: REPORTS_FILTER_RECRUITER,
+    group: REPORTS_FILTER_GROUP,
+    businessUnit: REPORTS_FILTER_BUSINESS_UNIT_SHORT,
+    all: REPORTS_FILTER_ALL,
+    selectCountry: REPORTS_FILTER_SELECT_COUNTRY,
+    emptyChart: REPORTS_MET_EMPTY_CHART,
+    colPositions: REPORTS_MET_COL_POSITIONS,
+    colApplicants: REPORTS_SBR_COL_APPLICANTS,
+    colHired: REPORTS_SBR_COL_HIRED,
+    colAvgHireDays: REPORTS_MET_COL_AVG_HIRE_DAYS,
+  };
 
   loading = false;
   loadingCatalogs = true;
@@ -77,19 +120,19 @@ export class MetricasReportComponent implements OnInit {
   recruiterOptions: SelectOption[] = [];
 
   rows: MetricasRow[] = [];
-  totalRow: MetricasRow = emptyTotal();
+  totalRow: MetricasRow = emptyTotal(REPORTS_PERF_COL_TOTAL);
 
   readonly chartSeries = [
-    { key: 'positions', label: 'Posiciones', color: '#2563eb' },
-    { key: 'applicants', label: 'Postulados', color: '#16a34a' },
-    { key: 'hired', label: 'Contratados', color: '#eab308' },
+    { key: 'positions', label: REPORTS_MET_COL_POSITIONS, color: '#2563eb' },
+    { key: 'applicants', label: REPORTS_SBR_COL_APPLICANTS, color: '#16a34a' },
+    { key: 'hired', label: REPORTS_SBR_COL_HIRED, color: '#eab308' },
   ] as const;
 
   readonly dimensionOptions = [
-    { value: 'GROUP', label: 'Por grupo' },
-    { value: 'RECRUITER', label: 'Por reclutador' },
-    { value: 'CLIENT', label: 'Por cliente' },
-    { value: 'BUSINESS_UNIT', label: 'Por U. Negocio' },
+    { value: 'GROUP', label: REPORTS_MET_DIM_BY_GROUP },
+    { value: 'RECRUITER', label: REPORTS_MET_DIM_BY_RECRUITER },
+    { value: 'CLIENT', label: REPORTS_MET_DIM_BY_CLIENT },
+    { value: 'BUSINESS_UNIT', label: REPORTS_MET_DIM_BY_BUSINESS_UNIT },
   ];
 
   readonly filters = this.fb.nonNullable.group({
@@ -118,20 +161,20 @@ export class MetricasReportComponent implements OnInit {
 
   get pageTitle(): string {
     const dim = this.dimensionOptions.find((d) => d.value === this.filters.controls.dimension.value);
-    const suffix = dim?.label?.replace(/^Por /i, '') ?? 'grupo';
-    return `Métricas de requisiciones cubiertas por ${suffix}`;
+    const suffix = dim?.label?.replace(/^[^\s]+\s+/, '') ?? REPORTS_FILTER_GROUP.toLocaleLowerCase();
+    return reportsMetricsTitleBy(suffix);
   }
 
   get dimensionColumnLabel(): string {
     switch (this.filters.controls.dimension.value) {
       case 'RECRUITER':
-        return 'Reclutador';
+        return REPORTS_FILTER_RECRUITER;
       case 'CLIENT':
-        return 'Cliente';
+        return REPORTS_FILTER_CLIENT;
       case 'BUSINESS_UNIT':
-        return 'U. Negocio';
+        return REPORTS_FILTER_BUSINESS_UNIT_SHORT;
       default:
-        return 'Grupo';
+        return REPORTS_FILTER_GROUP;
     }
   }
 
@@ -170,14 +213,14 @@ export class MetricasReportComponent implements OnInit {
       .getMetricas(this.buildRequest())
       .pipe(
         catchError(() => {
-          this.errorMessage = 'No se pudo cargar el reporte Métricas. Intenta de nuevo.';
+          this.errorMessage = REPORTS_MET_LOAD_ERROR;
           return of(null);
         }),
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((data) => {
         this.rows = (data?.rows ?? []).map(mapRow);
-        this.totalRow = data?.total ? mapRow(data.total) : emptyTotal();
+        this.totalRow = data?.total ? mapRow(data.total) : emptyTotal(REPORTS_PERF_COL_TOTAL);
         this.loading = false;
       });
   }
@@ -259,10 +302,10 @@ export class MetricasReportComponent implements OnInit {
   }
 }
 
-function emptyTotal(): MetricasRow {
+function emptyTotal(label: string): MetricasRow {
   return {
     key: 'TOTAL',
-    label: 'TOTAL GENERAL',
+    label,
     positions: null,
     applicants: null,
     hired: null,

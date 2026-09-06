@@ -1,16 +1,16 @@
 <div class="seg-report">
   <sh-page-header
-    title="Resumen segmentado"
-    subtitle="Requisiciones por estado y totales por dimensión"
+    [title]="ui.title"
+    [subtitle]="ui.subtitle"
   >
     <div class="header-filter-actions">
       <button mat-flat-button color="primary" type="button" (click)="load()" [disabled]="loading">
         <mat-icon>refresh</mat-icon>
-        {{ updateLabel }}
+        {{ ui.update }}
       </button>
       <button mat-stroked-button type="button" (click)="clearFilters()" [disabled]="loading">
         <mat-icon>filter_alt_off</mat-icon>
-        {{ clearFiltersLabel }}
+        {{ ui.clearFilters }}
       </button>
     </div>
   </sh-page-header>
@@ -18,9 +18,9 @@
   <form [formGroup]="filters" class="sh-filters sh-card seg-filters">
     <div class="primary-filters-grid">
       <mat-form-field appearance="outline">
-        <mat-label>País</mat-label>
+        <mat-label>{{ ui.country }}</mat-label>
         <mat-select formControlName="countryId">
-          <mat-option [value]="null">Todos</mat-option>
+          <mat-option [value]="null">{{ ui.all }}</mat-option>
           @for (c of countries; track c.id) {
             <mat-option [value]="c.id">{{ c.name }}</mat-option>
           }
@@ -28,9 +28,9 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Tipo reclutamiento</mat-label>
+        <mat-label>{{ ui.recruitmentType }}</mat-label>
         <mat-select formControlName="recruitmentType">
-          <mat-option [value]="null">Todos</mat-option>
+          <mat-option [value]="null">{{ ui.all }}</mat-option>
           @for (opt of recruitmentTypeOptions; track opt.value) {
             <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
           }
@@ -38,10 +38,10 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>U. Negocio</mat-label>
+        <mat-label>{{ ui.businessUnit }}</mat-label>
         <mat-select formControlName="workplaceId">
           <mat-option [value]="null">
-            {{ filters.controls.workplaceId.disabled ? 'Selecciona país' : 'Todos' }}
+            {{ filters.controls.workplaceId.disabled ? ui.selectCountry : ui.all }}
           </mat-option>
           @for (bu of businessUnitOptions; track bu.id) {
             <mat-option [value]="bu.id">{{ bu.name }}</mat-option>
@@ -50,10 +50,10 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Grupo</mat-label>
+        <mat-label>{{ ui.group }}</mat-label>
         <mat-select formControlName="recruiterGroupId">
           <mat-option [value]="null">
-            {{ filters.controls.recruiterGroupId.disabled ? 'Selecciona país' : 'Todos' }}
+            {{ filters.controls.recruiterGroupId.disabled ? ui.selectCountry : ui.all }}
           </mat-option>
           @for (g of groupOptions; track g.id) {
             <mat-option [value]="g.id">{{ g.description || g.code }}</mat-option>
@@ -64,9 +64,9 @@
 
     <div class="primary-filters-grid">
       <mat-form-field appearance="outline">
-        <mat-label>Reclutador</mat-label>
+        <mat-label>{{ ui.recruiter }}</mat-label>
         <mat-select formControlName="assignedUserId">
-          <mat-option [value]="null">Todos</mat-option>
+          <mat-option [value]="null">{{ ui.all }}</mat-option>
           @for (u of recruiterOptions; track u.id) {
             <mat-option [value]="u.id">{{ u.label }}</mat-option>
           }
@@ -74,7 +74,7 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Año</mat-label>
+        <mat-label>{{ ui.year }}</mat-label>
         <mat-select formControlName="year">
           @for (y of yearOptions; track y) {
             <mat-option [value]="y">{{ y }}</mat-option>
@@ -83,7 +83,7 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Mes</mat-label>
+        <mat-label>{{ ui.month }}</mat-label>
         <mat-select formControlName="month">
           @for (m of monthOptions; track m.value) {
             <mat-option [value]="m.value">{{ m.label }}</mat-option>
@@ -92,7 +92,7 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Día inicial</mat-label>
+        <mat-label>{{ ui.startDay }}</mat-label>
         <mat-select formControlName="startDay">
           @for (d of dayOptions; track d) {
             <mat-option [value]="d">{{ d }}</mat-option>
@@ -103,7 +103,7 @@
 
     <div class="primary-filters-grid">
       <mat-form-field appearance="outline">
-        <mat-label>Día final</mat-label>
+        <mat-label>{{ ui.endDay }}</mat-label>
         <mat-select formControlName="endDay">
           @for (d of dayOptions; track d) {
             <mat-option [value]="d">{{ d }}</mat-option>
@@ -112,9 +112,9 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Estado</mat-label>
+        <mat-label>{{ ui.status }}</mat-label>
         <mat-select formControlName="statusCode">
-          <mat-option [value]="null">Todos</mat-option>
+          <mat-option [value]="null">{{ ui.all }}</mat-option>
           @for (opt of statusOptions; track opt.value) {
             <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
           }
@@ -122,9 +122,9 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Orden</mat-label>
+        <mat-label>{{ ui.order }}</mat-label>
         <mat-select formControlName="positionId">
-          <mat-option [value]="null">Todas</mat-option>
+          <mat-option [value]="null">{{ ui.allFem }}</mat-option>
           @for (p of positionOptions; track p.id) {
             <mat-option [value]="p.id">{{ p.label }}</mat-option>
           }
@@ -136,7 +136,7 @@
 
     <div class="primary-filters-grid">
       <mat-form-field appearance="outline">
-        <mat-label>Dimensión</mat-label>
+        <mat-label>{{ ui.dimension }}</mat-label>
         <mat-select formControlName="dimension">
           @for (opt of dimensionOptions; track opt.value) {
             <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
@@ -154,11 +154,11 @@
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else {
     <section class="sh-card chart-card">
-      <h3 class="chart-title">Requisiciones por estado</h3>
+      <h3 class="chart-title">{{ ui.chartStatus }}</h3>
       <div class="hbar-chart">
         @for (row of statusTotals; track row.statusCode) {
           <div class="hbar-row">
-            <span class="hbar-label">{{ row.status }}</span>
+            <span class="hbar-label">{{ statusLabel(row) }}</span>
             <div class="hbar-track">
               @if (row.defined) {
                 <div class="hbar-fill" [style.width]="barWidth(row.total)"></div>
@@ -171,19 +171,19 @@
     </section>
 
     <div class="sh-card results-card">
-      <h3 class="section-title">Resumen diario de requisiciones por Grupo / Reclutador</h3>
+      <h3 class="section-title">{{ ui.sectionDaily }}</h3>
       <div class="table-scroll">
         <table class="seg-table">
           <thead>
             <tr>
               <th class="col-label">{{ dimensionColumnLabel }}</th>
-              <th>Total</th>
+              <th>{{ ui.total }}</th>
             </tr>
           </thead>
           <tbody>
             @if (dimensionRows.length === 0) {
               <tr>
-                <td colspan="2" class="empty-cell">No hay información</td>
+                <td colspan="2" class="empty-cell">{{ ui.empty }}</td>
               </tr>
             } @else {
               @for (row of dimensionRows; track row.key) {

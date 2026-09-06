@@ -1,13 +1,13 @@
 <div class="rip-report">
-  <sh-page-header title="Requisiciones en proceso" subtitle="En tiempo vs vencidas y detalle por cliente">
+  <sh-page-header [title]="ui.title" [subtitle]="ui.subtitle">
     <div class="header-filter-actions">
       <button mat-flat-button color="primary" type="button" (click)="applyFilters()" [disabled]="loading">
         <mat-icon>refresh</mat-icon>
-        {{ updateLabel }}
+        {{ ui.update }}
       </button>
       <button mat-stroked-button type="button" (click)="clearFilters()" [disabled]="loading">
         <mat-icon>filter_alt_off</mat-icon>
-        {{ clearFiltersLabel }}
+        {{ ui.clearFilters }}
       </button>
     </div>
   </sh-page-header>
@@ -15,9 +15,9 @@
   <form [formGroup]="filters" class="sh-filters sh-card rip-filters">
     <div class="primary-filters-grid">
       <mat-form-field appearance="outline">
-        <mat-label>País</mat-label>
+        <mat-label>{{ ui.country }}</mat-label>
         <mat-select formControlName="countryId">
-          <mat-option [value]="null">Todos</mat-option>
+          <mat-option [value]="null">{{ ui.all }}</mat-option>
           @for (c of countries; track c.id) {
             <mat-option [value]="c.id">{{ c.name }}</mat-option>
           }
@@ -36,9 +36,9 @@
     <div class="rip-grid">
       <div class="rip-left">
         <div class="sh-card chart-card">
-          <h4 class="chart-title">Requisiciones en proceso vs. vencidas</h4>
+          <h4 class="chart-title">{{ ui.chartOnTimeVsExpired }}</h4>
           <div class="pie-layout">
-            <svg class="pie-svg" viewBox="0 0 140 140" aria-label="En tiempo vs vencidas">
+            <svg class="pie-svg" viewBox="0 0 140 140" [attr.aria-label]="ui.ariaPie">
               <g transform="rotate(-90 70 70)">
                 <circle class="pie-track" cx="70" cy="70" r="54" />
                 @if (pieTotal > 0) {
@@ -61,19 +61,19 @@
                 }
               </g>
               <text class="pie-center-value" x="70" y="66" text-anchor="middle">{{ pieTotal }}</text>
-              <text class="pie-center-label" x="70" y="84" text-anchor="middle">Total</text>
+              <text class="pie-center-label" x="70" y="84" text-anchor="middle">{{ ui.total }}</text>
             </svg>
             <ul class="pie-legend">
               <li>
                 <span class="swatch on-time"></span>
-                En tiempo — {{ formatCell(onTimeCount) }}
+                {{ ui.onTime }} — {{ formatCell(onTimeCount) }}
                 @if (pieTotal > 0) {
                   ({{ onTimePct }}%)
                 }
               </li>
               <li>
                 <span class="swatch expired"></span>
-                Vencidas — {{ formatCell(expiredCount) }}
+                {{ ui.expired }} — {{ formatCell(expiredCount) }}
                 @if (pieTotal > 0) {
                   ({{ expiredPct }}%)
                 }
@@ -83,12 +83,12 @@
         </div>
 
         <div class="sh-card chart-card">
-          <h4 class="chart-title">Requisiciones en proceso y cantidad de postulados por año</h4>
+          <h4 class="chart-title">{{ ui.chartByYear }}</h4>
           @if (yearBarGroups.length === 0) {
-            <p class="empty-hint">No hay información por año</p>
+            <p class="empty-hint">{{ ui.emptyYear }}</p>
           } @else {
             <div class="bars-scroll">
-              <div class="bars-chart" role="img" aria-label="Barras por año">
+              <div class="bars-chart" role="img" [attr.aria-label]="ui.ariaYearBars">
                 @for (group of yearBarGroups; track group.year) {
                   <div class="year-group">
                     <div class="bars-col">
@@ -122,15 +122,15 @@
       <div class="rip-right">
         <div class="sh-card sh-table-wrap clients-card">
           <div class="clients-header">
-            <h4 class="chart-title">Clientes</h4>
+            <h4 class="chart-title">{{ ui.clients }}</h4>
             <span class="range-label">{{ rangeLabel }}</span>
           </div>
           <div class="table-scroll">
             <table class="rip-table">
               <thead>
                 <tr>
-                  <th class="col-client">Cliente</th>
-                  <th>En proceso</th>
+                  <th class="col-client">{{ ui.colClient }}</th>
+                  <th>{{ ui.colInProcess }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -141,7 +141,7 @@
                   </tr>
                 } @empty {
                   <tr>
-                    <td colspan="2" class="empty-cell">No hay información</td>
+                    <td colspan="2" class="empty-cell">{{ ui.empty }}</td>
                   </tr>
                 }
               </tbody>
