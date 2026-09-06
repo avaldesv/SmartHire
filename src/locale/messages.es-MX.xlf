@@ -18819,6 +18819,27 @@
       <trans-unit id="candidates.form.noNeighborhoods" datatype="html">
         <source>Sin colonias para ese código postal</source>
       </trans-unit>
+      <trans-unit id="documentTemplates.variables.search" datatype="html">
+        <source>Buscar variable</source>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.search" datatype="html">
+        <source>Buscar plantilla</source>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.preview.zoomToolbar" datatype="html">
+        <source>Zoom de vista previa</source>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.preview.zoomIn" datatype="html">
+        <source>Acercar vista previa</source>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.preview.zoomOut" datatype="html">
+        <source>Alejar vista previa</source>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.preview.zoomReset" datatype="html">
+        <source>Restablecer zoom</source>
+      </trans-unit>
+      <trans-unit id="common.clearFilters" datatype="html">
+        <source>Limpiar</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>
