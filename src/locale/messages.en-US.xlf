@@ -8878,6 +8878,138 @@
         <source>Requisiciones por fuente</source>
         <target>Requisitions by source</target>
       </trans-unit>
+      <trans-unit id="reports.filter.businessUnitShort" datatype="html">
+        <source>U. Negocio</source>
+        <target>Business unit</target>
+      </trans-unit>
+      <trans-unit id="reports.filter.requisition" datatype="html">
+        <source>Requisición</source>
+        <target>Requisition</target>
+      </trans-unit>
+      <trans-unit id="reports.filter.status" datatype="html">
+        <source>Estado</source>
+        <target>Status</target>
+      </trans-unit>
+      <trans-unit id="reports.filter.startDate" datatype="html">
+        <source>Fecha inicial</source>
+        <target>Start date</target>
+      </trans-unit>
+      <trans-unit id="reports.filter.endDate" datatype="html">
+        <source>Fecha final</source>
+        <target>End date</target>
+      </trans-unit>
+      <trans-unit id="reports.filter.client" datatype="html">
+        <source>Cliente</source>
+        <target>Client</target>
+      </trans-unit>
+      <trans-unit id="reports.filter.clientPlaceholder" datatype="html">
+        <source>Buscar cliente</source>
+        <target>Search client</target>
+      </trans-unit>
+      <trans-unit id="reports.filter.clientClear" datatype="html">
+        <source>Limpiar cliente</source>
+        <target>Clear client</target>
+      </trans-unit>
+      <trans-unit id="reports.filter.orderNumber" datatype="html">
+        <source>Orden #<x id="id"/></source>
+        <target>Order #<x id="id"/></target>
+      </trans-unit>
+      <trans-unit id="reports.sbr.subtitle" datatype="html">
+        <source>Agregado por estado de la requisición</source>
+        <target>Aggregated by requisition status</target>
+      </trans-unit>
+      <trans-unit id="reports.sbr.loadError" datatype="html">
+        <source>No se pudo cargar el reporte Estatus por requisición. Intenta de nuevo.</source>
+        <target>Could not load the Status by requisition report. Please try again.</target>
+      </trans-unit>
+      <trans-unit id="reports.sbr.chartTitle" datatype="html">
+        <source>Requisiciones por estatus</source>
+        <target>Requisitions by status</target>
+      </trans-unit>
+      <trans-unit id="reports.sbr.empty" datatype="html">
+        <source>No hay información</source>
+        <target>No information</target>
+      </trans-unit>
+      <trans-unit id="reports.sbr.col.status" datatype="html">
+        <source>Estado</source>
+        <target>Status</target>
+      </trans-unit>
+      <trans-unit id="reports.sbr.col.requisitions" datatype="html">
+        <source>Requisiciones</source>
+        <target>Requisitions</target>
+      </trans-unit>
+      <trans-unit id="reports.sbr.col.positions" datatype="html">
+        <source>Número de posiciones</source>
+        <target>Number of positions</target>
+      </trans-unit>
+      <trans-unit id="reports.sbr.col.applicants" datatype="html">
+        <source>Postulados</source>
+        <target>Applicants</target>
+      </trans-unit>
+      <trans-unit id="reports.sbr.col.preselected" datatype="html">
+        <source>Preseleccionados</source>
+        <target>Preselected</target>
+      </trans-unit>
+      <trans-unit id="reports.sbr.col.selected" datatype="html">
+        <source>Seleccionados</source>
+        <target>Selected</target>
+      </trans-unit>
+      <trans-unit id="reports.sbr.col.evaluated" datatype="html">
+        <source>Evaluados</source>
+        <target>Evaluated</target>
+      </trans-unit>
+      <trans-unit id="reports.sbr.col.interviewed" datatype="html">
+        <source>Entrevistados</source>
+        <target>Interviewed</target>
+      </trans-unit>
+      <trans-unit id="reports.sbr.col.prehired" datatype="html">
+        <source>Precontratados</source>
+        <target>Pre-hired</target>
+      </trans-unit>
+      <trans-unit id="reports.sbr.col.hired" datatype="html">
+        <source>Contratados</source>
+        <target>Hired</target>
+      </trans-unit>
+      <trans-unit id="reports.sbr.col.uncovered" datatype="html">
+        <source>Sin cubrir</source>
+        <target>Uncovered</target>
+      </trans-unit>
+      <trans-unit id="reports.sbr.col.compliance" datatype="html">
+        <source>% cumplimiento</source>
+        <target>Compliance %</target>
+      </trans-unit>
+      <trans-unit id="reports.sbr.col.digitalDocs" datatype="html">
+        <source>Doc. digitales</source>
+        <target>Digital docs</target>
+      </trans-unit>
+      <trans-unit id="reports.sbr.status.covered" datatype="html">
+        <source>Cubierta</source>
+        <target>Covered</target>
+      </trans-unit>
+      <trans-unit id="reports.sbr.status.partiallyCovered" datatype="html">
+        <source>Parcialmente cubierta</source>
+        <target>Partially covered</target>
+      </trans-unit>
+      <trans-unit id="reports.sbr.status.inAnalysis" datatype="html">
+        <source>En análisis</source>
+        <target>In analysis</target>
+      </trans-unit>
+      <trans-unit id="reports.sbr.status.inSelection" datatype="html">
+        <source>En selección</source>
+        <target>In selection</target>
+      </trans-unit>
+      <trans-unit id="reports.sbr.status.cancelled" datatype="html">
+        <source>Cancelada</source>
+        <target>Cancelled</target>
+      </trans-unit>
+      <trans-unit id="reports.sbr.status.cancellationRequested" datatype="html">
+        <source>Cancelación solicitada</source>
+        <target>Cancellation requested</target>
+      </trans-unit>
+      <trans-unit id="reports.sbr.status.inProcess" datatype="html">
+        <source>En proceso</source>
+        <target>In process</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

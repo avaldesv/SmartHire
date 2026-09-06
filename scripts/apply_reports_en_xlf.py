@@ -35,6 +35,39 @@ NAV_SOURCES: dict[str, str] = {
     "reports.nav.positionsInProcess": "Posiciones en proceso",
     "reports.nav.behavior": "Comportamiento",
     "reports.nav.requisitionsBySource": "Requisiciones por fuente",
+    "reports.filter.businessUnitShort": "U. Negocio",
+    "reports.filter.requisition": "Requisición",
+    "reports.filter.status": "Estado",
+    "reports.filter.startDate": "Fecha inicial",
+    "reports.filter.endDate": "Fecha final",
+    "reports.filter.client": "Cliente",
+    "reports.filter.clientPlaceholder": "Buscar cliente",
+    "reports.filter.clientClear": "Limpiar cliente",
+    "reports.filter.orderNumber": "Orden #<x id=\"id\"/>",
+    "reports.sbr.subtitle": "Agregado por estado de la requisición",
+    "reports.sbr.loadError": "No se pudo cargar el reporte Estatus por requisición. Intenta de nuevo.",
+    "reports.sbr.chartTitle": "Requisiciones por estatus",
+    "reports.sbr.empty": "No hay información",
+    "reports.sbr.col.status": "Estado",
+    "reports.sbr.col.requisitions": "Requisiciones",
+    "reports.sbr.col.positions": "Número de posiciones",
+    "reports.sbr.col.applicants": "Postulados",
+    "reports.sbr.col.preselected": "Preseleccionados",
+    "reports.sbr.col.selected": "Seleccionados",
+    "reports.sbr.col.evaluated": "Evaluados",
+    "reports.sbr.col.interviewed": "Entrevistados",
+    "reports.sbr.col.prehired": "Precontratados",
+    "reports.sbr.col.hired": "Contratados",
+    "reports.sbr.col.uncovered": "Sin cubrir",
+    "reports.sbr.col.compliance": "% cumplimiento",
+    "reports.sbr.col.digitalDocs": "Doc. digitales",
+    "reports.sbr.status.covered": "Cubierta",
+    "reports.sbr.status.partiallyCovered": "Parcialmente cubierta",
+    "reports.sbr.status.inAnalysis": "En análisis",
+    "reports.sbr.status.inSelection": "En selección",
+    "reports.sbr.status.cancelled": "Cancelada",
+    "reports.sbr.status.cancellationRequested": "Cancelación solicitada",
+    "reports.sbr.status.inProcess": "En proceso",
 }
 
 
@@ -57,8 +90,8 @@ def append_missing(path: Path, *, with_en_target: bool, spanish_target: bool) ->
         if f'id="{uid}"' in text:
             continue
         en = REPORTS_EN_BY_ID[uid]
+        target = apply_template(source, en)
         if with_en_target:
-            target = en
             unit = (
                 f'      <trans-unit id="{uid}" datatype="html">\n'
                 f"        <source>{source}</source>\n"

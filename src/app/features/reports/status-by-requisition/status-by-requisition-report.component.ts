@@ -16,7 +16,52 @@ import { SecurityRecruiterGroupService } from '../../../core/services/security-r
 import { SecurityUserService } from '../../../core/services/security-user.service';
 import { ClientFilterFieldComponent } from '../../../shared/components/client-filter-field/client-filter-field.component';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
-import { REPORTS_CLEAR_FILTERS, REPORTS_UPDATE } from '../../../core/i18n/reports-i18n-labels';
+import {
+  REPORTS_CLEAR_FILTERS,
+  REPORTS_FILTER_ALL,
+  REPORTS_FILTER_ALL_FEM,
+  REPORTS_FILTER_BUSINESS_UNIT_SHORT,
+  REPORTS_FILTER_COUNTRY,
+  REPORTS_FILTER_END_DATE,
+  REPORTS_FILTER_GROUP,
+  REPORTS_FILTER_RECRUITER,
+  REPORTS_FILTER_RECRUITMENT_TYPE,
+  REPORTS_FILTER_REQUISITION,
+  REPORTS_FILTER_SELECT_COUNTRY,
+  REPORTS_FILTER_START_DATE,
+  REPORTS_FILTER_STATUS,
+  REPORTS_RECRUITMENT_PERMANENT,
+  REPORTS_RECRUITMENT_TEMP,
+  REPORTS_RECRUITMENT_TEMPORARY,
+  REPORTS_SBR_CHART_TITLE,
+  REPORTS_SBR_COL_APPLICANTS,
+  REPORTS_SBR_COL_COMPLIANCE,
+  REPORTS_SBR_COL_DIGITAL_DOCS,
+  REPORTS_SBR_COL_EVALUATED,
+  REPORTS_SBR_COL_HIRED,
+  REPORTS_SBR_COL_INTERVIEWED,
+  REPORTS_SBR_COL_POSITIONS,
+  REPORTS_SBR_COL_PREHIRED,
+  REPORTS_SBR_COL_PRESELECTED,
+  REPORTS_SBR_COL_REQUISITIONS,
+  REPORTS_SBR_COL_SELECTED,
+  REPORTS_SBR_COL_STATUS,
+  REPORTS_SBR_COL_UNCOVERED,
+  REPORTS_SBR_EMPTY,
+  REPORTS_SBR_LOAD_ERROR,
+  REPORTS_SBR_STATUS_CANCELLED,
+  REPORTS_SBR_STATUS_CANCELLATION_REQUESTED,
+  REPORTS_SBR_STATUS_COVERED,
+  REPORTS_SBR_STATUS_IN_ANALYSIS,
+  REPORTS_SBR_STATUS_IN_PROCESS,
+  REPORTS_SBR_STATUS_IN_SELECTION,
+  REPORTS_SBR_STATUS_PARTIALLY_COVERED,
+  REPORTS_SBR_SUBTITLE,
+  REPORTS_SBR_TITLE,
+  REPORTS_UPDATE,
+  reportsOrderNumber,
+  reportsSbrStatusLabel,
+} from '../../../core/i18n/reports-i18n-labels';
 import { CatalogBusinessUnit } from '../../../shared/models/catalog-business-unit.model';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import { PositionListItem } from '../../../shared/models/position.model';
@@ -61,8 +106,40 @@ export class StatusByRequisitionReportComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
   private readonly armTenantReload = armReportTenantReload(() => this.reloadForTenant());
-  readonly updateLabel = REPORTS_UPDATE;
-  readonly clearFiltersLabel = REPORTS_CLEAR_FILTERS;
+
+  readonly ui = {
+    title: REPORTS_SBR_TITLE,
+    subtitle: REPORTS_SBR_SUBTITLE,
+    update: REPORTS_UPDATE,
+    clearFilters: REPORTS_CLEAR_FILTERS,
+    startDate: REPORTS_FILTER_START_DATE,
+    endDate: REPORTS_FILTER_END_DATE,
+    country: REPORTS_FILTER_COUNTRY,
+    requisition: REPORTS_FILTER_REQUISITION,
+    status: REPORTS_FILTER_STATUS,
+    recruiter: REPORTS_FILTER_RECRUITER,
+    group: REPORTS_FILTER_GROUP,
+    businessUnit: REPORTS_FILTER_BUSINESS_UNIT_SHORT,
+    recruitmentType: REPORTS_FILTER_RECRUITMENT_TYPE,
+    all: REPORTS_FILTER_ALL,
+    allFem: REPORTS_FILTER_ALL_FEM,
+    selectCountry: REPORTS_FILTER_SELECT_COUNTRY,
+    chartTitle: REPORTS_SBR_CHART_TITLE,
+    empty: REPORTS_SBR_EMPTY,
+    colStatus: REPORTS_SBR_COL_STATUS,
+    colRequisitions: REPORTS_SBR_COL_REQUISITIONS,
+    colPositions: REPORTS_SBR_COL_POSITIONS,
+    colApplicants: REPORTS_SBR_COL_APPLICANTS,
+    colPreselected: REPORTS_SBR_COL_PRESELECTED,
+    colSelected: REPORTS_SBR_COL_SELECTED,
+    colEvaluated: REPORTS_SBR_COL_EVALUATED,
+    colInterviewed: REPORTS_SBR_COL_INTERVIEWED,
+    colPrehired: REPORTS_SBR_COL_PREHIRED,
+    colHired: REPORTS_SBR_COL_HIRED,
+    colUncovered: REPORTS_SBR_COL_UNCOVERED,
+    colCompliance: REPORTS_SBR_COL_COMPLIANCE,
+    colDigitalDocs: REPORTS_SBR_COL_DIGITAL_DOCS,
+  };
 
   loading = false;
   loadingCatalogs = true;
@@ -76,19 +153,19 @@ export class StatusByRequisitionReportComponent implements OnInit {
   rows: StatusByRequisitionRowResponse[] = [];
 
   readonly recruitmentTypeOptions = [
-    { value: 'TEMP', label: 'Temporal (TEMP)' },
-    { value: 'TEMPORARY', label: 'Temporal (TEMPORARY)' },
-    { value: 'PERMANENT', label: 'Permanente' },
+    { value: 'TEMP', label: REPORTS_RECRUITMENT_TEMP },
+    { value: 'TEMPORARY', label: REPORTS_RECRUITMENT_TEMPORARY },
+    { value: 'PERMANENT', label: REPORTS_RECRUITMENT_PERMANENT },
   ];
 
   readonly statusOptions = [
-    { value: 'COVERED', label: 'Cubierta' },
-    { value: 'PARTIALLY_COVERED', label: 'Parcialmente cubierta' },
-    { value: 'IN_ANALYSIS', label: 'En análisis' },
-    { value: 'IN_SELECTION', label: 'En selección' },
-    { value: 'CANCELLED', label: 'Cancelada' },
-    { value: 'CANCELLATION_REQUESTED', label: 'Cancelación solicitada' },
-    { value: 'IN_PROCESS', label: 'En proceso' },
+    { value: 'COVERED', label: REPORTS_SBR_STATUS_COVERED },
+    { value: 'PARTIALLY_COVERED', label: REPORTS_SBR_STATUS_PARTIALLY_COVERED },
+    { value: 'IN_ANALYSIS', label: REPORTS_SBR_STATUS_IN_ANALYSIS },
+    { value: 'IN_SELECTION', label: REPORTS_SBR_STATUS_IN_SELECTION },
+    { value: 'CANCELLED', label: REPORTS_SBR_STATUS_CANCELLED },
+    { value: 'CANCELLATION_REQUESTED', label: REPORTS_SBR_STATUS_CANCELLATION_REQUESTED },
+    { value: 'IN_PROCESS', label: REPORTS_SBR_STATUS_IN_PROCESS },
   ];
 
   readonly filters = this.fb.nonNullable.group({
@@ -146,7 +223,7 @@ export class StatusByRequisitionReportComponent implements OnInit {
       .getStatusByRequisition(body)
       .pipe(
         catchError(() => {
-          this.errorMessage = 'No se pudo cargar el reporte Estatus por requisición. Intenta de nuevo.';
+          this.errorMessage = REPORTS_SBR_LOAD_ERROR;
           return of(null);
         }),
         takeUntilDestroyed(this.destroyRef),
@@ -175,6 +252,10 @@ export class StatusByRequisitionReportComponent implements OnInit {
       return '0%';
     }
     return `${Math.max(0, Math.min(100, (value / this.chartMax) * 100))}%`;
+  }
+
+  statusLabel(row: StatusByRequisitionRowResponse): string {
+    return reportsSbrStatusLabel(row.statusCode, row.status);
   }
 
   private reloadForTenant(): void {
@@ -215,7 +296,7 @@ export class StatusByRequisitionReportComponent implements OnInit {
         this.countries = countries;
         this.positionOptions = positions.items.map((p) => ({
           id: p.id,
-          label: [p.ot || p.requisitionNo, p.name].filter(Boolean).join(' — ') || `Orden #${p.id}`,
+          label: [p.ot || p.requisitionNo, p.name].filter(Boolean).join(' — ') || reportsOrderNumber(p.id),
         }));
         this.recruiterOptions = users.items.map((u) => ({
           id: u.id,

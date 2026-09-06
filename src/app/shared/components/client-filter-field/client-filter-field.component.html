@@ -1,15 +1,15 @@
 <mat-form-field appearance="outline" class="client-filter-field">
-  <mat-label>Cliente</mat-label>
+  <mat-label>{{ clientLabel }}</mat-label>
   <input
     matInput
     [formControl]="clientSearch"
     [matAutocomplete]="clientAuto"
     (focus)="onClientSearchFocus()"
     (blur)="onTouched()"
-    placeholder="Buscar cliente"
+    [placeholder]="clientPlaceholder"
   />
   @if (clientSearch.value) {
-    <button matSuffix mat-icon-button type="button" aria-label="Limpiar cliente" (click)="clearClientFilter()">
+    <button matSuffix mat-icon-button type="button" [attr.aria-label]="clientClearLabel" (click)="clearClientFilter()">
       <mat-icon>close</mat-icon>
     </button>
   }
