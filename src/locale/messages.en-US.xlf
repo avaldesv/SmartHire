@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="es-MX" target-language="en" datatype="plaintext" original="ng2.template">
     <body>
@@ -3460,7 +3460,7 @@
       </trans-unit>
       <trans-unit id="dashboard.filter.dateFrom" datatype="html">
         <source>Fecha de creación</source>
-        <target>Fecha de creación</target>
+        <target>Creation date</target>
       </trans-unit>
       <trans-unit id="dashboard.filter.dateTo" datatype="html">
         <source>Fecha fin</source>
@@ -3704,7 +3704,7 @@
       </trans-unit>
       <trans-unit id="positions.duplicate.nameSuffix" datatype="html">
         <source> (Duplicado)</source>
-        <target> (Duplicado)</target>
+        <target> (Duplicated)</target>
       </trans-unit>
       <trans-unit id="positions.duplicate.fallbackName" datatype="html">
         <source>Posición</source>
@@ -4912,7 +4912,7 @@
       </trans-unit>
       <trans-unit id="positions.column.name" datatype="html">
         <source>Nombre</source>
-        <target>First name</target>
+        <target>Name</target>
       </trans-unit>
       <trans-unit id="positions.column.ot" datatype="html">
         <source>OT</source>
@@ -4924,7 +4924,7 @@
       </trans-unit>
       <trans-unit id="positions.column.applicants" datatype="html">
         <source>Postulados</source>
-        <target>Postulados</target>
+        <target>Applicants</target>
       </trans-unit>
       <trans-unit id="positions.column.preselection" datatype="html">
         <source>Preselección</source>
@@ -4932,7 +4932,7 @@
       </trans-unit>
       <trans-unit id="positions.column.firstDay" datatype="html">
         <source>Primer día</source>
-        <target>Primer día</target>
+        <target>First day</target>
       </trans-unit>
       <trans-unit id="positions.column.group" datatype="html">
         <source>Grupo</source>
@@ -4944,7 +4944,7 @@
       </trans-unit>
       <trans-unit id="positions.column.cancellationScope" datatype="html">
         <source>Alcance cancelación</source>
-        <target>Alcance cancelación</target>
+        <target>Cancellation scope</target>
       </trans-unit>
       <trans-unit id="positions.reasonDialog.title" datatype="html">
         <source>Motivo</source>
@@ -4952,11 +4952,11 @@
       </trans-unit>
       <trans-unit id="positions.reasonDialog.label" datatype="html">
         <source>Motivo de la acción</source>
-        <target>Motivo de la acción</target>
+        <target>Action reason</target>
       </trans-unit>
       <trans-unit id="positions.reasonDialog.required" datatype="html">
         <source>El motivo es obligatorio</source>
-        <target>El motivo es obligatorio</target>
+        <target>Reason is required</target>
       </trans-unit>
       <trans-unit id="positions.reasonDialog.confirm" datatype="html">
         <source>Confirmar</source>
@@ -4968,11 +4968,11 @@
       </trans-unit>
       <trans-unit id="positions.history.title" datatype="html">
         <source>Historial de la requisición</source>
-        <target>Historial de la requisición</target>
+        <target>Requisition history</target>
       </trans-unit>
       <trans-unit id="positions.history.empty" datatype="html">
         <source>Sin eventos registrados</source>
-        <target>Sin eventos registrados</target>
+        <target>No events recorded</target>
       </trans-unit>
       <trans-unit id="positions.history.close" datatype="html">
         <source>Cerrar</source>
@@ -4980,27 +4980,27 @@
       </trans-unit>
       <trans-unit id="positions.reassign.title" datatype="html">
         <source>Reasignar reclutador</source>
-        <target>Reasignar reclutador</target>
+        <target>Reassign recruiter</target>
       </trans-unit>
       <trans-unit id="positions.reassign.user" datatype="html">
         <source>Nuevo reclutador</source>
-        <target>Nuevo reclutador</target>
+        <target>New recruiter</target>
       </trans-unit>
       <trans-unit id="positions.reassign.reason" datatype="html">
         <source>Motivo (opcional)</source>
-        <target>Motivo (opcional)</target>
+        <target>Reason (optional)</target>
       </trans-unit>
       <trans-unit id="positions.reassign.confirm" datatype="html">
         <source>Reasignar</source>
-        <target>Reasignar</target>
+        <target>Reassign</target>
       </trans-unit>
       <trans-unit id="positions.action.assign" datatype="html">
         <source>Asignar reclutador</source>
-        <target>Asignar reclutador</target>
+        <target>Assign recruiter</target>
       </trans-unit>
       <trans-unit id="positions.assign.title" datatype="html">
         <source>Asignar reclutador</source>
-        <target>Asignar reclutador</target>
+        <target>Assign recruiter</target>
       </trans-unit>
       <trans-unit id="positions.assign.user" datatype="html">
         <source>Reclutador</source>
@@ -5008,11 +5008,11 @@
       </trans-unit>
       <trans-unit id="positions.assign.confirm" datatype="html">
         <source>Asignar</source>
-        <target>Asignar</target>
+        <target>Assign</target>
       </trans-unit>
       <trans-unit id="positions.success.assign" datatype="html">
         <source>Reclutador asignado</source>
-        <target>Reclutador asignado</target>
+        <target>Recruiter assigned</target>
       </trans-unit>
       <trans-unit id="positions.action.goSelectionAria" datatype="html">
         <source>Ir a selección</source>
@@ -5032,11 +5032,11 @@
       </trans-unit>
       <trans-unit id="positions.filters.more" datatype="html">
         <source>Mostrar más filtros</source>
-        <target>Mostrar más filtros</target>
+        <target>Show more filters</target>
       </trans-unit>
       <trans-unit id="positions.filters.less" datatype="html">
         <source>Ocultar filtros</source>
-        <target>Ocultar filtros</target>
+        <target>Hide filters</target>
       </trans-unit>
       <trans-unit id="positions.filters.client" datatype="html">
         <source>Cliente</source>
@@ -5056,11 +5056,11 @@
       </trans-unit>
       <trans-unit id="positions.filters.workplace" datatype="html">
         <source>Lugar trabajo</source>
-        <target>Lugar trabajo</target>
+        <target>Workplace</target>
       </trans-unit>
       <trans-unit id="positions.filters.shift" datatype="html">
         <source>Horario trabajo</source>
-        <target>Horario trabajo</target>
+        <target>Work schedule</target>
       </trans-unit>
       <trans-unit id="positions.filters.contractType" datatype="html">
         <source>Tipo contratación</source>
@@ -5068,7 +5068,7 @@
       </trans-unit>
       <trans-unit id="positions.filters.education" datatype="html">
         <source>Nivel escolaridad</source>
-        <target>Nivel escolaridad</target>
+        <target>Education level</target>
       </trans-unit>
       <trans-unit id="positions.filters.responsibility" datatype="html">
         <source>Nivel de responsabilidad</source>
@@ -5076,43 +5076,43 @@
       </trans-unit>
       <trans-unit id="positions.filters.clientPosition" datatype="html">
         <source>Cliente puesto</source>
-        <target>Cliente puesto</target>
+        <target>Client position</target>
       </trans-unit>
       <trans-unit id="positions.filters.createdBy" datatype="html">
         <source>Creado por</source>
-        <target>Creado por</target>
+        <target>Created by</target>
       </trans-unit>
       <trans-unit id="positions.filters.coordinator" datatype="html">
         <source>Coordinador</source>
-        <target>Coordinador</target>
+        <target>Coordinator</target>
       </trans-unit>
       <trans-unit id="positions.filters.recruiterAts" datatype="html">
         <source>Reclutador ATS</source>
-        <target>Reclutador ATS</target>
+        <target>ATS recruiter</target>
       </trans-unit>
       <trans-unit id="positions.filters.coordinatorAppian" datatype="html">
         <source>Coordinador Appian</source>
-        <target>Coordinador Appian</target>
+        <target>Appian coordinator</target>
       </trans-unit>
       <trans-unit id="positions.filters.recruiterAppian" datatype="html">
         <source>Reclutador Appian</source>
-        <target>Reclutador Appian</target>
+        <target>Appian recruiter</target>
       </trans-unit>
       <trans-unit id="positions.filters.closerAppian" datatype="html">
         <source>Cerrador Appian</source>
-        <target>Cerrador Appian</target>
+        <target>Appian closer</target>
       </trans-unit>
       <trans-unit id="positions.filters.requestType" datatype="html">
         <source>Tipo de solicitud</source>
-        <target>Tipo de solicitud</target>
+        <target>Request type</target>
       </trans-unit>
       <trans-unit id="positions.filters.appianUnavailable" datatype="html">
         <source>No disponible</source>
-        <target>No disponible</target>
+        <target>Unavailable</target>
       </trans-unit>
       <trans-unit id="positions.filters.deferredUnavailable" datatype="html">
         <source>No disponible</source>
-        <target>No disponible</target>
+        <target>Unavailable</target>
       </trans-unit>
       <trans-unit id="positions.filters.state" datatype="html">
         <source>Entidad federativa</source>
@@ -5124,19 +5124,19 @@
       </trans-unit>
       <trans-unit id="positions.filters.questionnaire" datatype="html">
         <source>Formulario</source>
-        <target>Formulario</target>
+        <target>Form</target>
       </trans-unit>
       <trans-unit id="positions.success.publishOnPortal" datatype="html">
         <source>Vacante publicada en el portal candidatos</source>
-        <target>Vacante publicada en el portal candidatos</target>
+        <target>Vacancy published on the candidate portal</target>
       </trans-unit>
       <trans-unit id="positions.errors.publishOnPortal" datatype="html">
         <source>No se pudo publicar la vacante en el portal</source>
-        <target>No se pudo publicar la vacante en el portal</target>
+        <target>Could not publish the vacancy on the portal</target>
       </trans-unit>
       <trans-unit id="positions.confirm.publishOnPortal" datatype="html">
         <source>¿Publicar esta vacante en el portal de candidatos?</source>
-        <target>¿Publicar esta vacante en el portal de candidatos?</target>
+        <target>Publish this vacancy on the candidate portal?</target>
       </trans-unit>
       <trans-unit id="positions.errors.generatePublicationLoad" datatype="html">
         <source>No se pudo obtener la información de contacto de la posición</source>
@@ -5168,11 +5168,11 @@
       </trans-unit>
       <trans-unit id="positions.cancelDialog.show" datatype="html">
         <source>Mostrar</source>
-        <target>Mostrar</target>
+        <target>Show</target>
       </trans-unit>
       <trans-unit id="positions.cancelDialog.hide" datatype="html">
         <source>Ocultar</source>
-        <target>Ocultar</target>
+        <target>Hide</target>
       </trans-unit>
       <trans-unit id="positions.cancelDialog.candidates" datatype="html">
         <source>Candidatos</source>
@@ -5180,7 +5180,7 @@
       </trans-unit>
       <trans-unit id="positions.cancelDialog.col.name" datatype="html">
         <source>Nombre completo</source>
-        <target>Nombre completo</target>
+        <target>Full name</target>
       </trans-unit>
       <trans-unit id="positions.cancelDialog.col.email" datatype="html">
         <source>Correo</source>
@@ -5192,31 +5192,31 @@
       </trans-unit>
       <trans-unit id="positions.cancelDialog.col.status" datatype="html">
         <source>Estado</source>
-        <target>State</target>
+        <target>Status</target>
       </trans-unit>
       <trans-unit id="positions.cancelDialog.type" datatype="html">
         <source>Tipo de cancelación</source>
-        <target>Tipo de cancelación</target>
+        <target>Cancellation type</target>
       </trans-unit>
       <trans-unit id="positions.cancelDialog.reason" datatype="html">
         <source>Motivos</source>
-        <target>Motivos</target>
+        <target>Reasons</target>
       </trans-unit>
       <trans-unit id="positions.cancelDialog.description" datatype="html">
         <source>Descripción (opcional)</source>
-        <target>Descripción (opcional)</target>
+        <target>Description (optional)</target>
       </trans-unit>
       <trans-unit id="positions.cancelDialog.evidence" datatype="html">
         <source>Evidencia (opcional)</source>
-        <target>Evidencia (opcional)</target>
+        <target>Evidence (optional)</target>
       </trans-unit>
       <trans-unit id="positions.cancelDialog.evidenceHint" datatype="html">
         <source>PDF, JPG, PNG, DOC, DOCX, XLS o XLSX. Máximo 10 MB.</source>
-        <target>PDF, JPG, PNG, DOC, DOCX, XLS o XLSX. Máximo 10 MB.</target>
+        <target>PDF, JPG, PNG, DOC, DOCX, XLS or XLSX. Maximum 10 MB.</target>
       </trans-unit>
       <trans-unit id="positions.cancelDialog.evidencePick" datatype="html">
         <source>Seleccionar archivo</source>
-        <target>Select archivo</target>
+        <target>Select file</target>
       </trans-unit>
       <trans-unit id="positions.cancelDialog.evidenceClear" datatype="html">
         <source>Quitar</source>
@@ -5224,7 +5224,7 @@
       </trans-unit>
       <trans-unit id="positions.cancelDialog.evidenceInvalid" datatype="html">
         <source>Archivo no válido. Use PDF, JPG, PNG, DOC, DOCX, XLS o XLSX de hasta 10 MB.</source>
-        <target>Archivo no válido. Use PDF, JPG, PNG, DOC, DOCX, XLS o XLSX de hasta 10 MB.</target>
+        <target>Invalid file. Use PDF, JPG, PNG, DOC, DOCX, XLS or XLSX up to 10 MB.</target>
       </trans-unit>
       <trans-unit id="positions.cancelDialog.required" datatype="html">
         <source>Campo obligatorio</source>
@@ -5232,51 +5232,51 @@
       </trans-unit>
       <trans-unit id="positions.cancelDialog.loadError" datatype="html">
         <source>No se pudo cargar el impacto de cancelación</source>
-        <target>No se pudo cargar el impacto de cancelación</target>
+        <target>Could not load cancellation impact</target>
       </trans-unit>
       <trans-unit id="positions.cancelDialog.reasonsError" datatype="html">
         <source>No se pudieron cargar los motivos</source>
-        <target>Could not load los motivos</target>
+        <target>Could not load reasons</target>
       </trans-unit>
       <trans-unit id="positions.cancelDialog.criticalWarning" datatype="html">
         <source>Hay candidatos en Preselección o Primer día. ¿Desea continuar con la cancelación?</source>
-        <target>Hay candidatos en Preselección o Primer día. ¿Desea continuar con la cancelación?</target>
+        <target>There are candidates in Preselection or First day. Do you want to continue with the cancellation?</target>
       </trans-unit>
       <trans-unit id="positions.cancelDialog.criticalTitle" datatype="html">
         <source>Confirmar cancelación</source>
-        <target>Confirmar cancelación</target>
+        <target>Confirm cancellation</target>
       </trans-unit>
       <trans-unit id="positions.cancelDialog.noCandidates" datatype="html">
         <source>Sin candidatos asociados a esta posición</source>
-        <target>Sin candidatos asociados a esta posición</target>
+        <target>No candidates associated with this position</target>
       </trans-unit>
       <trans-unit id="positions.errors.cancelEvidenceUpload" datatype="html">
         <source>No se pudo subir la evidencia de cancelación</source>
-        <target>No se pudo subir la evidencia de cancelación</target>
+        <target>Could not upload cancellation evidence</target>
       </trans-unit>
       <trans-unit id="positions.history.event.created" datatype="html">
         <source>Requisición creada</source>
-        <target>Requisición creada</target>
+        <target>Requisition created</target>
       </trans-unit>
       <trans-unit id="positions.history.event.statusChanged" datatype="html">
         <source>Cambio de estatus</source>
-        <target>Cambio de estatus</target>
+        <target>Status change</target>
       </trans-unit>
       <trans-unit id="positions.history.event.assigned" datatype="html">
         <source>Asignación de reclutador</source>
-        <target>Asignación de reclutador</target>
+        <target>Recruiter assignment</target>
       </trans-unit>
       <trans-unit id="positions.history.event.reassigned" datatype="html">
         <source>Reasignación de reclutador</source>
-        <target>Reasignación de reclutador</target>
+        <target>Recruiter reassignment</target>
       </trans-unit>
       <trans-unit id="positions.history.event.groupChanged" datatype="html">
         <source>Cambio de grupo</source>
-        <target>Cambio de grupo</target>
+        <target>Group change</target>
       </trans-unit>
       <trans-unit id="positions.history.event.cancellationRequested" datatype="html">
         <source>Solicitud de cancelación</source>
-        <target>Solicitud de cancelación</target>
+        <target>Cancellation request</target>
       </trans-unit>
       <trans-unit id="positions.history.event.cancellationAuthorized" datatype="html">
         <source>Cancelación autorizada</source>
@@ -5284,15 +5284,15 @@
       </trans-unit>
       <trans-unit id="positions.history.event.cancellationRejected" datatype="html">
         <source>Cancelación rechazada</source>
-        <target>Cancelación rechazada</target>
+        <target>Cancellation rejected</target>
       </trans-unit>
       <trans-unit id="positions.history.event.cancellationExecuted" datatype="html">
         <source>Cancelación ejecutada</source>
-        <target>Cancelación ejecutada</target>
+        <target>Cancellation executed</target>
       </trans-unit>
       <trans-unit id="positions.history.event.directCancellation" datatype="html">
         <source>Cancelación directa</source>
-        <target>Cancelación directa</target>
+        <target>Direct cancellation</target>
       </trans-unit>
       <trans-unit id="preselection.col.contact" datatype="html">
         <source>Contactar</source>
