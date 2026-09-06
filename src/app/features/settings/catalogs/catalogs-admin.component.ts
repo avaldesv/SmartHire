@@ -125,6 +125,14 @@ import { CatalogTableImportExportActionsComponent } from './catalog-table-import
 import { TenantDataScope } from '../../../shared/models/tenant-data-scope.model';
 import { canEditScopedRecord } from '../../../shared/utils/tenant-scope.util';
 import {
+  DEFAULT_PORTAL_ACCENT_COLOR,
+  DEFAULT_PORTAL_PRIMARY_COLOR,
+  PORTAL_HEX_COLOR_PATTERN,
+  PORTAL_SLUG_PATTERN,
+  colorPickerValue,
+  slugifyCompanyName,
+} from '../../../shared/utils/portal-slug.util';
+import {
   CATALOG_CATEGORIES,
   CatalogCategoryId,
   CatalogPanelKey,
@@ -163,9 +171,16 @@ import {
   CATALOG_FIELD_COMPANY_OPTIONAL,
   CATALOG_FIELD_DEFAULT_PORTAL_LANGUAGE,
   CATALOG_FIELD_DOCUMENT_TYPE,
-  CATALOG_FIELD_BANNER_URL,
   CATALOG_FIELD_FEDERAL_STATE,
+  CATALOG_FIELD_BANNER_URL,
   CATALOG_FIELD_LOGO_URL,
+  CATALOG_FIELD_PORTAL_ACCENT_COLOR,
+  CATALOG_FIELD_PORTAL_BRANDING,
+  CATALOG_FIELD_PORTAL_PRIMARY_COLOR,
+  CATALOG_FIELD_PORTAL_SLUG,
+  CATALOG_FIELD_PORTAL_SLUG_ERROR,
+  CATALOG_COLUMN_PORTAL_SLUG,
+  catalogPortalSlugHint,
   CATALOG_FIELD_MANPOWER_ID,
   CATALOG_FIELD_MUNICIPALITY,
   CATALOG_FIELD_NEIGHBORHOOD,
@@ -232,6 +247,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 export class CatalogsAdminComponent implements OnInit {
   private readonly permissions = inject(PermissionService);
   private readonly tenantContext = inject(TenantContextService);
+  private readonly destroyRef = inject(DestroyRef);
   private tenantReloadReady = false;
   readonly isGlobalAdmin = computed(() => this.permissions.isGlobalAdmin());
 
@@ -274,6 +290,14 @@ export class CatalogsAdminComponent implements OnInit {
   readonly fieldState = CATALOG_FIELD_STATE;
   readonly fieldLogoUrl = CATALOG_FIELD_LOGO_URL;
   readonly fieldBannerUrl = CATALOG_FIELD_BANNER_URL;
+  readonly fieldPortalSlug = CATALOG_FIELD_PORTAL_SLUG;
+  readonly fieldPortalSlugError = CATALOG_FIELD_PORTAL_SLUG_ERROR;
+  readonly fieldPortalPrimaryColor = CATALOG_FIELD_PORTAL_PRIMARY_COLOR;
+  readonly fieldPortalAccentColor = CATALOG_FIELD_PORTAL_ACCENT_COLOR;
+  readonly fieldPortalBranding = CATALOG_FIELD_PORTAL_BRANDING;
+  readonly colPortalSlug = CATALOG_COLUMN_PORTAL_SLUG;
+  readonly defaultPortalPrimaryColor = DEFAULT_PORTAL_PRIMARY_COLOR;
+  readonly defaultPortalAccentColor = DEFAULT_PORTAL_ACCENT_COLOR;
   readonly fieldNoPurchaseOrder = CATALOG_FIELD_NO_PURCHASE_ORDER;
   readonly fieldR3Interface = CATALOG_FIELD_R3_INTERFACE;
   readonly fieldWsSignature = CATALOG_FIELD_WS_SIGNATURE;
@@ -367,7 +391,6 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   private readonly fb = inject(FormBuilder);
-  private readonly destroyRef = inject(DestroyRef);
 
   readonly createScopeForm = this.fb.nonNullable.group({
     scope: ['TENANT' as TenantDataScope],
@@ -986,6 +1009,8 @@ export class CatalogsAdminComponent implements OnInit {
   loadingCompanies = false;
   savingCompany = false;
   editingCompanyId: number | null = null;
+  /** When true, slug is not overwritten from the company name. */
+  private portalSlugManual = false;
   showCompanyForm = false;
 
   currencies: CatalogCurrency[] = [];
@@ -1162,7 +1187,7 @@ export class CatalogsAdminComponent implements OnInit {
   readonly businessUnitColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
   readonly positionTypeColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
   readonly clientColumns = ['code', 'tradeName', 'legalName', 'companyArea', 'contactName', 'active', 'scope', 'actions'];
-  readonly companyColumns = ['code', 'name', 'tradeName', 'taxId', 'country', 'defaultPortalLanguage', 'active', 'actions'];
+  readonly companyColumns = ['code', 'name', 'tradeName', 'taxId', 'country', 'defaultPortalLanguage', 'portalSlug', 'active', 'actions'];
   readonly currencyColumns = ['code', 'name', 'symbol', 'denomination', 'active', 'scope', 'actions'];
   readonly careerColumns = ['code', 'name', 'active', 'scope', 'actions'];
   readonly languageColumns = ['code', 'name', 'active', 'scope', 'actions'];
@@ -1285,6 +1310,15 @@ export class CatalogsAdminComponent implements OnInit {
     stateName: [''],
     logoUrl: [''],
     bannerUrl: [''],
+    portalSlug: ['', [Validators.required, Validators.maxLength(64), Validators.pattern(PORTAL_SLUG_PATTERN)]],
+    portalPrimaryColor: [
+      DEFAULT_PORTAL_PRIMARY_COLOR,
+      [Validators.required, Validators.pattern(PORTAL_HEX_COLOR_PATTERN)],
+    ],
+    portalAccentColor: [
+      DEFAULT_PORTAL_ACCENT_COLOR,
+      [Validators.required, Validators.pattern(PORTAL_HEX_COLOR_PATTERN)],
+    ],
     r3Interface: [false],
     wsSignature: [false],
     isActive: [true],
@@ -1677,6 +1711,9 @@ export class CatalogsAdminComponent implements OnInit {
         this.resetActiveCatalogPageIndex();
         this.loadActiveCatalogData();
       });
+    this.companyForm.controls.name.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((name) => {
+      this.syncPortalSlugFromName(name);
+    });
   }
 
   private reloadCountryDropdown(): void {
@@ -4595,6 +4632,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   openCreateCompany(): void {
     this.editingCompanyId = null;
+    this.portalSlugManual = false;
     this.openCatalogFormDialog('company', 'new');
     this.loadingCompanyDetail = false;
     this.companyForm.reset({
@@ -4614,6 +4652,9 @@ export class CatalogsAdminComponent implements OnInit {
       stateName: '',
       logoUrl: '',
       bannerUrl: '',
+      portalSlug: '',
+      portalPrimaryColor: DEFAULT_PORTAL_PRIMARY_COLOR,
+      portalAccentColor: DEFAULT_PORTAL_ACCENT_COLOR,
       r3Interface: false,
       wsSignature: false,
       isActive: true,
@@ -4622,11 +4663,14 @@ export class CatalogsAdminComponent implements OnInit {
 
   openEditCompany(row: CatalogCompany): void {
     this.editingCompanyId = row.id;
+    this.portalSlugManual = true;
     this.openCatalogFormDialog('company', 'edit');
     this.loadingCompanyDetail = true;
     this.companyService.getById(row.id).subscribe({
       next: (company) => {
         this.loadingCompanyDetail = false;
+        const existingSlug = company.portalSlug?.trim() ?? '';
+        this.portalSlugManual = existingSlug.length > 0;
         this.companyForm.patchValue({
           code: company.code,
           name: company.name,
@@ -4644,10 +4688,16 @@ export class CatalogsAdminComponent implements OnInit {
           stateName: company.stateName ?? '',
           logoUrl: company.logoUrl ?? '',
           bannerUrl: company.bannerUrl ?? '',
+          portalSlug: existingSlug,
+          portalPrimaryColor: company.portalPrimaryColor || DEFAULT_PORTAL_PRIMARY_COLOR,
+          portalAccentColor: company.portalAccentColor || DEFAULT_PORTAL_ACCENT_COLOR,
           r3Interface: company.r3Interface ?? false,
           wsSignature: company.wsSignature ?? false,
           isActive: company.isActive,
         });
+        if (!existingSlug) {
+          this.syncPortalSlugFromName(company.name);
+        }
       },
       error: (err) => {
         this.loadingCompanyDetail = false;
@@ -4664,6 +4714,41 @@ export class CatalogsAdminComponent implements OnInit {
     this.showCompanyForm = false;
     this.editingCompanyId = null;
     this.loadingCompanyDetail = false;
+    this.portalSlugManual = false;
+  }
+
+  onPortalSlugManualEdit(): void {
+    const current = this.companyForm.controls.portalSlug.value.trim();
+    this.portalSlugManual = current.length > 0;
+    if (current.length > 0) {
+      const normalized = slugifyCompanyName(current);
+      if (normalized && normalized !== current) {
+        this.companyForm.controls.portalSlug.setValue(normalized, { emitEvent: false });
+      }
+    }
+  }
+
+  onPortalColorPicked(control: 'portalPrimaryColor' | 'portalAccentColor', event: Event): void {
+    const hex = (event.target as HTMLInputElement).value?.toUpperCase() ?? '';
+    this.companyForm.controls[control].setValue(hex);
+    this.companyForm.controls[control].markAsTouched();
+  }
+
+  portalColorPickerValue(control: 'portalPrimaryColor' | 'portalAccentColor'): string {
+    const fallback =
+      control === 'portalPrimaryColor' ? DEFAULT_PORTAL_PRIMARY_COLOR : DEFAULT_PORTAL_ACCENT_COLOR;
+    return colorPickerValue(this.companyForm.controls[control].value, fallback);
+  }
+
+  portalSlugHintText(): string {
+    return catalogPortalSlugHint(this.companyForm.controls.portalSlug.value);
+  }
+
+  private syncPortalSlugFromName(name: string): void {
+    if (this.portalSlugManual) {
+      return;
+    }
+    this.companyForm.controls.portalSlug.setValue(slugifyCompanyName(name), { emitEvent: false });
   }
 
   saveCompany(): void {
@@ -4676,6 +4761,9 @@ export class CatalogsAdminComponent implements OnInit {
       ...value,
       countryId: value.countryId!,
       defaultPortalLanguageId: value.defaultPortalLanguageId!,
+      portalSlug: slugifyCompanyName(value.portalSlug) || slugifyCompanyName(value.name),
+      portalPrimaryColor: value.portalPrimaryColor.trim().toUpperCase(),
+      portalAccentColor: value.portalAccentColor.trim().toUpperCase(),
       atsCode: value.atsCode ?? undefined,
       billingMessage: value.billingMessage || undefined,
     };

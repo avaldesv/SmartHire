@@ -11,6 +11,8 @@ export { CATALOG_FORM_DIALOG_PANEL_CLASS };
 export interface CatalogFormDialogData {
   title: string;
   content: TemplateRef<unknown>;
+  subtitle?: string;
+  contentClass?: string;
 }
 
 @Component({
@@ -19,7 +21,7 @@ export interface CatalogFormDialogData {
   imports: [NgTemplateOutlet, ShModalFormComponent],
   encapsulation: ViewEncapsulation.None,
   template: `
-    <sh-modal-form [title]="data.title">
+    <sh-modal-form [title]="data.title" [subtitle]="data.subtitle ?? ''" [contentClass]="data.contentClass ?? ''">
       <ng-container *ngTemplateOutlet="data.content" />
     </sh-modal-form>
   `,

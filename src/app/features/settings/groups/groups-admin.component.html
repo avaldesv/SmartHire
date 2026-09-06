@@ -20,41 +20,101 @@
 </form>
 
 <ng-template #groupFormTpl>
-  @if (isGlobalAdmin() && !editingRoleId) {
-    <div class="scope-selector" [formGroup]="createScopeForm">
-      <span class="scope-label">{{ groupsRecordScope }}</span>
-      <mat-radio-group formControlName="scope">
-        <mat-radio-button value="TENANT">{{ groupsScopeTenant }}</mat-radio-button>
-        <mat-radio-button value="GLOBAL">{{ groupsScopeGlobal }}</mat-radio-button>
-      </mat-radio-group>
-    </div>
-  }
   <form id="sh-group-admin-form" [formGroup]="roleForm" class="group-form" (ngSubmit)="save()">
-    <mat-form-field appearance="outline">
-      <mat-label>{{ groupsFieldName }}</mat-label>
-      <input matInput formControlName="name" />
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>{{ groupsFieldDescription }}</mat-label>
-      <input matInput formControlName="description" />
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>{{ groupsFieldModulePermissions }}</mat-label>
-      <mat-select formControlName="modulePermissionIds" multiple>
-        @for (group of permissionGroups; track group.moduleName) {
-          <mat-optgroup [label]="group.moduleName">
-            @for (permission of group.permissions; track permission.id) {
-              <mat-option [value]="permission.id">{{ permission.name }} ({{ permission.authority }})</mat-option>
+    @if (isGlobalAdmin() && !editingRoleId) {
+      <div class="scope-selector" [formGroup]="createScopeForm">
+        <span class="scope-label">{{ groupsRecordScope }}</span>
+        <mat-radio-group formControlName="scope">
+          <mat-radio-button value="TENANT">{{ groupsScopeTenant }}</mat-radio-button>
+          <mat-radio-button value="GLOBAL">{{ groupsScopeGlobal }}</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    }
+
+    <div class="group-form-layout">
+      <aside class="group-form-left">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{ groupsFieldName }}</mat-label>
+          <input matInput formControlName="name" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{ groupsFieldDescription }}</mat-label>
+          <textarea matInput rows="3" formControlName="description"></textarea>
+        </mat-form-field>
+
+        <mat-checkbox formControlName="isActive" color="primary">{{ groupsFieldActiveGroup }}</mat-checkbox>
+
+        <div class="selected-block">
+          <div class="selected-block__header">
+            <span class="selected-block__title">{{ groupsSelectedHeading }}</span>
+            <span class="selected-block__badge">{{ selectedCountLabel }}</span>
+          </div>
+          <div class="selected-chips">
+            @for (chip of selectedPermissionChips; track chip.id) {
+              <span class="permission-chip">{{ chip.label }}</span>
             }
-          </mat-optgroup>
-        }
-      </mat-select>
-    </mat-form-field>
-    <mat-checkbox formControlName="isActive">{{ groupsFieldActive }}</mat-checkbox>
+          </div>
+          <p class="selected-block__hint">{{ groupsPermissionsHint }}</p>
+        </div>
+      </aside>
+
+      <section class="group-form-right">
+        <mat-form-field appearance="outline" class="full-width permission-search" subscriptSizing="dynamic">
+          <mat-label>{{ groupsPermissionSearch }}</mat-label>
+          <mat-icon matPrefix>search</mat-icon>
+          <input matInput [formControl]="permissionSearchControl" />
+        </mat-form-field>
+
+        <div class="module-list">
+          @for (group of filteredPermissionGroups; track group.moduleName) {
+            <div class="module-card" [class.module-card--expanded]="isModuleExpanded(group.moduleName)">
+              <div class="module-card__header">
+                <mat-checkbox
+                  color="primary"
+                  [checked]="isModuleFullySelected(group)"
+                  [indeterminate]="isModulePartiallySelected(group)"
+                  (click)="$event.stopPropagation()"
+                  (change)="toggleModule(group, $event.checked)"
+                  [attr.aria-label]="moduleSelectLabel(group.moduleName)"
+                />
+                <button type="button" class="module-card__toggle" (click)="toggleModuleExpanded(group.moduleName)">
+                  <span class="module-card__name">{{ group.moduleName }}</span>
+                  <span class="module-card__count">{{ moduleSelectionCount(group) }}/{{ group.permissions.length }}</span>
+                  <mat-icon>{{ isModuleExpanded(group.moduleName) ? 'expand_less' : 'expand_more' }}</mat-icon>
+                </button>
+              </div>
+
+              @if (isModuleExpanded(group.moduleName)) {
+                <div class="module-card__body">
+                  @for (permission of group.permissions; track permission.id) {
+                    <div class="permission-row" (click)="togglePermission(permission.id, !isPermissionSelected(permission.id))">
+                      <mat-checkbox
+                        color="primary"
+                        [checked]="isPermissionSelected(permission.id)"
+                        (click)="$event.stopPropagation()"
+                        (change)="togglePermission(permission.id, $event.checked)"
+                      />
+                      <span class="permission-row__text">
+                        <span class="permission-row__name">{{ permission.name }}</span>
+                        <span class="permission-row__authority">{{ permission.authority }}</span>
+                      </span>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          } @empty {
+            <p class="module-list__empty">—</p>
+          }
+        </div>
+      </section>
+    </div>
+
     <div shModalActions>
       <button mat-stroked-button type="button" (click)="cancelForm()">{{ groupsCancel }}</button>
       <button mat-flat-button color="primary" type="submit" form="sh-group-admin-form" [disabled]="saving">
-        {{ saving ? groupsSaving : groupsSave }}
+        {{ saving ? groupsSaving : groupsSaveGroup }}
       </button>
     </div>
   </form>

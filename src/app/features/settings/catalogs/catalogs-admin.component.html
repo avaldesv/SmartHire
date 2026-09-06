@@ -465,6 +465,53 @@
                 }
               </mat-select>
             </mat-form-field>
+            <div class="company-portal-block">
+              <p class="company-portal-title">{{ fieldPortalBranding }}</p>
+              <mat-form-field appearance="outline" class="company-portal-slug">
+                <mat-label>{{ fieldPortalSlug }}</mat-label>
+                <input matInput formControlName="portalSlug" maxlength="64" (input)="onPortalSlugManualEdit()" />
+                <mat-hint>{{ portalSlugHintText() }}</mat-hint>
+                @if (companyForm.controls.portalSlug.invalid && companyForm.controls.portalSlug.touched) {
+                  <mat-error>{{ fieldPortalSlugError }}</mat-error>
+                }
+              </mat-form-field>
+              <div class="company-color-fields">
+                <div class="company-color-field">
+                  <input
+                    type="color"
+                    class="company-color-picker"
+                    [value]="portalColorPickerValue('portalPrimaryColor')"
+                    (input)="onPortalColorPicked('portalPrimaryColor', $event)"
+                    [attr.aria-label]="fieldPortalPrimaryColor"
+                  />
+                  <mat-form-field appearance="outline">
+                    <mat-label>{{ fieldPortalPrimaryColor }}</mat-label>
+                    <input matInput formControlName="portalPrimaryColor" maxlength="7" />
+                  </mat-form-field>
+                </div>
+                <div class="company-color-field">
+                  <input
+                    type="color"
+                    class="company-color-picker"
+                    [value]="portalColorPickerValue('portalAccentColor')"
+                    (input)="onPortalColorPicked('portalAccentColor', $event)"
+                    [attr.aria-label]="fieldPortalAccentColor"
+                  />
+                  <mat-form-field appearance="outline">
+                    <mat-label>{{ fieldPortalAccentColor }}</mat-label>
+                    <input matInput formControlName="portalAccentColor" maxlength="7" />
+                  </mat-form-field>
+                </div>
+                <div
+                  class="portal-color-preview"
+                  [style.--portal-primary]="companyForm.controls.portalPrimaryColor.value || defaultPortalPrimaryColor"
+                  [style.--portal-accent]="companyForm.controls.portalAccentColor.value || defaultPortalAccentColor"
+                >
+                  <span class="portal-preview-bar"></span>
+                  <span class="portal-preview-chip">{{ fieldPortalBranding }}</span>
+                </div>
+              </div>
+            </div>
             <mat-form-field appearance="outline"><mat-label>{{ fieldBillingMessage }}</mat-label><input matInput formControlName="billingMessage" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ fieldAtsCode }}</mat-label><input matInput type="number" formControlName="atsCode" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ fieldStreet }}</mat-label><input matInput formControlName="street" /></mat-form-field>
@@ -502,6 +549,7 @@
             <ng-container matColumnDef="taxId"><th mat-header-cell *matHeaderCellDef>{{ colTaxId }}</th><td mat-cell *matCellDef="let row">{{ row.taxId }}</td></ng-container>
             <ng-container matColumnDef="country"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.country">País</th><td mat-cell *matCellDef="let row">{{ countryName(row.countryId) }}</td></ng-container>
             <ng-container matColumnDef="defaultPortalLanguage"><th mat-header-cell *matHeaderCellDef>{{ colDefaultPortalLanguage }}</th><td mat-cell *matCellDef="let row">{{ portalLanguageName(row.defaultPortalLanguageId) }}</td></ng-container>
+            <ng-container matColumnDef="portalSlug"><th mat-header-cell *matHeaderCellDef>{{ colPortalSlug }}</th><td mat-cell *matCellDef="let row">{{ row.portalSlug || '—' }}</td></ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.active">Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? catalogsYes : catalogsNo }}</td></ng-container>
             <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><sh-catalog-list-actions [showDelete]="true" (editClick)="openEditCompany(row)" (deleteClick)="deleteCompany(row)" [deleteDisabled]="deletingCatalogId === row.id" /></td></ng-container>
             <tr mat-header-row *matHeaderRowDef="companyColumns"></tr>

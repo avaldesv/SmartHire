@@ -234,6 +234,34 @@ a:hover { text-decoration: underline; }
   width: 0 !important;
 }
 
+.sh-catalog-dialog-header__main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.sh-catalog-dialog-header__subtitle {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.35;
+  color: color-mix(in srgb, var(--mat-sys-on-primary, #ffffff) 82%, transparent);
+}
+
+.sh-catalog-dialog-header--with-subtitle.sh-catalog-dialog-header.mat-mdc-dialog-title {
+  height: auto !important;
+  min-height: 72px !important;
+  align-items: flex-start !important;
+  padding-top: 14px !important;
+  padding-bottom: 14px !important;
+}
+
+.sh-groups-form-dialog-panel .mat-mdc-dialog-actions {
+  justify-content: space-between !important;
+}
+
 .sh-catalog-dialog-header-bar__text,
 .sh-catalog-dialog-header__text {
   display: flex;

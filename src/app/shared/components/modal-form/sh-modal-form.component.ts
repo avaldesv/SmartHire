@@ -53,8 +53,13 @@ export class ShModalActionsDirective implements AfterViewInit, OnDestroy {
   standalone: true,
   imports: [MatDialogModule, NgClass],
   template: `
-    <div class="sh-catalog-dialog-header" mat-dialog-title>
-      <span class="sh-catalog-dialog-header__text">{{ title }}</span>
+    <div class="sh-catalog-dialog-header" mat-dialog-title [class.sh-catalog-dialog-header--with-subtitle]="!!subtitle">
+      <div class="sh-catalog-dialog-header__main">
+        <span class="sh-catalog-dialog-header__text">{{ title }}</span>
+        @if (subtitle) {
+          <span class="sh-catalog-dialog-header__subtitle">{{ subtitle }}</span>
+        }
+      </div>
       <ng-content select="[shModalHeaderExtra]" />
     </div>
     <mat-dialog-content
@@ -83,6 +88,8 @@ export class ShModalFormComponent implements AfterViewInit, OnDestroy {
   private readonly hostRef = inject(ElementRef<HTMLElement>);
 
   @Input({ required: true }) title!: string;
+  /** Optional secondary line under the title (e.g. group permission dialog). */
+  @Input() subtitle = '';
   /** Extra class(es) on mat-dialog-content (e.g. pool-dialog-body). */
   @Input() contentClass = '';
 

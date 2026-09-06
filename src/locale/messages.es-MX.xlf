@@ -548,6 +548,48 @@
           <context context-type="linenumber">143</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="errors.COMPANY_PORTAL_SLUG_INVALID.title" datatype="html">
+        <source>Slug inválido</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-catalog.ts</context>
+          <context context-type="linenumber">146</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_PORTAL_SLUG_INVALID.message" datatype="html">
+        <source>El slug del portal es obligatorio y debe usar minúsculas, números y guiones (ej. manpower-mexico)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-catalog.ts</context>
+          <context context-type="linenumber">147</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_PORTAL_SLUG_DUPLICATE.title" datatype="html">
+        <source>Slug duplicado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-catalog.ts</context>
+          <context context-type="linenumber">150</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_PORTAL_SLUG_DUPLICATE.message" datatype="html">
+        <source>El slug del portal "{0}" ya está en uso</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-catalog.ts</context>
+          <context context-type="linenumber">151</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_PORTAL_COLOR_INVALID.title" datatype="html">
+        <source>Color inválido</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-catalog.ts</context>
+          <context context-type="linenumber">154</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_PORTAL_COLOR_INVALID.message" datatype="html">
+        <source>Los colores del portal deben tener formato #RRGGBB</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-catalog.ts</context>
+          <context context-type="linenumber">155</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="errors.ATS_CONFIG_NOT_FOUND.title" datatype="html">
         <source>Configuración no encontrada</source>
         <context-group purpose="location">
@@ -4747,7 +4789,56 @@
         <source>URL banner</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
-          <context context-type="linenumber">108</context>
+          <context context-type="linenumber">111</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.field.portalSlug" datatype="html">
+        <source>Slug del portal</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
+          <context context-type="linenumber">112</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.field.portalSlugError" datatype="html">
+        <source>Use minúsculas, números y guiones (ej. manpower-mexico)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
+          <context context-type="linenumber">113</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.field.portalPrimaryColor" datatype="html">
+        <source>Color primario</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
+          <context context-type="linenumber">114</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.field.portalAccentColor" datatype="html">
+        <source>Color de acento</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
+          <context context-type="linenumber">115</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.field.portalBranding" datatype="html">
+        <source>Portal candidato</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
+          <context context-type="linenumber">116</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.column.portalSlug" datatype="html">
+        <source>Slug portal</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
+          <context context-type="linenumber">117</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogs.field.portalSlugHint" datatype="html">
+        <source>URL pública: /<x id="slug" equiv-text="value"/>/vacancies</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
+          <context context-type="linenumber">134</context>
         </context-group>
       </trans-unit>
       <trans-unit id="catalogs.field.noPurchaseOrder" datatype="html">
@@ -7213,6 +7304,62 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/groups-labels.ts</context>
           <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="groups.form.subtitle" datatype="html">
+        <source>Asigne permisos por módulo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/groups-labels.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="groups.field.activeGroup" datatype="html">
+        <source>Grupo activo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/groups-labels.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="groups.selected.heading" datatype="html">
+        <source>Seleccionados</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/groups-labels.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="groups.permissions.search" datatype="html">
+        <source>Buscar permiso o módulo...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/groups-labels.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="groups.permissions.hint" datatype="html">
+        <source>Los enlaces públicos y menús dependen de estos permisos.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/groups-labels.ts</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="groups.form.saveGroup" datatype="html">
+        <source>Guardar grupo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/groups-labels.ts</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="groups.selected.count" datatype="html">
+        <source><x id="count" equiv-text="count"/> permisos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/groups-labels.ts</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="groups.module.selectAll" datatype="html">
+        <source>Seleccionar <x id="module" equiv-text="moduleName"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/groups-labels.ts</context>
+          <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
       <trans-unit id="catalogs.common.recordScope" datatype="html">

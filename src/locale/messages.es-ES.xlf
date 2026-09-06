@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="es-MX" target-language="es" datatype="plaintext" original="ng2.template">
     <body>
@@ -313,6 +313,30 @@
       <trans-unit id="errors.COMPANY_NOT_FOUND.message" datatype="html">
         <source>Compañía no encontrada</source>
         <target>Compañía no encontrada</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_PORTAL_SLUG_INVALID.title" datatype="html">
+        <source>Slug inválido</source>
+        <target>Slug inválido</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_PORTAL_SLUG_INVALID.message" datatype="html">
+        <source>El slug del portal es obligatorio y debe usar minúsculas, números y guiones (ej. manpower-mexico)</source>
+        <target>El slug del portal es obligatorio y debe usar minúsculas, números y guiones (ej. manpower-mexico)</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_PORTAL_SLUG_DUPLICATE.title" datatype="html">
+        <source>Slug duplicado</source>
+        <target>Slug duplicado</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_PORTAL_SLUG_DUPLICATE.message" datatype="html">
+        <source>El slug del portal "{0}" ya está en uso</source>
+        <target>El slug del portal "{0}" ya está en uso</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_PORTAL_COLOR_INVALID.title" datatype="html">
+        <source>Color inválido</source>
+        <target>Color inválido</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_PORTAL_COLOR_INVALID.message" datatype="html">
+        <source>Los colores del portal deben tener formato #RRGGBB</source>
+        <target>Los colores del portal deben tener formato #RRGGBB</target>
       </trans-unit>
       <trans-unit id="errors.ATS_CONFIG_NOT_FOUND.title" datatype="html">
         <source>Configuración no encontrada</source>
@@ -2462,6 +2486,34 @@
         <source>URL banner</source>
         <target>URL banner</target>
       </trans-unit>
+      <trans-unit id="catalogs.field.portalSlug" datatype="html">
+        <source>Slug del portal</source>
+        <target>Slug del portal</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.portalSlugError" datatype="html">
+        <source>Use minúsculas, números y guiones (ej. manpower-mexico)</source>
+        <target>Use minúsculas, números y guiones (ej. manpower-mexico)</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.portalPrimaryColor" datatype="html">
+        <source>Color primario</source>
+        <target>Color primario</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.portalAccentColor" datatype="html">
+        <source>Color de acento</source>
+        <target>Color de acento</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.portalBranding" datatype="html">
+        <source>Portal candidato</source>
+        <target>Portal candidato</target>
+      </trans-unit>
+      <trans-unit id="catalogs.column.portalSlug" datatype="html">
+        <source>Slug portal</source>
+        <target>Slug portal</target>
+      </trans-unit>
+      <trans-unit id="catalogs.field.portalSlugHint" datatype="html">
+        <source>URL pública: /<x id="slug" equiv-text="value" />/vacancies</source>
+        <target>URL pública: /<x id="slug" equiv-text="value" />/vacancies</target>
+      </trans-unit>
       <trans-unit id="catalogs.field.noPurchaseOrder" datatype="html">
         <source>Sin orden de compra</source>
         <target>Sin orden de compra</target>
@@ -3555,12 +3607,18 @@
         <target>Última página</target>
       </trans-unit>
       <trans-unit id="paginator.rangeEmpty" datatype="html">
-        <source>0 de <x id="total" equiv-text="length"/></source>
-        <target>0 de <x id="total" equiv-text="length"/></target>
+        <source>0 de <x id="total" equiv-text="length" />
+        </source>
+        <target>0 de <x id="total" equiv-text="length" />
+        </target>
       </trans-unit>
       <trans-unit id="paginator.range" datatype="html">
-        <source><x id="start" equiv-text="start"/> – <x id="end" equiv-text="end"/> de <x id="total" equiv-text="length"/></source>
-        <target><x id="start" equiv-text="start"/> – <x id="end" equiv-text="end"/> de <x id="total" equiv-text="length"/></target>
+        <source>
+          <x id="start" equiv-text="start" /> – <x id="end" equiv-text="end" /> de <x id="total" equiv-text="length" />
+        </source>
+        <target>
+          <x id="start" equiv-text="start" /> – <x id="end" equiv-text="end" /> de <x id="total" equiv-text="length" />
+        </target>
       </trans-unit>
       <trans-unit id="dashboard.errors.loadKpis" datatype="html">
         <source>No se pudieron cargar los KPIs</source>
@@ -3879,6 +3937,42 @@
       <trans-unit id="groups.field.modulePermissions" datatype="html">
         <source>Permisos de módulo</source>
         <target>Permisos de módulo</target>
+      </trans-unit>
+      <trans-unit id="groups.form.subtitle" datatype="html">
+        <source>Asigne permisos por módulo</source>
+        <target>Asigne permisos por módulo</target>
+      </trans-unit>
+      <trans-unit id="groups.field.activeGroup" datatype="html">
+        <source>Grupo activo</source>
+        <target>Grupo activo</target>
+      </trans-unit>
+      <trans-unit id="groups.selected.heading" datatype="html">
+        <source>Seleccionados</source>
+        <target>Seleccionados</target>
+      </trans-unit>
+      <trans-unit id="groups.permissions.search" datatype="html">
+        <source>Buscar permiso o módulo...</source>
+        <target>Buscar permiso o módulo...</target>
+      </trans-unit>
+      <trans-unit id="groups.permissions.hint" datatype="html">
+        <source>Los enlaces públicos y menús dependen de estos permisos.</source>
+        <target>Los enlaces públicos y menús dependen de estos permisos.</target>
+      </trans-unit>
+      <trans-unit id="groups.form.saveGroup" datatype="html">
+        <source>Guardar grupo</source>
+        <target>Guardar grupo</target>
+      </trans-unit>
+      <trans-unit id="groups.selected.count" datatype="html">
+        <source>
+          <x id="count" equiv-text="count" /> permisos</source>
+        <target>
+          <x id="count" equiv-text="count" /> permisos</target>
+      </trans-unit>
+      <trans-unit id="groups.module.selectAll" datatype="html">
+        <source>Seleccionar <x id="module" equiv-text="moduleName" />
+        </source>
+        <target>Seleccionar <x id="module" equiv-text="moduleName" />
+        </target>
       </trans-unit>
       <trans-unit id="catalogs.common.recordScope" datatype="html">
         <source>Ámbito del registro:</source>
@@ -8388,7 +8482,7 @@
         <source>Editar usuario</source>
         <target>Editar usuario</target>
       </trans-unit>
-          <trans-unit id="documentTemplates.pageTitle" datatype="html">
+      <trans-unit id="documentTemplates.pageTitle" datatype="html">
         <source>Plantillas de Documentos</source>
         <target>Plantillas de Documentos</target>
       </trans-unit>
@@ -8517,8 +8611,8 @@
         <target>Variable eliminada</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.deleteConfirm" datatype="html">
-        <source>¿Eliminar la variable "<x id="code" equiv-text="code"/>"? Esta acción no se puede deshacer.</source>
-        <target>¿Eliminar la variable "<x id="code" equiv-text="code"/>"? Esta acción no se puede deshacer.</target>
+        <source>¿Eliminar la variable "<x id="code" equiv-text="code" />"? Esta acción no se puede deshacer.</source>
+        <target>¿Eliminar la variable "<x id="code" equiv-text="code" />"? Esta acción no se puede deshacer.</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.success.saved" datatype="html">
         <source>Variable guardada</source>
@@ -8661,8 +8755,8 @@
         <target>Guardando...</target>
       </trans-unit>
       <trans-unit id="documentTemplates.templates.deleteConfirm" datatype="html">
-        <source>¿Eliminar la plantilla "<x id="name" equiv-text="name"/>"? Esta acción no se puede deshacer.</source>
-        <target>¿Eliminar la plantilla "<x id="name" equiv-text="name"/>"? Esta acción no se puede deshacer.</target>
+        <source>¿Eliminar la plantilla "<x id="name" equiv-text="name" />"? Esta acción no se puede deshacer.</source>
+        <target>¿Eliminar la plantilla "<x id="name" equiv-text="name" />"? Esta acción no se puede deshacer.</target>
       </trans-unit>
       <trans-unit id="documentTemplates.generate.title" datatype="html">
         <source>Generar Documentos</source>
@@ -8708,6 +8802,6 @@
         <source>No se pudo generar el documento</source>
         <target>No se pudo generar el documento</target>
       </trans-unit>
-</body>
+    </body>
   </file>
 </xliff>
