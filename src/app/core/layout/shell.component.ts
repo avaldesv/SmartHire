@@ -1,5 +1,5 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
@@ -49,6 +49,7 @@ export class ShellComponent implements OnInit {
   private readonly companyService = inject(CatalogCompanyService);
   private readonly userSettingsApi = inject(UserSettingsApiService);
   private readonly dialog = inject(MatDialog);
+  private readonly router = inject(Router);
 
   readonly interviewCalendarMenuLabel = INTERVIEW_CAL_MENU;
   readonly user = this.auth.currentUser;
@@ -104,6 +105,7 @@ export class ShellComponent implements OnInit {
     }
     this.tenantContext.setCompanyId(companyId);
     this.auth.loadCurrentUserProfile().subscribe({ error: () => undefined });
+    void this.router.navigate(['/home']);
   }
 
   logout(): void {
