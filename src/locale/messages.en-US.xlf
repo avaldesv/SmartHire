@@ -4315,7 +4315,7 @@
       </trans-unit>
       <trans-unit id="nav.settings.documentTemplates" datatype="html">
         <source>Plantillas de Documentos</source>
-        <target>Plantillas de Documentos</target>
+        <target>Document templates</target>
       </trans-unit>
       <trans-unit id="nav.settings.cvs" datatype="html">
         <source>CVs</source>
@@ -4795,7 +4795,7 @@
       </trans-unit>
       <trans-unit id="applicationsDialog.actions.generateDocuments" datatype="html">
         <source>Generar Documentos</source>
-        <target>Generar Documentos</target>
+        <target>Generate documents</target>
       </trans-unit>
       <trans-unit id="applicationsDialog.actions.preselect" datatype="html">
         <source>Preseleccionar</source>
@@ -8501,7 +8501,7 @@
       </trans-unit>
       <trans-unit id="documentTemplates.pageTitle" datatype="html">
         <source>Plantillas de Documentos</source>
-        <target>Plantillas de Documentos</target>
+        <target>Document templates</target>
       </trans-unit>
       <trans-unit id="documentTemplates.tab.variables" datatype="html">
         <source>Variables</source>
@@ -8509,19 +8509,19 @@
       </trans-unit>
       <trans-unit id="documentTemplates.tab.templates" datatype="html">
         <source>Plantillas</source>
-        <target>Plantillas</target>
+        <target>Templates</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.newButton" datatype="html">
         <source>Nueva variable</source>
-        <target>Nueva variable</target>
+        <target>New variable</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.col.code" datatype="html">
         <source>Código</source>
-        <target>Código</target>
+        <target>Code</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.col.label" datatype="html">
         <source>Etiqueta</source>
-        <target>Etiqueta</target>
+        <target>Label</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.col.description" datatype="html">
         <source>Descripción</source>
@@ -8529,7 +8529,7 @@
       </trans-unit>
       <trans-unit id="documentTemplates.variables.col.inUse" datatype="html">
         <source>En uso</source>
-        <target>En uso</target>
+        <target>In use</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.col.active" datatype="html">
         <source>Activa</source>
@@ -8537,23 +8537,23 @@
       </trans-unit>
       <trans-unit id="documentTemplates.variables.empty" datatype="html">
         <source>No hay variables configuradas</source>
-        <target>No hay variables configuradas</target>
+        <target>No variables configured</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.dialog.new" datatype="html">
         <source>Nueva variable</source>
-        <target>Nueva variable</target>
+        <target>New variable</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.dialog.edit" datatype="html">
         <source>Editar variable</source>
-        <target>Editar variable</target>
+        <target>Edit variable</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.field.code" datatype="html">
         <source>Código</source>
-        <target>Código</target>
+        <target>Code</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.field.label" datatype="html">
         <source>Etiqueta</source>
-        <target>Etiqueta</target>
+        <target>Label</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.field.description" datatype="html">
         <source>Descripción</source>
@@ -8565,19 +8565,19 @@
       </trans-unit>
       <trans-unit id="documentTemplates.variables.codeHint" datatype="html">
         <source>El código se genera del campo elegido y no se puede cambiar.</source>
-        <target>El código se genera del campo elegido y no se puede cambiar.</target>
+        <target>The code is generated from the selected field and cannot be changed.</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.errors.list" datatype="html">
         <source>No se pudieron cargar las variables</source>
-        <target>Could not load las variables</target>
+        <target>Could not load variables</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.errors.save" datatype="html">
         <source>No se pudo guardar la variable</source>
-        <target>Could not save la variable</target>
+        <target>Could not save the variable</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.field.origin" datatype="html">
         <source>Origen</source>
-        <target>Origen</target>
+        <target>Origin</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.field.source" datatype="html">
         <source>Campo</source>
@@ -8585,11 +8585,11 @@
       </trans-unit>
       <trans-unit id="documentTemplates.variables.noFields" datatype="html">
         <source>No hay campos disponibles en este origen</source>
-        <target>No hay campos disponibles en este origen</target>
+        <target>No fields available for this origin</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.origin.candidate" datatype="html">
         <source>Candidato</source>
-        <target>Candidato</target>
+        <target>Candidate</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.origin.position" datatype="html">
         <source>Posición</source>
@@ -8617,23 +8617,23 @@
       </trans-unit>
       <trans-unit id="documentTemplates.variables.errors.fields" datatype="html">
         <source>No se pudieron cargar los campos disponibles</source>
-        <target>Could not load los campos disponibles</target>
+        <target>Could not load available fields</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.errors.delete" datatype="html">
         <source>No se pudo eliminar la variable</source>
-        <target>No se pudo eliminar la variable</target>
+        <target>Could not delete the variable</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.success.deleted" datatype="html">
         <source>Variable eliminada</source>
-        <target>Variable eliminada</target>
+        <target>Variable deleted</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.deleteConfirm" datatype="html">
         <source>¿Eliminar la variable "<x id="code" equiv-text="code" />"? Esta acción no se puede deshacer.</source>
-        <target>¿Eliminar la variable "<x id="code" equiv-text="code" />"? This action cannot be undone.</target>
+        <target>Delete variable "<x id="code" equiv-text="code" />"? This action cannot be undone.</target>
       </trans-unit>
       <trans-unit id="documentTemplates.variables.success.saved" datatype="html">
         <source>Variable guardada</source>
-        <target>Variable guardada</target>
+        <target>Variable saved</target>
       </trans-unit>
       <trans-unit id="documentTemplates.templates.newButton" datatype="html">
         <source>Nueva plantilla</source>
@@ -8641,7 +8641,7 @@
       </trans-unit>
       <trans-unit id="documentTemplates.templates.col.name" datatype="html">
         <source>Nombre</source>
-        <target>First name</target>
+        <target>Name</target>
       </trans-unit>
       <trans-unit id="documentTemplates.templates.col.fileName" datatype="html">
         <source>Archivo</source>
@@ -8653,31 +8653,31 @@
       </trans-unit>
       <trans-unit id="documentTemplates.templates.col.variables" datatype="html">
         <source>Variables usadas</source>
-        <target>Variables usadas</target>
+        <target>Variables used</target>
       </trans-unit>
       <trans-unit id="documentTemplates.templates.empty" datatype="html">
         <source>No hay plantillas de documentos configuradas</source>
-        <target>No hay plantillas de documentos configuradas</target>
+        <target>No document templates configured</target>
       </trans-unit>
       <trans-unit id="documentTemplates.templates.dialog.new" datatype="html">
         <source>Nueva plantilla de documento</source>
-        <target>Nueva plantilla de documento</target>
+        <target>New document template</target>
       </trans-unit>
       <trans-unit id="documentTemplates.templates.dialog.edit" datatype="html">
         <source>Editar plantilla de documento</source>
-        <target>Editar plantilla de documento</target>
+        <target>Edit document template</target>
       </trans-unit>
       <trans-unit id="documentTemplates.templates.field.name" datatype="html">
         <source>Nombre</source>
-        <target>First name</target>
+        <target>Name</target>
       </trans-unit>
       <trans-unit id="documentTemplates.templates.field.file" datatype="html">
         <source>Archivo .docx</source>
-        <target>Archivo .docx</target>
+        <target>.docx file</target>
       </trans-unit>
       <trans-unit id="documentTemplates.templates.pickFile" datatype="html">
         <source>Seleccionar archivo .docx</source>
-        <target>Select archivo .docx</target>
+        <target>Select .docx file</target>
       </trans-unit>
       <trans-unit id="documentTemplates.templates.field.active" datatype="html">
         <source>Activa</source>
@@ -8685,27 +8685,27 @@
       </trans-unit>
       <trans-unit id="documentTemplates.templates.fileHint" datatype="html">
         <source>Solo archivos .docx. Al seleccionar se validan las variables.</source>
-        <target>Solo archivos .docx. Al seleccionar se validan las variables.</target>
+        <target>Only .docx files. Variables are validated when selected.</target>
       </trans-unit>
       <trans-unit id="documentTemplates.templates.fileCurrent" datatype="html">
         <source>Archivo actual</source>
-        <target>Archivo actual</target>
+        <target>Current file</target>
       </trans-unit>
       <trans-unit id="documentTemplates.templates.validVars" datatype="html">
         <source>Variables válidas</source>
-        <target>Variables válidas</target>
+        <target>Valid variables</target>
       </trans-unit>
       <trans-unit id="documentTemplates.templates.invalidVars" datatype="html">
         <source>Variables no reconocidas</source>
-        <target>Variables no reconocidas</target>
+        <target>Unrecognized variables</target>
       </trans-unit>
       <trans-unit id="documentTemplates.templates.preview.title" datatype="html">
         <source>Vista previa del documento</source>
-        <target>Vista previa del documento</target>
+        <target>Document preview</target>
       </trans-unit>
       <trans-unit id="documentTemplates.templates.preview.empty" datatype="html">
         <source>Selecciona un archivo .docx para ver la vista previa</source>
-        <target>Selecciona un archivo .docx para ver la vista previa</target>
+        <target>Select a .docx file to preview</target>
       </trans-unit>
       <trans-unit id="documentTemplates.templates.preview.loading" datatype="html">
         <source>Generando vista previa...</source>
@@ -8713,11 +8713,11 @@
       </trans-unit>
       <trans-unit id="documentTemplates.templates.preview.error" datatype="html">
         <source>No se pudo mostrar la vista previa</source>
-        <target>No se pudo mostrar la vista previa</target>
+        <target>Could not show the preview</target>
       </trans-unit>
       <trans-unit id="documentTemplates.templates.validating" datatype="html">
         <source>Validando archivo...</source>
-        <target>Validando archivo...</target>
+        <target>Validating file...</target>
       </trans-unit>
       <trans-unit id="documentTemplates.templates.download" datatype="html">
         <source>Descargar</source>
@@ -8737,11 +8737,11 @@
       </trans-unit>
       <trans-unit id="documentTemplates.templates.errors.validate" datatype="html">
         <source>No se pudo validar el archivo</source>
-        <target>No se pudo validar el archivo</target>
+        <target>Could not validate the file</target>
       </trans-unit>
       <trans-unit id="documentTemplates.templates.errors.download" datatype="html">
         <source>No se pudo obtener el enlace de descarga</source>
-        <target>No se pudo obtener el enlace de descarga</target>
+        <target>Could not get the download link</target>
       </trans-unit>
       <trans-unit id="documentTemplates.templates.errors.delete" datatype="html">
         <source>No se pudo eliminar la plantilla</source>
@@ -8749,7 +8749,7 @@
       </trans-unit>
       <trans-unit id="documentTemplates.templates.errors.fileType" datatype="html">
         <source>Solo se permiten archivos .docx</source>
-        <target>Solo se permiten archivos .docx</target>
+        <target>Only .docx files are allowed</target>
       </trans-unit>
       <trans-unit id="documentTemplates.templates.success.saved" datatype="html">
         <source>Plantilla guardada</source>
@@ -8777,11 +8777,11 @@
       </trans-unit>
       <trans-unit id="documentTemplates.generate.title" datatype="html">
         <source>Generar Documentos</source>
-        <target>Generar Documentos</target>
+        <target>Generate documents</target>
       </trans-unit>
       <trans-unit id="documentTemplates.generate.col.name" datatype="html">
         <source>Nombre de la plantilla</source>
-        <target>Nombre de la plantilla</target>
+        <target>Template name</target>
       </trans-unit>
       <trans-unit id="documentTemplates.generate.col.actions" datatype="html">
         <source>Acciones</source>
@@ -8789,7 +8789,7 @@
       </trans-unit>
       <trans-unit id="documentTemplates.generate.wordAction" datatype="html">
         <source>Generar documento Word</source>
-        <target>Generar documento Word</target>
+        <target>Generate Word document</target>
       </trans-unit>
       <trans-unit id="documentTemplates.generate.select" datatype="html">
         <source>Plantilla</source>
@@ -8797,19 +8797,19 @@
       </trans-unit>
       <trans-unit id="documentTemplates.generate.confirm" datatype="html">
         <source>Generar y descargar</source>
-        <target>Generar y descargar</target>
+        <target>Generate and download</target>
       </trans-unit>
       <trans-unit id="documentTemplates.generate.generating" datatype="html">
         <source>Generando...</source>
-        <target>Generando...</target>
+        <target>Generating...</target>
       </trans-unit>
       <trans-unit id="documentTemplates.generate.empty" datatype="html">
         <source>No hay plantillas activas disponibles</source>
-        <target>No hay plantillas activas disponibles</target>
+        <target>No active templates available</target>
       </trans-unit>
       <trans-unit id="documentTemplates.generate.success" datatype="html">
         <source>Documento generado</source>
-        <target>Documento generado</target>
+        <target>Document generated</target>
       </trans-unit>
       <trans-unit id="documentTemplates.generate.errors.list" datatype="html">
         <source>No se pudieron cargar las plantillas</source>
@@ -8817,7 +8817,7 @@
       </trans-unit>
       <trans-unit id="documentTemplates.generate.errors.generate" datatype="html">
         <source>No se pudo generar el documento</source>
-        <target>No se pudo generar el documento</target>
+        <target>Could not generate the document</target>
       </trans-unit>
       <trans-unit id="reports.pageTitle" datatype="html">
         <source>Reportes</source>
@@ -9530,6 +9530,34 @@
       <trans-unit id="candidates.form.noNeighborhoods" datatype="html">
         <source>Sin colonias para ese código postal</source>
         <target>No neighborhoods for that postal code</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.variables.search" datatype="html">
+        <source>Buscar variable</source>
+        <target>Search variable</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.search" datatype="html">
+        <source>Buscar plantilla</source>
+        <target>Search template</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.preview.zoomToolbar" datatype="html">
+        <source>Zoom de vista previa</source>
+        <target>Preview zoom</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.preview.zoomIn" datatype="html">
+        <source>Acercar vista previa</source>
+        <target>Zoom in preview</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.preview.zoomOut" datatype="html">
+        <source>Alejar vista previa</source>
+        <target>Zoom out preview</target>
+      </trans-unit>
+      <trans-unit id="documentTemplates.templates.preview.zoomReset" datatype="html">
+        <source>Restablecer zoom</source>
+        <target>Reset zoom</target>
+      </trans-unit>
+      <trans-unit id="common.clearFilters" datatype="html">
+        <source>Limpiar</source>
+        <target>Clear</target>
       </trans-unit>
     </body>
   </file>
