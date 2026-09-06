@@ -15,6 +15,7 @@ import { SecurityRecruiterGroupService } from '../../../core/services/security-r
 import { SecurityUserService } from '../../../core/services/security-user.service';
 import { ClientFilterFieldComponent } from '../../../shared/components/client-filter-field/client-filter-field.component';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
+import { REPORTS_CLEAR_FILTERS, REPORTS_UPDATE } from '../../../core/i18n/reports-i18n-labels';
 import { CatalogBusinessUnit } from '../../../shared/models/catalog-business-unit.model';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import {
@@ -57,6 +58,8 @@ export class RequisitionsBySourceReportComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
   private readonly armTenantReload = armReportTenantReload(() => this.reloadForTenant());
+  readonly updateLabel = REPORTS_UPDATE;
+  readonly clearFiltersLabel = REPORTS_CLEAR_FILTERS;
 
   loading = false;
   loadingCatalogs = true;

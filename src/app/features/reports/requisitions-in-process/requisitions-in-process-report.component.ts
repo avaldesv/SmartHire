@@ -11,6 +11,7 @@ import { catchError, of } from 'rxjs';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { ReportsApiService } from '../../../core/services/reports-api.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
+import { REPORTS_CLEAR_FILTERS, REPORTS_UPDATE } from '../../../core/i18n/reports-i18n-labels';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import {
   RequisitionsInProcessClientResponse,
@@ -56,6 +57,8 @@ export class RequisitionsInProcessReportComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
   private readonly armTenantReload = armReportTenantReload(() => this.reloadForTenant());
+  readonly updateLabel = REPORTS_UPDATE;
+  readonly clearFiltersLabel = REPORTS_CLEAR_FILTERS;
 
   loading = false;
   loadingCatalogs = true;

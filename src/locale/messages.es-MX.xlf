@@ -18285,6 +18285,48 @@
           <context context-type="linenumber">60</context>
         </context-group>
       </trans-unit>
-</body>
+      <trans-unit id="reports.pageTitle" datatype="html">
+        <source>Reportes</source>
+      </trans-unit>
+      <trans-unit id="reports.nav.category.general" datatype="html">
+        <source>Generales</source>
+      </trans-unit>
+      <trans-unit id="reports.nav.category.coverage" datatype="html">
+        <source>Cubrimiento</source>
+      </trans-unit>
+      <trans-unit id="reports.nav.category.vacancies" datatype="html">
+        <source>Vacantes</source>
+      </trans-unit>
+      <trans-unit id="reports.nav.mmr" datatype="html">
+        <source>MMR</source>
+      </trans-unit>
+      <trans-unit id="reports.nav.statusByRequisition" datatype="html">
+        <source>Estatus por requisición</source>
+      </trans-unit>
+      <trans-unit id="reports.nav.processFunnel" datatype="html">
+        <source>Funnel del proceso</source>
+      </trans-unit>
+      <trans-unit id="reports.nav.consolidated" datatype="html">
+        <source>Consolidado</source>
+      </trans-unit>
+      <trans-unit id="reports.nav.segmentedSummary" datatype="html">
+        <source>Resumen segmentado</source>
+      </trans-unit>
+      <trans-unit id="reports.nav.topIncidents" datatype="html">
+        <source>Tops incidencias</source>
+      </trans-unit>
+      <trans-unit id="reports.nav.metrics" datatype="html">
+        <source>Métricas</source>
+      </trans-unit>
+      <trans-unit id="reports.nav.positionsInProcess" datatype="html">
+        <source>Posiciones en proceso</source>
+      </trans-unit>
+      <trans-unit id="reports.nav.behavior" datatype="html">
+        <source>Comportamiento</source>
+      </trans-unit>
+      <trans-unit id="reports.nav.requisitionsBySource" datatype="html">
+        <source>Requisiciones por fuente</source>
+      </trans-unit>
+    </body>
   </file>
 </xliff>

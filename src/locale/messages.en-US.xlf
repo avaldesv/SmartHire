@@ -6704,7 +6704,7 @@
       </trans-unit>
       <trans-unit id="reports.action.update" datatype="html">
         <source>Actualizar</source>
-        <target>Actualizar</target>
+        <target>Update</target>
       </trans-unit>
       <trans-unit id="reports.action.clearFilters" datatype="html">
         <source>Limpiar filtros</source>
@@ -6712,27 +6712,27 @@
       </trans-unit>
       <trans-unit id="reports.section.indicators" datatype="html">
         <source>Indicadores</source>
-        <target>Indicadores</target>
+        <target>Indicators</target>
       </trans-unit>
       <trans-unit id="reports.column.indicator" datatype="html">
         <source>Indicador</source>
-        <target>Indicador</target>
+        <target>Indicator</target>
       </trans-unit>
       <trans-unit id="reports.empty.matrix" datatype="html">
         <source>Sin datos para los filtros seleccionados</source>
-        <target>Sin datos para los filtros seleccionados</target>
+        <target>No data for the selected filters</target>
       </trans-unit>
       <trans-unit id="reports.kpi.fillRateCurrent" datatype="html">
         <source>Fill Rate actual</source>
-        <target>Fill Rate actual</target>
+        <target>Current fill rate</target>
       </trans-unit>
       <trans-unit id="reports.kpi.fillRatePrior" datatype="html">
         <source>Fill Rate anterior</source>
-        <target>Fill Rate anterior</target>
+        <target>Prior fill rate</target>
       </trans-unit>
       <trans-unit id="reports.kpi.fillRateYtd" datatype="html">
         <source>Fill Rate YTD</source>
-        <target>Fill Rate YTD</target>
+        <target>YTD fill rate</target>
       </trans-unit>
       <trans-unit id="reports.filter.country" datatype="html">
         <source>País</source>
@@ -6752,7 +6752,7 @@
       </trans-unit>
       <trans-unit id="reports.filter.year" datatype="html">
         <source>Año</source>
-        <target>Año</target>
+        <target>Year</target>
       </trans-unit>
       <trans-unit id="reports.filter.order" datatype="html">
         <source>Orden</source>
@@ -6768,59 +6768,59 @@
       </trans-unit>
       <trans-unit id="reports.filter.allFem" datatype="html">
         <source>Todas</source>
-        <target>Todas</target>
+        <target>All</target>
       </trans-unit>
       <trans-unit id="reports.filter.selectCountry" datatype="html">
         <source>Selecciona país</source>
-        <target>Selecciona país</target>
+        <target>Select country</target>
       </trans-unit>
       <trans-unit id="reports.recruitment.temp" datatype="html">
         <source>Temporal (TEMP)</source>
-        <target>Temporal (TEMP)</target>
+        <target>Temporary (TEMP)</target>
       </trans-unit>
       <trans-unit id="reports.recruitment.temporary" datatype="html">
         <source>Temporal (TEMPORARY)</source>
-        <target>Temporal (TEMPORARY)</target>
+        <target>Temporary (TEMPORARY)</target>
       </trans-unit>
       <trans-unit id="reports.recruitment.permanent" datatype="html">
         <source>Permanente</source>
-        <target>Permanente</target>
+        <target>Permanent</target>
       </trans-unit>
       <trans-unit id="reports.mmr.title" datatype="html">
         <source>Reporte MMR</source>
-        <target>Reporte MMR</target>
+        <target>MMR report</target>
       </trans-unit>
       <trans-unit id="reports.mmr.subtitle" datatype="html">
         <source>Fill rate e indicadores mensuales</source>
-        <target>Fill rate e indicadores mensuales</target>
+        <target>Monthly fill rate and indicators</target>
       </trans-unit>
       <trans-unit id="reports.mmr.loadError" datatype="html">
         <source>No se pudo cargar el reporte MMR. Intenta de nuevo.</source>
-        <target>No se pudo cargar el reporte MMR. Intenta de nuevo.</target>
+        <target>Could not load the MMR report. Please try again.</target>
       </trans-unit>
       <trans-unit id="reports.rbm.title" datatype="html">
         <source>Requisiciones por mes</source>
-        <target>Requisiciones por mes</target>
+        <target>Requisitions by month</target>
       </trans-unit>
       <trans-unit id="reports.rbm.subtitle" datatype="html">
         <source>Volumen e indicadores mensuales</source>
-        <target>Volumen e indicadores mensuales</target>
+        <target>Monthly volume and indicators</target>
       </trans-unit>
       <trans-unit id="reports.rbm.loadError" datatype="html">
         <source>No se pudo cargar el reporte Requisiciones por mes. Intenta de nuevo.</source>
-        <target>No se pudo cargar el reporte Requisiciones por mes. Intenta de nuevo.</target>
+        <target>Could not load the Requisitions by month report. Please try again.</target>
       </trans-unit>
       <trans-unit id="reports.perf.title" datatype="html">
         <source>Desempeño</source>
-        <target>Desempeño</target>
+        <target>Performance</target>
       </trans-unit>
       <trans-unit id="reports.perf.subtitle" datatype="html">
         <source>Resumen de desempeño por reclutador</source>
-        <target>Resumen de desempeño por reclutador</target>
+        <target>Performance summary by recruiter</target>
       </trans-unit>
       <trans-unit id="reports.perf.loadError" datatype="html">
         <source>No se pudo cargar el reporte de desempeño. Intenta de nuevo.</source>
-        <target>No se pudo cargar el reporte de desempeño. Intenta de nuevo.</target>
+        <target>Could not load the performance report. Please try again.</target>
       </trans-unit>
       <trans-unit id="reports.perf.kpiTitle" datatype="html">
         <source>FILL RATE</source>
@@ -6828,7 +6828,7 @@
       </trans-unit>
       <trans-unit id="reports.perf.filter.month" datatype="html">
         <source>Mes</source>
-        <target>Mes</target>
+        <target>Month</target>
       </trans-unit>
       <trans-unit id="reports.perf.col.recruiter" datatype="html">
         <source>Reclutador</source>
@@ -6836,31 +6836,31 @@
       </trans-unit>
       <trans-unit id="reports.perf.col.opening" datatype="html">
         <source>Órdenes de apertura</source>
-        <target>Órdenes de apertura</target>
+        <target>Opening orders</target>
       </trans-unit>
       <trans-unit id="reports.perf.col.temp" datatype="html">
         <source>Órdenes temporales obtenidas</source>
-        <target>Órdenes temporales obtenidas</target>
+        <target>Temporary orders obtained</target>
       </trans-unit>
       <trans-unit id="reports.perf.col.cancellations" datatype="html">
         <source>Órdenes canceladas</source>
-        <target>Órdenes canceladas</target>
+        <target>Cancelled orders</target>
       </trans-unit>
       <trans-unit id="reports.perf.col.associateStarts" datatype="html">
         <source>Inicios de asociados (Placement)</source>
-        <target>Inicios de asociados (Placement)</target>
+        <target>Associate starts (Placement)</target>
       </trans-unit>
       <trans-unit id="reports.perf.col.monthEnd" datatype="html">
         <source>Órdenes (fin de mes)</source>
-        <target>Órdenes (fin de mes)</target>
+        <target>Orders (month end)</target>
       </trans-unit>
       <trans-unit id="reports.perf.col.fillRate" datatype="html">
         <source>Tasa de cubrimiento</source>
-        <target>Tasa de cubrimiento</target>
+        <target>Fill rate</target>
       </trans-unit>
       <trans-unit id="reports.perf.col.cancelRate" datatype="html">
         <source>Tasa de cancelación</source>
-        <target>Tasa de cancelación</target>
+        <target>Cancellation rate</target>
       </trans-unit>
       <trans-unit id="reports.perf.col.total" datatype="html">
         <source>TOTAL</source>
@@ -8292,7 +8292,7 @@
       </trans-unit>
       <trans-unit id="reports.month.jan" datatype="html">
         <source>Ene</source>
-        <target>Ene</target>
+        <target>Jan</target>
       </trans-unit>
       <trans-unit id="reports.month.feb" datatype="html">
         <source>Feb</source>
@@ -8304,7 +8304,7 @@
       </trans-unit>
       <trans-unit id="reports.month.apr" datatype="html">
         <source>Abr</source>
-        <target>Abr</target>
+        <target>Apr</target>
       </trans-unit>
       <trans-unit id="reports.month.may" datatype="html">
         <source>May</source>
@@ -8320,7 +8320,7 @@
       </trans-unit>
       <trans-unit id="reports.month.aug" datatype="html">
         <source>Ago</source>
-        <target>Ago</target>
+        <target>Aug</target>
       </trans-unit>
       <trans-unit id="reports.month.sep" datatype="html">
         <source>Sep</source>
@@ -8336,7 +8336,7 @@
       </trans-unit>
       <trans-unit id="reports.month.dec" datatype="html">
         <source>Dic</source>
-        <target>Dic</target>
+        <target>Dec</target>
       </trans-unit>
       <trans-unit id="catalogs.pending.message" datatype="html">
         <source> Catálogo pendiente de implementación. Ver plan <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code&gt;" />docs/technical/CATALOG-REFACTOR-PLAN-v1.md<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;" /> y issues AVV-380+. </source>
@@ -8821,6 +8821,62 @@
       <trans-unit id="documentTemplates.generate.errors.generate" datatype="html">
         <source>No se pudo generar el documento</source>
         <target>No se pudo generar el documento</target>
+      </trans-unit>
+      <trans-unit id="reports.pageTitle" datatype="html">
+        <source>Reportes</source>
+        <target>Reports</target>
+      </trans-unit>
+      <trans-unit id="reports.nav.category.general" datatype="html">
+        <source>Generales</source>
+        <target>General</target>
+      </trans-unit>
+      <trans-unit id="reports.nav.category.coverage" datatype="html">
+        <source>Cubrimiento</source>
+        <target>Coverage</target>
+      </trans-unit>
+      <trans-unit id="reports.nav.category.vacancies" datatype="html">
+        <source>Vacantes</source>
+        <target>Vacancies</target>
+      </trans-unit>
+      <trans-unit id="reports.nav.mmr" datatype="html">
+        <source>MMR</source>
+        <target>MMR</target>
+      </trans-unit>
+      <trans-unit id="reports.nav.statusByRequisition" datatype="html">
+        <source>Estatus por requisición</source>
+        <target>Status by requisition</target>
+      </trans-unit>
+      <trans-unit id="reports.nav.processFunnel" datatype="html">
+        <source>Funnel del proceso</source>
+        <target>Process funnel</target>
+      </trans-unit>
+      <trans-unit id="reports.nav.consolidated" datatype="html">
+        <source>Consolidado</source>
+        <target>Consolidated</target>
+      </trans-unit>
+      <trans-unit id="reports.nav.segmentedSummary" datatype="html">
+        <source>Resumen segmentado</source>
+        <target>Segmented summary</target>
+      </trans-unit>
+      <trans-unit id="reports.nav.topIncidents" datatype="html">
+        <source>Tops incidencias</source>
+        <target>Top incidents</target>
+      </trans-unit>
+      <trans-unit id="reports.nav.metrics" datatype="html">
+        <source>Métricas</source>
+        <target>Metrics</target>
+      </trans-unit>
+      <trans-unit id="reports.nav.positionsInProcess" datatype="html">
+        <source>Posiciones en proceso</source>
+        <target>Positions in process</target>
+      </trans-unit>
+      <trans-unit id="reports.nav.behavior" datatype="html">
+        <source>Comportamiento</source>
+        <target>Behavior</target>
+      </trans-unit>
+      <trans-unit id="reports.nav.requisitionsBySource" datatype="html">
+        <source>Requisiciones por fuente</source>
+        <target>Requisitions by source</target>
       </trans-unit>
     </body>
   </file>

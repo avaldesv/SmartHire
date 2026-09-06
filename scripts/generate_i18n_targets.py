@@ -8,6 +8,9 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 from questionnaire_en_targets import QUESTIONNAIRE_EN_BY_ID
+from reports_en_targets import REPORTS_EN_BY_ID
+
+EN_BY_ID = {**QUESTIONNAIRE_EN_BY_ID, **REPORTS_EN_BY_ID}
 
 NS = {"x": "urn:oasis:names:tc:xliff:document:1.2"}
 ROOT = Path(__file__).resolve().parents[1]
@@ -39,6 +42,7 @@ EN_BY_SOURCE: dict[str, str] = {
     "No hay exámenes registrados": "No exams registered",
     "Buscar por nombre": "Search by name",
     "Limpiar": "Clear",
+    "Actualizar": "Update",
     "Buscar": "Search",
     "Seguimiento": "Tracking",
     "Reportes": "Reports",
@@ -1376,7 +1380,7 @@ def build(file_locale: str, target_lang: str) -> None:
         clone_source_content(new_source, source_el, translate=False)
 
         new_target = ET.SubElement(new_unit, "target")
-        template = QUESTIONNAIRE_EN_BY_ID.get(uid) if target_lang.startswith("en") else None
+        template = EN_BY_ID.get(uid) if target_lang.startswith("en") else None
         if template:
             apply_id_target(new_target, source_el, template)
         else:
