@@ -1330,6 +1330,7 @@ export class PositionsTableComponent implements OnInit {
             positionId: row.id,
             requisitionNo: row.requisitionNo,
             positionName: row.name,
+            context: 'home',
           },
         },
       )

@@ -18,8 +18,11 @@ import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../../core/i18n/feedback-l
 import {
   APP_DIALOG_ACTIONS_MENU,
   APP_DIALOG_ACTION_PRESELECT,
+  APP_DIALOG_ACTION_UNPRESELECT,
   APP_DIALOG_BULK_PRESELECT,
+  APP_DIALOG_BULK_UNPRESELECT,
   APP_DIALOG_BULK_PRESELECT_SUCCESS,
+  APP_DIALOG_BULK_UNPRESELECT_SUCCESS,
   APP_DIALOG_BULK_NONE_SELECTED,
   APP_DIALOG_ACTION_VIEW_DOCUMENTS,
   APP_DIALOG_ACTION_DOWNLOAD_CV,
@@ -46,10 +49,12 @@ import {
   APP_DIALOG_ERRORS_CV_DOWNLOAD,
   APP_DIALOG_ERRORS_LIST,
   APP_DIALOG_ERRORS_PRESELECT,
+  APP_DIALOG_ERRORS_UNPRESELECT,
   APP_DIALOG_EVALUATION_PENDING_MSG,
   APP_DIALOG_EVALUATION_PENDING_TITLE,
   APP_DIALOG_EVALUATION_TOOLTIP,
   APP_DIALOG_PRESELECT_SUCCESS,
+  APP_DIALOG_UNPRESELECT_SUCCESS,
   APP_DIALOG_TITLE,
   APP_DIALOG_CV_DOWNLOAD_SUCCESS,
   applicationsDialogCandidateFallback,
@@ -90,6 +95,12 @@ export interface PositionApplicationsDialogData {
   positionId: number;
   requisitionNo?: string;
   positionName?: string;
+  /**
+   * When `home`, hides contact/evaluation/appointment/generate-docs and enables
+   * un-preselect back to APPLIED. Omit (or any other value) for the full modal
+   * used from Preselection → Ver postulados.
+   */
+  context?: 'home';
 }
 
 export interface PositionApplicationsDialogResult {
@@ -166,7 +177,9 @@ export class PositionApplicationsDialogComponent implements OnInit {
     downloadCv: APP_DIALOG_ACTION_DOWNLOAD_CV,
     generateDocuments: APP_DIALOG_ACTION_GENERATE_DOCUMENTS,
     preselect: APP_DIALOG_ACTION_PRESELECT,
+    unpreselect: APP_DIALOG_ACTION_UNPRESELECT,
     bulkPreselect: APP_DIALOG_BULK_PRESELECT,
+    bulkUnpreselect: APP_DIALOG_BULK_UNPRESELECT,
     bulkNoneSelected: APP_DIALOG_BULK_NONE_SELECTED,
     contactTooltip: APP_DIALOG_CONTACT_TOOLTIP,
     evaluationTooltip: APP_DIALOG_EVALUATION_TOOLTIP,
@@ -183,28 +196,38 @@ export class PositionApplicationsDialogComponent implements OnInit {
   sortActive = 'createdAt';
   sortDirection: 'asc' | 'desc' = 'desc';
   preselectingId: number | null = null;
+  unpreselectingId: number | null = null;
   bulkPreselecting = false;
+  bulkUnpreselecting = false;
   selectedCount = 0;
   contactingApplicationId: number | null = null;
   downloadingCvId: number | null = null;
   private changed = false;
 
-  readonly columns = [
-    'select',
-    'candidate',
-    'email',
-    'status',
-    'source',
-    'compatibility',
-    'createdAt',
-    'contact',
-    'evaluation',
-    'appointment',
-    'actions',
-  ];
-
   ngOnInit(): void {
     this.load();
+  }
+
+  /** Home / dashboard "Ver postulados" — restricted actions + un-preselect. */
+  get isHomeContext(): boolean {
+    return this.data.context === 'home';
+  }
+
+  get columns(): string[] {
+    const cols = [
+      'select',
+      'candidate',
+      'email',
+      'status',
+      'source',
+      'compatibility',
+      'createdAt',
+    ];
+    if (!this.isHomeContext) {
+      cols.push('contact', 'evaluation', 'appointment');
+    }
+    cols.push('actions');
+    return cols;
   }
 
   get canReadSelection(): boolean {
@@ -220,25 +243,46 @@ export class PositionApplicationsDialogComponent implements OnInit {
   }
 
   hasRowActions(row: CandidateApplicationListItem): boolean {
-    return this.canReadCandidate || this.canReadSelection || this.canPreselect(row);
+    return (
+      this.canReadCandidate ||
+      (this.canReadSelection && !this.isHomeContext) ||
+      this.canPreselect(row) ||
+      this.canUnpreselect(row)
+    );
   }
 
   canPreselect(row: CandidateApplicationListItem): boolean {
     return this.canEditSelection && row.status?.toUpperCase() !== 'PRESELECTED';
   }
 
-  get preselectableRows(): (CandidateApplicationListItem & { selected: boolean })[] {
-    return this.rows.filter((row) => this.canPreselect(row));
+  canUnpreselect(row: CandidateApplicationListItem): boolean {
+    return this.isHomeContext && this.canEditSelection && row.status?.toUpperCase() === 'PRESELECTED';
   }
 
-  get allPreselectableSelected(): boolean {
-    const preselectable = this.preselectableRows;
-    return preselectable.length > 0 && preselectable.every((row) => row.selected);
+  canSelectRow(row: CandidateApplicationListItem): boolean {
+    return this.canPreselect(row) || this.canUnpreselect(row);
   }
 
-  get somePreselectableSelected(): boolean {
-    const preselectable = this.preselectableRows;
-    return preselectable.some((row) => row.selected) && !this.allPreselectableSelected;
+  get selectableRows(): (CandidateApplicationListItem & { selected: boolean })[] {
+    return this.rows.filter((row) => this.canSelectRow(row));
+  }
+
+  get allSelectableSelected(): boolean {
+    const selectable = this.selectableRows;
+    return selectable.length > 0 && selectable.every((row) => row.selected);
+  }
+
+  get someSelectableSelected(): boolean {
+    const selectable = this.selectableRows;
+    return selectable.some((row) => row.selected) && !this.allSelectableSelected;
+  }
+
+  get selectedPreselectableCount(): number {
+    return this.rows.filter((row) => row.selected && this.canPreselect(row)).length;
+  }
+
+  get selectedUnpreselectableCount(): number {
+    return this.rows.filter((row) => row.selected && this.canUnpreselect(row)).length;
   }
 
   load(): void {
@@ -345,13 +389,13 @@ export class PositionApplicationsDialogComponent implements OnInit {
       : this.labels.appointmentTooltip;
   }
 
-  toggleAllPreselectable(checked: boolean): void {
-    this.preselectableRows.forEach((row) => (row.selected = checked));
+  toggleAllSelectable(checked: boolean): void {
+    this.selectableRows.forEach((row) => (row.selected = checked));
     this.updateSelectedCount();
   }
 
   setRowSelected(row: CandidateApplicationListItem & { selected: boolean }, checked: boolean): void {
-    if (!this.canPreselect(row)) {
+    if (!this.canSelectRow(row)) {
       return;
     }
     row.selected = checked;
@@ -394,6 +438,38 @@ export class PositionApplicationsDialogComponent implements OnInit {
       });
   }
 
+  bulkUnpreselect(): void {
+    if (!this.isHomeContext || !this.canEditSelection || this.bulkUnpreselecting) {
+      return;
+    }
+    const applicationIds = this.rows
+      .filter((row) => row.selected && this.canUnpreselect(row))
+      .map((row) => row.id);
+    if (applicationIds.length === 0) {
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, this.labels.bulkNoneSelected);
+      return;
+    }
+    this.bulkUnpreselecting = true;
+    this.applicationApi
+      .updateStatus({
+        positionId: this.data.positionId,
+        applicationIds,
+        status: 'APPLIED',
+      })
+      .subscribe({
+        next: (res) => {
+          this.bulkUnpreselecting = false;
+          this.changed = true;
+          this.feedback.showSuccess(`${APP_DIALOG_BULK_UNPRESELECT_SUCCESS} (${res.updatedCount})`);
+          this.load();
+        },
+        error: (err) => {
+          this.bulkUnpreselecting = false;
+          this.feedback.showApiError(err, { fallbackMessage: APP_DIALOG_ERRORS_UNPRESELECT });
+        },
+      });
+  }
+
   preselect(row: CandidateApplicationListItem): void {
     if (!this.canPreselect(row) || this.preselectingId != null) {
       return;
@@ -411,6 +487,27 @@ export class PositionApplicationsDialogComponent implements OnInit {
         error: (err) => {
           this.preselectingId = null;
           this.feedback.showApiError(err, { fallbackMessage: APP_DIALOG_ERRORS_PRESELECT });
+        },
+      });
+  }
+
+  unpreselect(row: CandidateApplicationListItem): void {
+    if (!this.canUnpreselect(row) || this.unpreselectingId != null) {
+      return;
+    }
+    this.unpreselectingId = row.id;
+    this.applicationApi
+      .updateApplication(row.id, { status: 'APPLIED' })
+      .subscribe({
+        next: () => {
+          this.unpreselectingId = null;
+          this.changed = true;
+          this.feedback.showSuccess(APP_DIALOG_UNPRESELECT_SUCCESS);
+          this.load();
+        },
+        error: (err) => {
+          this.unpreselectingId = null;
+          this.feedback.showApiError(err, { fallbackMessage: APP_DIALOG_ERRORS_UNPRESELECT });
         },
       });
   }
