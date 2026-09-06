@@ -8,6 +8,7 @@ import { FeedbackDialogService } from '../../core/feedback/feedback-dialog.servi
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../core/i18n/feedback-labels';
 import {
   CANDIDATE_ACCOUNTS_CANCEL,
+  CANDIDATE_ACCOUNTS_COL_EMAIL,
   CANDIDATE_ACCOUNTS_ERRORS_HARD,
   CANDIDATE_ACCOUNTS_HARD_CONFIRM,
   CANDIDATE_ACCOUNTS_HARD_HINT,
@@ -52,6 +53,7 @@ export class CandidateAccountHardDeleteDialogComponent {
   readonly hint = CANDIDATE_ACCOUNTS_HARD_HINT;
   readonly confirmLabel = CANDIDATE_ACCOUNTS_HARD_CONFIRM;
   readonly cancelLabel = CANDIDATE_ACCOUNTS_CANCEL;
+  readonly emailLabel = CANDIDATE_ACCOUNTS_COL_EMAIL;
   readonly expectedEmail = this.data.account.email;
 
   readonly form = this.fb.nonNullable.group({

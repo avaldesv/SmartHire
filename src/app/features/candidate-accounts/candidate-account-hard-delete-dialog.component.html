@@ -3,7 +3,7 @@
   <p class="email"><code>{{ expectedEmail }}</code></p>
   <form [formGroup]="form" class="form" (ngSubmit)="confirm()">
     <mat-form-field appearance="outline" class="full">
-      <mat-label>Email</mat-label>
+      <mat-label>{{ emailLabel }}</mat-label>
       <input matInput type="email" formControlName="confirmEmail" autocomplete="off" />
     </mat-form-field>
   </form>

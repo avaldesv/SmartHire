@@ -1628,19 +1628,19 @@
       </trans-unit>
       <trans-unit id="candidateAccounts.pageSubtitle" datatype="html">
         <source>Administración de cuentas del portal candidato</source>
-        <target>Administración de cuentas del portal candidato</target>
+        <target>Candidate portal account administration</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.new" datatype="html">
         <source>Nueva cuenta</source>
-        <target>Nueva cuenta</target>
+        <target>New account</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.empty" datatype="html">
         <source>No hay cuentas de candidatos</source>
-        <target>No hay cuentas de candidatos</target>
+        <target>No candidate accounts</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.filter.email" datatype="html">
         <source>Buscar email</source>
-        <target>Buscar email</target>
+        <target>Search email</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.col.email" datatype="html">
         <source>Email</source>
@@ -1648,11 +1648,11 @@
       </trans-unit>
       <trans-unit id="candidateAccounts.col.candidate" datatype="html">
         <source>Candidato</source>
-        <target>Candidato</target>
+        <target>Candidate</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.col.status" datatype="html">
         <source>Estado registro</source>
-        <target>Estado registro</target>
+        <target>Registration status</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.col.active" datatype="html">
         <source>Activo</source>
@@ -1660,59 +1660,59 @@
       </trans-unit>
       <trans-unit id="candidateAccounts.col.lastLogin" datatype="html">
         <source>Último acceso</source>
-        <target>Último acceso</target>
+        <target>Last login</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.dialog.create" datatype="html">
         <source>Crear cuenta</source>
-        <target>Crear cuenta</target>
+        <target>Create account</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.dialog.edit" datatype="html">
         <source>Editar cuenta</source>
-        <target>Editar cuenta</target>
+        <target>Edit account</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.field.email" datatype="html">
         <source>Email del candidato</source>
-        <target>Email del candidato</target>
+        <target>Candidate email</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.field.sendMail" datatype="html">
         <source>Enviar email de registro</source>
-        <target>Enviar email de registro</target>
+        <target>Send registration email</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.field.mustChange" datatype="html">
         <source>Debe cambiar contraseña</source>
-        <target>Debe cambiar contraseña</target>
+        <target>Must change password</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.field.registerStatus" datatype="html">
         <source>Estado de registro</source>
-        <target>Estado de registro</target>
+        <target>Registration status</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.status.pending" datatype="html">
         <source>Pendiente email</source>
-        <target>Pendiente email</target>
+        <target>Email pending</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.status.email" datatype="html">
         <source>Email validado</source>
-        <target>Email validado</target>
+        <target>Email verified</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.status.phone" datatype="html">
         <source>Teléfono validado</source>
-        <target>Teléfono validado</target>
+        <target>Phone verified</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.hard.title" datatype="html">
         <source>Eliminar permanentemente</source>
-        <target>Eliminar permanentemente</target>
+        <target>Delete permanently</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.hard.hint" datatype="html">
         <source>Escribe el email de la cuenta para confirmar el borrado irreversible.</source>
-        <target>Escribe el email de la cuenta para confirmar el borrado irreversible.</target>
+        <target>Type the account email to confirm irreversible deletion.</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.hard.confirm" datatype="html">
         <source>Eliminar definitivamente</source>
-        <target>Eliminar definitivamente</target>
+        <target>Delete permanently</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.hard.button" datatype="html">
         <source>Borrar permanente</source>
-        <target>Borrar permanente</target>
+        <target>Permanent delete</target>
       </trans-unit>
       <trans-unit id="common.cancel" datatype="html">
         <source>Cancelar</source>
@@ -1724,7 +1724,7 @@
       </trans-unit>
       <trans-unit id="candidateAccounts.saving" datatype="html">
         <source>Guardando…</source>
-        <target>Guardando…</target>
+        <target>Saving…</target>
       </trans-unit>
       <trans-unit id="common.close" datatype="html">
         <source>Cerrar</source>
@@ -1732,39 +1732,39 @@
       </trans-unit>
       <trans-unit id="candidateAccounts.errors.list" datatype="html">
         <source>No se pudo cargar el listado</source>
-        <target>No se pudo cargar el listado</target>
+        <target>Could not load the list</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.errors.save" datatype="html">
         <source>No se pudo guardar la cuenta</source>
-        <target>Could not save la cuenta</target>
+        <target>Could not save the account</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.errors.active" datatype="html">
         <source>No se pudo actualizar el estado activo</source>
-        <target>No se pudo actualizar el estado activo</target>
+        <target>Could not update the active status</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.errors.delete" datatype="html">
         <source>No se pudo eliminar la cuenta</source>
-        <target>No se pudo eliminar la cuenta</target>
+        <target>Could not delete the account</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.errors.hard" datatype="html">
         <source>No se pudo eliminar permanentemente</source>
-        <target>No se pudo eliminar permanentemente</target>
+        <target>Could not permanently delete the account</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.success.saved" datatype="html">
         <source>Cuenta guardada</source>
-        <target>Cuenta guardada</target>
+        <target>Account saved</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.success.deleted" datatype="html">
         <source>Cuenta eliminada (soft)</source>
-        <target>Cuenta eliminada (soft)</target>
+        <target>Account deleted (soft)</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.success.hard" datatype="html">
         <source>Cuenta eliminada permanentemente</source>
-        <target>Cuenta eliminada permanentemente</target>
+        <target>Account permanently deleted</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.confirm.soft" datatype="html">
         <source>¿Eliminar (soft) la cuenta <x id="email" equiv-text="email" />?</source>
-        <target>¿Eliminar (soft) la cuenta <x id="email" equiv-text="email" />?</target>
+        <target>Soft-delete account <x id="email" equiv-text="email" />?</target>
       </trans-unit>
       <trans-unit id="candidateDocuments.title" datatype="html">
         <source>Documentos del candidato</source>
