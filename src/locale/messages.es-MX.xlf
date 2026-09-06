@@ -18426,6 +18426,24 @@
       <trans-unit id="reports.sbr.status.inProcess" datatype="html">
         <source>En proceso</source>
       </trans-unit>
+      <trans-unit id="reports.pf.subtitle" datatype="html">
+        <source>Embudo de candidatos por requisición</source>
+      </trans-unit>
+      <trans-unit id="reports.pf.loadError" datatype="html">
+        <source>No se pudo cargar el reporte Funnel del proceso. Intenta de nuevo.</source>
+      </trans-unit>
+      <trans-unit id="reports.pf.chart.totalCoverage" datatype="html">
+        <source>Cubrimiento Total</source>
+      </trans-unit>
+      <trans-unit id="reports.pf.chart.coverageByBrand" datatype="html">
+        <source>Cubrimiento por Marca</source>
+      </trans-unit>
+      <trans-unit id="reports.pf.empty.brands" datatype="html">
+        <source>No hay marcas para mostrar</source>
+      </trans-unit>
+      <trans-unit id="reports.pf.empty.noBrand" datatype="html">
+        <source>Sin marca</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>
