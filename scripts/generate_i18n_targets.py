@@ -776,8 +776,13 @@ EN_BY_SOURCE: dict[str, str] = {
     "Ver perfil completo": "View full profile",
     "Ver documentos": "View documents",
     "Preseleccionar": "Preselect",
+    "Des-preseleccionar": "Remove preselection",
+    "Candidatos preseleccionados": "Candidates preselected",
+    "Candidatos des-preseleccionados": "Candidates removed from preselection",
     "Candidato preseleccionado": "Candidate preselected",
+    "Candidato des-preseleccionado": "Candidate removed from preselection",
     "No se pudo preseleccionar al candidato": "Could not preselect the candidate",
+    "No se pudo des-preseleccionar al candidato": "Could not remove the candidate from preselection",
     "No se pudieron cargar las postulaciones": "Could not load applications",
     # Candidate profile view
     "Perfil completo del candidato": "Candidate full profile",

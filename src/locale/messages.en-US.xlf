@@ -4804,6 +4804,26 @@
         <source>Preseleccionar</source>
         <target>Preselect</target>
       </trans-unit>
+      <trans-unit id="applicationsDialog.actions.unpreselect" datatype="html">
+        <source>Des-preseleccionar</source>
+        <target>Remove preselection</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.bulk.unpreselect" datatype="html">
+        <source>Des-preseleccionar</source>
+        <target>Remove preselection</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.bulk.unpreselectSuccess" datatype="html">
+        <source>Candidatos des-preseleccionados</source>
+        <target>Candidates removed from preselection</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.unpreselect.success" datatype="html">
+        <source>Candidato des-preseleccionado</source>
+        <target>Candidate removed from preselection</target>
+      </trans-unit>
+      <trans-unit id="applicationsDialog.errors.unpreselect" datatype="html">
+        <source>No se pudo des-preseleccionar al candidato</source>
+        <target>Could not remove the candidate from preselection</target>
+      </trans-unit>
       <trans-unit id="applicationsDialog.contact.tooltip" datatype="html">
         <source>Enviar cuestionario de contacto</source>
         <target>Send contact questionnaire</target>
