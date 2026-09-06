@@ -33,8 +33,8 @@ export class CatalogGeographyService {
       .pipe(map((res) => res.data ?? []));
   }
 
-  listCountriesPage(page = 0, size = 20): Observable<{ items: CatalogCountry[]; total: number }> {
-    const body: CatalogListRequest = { isActive: null, filters: [], ordersBy: ['name:asc'] };
+  listCountriesPage(page = 0, size = 20, search?: string | null): Observable<{ items: CatalogCountry[]; total: number }> {
+    const body: CatalogListRequest = { isActive: null, search: search?.trim() || null, filters: [], ordersBy: ['name:asc'] };
     return this.http
       .post<ApiPageResponse<CatalogCountry>>(this.api.apiUrl('/api/v1/countries/list'), body, {
         headers: this.api.buildHeaders(page, size),
@@ -59,8 +59,8 @@ export class CatalogGeographyService {
     });
   }
 
-  listStatesPage(countryId: number, page = 0, size = 20): Observable<{ items: CatalogState[]; total: number }> {
-    const body: CatalogListRequest = { countryId, isActive: null, filters: [], ordersBy: ['name:asc'] };
+  listStatesPage(countryId: number, page = 0, size = 20, search?: string | null): Observable<{ items: CatalogState[]; total: number }> {
+    const body: CatalogListRequest = { countryId, isActive: null, search: search?.trim() || null, filters: [], ordersBy: ['name:asc'] };
     return this.http
       .post<ApiPageResponse<CatalogState>>(this.api.apiUrl('/api/v1/states/list'), body, {
         headers: this.api.buildHeaders(page, size),
@@ -85,8 +85,8 @@ export class CatalogGeographyService {
     });
   }
 
-  listMunicipalitiesPage(stateId: number, page = 0, size = 20): Observable<{ items: CatalogMunicipality[]; total: number }> {
-    const body: CatalogListRequest = { stateId, isActive: null, filters: [], ordersBy: ['name:asc'] };
+  listMunicipalitiesPage(stateId: number, page = 0, size = 20, search?: string | null): Observable<{ items: CatalogMunicipality[]; total: number }> {
+    const body: CatalogListRequest = { stateId, isActive: null, search: search?.trim() || null, filters: [], ordersBy: ['name:asc'] };
     return this.http
       .post<ApiPageResponse<CatalogMunicipality>>(this.api.apiUrl('/api/v1/municipalities/list'), body, {
         headers: this.api.buildHeaders(page, size),
@@ -111,8 +111,8 @@ export class CatalogGeographyService {
     });
   }
 
-  listNeighborhoodsPage(municipalityId: number, page = 0, size = 20): Observable<{ items: CatalogNeighborhood[]; total: number }> {
-    const body: CatalogListRequest = { municipalityId, isActive: null, filters: [], ordersBy: ['name:asc'] };
+  listNeighborhoodsPage(municipalityId: number, page = 0, size = 20, search?: string | null): Observable<{ items: CatalogNeighborhood[]; total: number }> {
+    const body: CatalogListRequest = { municipalityId, isActive: null, search: search?.trim() || null, filters: [], ordersBy: ['name:asc'] };
     return this.http
       .post<ApiPageResponse<CatalogNeighborhood>>(this.api.apiUrl('/api/v1/neighborhoods/list'), body, {
         headers: this.api.buildHeaders(page, size),

@@ -2,6 +2,7 @@ import { TenantDataScope } from './tenant-data-scope.model';
 
 export interface CatalogListRequest {
   isActive?: boolean | null;
+  search?: string | null;
   filters?: string[];
   ordersBy?: string[];
   countryId?: number;

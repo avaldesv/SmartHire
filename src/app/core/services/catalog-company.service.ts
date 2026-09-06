@@ -14,8 +14,9 @@ export class CatalogCompanyService {
   private readonly http = inject(HttpClient);
   private readonly api = inject(ApiClientService);
 
-  list(page = 0, size = 20, countryId?: number): Observable<{ items: CatalogCompany[]; total: number }> {
+  list(page = 0, size = 20, countryId?: number, search?: string | null): Observable<{ items: CatalogCompany[]; total: number }> {
     const body = {
+      search: search?.trim() || null,
       countryId: countryId ?? null,
       isActive: null,
       filters: [],

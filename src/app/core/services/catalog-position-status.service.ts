@@ -17,11 +17,12 @@ export class CatalogPositionStatusService {
   list(
     page = 0,
     size = 20,
-    options?: { isActive?: boolean | null; type?: string | null },
+    options?: { isActive?: boolean | null; type?: string | null; search?: string | null },
   ): Observable<{ items: CatalogPositionStatus[]; total: number }> {
     const body = {
       isActive: options?.isActive ?? null,
       type: options?.type ?? null,
+      search: options?.search?.trim() || null,
       filters: [],
       ordersBy: ['sortOrder:asc'] as string[],
     };

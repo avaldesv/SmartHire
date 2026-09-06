@@ -11,6 +11,7 @@ import { ApiClientService } from './api-client.service';
 export interface KnowledgeCategoryListRequest {
   parentId?: number | null;
   isActive?: boolean | null;
+  search?: string | null;
   filters?: string[];
   ordersBy?: string[];
 }
@@ -36,6 +37,7 @@ export class QuestionnaireKnowledgeCategoryApiService {
     const body = {
       parentId: request.parentId ?? null,
       isActive: request.isActive ?? null,
+      search: request.search?.trim() || null,
       filters: request.filters ?? [],
       ordersBy: request.ordersBy ?? ['name:asc'],
     };

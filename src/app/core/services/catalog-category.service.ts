@@ -14,8 +14,9 @@ export class CatalogCategoryService {
   private readonly http = inject(HttpClient);
   private readonly api = inject(ApiClientService);
 
-  list(countryId: number, page = 0, size = 20): Observable<{ items: CatalogCategory[]; total: number }> {
-    const body = { countryId, isActive: null, filters: [], ordersBy: ['name:asc'] as string[] };
+  list(countryId: number, page = 0, size = 20, search?: string | null): Observable<{ items: CatalogCategory[]; total: number }> {
+    const body = {
+      search: search?.trim() || null, countryId, isActive: null, filters: [], ordersBy: ['name:asc'] as string[] };
     return this.http
       .post<CategoryListResponse>(this.api.apiUrl('/api/v1/categories/list'), body, {
         headers: this.api.buildHeaders(page, size),

@@ -14,8 +14,9 @@ export class CatalogLanguageService {
   private readonly http = inject(HttpClient);
   private readonly api = inject(ApiClientService);
 
-  list(page = 0, size = 20): Observable<{ items: CatalogLanguage[]; total: number }> {
-    const body = { isActive: null, filters: [], ordersBy: ['name:asc'] as string[] };
+  list(page = 0, size = 20, search?: string | null): Observable<{ items: CatalogLanguage[]; total: number }> {
+    const body = {
+      search: search?.trim() || null, isActive: null, filters: [], ordersBy: ['name:asc'] as string[] };
     return this.http
       .post<LanguageListResponse>(this.api.apiUrl('/api/v1/languages/list'), body, {
         headers: this.api.buildHeaders(page, size),
