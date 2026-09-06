@@ -26,6 +26,11 @@ import {
   switchMap,
 } from 'rxjs';
 import { CatalogClientService } from '../../../core/services/catalog-client.service';
+import {
+  REPORTS_FILTER_CLIENT,
+  REPORTS_FILTER_CLIENT_CLEAR,
+  REPORTS_FILTER_CLIENT_PLACEHOLDER,
+} from '../../../core/i18n/reports-i18n-labels';
 import { CatalogClient } from '../../models/catalog-client.model';
 
 interface ClientOption {
@@ -66,6 +71,9 @@ export class ClientFilterFieldComponent implements OnInit, ControlValueAccessor 
   private readonly destroyRef = inject(DestroyRef);
 
   readonly clientSearch = new FormControl<string | ClientOption>('', { nonNullable: true });
+  readonly clientLabel = REPORTS_FILTER_CLIENT;
+  readonly clientPlaceholder = REPORTS_FILTER_CLIENT_PLACEHOLDER;
+  readonly clientClearLabel = REPORTS_FILTER_CLIENT_CLEAR;
   clientOptions: ClientOption[] = [];
   private selectedFilter = '';
 
