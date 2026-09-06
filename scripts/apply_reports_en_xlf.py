@@ -68,6 +68,12 @@ NAV_SOURCES: dict[str, str] = {
     "reports.sbr.status.cancelled": "Cancelada",
     "reports.sbr.status.cancellationRequested": "Cancelación solicitada",
     "reports.sbr.status.inProcess": "En proceso",
+    "reports.pf.subtitle": "Embudo de candidatos por requisición",
+    "reports.pf.loadError": "No se pudo cargar el reporte Funnel del proceso. Intenta de nuevo.",
+    "reports.pf.chart.totalCoverage": "Cubrimiento Total",
+    "reports.pf.chart.coverageByBrand": "Cubrimiento por Marca",
+    "reports.pf.empty.brands": "No hay marcas para mostrar",
+    "reports.pf.empty.noBrand": "Sin marca",
 }
 
 

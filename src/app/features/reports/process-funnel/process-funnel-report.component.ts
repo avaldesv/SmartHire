@@ -16,7 +16,47 @@ import { SecurityRecruiterGroupService } from '../../../core/services/security-r
 import { SecurityUserService } from '../../../core/services/security-user.service';
 import { ClientFilterFieldComponent } from '../../../shared/components/client-filter-field/client-filter-field.component';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
-import { REPORTS_CLEAR_FILTERS, REPORTS_UPDATE } from '../../../core/i18n/reports-i18n-labels';
+import {
+  REPORTS_CLEAR_FILTERS,
+  REPORTS_FILTER_ALL,
+  REPORTS_FILTER_ALL_FEM,
+  REPORTS_FILTER_BUSINESS_UNIT_SHORT,
+  REPORTS_FILTER_COUNTRY,
+  REPORTS_FILTER_END_DATE,
+  REPORTS_FILTER_GROUP,
+  REPORTS_FILTER_RECRUITER,
+  REPORTS_FILTER_RECRUITMENT_TYPE,
+  REPORTS_FILTER_REQUISITION,
+  REPORTS_FILTER_SELECT_COUNTRY,
+  REPORTS_FILTER_START_DATE,
+  REPORTS_FILTER_STATUS,
+  REPORTS_PF_CHART_BY_BRAND,
+  REPORTS_PF_CHART_TOTAL,
+  REPORTS_PF_EMPTY_BRANDS,
+  REPORTS_PF_LOAD_ERROR,
+  REPORTS_PF_NO_BRAND,
+  REPORTS_PF_SUBTITLE,
+  REPORTS_PF_TITLE,
+  REPORTS_RECRUITMENT_PERMANENT,
+  REPORTS_RECRUITMENT_TEMP,
+  REPORTS_RECRUITMENT_TEMPORARY,
+  REPORTS_SBR_COL_APPLICANTS,
+  REPORTS_SBR_COL_EVALUATED,
+  REPORTS_SBR_COL_HIRED,
+  REPORTS_SBR_COL_INTERVIEWED,
+  REPORTS_SBR_COL_PREHIRED,
+  REPORTS_SBR_COL_SELECTED,
+  REPORTS_SBR_EMPTY,
+  REPORTS_SBR_STATUS_CANCELLED,
+  REPORTS_SBR_STATUS_CANCELLATION_REQUESTED,
+  REPORTS_SBR_STATUS_COVERED,
+  REPORTS_SBR_STATUS_IN_ANALYSIS,
+  REPORTS_SBR_STATUS_IN_PROCESS,
+  REPORTS_SBR_STATUS_IN_SELECTION,
+  REPORTS_SBR_STATUS_PARTIALLY_COVERED,
+  REPORTS_UPDATE,
+  reportsOrderNumber,
+} from '../../../core/i18n/reports-i18n-labels';
 import { CatalogBusinessUnit } from '../../../shared/models/catalog-business-unit.model';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import { PositionListItem } from '../../../shared/models/position.model';
@@ -44,12 +84,12 @@ interface StageBar {
 }
 
 const STAGE_META: Array<{ key: keyof ProcessFunnelStageCounts; label: string; color: string }> = [
-  { key: 'applicants', label: 'Postulados', color: '#2563eb' },
-  { key: 'selected', label: 'Seleccionados', color: '#16a34a' },
-  { key: 'interviewed', label: 'Entrevistados', color: '#eab308' },
-  { key: 'evaluated', label: 'Evaluados', color: '#ea580c' },
-  { key: 'prehired', label: 'Precontratados', color: '#a78bfa' },
-  { key: 'hired', label: 'Contratados', color: '#dc2626' },
+  { key: 'applicants', label: REPORTS_SBR_COL_APPLICANTS, color: '#2563eb' },
+  { key: 'selected', label: REPORTS_SBR_COL_SELECTED, color: '#16a34a' },
+  { key: 'interviewed', label: REPORTS_SBR_COL_INTERVIEWED, color: '#eab308' },
+  { key: 'evaluated', label: REPORTS_SBR_COL_EVALUATED, color: '#ea580c' },
+  { key: 'prehired', label: REPORTS_SBR_COL_PREHIRED, color: '#a78bfa' },
+  { key: 'hired', label: REPORTS_SBR_COL_HIRED, color: '#dc2626' },
 ];
 
 @Component({
@@ -79,8 +119,37 @@ export class ProcessFunnelReportComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
   private readonly armTenantReload = armReportTenantReload(() => this.reloadForTenant());
-  readonly updateLabel = REPORTS_UPDATE;
-  readonly clearFiltersLabel = REPORTS_CLEAR_FILTERS;
+
+  readonly ui = {
+    title: REPORTS_PF_TITLE,
+    subtitle: REPORTS_PF_SUBTITLE,
+    update: REPORTS_UPDATE,
+    clearFilters: REPORTS_CLEAR_FILTERS,
+    startDate: REPORTS_FILTER_START_DATE,
+    endDate: REPORTS_FILTER_END_DATE,
+    country: REPORTS_FILTER_COUNTRY,
+    requisition: REPORTS_FILTER_REQUISITION,
+    status: REPORTS_FILTER_STATUS,
+    recruiter: REPORTS_FILTER_RECRUITER,
+    group: REPORTS_FILTER_GROUP,
+    businessUnit: REPORTS_FILTER_BUSINESS_UNIT_SHORT,
+    recruitmentType: REPORTS_FILTER_RECRUITMENT_TYPE,
+    all: REPORTS_FILTER_ALL,
+    allFem: REPORTS_FILTER_ALL_FEM,
+    selectCountry: REPORTS_FILTER_SELECT_COUNTRY,
+    chartTotal: REPORTS_PF_CHART_TOTAL,
+    chartByBrand: REPORTS_PF_CHART_BY_BRAND,
+    emptyBrands: REPORTS_PF_EMPTY_BRANDS,
+    noBrand: REPORTS_PF_NO_BRAND,
+    empty: REPORTS_SBR_EMPTY,
+    colRequisition: REPORTS_FILTER_REQUISITION,
+    colApplicants: REPORTS_SBR_COL_APPLICANTS,
+    colSelected: REPORTS_SBR_COL_SELECTED,
+    colInterviewed: REPORTS_SBR_COL_INTERVIEWED,
+    colEvaluated: REPORTS_SBR_COL_EVALUATED,
+    colPrehired: REPORTS_SBR_COL_PREHIRED,
+    colHired: REPORTS_SBR_COL_HIRED,
+  };
 
   loading = false;
   loadingCatalogs = true;
@@ -100,19 +169,19 @@ export class ProcessFunnelReportComponent implements OnInit {
   readonly stageMeta = STAGE_META;
 
   readonly recruitmentTypeOptions = [
-    { value: 'TEMP', label: 'Temporal (TEMP)' },
-    { value: 'TEMPORARY', label: 'Temporal (TEMPORARY)' },
-    { value: 'PERMANENT', label: 'Permanente' },
+    { value: 'TEMP', label: REPORTS_RECRUITMENT_TEMP },
+    { value: 'TEMPORARY', label: REPORTS_RECRUITMENT_TEMPORARY },
+    { value: 'PERMANENT', label: REPORTS_RECRUITMENT_PERMANENT },
   ];
 
   readonly statusOptions = [
-    { value: 'COVERED', label: 'Cubierta' },
-    { value: 'PARTIALLY_COVERED', label: 'Parcialmente cubierta' },
-    { value: 'IN_ANALYSIS', label: 'En análisis' },
-    { value: 'IN_SELECTION', label: 'En selección' },
-    { value: 'CANCELLED', label: 'Cancelada' },
-    { value: 'CANCELLATION_REQUESTED', label: 'Cancelación solicitada' },
-    { value: 'IN_PROCESS', label: 'En proceso' },
+    { value: 'COVERED', label: REPORTS_SBR_STATUS_COVERED },
+    { value: 'PARTIALLY_COVERED', label: REPORTS_SBR_STATUS_PARTIALLY_COVERED },
+    { value: 'IN_ANALYSIS', label: REPORTS_SBR_STATUS_IN_ANALYSIS },
+    { value: 'IN_SELECTION', label: REPORTS_SBR_STATUS_IN_SELECTION },
+    { value: 'CANCELLED', label: REPORTS_SBR_STATUS_CANCELLED },
+    { value: 'CANCELLATION_REQUESTED', label: REPORTS_SBR_STATUS_CANCELLATION_REQUESTED },
+    { value: 'IN_PROCESS', label: REPORTS_SBR_STATUS_IN_PROCESS },
   ];
 
   readonly filters = this.fb.nonNullable.group({
@@ -188,7 +257,7 @@ export class ProcessFunnelReportComponent implements OnInit {
       .getProcessFunnel(body)
       .pipe(
         catchError(() => {
-          this.errorMessage = 'No se pudo cargar el reporte Funnel del proceso. Intenta de nuevo.';
+          this.errorMessage = REPORTS_PF_LOAD_ERROR;
           return of(null);
         }),
         takeUntilDestroyed(this.destroyRef),
@@ -259,7 +328,7 @@ export class ProcessFunnelReportComponent implements OnInit {
         this.countries = countries;
         this.positionOptions = positions.items.map((p) => ({
           id: p.id,
-          label: [p.ot || p.requisitionNo, p.name].filter(Boolean).join(' — ') || `Orden #${p.id}`,
+          label: [p.ot || p.requisitionNo, p.name].filter(Boolean).join(' — ') || reportsOrderNumber(p.id),
         }));
         this.recruiterOptions = users.items.map((u) => ({
           id: u.id,

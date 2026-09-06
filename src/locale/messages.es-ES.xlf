@@ -9010,6 +9010,30 @@
         <source>En proceso</source>
         <target>En proceso</target>
       </trans-unit>
+      <trans-unit id="reports.pf.subtitle" datatype="html">
+        <source>Embudo de candidatos por requisición</source>
+        <target>Embudo de candidatos por requisición</target>
+      </trans-unit>
+      <trans-unit id="reports.pf.loadError" datatype="html">
+        <source>No se pudo cargar el reporte Funnel del proceso. Intenta de nuevo.</source>
+        <target>No se pudo cargar el reporte Funnel del proceso. Intenta de nuevo.</target>
+      </trans-unit>
+      <trans-unit id="reports.pf.chart.totalCoverage" datatype="html">
+        <source>Cubrimiento Total</source>
+        <target>Cubrimiento Total</target>
+      </trans-unit>
+      <trans-unit id="reports.pf.chart.coverageByBrand" datatype="html">
+        <source>Cubrimiento por Marca</source>
+        <target>Cubrimiento por Marca</target>
+      </trans-unit>
+      <trans-unit id="reports.pf.empty.brands" datatype="html">
+        <source>No hay marcas para mostrar</source>
+        <target>No hay marcas para mostrar</target>
+      </trans-unit>
+      <trans-unit id="reports.pf.empty.noBrand" datatype="html">
+        <source>Sin marca</source>
+        <target>Sin marca</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -116,3 +116,11 @@ const SBR_STATUS_LABELS: Record<string, string> = {
 export function reportsSbrStatusLabel(code: string, fallback?: string | null): string {
   return SBR_STATUS_LABELS[code] ?? fallback ?? code;
 }
+
+export const REPORTS_PF_TITLE = REPORTS_NAV_PROCESS_FUNNEL;
+export const REPORTS_PF_SUBTITLE = $localize`:@@reports.pf.subtitle:Embudo de candidatos por requisición`;
+export const REPORTS_PF_LOAD_ERROR = $localize`:@@reports.pf.loadError:No se pudo cargar el reporte Funnel del proceso. Intenta de nuevo.`;
+export const REPORTS_PF_CHART_TOTAL = $localize`:@@reports.pf.chart.totalCoverage:Cubrimiento Total`;
+export const REPORTS_PF_CHART_BY_BRAND = $localize`:@@reports.pf.chart.coverageByBrand:Cubrimiento por Marca`;
+export const REPORTS_PF_EMPTY_BRANDS = $localize`:@@reports.pf.empty.brands:No hay marcas para mostrar`;
+export const REPORTS_PF_NO_BRAND = $localize`:@@reports.pf.empty.noBrand:Sin marca`;
