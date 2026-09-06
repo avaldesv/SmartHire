@@ -9,6 +9,44 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import {
+  CANDIDATES_FORM_ACTIVE,
+  CANDIDATES_FORM_CANCEL,
+  CANDIDATES_FORM_COUNTRIES_ERROR,
+  CANDIDATES_FORM_COUNTRY,
+  CANDIDATES_FORM_CREATED,
+  CANDIDATES_FORM_CURP,
+  CANDIDATES_FORM_EMAIL,
+  CANDIDATES_FORM_FIRST_NAME,
+  CANDIDATES_FORM_GENDER,
+  CANDIDATES_FORM_GENDER_FEMALE,
+  CANDIDATES_FORM_GENDER_MALE,
+  CANDIDATES_FORM_LAST_NAME,
+  CANDIDATES_FORM_LOAD_ERROR,
+  CANDIDATES_FORM_LOADING,
+  CANDIDATES_FORM_MUNICIPALITIES_ERROR,
+  CANDIDATES_FORM_MUNICIPALITY,
+  CANDIDATES_FORM_NEIGHBORHOOD,
+  CANDIDATES_FORM_NEIGHBORHOODS_ERROR,
+  CANDIDATES_FORM_NO_NEIGHBORHOODS,
+  CANDIDATES_FORM_NSS,
+  CANDIDATES_FORM_PHONE,
+  CANDIDATES_FORM_POSTAL_CODE,
+  CANDIDATES_FORM_RFC,
+  CANDIDATES_FORM_SALARY,
+  CANDIDATES_FORM_SAVE,
+  CANDIDATES_FORM_SAVE_ERROR,
+  CANDIDATES_FORM_SOURCE,
+  CANDIDATES_FORM_SOURCE_BUC,
+  CANDIDATES_FORM_SOURCE_JOBBOARD,
+  CANDIDATES_FORM_SOURCE_MANUAL,
+  CANDIDATES_FORM_STATE,
+  CANDIDATES_FORM_STATES_ERROR,
+  CANDIDATES_FORM_SUBTITLE,
+  CANDIDATES_FORM_TITLE_EDIT,
+  CANDIDATES_FORM_TITLE_NEW,
+  CANDIDATES_FORM_UPDATED,
+} from '../../../core/i18n/candidates-labels';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { CandidateApiService } from '../../../core/services/candidate-api.service';
@@ -45,6 +83,36 @@ export class CandidateFormComponent implements OnInit {
   private readonly geographyService = inject(CatalogGeographyService);
   private readonly feedback = inject(FeedbackDialogService);
   private readonly destroyRef = inject(DestroyRef);
+
+  readonly ui = {
+    titleNew: CANDIDATES_FORM_TITLE_NEW,
+    titleEdit: CANDIDATES_FORM_TITLE_EDIT,
+    subtitle: CANDIDATES_FORM_SUBTITLE,
+    firstName: CANDIDATES_FORM_FIRST_NAME,
+    lastName: CANDIDATES_FORM_LAST_NAME,
+    email: CANDIDATES_FORM_EMAIL,
+    phone: CANDIDATES_FORM_PHONE,
+    curp: CANDIDATES_FORM_CURP,
+    rfc: CANDIDATES_FORM_RFC,
+    nss: CANDIDATES_FORM_NSS,
+    gender: CANDIDATES_FORM_GENDER,
+    genderFemale: CANDIDATES_FORM_GENDER_FEMALE,
+    genderMale: CANDIDATES_FORM_GENDER_MALE,
+    country: CANDIDATES_FORM_COUNTRY,
+    state: CANDIDATES_FORM_STATE,
+    municipality: CANDIDATES_FORM_MUNICIPALITY,
+    postalCode: CANDIDATES_FORM_POSTAL_CODE,
+    neighborhood: CANDIDATES_FORM_NEIGHBORHOOD,
+    salary: CANDIDATES_FORM_SALARY,
+    source: CANDIDATES_FORM_SOURCE,
+    sourceManual: CANDIDATES_FORM_SOURCE_MANUAL,
+    sourceJobboard: CANDIDATES_FORM_SOURCE_JOBBOARD,
+    sourceBuc: CANDIDATES_FORM_SOURCE_BUC,
+    active: CANDIDATES_FORM_ACTIVE,
+    loading: CANDIDATES_FORM_LOADING,
+    save: CANDIDATES_FORM_SAVE,
+    cancel: CANDIDATES_FORM_CANCEL,
+  };
 
   isEdit = false;
   loading = false;
@@ -106,7 +174,7 @@ export class CandidateFormComponent implements OnInit {
       },
       error: (err) => {
         this.loadingGeo.countries = false;
-        this.feedback.showSuccess('No se pudieron cargar los países');
+        this.feedback.showSuccess(CANDIDATES_FORM_COUNTRIES_ERROR);
       },
     });
   }
@@ -184,7 +252,7 @@ export class CandidateFormComponent implements OnInit {
       },
       error: (err) => {
         this.loadingGeo.states = false;
-        this.feedback.showSuccess('No se pudieron cargar los estados');
+        this.feedback.showSuccess(CANDIDATES_FORM_STATES_ERROR);
       },
     });
   }
@@ -198,7 +266,7 @@ export class CandidateFormComponent implements OnInit {
       },
       error: (err) => {
         this.loadingGeo.municipalities = false;
-        this.feedback.showSuccess('No se pudieron cargar los municipios');
+        this.feedback.showSuccess(CANDIDATES_FORM_MUNICIPALITIES_ERROR);
       },
     });
   }
@@ -213,12 +281,12 @@ export class CandidateFormComponent implements OnInit {
         if (items.length) {
           this.form.controls.neighborhoodId.enable();
         } else {
-          this.feedback.showSuccess('Sin colonias para ese código postal');
+          this.feedback.showSuccess(CANDIDATES_FORM_NO_NEIGHBORHOODS);
         }
       },
       error: (err) => {
         this.loadingGeo.neighborhoods = false;
-        this.feedback.showSuccess('No se pudieron cargar las colonias');
+        this.feedback.showSuccess(CANDIDATES_FORM_NEIGHBORHOODS_ERROR);
       },
     });
   }
@@ -277,7 +345,7 @@ export class CandidateFormComponent implements OnInit {
         },
         error: (err) => {
           this.loading = false;
-          this.feedback.showSuccess('No se pudo cargar el candidato');
+          this.feedback.showSuccess(CANDIDATES_FORM_LOAD_ERROR);
         },
       });
     }
@@ -296,12 +364,12 @@ export class CandidateFormComponent implements OnInit {
     request$.subscribe({
       next: () => {
         this.saving = false;
-        this.feedback.showSuccess(this.isEdit ? 'Candidato actualizado' : 'Candidato creado');
+        this.feedback.showSuccess(this.isEdit ? CANDIDATES_FORM_UPDATED : CANDIDATES_FORM_CREATED);
         this.router.navigate(['/candidates']);
       },
       error: (err) => {
         this.saving = false;
-        this.feedback.showSuccess('No se pudo guardar el candidato');
+        this.feedback.showSuccess(CANDIDATES_FORM_SAVE_ERROR);
       },
     });
   }

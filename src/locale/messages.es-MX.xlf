@@ -18720,6 +18720,105 @@
       <trans-unit id="reports.rbs.loadError" datatype="html">
         <source>No se pudo cargar el reporte Requisiciones por fuente de reclutamiento. Intenta de nuevo.</source>
       </trans-unit>
+      <trans-unit id="candidates.list.subtitle" datatype="html">
+        <source>Administración de candidatos en el sistema</source>
+      </trans-unit>
+      <trans-unit id="candidates.list.new" datatype="html">
+        <source>Nuevo candidato</source>
+      </trans-unit>
+      <trans-unit id="candidates.list.search" datatype="html">
+        <source>Buscar candidato</source>
+      </trans-unit>
+      <trans-unit id="candidates.list.searchPlaceholder" datatype="html">
+        <source>Nombre, correo…</source>
+      </trans-unit>
+      <trans-unit id="candidates.list.loadError" datatype="html">
+        <source>No se pudieron cargar los candidatos</source>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.id" datatype="html">
+        <source>ID</source>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.firstName" datatype="html">
+        <source>Nombre</source>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.lastName" datatype="html">
+        <source>Apellidos</source>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.email" datatype="html">
+        <source>Correo</source>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.phone" datatype="html">
+        <source>Teléfono</source>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.city" datatype="html">
+        <source>Ciudad</source>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.source" datatype="html">
+        <source>Origen</source>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.active" datatype="html">
+        <source>Activo</source>
+      </trans-unit>
+      <trans-unit id="candidates.list.col.createdAt" datatype="html">
+        <source>Alta</source>
+      </trans-unit>
+      <trans-unit id="candidates.source.portal" datatype="html">
+        <source>Portal</source>
+      </trans-unit>
+      <trans-unit id="candidates.source.recruiterExcelBulk" datatype="html">
+        <source>Carga Excel reclutador</source>
+      </trans-unit>
+      <trans-unit id="candidates.form.titleEdit" datatype="html">
+        <source>Editar candidato</source>
+      </trans-unit>
+      <trans-unit id="candidates.form.subtitle" datatype="html">
+        <source>Complete la información del candidato</source>
+      </trans-unit>
+      <trans-unit id="candidates.form.loading" datatype="html">
+        <source>Cargando...</source>
+      </trans-unit>
+      <trans-unit id="candidates.form.gender.female" datatype="html">
+        <source>Femenino</source>
+      </trans-unit>
+      <trans-unit id="candidates.form.gender.male" datatype="html">
+        <source>Masculino</source>
+      </trans-unit>
+      <trans-unit id="candidates.form.source.manual" datatype="html">
+        <source>Carga Manual</source>
+      </trans-unit>
+      <trans-unit id="candidates.form.source.jobboard" datatype="html">
+        <source>Jobboard</source>
+      </trans-unit>
+      <trans-unit id="candidates.form.source.buc" datatype="html">
+        <source>BUC</source>
+      </trans-unit>
+      <trans-unit id="candidates.form.created" datatype="html">
+        <source>Candidato creado</source>
+      </trans-unit>
+      <trans-unit id="candidates.form.updated" datatype="html">
+        <source>Candidato actualizado</source>
+      </trans-unit>
+      <trans-unit id="candidates.form.saveError" datatype="html">
+        <source>No se pudo guardar el candidato</source>
+      </trans-unit>
+      <trans-unit id="candidates.form.loadError" datatype="html">
+        <source>No se pudo cargar el candidato</source>
+      </trans-unit>
+      <trans-unit id="candidates.form.countriesError" datatype="html">
+        <source>No se pudieron cargar los países</source>
+      </trans-unit>
+      <trans-unit id="candidates.form.statesError" datatype="html">
+        <source>No se pudieron cargar los estados</source>
+      </trans-unit>
+      <trans-unit id="candidates.form.municipalitiesError" datatype="html">
+        <source>No se pudieron cargar los municipios</source>
+      </trans-unit>
+      <trans-unit id="candidates.form.neighborhoodsError" datatype="html">
+        <source>No se pudieron cargar las colonias</source>
+      </trans-unit>
+      <trans-unit id="candidates.form.noNeighborhoods" datatype="html">
+        <source>Sin colonias para ese código postal</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>
