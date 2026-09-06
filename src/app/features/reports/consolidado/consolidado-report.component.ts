@@ -16,7 +16,44 @@ import { SecurityRecruiterGroupService } from '../../../core/services/security-r
 import { SecurityUserService } from '../../../core/services/security-user.service';
 import { ClientFilterFieldComponent } from '../../../shared/components/client-filter-field/client-filter-field.component';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
-import { REPORTS_CLEAR_FILTERS, REPORTS_UPDATE } from '../../../core/i18n/reports-i18n-labels';
+import {
+  REPORTS_CLEAR_FILTERS,
+  REPORTS_CONS_CHART_STATUS,
+  REPORTS_CONS_COL_ENTITY,
+  REPORTS_CONS_COL_STATUS_DAY,
+  REPORTS_CONS_KPI_RECRUITERS,
+  REPORTS_CONS_KPI_REQ_PER_RECRUITER,
+  REPORTS_CONS_KPI_TOTAL_REQUISITIONS,
+  REPORTS_CONS_LOAD_ERROR,
+  REPORTS_CONS_SECTION_BY_DIMENSION,
+  REPORTS_CONS_SECTION_DETAIL,
+  REPORTS_CONS_SUBTITLE,
+  REPORTS_CONS_TITLE,
+  REPORTS_DIM_NONE,
+  REPORTS_FILTER_ALL,
+  REPORTS_FILTER_ALL_FEM,
+  REPORTS_FILTER_BUSINESS_UNIT_SHORT,
+  REPORTS_FILTER_CLIENT,
+  REPORTS_FILTER_COUNTRY,
+  REPORTS_FILTER_DIMENSION,
+  REPORTS_FILTER_END_DAY,
+  REPORTS_FILTER_GROUP,
+  REPORTS_FILTER_ORDER,
+  REPORTS_FILTER_RECRUITER,
+  REPORTS_FILTER_RECRUITMENT_TYPE,
+  REPORTS_FILTER_SELECT_COUNTRY,
+  REPORTS_FILTER_START_DAY,
+  REPORTS_FILTER_YEAR,
+  REPORTS_PERF_COL_TOTAL,
+  REPORTS_PERF_FILTER_MONTH,
+  REPORTS_RECRUITMENT_PERMANENT,
+  REPORTS_RECRUITMENT_TEMP,
+  REPORTS_RECRUITMENT_TEMPORARY,
+  REPORTS_UPDATE,
+  reportsConsStatusLabel,
+  reportsMonthFullOptions,
+  reportsOrderNumber,
+} from '../../../core/i18n/reports-i18n-labels';
 import { CatalogBusinessUnit } from '../../../shared/models/catalog-business-unit.model';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import { PositionListItem } from '../../../shared/models/position.model';
@@ -35,21 +72,6 @@ interface SelectOption {
   id: number;
   label: string;
 }
-
-const MONTH_OPTIONS = [
-  { value: 1, label: 'Enero' },
-  { value: 2, label: 'Febrero' },
-  { value: 3, label: 'Marzo' },
-  { value: 4, label: 'Abril' },
-  { value: 5, label: 'Mayo' },
-  { value: 6, label: 'Junio' },
-  { value: 7, label: 'Julio' },
-  { value: 8, label: 'Agosto' },
-  { value: 9, label: 'Septiembre' },
-  { value: 10, label: 'Octubre' },
-  { value: 11, label: 'Noviembre' },
-  { value: 12, label: 'Diciembre' },
-];
 
 @Component({
   selector: 'sh-consolidado-report',
@@ -78,8 +100,35 @@ export class ConsolidadoReportComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
   private readonly armTenantReload = armReportTenantReload(() => this.reloadForTenant());
-  readonly updateLabel = REPORTS_UPDATE;
-  readonly clearFiltersLabel = REPORTS_CLEAR_FILTERS;
+  readonly ui = {
+    title: REPORTS_CONS_TITLE,
+    subtitle: REPORTS_CONS_SUBTITLE,
+    update: REPORTS_UPDATE,
+    clearFilters: REPORTS_CLEAR_FILTERS,
+    country: REPORTS_FILTER_COUNTRY,
+    recruitmentType: REPORTS_FILTER_RECRUITMENT_TYPE,
+    businessUnit: REPORTS_FILTER_BUSINESS_UNIT_SHORT,
+    group: REPORTS_FILTER_GROUP,
+    recruiter: REPORTS_FILTER_RECRUITER,
+    year: REPORTS_FILTER_YEAR,
+    month: REPORTS_PERF_FILTER_MONTH,
+    startDay: REPORTS_FILTER_START_DAY,
+    endDay: REPORTS_FILTER_END_DAY,
+    order: REPORTS_FILTER_ORDER,
+    dimension: REPORTS_FILTER_DIMENSION,
+    all: REPORTS_FILTER_ALL,
+    allFem: REPORTS_FILTER_ALL_FEM,
+    selectCountry: REPORTS_FILTER_SELECT_COUNTRY,
+    kpiTotalRequisitions: REPORTS_CONS_KPI_TOTAL_REQUISITIONS,
+    kpiRecruiters: REPORTS_CONS_KPI_RECRUITERS,
+    kpiReqPerRecruiter: REPORTS_CONS_KPI_REQ_PER_RECRUITER,
+    chartStatus: REPORTS_CONS_CHART_STATUS,
+    sectionDetail: REPORTS_CONS_SECTION_DETAIL,
+    colStatusDay: REPORTS_CONS_COL_STATUS_DAY,
+    sectionByDimension: REPORTS_CONS_SECTION_BY_DIMENSION,
+    colEntity: REPORTS_CONS_COL_ENTITY,
+    total: REPORTS_PERF_COL_TOTAL,
+  };
 
   loading = false;
   loadingCatalogs = true;
@@ -93,18 +142,18 @@ export class ConsolidadoReportComponent implements OnInit {
   dayOptions: number[] = [];
   yearOptions: number[] = [];
 
-  readonly monthOptions = MONTH_OPTIONS;
+  readonly monthOptions = reportsMonthFullOptions();
   readonly dimensionOptions = [
-    { value: 'NONE', label: 'Resumen (sin dimensión)' },
-    { value: 'GROUP', label: 'Grupo' },
-    { value: 'CLIENT', label: 'Cliente' },
-    { value: 'RECRUITER', label: 'Reclutador' },
+    { value: 'NONE', label: REPORTS_DIM_NONE },
+    { value: 'GROUP', label: REPORTS_FILTER_GROUP },
+    { value: 'CLIENT', label: REPORTS_FILTER_CLIENT },
+    { value: 'RECRUITER', label: REPORTS_FILTER_RECRUITER },
   ];
 
   readonly recruitmentTypeOptions = [
-    { value: 'TEMP', label: 'Temporal (TEMP)' },
-    { value: 'TEMPORARY', label: 'Temporal (TEMPORARY)' },
-    { value: 'PERMANENT', label: 'Permanente' },
+    { value: 'TEMP', label: REPORTS_RECRUITMENT_TEMP },
+    { value: 'TEMPORARY', label: REPORTS_RECRUITMENT_TEMPORARY },
+    { value: 'PERMANENT', label: REPORTS_RECRUITMENT_PERMANENT },
   ];
 
   kpis: ConsolidadoKpisResponse = { totalRequisitions: 0, recruiters: 0, requisitionsPerRecruiter: null };
@@ -191,7 +240,7 @@ export class ConsolidadoReportComponent implements OnInit {
       .getConsolidado(this.buildRequest())
       .pipe(
         catchError(() => {
-          this.errorMessage = 'No se pudo cargar el reporte Consolidado. Intenta de nuevo.';
+          this.errorMessage = REPORTS_CONS_LOAD_ERROR;
           return of(null);
         }),
         takeUntilDestroyed(this.destroyRef),
@@ -212,6 +261,10 @@ export class ConsolidadoReportComponent implements OnInit {
 
   formatKpi(value: number | null | undefined): string {
     return formatReportCell(value);
+  }
+
+  statusLabel(row: ConsolidadoStatusRowResponse): string {
+    return reportsConsStatusLabel(row.statusCode, row.status);
   }
 
   private reloadForTenant(): void {
@@ -280,7 +333,7 @@ export class ConsolidadoReportComponent implements OnInit {
         this.countries = countries;
         this.positionOptions = positions.items.map((p) => ({
           id: p.id,
-          label: [p.ot || p.requisitionNo, p.name].filter(Boolean).join(' — ') || `Orden #${p.id}`,
+          label: [p.ot || p.requisitionNo, p.name].filter(Boolean).join(' — ') || reportsOrderNumber(p.id),
         }));
         this.recruiterOptions = users.items.map((u) => ({
           id: u.id,

@@ -15,7 +15,31 @@ import { SecurityRecruiterGroupService } from '../../../core/services/security-r
 import { SecurityUserService } from '../../../core/services/security-user.service';
 import { ClientFilterFieldComponent } from '../../../shared/components/client-filter-field/client-filter-field.component';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
-import { REPORTS_CLEAR_FILTERS, REPORTS_UPDATE } from '../../../core/i18n/reports-i18n-labels';
+import {
+  REPORTS_BEH_NO_DATA,
+  REPORTS_CLEAR_FILTERS,
+  REPORTS_FILTER_ALL,
+  REPORTS_FILTER_BUSINESS_UNIT_SHORT,
+  REPORTS_FILTER_COUNTRY,
+  REPORTS_FILTER_END_DATE,
+  REPORTS_FILTER_GROUP,
+  REPORTS_FILTER_RECRUITER,
+  REPORTS_FILTER_SELECT_COUNTRY,
+  REPORTS_FILTER_START_DATE,
+  REPORTS_MET_COL_AVG_HIRE_DAYS,
+  REPORTS_MET_COL_POSITIONS,
+  REPORTS_RBS_COL_HIRED_PCT,
+  REPORTS_RBS_COL_NOT_HIRED,
+  REPORTS_RBS_COL_NOT_HIRED_PCT,
+  REPORTS_RBS_COL_SOURCE,
+  REPORTS_RBS_COL_SOURCE_COVERAGE,
+  REPORTS_RBS_LOAD_ERROR,
+  REPORTS_RBS_SUBTITLE,
+  REPORTS_RBS_TITLE,
+  REPORTS_SBR_COL_APPLICANTS,
+  REPORTS_SBR_COL_HIRED,
+  REPORTS_UPDATE,
+} from '../../../core/i18n/reports-i18n-labels';
 import { CatalogBusinessUnit } from '../../../shared/models/catalog-business-unit.model';
 import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
 import {
@@ -58,8 +82,30 @@ export class RequisitionsBySourceReportComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
   private readonly armTenantReload = armReportTenantReload(() => this.reloadForTenant());
-  readonly updateLabel = REPORTS_UPDATE;
-  readonly clearFiltersLabel = REPORTS_CLEAR_FILTERS;
+  readonly ui = {
+    title: REPORTS_RBS_TITLE,
+    subtitle: REPORTS_RBS_SUBTITLE,
+    update: REPORTS_UPDATE,
+    clearFilters: REPORTS_CLEAR_FILTERS,
+    startDate: REPORTS_FILTER_START_DATE,
+    endDate: REPORTS_FILTER_END_DATE,
+    country: REPORTS_FILTER_COUNTRY,
+    recruiter: REPORTS_FILTER_RECRUITER,
+    group: REPORTS_FILTER_GROUP,
+    businessUnit: REPORTS_FILTER_BUSINESS_UNIT_SHORT,
+    all: REPORTS_FILTER_ALL,
+    selectCountry: REPORTS_FILTER_SELECT_COUNTRY,
+    noData: REPORTS_BEH_NO_DATA,
+    colSource: REPORTS_RBS_COL_SOURCE,
+    colPositions: REPORTS_MET_COL_POSITIONS,
+    colApplicants: REPORTS_SBR_COL_APPLICANTS,
+    colHired: REPORTS_SBR_COL_HIRED,
+    colHiredPct: REPORTS_RBS_COL_HIRED_PCT,
+    colNotHired: REPORTS_RBS_COL_NOT_HIRED,
+    colNotHiredPct: REPORTS_RBS_COL_NOT_HIRED_PCT,
+    colSourceCoverage: REPORTS_RBS_COL_SOURCE_COVERAGE,
+    colAvgHireDays: REPORTS_MET_COL_AVG_HIRE_DAYS,
+  };
 
   loading = false;
   loadingCatalogs = true;
@@ -121,8 +167,7 @@ export class RequisitionsBySourceReportComponent implements OnInit {
       .getRequisitionsBySource(body)
       .pipe(
         catchError(() => {
-          this.errorMessage =
-            'No se pudo cargar el reporte Requisiciones por fuente de reclutamiento. Intenta de nuevo.';
+          this.errorMessage = REPORTS_RBS_LOAD_ERROR;
           return of(null);
         }),
         takeUntilDestroyed(this.destroyRef),
