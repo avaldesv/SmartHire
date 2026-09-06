@@ -1197,7 +1197,6 @@ export class CatalogsAdminComponent implements OnInit {
     'code',
     'name',
     'documentType',
-    'description',
     'defaultProcessingService',
     'validatesWithAi',
     'active',
