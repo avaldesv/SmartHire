@@ -5,6 +5,12 @@ export const GROUPS_NEW_TITLE = $localize`:@@groups.newTitle:Nuevo grupo`;
 export const GROUPS_COLUMN_GROUP = $localize`:@@groups.column.group:Grupo`;
 export const GROUPS_COLUMN_PERMISSIONS = $localize`:@@groups.column.permissions:Permisos`;
 export const GROUPS_FIELD_MODULE_PERMISSIONS = $localize`:@@groups.field.modulePermissions:Permisos de módulo`;
+export const GROUPS_FORM_SUBTITLE = $localize`:@@groups.form.subtitle:Asigne permisos por módulo`;
+export const GROUPS_FIELD_ACTIVE_GROUP = $localize`:@@groups.field.activeGroup:Grupo activo`;
+export const GROUPS_SELECTED_HEADING = $localize`:@@groups.selected.heading:Seleccionados`;
+export const GROUPS_PERMISSION_SEARCH = $localize`:@@groups.permissions.search:Buscar permiso o módulo...`;
+export const GROUPS_PERMISSIONS_HINT = $localize`:@@groups.permissions.hint:Los enlaces públicos y menús dependen de estos permisos.`;
+export const GROUPS_SAVE_GROUP = $localize`:@@groups.form.saveGroup:Guardar grupo`;
 
 export const GROUPS_RECORD_SCOPE = $localize`:@@catalogs.common.recordScope:Ámbito del registro:`;
 export const GROUPS_SCOPE_TENANT = $localize`:@@catalogs.common.scopeTenant:Tenant actual`;
@@ -19,6 +25,14 @@ export const GROUPS_SAVE = $localize`:@@catalogs.common.save:Guardar`;
 export const GROUPS_YES = $localize`:@@common.yes:Sí`;
 export const GROUPS_NO = $localize`:@@common.no:No`;
 export const GROUPS_SNACK_CLOSE = $localize`:@@common.close:Cerrar`;
+
+export function groupsSelectedCountLabel(count: number): string {
+  return $localize`:@@groups.selected.count:${count}:count: permisos`;
+}
+
+export function groupsModuleSelectLabel(moduleName: string): string {
+  return $localize`:@@groups.module.selectAll:Seleccionar ${moduleName}:module:`;
+}
 
 export const GROUPS_LOAD_PERMISSIONS_ERROR = $localize`:@@groups.errors.loadPermissions:No se pudieron cargar los permisos`;
 export const GROUPS_LOAD_ERROR = $localize`:@@groups.errors.load:No se pudieron cargar los grupos`;

@@ -109,6 +109,12 @@ export const CATALOG_FIELD_MUNICIPALITY = $localize`:@@catalogs.field.municipali
 export const CATALOG_FIELD_STATE = $localize`:@@catalogs.field.state:Estado`;
 export const CATALOG_FIELD_LOGO_URL = $localize`:@@catalogs.field.logoUrl:URL logo`;
 export const CATALOG_FIELD_BANNER_URL = $localize`:@@catalogs.field.bannerUrl:URL banner`;
+export const CATALOG_FIELD_PORTAL_SLUG = $localize`:@@catalogs.field.portalSlug:Slug del portal`;
+export const CATALOG_FIELD_PORTAL_SLUG_ERROR = $localize`:@@catalogs.field.portalSlugError:Use minúsculas, números y guiones (ej. manpower-mexico)`;
+export const CATALOG_FIELD_PORTAL_PRIMARY_COLOR = $localize`:@@catalogs.field.portalPrimaryColor:Color primario`;
+export const CATALOG_FIELD_PORTAL_ACCENT_COLOR = $localize`:@@catalogs.field.portalAccentColor:Color de acento`;
+export const CATALOG_FIELD_PORTAL_BRANDING = $localize`:@@catalogs.field.portalBranding:Portal candidato`;
+export const CATALOG_COLUMN_PORTAL_SLUG = $localize`:@@catalogs.column.portalSlug:Slug portal`;
 export const CATALOG_FIELD_NO_PURCHASE_ORDER = $localize`:@@catalogs.field.noPurchaseOrder:Sin orden de compra`;
 export const CATALOG_FIELD_R3_INTERFACE = $localize`:@@catalogs.field.r3Interface:Interfaz R3`;
 export const CATALOG_FIELD_WS_SIGNATURE = $localize`:@@catalogs.field.wsSignature:Firma WS`;
@@ -123,3 +129,8 @@ export const CATALOG_FIELD_VALIDATES_AI = $localize`:@@catalogs.field.validatesW
 export const CATALOG_FIELD_SORT_ORDER = $localize`:@@catalogs.field.sortOrder:Orden`;
 export const CATALOG_FIELD_CANCELLATION_TYPE = $localize`:@@catalogs.field.cancellationType:Tipo de cancelación`;
 export const CATALOG_FIELD_ALL_CANCELLATION_TYPES = $localize`:@@catalogs.field.allCancellationTypes:Todos los tipos`;
+
+export function catalogPortalSlugHint(slug: string): string {
+  const value = slug?.trim() || 'empresa';
+  return $localize`:@@catalogs.field.portalSlugHint:URL pública: /${value}:slug:/vacancies`;
+}

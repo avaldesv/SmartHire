@@ -19,6 +19,9 @@ export interface CatalogCompany {
   stateName?: string | null;
   logoUrl?: string | null;
   bannerUrl?: string | null;
+  portalSlug?: string | null;
+  portalPrimaryColor?: string | null;
+  portalAccentColor?: string | null;
   r3Interface?: boolean;
   wsSignature?: boolean;
   isActive: boolean;
@@ -41,6 +44,9 @@ export interface CreateCompanyRequest {
   stateName?: string;
   logoUrl?: string;
   bannerUrl?: string;
+  portalSlug: string;
+  portalPrimaryColor: string;
+  portalAccentColor: string;
   r3Interface?: boolean;
   wsSignature?: boolean;
   isActive?: boolean;

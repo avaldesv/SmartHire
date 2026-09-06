@@ -298,6 +298,19 @@ EN_BY_SOURCE: dict[str, str] = {
     "Estado": "State",
     "URL logo": "Logo URL",
     "URL banner": "Banner URL",
+    "Slug inválido": "Invalid slug",
+    "Slug duplicado": "Duplicate slug",
+    "Color inválido": "Invalid color",
+    "El slug del portal es obligatorio y debe usar minúsculas, números y guiones (ej. manpower-mexico)": "Portal slug is required and must use lowercase letters, numbers and hyphens (e.g. manpower-mexico)",
+    'El slug del portal "{0}" ya está en uso': 'Portal slug "{0}" is already in use',
+    "Los colores del portal deben tener formato #RRGGBB": "Portal colors must use #RRGGBB format",
+    "Slug del portal": "Portal slug",
+    "Use minúsculas, números y guiones (ej. manpower-mexico)": "Use lowercase letters, numbers and hyphens (e.g. manpower-mexico)",
+    "Color primario": "Primary color",
+    "Color de acento": "Accent color",
+    "Portal candidato": "Candidate portal",
+    "Slug portal": "Portal slug",
+    "URL pública: /": "Public URL: /",
     "Sin orden de compra": "No purchase order",
     "Interfaz R3": "R3 interface",
     "Firma WS": "WS signature",
@@ -312,6 +325,14 @@ EN_BY_SOURCE: dict[str, str] = {
     # Groups module
     "Grupos de usuarios": "User groups",
     "Permisos de módulo": "Module permissions",
+    "Asigne permisos por módulo": "Assign permissions by module",
+    "Grupo activo": "Active group",
+    "Seleccionados": "Selected",
+    "Buscar permiso o módulo...": "Search permission or module...",
+    "Los enlaces públicos y menús dependen de estos permisos.": "Public links and menus depend on these permissions.",
+    "Guardar grupo": "Save group",
+    " permisos": " permissions",
+    "Seleccionar ": "Select ",
     "Grupo": "Group",
     "Permisos": "Permissions",
     # Notifications module
@@ -1284,8 +1305,12 @@ def translate_en(source: str) -> str:
         return "Cancellation authorized"
     if source.startswith("Modalidad de trabajo"):
         return "Work modality"
-    if source.startswith("Publicar en portal candidatos"):
-        return "Publish on candidate portal"
+    if source.startswith("Seleccionar "):
+        return source.replace("Seleccionar ", "Select ", 1)
+    if source.endswith(" permisos") and source[0].isdigit():
+        return source.replace(" permisos", " permissions", 1)
+    if source.startswith("Asigne permisos por módulo"):
+        return "Assign permissions by module"
     if source == "Ninguno":
         return "None"
     if source == "Nivel":

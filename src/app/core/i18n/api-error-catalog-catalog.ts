@@ -142,6 +142,18 @@ export const API_ERROR_CATALOG_CATALOG: Record<string, ApiErrorI18nEntry> = {
     title: $localize`:@@errors.COMPANY_NOT_FOUND.title:Compañía no encontrada`,
     message: $localize`:@@errors.COMPANY_NOT_FOUND.message:Compañía no encontrada`,
   },
+  COMPANY_PORTAL_SLUG_INVALID: {
+    title: $localize`:@@errors.COMPANY_PORTAL_SLUG_INVALID.title:Slug inválido`,
+    message: $localize`:@@errors.COMPANY_PORTAL_SLUG_INVALID.message:El slug del portal es obligatorio y debe usar minúsculas, números y guiones (ej. manpower-mexico)`,
+  },
+  COMPANY_PORTAL_SLUG_DUPLICATE: {
+    title: $localize`:@@errors.COMPANY_PORTAL_SLUG_DUPLICATE.title:Slug duplicado`,
+    message: $localize`:@@errors.COMPANY_PORTAL_SLUG_DUPLICATE.message:El slug del portal "{0}" ya está en uso`,
+  },
+  COMPANY_PORTAL_COLOR_INVALID: {
+    title: $localize`:@@errors.COMPANY_PORTAL_COLOR_INVALID.title:Color inválido`,
+    message: $localize`:@@errors.COMPANY_PORTAL_COLOR_INVALID.message:Los colores del portal deben tener formato #RRGGBB`,
+  },
   ATS_CONFIG_NOT_FOUND: {
     title: $localize`:@@errors.ATS_CONFIG_NOT_FOUND.title:Configuración no encontrada`,
     message: $localize`:@@errors.ATS_CONFIG_NOT_FOUND.message:Configuración ATS no encontrada`,
