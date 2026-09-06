@@ -47,6 +47,10 @@
       <div class="sh-filters sh-card">
         <div class="filter-fields">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
               @for (country of countries; track country.id) {
@@ -160,6 +164,18 @@
 
   @if (isPanelVisible("kinship")) {
     <div class="tab-content">
+      <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCatalogSearchFilters()">{{ clearFiltersLabel }}</button>
+        </div>
+      </div>
+
       <ng-template catalogFormTpl="kinship">
             @if (isGlobalAdmin() && !editingKinshipId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
@@ -214,6 +230,18 @@
 
   @if (isPanelVisible("cancellationType")) {
     <div class="tab-content">
+      <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCatalogSearchFilters()">{{ clearFiltersLabel }}</button>
+        </div>
+      </div>
+
       <ng-template catalogFormTpl="cancellationType">
         <form [formGroup]="cancellationTypeForm" class="gender-form" (ngSubmit)="saveCancellationType()">
           <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
@@ -251,6 +279,10 @@
     <div class="tab-content">
             <div class="sh-filters sh-card">
         <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label>{{ fieldCancellationType }}</mat-label>
             <mat-select [value]="selectedCancellationTypeFilterId" (selectionChange)="onCancellationTypeFilterChange($event.value)">
@@ -310,6 +342,18 @@
 
   @if (isPanelVisible("positionStatus")) {
     <div class="tab-content">
+      <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCatalogSearchFilters()">{{ clearFiltersLabel }}</button>
+        </div>
+      </div>
+
       <ng-template catalogFormTpl="positionStatus">
         <form [formGroup]="positionStatusForm" class="gender-form" (ngSubmit)="savePositionStatus()">
           <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
@@ -377,6 +421,10 @@
     <div class="tab-content">
             <div class="sh-filters sh-card">
         <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
@@ -470,6 +518,10 @@
             <div class="sh-filters sh-card">
         <div class="filter-fields">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
               @for (country of countries; track country.id) {
@@ -553,6 +605,10 @@
             <div class="sh-filters sh-card">
         <div class="filter-fields">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
               @for (country of countries; track country.id) {
@@ -629,6 +685,18 @@
 
   @if (isPanelVisible("language")) {
     <div class="tab-content">
+      <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCatalogSearchFilters()">{{ clearFiltersLabel }}</button>
+        </div>
+      </div>
+
       <ng-template catalogFormTpl="language">
             @if (isGlobalAdmin() && !editingLanguageId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
@@ -694,6 +762,10 @@
     <div class="tab-content">
             <div class="sh-filters sh-card">
         <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
@@ -774,6 +846,10 @@
             <div class="sh-filters sh-card">
         <div class="filter-fields">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
               @for (country of countries; track country.id) {
@@ -852,6 +928,10 @@
     <div class="tab-content">
             <div class="sh-filters sh-card">
         <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
@@ -982,6 +1062,10 @@
             <div class="sh-filters sh-card">
         <div class="filter-fields">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
               @for (country of countries; track country.id) {
@@ -1065,6 +1149,10 @@
             <div class="sh-filters sh-card">
         <div class="filter-fields">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
               @for (country of countries; track country.id) {
@@ -1143,6 +1231,10 @@
     <div class="tab-content">
             <div class="sh-filters sh-card">
         <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
@@ -1224,6 +1316,10 @@
     <div class="tab-content">
             <div class="sh-filters sh-card">
         <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
@@ -1312,6 +1408,10 @@
             <div class="sh-filters sh-card">
         <div class="filter-fields">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
               @for (country of countries; track country.id) {
@@ -1395,6 +1495,10 @@
             <div class="sh-filters sh-card">
         <div class="filter-fields">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
               @for (country of countries; track country.id) {
@@ -1475,6 +1579,10 @@
     <div class="tab-content">
             <div class="sh-filters sh-card">
         <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
@@ -1558,6 +1666,10 @@
             <div class="sh-filters sh-card">
         <div class="filter-fields">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label>{{ fieldCompany }}</mat-label>
             <mat-select [value]="selectedCatalogCompanyId" (selectionChange)="onCatalogCompanyChange($event.value)">
               @for (company of companies; track company.id) {
@@ -1638,6 +1750,10 @@
             <div class="sh-filters sh-card">
         <div class="filter-fields">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label>{{ fieldCompany }}</mat-label>
             <mat-select [value]="selectedCatalogCompanyId" (selectionChange)="onCatalogCompanyChange($event.value)">
               @for (company of companies; track company.id) {
@@ -1717,6 +1833,10 @@
     <div class="tab-content">
             <div class="sh-filters sh-card">
         <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
@@ -1812,6 +1932,10 @@
             <div class="sh-filters sh-card">
         <div class="filter-fields">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
               @for (country of countries; track country.id) {
@@ -1878,6 +2002,10 @@
             <div class="sh-filters sh-card">
         <div class="filter-fields">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
               @for (country of countries; track country.id) {
@@ -1941,11 +2069,11 @@
 
   @if (isPanelVisible("recruiterGroup")) {
     <div class="tab-content">
-            <div class="sh-filters sh-card" [formGroup]="recruiterGroupSearchForm">
+            <div class="sh-filters sh-card">
         <div class="filter-fields">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label>{{ searchLabel }}</mat-label>
-            <input matInput formControlName="search" />
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
           </mat-form-field>
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
@@ -1999,6 +2127,10 @@
     <div class="tab-content">
             <div class="sh-filters sh-card">
         <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
@@ -2074,6 +2206,17 @@
   }
   @if (isPanelVisible("country")) {
     <div class="tab-content">
+      <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCatalogSearchFilters()">{{ clearFiltersLabel }}</button>
+        </div>
+      </div>
       <ng-template catalogFormTpl="country">
             @if (isGlobalAdmin() && !editingCountryId) {
               <div class="scope-selector" [formGroup]="createScopeForm">
@@ -2155,6 +2298,10 @@
             <div class="sh-filters sh-card">
         <div class="filter-fields">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
               @for (country of countries; track country.id) {
@@ -2226,6 +2373,10 @@
     <div class="tab-content">
             <div class="sh-filters sh-card">
         <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
@@ -2304,6 +2455,10 @@
     <div class="tab-content">
             <div class="sh-filters sh-card">
         <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
@@ -2392,6 +2547,10 @@
             <div class="sh-filters sh-card">
         <div class="filter-fields">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
               @for (country of countries; track country.id) {
@@ -2471,6 +2630,10 @@
     <div class="tab-content">
             <div class="sh-filters sh-card">
         <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
@@ -2552,6 +2715,10 @@
             <div class="sh-filters sh-card">
         <div class="filter-fields">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
               @for (country of countries; track country.id) {
@@ -2630,6 +2797,10 @@
     <div class="tab-content">
             <div class="sh-filters sh-card">
         <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
@@ -2711,6 +2882,10 @@
             <div class="sh-filters sh-card">
         <div class="filter-fields">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
               @for (country of countries; track country.id) {
@@ -2790,6 +2965,10 @@
     <div class="tab-content">
             <div class="sh-filters sh-card">
         <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
@@ -2871,6 +3050,10 @@
             <div class="sh-filters sh-card">
         <div class="filter-fields">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
               @for (country of countries; track country.id) {
@@ -2950,6 +3133,10 @@
     <div class="tab-content">
             <div class="sh-filters sh-card">
         <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
@@ -3031,6 +3218,10 @@
             <div class="sh-filters sh-card">
         <div class="filter-fields">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
               @for (country of countries; track country.id) {
@@ -3110,6 +3301,10 @@
     <div class="tab-content">
             <div class="sh-filters sh-card">
         <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
@@ -3191,6 +3386,10 @@
             <div class="sh-filters sh-card">
         <div class="filter-fields">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
               @for (country of countries; track country.id) {
@@ -3270,6 +3469,10 @@
     <div class="tab-content">
             <div class="sh-filters sh-card">
         <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
@@ -3351,6 +3554,10 @@
             <div class="sh-filters sh-card">
         <div class="filter-fields">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label i18n="@@catalogs.field.country">País</mat-label>
             <mat-select [value]="selectedCountryId" (selectionChange)="onCountryChange($event.value)">
               @for (country of countries; track country.id) {
@@ -3428,6 +3635,18 @@
   }
   @if (isPanelVisible("client")) {
     <div class="tab-content">
+      <div class="sh-filters sh-card">
+        <div class="filter-fields">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{ searchLabel }}</mat-label>
+            <input matInput [formControl]="catalogSearchForm.controls.search" />
+          </mat-form-field>
+        </div>
+        <div class="filter-actions">
+          <button mat-stroked-button type="button" (click)="clearCatalogSearchFilters()">{{ clearFiltersLabel }}</button>
+        </div>
+      </div>
+
       <ng-template catalogFormTpl="client">
             @if (isGlobalAdmin() && !editingClientId) {
               <div class="scope-selector" [formGroup]="createScopeForm">

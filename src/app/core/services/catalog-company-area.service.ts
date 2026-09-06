@@ -14,8 +14,9 @@ export class CatalogCompanyAreaService {
   private readonly http = inject(HttpClient);
   private readonly api = inject(ApiClientService);
 
-  list(catalogCompanyId: number, page = 0, size = 20): Observable<{ items: CatalogCompanyArea[]; total: number }> {
-    const body = { catalogCompanyId, isActive: null, filters: [], ordersBy: ['name:asc'] as string[] };
+  list(catalogCompanyId: number, page = 0, size = 20, search?: string | null): Observable<{ items: CatalogCompanyArea[]; total: number }> {
+    const body = {
+      search: search?.trim() || null, catalogCompanyId, isActive: null, filters: [], ordersBy: ['name:asc'] as string[] };
     return this.http
       .post<CompanyAreaListResponse>(this.api.apiUrl('/api/v1/company-areas/list'), body, {
         headers: this.api.buildHeaders(page, size),

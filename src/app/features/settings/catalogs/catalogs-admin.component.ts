@@ -571,6 +571,7 @@ export class CatalogsAdminComponent implements OnInit {
   onCategoryTabChange(index: number): void {
     this.categoryTabIndex = index;
     this.cancelAllForms();
+    this.clearCatalogSearchTerm();
     this.loadActiveCatalogData();
   }
 
@@ -578,6 +579,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.selectedCatalogIdByCategory[categoryId] = catalogId;
     if (categoryId === this.activeCategoryId) {
       this.cancelAllForms();
+      this.clearCatalogSearchTerm();
       this.loadActiveCatalogData();
     }
   }
@@ -944,7 +946,7 @@ export class CatalogsAdminComponent implements OnInit {
   recruiterGroupPageIndex = 0;
   recruiterGroupPageSize = 10;
   loadingRecruiterGroups = false;
-  readonly recruiterGroupSearchForm = this.fb.nonNullable.group({ search: [''] });
+  readonly catalogSearchForm = this.fb.nonNullable.group({ search: [''] });
 
   jobPortals: CatalogJobPortal[] = [];
   jobPortalTotal = 0;
@@ -1669,11 +1671,11 @@ export class CatalogsAdminComponent implements OnInit {
     this.loadPortalLanguages();
     this.loadCountryRecords();
     this.reloadCountryDropdown();
-    this.recruiterGroupSearchForm.controls.search.valueChanges
+    this.catalogSearchForm.controls.search.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
-        this.recruiterGroupPageIndex = 0;
-        this.loadRecruiterGroups();
+        this.resetActiveCatalogPageIndex();
+        this.loadActiveCatalogData();
       });
   }
 
@@ -1846,6 +1848,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   /** Reset country filter to MX (default) for country-scoped catalogs. */
   clearCountryCatalogFilters(): void {
+    this.clearCatalogSearchTerm();
     const mexico = this.countries.find((c) => c.code === 'MX');
     const fallback = mexico?.id ?? this.countries[0]?.id;
     if (fallback == null) {
@@ -1855,9 +1858,34 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   clearRecruiterGroupFilters(): void {
-    this.recruiterGroupSearchForm.controls.search.setValue('', { emitEvent: false });
     this.recruiterGroupPageIndex = 0;
     this.clearCountryCatalogFilters();
+  }
+
+  clearCatalogSearchFilters(): void {
+    this.clearCatalogSearchTerm();
+    this.resetActiveCatalogPageIndex();
+    this.loadActiveCatalogData();
+  }
+
+  private catalogSearchTerm(): string | null {
+    const term = this.catalogSearchForm.controls.search.value.trim();
+    return term || null;
+  }
+
+  private clearCatalogSearchTerm(): void {
+    this.catalogSearchForm.controls.search.setValue('', { emitEvent: false });
+  }
+
+  private resetActiveCatalogPageIndex(): void {
+    const panel = this.activePanel;
+    if (!panel) {
+      return;
+    }
+    const key = `${panel}PageIndex`;
+    if (key in this) {
+      (this as unknown as Record<string, number>)[key] = 0;
+    }
   }
 
   clearMunicipalityCatalogFilters(): void {
@@ -1869,10 +1897,12 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   clearCancellationReasonFilters(): void {
+    this.clearCatalogSearchTerm();
     this.onCancellationTypeFilterChange(null);
   }
 
   clearCompanyCatalogFilters(): void {
+    this.clearCatalogSearchTerm();
     const first = this.companies[0]?.id;
     if (first == null) {
       return;
@@ -2109,7 +2139,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadGenders(): void {
     if (this.selectedCountryId == null) return;
     this.loadingGenders = true;
-    this.genderService.list(this.selectedCountryId, this.genderPageIndex, this.genderPageSize).subscribe({
+    this.genderService.list(this.selectedCountryId, this.genderPageIndex, this.genderPageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.genders = res.items;
         this.genderTotal = res.total;
@@ -2124,7 +2154,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   loadKinships(): void {
     this.loadingKinships = true;
-    this.kinshipService.list(this.kinshipPageIndex, this.kinshipPageSize).subscribe({
+    this.kinshipService.list(this.kinshipPageIndex, this.kinshipPageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.kinships = res.items;
         this.kinshipTotal = res.total;
@@ -2140,7 +2170,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadCurrencies(): void {
     if (this.selectedCountryId == null) return;
     this.loadingCurrencies = true;
-    this.currencyService.list(this.selectedCountryId, this.currencyPageIndex, this.currencyPageSize).subscribe({
+    this.currencyService.list(this.selectedCountryId, this.currencyPageIndex, this.currencyPageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.currencies = res.items;
         this.currencyTotal = res.total;
@@ -2167,7 +2197,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   loadCancellationTypes(): void {
     this.loadingCancellationTypes = true;
-    this.cancellationTypeService.list(this.cancellationTypePageIndex, this.cancellationTypePageSize).subscribe({
+    this.cancellationTypeService.list(this.cancellationTypePageIndex, this.cancellationTypePageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.cancellationTypes = res.items;
         this.cancellationTypeTotal = res.total;
@@ -2200,7 +2230,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadCancellationReasons(): void {
     this.loadingCancellationReasons = true;
     this.cancellationReasonService
-      .list(this.cancellationReasonPageIndex, this.cancellationReasonPageSize, this.selectedCancellationTypeFilterId)
+      .list(this.cancellationReasonPageIndex, this.cancellationReasonPageSize, this.selectedCancellationTypeFilterId, this.catalogSearchTerm())
       .subscribe({
         next: (res) => {
           this.cancellationReasons = res.items;
@@ -2233,7 +2263,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadCoverageCategorys(): void {
     if (this.selectedCountryId == null) return;
     this.loadingCoverageCategories = true;
-    this.coverageCategoryService.list(this.selectedCountryId, this.coverageCategoryPageIndex, this.coverageCategoryPageSize).subscribe({
+    this.coverageCategoryService.list(this.selectedCountryId, this.coverageCategoryPageIndex, this.coverageCategoryPageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.coverageCategories = res.items;
         this.coverageCategoryTotal = res.total;
@@ -2254,7 +2284,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadCharacteristics(): void {
     if (this.selectedCountryId == null) return;
     this.loadingCharacteristics = true;
-    this.characteristicService.list(this.selectedCountryId, this.characteristicPageIndex, this.characteristicPageSize).subscribe({
+    this.characteristicService.list(this.selectedCountryId, this.characteristicPageIndex, this.characteristicPageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.characteristics = res.items;
         this.characteristicTotal = res.total;
@@ -2275,7 +2305,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadCategorys(): void {
     if (this.selectedCountryId == null) return;
     this.loadingCategories = true;
-    this.generalCategoryService.list(this.selectedCountryId, this.categoryPageIndex, this.categoryPageSize).subscribe({
+    this.generalCategoryService.list(this.selectedCountryId, this.categoryPageIndex, this.categoryPageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.catalogCategories = res.items;
         this.categoryTotal = res.total;
@@ -2296,7 +2326,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadMaritalStatuss(): void {
     if (this.selectedCountryId == null) return;
     this.loadingMaritalStatuses = true;
-    this.maritalStatusService.list(this.selectedCountryId, this.maritalStatusPageIndex, this.maritalStatusPageSize).subscribe({
+    this.maritalStatusService.list(this.selectedCountryId, this.maritalStatusPageIndex, this.maritalStatusPageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.maritalStatuses = res.items;
         this.maritalStatusTotal = res.total;
@@ -2317,7 +2347,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadExperienceLevels(): void {
     if (this.selectedCountryId == null) return;
     this.loadingExperienceLevels = true;
-    this.experienceLevelService.list(this.selectedCountryId, this.experienceLevelPageIndex, this.experienceLevelPageSize).subscribe({
+    this.experienceLevelService.list(this.selectedCountryId, this.experienceLevelPageIndex, this.experienceLevelPageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.experienceLevels = res.items;
         this.experienceLevelTotal = res.total;
@@ -2338,7 +2368,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadTools(): void {
     if (this.selectedCountryId == null) return;
     this.loadingTools = true;
-    this.toolService.list(this.selectedCountryId, this.toolPageIndex, this.toolPageSize).subscribe({
+    this.toolService.list(this.selectedCountryId, this.toolPageIndex, this.toolPageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.tools = res.items;
         this.toolTotal = res.total;
@@ -2359,7 +2389,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadWorkSchedules(): void {
     if (this.selectedCountryId == null) return;
     this.loadingWorkSchedules = true;
-    this.workScheduleService.list(this.selectedCountryId, this.workSchedulePageIndex, this.workSchedulePageSize).subscribe({
+    this.workScheduleService.list(this.selectedCountryId, this.workSchedulePageIndex, this.workSchedulePageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.workSchedules = res.items;
         this.workScheduleTotal = res.total;
@@ -2380,7 +2410,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadWorkplaces(): void {
     if (this.selectedCountryId == null) return;
     this.loadingWorkplaces = true;
-    this.workplaceService.list(this.selectedCountryId, this.workplacePageIndex, this.workplacePageSize).subscribe({
+    this.workplaceService.list(this.selectedCountryId, this.workplacePageIndex, this.workplacePageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.workplaces = res.items;
         this.workplaceTotal = res.total;
@@ -2401,7 +2431,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadRequirements(): void {
     if (this.selectedCountryId == null) return;
     this.loadingRequirements = true;
-    this.requirementService.list(this.selectedCountryId, this.requirementPageIndex, this.requirementPageSize).subscribe({
+    this.requirementService.list(this.selectedCountryId, this.requirementPageIndex, this.requirementPageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.requirements = res.items;
         this.requirementTotal = res.total;
@@ -2422,7 +2452,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadResponsibilityLevels(): void {
     if (this.selectedCountryId == null) return;
     this.loadingResponsibilityLevels = true;
-    this.responsibilityLevelService.list(this.selectedCountryId, this.responsibilityLevelPageIndex, this.responsibilityLevelPageSize).subscribe({
+    this.responsibilityLevelService.list(this.selectedCountryId, this.responsibilityLevelPageIndex, this.responsibilityLevelPageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.responsibilityLevels = res.items;
         this.responsibilityLevelTotal = res.total;
@@ -2443,7 +2473,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadDisabilityTypes(): void {
     if (this.selectedCountryId == null) return;
     this.loadingDisabilityTypes = true;
-    this.disabilityTypeService.list(this.selectedCountryId, this.disabilityTypePageIndex, this.disabilityTypePageSize).subscribe({
+    this.disabilityTypeService.list(this.selectedCountryId, this.disabilityTypePageIndex, this.disabilityTypePageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.disabilityTypes = res.items;
         this.disabilityTypeTotal = res.total;
@@ -2464,7 +2494,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadBusinessUnits(): void {
     if (this.selectedCountryId == null) return;
     this.loadingBusinessUnits = true;
-    this.businessUnitService.list(this.selectedCountryId, this.businessUnitPageIndex, this.businessUnitPageSize).subscribe({
+    this.businessUnitService.list(this.selectedCountryId, this.businessUnitPageIndex, this.businessUnitPageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.businessUnits = res.items;
         this.businessUnitTotal = res.total;
@@ -2485,7 +2515,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadPositionTypes(): void {
     if (this.selectedCountryId == null) return;
     this.loadingPositionTypes = true;
-    this.positionTypeService.list(this.selectedCountryId, this.positionTypePageIndex, this.positionTypePageSize).subscribe({
+    this.positionTypeService.list(this.selectedCountryId, this.positionTypePageIndex, this.positionTypePageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.positionTypes = res.items;
         this.positionTypeTotal = res.total;
@@ -2506,7 +2536,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   loadClients(): void {
     this.loadingClients = true;
-    this.clientService.list(this.clientPageIndex, this.clientPageSize).subscribe({
+    this.clientService.list(this.clientPageIndex, this.clientPageSize, ['tradeName:asc'], [], null, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.clients = res.items;
         this.clientTotal = res.total;
@@ -2527,7 +2557,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   loadCompanies(): void {
     this.loadingCompanies = true;
-    this.companyService.list(this.companyPageIndex, this.companyPageSize, this.selectedCountryId ?? undefined).subscribe({
+    this.companyService.list(this.companyPageIndex, this.companyPageSize, this.selectedCountryId ?? undefined, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.companies = res.items;
         this.companyTotal = res.total;
@@ -2583,7 +2613,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadCareers(): void {
     if (this.selectedCountryId == null) return;
     this.loadingCareers = true;
-    this.careerService.list(this.selectedCountryId, this.careerPageIndex, this.careerPageSize).subscribe({
+    this.careerService.list(this.selectedCountryId, this.careerPageIndex, this.careerPageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.careers = res.items;
         this.careerTotal = res.total;
@@ -2598,7 +2628,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   loadLanguages(): void {
     this.loadingLanguages = true;
-    this.languageService.list(this.languagePageIndex, this.languagePageSize).subscribe({
+    this.languageService.list(this.languagePageIndex, this.languagePageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.languages = res.items;
         this.languageTotal = res.total;
@@ -2626,7 +2656,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadShifts(): void {
     if (this.selectedCountryId == null) return;
     this.loadingShifts = true;
-    this.shiftService.list(this.selectedCountryId, this.shiftPageIndex, this.shiftPageSize).subscribe({
+    this.shiftService.list(this.selectedCountryId, this.shiftPageIndex, this.shiftPageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.shifts = res.items;
         this.shiftTotal = res.total;
@@ -2642,7 +2672,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadBenefits(): void {
     if (this.selectedCountryId == null) return;
     this.loadingBenefits = true;
-    this.benefitService.list(this.selectedCountryId, this.benefitPageIndex, this.benefitPageSize).subscribe({
+    this.benefitService.list(this.selectedCountryId, this.benefitPageIndex, this.benefitPageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.benefits = res.items;
         this.benefitTotal = res.total;
@@ -2658,7 +2688,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadDocumentTypes(): void {
     if (this.selectedCountryId == null) return;
     this.loadingDocumentTypes = true;
-    this.documentTypeService.list(this.selectedCountryId, this.documentTypePageIndex, this.documentTypePageSize).subscribe({
+    this.documentTypeService.list(this.selectedCountryId, this.documentTypePageIndex, this.documentTypePageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.documentTypes = res.items;
         this.documentTypeTotal = res.total;
@@ -2692,7 +2722,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadBrands(): void {
     if (this.selectedCountryId == null) return;
     this.loadingBrands = true;
-    this.brandService.list(this.selectedCountryId, this.brandPageIndex, this.brandPageSize).subscribe({
+    this.brandService.list(this.selectedCountryId, this.brandPageIndex, this.brandPageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.brands = res.items;
         this.brandTotal = res.total;
@@ -2708,7 +2738,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadContractTypes(): void {
     if (this.selectedCountryId == null) return;
     this.loadingContractTypes = true;
-    this.contractTypeService.list(this.selectedCountryId, this.contractTypePageIndex, this.contractTypePageSize).subscribe({
+    this.contractTypeService.list(this.selectedCountryId, this.contractTypePageIndex, this.contractTypePageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.contractTypes = res.items;
         this.contractTypeTotal = res.total;
@@ -2724,7 +2754,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadCoverageTypes(): void {
     if (this.selectedCountryId == null) return;
     this.loadingCoverageTypes = true;
-    this.coverageTypeService.list(this.selectedCountryId, this.coverageTypePageIndex, this.coverageTypePageSize).subscribe({
+    this.coverageTypeService.list(this.selectedCountryId, this.coverageTypePageIndex, this.coverageTypePageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.coverageTypes = res.items;
         this.coverageTypeTotal = res.total;
@@ -2753,7 +2783,7 @@ export class CatalogsAdminComponent implements OnInit {
     if (this.selectedCountryId == null) return;
     this.loadingFileExtensions = true;
     this.fileExtensionService
-      .list(this.selectedCountryId, this.fileExtensionPageIndex, this.fileExtensionPageSize)
+      .list(this.selectedCountryId, this.fileExtensionPageIndex, this.fileExtensionPageSize, this.catalogSearchTerm())
       .subscribe({
         next: (res) => {
           this.fileExtensions = res.items;
@@ -2783,7 +2813,7 @@ export class CatalogsAdminComponent implements OnInit {
     if (this.selectedCountryId == null) return;
     this.loadingEducationLevels = true;
     this.educationLevelService
-      .list(this.selectedCountryId, this.educationLevelPageIndex, this.educationLevelPageSize)
+      .list(this.selectedCountryId, this.educationLevelPageIndex, this.educationLevelPageSize, this.catalogSearchTerm())
       .subscribe({
         next: (res) => {
           this.educationLevels = res.items;
@@ -2801,7 +2831,7 @@ export class CatalogsAdminComponent implements OnInit {
     if (this.selectedCountryId == null) return;
     this.loadingLanguageLevels = true;
     this.languageLevelService
-      .list(this.selectedCountryId, this.languageLevelPageIndex, this.languageLevelPageSize)
+      .list(this.selectedCountryId, this.languageLevelPageIndex, this.languageLevelPageSize, this.catalogSearchTerm())
       .subscribe({
         next: (res) => {
           this.languageLevels = res.items;
@@ -2819,7 +2849,7 @@ export class CatalogsAdminComponent implements OnInit {
     if (this.selectedCountryId == null) return;
     this.loadingRequisitionTypes = true;
     this.requisitionTypeService
-      .list(this.selectedCountryId, this.requisitionTypePageIndex, this.requisitionTypePageSize)
+      .list(this.selectedCountryId, this.requisitionTypePageIndex, this.requisitionTypePageSize, this.catalogSearchTerm())
       .subscribe({
         next: (res) => {
           this.requisitionTypes = res.items;
@@ -2836,7 +2866,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadCompanyAreas(): void {
     if (this.selectedCatalogCompanyId == null) return;
     this.loadingCompanyAreas = true;
-    this.companyAreaService.list(this.selectedCatalogCompanyId!, this.companyAreaPageIndex, this.companyAreaPageSize).subscribe({
+    this.companyAreaService.list(this.selectedCatalogCompanyId!, this.companyAreaPageIndex, this.companyAreaPageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.companyAreas = res.items;
         this.companyAreaTotal = res.total;
@@ -2857,7 +2887,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadCompanyDepartments(): void {
     if (this.selectedCatalogCompanyId == null) return;
     this.loadingCompanyDepartments = true;
-    this.companyDepartmentService.list(this.selectedCatalogCompanyId!, this.companyDepartmentPageIndex, this.companyDepartmentPageSize).subscribe({
+    this.companyDepartmentService.list(this.selectedCatalogCompanyId!, this.companyDepartmentPageIndex, this.companyDepartmentPageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.companyDepartments = res.items;
         this.companyDepartmentTotal = res.total;
@@ -2878,7 +2908,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadBranchs(): void {
     if (this.selectedCountryId == null) return;
     this.loadingBranches = true;
-    this.branchService.list(this.selectedCountryId!, this.branchPageIndex, this.branchPageSize).subscribe({
+    this.branchService.list(this.selectedCountryId!, this.branchPageIndex, this.branchPageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.branches = res.items;
         this.branchTotal = res.total;
@@ -2927,7 +2957,7 @@ export class CatalogsAdminComponent implements OnInit {
         this.selectedCountryId,
         this.recruiterGroupPageIndex,
         this.recruiterGroupPageSize,
-        this.recruiterGroupSearchForm.controls.search.value,
+        this.catalogSearchTerm(),
       )
       .subscribe({
         next: (res) => {
@@ -3009,7 +3039,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadJobPortals(): void {
     if (this.selectedCountryId == null) return;
     this.loadingJobPortals = true;
-    this.jobPortalService.list(this.selectedCountryId, this.jobPortalPageIndex, this.jobPortalPageSize).subscribe({
+    this.jobPortalService.list(this.selectedCountryId, this.jobPortalPageIndex, this.jobPortalPageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.jobPortals = res.items;
         this.jobPortalTotal = res.total;
@@ -3094,7 +3124,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadQuestionnaireCategorys(): void {
     if (this.selectedCountryId == null) return;
     this.loadingQuestionnaireCategories = true;
-    this.catalogCategoryService.list(this.selectedCountryId, this.questionnaireCategoryPageIndex, this.questionnaireCategoryPageSize).subscribe({
+    this.catalogCategoryService.list(this.selectedCountryId, this.questionnaireCategoryPageIndex, this.questionnaireCategoryPageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.questionnaireCategories = res.items;
         this.questionnaireCategoryTotal = res.total;
@@ -3205,7 +3235,7 @@ export class CatalogsAdminComponent implements OnInit {
     if (this.selectedCountryId == null) return;
     this.loadingQuestionnaireQuestions = true;
     this.questionnaireQuestionService
-      .list(this.selectedCountryId, this.questionnaireQuestionPageIndex, this.questionnaireQuestionPageSize)
+      .list(this.selectedCountryId, this.questionnaireQuestionPageIndex, this.questionnaireQuestionPageSize, this.catalogSearchTerm())
       .subscribe({
         next: (res) => {
           this.questionnaireQuestions = res.items;
@@ -3493,7 +3523,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   loadPositionStatuses(): void {
     this.loadingPositionStatuses = true;
-    this.positionStatusService.list(this.positionStatusPageIndex, this.positionStatusPageSize).subscribe({
+    this.positionStatusService.list(this.positionStatusPageIndex, this.positionStatusPageSize, { search: this.catalogSearchTerm() }).subscribe({
       next: (res) => {
         this.positionStatuses = res.items;
         this.positionStatusTotal = res.total;
@@ -5725,7 +5755,7 @@ export class CatalogsAdminComponent implements OnInit {
 
   loadCountryRecords(): void {
     this.loadingCountryRecords = true;
-    this.geographyService.listCountriesPage(this.countryPageIndex, this.countryPageSize).subscribe({
+    this.geographyService.listCountriesPage(this.countryPageIndex, this.countryPageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.countryRecords = res.items;
         this.countryRecordTotal = res.total;
@@ -5741,7 +5771,7 @@ export class CatalogsAdminComponent implements OnInit {
   loadStates(): void {
     if (this.selectedCountryId == null) return;
     this.loadingStates = true;
-    this.geographyService.listStatesPage(this.selectedCountryId, this.statePageIndex, this.statePageSize).subscribe({
+    this.geographyService.listStatesPage(this.selectedCountryId, this.statePageIndex, this.statePageSize, this.catalogSearchTerm()).subscribe({
       next: (res) => {
         this.states = res.items;
         this.stateTotal = res.total;
@@ -5912,7 +5942,7 @@ export class CatalogsAdminComponent implements OnInit {
     if (this.selectedStateId == null) return;
     this.loadingMunicipalities = true;
     this.geographyService
-      .listMunicipalitiesPage(this.selectedStateId, this.municipalityPageIndex, this.municipalityPageSize)
+      .listMunicipalitiesPage(this.selectedStateId, this.municipalityPageIndex, this.municipalityPageSize, this.catalogSearchTerm())
       .subscribe({
         next: (res) => {
           this.municipalities = res.items;
@@ -5930,7 +5960,7 @@ export class CatalogsAdminComponent implements OnInit {
     if (this.selectedMunicipalityId == null) return;
     this.loadingNeighborhoods = true;
     this.geographyService
-      .listNeighborhoodsPage(this.selectedMunicipalityId, this.neighborhoodPageIndex, this.neighborhoodPageSize)
+      .listNeighborhoodsPage(this.selectedMunicipalityId, this.neighborhoodPageIndex, this.neighborhoodPageSize, this.catalogSearchTerm())
       .subscribe({
         next: (res) => {
           this.neighborhoods = res.items;

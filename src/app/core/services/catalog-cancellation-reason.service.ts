@@ -18,8 +18,10 @@ export class CatalogCancellationReasonService {
     page = 0,
     size = 20,
     cancellationTypeId: number | null = null,
+    search?: string | null,
   ): Observable<{ items: CatalogCancellationReason[]; total: number }> {
     const body = {
+      search: search?.trim() || null,
       cancellationTypeId,
       isActive: null,
       filters: [],

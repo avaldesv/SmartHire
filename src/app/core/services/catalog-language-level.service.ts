@@ -14,8 +14,9 @@ export class CatalogLanguageLevelService {
   private readonly http = inject(HttpClient);
   private readonly api = inject(ApiClientService);
 
-  list(countryId: number, page = 0, size = 20): Observable<{ items: CatalogLanguageLevel[]; total: number }> {
-    const body = { countryId, isActive: null, filters: [], ordersBy: ['name:asc'] as string[] };
+  list(countryId: number, page = 0, size = 20, search?: string | null): Observable<{ items: CatalogLanguageLevel[]; total: number }> {
+    const body = {
+      search: search?.trim() || null, countryId, isActive: null, filters: [], ordersBy: ['name:asc'] as string[] };
     return this.http
       .post<LanguageLevelListResponse>(this.api.apiUrl('/api/v1/language-levels/list'), body, {
         headers: this.api.buildHeaders(page, size),

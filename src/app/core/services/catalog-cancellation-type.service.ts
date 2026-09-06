@@ -14,8 +14,9 @@ export class CatalogCancellationTypeService {
   private readonly http = inject(HttpClient);
   private readonly api = inject(ApiClientService);
 
-  list(page = 0, size = 20): Observable<{ items: CatalogCancellationType[]; total: number }> {
-    const body = { isActive: null, filters: [], ordersBy: ['sortOrder:asc'] as string[] };
+  list(page = 0, size = 20, search?: string | null): Observable<{ items: CatalogCancellationType[]; total: number }> {
+    const body = {
+      search: search?.trim() || null, isActive: null, filters: [], ordersBy: ['sortOrder:asc'] as string[] };
     return this.http
       .post<CancellationTypeListResponse>(this.api.apiUrl('/api/v1/cancellation-types/list'), body, {
         headers: this.api.buildHeaders(page, size),

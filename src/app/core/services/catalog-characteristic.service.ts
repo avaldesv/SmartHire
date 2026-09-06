@@ -14,8 +14,9 @@ export class CatalogCharacteristicService {
   private readonly http = inject(HttpClient);
   private readonly api = inject(ApiClientService);
 
-  list(countryId: number, page = 0, size = 20): Observable<{ items: CatalogCharacteristic[]; total: number }> {
-    const body = { countryId, isActive: null, filters: [], ordersBy: ['name:asc'] as string[] };
+  list(countryId: number, page = 0, size = 20, search?: string | null): Observable<{ items: CatalogCharacteristic[]; total: number }> {
+    const body = {
+      search: search?.trim() || null, countryId, isActive: null, filters: [], ordersBy: ['name:asc'] as string[] };
     return this.http
       .post<CharacteristicListResponse>(this.api.apiUrl('/api/v1/characteristics/list'), body, {
         headers: this.api.buildHeaders(page, size),
