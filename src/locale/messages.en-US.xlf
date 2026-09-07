@@ -9559,6 +9559,90 @@
         <source>Limpiar</source>
         <target>Clear</target>
       </trans-unit>
+      <trans-unit id="viaBot.assistantTitle" datatype="html">
+        <source>Asistente VIA</source>
+        <target>VIA Assistant</target>
+      </trans-unit>
+      <trans-unit id="viaBot.scopeLabel" datatype="html">
+        <source>Ámbito de búsqueda</source>
+        <target>Search scope</target>
+      </trans-unit>
+      <trans-unit id="viaBot.scope.pool" datatype="html">
+        <source>Pool de candidatos</source>
+        <target>Candidate pool</target>
+      </trans-unit>
+      <trans-unit id="viaBot.scope.applicants" datatype="html">
+        <source>Postulados a la requisición</source>
+        <target>Applicants to the requisition</target>
+      </trans-unit>
+      <trans-unit id="viaBot.welcome" datatype="html">
+        <source>Indícame qué perfil buscas para esta vacante.</source>
+        <target>Tell me what profile you need for this vacancy.</target>
+      </trans-unit>
+      <trans-unit id="viaBot.inputPlaceholder" datatype="html">
+        <source>Escribe una instrucción para el agente…</source>
+        <target>Write an instruction for the agent…</target>
+      </trans-unit>
+      <trans-unit id="viaBot.send" datatype="html">
+        <source>Enviar</source>
+        <target>Send</target>
+      </trans-unit>
+      <trans-unit id="viaBot.newConversation" datatype="html">
+        <source>Nueva conversación</source>
+        <target>New conversation</target>
+      </trans-unit>
+      <trans-unit id="viaBot.resultsTitle" datatype="html">
+        <source>Candidatos idóneos</source>
+        <target>Matching candidates</target>
+      </trans-unit>
+      <trans-unit id="viaBot.resultsUpdated" datatype="html">
+        <source>Actualizado tras el último mensaje</source>
+        <target>Updated after the last message</target>
+      </trans-unit>
+      <trans-unit id="viaBot.resultsCount" datatype="html">
+        <source>resultados</source>
+        <target>results</target>
+      </trans-unit>
+      <trans-unit id="viaBot.selectAll" datatype="html">
+        <source>Seleccionar todos</source>
+        <target>Select all</target>
+      </trans-unit>
+      <trans-unit id="viaBot.addPreselection" datatype="html">
+        <source>Agregar a preselección</source>
+        <target>Add to preselection</target>
+      </trans-unit>
+      <trans-unit id="viaBot.emptyResults" datatype="html">
+        <source>Aún no hay candidatos. Envía una instrucción al asistente.</source>
+        <target>No candidates yet. Send an instruction to the assistant.</target>
+      </trans-unit>
+      <trans-unit id="viaBot.errors.load" datatype="html">
+        <source>No se pudo cargar la conversación</source>
+        <target>Could not load the conversation</target>
+      </trans-unit>
+      <trans-unit id="viaBot.errors.chat" datatype="html">
+        <source>No se pudo enviar el mensaje al asistente</source>
+        <target>Could not send the message to the assistant</target>
+      </trans-unit>
+      <trans-unit id="viaBot.errors.reset" datatype="html">
+        <source>No se pudo reiniciar la conversación</source>
+        <target>Could not reset the conversation</target>
+      </trans-unit>
+      <trans-unit id="viaBot.resetSuccess" datatype="html">
+        <source>Conversación reiniciada</source>
+        <target>Conversation reset</target>
+      </trans-unit>
+      <trans-unit id="viaBot.errors.add" datatype="html">
+        <source>No se pudo agregar a preselección</source>
+        <target>Could not add to preselection</target>
+      </trans-unit>
+      <trans-unit id="viaBot.addSuccess" datatype="html">
+        <source>candidato(s) agregado(s) a preselección</source>
+        <target>candidate(s) added to preselection</target>
+      </trans-unit>
+      <trans-unit id="viaBot.selectOne" datatype="html">
+        <source>Selecciona al menos un candidato</source>
+        <target>Select at least one candidate</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
