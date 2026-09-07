@@ -29,6 +29,10 @@ export const SH_PAGINATOR_PAGE_SIZE_OPTIONS = [5, 10, 25] as const;
       :host {
         display: block;
       }
+
+      :host ::ng-deep .mat-mdc-paginator-page-size-label {
+        white-space: nowrap;
+      }
     `,
   ],
 })

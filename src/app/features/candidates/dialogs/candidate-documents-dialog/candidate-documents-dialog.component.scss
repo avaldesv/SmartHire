@@ -358,10 +358,17 @@ sh-paginator {
 
 .documents-dialog-actions {
   flex-shrink: 0;
+  align-self: stretch;
   width: 100%;
   display: flex !important;
+  flex-direction: row !important;
   justify-content: flex-end !important;
   align-items: center !important;
+}
+
+.documents-dialog-actions > button {
+  margin-inline-start: auto;
+  flex: 0 0 auto;
 }
 
 :host ::ng-deep tr.row-missing-required > .mat-mdc-cell {

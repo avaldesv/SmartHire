@@ -239,6 +239,6 @@
   }
 </mat-dialog-content>
 
-<mat-dialog-actions align="end" class="documents-dialog-actions">
+<mat-dialog-actions [align]="'end'" class="documents-dialog-actions">
   <button mat-stroked-button type="button" (click)="close()">{{ labels.close }}</button>
 </mat-dialog-actions>
