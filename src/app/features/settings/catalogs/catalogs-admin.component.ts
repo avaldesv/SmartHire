@@ -13,6 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { COMMON_CLEAR_FILTERS, COMMON_SEARCH } from '../../../core/i18n/common-labels';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
@@ -221,6 +222,9 @@ import {
 } from '../../../core/i18n/catalog-cancellation-labels';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 
+/** Survives locale full-page reload so Catalogs keeps the selected entry (not Gender). */
+const CATALOGS_SELECTION_SESSION_KEY = 'sh_catalogs_selection';
+
 @Component({
   selector: 'sh-catalogs-admin',
   standalone: true,
@@ -252,6 +256,8 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly permissions = inject(PermissionService);
   private readonly tenantContext = inject(TenantContextService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   private tenantReloadReady = false;
   readonly isGlobalAdmin = computed(() => this.permissions.isGlobalAdmin());
 
@@ -600,6 +606,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.cancelAllForms();
     this.clearCatalogSearchTerm();
     this.loadActiveCatalogData();
+    this.persistCatalogSelection();
   }
 
   onCatalogSelect(categoryId: CatalogCategoryId, catalogId: string): void {
@@ -608,6 +615,66 @@ export class CatalogsAdminComponent implements OnInit {
       this.cancelAllForms();
       this.clearCatalogSearchTerm();
       this.loadActiveCatalogData();
+    }
+    this.persistCatalogSelection();
+  }
+
+  private persistCatalogSelection(): void {
+    const category = this.activeCategoryId;
+    const catalog = this.selectedCatalogIdByCategory[category];
+    const payload = JSON.stringify({ category, catalog });
+    sessionStorage.setItem(CATALOGS_SELECTION_SESSION_KEY, payload);
+    this.syncCatalogSelectionToUrl();
+  }
+
+  private syncCatalogSelectionToUrl(): void {
+    const category = this.activeCategoryId;
+    const catalog = this.selectedCatalogIdByCategory[category];
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { category, catalog },
+      queryParamsHandling: 'merge',
+      replaceUrl: true,
+    });
+  }
+
+  private restoreCatalogSelection(): void {
+    const fromQueryCategory = this.route.snapshot.queryParamMap.get('category');
+    const fromQueryCatalog = this.route.snapshot.queryParamMap.get('catalog');
+    let category = fromQueryCategory;
+    let catalog = fromQueryCatalog;
+
+    if (!category || !catalog) {
+      try {
+        const raw = sessionStorage.getItem(CATALOGS_SELECTION_SESSION_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw) as { category?: string; catalog?: string };
+          category = category || parsed.category || null;
+          catalog = catalog || parsed.catalog || null;
+        }
+      } catch {
+        /* ignore corrupt session payload */
+      }
+    }
+
+    if (!category) {
+      return;
+    }
+
+    const visible = this.visibleCategories();
+    const tabIndex = visible.findIndex((item) => item.id === category);
+    if (tabIndex < 0) {
+      return;
+    }
+
+    this.categoryTabIndex = tabIndex;
+    const categoryId = visible[tabIndex].id;
+    if (catalog) {
+      this.selectedCatalogIdByCategory[categoryId] = ensureValidCatalogSelection(
+        categoryId,
+        catalog,
+        this.isGlobalAdmin(),
+      );
     }
   }
 
@@ -1701,6 +1768,7 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.restoreCatalogSelection();
     this.tenantReloadReady = true;
     this.loadKinships();
     this.loadCompanies();
@@ -1717,6 +1785,7 @@ export class CatalogsAdminComponent implements OnInit {
     this.companyForm.controls.name.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((name) => {
       this.syncPortalSlugFromName(name);
     });
+    this.syncCatalogSelectionToUrl();
   }
 
   private reloadCountryDropdown(): void {
