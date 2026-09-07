@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, DestroyRef, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, effect, inject, Input, OnInit, Output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
@@ -134,6 +134,7 @@ import { PermissionService } from '../../../../core/services/permission.service'
 import { PositionService } from '../../../../core/services/position.service';
 import { QuestionnaireQuestionnaireApiService } from '../../../../core/services/questionnaire-questionnaire-api.service';
 import { SecurityUserService } from '../../../../core/services/security-user.service';
+import { TenantContextService } from '../../../../core/services/tenant-context.service';
 import { StatusBadgeComponent } from '../../../../shared/components/status-badge/status-badge.component';
 import { TableRowActionsComponent } from '../../../../shared/components/table-row-actions/table-row-actions.component';
 import { CatalogClient } from '../../../../shared/models/catalog-client.model';
@@ -257,6 +258,8 @@ export class PositionsTableComponent implements OnInit {
   private readonly permissions = inject(PermissionService);
   private readonly auth = inject(AuthService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly tenantContext = inject(TenantContextService);
+  private tenantReloadReady = false;
 
   private previousUrl = '';
 
@@ -526,38 +529,19 @@ export class PositionsTableComponent implements OnInit {
     return this.statusColorByCode.get(status)?.backgroundColorHex ?? null;
   }
 
+  constructor() {
+    effect(() => {
+      this.tenantContext.activeCompanyId();
+      if (!this.tenantReloadReady) {
+        return;
+      }
+      this.reloadForTenantChange();
+    });
+  }
+
   ngOnInit(): void {
-    this.positionStatusCatalogService.list(0, 200, { isActive: true }).subscribe({
-      next: (res) => {
-        const codes = res.items.map((item) => item.code);
-        if (codes.length > 0) {
-          this.statusNameByCode = new Map(res.items.map((item) => [item.code, item.name]));
-          this.statusColorByCode = new Map(
-            res.items.map((item) => [
-              item.code,
-              { colorHex: item.colorHex, backgroundColorHex: item.backgroundColorHex },
-            ])
-          );
-          this.statusOptions = ['Todos', ...codes];
-        }
-      },
-    });
-    this.geographyService.listCountries(0, 200).subscribe({
-      next: (countries) => {
-        this.countryOptions = countries.filter((c) => c.isActive);
-        const selectedCountryId = this.filters.controls.countryId.value;
-        if (selectedCountryId > 0) {
-          this.loadCountryDependentCatalogs(selectedCountryId);
-        }
-      },
-    });
-    this.loadUsers();
+    this.loadFilterCatalogs();
     this.bindClientSearch();
-    this.questionnaireService.list({ isActive: true }, 0, 200).subscribe({
-      next: (res) => {
-        this.questionnaireOptions = res.items;
-      },
-    });
     this.filters.controls.countryId.valueChanges.pipe(distinctUntilChanged()).subscribe((countryId) => {
       this.onCountryChanged(countryId);
     });
@@ -579,6 +563,7 @@ export class PositionsTableComponent implements OnInit {
         }
         this.previousUrl = url;
       });
+    this.tenantReloadReady = true;
   }
 
   private shouldReloadAfterWizardReturn(previousUrl: string, currentUrl: string): boolean {
@@ -734,6 +719,50 @@ export class PositionsTableComponent implements OnInit {
         this.creatorUserOptions = roleFiltered.length ? roleFiltered : activeUsers;
       },
     });
+  }
+
+  private loadFilterCatalogs(): void {
+    this.positionStatusCatalogService.list(0, 200, { isActive: true }).subscribe({
+      next: (res) => {
+        const codes = res.items.map((item) => item.code);
+        if (codes.length > 0) {
+          this.statusNameByCode = new Map(res.items.map((item) => [item.code, item.name]));
+          this.statusColorByCode = new Map(
+            res.items.map((item) => [
+              item.code,
+              { colorHex: item.colorHex, backgroundColorHex: item.backgroundColorHex },
+            ]),
+          );
+          this.statusOptions = ['Todos', ...codes];
+        }
+      },
+    });
+    this.geographyService.listCountries(0, 200).subscribe({
+      next: (countries) => {
+        this.countryOptions = countries.filter((c) => c.isActive);
+        const selectedCountryId = this.filters.controls.countryId.value;
+        if (selectedCountryId > 0) {
+          this.loadCountryDependentCatalogs(selectedCountryId);
+        }
+      },
+    });
+    this.loadUsers();
+    this.questionnaireService.list({ isActive: true }, 0, 200).subscribe({
+      next: (res) => {
+        this.questionnaireOptions = res.items;
+      },
+    });
+  }
+
+  private reloadForTenantChange(): void {
+    this.pageIndex = 0;
+    this.filters.reset(this.defaultFilterValues, { emitEvent: false });
+    this.clientSearch.setValue('', { emitEvent: false });
+    this.clientOptions = [];
+    this.stateOptions = [];
+    this.clearCountryDependentCatalogs();
+    this.loadFilterCatalogs();
+    this.load();
   }
 
   private onCountryChanged(countryId: number): void {

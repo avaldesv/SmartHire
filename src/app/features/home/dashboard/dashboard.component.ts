@@ -1,8 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { PositionService } from '../../../core/services/position.service';
+import { TenantContextService } from '../../../core/services/tenant-context.service';
 import {
   DASHBOARD_KPI_INTERESTED,
   DASHBOARD_KPI_INTERESTED_SUB,
@@ -28,6 +29,8 @@ export class DashboardComponent implements OnInit {
   private readonly auth = inject(AuthService);
   private readonly positionService = inject(PositionService);
   private readonly feedback = inject(FeedbackDialogService);
+  private readonly tenantContext = inject(TenantContextService);
+  private tenantReloadReady = false;
 
   readonly user = this.auth.currentUser;
   readonly welcomeLabel = DASHBOARD_WELCOME;
@@ -41,7 +44,18 @@ export class DashboardComponent implements OnInit {
 
   kpis = { totalPositions: 0, preselected: 0, interested: 0 };
 
+  constructor() {
+    effect(() => {
+      this.tenantContext.activeCompanyId();
+      if (!this.tenantReloadReady) {
+        return;
+      }
+      this.loadKpis();
+    });
+  }
+
   ngOnInit(): void {
+    this.tenantReloadReady = true;
     this.loadKpis();
   }
 
