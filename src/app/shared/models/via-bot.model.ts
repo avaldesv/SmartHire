@@ -30,6 +30,8 @@ export interface ViaBotConversationResponse {
 export interface ViaBotChatRequest {
   message: string;
   scope: ViaBotScope;
+  candidateLimit?: number | null;
+  experienceYears?: number | null;
 }
 
 export interface ViaBotChatResponse {

@@ -1,9 +1,9 @@
-/** i18n labels for Perfil gestión VIA Bot tab. */
-
 export const VIA_BOT_ASSISTANT_TITLE = $localize`:@@viaBot.assistantTitle:Asistente VIA`;
 export const VIA_BOT_SCOPE_LABEL = $localize`:@@viaBot.scopeLabel:Ámbito de búsqueda`;
 export const VIA_BOT_SCOPE_POOL = $localize`:@@viaBot.scope.pool:Pool de candidatos`;
 export const VIA_BOT_SCOPE_APPLICANTS = $localize`:@@viaBot.scope.applicants:Postulados a la requisición`;
+export const VIA_BOT_CANDIDATE_LIMIT = $localize`:@@viaBot.candidateLimit:Candidatos`;
+export const VIA_BOT_EXPERIENCE_YEARS = $localize`:@@viaBot.experienceYears:Años de experiencia`;
 export const VIA_BOT_WELCOME = $localize`:@@viaBot.welcome:Indícame qué perfil buscas para esta vacante.`;
 export const VIA_BOT_INPUT_PLACEHOLDER = $localize`:@@viaBot.inputPlaceholder:Escribe una instrucción para el agente…`;
 export const VIA_BOT_SEND = $localize`:@@viaBot.send:Enviar`;
