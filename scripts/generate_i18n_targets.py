@@ -22,6 +22,14 @@ EN_BY_ID = {
     "catalogs.field.processingServices": "Processing services",
     "catalogs.field.defaultProcessingService": "Default processing service",
     "catalogs.field.allowedExtensions": "Allowed extensions",
+    "catalogs.entry.positionStatus": "Position status",
+    "catalogs.entry.fileExtension": "File extension",
+    "catalogs.positionStatus.newButton": "New position status",
+    "catalogs.positionStatus.editTitle": "Edit position status",
+    "catalogs.positionStatus.newTitle": "New position status",
+    "catalogs.fileExtension.newButton": "New extension",
+    "catalogs.fileExtension.editTitle": "Edit file extension",
+    "catalogs.fileExtension.newTitle": "New file extension",
 }
 
 NS = {"x": "urn:oasis:names:tc:xliff:document:1.2"}

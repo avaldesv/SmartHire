@@ -2320,7 +2320,7 @@
       </trans-unit>
       <trans-unit id="catalogs.entry.positionStatus" datatype="html">
         <source>Estatus de posición</source>
-        <target>Estatus de posición</target>
+        <target>Position status</target>
       </trans-unit>
       <trans-unit id="catalogs.entry.brand" datatype="html">
         <source>Marca</source>
@@ -2332,7 +2332,7 @@
       </trans-unit>
       <trans-unit id="catalogs.entry.fileExtension" datatype="html">
         <source>Extensión de archivo</source>
-        <target>Extensión de archivo</target>
+        <target>File extension</target>
       </trans-unit>
       <trans-unit id="catalogs.entry.requisitionType" datatype="html">
         <source>Tipo requisición</source>
@@ -2768,15 +2768,15 @@
       </trans-unit>
       <trans-unit id="catalogs.positionStatus.newButton" datatype="html">
         <source>Nuevo estatus de posición</source>
-        <target>Nuevo estatus de posición</target>
+        <target>New position status</target>
       </trans-unit>
       <trans-unit id="catalogs.positionStatus.editTitle" datatype="html">
         <source>Editar estatus de posición</source>
-        <target>Editar estatus de posición</target>
+        <target>Edit position status</target>
       </trans-unit>
       <trans-unit id="catalogs.positionStatus.newTitle" datatype="html">
         <source>Nuevo estatus de posición</source>
-        <target>Nuevo estatus de posición</target>
+        <target>New position status</target>
       </trans-unit>
       <trans-unit id="catalogs.company.newButton" datatype="html">
         <source>Nueva empresa</source>
@@ -2864,15 +2864,15 @@
       </trans-unit>
       <trans-unit id="catalogs.fileExtension.newButton" datatype="html">
         <source>Nueva extensión</source>
-        <target>Nueva extensión</target>
+        <target>New extension</target>
       </trans-unit>
       <trans-unit id="catalogs.fileExtension.editTitle" datatype="html">
         <source>Editar extensión de archivo</source>
-        <target>Editar extensión de archivo</target>
+        <target>Edit file extension</target>
       </trans-unit>
       <trans-unit id="catalogs.fileExtension.newTitle" datatype="html">
         <source>Nueva extensión de archivo</source>
-        <target>Nueva extensión de archivo</target>
+        <target>New file extension</target>
       </trans-unit>
       <trans-unit id="catalogs.brand.newButton" datatype="html">
         <source>Nueva marca</source>
