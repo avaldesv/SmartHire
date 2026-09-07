@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
@@ -21,6 +21,8 @@ import {
   CANDIDATE_DOCS_CHOOSE_FILE,
   CANDIDATE_DOCS_COL_ACTIONS,
   CANDIDATE_DOCS_COL_CREATED,
+  CANDIDATE_DOCS_COL_ISSUE_DATE,
+  CANDIDATE_DOCS_COL_DUE_DATE,
   CANDIDATE_DOCS_COL_FILE,
   CANDIDATE_DOCS_COL_SIZE,
   CANDIDATE_DOCS_COL_STATUS,
@@ -75,7 +77,7 @@ export interface CandidateDocumentsDialogData {
   requisitionNo?: string;
 }
 
-export const CANDIDATE_DOCUMENTS_DIALOG_WIDTH = '1200px';
+export const CANDIDATE_DOCUMENTS_DIALOG_WIDTH = '1320px';
 export const CANDIDATE_DOCUMENTS_DIALOG_MAX_HEIGHT = '88vh';
 const PROGRESS_RING_RADIUS = 34;
 const PROGRESS_RING_CIRCUMFERENCE = 2 * Math.PI * PROGRESS_RING_RADIUS;
@@ -105,7 +107,7 @@ export function candidateDocumentsDialogConfig(extra: MatDialogConfig = {}): Mat
   templateUrl: './candidate-documents-dialog.component.html',
   styleUrl: './candidate-documents-dialog.component.scss',
 })
-export class CandidateDocumentsDialogComponent implements OnInit {
+export class CandidateDocumentsDialogComponent implements OnInit, OnDestroy {
   private readonly dialogRef = inject(MatDialogRef<CandidateDocumentsDialogComponent>);
   readonly data = inject<CandidateDocumentsDialogData>(MAT_DIALOG_DATA);
   private readonly documentApi = inject(CandidateDocumentApiService);
@@ -125,6 +127,8 @@ export class CandidateDocumentsDialogComponent implements OnInit {
     colStatus: CANDIDATE_DOCS_COL_STATUS,
     colValidation: CANDIDATE_DOCS_COL_VALIDATION,
     colCreated: CANDIDATE_DOCS_COL_CREATED,
+    colIssueDate: CANDIDATE_DOCS_COL_ISSUE_DATE,
+    colDueDate: CANDIDATE_DOCS_COL_DUE_DATE,
     colActions: CANDIDATE_DOCS_COL_ACTIONS,
     download: CANDIDATE_DOCS_DOWNLOAD,
     validate: CANDIDATE_DOCS_VALIDATE,
@@ -148,6 +152,7 @@ export class CandidateDocumentsDialogComponent implements OnInit {
   pendingUploadTypeId: number | null = null;
   rows: CandidateDocumentListItem[] = [];
   summary: ApplicationDocumentsSummary | null = null;
+  private extractReloadTimers: ReturnType<typeof setTimeout>[] = [];
 
   readonly columns = [
     'documentTypeName',
@@ -156,11 +161,17 @@ export class CandidateDocumentsDialogComponent implements OnInit {
     'status',
     'validation',
     'createAt',
+    'issueDate',
+    'dueDate',
     'actions',
   ];
 
   ngOnInit(): void {
     this.load();
+  }
+
+  ngOnDestroy(): void {
+    this.clearExtractReloadTimers();
   }
 
   get canUploadDocuments(): boolean {
@@ -218,8 +229,10 @@ export class CandidateDocumentsDialogComponent implements OnInit {
     return PROGRESS_RING_CIRCUMFERENCE * (1 - ratio);
   }
 
-  load(): void {
-    this.loading = true;
+  load(silent = false): void {
+    if (!silent) {
+      this.loading = true;
+    }
     this.documentApi.listForApplication(this.data.applicationId).subscribe({
       next: (res) => {
         this.rows = res.items;
@@ -231,6 +244,20 @@ export class CandidateDocumentsDialogComponent implements OnInit {
         this.feedback.showApiError(err, { fallbackMessage: CANDIDATE_DOCS_ERRORS_LIST });
       },
     });
+  }
+
+  private scheduleExtractReloads(): void {
+    this.clearExtractReloadTimers();
+    for (const delayMs of [12_000, 25_000]) {
+      this.extractReloadTimers.push(setTimeout(() => this.load(true), delayMs));
+    }
+  }
+
+  private clearExtractReloadTimers(): void {
+    for (const timer of this.extractReloadTimers) {
+      clearTimeout(timer);
+    }
+    this.extractReloadTimers = [];
   }
 
   sizeLabel(bytes: number | null | undefined): string {
@@ -383,6 +410,7 @@ export class CandidateDocumentsDialogComponent implements OnInit {
         this.uploadingTypeId = null;
         this.feedback.showSuccess(CANDIDATE_DOCS_UPLOAD_SUCCESS);
         this.load();
+        this.scheduleExtractReloads();
       },
       error: (err) => {
         this.uploadingTypeId = null;
