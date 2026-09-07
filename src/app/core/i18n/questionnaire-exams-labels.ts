@@ -1,4 +1,4 @@
-export const QEXAM_NEW_BUTTON = $localize`:@@questionnaires.exams.newButton:Nuevo examen`;
+export const QEXAM_NEW_BUTTON = $localize`:@@questionnaires.exams.newButton:Nuevo Examen`;
 export const QEXAM_EMPTY = $localize`:@@questionnaires.exams.empty:No hay exámenes registrados`;
 export const QEXAM_FILTER_NAME = $localize`:@@questionnaires.exams.filter.name:Buscar por nombre`;
 export const QEXAM_FILTER_QUESTIONNAIRE = $localize`:@@questionnaires.exams.filter.questionnaire:Cuestionario`;
@@ -18,7 +18,7 @@ export const QEXAM_STATUS_DRAFT = $localize`:@@questionnaires.exams.status.draft
 export const QEXAM_STATUS_PUBLISHED = $localize`:@@questionnaires.exams.status.published:Publicado`;
 export const QEXAM_STATUS_ARCHIVED = $localize`:@@questionnaires.exams.status.archived:Archivado`;
 
-export const QEXAM_DIALOG_NEW = $localize`:@@questionnaires.exams.dialog.newTitle:Nuevo examen`;
+export const QEXAM_DIALOG_NEW = $localize`:@@questionnaires.exams.dialog.newTitle:Nuevo Examen`;
 export const QEXAM_DIALOG_EDIT = $localize`:@@questionnaires.exams.dialog.editTitle:Editar examen`;
 export const QEXAM_TAB_GENERAL = $localize`:@@questionnaires.exams.tab.general:Datos generales`;
 export const QEXAM_TAB_QUESTION_SELECTION = $localize`:@@questionnaires.exams.tab.questionSelection:Selección de preguntas`;

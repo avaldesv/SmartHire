@@ -1,4 +1,5 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -10,6 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { AppPermissions } from '../../../core/auth/app-permissions';
@@ -24,7 +26,6 @@ import {
   QCAT_SAVING,
   QCAT_SCOPE_GLOBAL,
   QCAT_SCOPE_TENANT,
-  QCAT_SNACK_CLOSE,
   QTAG_EDIT_TITLE,
   QTAG_EMPTY,
   QTAG_ERRORS_DELETE,
@@ -32,6 +33,8 @@ import {
   QTAG_ERRORS_SAVE,
   QTAG_FIELD_DESCRIPTION,
   QTAG_FIELD_NAME,
+  QTAG_FILTER_CLEAR,
+  QTAG_FILTER_SEARCH,
   QTAG_NEW_BUTTON,
   QTAG_NEW_TITLE,
   QTAG_SUCCESS_DELETED,
@@ -75,6 +78,7 @@ export class TagsAdminComponent implements OnInit {
   private readonly permissions = inject(PermissionService);
   private readonly feedback = inject(FeedbackDialogService);
   private readonly fb = inject(FormBuilder);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly csvPanel = QUESTIONNAIRE_CSV_PANELS.tags;
 
@@ -110,6 +114,8 @@ export class TagsAdminComponent implements OnInit {
   readonly cancelLabel = QCAT_CANCEL;
   readonly savingLabel = QCAT_SAVING;
   readonly saveLabel = QCAT_SAVE;
+  readonly filterSearch = QTAG_FILTER_SEARCH;
+  readonly filterClear = QTAG_FILTER_CLEAR;
 
   readonly form = this.fb.nonNullable.group({
     name: ['', Validators.required],
@@ -117,11 +123,18 @@ export class TagsAdminComponent implements OnInit {
     isActive: [true],
   });
 
+  readonly filterForm = this.fb.nonNullable.group({
+    search: [''],
+  });
+
   readonly createScopeForm = this.fb.nonNullable.group({
     scope: ['TENANT' as TenantDataScope],
   });
 
   ngOnInit(): void {
+    this.filterForm.controls.search.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.applyFilters());
     this.load();
   }
 
@@ -147,7 +160,9 @@ export class TagsAdminComponent implements OnInit {
 
   load(): void {
     this.loading = true;
-    this.api.list({}, this.pageIndex, this.pageSize).subscribe({
+    const search = this.filterForm.controls.search.value.trim();
+    const filters = search ? [`name:CONTAINS:${search}`] : [];
+    this.api.list({ filters }, this.pageIndex, this.pageSize).subscribe({
       next: ({ items, total }) => {
         this.data = items;
         this.total = total;
@@ -158,6 +173,16 @@ export class TagsAdminComponent implements OnInit {
         this.feedback.showApiError(err, { fallbackMessage: QTAG_ERRORS_LIST });
       },
     });
+  }
+
+  applyFilters(): void {
+    this.pageIndex = 0;
+    this.load();
+  }
+
+  clearFilters(): void {
+    this.filterForm.reset({ search: '' }, { emitEvent: false });
+    this.applyFilters();
   }
 
   onPage(event: PageEvent): void {

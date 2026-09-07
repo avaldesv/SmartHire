@@ -12877,11 +12877,25 @@
           <context context-type="linenumber">27</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="questionnaires.tags.filter.search" datatype="html">
+        <source>Buscar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/questionnaire-categories-labels.ts</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="questionnaires.tags.filter.clear" datatype="html">
+        <source>Limpiar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/questionnaire-categories-labels.ts</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="questionnaires.tags.empty" datatype="html">
         <source>No hay tags registrados</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/questionnaire-categories-labels.ts</context>
-          <context context-type="linenumber">28</context>
+          <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
       <trans-unit id="questionnaires.tags.errors.list" datatype="html">
@@ -12960,7 +12974,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="questionnaires.exams.newButton" datatype="html">
-        <source>Nuevo examen</source>
+        <source>Nuevo Examen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/questionnaire-exams-labels.ts</context>
           <context context-type="linenumber">1</context>
@@ -13079,7 +13093,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="questionnaires.exams.dialog.newTitle" datatype="html">
-        <source>Nuevo examen</source>
+        <source>Nuevo Examen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/questionnaire-exams-labels.ts</context>
           <context context-type="linenumber">21</context>
