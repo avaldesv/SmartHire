@@ -1,16 +1,18 @@
-@if (canCreate()) {
-  <div class="toolbar">
-    <button mat-flat-button color="primary" type="button" (click)="openCreate()">
-      <mat-icon>add</mat-icon> {{ newButton }}
-    </button>
-    <sh-questionnaire-import-export-actions
-      class="toolbar-csv-actions"
-      [catalogKey]="csvPanel.catalogKey"
-      [catalogLabel]="csvPanel.label"
-      (importComplete)="load()"
-    />
-  </div>
-}
+<div class="sh-list-page-header">
+  <h3>{{ pageTitle }}</h3>
+  @if (canCreate()) {
+    <div class="sh-list-page-header__actions">
+      <button mat-flat-button color="primary" type="button" (click)="openCreate()">
+        <mat-icon>add</mat-icon> {{ newButton }}
+      </button>
+      <sh-questionnaire-import-export-actions
+        [catalogKey]="csvPanel.catalogKey"
+        [catalogLabel]="csvPanel.label"
+        (importComplete)="load()"
+      />
+    </div>
+  }
+</div>
 
 <div class="sh-card filter-card">
   <form [formGroup]="filterForm" class="filter-form" (ngSubmit)="applyFilters()">

@@ -38,6 +38,7 @@ import {
   QTAG_SUCCESS_SAVED,
   qtagDeleteConfirm,
 } from '../../../core/i18n/questionnaire-categories-labels';
+import { QUESTIONNAIRES_TAGS_TITLE } from '../../../core/i18n/questionnaires-labels';
 import { PermissionService } from '../../../core/services/permission.service';
 import { QuestionnaireTagApiService } from '../../../core/services/questionnaire-tag-api.service';
 import { QUESTIONNAIRE_CSV_PANELS } from '../../../core/questionnaire/questionnaire-import-export.registry';
@@ -93,6 +94,7 @@ export class TagsAdminComponent implements OnInit {
   readonly columns = ['name', 'description', 'scope', 'active', 'actions'];
 
   readonly newButton = QTAG_NEW_BUTTON;
+  readonly pageTitle = QUESTIONNAIRES_TAGS_TITLE;
   readonly newTitle = QTAG_NEW_TITLE;
   readonly editTitle = QTAG_EDIT_TITLE;
   readonly fieldName = QTAG_FIELD_NAME;

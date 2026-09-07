@@ -20,7 +20,7 @@ export function qcatDeleteConfirm(name: string): string {
   return $localize`:@@questionnaires.categories.deleteConfirm:¿Eliminar la categoría "${name}:name:"? Esta acción no se puede deshacer.`;
 }
 
-export const QTAG_NEW_BUTTON = $localize`:@@questionnaires.tags.newButton:Nuevo tag`;
+export const QTAG_NEW_BUTTON = $localize`:@@questionnaires.tags.newButton:Nuevo Pregunta tag`;
 export const QTAG_NEW_TITLE = $localize`:@@questionnaires.tags.newTitle:Nuevo tag`;
 export const QTAG_EDIT_TITLE = $localize`:@@questionnaires.tags.editTitle:Editar tag`;
 export const QTAG_FIELD_NAME = $localize`:@@questionnaires.tags.field.name:Nombre`;

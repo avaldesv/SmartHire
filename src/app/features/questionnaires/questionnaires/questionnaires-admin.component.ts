@@ -51,6 +51,7 @@ import {
   qqnDeleteConfirm,
   qqnStatusLabel,
 } from '../../../core/i18n/questionnaire-questionnaires-labels';
+import { QUESTIONNAIRES_QUESTIONNAIRES_TITLE } from '../../../core/i18n/questionnaires-labels';
 import { PermissionService } from '../../../core/services/permission.service';
 import { QuestionnaireKnowledgeCategoryApiService } from '../../../core/services/questionnaire-knowledge-category-api.service';
 import { QuestionnaireQuestionnaireApiService } from '../../../core/services/questionnaire-questionnaire-api.service';
@@ -118,6 +119,7 @@ export class QuestionnairesAdminComponent implements OnInit {
   readonly columns = ['name', 'category', 'status', 'scope', 'active', 'actions'];
 
   readonly newButton = QQN_NEW_BUTTON;
+  readonly pageTitle = QUESTIONNAIRES_QUESTIONNAIRES_TITLE;
   readonly emptyLabel = QQN_EMPTY;
   readonly filterName = QQN_FILTER_NAME;
   readonly filterCategory = QQN_FILTER_CATEGORY;

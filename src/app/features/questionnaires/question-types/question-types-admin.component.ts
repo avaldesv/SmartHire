@@ -6,6 +6,7 @@ import {
   QQUEST_TYPES_COL_DESCRIPTION,
   QQUEST_TYPES_COL_LABEL,
 } from '../../../core/i18n/questionnaire-questions-labels';
+import { QUESTIONNAIRES_QUESTION_TYPES_TITLE } from '../../../core/i18n/questionnaires-labels';
 
 @Component({
   selector: 'sh-question-types-admin',
@@ -15,6 +16,7 @@ import {
   styleUrl: './question-types-admin.component.scss',
 })
 export class QuestionTypesAdminComponent {
+  readonly pageTitle = QUESTIONNAIRES_QUESTION_TYPES_TITLE;
   readonly columnCode = QQUEST_TYPES_COL_CODE;
   readonly columnLabel = QQUEST_TYPES_COL_LABEL;
   readonly columnDescription = QQUEST_TYPES_COL_DESCRIPTION;
