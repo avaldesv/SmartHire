@@ -18840,6 +18840,69 @@
       <trans-unit id="common.clearFilters" datatype="html">
         <source>Limpiar</source>
       </trans-unit>
+      <trans-unit id="viaBot.assistantTitle" datatype="html">
+        <source>Asistente VIA</source>
+      </trans-unit>
+      <trans-unit id="viaBot.scopeLabel" datatype="html">
+        <source>Ámbito de búsqueda</source>
+      </trans-unit>
+      <trans-unit id="viaBot.scope.pool" datatype="html">
+        <source>Pool de candidatos</source>
+      </trans-unit>
+      <trans-unit id="viaBot.scope.applicants" datatype="html">
+        <source>Postulados a la requisición</source>
+      </trans-unit>
+      <trans-unit id="viaBot.welcome" datatype="html">
+        <source>Indícame qué perfil buscas para esta vacante.</source>
+      </trans-unit>
+      <trans-unit id="viaBot.inputPlaceholder" datatype="html">
+        <source>Escribe una instrucción para el agente…</source>
+      </trans-unit>
+      <trans-unit id="viaBot.send" datatype="html">
+        <source>Enviar</source>
+      </trans-unit>
+      <trans-unit id="viaBot.newConversation" datatype="html">
+        <source>Nueva conversación</source>
+      </trans-unit>
+      <trans-unit id="viaBot.resultsTitle" datatype="html">
+        <source>Candidatos idóneos</source>
+      </trans-unit>
+      <trans-unit id="viaBot.resultsUpdated" datatype="html">
+        <source>Actualizado tras el último mensaje</source>
+      </trans-unit>
+      <trans-unit id="viaBot.resultsCount" datatype="html">
+        <source>resultados</source>
+      </trans-unit>
+      <trans-unit id="viaBot.selectAll" datatype="html">
+        <source>Seleccionar todos</source>
+      </trans-unit>
+      <trans-unit id="viaBot.addPreselection" datatype="html">
+        <source>Agregar a preselección</source>
+      </trans-unit>
+      <trans-unit id="viaBot.emptyResults" datatype="html">
+        <source>Aún no hay candidatos. Envía una instrucción al asistente.</source>
+      </trans-unit>
+      <trans-unit id="viaBot.errors.load" datatype="html">
+        <source>No se pudo cargar la conversación</source>
+      </trans-unit>
+      <trans-unit id="viaBot.errors.chat" datatype="html">
+        <source>No se pudo enviar el mensaje al asistente</source>
+      </trans-unit>
+      <trans-unit id="viaBot.errors.reset" datatype="html">
+        <source>No se pudo reiniciar la conversación</source>
+      </trans-unit>
+      <trans-unit id="viaBot.resetSuccess" datatype="html">
+        <source>Conversación reiniciada</source>
+      </trans-unit>
+      <trans-unit id="viaBot.errors.add" datatype="html">
+        <source>No se pudo agregar a preselección</source>
+      </trans-unit>
+      <trans-unit id="viaBot.addSuccess" datatype="html">
+        <source>candidato(s) agregado(s) a preselección</source>
+      </trans-unit>
+      <trans-unit id="viaBot.selectOne" datatype="html">
+        <source>Selecciona al menos un candidato</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

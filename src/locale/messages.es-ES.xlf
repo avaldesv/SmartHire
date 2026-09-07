@@ -9562,6 +9562,90 @@
         <source>Limpiar</source>
         <target>Limpiar</target>
       </trans-unit>
+      <trans-unit id="viaBot.assistantTitle" datatype="html">
+        <source>Asistente VIA</source>
+        <target>Asistente VIA</target>
+      </trans-unit>
+      <trans-unit id="viaBot.scopeLabel" datatype="html">
+        <source>Ámbito de búsqueda</source>
+        <target>Ámbito de búsqueda</target>
+      </trans-unit>
+      <trans-unit id="viaBot.scope.pool" datatype="html">
+        <source>Pool de candidatos</source>
+        <target>Pool de candidatos</target>
+      </trans-unit>
+      <trans-unit id="viaBot.scope.applicants" datatype="html">
+        <source>Postulados a la requisición</source>
+        <target>Postulados a la requisición</target>
+      </trans-unit>
+      <trans-unit id="viaBot.welcome" datatype="html">
+        <source>Indícame qué perfil buscas para esta vacante.</source>
+        <target>Indícame qué perfil buscas para esta vacante.</target>
+      </trans-unit>
+      <trans-unit id="viaBot.inputPlaceholder" datatype="html">
+        <source>Escribe una instrucción para el agente…</source>
+        <target>Escribe una instrucción para el agente…</target>
+      </trans-unit>
+      <trans-unit id="viaBot.send" datatype="html">
+        <source>Enviar</source>
+        <target>Enviar</target>
+      </trans-unit>
+      <trans-unit id="viaBot.newConversation" datatype="html">
+        <source>Nueva conversación</source>
+        <target>Nueva conversación</target>
+      </trans-unit>
+      <trans-unit id="viaBot.resultsTitle" datatype="html">
+        <source>Candidatos idóneos</source>
+        <target>Candidatos idóneos</target>
+      </trans-unit>
+      <trans-unit id="viaBot.resultsUpdated" datatype="html">
+        <source>Actualizado tras el último mensaje</source>
+        <target>Actualizado tras el último mensaje</target>
+      </trans-unit>
+      <trans-unit id="viaBot.resultsCount" datatype="html">
+        <source>resultados</source>
+        <target>resultados</target>
+      </trans-unit>
+      <trans-unit id="viaBot.selectAll" datatype="html">
+        <source>Seleccionar todos</source>
+        <target>Seleccionar todos</target>
+      </trans-unit>
+      <trans-unit id="viaBot.addPreselection" datatype="html">
+        <source>Agregar a preselección</source>
+        <target>Agregar a preselección</target>
+      </trans-unit>
+      <trans-unit id="viaBot.emptyResults" datatype="html">
+        <source>Aún no hay candidatos. Envía una instrucción al asistente.</source>
+        <target>Aún no hay candidatos. Envía una instrucción al asistente.</target>
+      </trans-unit>
+      <trans-unit id="viaBot.errors.load" datatype="html">
+        <source>No se pudo cargar la conversación</source>
+        <target>No se pudo cargar la conversación</target>
+      </trans-unit>
+      <trans-unit id="viaBot.errors.chat" datatype="html">
+        <source>No se pudo enviar el mensaje al asistente</source>
+        <target>No se pudo enviar el mensaje al asistente</target>
+      </trans-unit>
+      <trans-unit id="viaBot.errors.reset" datatype="html">
+        <source>No se pudo reiniciar la conversación</source>
+        <target>No se pudo reiniciar la conversación</target>
+      </trans-unit>
+      <trans-unit id="viaBot.resetSuccess" datatype="html">
+        <source>Conversación reiniciada</source>
+        <target>Conversación reiniciada</target>
+      </trans-unit>
+      <trans-unit id="viaBot.errors.add" datatype="html">
+        <source>No se pudo agregar a preselección</source>
+        <target>No se pudo agregar a preselección</target>
+      </trans-unit>
+      <trans-unit id="viaBot.addSuccess" datatype="html">
+        <source>candidato(s) agregado(s) a preselección</source>
+        <target>candidato(s) agregado(s) a preselección</target>
+      </trans-unit>
+      <trans-unit id="viaBot.selectOne" datatype="html">
+        <source>Selecciona al menos un candidato</source>
+        <target>Selecciona al menos un candidato</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
