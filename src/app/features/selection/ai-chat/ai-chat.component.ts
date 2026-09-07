@@ -165,10 +165,12 @@ export class AiChatComponent implements OnInit {
     }
     const candidateLimit = this.criteriaForm.controls.candidateLimit.value;
     const experienceRaw = this.criteriaForm.controls.experienceYears.value;
-    const experienceYears =
-      experienceRaw === null || experienceRaw === undefined || Number.isNaN(Number(experienceRaw))
-        ? null
+    const experienceNum =
+      experienceRaw === null || experienceRaw === undefined || experienceRaw === ('' as unknown)
+        ? NaN
         : Number(experienceRaw);
+    const experienceYears =
+      Number.isNaN(experienceNum) || experienceNum <= 0 ? null : experienceNum;
     this.messages = [...this.messages, { role: 'user', text }];
     this.messageForm.reset({ message: '' });
     this.sending = true;
