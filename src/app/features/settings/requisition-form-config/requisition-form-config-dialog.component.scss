@@ -15,8 +15,8 @@ h5 {
 }
 
 :host ::ng-deep .form-config-dialog-content {
-  min-width: min(960px, 92vw);
-  max-width: 1100px;
+  min-width: min(1040px, 94vw);
+  max-width: 1200px;
   min-height: 420px;
   box-sizing: border-box;
 }
@@ -96,19 +96,28 @@ h5 {
 .tree-header,
 .tree-row {
   display: grid;
-  grid-template-columns: 32px 72px 72px 1fr 80px;
+  grid-template-columns: 32px minmax(5.5rem, 6.5rem) minmax(6.75rem, 8rem) minmax(0, 1fr) minmax(5.5rem, 6.5rem);
   align-items: center;
-  gap: 4px;
+  gap: 8px;
+  column-gap: 10px;
 }
 
 .tree-header {
   padding: 8px 4px;
   border-bottom: 1px solid #e2e8f0;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   color: #64748b;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
+
+  .col-check,
+  .col-actions {
+    text-align: center;
+    white-space: normal;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+  }
 }
 
 .tree-body {
