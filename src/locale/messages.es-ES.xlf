@@ -5794,6 +5794,14 @@
         <source>Padre</source>
         <target>Padre</target>
       </trans-unit>
+      <trans-unit id="questionnaires.categories.filter.search" datatype="html">
+        <source>Buscar</source>
+        <target>Buscar</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.categories.filter.clear" datatype="html">
+        <source>Limpiar</source>
+        <target>Limpiar</target>
+      </trans-unit>
       <trans-unit id="questionnaires.categories.empty" datatype="html">
         <source>No hay categorías registradas</source>
         <target>No hay categorías registradas</target>
