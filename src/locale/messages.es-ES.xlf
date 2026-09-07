@@ -2851,8 +2851,8 @@
         <target>Nueva prestación</target>
       </trans-unit>
       <trans-unit id="catalogs.documentType.newButton" datatype="html">
-        <source>Nuevo tipo</source>
-        <target>Nuevo tipo</target>
+        <source>Nuevo tipo de documento</source>
+        <target>Nuevo tipo de documento</target>
       </trans-unit>
       <trans-unit id="catalogs.documentType.editTitle" datatype="html">
         <source>Editar tipo de documento</source>
