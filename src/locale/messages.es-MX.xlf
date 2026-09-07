@@ -18923,6 +18923,36 @@
       <trans-unit id="viaBot.selectOne" datatype="html">
         <source>Selecciona al menos un candidato</source>
       </trans-unit>
+      <trans-unit id="common.search" datatype="html">
+        <source>Buscar</source>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationType.value.CLIENT" datatype="html">
+        <source>Cliente</source>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.value.PROFILE_CHANGE" datatype="html">
+        <source>Cambio de perfil</source>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.value.CONTRACT_CANCEL_NONPAYMENT" datatype="html">
+        <source>Cancelación de contrato por falta de pago</source>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.value.PROJECT_CANCEL" datatype="html">
+        <source>Cancelación de proyecto</source>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.value.LACK_OF_FEEDBACK" datatype="html">
+        <source>Falta de retroalimentación</source>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.value.PERM_FLEX" datatype="html">
+        <source>PERM FLEX</source>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.value.PROJECT_TO_SUCCESS" datatype="html">
+        <source>Proyecto al Exito</source>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.value.CLIENT_REFERRAL" datatype="html">
+        <source>Referido del cliente</source>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.value.PROJECT_POSTPONED" datatype="html">
+        <source>Se pospone el proyecto</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -2312,11 +2312,11 @@
       </trans-unit>
       <trans-unit id="catalogs.entry.cancellationType" datatype="html">
         <source>Tipo de cancelación</source>
-        <target>Tipo de cancelación</target>
+        <target>Cancellation type</target>
       </trans-unit>
       <trans-unit id="catalogs.entry.cancellationReason" datatype="html">
         <source>Motivos de cancelación</source>
-        <target>Motivos de cancelación</target>
+        <target>Cancellation reasons</target>
       </trans-unit>
       <trans-unit id="catalogs.entry.positionStatus" datatype="html">
         <source>Estatus de posición</source>
@@ -2456,7 +2456,7 @@
       </trans-unit>
       <trans-unit id="catalogs.column.cancellationType" datatype="html">
         <source>Tipo de cancelación</source>
-        <target>Tipo de cancelación</target>
+        <target>Cancellation type</target>
       </trans-unit>
       <trans-unit id="catalogs.field.defaultPortalLanguage" datatype="html">
         <source>Idioma default del portal</source>
@@ -2572,11 +2572,11 @@
       </trans-unit>
       <trans-unit id="catalogs.field.cancellationType" datatype="html">
         <source>Tipo de cancelación</source>
-        <target>Tipo de cancelación</target>
+        <target>Cancellation type</target>
       </trans-unit>
       <trans-unit id="catalogs.field.allCancellationTypes" datatype="html">
         <source>Todos los tipos</source>
-        <target>Todos los tipos</target>
+        <target>All types</target>
       </trans-unit>
       <trans-unit id="catalogImport.title" datatype="html">
         <source>Importar <x id="catalogLabel" equiv-text="catalogLabel" />
@@ -2744,27 +2744,27 @@
       </trans-unit>
       <trans-unit id="catalogs.cancellationType.newButton" datatype="html">
         <source>Nuevo tipo de cancelación</source>
-        <target>Nuevo tipo de cancelación</target>
+        <target>New cancellation type</target>
       </trans-unit>
       <trans-unit id="catalogs.cancellationType.editTitle" datatype="html">
         <source>Editar tipo de cancelación</source>
-        <target>Editar tipo de cancelación</target>
+        <target>Edit cancellation type</target>
       </trans-unit>
       <trans-unit id="catalogs.cancellationType.newTitle" datatype="html">
         <source>Nuevo tipo de cancelación</source>
-        <target>Nuevo tipo de cancelación</target>
+        <target>New cancellation type</target>
       </trans-unit>
       <trans-unit id="catalogs.cancellationReason.newButton" datatype="html">
         <source>Nuevo motivo de cancelación</source>
-        <target>Nuevo motivo de cancelación</target>
+        <target>New cancellation reason</target>
       </trans-unit>
       <trans-unit id="catalogs.cancellationReason.editTitle" datatype="html">
         <source>Editar motivo de cancelación</source>
-        <target>Editar motivo de cancelación</target>
+        <target>Edit cancellation reason</target>
       </trans-unit>
       <trans-unit id="catalogs.cancellationReason.newTitle" datatype="html">
         <source>Nuevo motivo de cancelación</source>
-        <target>Nuevo motivo de cancelación</target>
+        <target>New cancellation reason</target>
       </trans-unit>
       <trans-unit id="catalogs.positionStatus.newButton" datatype="html">
         <source>Nuevo estatus de posición</source>
@@ -3993,7 +3993,7 @@
       </trans-unit>
       <trans-unit id="catalogs.field.name" datatype="html">
         <source>Nombre</source>
-        <target>First name</target>
+        <target>Name</target>
       </trans-unit>
       <trans-unit id="catalogs.field.description" datatype="html">
         <source>Descripción</source>
@@ -9658,6 +9658,46 @@
       <trans-unit id="viaBot.selectOne" datatype="html">
         <source>Selecciona al menos un candidato</source>
         <target>Select at least one candidate</target>
+      </trans-unit>
+      <trans-unit id="common.search" datatype="html">
+        <source>Buscar</source>
+        <target>Search</target>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationType.value.CLIENT" datatype="html">
+        <source>Cliente</source>
+        <target>Client</target>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.value.PROFILE_CHANGE" datatype="html">
+        <source>Cambio de perfil</source>
+        <target>Profile change</target>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.value.CONTRACT_CANCEL_NONPAYMENT" datatype="html">
+        <source>Cancelación de contrato por falta de pago</source>
+        <target>Contract cancelled for non-payment</target>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.value.PROJECT_CANCEL" datatype="html">
+        <source>Cancelación de proyecto</source>
+        <target>Project cancelled</target>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.value.LACK_OF_FEEDBACK" datatype="html">
+        <source>Falta de retroalimentación</source>
+        <target>Lack of feedback</target>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.value.PERM_FLEX" datatype="html">
+        <source>PERM FLEX</source>
+        <target>PERM FLEX</target>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.value.PROJECT_TO_SUCCESS" datatype="html">
+        <source>Proyecto al Exito</source>
+        <target>Project to success</target>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.value.CLIENT_REFERRAL" datatype="html">
+        <source>Referido del cliente</source>
+        <target>Client referral</target>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.value.PROJECT_POSTPONED" datatype="html">
+        <source>Se pospone el proyecto</source>
+        <target>Project postponed</target>
       </trans-unit>
     </body>
   </file>

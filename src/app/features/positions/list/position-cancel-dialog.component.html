@@ -69,7 +69,7 @@
         <mat-label>{{ typeLabel }}</mat-label>
         <mat-select formControlName="cancellationTypeId">
           @for (type of types; track type.id) {
-            <mat-option [value]="type.id">{{ type.name }}</mat-option>
+            <mat-option [value]="type.id">{{ cancellationTypeOptionLabel(type) }}</mat-option>
           }
         </mat-select>
         @if (form.controls.cancellationTypeId.hasError('required')) {
@@ -81,7 +81,7 @@
         <mat-label>{{ reasonLabel }}</mat-label>
         <mat-select formControlName="cancellationReasonId">
           @for (reason of reasons; track reason.id) {
-            <mat-option [value]="reason.id">{{ reason.name }}</mat-option>
+            <mat-option [value]="reason.id">{{ cancellationReasonOptionLabel(reason) }}</mat-option>
           }
         </mat-select>
         @if (form.controls.cancellationReasonId.hasError('required')) {
