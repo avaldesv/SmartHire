@@ -17,8 +17,10 @@ import {
   VIA_BOT_ADD_PRESELECTION,
   VIA_BOT_ADD_SUCCESS,
   VIA_BOT_ASSISTANT_TITLE,
+  VIA_BOT_CANDIDATE_LIMIT,
   VIA_BOT_CHAT_ERROR,
   VIA_BOT_EMPTY_RESULTS,
+  VIA_BOT_EXPERIENCE_YEARS,
   VIA_BOT_INPUT_PLACEHOLDER,
   VIA_BOT_LOAD_ERROR,
   VIA_BOT_NEW_CONVERSATION,
@@ -78,6 +80,8 @@ export class AiChatComponent implements OnInit {
     scopeLabel: VIA_BOT_SCOPE_LABEL,
     scopePool: VIA_BOT_SCOPE_POOL,
     scopeApplicants: VIA_BOT_SCOPE_APPLICANTS,
+    candidateLimit: VIA_BOT_CANDIDATE_LIMIT,
+    experienceYears: VIA_BOT_EXPERIENCE_YEARS,
     welcome: VIA_BOT_WELCOME,
     inputPlaceholder: VIA_BOT_INPUT_PLACEHOLDER,
     send: VIA_BOT_SEND,
@@ -97,6 +101,11 @@ export class AiChatComponent implements OnInit {
   scope: ViaBotScope = 'POOL';
   messages: ChatBubble[] = [{ role: 'ai', text: this.labels.welcome }];
   results: CandidateRow[] = [];
+
+  readonly criteriaForm = this.fb.nonNullable.group({
+    candidateLimit: [5, [Validators.required, Validators.min(1), Validators.max(50)]],
+    experienceYears: this.fb.control<number | null>(null, [Validators.min(0), Validators.max(60)]),
+  });
 
   readonly messageForm = this.fb.nonNullable.group({
     message: ['', [Validators.required, Validators.maxLength(10000)]],
@@ -145,18 +154,32 @@ export class AiChatComponent implements OnInit {
   }
 
   send(): void {
-    if (this.messageForm.invalid || this.sending) {
+    if (this.messageForm.invalid || this.criteriaForm.invalid || this.sending) {
       this.messageForm.markAllAsTouched();
+      this.criteriaForm.markAllAsTouched();
       return;
     }
     const text = this.messageForm.controls.message.value.trim();
     if (!text) {
       return;
     }
+    const candidateLimit = this.criteriaForm.controls.candidateLimit.value;
+    const experienceRaw = this.criteriaForm.controls.experienceYears.value;
+    const experienceYears =
+      experienceRaw === null || experienceRaw === undefined || Number.isNaN(Number(experienceRaw))
+        ? null
+        : Number(experienceRaw);
     this.messages = [...this.messages, { role: 'user', text }];
     this.messageForm.reset({ message: '' });
     this.sending = true;
-    this.viaBotApi.chat(this.positionId, { message: text, scope: this.scope }).subscribe({
+    this.viaBotApi
+      .chat(this.positionId, {
+        message: text,
+        scope: this.scope,
+        candidateLimit,
+        experienceYears,
+      })
+      .subscribe({
       next: (res) => {
         this.sending = false;
         this.messages = [...this.messages, { role: 'ai', text: res.response }];

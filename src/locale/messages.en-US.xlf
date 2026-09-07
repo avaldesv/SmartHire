@@ -9575,6 +9575,14 @@
         <source>Postulados a la requisición</source>
         <target>Applicants to the requisition</target>
       </trans-unit>
+      <trans-unit id="viaBot.candidateLimit" datatype="html">
+        <source>Candidatos</source>
+        <target>Candidates</target>
+      </trans-unit>
+      <trans-unit id="viaBot.experienceYears" datatype="html">
+        <source>Años de experiencia</source>
+        <target>Years of experience</target>
+      </trans-unit>
       <trans-unit id="viaBot.welcome" datatype="html">
         <source>Indícame qué perfil buscas para esta vacante.</source>
         <target>Tell me what profile you need for this vacancy.</target>

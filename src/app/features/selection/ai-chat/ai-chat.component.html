@@ -25,6 +25,17 @@
       </mat-button-toggle-group>
     </div>
 
+    <form class="via-bot__criteria" [formGroup]="criteriaForm">
+      <mat-form-field appearance="outline" class="via-bot__criteria-field" subscriptSizing="dynamic">
+        <mat-label>{{ labels.candidateLimit }}</mat-label>
+        <input matInput type="number" min="1" max="50" formControlName="candidateLimit" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="via-bot__criteria-field" subscriptSizing="dynamic">
+        <mat-label>{{ labels.experienceYears }}</mat-label>
+        <input matInput type="number" min="0" max="60" formControlName="experienceYears" />
+      </mat-form-field>
+    </form>
+
     @if (loadingConversation) {
       <div class="via-bot__loading"><mat-spinner diameter="28" /></div>
     } @else {
@@ -47,7 +58,7 @@
           <mat-label>{{ labels.inputPlaceholder }}</mat-label>
           <input matInput formControlName="message" autocomplete="off" />
         </mat-form-field>
-        <button mat-flat-button color="primary" type="submit" [disabled]="sending || messageForm.invalid">
+        <button mat-flat-button color="primary" type="submit" [disabled]="sending || messageForm.invalid || criteriaForm.invalid">
           {{ labels.send }}
         </button>
       </form>

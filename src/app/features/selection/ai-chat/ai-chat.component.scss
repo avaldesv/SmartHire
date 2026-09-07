@@ -62,6 +62,18 @@
   color: #475569;
 }
 
+.via-bot__criteria {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.via-bot__criteria-field {
+  width: 160px;
+  flex: 0 0 auto;
+}
+
 .via-bot__messages {
   flex: 1 1 auto;
   min-height: 220px;
