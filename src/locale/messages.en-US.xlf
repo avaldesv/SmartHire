@@ -8361,11 +8361,11 @@
       </trans-unit>
       <trans-unit id="catalogs.field.processingServices" datatype="html">
         <source>Servicios de procesamiento</source>
-        <target>Servicios de procesamiento</target>
+        <target>Processing services</target>
       </trans-unit>
       <trans-unit id="catalogs.field.defaultProcessingService" datatype="html">
         <source>Servicio predeterminado</source>
-        <target>Servicio predeterminado</target>
+        <target>Default processing service</target>
       </trans-unit>
       <trans-unit id="catalogs.field.none" datatype="html">
         <source>Ninguno</source>
@@ -8373,7 +8373,7 @@
       </trans-unit>
       <trans-unit id="catalogs.field.allowedExtensions" datatype="html">
         <source>Extensiones permitidas</source>
-        <target>Extensiones permitidas</target>
+        <target>Allowed extensions</target>
       </trans-unit>
       <trans-unit id="catalogs.field.mimeType" datatype="html">
         <source>MIME type</source>
