@@ -1,4 +1,5 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -11,6 +12,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { AppPermissions } from '../../../core/auth/app-permissions';
@@ -30,6 +32,8 @@ import {
   QCAT_FIELD_NAME,
   QCAT_FIELD_NO_PARENT,
   QCAT_FIELD_PARENT,
+  QCAT_FILTER_CLEAR,
+  QCAT_FILTER_SEARCH,
   QCAT_NEW_BUTTON,
   QCAT_NEW_TITLE,
   QCAT_RECORD_SCOPE,
@@ -37,7 +41,6 @@ import {
   QCAT_SAVING,
   QCAT_SCOPE_GLOBAL,
   QCAT_SCOPE_TENANT,
-  QCAT_SNACK_CLOSE,
   QCAT_SUCCESS_DELETED,
   QCAT_SUCCESS_SAVED,
   qcatDeleteConfirm,
@@ -80,6 +83,7 @@ export class KnowledgeCategoriesAdminComponent implements OnInit {
   private readonly permissions = inject(PermissionService);
   private readonly feedback = inject(FeedbackDialogService);
   private readonly fb = inject(FormBuilder);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly csvPanel = QUESTIONNAIRE_CSV_PANELS.knowledgeCategories;
 
@@ -119,6 +123,8 @@ export class KnowledgeCategoriesAdminComponent implements OnInit {
   readonly cancelLabel = QCAT_CANCEL;
   readonly savingLabel = QCAT_SAVING;
   readonly saveLabel = QCAT_SAVE;
+  readonly filterSearch = QCAT_FILTER_SEARCH;
+  readonly filterClear = QCAT_FILTER_CLEAR;
 
   readonly form = this.fb.nonNullable.group({
     name: ['', Validators.required],
@@ -127,11 +133,18 @@ export class KnowledgeCategoriesAdminComponent implements OnInit {
     isActive: [true],
   });
 
+  readonly filterForm = this.fb.nonNullable.group({
+    search: [''],
+  });
+
   readonly createScopeForm = this.fb.nonNullable.group({
     scope: ['TENANT' as TenantDataScope],
   });
 
   ngOnInit(): void {
+    this.filterForm.controls.search.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.applyFilters());
     this.load();
     this.loadParentOptions();
   }
@@ -165,7 +178,8 @@ export class KnowledgeCategoriesAdminComponent implements OnInit {
 
   load(): void {
     this.loading = true;
-    this.api.list({}, this.pageIndex, this.pageSize).subscribe({
+    const search = this.filterForm.controls.search.value.trim();
+    this.api.list({ search: search || null }, this.pageIndex, this.pageSize).subscribe({
       next: ({ items, total }) => {
         this.data = items;
         this.total = total;
@@ -176,6 +190,16 @@ export class KnowledgeCategoriesAdminComponent implements OnInit {
         this.feedback.showApiError(err, { fallbackMessage: QCAT_ERRORS_LIST });
       },
     });
+  }
+
+  applyFilters(): void {
+    this.pageIndex = 0;
+    this.load();
+  }
+
+  clearFilters(): void {
+    this.filterForm.reset({ search: '' }, { emitEvent: false });
+    this.applyFilters();
   }
 
   private loadParentOptions(): void {

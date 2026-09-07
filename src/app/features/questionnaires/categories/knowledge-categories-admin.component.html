@@ -14,6 +14,18 @@
   }
 </div>
 
+<form [formGroup]="filterForm" class="sh-filters sh-card" (ngSubmit)="applyFilters()">
+  <div class="filter-fields">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-label>{{ filterSearch }}</mat-label>
+      <input matInput formControlName="search" />
+    </mat-form-field>
+  </div>
+  <div class="filter-actions">
+    <button mat-stroked-button type="button" (click)="clearFilters()">{{ filterClear }}</button>
+  </div>
+</form>
+
 @if (showForm) {
   <div class="sh-card form-card">
     <h4>{{ editingId ? editTitle : newTitle }}</h4>
