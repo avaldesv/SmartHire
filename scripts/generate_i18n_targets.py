@@ -30,6 +30,7 @@ EN_BY_ID = {
     "catalogs.fileExtension.newButton": "New extension",
     "catalogs.fileExtension.editTitle": "Edit file extension",
     "catalogs.fileExtension.newTitle": "New file extension",
+    "catalogs.documentType.newButton": "New document type",
 }
 
 NS = {"x": "urn:oasis:names:tc:xliff:document:1.2"}
