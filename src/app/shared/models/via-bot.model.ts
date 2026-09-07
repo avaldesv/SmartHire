@@ -6,6 +6,8 @@ export interface ViaBotCandidate {
   lastName: string | null;
   email: string | null;
   phone: string | null;
+  matchPercent?: number | null;
+  summary?: string | null;
 }
 
 export interface ViaBotConversationMessage {
