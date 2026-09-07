@@ -18,6 +18,10 @@ EN_BY_ID = {
     **EN_BY_ID,
     "candidateDocuments.allDelivered": "All required documents were submitted",
     "candidateDocuments.summary.deliveredCount": "{uploaded} of {required} required documents submitted",
+    "catalogs.field.name": "Name",
+    "catalogs.field.processingServices": "Processing services",
+    "catalogs.field.defaultProcessingService": "Default processing service",
+    "catalogs.field.allowedExtensions": "Allowed extensions",
 }
 
 NS = {"x": "urn:oasis:names:tc:xliff:document:1.2"}
