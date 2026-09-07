@@ -15181,6 +15181,27 @@
           <context context-type="linenumber">49</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="requisitionFormConfig.editDraftTitle" datatype="html">
+        <source>Editar borrador</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.viewConfigTitle" datatype="html">
+        <source>Ver configuración</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.draftAlreadyExists" datatype="html">
+        <source>Ya existía un borrador para este ámbito; se abrió el existente.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="requisitionFormConfig.createConfirm" datatype="html">
         <source>Crear</source>
         <context-group purpose="location">

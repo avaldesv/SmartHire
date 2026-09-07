@@ -7071,6 +7071,18 @@
         <source>Nueva configuración</source>
         <target>New configuration</target>
       </trans-unit>
+      <trans-unit id="requisitionFormConfig.editDraftTitle" datatype="html">
+        <source>Editar borrador</source>
+        <target>Edit draft</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.viewConfigTitle" datatype="html">
+        <source>Ver configuración</source>
+        <target>View configuration</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.draftAlreadyExists" datatype="html">
+        <source>Ya existía un borrador para este ámbito; se abrió el existente.</source>
+        <target>A draft already existed for this scope; the existing one was opened.</target>
+      </trans-unit>
       <trans-unit id="requisitionFormConfig.createConfirm" datatype="html">
         <source>Crear</source>
         <target>Create</target>

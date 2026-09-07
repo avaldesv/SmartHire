@@ -12,6 +12,7 @@ import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.se
 import {
   REQ_FORM_CONFIG_COLUMN_REORDER,
   REQ_FORM_CONFIG_DETAIL_TITLE,
+  REQ_FORM_CONFIG_EDIT_DRAFT_TITLE,
   REQ_FORM_CONFIG_FIELD_COUNTRY,
   REQ_FORM_CONFIG_FIELD_COVERAGE,
   REQ_FORM_CONFIG_FIELD_NAME,
@@ -51,6 +52,7 @@ import {
   REQ_FORM_CONFIG_STEP_DETAIL_TITLE,
   REQ_FORM_CONFIG_TREE_TITLE,
   REQ_FORM_CONFIG_VERSION,
+  REQ_FORM_CONFIG_VIEW_CONFIG_TITLE,
 } from '../../../core/i18n/requisition-form-config-labels';
 import {
   resolveRequisitionFieldLabel,
@@ -124,6 +126,8 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
   private readonly feedback = inject(FeedbackDialogService);
 
   readonly treeTitle = REQ_FORM_CONFIG_TREE_TITLE;
+  readonly editDraftTitle = REQ_FORM_CONFIG_EDIT_DRAFT_TITLE;
+  readonly viewConfigTitle = REQ_FORM_CONFIG_VIEW_CONFIG_TITLE;
   readonly detailTitle = REQ_FORM_CONFIG_DETAIL_TITLE;
   readonly fieldVisible = REQ_FORM_CONFIG_FIELD_VISIBLE;
   readonly fieldRequired = REQ_FORM_CONFIG_FIELD_REQUIRED;
@@ -215,9 +219,10 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
     if (!this.config) {
       return this.treeTitle;
     }
-    const status = this.statusLabelFor(this.config.status);
-    const name = this.configName?.trim() || this.config.name || this.treeTitle;
-    return `${name} · v${this.config.version} (${status})`;
+    if (this.isReadOnly()) {
+      return this.viewConfigTitle;
+    }
+    return this.editDraftTitle;
   }
 
   statusLabelFor(status: string | undefined): string {

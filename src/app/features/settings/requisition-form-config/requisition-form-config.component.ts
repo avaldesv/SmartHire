@@ -23,6 +23,7 @@ import {
   REQ_FORM_CONFIG_COL_STATUS,
   REQ_FORM_CONFIG_COL_VERSION,
   REQ_FORM_CONFIG_CREATE_DRAFT,
+  REQ_FORM_CONFIG_DRAFT_ALREADY_EXISTS,
   REQ_FORM_CONFIG_EMPTY_LIST,
   REQ_FORM_CONFIG_FIELD_COVERAGE,
   REQ_FORM_CONFIG_FIELD_COUNTRY,
@@ -231,15 +232,9 @@ export class RequisitionFormConfigComponent implements OnInit {
       return;
     }
 
-    this.openingEditor = true;
     this.configService.list(0, 1, { countryId, coverageTypeId, status: 'DRAFT' }).subscribe({
       next: ({ items }) => {
-        const draft = items[0];
-        if (draft) {
-          this.openConfig(draft);
-          return;
-        }
-        this.openingEditor = false;
+        const existingDraftId = items[0]?.id ?? null;
         const createRef = this.dialog.open(RequisitionFormConfigCreateDialogComponent, {
           width: '480px',
           maxWidth: '95vw',
@@ -258,6 +253,9 @@ export class RequisitionFormConfigComponent implements OnInit {
           this.configService.create({ countryId, coverageTypeId, name: result.name }).subscribe({
             next: (created) => {
               this.loadConfigsList();
+              if (existingDraftId != null && created.id === existingDraftId) {
+                this.feedback.showSuccess(REQ_FORM_CONFIG_DRAFT_ALREADY_EXISTS);
+              }
               this.openEditorDialog(created);
             },
             error: (err) => this.handleOpenError(err),
