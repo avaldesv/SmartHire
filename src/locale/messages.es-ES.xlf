@@ -7074,6 +7074,18 @@
         <source>Nueva configuración</source>
         <target>Nueva configuración</target>
       </trans-unit>
+      <trans-unit id="requisitionFormConfig.editDraftTitle" datatype="html">
+        <source>Editar borrador</source>
+        <target>Editar borrador</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.viewConfigTitle" datatype="html">
+        <source>Ver configuración</source>
+        <target>Ver configuración</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.draftAlreadyExists" datatype="html">
+        <source>Ya existía un borrador para este ámbito; se abrió el existente.</source>
+        <target>Ya existía un borrador para este ámbito; se abrió el existente.</target>
+      </trans-unit>
       <trans-unit id="requisitionFormConfig.createConfirm" datatype="html">
         <source>Crear</source>
         <target>Crear</target>
