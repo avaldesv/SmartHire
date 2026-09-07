@@ -1770,6 +1770,14 @@
         <source>Documentos del candidato</source>
         <target>Candidate documents</target>
       </trans-unit>
+      <trans-unit id="candidateDocuments.allDelivered" datatype="html">
+        <source>Todos los documentos obligatorios fueron entregados</source>
+        <target>All required documents were submitted</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.summary.deliveredCount" datatype="html">
+        <source><x id="uploaded" equiv-text="uploaded" /> de <x id="required" equiv-text="required" /> obligatorios entregados</source>
+        <target><x id="uploaded" equiv-text="uploaded" /> of <x id="required" equiv-text="required" /> required documents submitted</target>
+      </trans-unit>
       <trans-unit id="candidateDocuments.empty" datatype="html">
         <source>No hay documentos registrados.</source>
         <target>No documents recorded.</target>

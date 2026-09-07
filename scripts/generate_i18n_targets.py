@@ -14,6 +14,11 @@ from reports_en_targets import REPORTS_EN_BY_ID
 EN_BY_ID = {**QUESTIONNAIRE_EN_BY_ID, **REPORTS_EN_BY_ID}
 
 EN_BY_ID = {**QUESTIONNAIRE_EN_BY_ID, **POSITIONS_EN_BY_ID}
+EN_BY_ID = {
+    **EN_BY_ID,
+    "candidateDocuments.allDelivered": "All required documents were submitted",
+    "candidateDocuments.summary.deliveredCount": "{uploaded} of {required} required documents submitted",
+}
 
 NS = {"x": "urn:oasis:names:tc:xliff:document:1.2"}
 ROOT = Path(__file__).resolve().parents[1]
@@ -860,6 +865,7 @@ EN_BY_SOURCE: dict[str, str] = {
     "Experto": "Expert",
     # Candidate documents dialog
     "Documentos del candidato": "Candidate documents",
+    "Todos los documentos obligatorios fueron entregados": "All required documents were submitted",
     "No hay documentos registrados.": "No documents recorded.",
     "Tipo": "Type",
     "Archivo": "File",

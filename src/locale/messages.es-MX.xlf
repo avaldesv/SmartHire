@@ -3400,6 +3400,20 @@
           <context context-type="linenumber">3</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="candidateDocuments.allDelivered" datatype="html">
+        <source>Todos los documentos obligatorios fueron entregados</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/candidate-documents-dialog-labels.ts</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.summary.deliveredCount" datatype="html">
+        <source><x id="uploaded" equiv-text="uploaded"/> de <x id="required" equiv-text="required"/> obligatorios entregados</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/candidate-documents-dialog-labels.ts</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="candidateDocuments.empty" datatype="html">
         <source>No hay documentos registrados.</source>
         <context-group purpose="location">

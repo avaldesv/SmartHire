@@ -40,12 +40,15 @@ export const CANDIDATE_DOCS_REUPLOAD = $localize`:@@candidateDocuments.reupload:
 export const CANDIDATE_DOCS_UPLOADING = $localize`:@@candidateDocuments.uploading:Subiendo…`;
 export const CANDIDATE_DOCS_UPLOAD_SUCCESS = $localize`:@@candidateDocuments.upload.success:Documento subido correctamente`;
 export const CANDIDATE_DOCS_UPLOAD_ERROR = $localize`:@@candidateDocuments.upload.error:No se pudo subir el documento`;
-export const CANDIDATE_DOCS_SUMMARY_HEADLINE = $localize`:@@candidateDocuments.summary.headline:obligatorios entregados`;
 export const CANDIDATE_DOCS_SUMMARY_PENDING = $localize`:@@candidateDocuments.summary.pending:documentos pendientes de subir`;
 export const CANDIDATE_DOCS_SUMMARY_MISSING_BADGE = $localize`:@@candidateDocuments.summary.missingBadge:faltantes`;
 export const CANDIDATE_DOCS_CHOOSE_FILE = $localize`:@@candidateDocuments.chooseFile:Seleccionar archivo`;
 export const CANDIDATE_DOCS_NO_REQUIREMENTS = $localize`:@@candidateDocuments.noRequirements:Esta vacante no tiene documentos configurados en la requisición. Configure el paso Documentos en el wizard para ver obligatorios y faltantes.`;
 export const CANDIDATE_DOCS_ALL_DELIVERED = $localize`:@@candidateDocuments.allDelivered:Todos los documentos obligatorios fueron entregados`;
+
+export function candidateDocumentsDeliveredCount(uploaded: number, required: number): string {
+  return $localize`:@@candidateDocuments.summary.deliveredCount:${uploaded}:uploaded: de ${required}:required: obligatorios entregados`;
+}
 export const CANDIDATE_DOCS_STATUS_EXTRACTED = $localize`:@@candidateDocuments.status.extracted:Extraído`;
 export const CANDIDATE_DOCS_HEADER_REQUISITION = $localize`:@@candidateDocuments.header.requisition:Requisición`;
 

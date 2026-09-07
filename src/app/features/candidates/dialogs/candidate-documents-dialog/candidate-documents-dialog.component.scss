@@ -76,11 +76,18 @@
   overflow: auto;
   border: 1px solid #e2e8f0;
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 .documents-table {
   width: 100%;
   table-layout: fixed;
+}
+
+sh-paginator {
+  flex-shrink: 0;
+  border-top: 1px solid #e2e8f0;
 }
 
 .col-type {
@@ -351,6 +358,10 @@
 
 .documents-dialog-actions {
   flex-shrink: 0;
+  width: 100%;
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
 }
 
 :host ::ng-deep tr.row-missing-required > .mat-mdc-cell {
