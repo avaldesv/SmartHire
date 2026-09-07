@@ -93,13 +93,23 @@
           <li class="via-bot__row">
             <mat-checkbox [(ngModel)]="row.selected" [ngModelOptions]="{ standalone: true }" />
             <span class="via-bot__avatar">{{ initials(row) }}</span>
-            <div class="via-bot__row-main">
+            <div class="via-bot__row-id">
               <strong>{{ candidateName(row) }}</strong>
-              <span>{{ row.email || '—' }}</span>
+              <span class="via-bot__email">{{ row.email || '—' }}</span>
             </div>
-            @if (row.phone) {
-              <span class="via-bot__phone">{{ row.phone }}</span>
+            @if (row.matchPercent != null) {
+              <span class="via-bot__match">{{ row.matchPercent }}%</span>
             }
+            <span class="via-bot__summary">{{ row.summary || row.phone || '—' }}</span>
+            <button
+              mat-icon-button
+              type="button"
+              class="via-bot__open"
+              [attr.aria-label]="labels.resultsTitle"
+              (click)="openProfile(row)"
+            >
+              <mat-icon>chevron_right</mat-icon>
+            </button>
           </li>
         }
       </ul>

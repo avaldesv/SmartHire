@@ -4,10 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
+import { catalogDialogConfig } from '../../../core/dialog/catalog-dialog.constants';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import {
@@ -34,6 +36,10 @@ import {
   VIA_BOT_WELCOME,
 } from '../../../core/i18n/via-bot-labels';
 import { ViaBotApiService } from '../../../core/services/via-bot-api.service';
+import {
+  CandidateProfileDialogComponent,
+  CandidateProfileDialogData,
+} from '../../candidates/dialogs/candidate-profile-dialog/candidate-profile-dialog.component';
 import { ViaBotCandidate, ViaBotScope } from '../../../shared/models/via-bot.model';
 
 type ChatBubble = { role: 'user' | 'ai'; text: string };
@@ -53,6 +59,7 @@ type CandidateRow = ViaBotCandidate & { selected: boolean };
     MatProgressSpinnerModule,
     MatIconModule,
     MatCheckboxModule,
+    MatDialogModule,
   ],
   templateUrl: './ai-chat.component.html',
   styleUrl: './ai-chat.component.scss',
@@ -62,6 +69,7 @@ export class AiChatComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly viaBotApi = inject(ViaBotApiService);
   private readonly feedback = inject(FeedbackDialogService);
+  private readonly dialog = inject(MatDialog);
 
   readonly positionId = +this.route.parent!.snapshot.paramMap.get('positionId')!;
 
@@ -205,6 +213,20 @@ export class AiChatComponent implements OnInit {
         this.feedback.showApiError(err, { fallbackMessage: VIA_BOT_ADD_ERROR });
       },
     });
+  }
+
+  openProfile(row: ViaBotCandidate): void {
+    this.dialog.open<CandidateProfileDialogComponent, CandidateProfileDialogData>(
+      CandidateProfileDialogComponent,
+      {
+        ...catalogDialogConfig('920px'),
+        autoFocus: false,
+        data: {
+          candidateId: row.candidateId,
+          candidateName: this.candidateName(row),
+        },
+      },
+    );
   }
 
   candidateName(c: ViaBotCandidate): string {
