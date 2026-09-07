@@ -23,6 +23,7 @@ import {
   REQ_FORM_CONFIG_COL_STATUS,
   REQ_FORM_CONFIG_COL_VERSION,
   REQ_FORM_CONFIG_CREATE_DRAFT,
+  REQ_FORM_CONFIG_CREATE_PLACEHOLDER_NAME,
   REQ_FORM_CONFIG_DRAFT_ALREADY_EXISTS,
   REQ_FORM_CONFIG_EMPTY_LIST,
   REQ_FORM_CONFIG_FIELD_COVERAGE,
@@ -58,7 +59,6 @@ import {
   RequisitionFormConfigSummary,
   RequisitionFormConfigStatus,
 } from '../../../shared/models/requisition-form.model';
-import { RequisitionFormConfigCreateDialogComponent } from './requisition-form-config-create-dialog.component';
 import { RequisitionFormConfigDialogComponent } from './requisition-form-config-dialog.component';
 
 @Component({
@@ -232,35 +232,27 @@ export class RequisitionFormConfigComponent implements OnInit {
       return;
     }
 
+    this.openingEditor = true;
     this.configService.list(0, 1, { countryId, coverageTypeId, status: 'DRAFT' }).subscribe({
       next: ({ items }) => {
         const existingDraftId = items[0]?.id ?? null;
-        const createRef = this.dialog.open(RequisitionFormConfigCreateDialogComponent, {
-          width: '480px',
-          maxWidth: '95vw',
-          data: {
+        this.configService
+          .create({
             countryId,
             coverageTypeId,
-            countryName: this.countryName(countryId),
-            coverageTypeName: this.coverageName(countryId, coverageTypeId),
-          },
-        });
-        createRef.afterClosed().subscribe((result) => {
-          if (!result?.name) {
-            return;
-          }
-          this.openingEditor = true;
-          this.configService.create({ countryId, coverageTypeId, name: result.name }).subscribe({
+            name: REQ_FORM_CONFIG_CREATE_PLACEHOLDER_NAME,
+          })
+          .subscribe({
             next: (created) => {
               this.loadConfigsList();
-              if (existingDraftId != null && created.id === existingDraftId) {
+              const isExisting = existingDraftId != null && created.id === existingDraftId;
+              if (isExisting) {
                 this.feedback.showSuccess(REQ_FORM_CONFIG_DRAFT_ALREADY_EXISTS);
               }
-              this.openEditorDialog(created);
+              this.openEditorDialog(created, { isNewConfig: !isExisting });
             },
             error: (err) => this.handleOpenError(err),
           });
-        });
       },
       error: (err) => this.handleOpenError(err),
     });
@@ -378,7 +370,10 @@ export class RequisitionFormConfigComponent implements OnInit {
     return this.statusDraft;
   }
 
-  private openEditorDialog(config: RequisitionFormConfigDetail): void {
+  private openEditorDialog(
+    config: RequisitionFormConfigDetail,
+    options?: { isNewConfig?: boolean },
+  ): void {
     this.ensureCoverageTypes(config.countryId).subscribe(() => {
       this.openingEditor = false;
       const ref = this.dialog.open(RequisitionFormConfigDialogComponent, {
@@ -390,6 +385,7 @@ export class RequisitionFormConfigComponent implements OnInit {
           config,
           countryName: this.countryName(config.countryId),
           coverageTypeName: this.coverageName(config.countryId, config.coverageTypeId),
+          isNewConfig: options?.isNewConfig === true,
         },
       });
       ref
