@@ -8,6 +8,8 @@ export const LOCALE_STORAGE_KEY = LOCALE_SESSION_KEY;
 /** Server bundle selection on full page reload (session cookie, no Max-Age). */
 export const LOCALE_COOKIE_KEY = 'sh_portal_locale';
 export const LOCALE_RELOAD_GUARD_KEY = 'sh_locale_reload_guard';
+/** Full app path (+ query/hash) to restore after a locale bundle reload. */
+export const LOCALE_RETURN_PATH_KEY = 'sh_locale_return_path';
 export const DEFAULT_LOGIN_LOCALE = 'es-MX';
 export const X_LANGUAGE_HEADER = 'X-Language';
 
@@ -60,6 +62,7 @@ export class LocaleService {
   constructor() {
     this.migrateLegacyLocaleStorage();
     this.normalizeLegacyLocaleUrl();
+    this.restoreReturnPathIfNeeded();
   }
 
   getLanguageHeader(): string {
@@ -98,7 +101,7 @@ export class LocaleService {
   changePortalLanguage(portalLanguageId: number, locale: string): void {
     this.portalLanguageId.set(portalLanguageId);
     this.persistLocale(locale);
-    window.location.reload();
+    this.reloadKeepingCurrentPath();
   }
 
   needsLocaleReload(locale?: string | null): boolean {
@@ -115,17 +118,51 @@ export class LocaleService {
     const normalized = normalizeStoredLocale(locale);
     sessionStorage.setItem(LOCALE_RELOAD_GUARD_KEY, normalized);
     this.persistLocale(normalized);
-    window.location.reload();
+    this.reloadKeepingCurrentPath();
   }
 
   /** Clears locale for logout — next user gets language from auth/me. */
   clearLocalePreference(): void {
     sessionStorage.removeItem(LOCALE_SESSION_KEY);
     sessionStorage.removeItem(LOCALE_RELOAD_GUARD_KEY);
+    sessionStorage.removeItem(LOCALE_RETURN_PATH_KEY);
     localStorage.removeItem(LOCALE_SESSION_KEY);
     this.portalLanguageId.set(null);
     this.activeLocale.set(DEFAULT_LOGIN_LOCALE);
     this.clearLocaleCookie();
+  }
+
+  /** Current SPA path without legacy locale prefixes. */
+  currentAppUrl(): string {
+    return (
+      this.normalizeAppPath(window.location.pathname) +
+      window.location.search +
+      window.location.hash
+    );
+  }
+
+  private reloadKeepingCurrentPath(): void {
+    const returnUrl = this.currentAppUrl() || '/home';
+    sessionStorage.setItem(LOCALE_RETURN_PATH_KEY, returnUrl);
+    window.location.assign(returnUrl);
+  }
+
+  /**
+   * After a locale bundle switch, land back on the URL that was active.
+   * Clears the guard before navigating to avoid loops.
+   */
+  private restoreReturnPathIfNeeded(): void {
+    const saved = sessionStorage.getItem(LOCALE_RETURN_PATH_KEY);
+    if (!saved) {
+      return;
+    }
+    const current = this.currentAppUrl();
+    if (current === saved) {
+      sessionStorage.removeItem(LOCALE_RETURN_PATH_KEY);
+      return;
+    }
+    sessionStorage.removeItem(LOCALE_RETURN_PATH_KEY);
+    window.location.replace(saved);
   }
 
   private migrateLegacyLocaleStorage(): void {
