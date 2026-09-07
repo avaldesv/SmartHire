@@ -384,8 +384,8 @@ export class RequisitionFormConfigComponent implements OnInit {
     this.ensureCoverageTypes(config.countryId).subscribe(() => {
       this.openingEditor = false;
       const ref = this.dialog.open(RequisitionFormConfigDialogComponent, {
-        width: '1100px',
-        maxWidth: '95vw',
+        width: '1200px',
+        maxWidth: '96vw',
         maxHeight: '92vh',
         autoFocus: false,
         data: {
