@@ -24,7 +24,7 @@
 <mat-dialog-content class="sh-catalog-dialog-body documents-dialog-body">
   @if (loading) {
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
-  } @else if (rows.length === 0) {
+  } @else if (total === 0 && rows.length === 0) {
     <p class="empty-msg">{{ labels.empty }}</p>
   } @else {
     @if (showComplianceCard()) {
@@ -229,6 +229,12 @@
         <tr mat-header-row *matHeaderRowDef="columns; sticky: true"></tr>
         <tr mat-row *matRowDef="let row; columns: columns" [class]="rowClass(row)"></tr>
       </table>
+      <sh-paginator
+        [length]="total"
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+        (page)="onPage($event)"
+      />
     </div>
   }
 </mat-dialog-content>

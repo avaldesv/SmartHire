@@ -520,7 +520,9 @@ a:hover { text-decoration: underline; }
 }
 
 .sh-candidate-documents-dialog-panel .mat-mdc-dialog-actions.documents-dialog-actions {
+  display: flex !important;
   justify-content: flex-end !important;
+  width: 100% !important;
 }
 
 /* Structural gap — survives Material zeroing content padding-top */

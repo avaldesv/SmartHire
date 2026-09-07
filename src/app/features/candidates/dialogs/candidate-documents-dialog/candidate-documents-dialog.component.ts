@@ -28,8 +28,8 @@ import {
   CANDIDATE_DOCS_COL_STATUS,
   CANDIDATE_DOCS_COL_TYPE,
   CANDIDATE_DOCS_COL_VALIDATION,
-  CANDIDATE_DOCS_DIALOG_CLOSE,
   CANDIDATE_DOCS_DIALOG_EMPTY,
+  CANDIDATE_DOCS_INVALIDATE_CANCEL,
   CANDIDATE_DOCS_DIALOG_TITLE,
   CANDIDATE_DOCS_DOWNLOAD,
   CANDIDATE_DOCS_EM_DASH,
@@ -44,7 +44,6 @@ import {
   CANDIDATE_DOCS_NO_REQUIREMENTS,
   CANDIDATE_DOCS_STATUS_EXTRACTED,
   CANDIDATE_DOCS_SUCCESS_VALIDATE,
-  CANDIDATE_DOCS_SUMMARY_HEADLINE,
   CANDIDATE_DOCS_SUMMARY_MISSING_BADGE,
   CANDIDATE_DOCS_SUMMARY_PENDING,
   CANDIDATE_DOCS_UPLOAD,
@@ -58,9 +57,12 @@ import {
   CANDIDATE_DOCS_VALIDATION_NOT_VALIDATED,
   CANDIDATE_DOCS_VALIDATION_PENDING,
   CANDIDATE_DOCS_VALIDATION_VALIDATED,
+  candidateDocumentsDeliveredCount,
   candidateDocumentsHeaderSubtitle,
   candidateDocumentsSizeLabel,
 } from '../../../../core/i18n/candidate-documents-dialog-labels';
+import { ShPaginatorComponent } from '../../../../shared/components/paginator/sh-paginator.component';
+import { PageEvent } from '@angular/material/paginator';
 import { CandidateDocumentApiService } from '../../../../core/services/candidate-document-api.service';
 import { PermissionService } from '../../../../core/services/permission.service';
 import { ApplicationDocumentsSummary, CandidateDocumentListItem } from '../../../../shared/models/candidate-document.model';
@@ -103,6 +105,7 @@ export function candidateDocumentsDialogConfig(extra: MatDialogConfig = {}): Mat
     MatMenuModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
+    ShPaginatorComponent,
   ],
   templateUrl: './candidate-documents-dialog.component.html',
   styleUrl: './candidate-documents-dialog.component.scss',
@@ -119,7 +122,7 @@ export class CandidateDocumentsDialogComponent implements OnInit, OnDestroy {
 
   readonly labels = {
     title: CANDIDATE_DOCS_DIALOG_TITLE,
-    close: CANDIDATE_DOCS_DIALOG_CLOSE,
+    close: CANDIDATE_DOCS_INVALIDATE_CANCEL,
     empty: CANDIDATE_DOCS_DIALOG_EMPTY,
     colType: CANDIDATE_DOCS_COL_TYPE,
     colFile: CANDIDATE_DOCS_COL_FILE,
@@ -152,6 +155,9 @@ export class CandidateDocumentsDialogComponent implements OnInit, OnDestroy {
   pendingUploadTypeId: number | null = null;
   rows: CandidateDocumentListItem[] = [];
   summary: ApplicationDocumentsSummary | null = null;
+  total = 0;
+  pageIndex = 0;
+  pageSize = 10;
   private extractReloadTimers: ReturnType<typeof setTimeout>[] = [];
 
   readonly columns = [
@@ -193,7 +199,10 @@ export class CandidateDocumentsDialogComponent implements OnInit, OnDestroy {
     if (this.summary.missingCount === 0) {
       return CANDIDATE_DOCS_ALL_DELIVERED;
     }
-    return `${this.summary.uploadedRequiredCount} de ${this.summary.requiredCount} ${CANDIDATE_DOCS_SUMMARY_HEADLINE}`;
+    return candidateDocumentsDeliveredCount(
+      this.summary.uploadedRequiredCount,
+      this.summary.requiredCount,
+    );
   }
 
   summarySubline(): string | null {
@@ -201,7 +210,10 @@ export class CandidateDocumentsDialogComponent implements OnInit, OnDestroy {
       return null;
     }
     if (this.summary.missingCount === 0) {
-      return `${this.summary.uploadedRequiredCount} de ${this.summary.requiredCount} ${CANDIDATE_DOCS_SUMMARY_HEADLINE}`;
+      return candidateDocumentsDeliveredCount(
+        this.summary.uploadedRequiredCount,
+        this.summary.requiredCount,
+      );
     }
     return `${this.summary.missingCount} ${CANDIDATE_DOCS_SUMMARY_PENDING}`;
   }
@@ -233,9 +245,10 @@ export class CandidateDocumentsDialogComponent implements OnInit, OnDestroy {
     if (!silent) {
       this.loading = true;
     }
-    this.documentApi.listForApplication(this.data.applicationId).subscribe({
+    this.documentApi.listForApplication(this.data.applicationId, this.pageIndex, this.pageSize).subscribe({
       next: (res) => {
-        this.rows = res.items;
+        this.rows = [...(res.items ?? [])];
+        this.total = res.total;
         this.summary = res.summary;
         this.loading = false;
       },
@@ -244,6 +257,12 @@ export class CandidateDocumentsDialogComponent implements OnInit, OnDestroy {
         this.feedback.showApiError(err, { fallbackMessage: CANDIDATE_DOCS_ERRORS_LIST });
       },
     });
+  }
+
+  onPage(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.load(true);
   }
 
   private scheduleExtractReloads(): void {
@@ -409,7 +428,7 @@ export class CandidateDocumentsDialogComponent implements OnInit, OnDestroy {
       next: () => {
         this.uploadingTypeId = null;
         this.feedback.showSuccess(CANDIDATE_DOCS_UPLOAD_SUCCESS);
-        this.load();
+        this.load(true);
         this.scheduleExtractReloads();
       },
       error: (err) => {
