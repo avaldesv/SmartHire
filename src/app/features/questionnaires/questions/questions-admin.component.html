@@ -1,26 +1,28 @@
-@if (canCreate()) {
-  <div class="toolbar">
-    <button mat-flat-button color="primary" type="button" (click)="openCreate()">
-      <mat-icon>add</mat-icon> {{ newButton }}
-    </button>
-    <sh-questionnaire-import-export-actions
-      class="toolbar-csv-actions"
-      [catalogKey]="csvQuestions.catalogKey"
-      [catalogLabel]="csvQuestions.label"
-      (importComplete)="load()"
-    />
-    <sh-questionnaire-import-export-actions
-      [catalogKey]="csvQuestionOptions.catalogKey"
-      [catalogLabel]="csvQuestionOptions.label"
-      (importComplete)="load()"
-    />
-    <sh-questionnaire-import-export-actions
-      [catalogKey]="csvQuestionTags.catalogKey"
-      [catalogLabel]="csvQuestionTags.label"
-      (importComplete)="load()"
-    />
-  </div>
-}
+<div class="sh-list-page-header">
+  <h3>{{ pageTitle }}</h3>
+  @if (canCreate()) {
+    <div class="sh-list-page-header__actions">
+      <button mat-flat-button color="primary" type="button" (click)="openCreate()">
+        <mat-icon>add</mat-icon> {{ newButton }}
+      </button>
+      <sh-questionnaire-import-export-actions
+        [catalogKey]="csvQuestions.catalogKey"
+        [catalogLabel]="csvQuestions.label"
+        (importComplete)="load()"
+      />
+      <sh-questionnaire-import-export-actions
+        [catalogKey]="csvQuestionOptions.catalogKey"
+        [catalogLabel]="csvQuestionOptions.label"
+        (importComplete)="load()"
+      />
+      <sh-questionnaire-import-export-actions
+        [catalogKey]="csvQuestionTags.catalogKey"
+        [catalogLabel]="csvQuestionTags.label"
+        (importComplete)="load()"
+      />
+    </div>
+  }
+</div>
 
 <form [formGroup]="filterForm" class="sh-filters sh-card" (ngSubmit)="applyFilters()">
   <div class="filter-fields">

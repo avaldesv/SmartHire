@@ -5820,8 +5820,8 @@
         <target>Delete category "<x id="name" equiv-text="name" />"? This action cannot be undone.</target>
       </trans-unit>
       <trans-unit id="questionnaires.tags.newButton" datatype="html">
-        <source>Nuevo tag</source>
-        <target>New tag</target>
+        <source>Nuevo Pregunta tag</source>
+        <target>New question tag</target>
       </trans-unit>
       <trans-unit id="questionnaires.tags.newTitle" datatype="html">
         <source>Nuevo tag</source>

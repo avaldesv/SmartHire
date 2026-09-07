@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { QUESTIONNAIRES_QUESTIONNAIRES_TITLE } from '../../../core/i18n/questionnaires-labels';
 import { QuestionnairesAdminComponent } from './questionnaires-admin.component';
 
 @Component({
@@ -9,6 +8,4 @@ import { QuestionnairesAdminComponent } from './questionnaires-admin.component';
   templateUrl: './questionnaires-shell.component.html',
   styleUrl: './questionnaires-shell.component.scss',
 })
-export class QuestionnairesShellComponent {
-  readonly title = QUESTIONNAIRES_QUESTIONNAIRES_TITLE;
-}
+export class QuestionnairesShellComponent {}

@@ -43,6 +43,7 @@ import {
   qexamDeleteConfirm,
   qexamStatusLabel,
 } from '../../../core/i18n/questionnaire-exams-labels';
+import { QUESTIONNAIRES_EXAMS_TITLE } from '../../../core/i18n/questionnaires-labels';
 import { PermissionService } from '../../../core/services/permission.service';
 import { QuestionnaireExamApiService } from '../../../core/services/questionnaire-exam-api.service';
 import { QuestionnaireQuestionnaireApiService } from '../../../core/services/questionnaire-questionnaire-api.service';
@@ -101,6 +102,7 @@ export class ExamsAdminComponent implements OnInit {
   readonly columns = ['name', 'questionnaire', 'status', 'questions', 'attempts', 'scope', 'active', 'actions'];
 
   readonly newButton = QEXAM_NEW_BUTTON;
+  readonly pageTitle = QUESTIONNAIRES_EXAMS_TITLE;
   readonly emptyLabel = QEXAM_EMPTY;
   readonly filterName = QEXAM_FILTER_NAME;
   readonly filterQuestionnaire = QEXAM_FILTER_QUESTIONNAIRE;

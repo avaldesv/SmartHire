@@ -42,6 +42,7 @@ import {
   QCAT_SUCCESS_SAVED,
   qcatDeleteConfirm,
 } from '../../../core/i18n/questionnaire-categories-labels';
+import { QUESTIONNAIRES_CATEGORIES_TITLE } from '../../../core/i18n/questionnaires-labels';
 import { PermissionService } from '../../../core/services/permission.service';
 import { QuestionnaireKnowledgeCategoryApiService } from '../../../core/services/questionnaire-knowledge-category-api.service';
 import { QUESTIONNAIRE_CSV_PANELS } from '../../../core/questionnaire/questionnaire-import-export.registry';
@@ -99,6 +100,7 @@ export class KnowledgeCategoriesAdminComponent implements OnInit {
   readonly columns = ['name', 'parent', 'description', 'scope', 'active', 'actions'];
 
   readonly newButton = QCAT_NEW_BUTTON;
+  readonly pageTitle = QUESTIONNAIRES_CATEGORIES_TITLE;
   readonly newTitle = QCAT_NEW_TITLE;
   readonly editTitle = QCAT_EDIT_TITLE;
   readonly fieldName = QCAT_FIELD_NAME;

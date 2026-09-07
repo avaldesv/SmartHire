@@ -5823,8 +5823,8 @@
         <target>¿Eliminar la categoría "<x id="name" equiv-text="name" />"? Esta acción no se puede deshacer.</target>
       </trans-unit>
       <trans-unit id="questionnaires.tags.newButton" datatype="html">
-        <source>Nuevo tag</source>
-        <target>Nuevo tag</target>
+        <source>Nuevo Pregunta tag</source>
+        <target>Nuevo Pregunta tag</target>
       </trans-unit>
       <trans-unit id="questionnaires.tags.newTitle" datatype="html">
         <source>Nuevo tag</source>

@@ -43,6 +43,8 @@ import {
   qquestDeleteConfirm,
   qquestTypeLabel,
 } from '../../../core/i18n/questionnaire-questions-labels';
+import { QUESTIONNAIRES_QUESTIONS_TITLE } from '../../../core/i18n/questionnaires-labels';
+import { catalogDialogConfig } from '../../../core/dialog/catalog-dialog.constants';
 import { PermissionService } from '../../../core/services/permission.service';
 import { QuestionnaireKnowledgeCategoryApiService } from '../../../core/services/questionnaire-knowledge-category-api.service';
 import { QuestionnaireV2QuestionApiService } from '../../../core/services/questionnaire-v2-question-api.service';
@@ -108,6 +110,7 @@ export class QuestionsAdminComponent implements OnInit {
   readonly textPreviewLength = 60;
 
   readonly newButton = QQUEST_NEW_BUTTON;
+  readonly pageTitle = QUESTIONNAIRES_QUESTIONS_TITLE;
   readonly emptyLabel = QQUEST_EMPTY;
   readonly filterSearch = QQUEST_FILTER_TEXT;
   readonly filterCategory = QQUEST_FILTER_CATEGORY;
@@ -242,7 +245,7 @@ export class QuestionsAdminComponent implements OnInit {
   private openDialog(data: QuestionFormDialogData): void {
     const ref = this.dialog.open<QuestionFormDialogComponent, QuestionFormDialogData, boolean>(
       QuestionFormDialogComponent,
-      { width: '760px', maxWidth: '95vw', data },
+      catalogDialogConfig('760px', { data }),
     );
     ref
       .afterClosed()
