@@ -9662,6 +9662,46 @@
         <source>Selecciona al menos un candidato</source>
         <target>Selecciona al menos un candidato</target>
       </trans-unit>
+      <trans-unit id="common.search" datatype="html">
+        <source>Buscar</source>
+        <target>Buscar</target>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationType.value.CLIENT" datatype="html">
+        <source>Cliente</source>
+        <target>Cliente</target>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.value.PROFILE_CHANGE" datatype="html">
+        <source>Cambio de perfil</source>
+        <target>Cambio de perfil</target>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.value.CONTRACT_CANCEL_NONPAYMENT" datatype="html">
+        <source>Cancelación de contrato por falta de pago</source>
+        <target>Cancelación de contrato por falta de pago</target>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.value.PROJECT_CANCEL" datatype="html">
+        <source>Cancelación de proyecto</source>
+        <target>Cancelación de proyecto</target>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.value.LACK_OF_FEEDBACK" datatype="html">
+        <source>Falta de retroalimentación</source>
+        <target>Falta de retroalimentación</target>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.value.PERM_FLEX" datatype="html">
+        <source>PERM FLEX</source>
+        <target>PERM FLEX</target>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.value.PROJECT_TO_SUCCESS" datatype="html">
+        <source>Proyecto al Exito</source>
+        <target>Proyecto al Exito</target>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.value.CLIENT_REFERRAL" datatype="html">
+        <source>Referido del cliente</source>
+        <target>Referido del cliente</target>
+      </trans-unit>
+      <trans-unit id="catalogs.cancellationReason.value.PROJECT_POSTPONED" datatype="html">
+        <source>Se pospone el proyecto</source>
+        <target>Se pospone el proyecto</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

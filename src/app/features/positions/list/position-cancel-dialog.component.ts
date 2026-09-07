@@ -42,6 +42,10 @@ import {
 } from '../../../core/i18n/positions-labels';
 import { CatalogCancellationReasonService } from '../../../core/services/catalog-cancellation-reason.service';
 import { CatalogCancellationTypeService } from '../../../core/services/catalog-cancellation-type.service';
+import {
+  cancellationReasonDisplayName,
+  cancellationTypeDisplayName,
+} from '../../../core/i18n/catalog-cancellation-labels';
 import { PositionService } from '../../../core/services/position.service';
 import { CatalogCancellationReason } from '../../../shared/models/catalog-cancellation-reason.model';
 import { CatalogCancellationType } from '../../../shared/models/catalog-cancellation-type.model';
@@ -147,6 +151,14 @@ export class PositionCancelDialogComponent implements OnInit {
   impact: PositionCancellationImpact | null = null;
   types: CatalogCancellationType[] = [];
   reasons: CatalogCancellationReason[] = [];
+
+  cancellationTypeOptionLabel(type: CatalogCancellationType): string {
+    return cancellationTypeDisplayName(type.code, type.name);
+  }
+
+  cancellationReasonOptionLabel(reason: CatalogCancellationReason): string {
+    return cancellationReasonDisplayName(reason.code, reason.name);
+  }
 
   readonly form = this.fb.nonNullable.group({
     cancellationTypeId: [null as number | null, Validators.required],

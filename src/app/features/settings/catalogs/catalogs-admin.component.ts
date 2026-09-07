@@ -215,6 +215,10 @@ import {
 } from '../../../core/i18n/catalog-messages-labels';
 
 import { catalogPanelUi } from '../../../core/i18n/catalog-panel-ui-labels';
+import {
+  cancellationReasonDisplayName,
+  cancellationTypeDisplayName,
+} from '../../../core/i18n/catalog-cancellation-labels';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
@@ -2293,7 +2297,16 @@ export class CatalogsAdminComponent implements OnInit {
   }
 
   cancellationTypeName(typeId: number): string {
-    return this.cancellationTypeOptions.find((t) => t.id === typeId)?.name ?? String(typeId);
+    const type = this.cancellationTypeOptions.find((t) => t.id === typeId);
+    return cancellationTypeDisplayName(type?.code, type?.name ?? String(typeId));
+  }
+
+  cancellationTypeOptionLabel(type: CatalogCancellationType): string {
+    return cancellationTypeDisplayName(type.code, type.name);
+  }
+
+  cancellationReasonOptionLabel(row: CatalogCancellationReason): string {
+    return cancellationReasonDisplayName(row.code, row.name);
   }
 
   loadCoverageCategorys(): void {
