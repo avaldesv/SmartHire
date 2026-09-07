@@ -5842,6 +5842,14 @@
         <source>Descripción</source>
         <target>Descripción</target>
       </trans-unit>
+      <trans-unit id="questionnaires.tags.filter.search" datatype="html">
+        <source>Buscar</source>
+        <target>Buscar</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.tags.filter.clear" datatype="html">
+        <source>Limpiar</source>
+        <target>Limpiar</target>
+      </trans-unit>
       <trans-unit id="questionnaires.tags.empty" datatype="html">
         <source>No hay tags registrados</source>
         <target>No hay tags registrados</target>
@@ -5883,8 +5891,8 @@
         <target>Ámbito</target>
       </trans-unit>
       <trans-unit id="questionnaires.exams.newButton" datatype="html">
-        <source>Nuevo examen</source>
-        <target>Nuevo examen</target>
+        <source>Nuevo Examen</source>
+        <target>Nuevo Examen</target>
       </trans-unit>
       <trans-unit id="questionnaires.exams.empty" datatype="html">
         <source>No hay exámenes registrados</source>
@@ -5951,8 +5959,8 @@
         <target>Archivado</target>
       </trans-unit>
       <trans-unit id="questionnaires.exams.dialog.newTitle" datatype="html">
-        <source>Nuevo examen</source>
-        <target>Nuevo examen</target>
+        <source>Nuevo Examen</source>
+        <target>Nuevo Examen</target>
       </trans-unit>
       <trans-unit id="questionnaires.exams.dialog.editTitle" datatype="html">
         <source>Editar examen</source>
