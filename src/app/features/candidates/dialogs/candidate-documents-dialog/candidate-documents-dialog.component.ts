@@ -28,8 +28,8 @@ import {
   CANDIDATE_DOCS_COL_STATUS,
   CANDIDATE_DOCS_COL_TYPE,
   CANDIDATE_DOCS_COL_VALIDATION,
+  CANDIDATE_DOCS_DIALOG_CLOSE,
   CANDIDATE_DOCS_DIALOG_EMPTY,
-  CANDIDATE_DOCS_INVALIDATE_CANCEL,
   CANDIDATE_DOCS_DIALOG_TITLE,
   CANDIDATE_DOCS_DOWNLOAD,
   CANDIDATE_DOCS_EM_DASH,
@@ -122,7 +122,7 @@ export class CandidateDocumentsDialogComponent implements OnInit, OnDestroy {
 
   readonly labels = {
     title: CANDIDATE_DOCS_DIALOG_TITLE,
-    close: CANDIDATE_DOCS_INVALIDATE_CANCEL,
+    close: CANDIDATE_DOCS_DIALOG_CLOSE,
     empty: CANDIDATE_DOCS_DIALOG_EMPTY,
     colType: CANDIDATE_DOCS_COL_TYPE,
     colFile: CANDIDATE_DOCS_COL_FILE,
@@ -158,7 +158,13 @@ export class CandidateDocumentsDialogComponent implements OnInit, OnDestroy {
   total = 0;
   pageIndex = 0;
   pageSize = 10;
-  private extractReloadTimers: ReturnType<typeof setTimeout>[] = [];
+  /** Document ids awaiting extract (UPLOADED → EXTRACTED/ERROR). */
+  private pendingExtractDocumentIds = new Set<number>();
+  private extractPollTimer: ReturnType<typeof setTimeout> | null = null;
+  private extractPollStartedAt = 0;
+
+  private static readonly EXTRACT_POLL_INTERVAL_MS = 5_000;
+  private static readonly EXTRACT_POLL_TIMEOUT_MS = 180_000;
 
   readonly columns = [
     'documentTypeName',
@@ -177,7 +183,7 @@ export class CandidateDocumentsDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.clearExtractReloadTimers();
+    this.stopExtractPolling();
   }
 
   get canUploadDocuments(): boolean {
@@ -241,7 +247,7 @@ export class CandidateDocumentsDialogComponent implements OnInit, OnDestroy {
     return PROGRESS_RING_CIRCUMFERENCE * (1 - ratio);
   }
 
-  load(silent = false): void {
+  load(silent = false, options?: { afterExtractPoll?: boolean }): void {
     if (!silent) {
       this.loading = true;
     }
@@ -251,10 +257,16 @@ export class CandidateDocumentsDialogComponent implements OnInit, OnDestroy {
         this.total = res.total;
         this.summary = res.summary;
         this.loading = false;
+        if (options?.afterExtractPoll || this.pendingExtractDocumentIds.size > 0) {
+          this.reconcilePendingExtracts();
+        }
       },
       error: (err) => {
         this.loading = false;
         this.feedback.showApiError(err, { fallbackMessage: CANDIDATE_DOCS_ERRORS_LIST });
+        if (options?.afterExtractPoll) {
+          this.scheduleNextExtractPoll();
+        }
       },
     });
   }
@@ -265,18 +277,63 @@ export class CandidateDocumentsDialogComponent implements OnInit, OnDestroy {
     this.load(true);
   }
 
-  private scheduleExtractReloads(): void {
-    this.clearExtractReloadTimers();
-    for (const delayMs of [12_000, 25_000]) {
-      this.extractReloadTimers.push(setTimeout(() => this.load(true), delayMs));
+  private startExtractPolling(documentId: number | null | undefined): void {
+    if (documentId == null || documentId <= 0) {
+      return;
+    }
+    const wasIdle = this.pendingExtractDocumentIds.size === 0 && this.extractPollTimer == null;
+    this.pendingExtractDocumentIds.add(documentId);
+    if (wasIdle) {
+      this.extractPollStartedAt = Date.now();
+      this.scheduleNextExtractPoll();
     }
   }
 
-  private clearExtractReloadTimers(): void {
-    for (const timer of this.extractReloadTimers) {
-      clearTimeout(timer);
+  private scheduleNextExtractPoll(): void {
+    if (this.pendingExtractDocumentIds.size === 0) {
+      this.stopExtractPolling();
+      return;
     }
-    this.extractReloadTimers = [];
+    if (Date.now() - this.extractPollStartedAt >= CandidateDocumentsDialogComponent.EXTRACT_POLL_TIMEOUT_MS) {
+      this.stopExtractPolling();
+      return;
+    }
+    if (this.extractPollTimer != null) {
+      clearTimeout(this.extractPollTimer);
+    }
+    this.extractPollTimer = setTimeout(() => {
+      this.extractPollTimer = null;
+      this.load(true, { afterExtractPoll: true });
+    }, CandidateDocumentsDialogComponent.EXTRACT_POLL_INTERVAL_MS);
+  }
+
+  private reconcilePendingExtracts(): void {
+    if (this.pendingExtractDocumentIds.size === 0) {
+      return;
+    }
+    const byId = new Map(
+      this.rows.filter((r) => r.id != null).map((r) => [r.id as number, r]),
+    );
+    for (const id of [...this.pendingExtractDocumentIds]) {
+      const row = byId.get(id);
+      if (!row) {
+        // Not on current page — keep polling until timeout.
+        continue;
+      }
+      const status = (row.status ?? '').toUpperCase();
+      if (status !== 'UPLOADED' || row.issueDate != null || row.dueDate != null) {
+        this.pendingExtractDocumentIds.delete(id);
+      }
+    }
+    this.scheduleNextExtractPoll();
+  }
+
+  private stopExtractPolling(): void {
+    if (this.extractPollTimer != null) {
+      clearTimeout(this.extractPollTimer);
+      this.extractPollTimer = null;
+    }
+    this.pendingExtractDocumentIds.clear();
   }
 
   sizeLabel(bytes: number | null | undefined): string {
@@ -425,11 +482,12 @@ export class CandidateDocumentsDialogComponent implements OnInit, OnDestroy {
     }
     this.uploadingTypeId = documentTypeId;
     this.documentApi.uploadForApplication(this.data.applicationId, documentTypeId, file).subscribe({
-      next: () => {
+      next: (uploaded) => {
         this.uploadingTypeId = null;
         this.feedback.showSuccess(CANDIDATE_DOCS_UPLOAD_SUCCESS);
+        this.pageIndex = 0;
         this.load(true);
-        this.scheduleExtractReloads();
+        this.startExtractPolling(uploaded?.id);
       },
       error: (err) => {
         this.uploadingTypeId = null;
