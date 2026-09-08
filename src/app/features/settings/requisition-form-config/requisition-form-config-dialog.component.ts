@@ -22,6 +22,7 @@ import {
   REQ_FORM_CONFIG_MOVE_DOWN,
   REQ_FORM_CONFIG_MOVE_UP,
   REQ_FORM_CONFIG_NAME_REQUIRED,
+  REQ_FORM_CONFIG_NEW_CONFIG_TITLE_PREFIX,
   REQ_FORM_CONFIG_NO_RULES,
   REQ_FORM_CONFIG_PUBLISH,
   REQ_FORM_CONFIG_PUBLISH_ERROR,
@@ -90,6 +91,8 @@ export interface RequisitionFormConfigDialogData {
   config: RequisitionFormConfigDetail;
   countryName: string;
   coverageTypeName: string;
+  /** Create flow: start with empty name and "Nueva configuración: …" title. */
+  isNewConfig?: boolean;
 }
 
 interface SelectedFieldRef {
@@ -128,6 +131,7 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
   readonly treeTitle = REQ_FORM_CONFIG_TREE_TITLE;
   readonly editDraftTitle = REQ_FORM_CONFIG_EDIT_DRAFT_TITLE;
   readonly viewConfigTitle = REQ_FORM_CONFIG_VIEW_CONFIG_TITLE;
+  readonly newConfigTitlePrefix = REQ_FORM_CONFIG_NEW_CONFIG_TITLE_PREFIX;
   readonly detailTitle = REQ_FORM_CONFIG_DETAIL_TITLE;
   readonly fieldVisible = REQ_FORM_CONFIG_FIELD_VISIBLE;
   readonly fieldRequired = REQ_FORM_CONFIG_FIELD_REQUIRED;
@@ -180,6 +184,7 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
   publishing = false;
   changed = false;
   configName = '';
+  private newConfigNameInitialized = false;
   config: RequisitionFormConfigDetail | null = null;
   fieldDefs: RequisitionFormFieldDef[] = [];
   steps: RequisitionFormStepConfig[] = [];
@@ -221,6 +226,13 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
     }
     if (this.isReadOnly()) {
       return this.viewConfigTitle;
+    }
+    if (this.data.isNewConfig) {
+      const name = this.configName.trim();
+      const status = this.statusLabelFor(this.config.status);
+      return name
+        ? `${this.newConfigTitlePrefix}: ${name} v${this.config.version} (${status})`
+        : `${this.newConfigTitlePrefix}: v${this.config.version} (${status})`;
     }
     return this.editDraftTitle;
   }
@@ -528,7 +540,12 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
 
   private applyConfig(detail: RequisitionFormConfigDetail): void {
     this.config = detail;
-    this.configName = detail.name ?? '';
+    if (this.data.isNewConfig && !this.newConfigNameInitialized) {
+      this.configName = '';
+      this.newConfigNameInitialized = true;
+    } else {
+      this.configName = detail.name ?? '';
+    }
     const catalog = buildFullCatalogState(this.fieldDefs, detail.steps ?? [], detail.fields ?? []);
     this.steps = catalog.steps;
     this.fields = catalog.fields;
