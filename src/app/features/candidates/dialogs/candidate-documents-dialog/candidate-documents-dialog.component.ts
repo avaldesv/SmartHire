@@ -36,6 +36,7 @@ import {
   CANDIDATE_DOCS_ERRORS_DOWNLOAD,
   CANDIDATE_DOCS_ERRORS_LIST,
   CANDIDATE_DOCS_ERRORS_VALIDATE,
+  CANDIDATE_DOCS_EXTRACT_PENDING,
   CANDIDATE_DOCS_MARK_AS_NOT_VALID,
   CANDIDATE_DOCS_MARK_AS_VALIDATED,
   CANDIDATE_DOCS_MARK_NOT_VALIDATED,
@@ -165,6 +166,8 @@ export class CandidateDocumentsDialogComponent implements OnInit, OnDestroy {
 
   private static readonly EXTRACT_POLL_INTERVAL_MS = 5_000;
   private static readonly EXTRACT_POLL_TIMEOUT_MS = 180_000;
+
+  readonly extractPendingLabel = CANDIDATE_DOCS_EXTRACT_PENDING;
 
   readonly columns = [
     'documentTypeName',
@@ -340,6 +343,10 @@ export class CandidateDocumentsDialogComponent implements OnInit, OnDestroy {
     return candidateDocumentsSizeLabel(bytes);
   }
 
+  isExtractPending(row: CandidateDocumentListItem): boolean {
+    return row.id != null && this.pendingExtractDocumentIds.has(row.id);
+  }
+
   statusLabel(status: string | null | undefined): string {
     if (!status) {
       return this.labels.emDash;
@@ -348,6 +355,27 @@ export class CandidateDocumentsDialogComponent implements OnInit, OnDestroy {
       return CANDIDATE_DOCS_STATUS_EXTRACTED;
     }
     return status;
+  }
+
+  statusDisplay(row: CandidateDocumentListItem): string {
+    if (this.isExtractPending(row)) {
+      return CANDIDATE_DOCS_EXTRACT_PENDING;
+    }
+    return this.statusLabel(row.status);
+  }
+
+  issueDateDisplay(row: CandidateDocumentListItem): 'pending' | 'value' | 'empty' {
+    if (this.isExtractPending(row) && !row.issueDate) {
+      return 'pending';
+    }
+    return row.issueDate ? 'value' : 'empty';
+  }
+
+  dueDateDisplay(row: CandidateDocumentListItem): 'pending' | 'value' | 'empty' {
+    if (this.isExtractPending(row) && !row.dueDate) {
+      return 'pending';
+    }
+    return row.dueDate ? 'value' : 'empty';
   }
 
   isMissingRow(row: CandidateDocumentListItem): boolean {

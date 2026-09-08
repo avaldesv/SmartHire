@@ -13,6 +13,7 @@ export interface CandidateDocumentListItem {
   isValidated?: boolean | null;
   rejectionReason?: string | null;
   validatedAt?: string | null;
+  validationSource?: string | null;
   isRequiredForPosition?: boolean | null;
   isMissing?: boolean | null;
 }
