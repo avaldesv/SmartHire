@@ -1796,7 +1796,7 @@
       </trans-unit>
       <trans-unit id="candidateDocuments.col.status" datatype="html">
         <source>Estado</source>
-        <target>State</target>
+        <target>Status</target>
       </trans-unit>
       <trans-unit id="candidateDocuments.col.validation" datatype="html">
         <source>Validación</source>
@@ -1805,6 +1805,34 @@
       <trans-unit id="candidateDocuments.col.createdAt" datatype="html">
         <source>Fecha</source>
         <target>Date</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.col.issueDate" datatype="html">
+        <source>Emisión</source>
+        <target>Issue date</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.col.dueDate" datatype="html">
+        <source>Vencimiento</source>
+        <target>Due date</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.status.extracted" datatype="html">
+        <source>Extraído</source>
+        <target>Extracted</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.status.uploaded" datatype="html">
+        <source>Cargado</source>
+        <target>Uploaded</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.status.processing" datatype="html">
+        <source>Procesando</source>
+        <target>Processing</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.status.error" datatype="html">
+        <source>Error</source>
+        <target>Error</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.extract.pending" datatype="html">
+        <source>Pendiente</source>
+        <target>Pending</target>
       </trans-unit>
       <trans-unit id="candidateDocuments.col.actions" datatype="html">
         <source>Acciones</source>

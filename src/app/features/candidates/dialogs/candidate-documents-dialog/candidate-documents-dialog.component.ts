@@ -43,7 +43,10 @@ import {
   CANDIDATE_DOCS_MARK_VALIDATED,
   CANDIDATE_DOCS_MISSING_FILE,
   CANDIDATE_DOCS_NO_REQUIREMENTS,
+  CANDIDATE_DOCS_STATUS_ERROR,
   CANDIDATE_DOCS_STATUS_EXTRACTED,
+  CANDIDATE_DOCS_STATUS_PROCESSING,
+  CANDIDATE_DOCS_STATUS_UPLOADED,
   CANDIDATE_DOCS_SUCCESS_VALIDATE,
   CANDIDATE_DOCS_SUMMARY_MISSING_BADGE,
   CANDIDATE_DOCS_SUMMARY_PENDING,
@@ -351,10 +354,19 @@ export class CandidateDocumentsDialogComponent implements OnInit, OnDestroy {
     if (!status) {
       return this.labels.emDash;
     }
-    if (status.toUpperCase() === 'EXTRACTED') {
-      return CANDIDATE_DOCS_STATUS_EXTRACTED;
+    switch (status.toUpperCase()) {
+      case 'EXTRACTED':
+        return CANDIDATE_DOCS_STATUS_EXTRACTED;
+      case 'UPLOADED':
+        return CANDIDATE_DOCS_STATUS_UPLOADED;
+      case 'PROCESSING':
+        return CANDIDATE_DOCS_STATUS_PROCESSING;
+      case 'ERROR':
+      case 'FAILED':
+        return CANDIDATE_DOCS_STATUS_ERROR;
+      default:
+        return status;
     }
-    return status;
   }
 
   statusDisplay(row: CandidateDocumentListItem): string {
