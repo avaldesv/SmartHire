@@ -1806,6 +1806,34 @@
         <source>Fecha</source>
         <target>Fecha</target>
       </trans-unit>
+      <trans-unit id="candidateDocuments.col.issueDate" datatype="html">
+        <source>Emisión</source>
+        <target>Emisión</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.col.dueDate" datatype="html">
+        <source>Vencimiento</source>
+        <target>Vencimiento</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.status.extracted" datatype="html">
+        <source>Extraído</source>
+        <target>Extraído</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.status.uploaded" datatype="html">
+        <source>Cargado</source>
+        <target>Cargado</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.status.processing" datatype="html">
+        <source>Procesando</source>
+        <target>Procesando</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.status.error" datatype="html">
+        <source>Error</source>
+        <target>Error</target>
+      </trans-unit>
+      <trans-unit id="candidateDocuments.extract.pending" datatype="html">
+        <source>Pendiente</source>
+        <target>Pendiente</target>
+      </trans-unit>
       <trans-unit id="candidateDocuments.col.actions" datatype="html">
         <source>Acciones</source>
         <target>Acciones</target>

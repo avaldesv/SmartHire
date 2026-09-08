@@ -51,6 +51,9 @@ export function candidateDocumentsDeliveredCount(uploaded: number, required: num
   return $localize`:@@candidateDocuments.summary.deliveredCount:${uploaded}:uploaded: de ${required}:required: obligatorios entregados`;
 }
 export const CANDIDATE_DOCS_STATUS_EXTRACTED = $localize`:@@candidateDocuments.status.extracted:Extraído`;
+export const CANDIDATE_DOCS_STATUS_UPLOADED = $localize`:@@candidateDocuments.status.uploaded:Cargado`;
+export const CANDIDATE_DOCS_STATUS_PROCESSING = $localize`:@@candidateDocuments.status.processing:Procesando`;
+export const CANDIDATE_DOCS_STATUS_ERROR = $localize`:@@candidateDocuments.status.error:Error`;
 export const CANDIDATE_DOCS_HEADER_REQUISITION = $localize`:@@candidateDocuments.header.requisition:Requisición`;
 
 export function candidateDocumentsHeaderSubtitle(
