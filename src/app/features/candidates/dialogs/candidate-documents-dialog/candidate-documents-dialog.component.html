@@ -96,7 +96,16 @@
         </ng-container>
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef class="col-status">{{ labels.colStatus }}</th>
-          <td mat-cell *matCellDef="let row">{{ statusLabel(row.status) }}</td>
+          <td mat-cell *matCellDef="let row">
+            @if (isExtractPending(row)) {
+              <span class="validation-badge validation-badge--pending">
+                <mat-icon class="validation-badge__icon" aria-hidden="true">schedule</mat-icon>
+                {{ statusDisplay(row) }}
+              </span>
+            } @else {
+              {{ statusDisplay(row) }}
+            }
+          </td>
         </ng-container>
         <ng-container matColumnDef="validation">
           <th mat-header-cell *matHeaderCellDef class="col-validation">{{ labels.colValidation }}</th>
@@ -120,7 +129,12 @@
         <ng-container matColumnDef="issueDate">
           <th mat-header-cell *matHeaderCellDef class="col-date">{{ labels.colIssueDate }}</th>
           <td mat-cell *matCellDef="let row">
-            @if (row.issueDate) {
+            @if (issueDateDisplay(row) === 'pending') {
+              <span class="validation-badge validation-badge--pending">
+                <mat-icon class="validation-badge__icon" aria-hidden="true">schedule</mat-icon>
+                {{ extractPendingLabel }}
+              </span>
+            } @else if (issueDateDisplay(row) === 'value') {
               {{ row.issueDate | date:'dd/MM/yyyy' }}
             } @else {
               {{ labels.emDash }}
@@ -130,7 +144,12 @@
         <ng-container matColumnDef="dueDate">
           <th mat-header-cell *matHeaderCellDef class="col-date">{{ labels.colDueDate }}</th>
           <td mat-cell *matCellDef="let row">
-            @if (row.dueDate) {
+            @if (dueDateDisplay(row) === 'pending') {
+              <span class="validation-badge validation-badge--pending">
+                <mat-icon class="validation-badge__icon" aria-hidden="true">schedule</mat-icon>
+                {{ extractPendingLabel }}
+              </span>
+            } @else if (dueDateDisplay(row) === 'value') {
               {{ row.dueDate | date:'dd/MM/yyyy' }}
             } @else {
               {{ labels.emDash }}

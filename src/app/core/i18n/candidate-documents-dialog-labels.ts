@@ -17,6 +17,7 @@ export const CANDIDATE_DOCS_VALIDATE = $localize`:@@candidateDocuments.validate:
 export const CANDIDATE_DOCS_MARK_VALIDATED = $localize`:@@candidateDocuments.markValidated:Marcar validado`;
 export const CANDIDATE_DOCS_MARK_NOT_VALIDATED = $localize`:@@candidateDocuments.markNotValidated:Marcar no validado`;
 export const CANDIDATE_DOCS_VALIDATION_PENDING = $localize`:@@candidateDocuments.validation.pending:Pendiente`;
+export const CANDIDATE_DOCS_EXTRACT_PENDING = $localize`:@@candidateDocuments.extract.pending:Pendiente`;
 export const CANDIDATE_DOCS_VALIDATION_VALIDATED = $localize`:@@candidateDocuments.validation.validated:Validado`;
 export const CANDIDATE_DOCS_VALIDATION_NOT_VALIDATED = $localize`:@@candidateDocuments.validation.notValidated:No válido`;
 export const CANDIDATE_DOCS_MARK_AS_VALIDATED = $localize`:@@candidateDocuments.markAsValidated:Marcar como validado`;
