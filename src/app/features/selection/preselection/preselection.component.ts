@@ -15,35 +15,75 @@ import { catalogDialogConfig } from '../../../core/dialog/catalog-dialog.constan
 import { AppPermissions } from '../../../core/auth/app-permissions';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import {
+  PRESELECTION_ACTION_CANDIDATES_SUFFIX,
+  PRESELECTION_ACTION_PENDING_API,
   PRESELECTION_APPOINTMENT_SCHEDULED_TOOLTIP,
   PRESELECTION_APPOINTMENT_TOOLTIP,
   PRESELECTION_BULK_APPOINTMENT,
   PRESELECTION_BULK_CONTACT,
   PRESELECTION_BULK_CONTACT_CONFIRM,
   PRESELECTION_BULK_CONTACT_PARTIAL,
+  PRESELECTION_BULK_CONTACT_FAILED,
+  PRESELECTION_BULK_CONTACT_SENT,
   PRESELECTION_BULK_CONTACT_SUCCESS,
-  PRESELECTION_BULK_NONE_SELECTED,
+  PRESELECTION_BULK_ERROR,
   PRESELECTION_BULK_MARK_SELECTED,
+  PRESELECTION_BULK_MARK_SUCCESS,
+  PRESELECTION_BULK_NONE_SELECTED,
   PRESELECTION_BULK_RELEASE,
   PRESELECTION_BULK_RELEASE_ALL,
+  PRESELECTION_BULK_RELEASE_ALL_CONFIRM,
+  PRESELECTION_BULK_RELEASE_ALL_SUCCESS,
+  PRESELECTION_BULK_RELEASE_SUCCESS,
   PRESELECTION_CHANGE_STAGE,
   PRESELECTION_CHANGE_STAGE_TITLE,
   PRESELECTION_COL_APPOINTMENT,
-  PRESELECTION_COL_INTERVIEWED,
+  PRESELECTION_COL_CANDIDATE,
+  PRESELECTION_COL_COMPAT,
   PRESELECTION_COL_CONTACT,
+  PRESELECTION_COL_DOCS,
   PRESELECTION_COL_EVALUATION,
-  PRESELECTION_INTERVIEWED_ERROR,
-  PRESELECTION_INTERVIEWED_SUCCESS,
-  PRESELECTION_INTERVIEWED_TOOLTIP,
-  PRESELECTION_INTERVIEWED_DONE_TOOLTIP,
-  PRESELECTION_INTERVIEWED_UNMARK_SUCCESS,
+  PRESELECTION_COL_INTERVIEWED,
+  PRESELECTION_COL_STAGE,
+  PRESELECTION_COMPAT_UPDATE_ERROR,
+  PRESELECTION_COMPAT_UPDATED,
+  PRESELECTION_CONTACT_DONE_TOOLTIP,
   PRESELECTION_CONTACT_ERROR,
   PRESELECTION_CONTACT_SUCCESS,
   PRESELECTION_CONTACT_TOOLTIP,
-  PRESELECTION_CONTACT_DONE_TOOLTIP,
+  PRESELECTION_CONTRACT_GENERATE_ERROR,
+  PRESELECTION_CV_DOWNLOAD_ERROR,
+  PRESELECTION_DOCS_COMPLETE,
+  PRESELECTION_DOCS_INFO_OK,
+  PRESELECTION_DOCS_INFO_PENDING,
+  PRESELECTION_DOCS_STUDIES_OK,
+  PRESELECTION_DOCS_STUDIES_PENDING,
+  PRESELECTION_EMPTY,
   PRESELECTION_EVALUATION_PENDING_MSG,
   PRESELECTION_EVALUATION_PENDING_TITLE,
   PRESELECTION_EVALUATION_TOOLTIP,
+  PRESELECTION_INFO_ALREADY_VALIDATED,
+  PRESELECTION_INFO_VALIDATE_ERROR,
+  PRESELECTION_INFO_VALIDATED,
+  PRESELECTION_INTERVIEWED_DONE_TOOLTIP,
+  PRESELECTION_INTERVIEWED_ERROR,
+  PRESELECTION_INTERVIEWED_SUCCESS,
+  PRESELECTION_INTERVIEWED_TOOLTIP,
+  PRESELECTION_INTERVIEWED_UNMARK_SUCCESS,
+  PRESELECTION_LOAD_ERROR,
+  PRESELECTION_POOL_CREATED,
+  PRESELECTION_QUESTIONNAIRE_INVITE_ERROR,
+  PRESELECTION_ROW_ACTIONS_ARIA,
+  PRESELECTION_ROW_DESELECT_SUCCESS,
+  PRESELECTION_SMART_SEND_ERROR,
+  PRESELECTION_STUDIES_ALREADY_VALIDATED,
+  PRESELECTION_STUDIES_VALIDATE_ERROR,
+  PRESELECTION_STUDIES_VALIDATED,
+  PRESELECTION_TOOLBAR_ADD_FROM_POOL,
+  PRESELECTION_TOOLBAR_DOCUMENTS,
+  PRESELECTION_TOOLBAR_REQUEST_DOCUMENTS,
+  PRESELECTION_TOOLBAR_SEND_SMART,
+  PRESELECTION_TOOLBAR_VIEW_APPLICANTS,
 } from '../../../core/i18n/preselection-actions-labels';
 import { CandidateApplicationApiService } from '../../../core/services/candidate-application-api.service';
 import { CandidateApiService } from '../../../core/services/candidate-api.service';
@@ -145,6 +185,17 @@ export class PreselectionComponent implements OnInit {
   readonly positionId = +this.route.parent!.snapshot.paramMap.get('positionId')!;
   readonly rowActionCatalog = PRESELECTION_ROW_ACTIONS;
   readonly labels = {
+    addFromPool: PRESELECTION_TOOLBAR_ADD_FROM_POOL,
+    viewApplicants: PRESELECTION_TOOLBAR_VIEW_APPLICANTS,
+    sendSmart: PRESELECTION_TOOLBAR_SEND_SMART,
+    documents: PRESELECTION_TOOLBAR_DOCUMENTS,
+    requestDocuments: PRESELECTION_TOOLBAR_REQUEST_DOCUMENTS,
+    empty: PRESELECTION_EMPTY,
+    rowActionsAria: PRESELECTION_ROW_ACTIONS_ARIA,
+    colCandidate: PRESELECTION_COL_CANDIDATE,
+    colCompat: PRESELECTION_COL_COMPAT,
+    colStage: PRESELECTION_COL_STAGE,
+    colDocs: PRESELECTION_COL_DOCS,
     colContact: PRESELECTION_COL_CONTACT,
     colEvaluation: PRESELECTION_COL_EVALUATION,
     colAppointment: PRESELECTION_COL_APPOINTMENT,
@@ -237,7 +288,7 @@ export class PreselectionComponent implements OnInit {
       },
       error: (err) => {
         this.loading = false;
-        this.feedback.showApiError(err, { fallbackMessage: 'No se pudieron cargar los candidatos postulados' });
+        this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_LOAD_ERROR });
       },
     });
   }
@@ -258,7 +309,7 @@ export class PreselectionComponent implements OnInit {
     );
     ref.afterClosed().subscribe((result) => {
       if (result?.created) {
-        this.feedback.showSuccess(`${result.created} candidato(s) postulado(s)`);
+        this.feedback.showSuccess(`${result.created} ${PRESELECTION_POOL_CREATED}`);
         this.loadApplications();
       }
     });
@@ -306,7 +357,7 @@ export class PreselectionComponent implements OnInit {
     }
     this.runBulk(
       this.applicationApi.select({ positionId: this.positionId, applicationIds }),
-      'Candidatos seleccionados',
+      PRESELECTION_BULK_MARK_SUCCESS,
     );
   }
 
@@ -317,7 +368,7 @@ export class PreselectionComponent implements OnInit {
     }
     this.runBulk(
       this.applicationApi.deselect({ positionId: this.positionId, applicationIds }),
-      'Selección liberada',
+      PRESELECTION_BULK_RELEASE_SUCCESS,
     );
   }
 
@@ -325,7 +376,7 @@ export class PreselectionComponent implements OnInit {
     this.feedback
       .confirm({
         title: FEEDBACK_GENERIC_WARNING_TITLE,
-        message: '¿Liberar todas las postulaciones de esta posición? Se marcarán como RELEASED.',
+        message: PRESELECTION_BULK_RELEASE_ALL_CONFIRM,
         confirmWarn: true,
       })
       .subscribe((ok) => {
@@ -334,7 +385,7 @@ export class PreselectionComponent implements OnInit {
         }
         this.runBulk(
           this.applicationApi.releaseAll({ positionId: this.positionId }),
-          'Todas las postulaciones liberadas',
+          PRESELECTION_BULK_RELEASE_ALL_SUCCESS,
         );
       });
   }
@@ -352,13 +403,13 @@ export class PreselectionComponent implements OnInit {
       },
       error: (err) => {
         this.bulkLoading = false;
-        this.feedback.showApiError(err, { fallbackMessage: 'No se pudo completar la acción masiva' });
+        this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_BULK_ERROR });
       },
     });
   }
 
   action(name: string): void {
-    this.feedback.showSuccess(`${name}: ${this.selectedCount} candidato(s)`);
+    this.feedback.showSuccess(`${name}: ${this.selectedCount} ${PRESELECTION_ACTION_CANDIDATES_SUFFIX}`);
   }
 
   openChangeStageDialog(rows: PreselectionCandidate[]): void {
@@ -449,7 +500,7 @@ export class PreselectionComponent implements OnInit {
               } else {
                 this.feedback.showWarning(
                   PRESELECTION_BULK_CONTACT_PARTIAL,
-                  `${succeeded} enviados, ${failed} fallaron`,
+                  `${succeeded} ${PRESELECTION_BULK_CONTACT_SENT}, ${failed} ${PRESELECTION_BULK_CONTACT_FAILED}`,
                 );
               }
               this.loadApplications();
@@ -693,7 +744,7 @@ export class PreselectionComponent implements OnInit {
       return;
     }
     const name = `${row.firstName} ${row.lastName}`.trim();
-    this.feedback.showSuccess(`${action.label} — ${name}: pendiente de integración API`);
+    this.feedback.showSuccess(`${action.label} — ${name}: ${PRESELECTION_ACTION_PENDING_API}`);
   }
 
   private deselectSingleRow(row: PreselectionCandidate): void {
@@ -702,7 +753,7 @@ export class PreselectionComponent implements OnInit {
         positionId: this.positionId,
         applicationIds: [row.applicationId],
       }),
-      'Candidato deseleccionado',
+      PRESELECTION_ROW_DESELECT_SUCCESS,
     );
   }
 
@@ -765,10 +816,10 @@ export class PreselectionComponent implements OnInit {
         this.applicationApi.patchApplication(row.applicationId, { compatibilityPercent }).subscribe({
           next: (res) => {
             row.compatibility = res.compatibilityPercent ?? compatibilityPercent;
-            this.feedback.showSuccess('Compatibilidad actualizada');
+            this.feedback.showSuccess(PRESELECTION_COMPAT_UPDATED);
           },
           error: (err) => {
-            this.feedback.showApiError(err, { fallbackMessage: 'No se pudo actualizar la compatibilidad' });
+            this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_COMPAT_UPDATE_ERROR });
           },
         });
       });
@@ -813,49 +864,49 @@ export class PreselectionComponent implements OnInit {
         this.feedback.showSuccess(`CV: ${res.fileName}`);
       },
       error: (err) => {
-        this.feedback.showApiError(err, { fallbackMessage: 'No se pudo obtener la URL de descarga del CV' });
+        this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_CV_DOWNLOAD_ERROR });
       },
     });
   }
 
   formatDocumentsStatus(row: PreselectionCandidate): string {
     if (row.documentsSaved) {
-      return 'Completo';
+      return PRESELECTION_DOCS_COMPLETE;
     }
     const parts: string[] = [];
-    parts.push(row.infoValidated ? 'Info ✓' : 'Info pendiente');
-    parts.push(row.studiesValidated ? 'Estudios ✓' : 'Estudios pendiente');
+    parts.push(row.infoValidated ? PRESELECTION_DOCS_INFO_OK : PRESELECTION_DOCS_INFO_PENDING);
+    parts.push(row.studiesValidated ? PRESELECTION_DOCS_STUDIES_OK : PRESELECTION_DOCS_STUDIES_PENDING);
     return parts.join(' · ');
   }
 
   private validateApplicationInfo(row: PreselectionCandidate): void {
     if (row.infoValidated) {
-      this.feedback.showSuccess('La información ya está validada');
+      this.feedback.showSuccess(PRESELECTION_INFO_ALREADY_VALIDATED);
       return;
     }
     this.applicationApi.validateInfo(row.applicationId).subscribe({
       next: (res) => {
         this.applyValidationFlags(row, res);
-        this.feedback.showSuccess('Información validada');
+        this.feedback.showSuccess(PRESELECTION_INFO_VALIDATED);
       },
       error: (err) => {
-        this.feedback.showApiError(err, { fallbackMessage: 'No se pudo validar la información' });
+        this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_INFO_VALIDATE_ERROR });
       },
     });
   }
 
   private validateApplicationStudies(row: PreselectionCandidate): void {
     if (row.studiesValidated) {
-      this.feedback.showSuccess('Los estudios ya están validados');
+      this.feedback.showSuccess(PRESELECTION_STUDIES_ALREADY_VALIDATED);
       return;
     }
     this.applicationApi.validateStudies(row.applicationId).subscribe({
       next: (res) => {
         this.applyValidationFlags(row, res);
-        this.feedback.showSuccess('Estudios validados');
+        this.feedback.showSuccess(PRESELECTION_STUDIES_VALIDATED);
       },
       error: (err) => {
-        this.feedback.showApiError(err, { fallbackMessage: 'No se pudieron validar los estudios' });
+        this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_STUDIES_VALIDATE_ERROR });
       },
     });
   }
@@ -867,7 +918,7 @@ export class PreselectionComponent implements OnInit {
         this.feedback.showSuccess(`SMART (stub): ${name} — ref. ${res.externalReference}`);
       },
       error: (err) => {
-        this.feedback.showApiError(err, { fallbackMessage: 'No se pudo enviar a SMART' });
+        this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_SMART_SEND_ERROR });
       },
     });
   }
@@ -879,7 +930,7 @@ export class PreselectionComponent implements OnInit {
         this.feedback.showSuccess(`Contrato (stub): ${name} — ref. ${res.contractReference}`);
       },
       error: (err) => {
-        this.feedback.showApiError(err, { fallbackMessage: 'No se pudo generar el contrato' });
+        this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_CONTRACT_GENERATE_ERROR });
       },
     });
   }
@@ -920,7 +971,7 @@ export class PreselectionComponent implements OnInit {
           }
         },
         error: (err) => {
-          this.feedback.showApiError(err, { fallbackMessage: 'No se pudo enviar la invitación al cuestionario' });
+          this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_QUESTIONNAIRE_INVITE_ERROR });
         },
       });
   }
