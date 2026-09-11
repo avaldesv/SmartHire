@@ -4,6 +4,12 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { CATALOGS_SAVE } from '../../../../core/i18n/catalog-i18n-labels';
+import { COMMON_CANCEL } from '../../../../core/i18n/nav-labels';
+import {
+  PRESELECTION_COMPAT_DIALOG_TITLE,
+  PRESELECTION_COMPAT_FIELD,
+} from '../../../../core/i18n/preselection-actions-labels';
 import {
   ShModalActionsDirective,
   ShModalFormComponent,
@@ -33,6 +39,13 @@ export class PreselectionCompatibilityDialogComponent {
   private readonly dialogRef = inject(MatDialogRef<PreselectionCompatibilityDialogComponent, number | undefined>);
   readonly data = inject<PreselectionCompatibilityDialogData>(MAT_DIALOG_DATA);
   private readonly fb = inject(FormBuilder);
+
+  readonly labels = {
+    title: PRESELECTION_COMPAT_DIALOG_TITLE,
+    field: PRESELECTION_COMPAT_FIELD,
+    cancel: COMMON_CANCEL,
+    save: CATALOGS_SAVE,
+  };
 
   readonly form = this.fb.nonNullable.group({
     compatibilityPercent: [

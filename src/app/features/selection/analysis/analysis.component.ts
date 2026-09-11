@@ -3,6 +3,18 @@ import { ActivatedRoute } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import {
+  ANALYSIS_DETAIL_BODY,
+  ANALYSIS_DETAIL_HINT,
+  ANALYSIS_DETAIL_TITLE,
+  ANALYSIS_KPI_APPLICATIONS,
+  ANALYSIS_KPI_AVG_COMPATIBILITY,
+  ANALYSIS_KPI_HIRED,
+  ANALYSIS_KPI_PRESELECTED,
+  ANALYSIS_KPI_WITH_INTERVIEW,
+  ANALYSIS_LOAD_ERROR,
+  ANALYSIS_LOAD_METRICS_ERROR,
+} from '../../../core/i18n/analysis-labels';
 import { CandidateApplicationApiService } from '../../../core/services/candidate-application-api.service';
 import { CandidateApplicationListItem } from '../../../shared/models/candidate-application.model';
 import { KpiCardComponent } from '../../../shared/components/kpi-card/kpi-card.component';
@@ -20,6 +32,17 @@ export class AnalysisComponent implements OnInit {
   private readonly feedback = inject(FeedbackDialogService);
 
   readonly positionId = +this.route.parent!.snapshot.paramMap.get('positionId')!;
+  readonly labels = {
+    loadError: ANALYSIS_LOAD_ERROR,
+    kpiApplications: ANALYSIS_KPI_APPLICATIONS,
+    kpiAvgCompatibility: ANALYSIS_KPI_AVG_COMPATIBILITY,
+    kpiPreselected: ANALYSIS_KPI_PRESELECTED,
+    kpiWithInterview: ANALYSIS_KPI_WITH_INTERVIEW,
+    kpiHired: ANALYSIS_KPI_HIRED,
+    detailTitle: ANALYSIS_DETAIL_TITLE,
+    detailBody: ANALYSIS_DETAIL_BODY,
+    detailHint: ANALYSIS_DETAIL_HINT,
+  };
   loading = true;
   loadError = false;
   stats = { total: 0, avgCompatibility: 0, interviewed: 0, hired: 0, selected: 0 };
@@ -48,10 +71,10 @@ export class AnalysisComponent implements OnInit {
           next: (res) => {
             this.applyStats(res.items, total);
           },
-          error: (err) => this.onLoadError(),
+          error: () => this.onLoadError(),
         });
       },
-      error: (err) => this.onLoadError(),
+      error: () => this.onLoadError(),
     });
   }
 
@@ -75,6 +98,6 @@ export class AnalysisComponent implements OnInit {
   private onLoadError(): void {
     this.loading = false;
     this.loadError = true;
-    this.feedback.showSuccess('No se pudieron cargar las métricas de análisis');
+    this.feedback.showSuccess(ANALYSIS_LOAD_METRICS_ERROR);
   }
 }

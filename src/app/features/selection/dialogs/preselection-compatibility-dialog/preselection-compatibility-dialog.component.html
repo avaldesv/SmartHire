@@ -1,14 +1,14 @@
-<sh-modal-form title="Modificar compatibilidad">
+<sh-modal-form [title]="labels.title">
   <p class="sh-catalog-dialog-subtitle candidate-name">{{ data.candidateName }}</p>
   <form [formGroup]="form">
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Compatibilidad (%)</mat-label>
+      <mat-label>{{ labels.field }}</mat-label>
       <input matInput type="number" min="0" max="100" formControlName="compatibilityPercent" />
     </mat-form-field>
   </form>
 
   <div shModalActions>
-    <button mat-stroked-button type="button" (click)="cancel()">Cancelar</button>
-    <button mat-flat-button color="primary" type="button" (click)="save()">Guardar</button>
+    <button mat-stroked-button type="button" (click)="cancel()">{{ labels.cancel }}</button>
+    <button mat-flat-button color="primary" type="button" (click)="save()">{{ labels.save }}</button>
   </div>
 </sh-modal-form>

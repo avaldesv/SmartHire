@@ -1,7 +1,21 @@
 import { AppPermissions } from '../../../core/auth/app-permissions';
 import { PRESELECTION_ROW_VIEW_NOTIFICATIONS } from '../../../core/i18n/application-notifications-dialog-labels';
 import { APP_DIALOG_ACTION_GENERATE_DOCUMENTS } from '../../../core/i18n/position-applications-dialog-labels';
-import { PRESELECTION_CHANGE_STAGE, PRESELECTION_ROW_DESELECT, PRESELECTION_ROW_EDIT_PROFILE } from '../../../core/i18n/preselection-actions-labels';
+import {
+  PRESELECTION_CHANGE_STAGE,
+  PRESELECTION_ROW_AUDIT_LOG,
+  PRESELECTION_ROW_DESELECT,
+  PRESELECTION_ROW_DOWNLOAD_CV,
+  PRESELECTION_ROW_EDIT_PROFILE,
+  PRESELECTION_ROW_GENERATE_CONTRACT,
+  PRESELECTION_ROW_MODIFY_COMPATIBILITY,
+  PRESELECTION_ROW_NOTIFY_QUESTIONNAIRE,
+  PRESELECTION_ROW_SCHEDULE_INTERVIEW,
+  PRESELECTION_ROW_SEND_SMART,
+  PRESELECTION_ROW_VALIDATE_INFO,
+  PRESELECTION_ROW_VALIDATE_STUDIES,
+  PRESELECTION_ROW_VIEW_DOCUMENTS,
+} from '../../../core/i18n/preselection-actions-labels';
 
 export type PreselectionRowActionId =
   | 'viewProfile'
@@ -39,58 +53,58 @@ export const PRESELECTION_ROW_ACTIONS: readonly PreselectionRowAction[] = [
   },
   {
     id: 'downloadCv',
-    label: 'Descargar CV',
+    label: PRESELECTION_ROW_DOWNLOAD_CV,
     icon: 'download',
     permissions: [AppPermissions.CANDIDATE_READ],
   },
   {
     id: 'modifyCompatibility',
-    label: 'Modificar compatibilidad',
+    label: PRESELECTION_ROW_MODIFY_COMPATIBILITY,
     icon: 'tune',
     permissions: [AppPermissions.SELECTION_EDIT],
     dividerBefore: true,
   },
   {
     id: 'scheduleInterview',
-    label: 'Agendar entrevista',
+    label: PRESELECTION_ROW_SCHEDULE_INTERVIEW,
     icon: 'event',
     permissions: [AppPermissions.SELECTION_EDIT],
   },
   {
     id: 'viewDocuments',
-    label: 'Ver documentos',
+    label: PRESELECTION_ROW_VIEW_DOCUMENTS,
     icon: 'folder_open',
     permissions: [AppPermissions.CANDIDATE_READ],
   },
   {
     id: 'validateInfo',
-    label: 'Validar información',
+    label: PRESELECTION_ROW_VALIDATE_INFO,
     icon: 'fact_check',
     permissions: [AppPermissions.SELECTION_EDIT],
     dividerBefore: true,
   },
   {
     id: 'validateStudies',
-    label: 'Validar estudios',
+    label: PRESELECTION_ROW_VALIDATE_STUDIES,
     icon: 'school',
     permissions: [AppPermissions.SELECTION_EDIT],
   },
   {
     id: 'auditLog',
-    label: 'Bitácora',
+    label: PRESELECTION_ROW_AUDIT_LOG,
     icon: 'history',
     permissions: [AppPermissions.SELECTION_READ],
   },
   {
     id: 'sendSmart',
-    label: 'Enviar a SMART',
+    label: PRESELECTION_ROW_SEND_SMART,
     icon: 'send',
     permissions: [AppPermissions.SELECTION_EDIT],
     dividerBefore: true,
   },
   {
     id: 'generateContract',
-    label: 'Generar contrato',
+    label: PRESELECTION_ROW_GENERATE_CONTRACT,
     icon: 'description',
     permissions: [AppPermissions.SELECTION_EDIT],
   },
@@ -108,7 +122,7 @@ export const PRESELECTION_ROW_ACTIONS: readonly PreselectionRowAction[] = [
   },
   {
     id: 'notifyQuestionnaire',
-    label: 'Notificar cuestionario',
+    label: PRESELECTION_ROW_NOTIFY_QUESTIONNAIRE,
     icon: 'mail',
     permissions: [AppPermissions.SELECTION_EDIT],
   },
