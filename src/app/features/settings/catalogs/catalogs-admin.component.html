@@ -42,6 +42,9 @@
   </div>
 } @else {
   <div class="catalog-panels">
+  @if (isPanelVisible("historicEmployee")) {
+    <sh-historic-employee-catalog-panel />
+  }
 @if (isPanelVisible("gender")) {
     <div class="tab-content">
       <div class="sh-filters sh-card">

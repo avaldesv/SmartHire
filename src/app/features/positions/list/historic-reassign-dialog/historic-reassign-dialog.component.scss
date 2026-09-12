@@ -1,0 +1,52 @@
+.sh-historic-dialog {
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+}
+
+.sh-historic-dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1e88e5;
+  color: #fff;
+  padding: 12px 16px;
+}
+
+.sh-historic-dialog__header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.sh-historic-dialog__body {
+  padding: 16px;
+  overflow: auto;
+}
+
+.filters {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.table-wrap {
+  overflow: auto;
+  max-height: 48vh;
+}
+
+.hint {
+  color: #64748b;
+}
+
+.sh-historic-dialog__footer {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.spacer {
+  flex: 1;
+}

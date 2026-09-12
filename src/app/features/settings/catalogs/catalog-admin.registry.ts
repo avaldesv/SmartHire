@@ -60,7 +60,8 @@ export type CatalogPanelKey =
   | 'notificationCoverage'
   | 'notificationFailed'
   | 'jobPortal'
-  | 'recruiterGroup';
+  | 'recruiterGroup'
+  | 'historicEmployee';
 
 export interface CatalogRegistryEntry {
   id: string;
@@ -188,6 +189,7 @@ const CATALOG_CATEGORIES_RAW: CatalogCategoryDefinition[] = [
       { id: 'fileExtension', label: 'Extensión de archivo', panelKey: 'fileExtension', implemented: true },
       { id: 'requisitionType', label: 'Tipo requisición', panelKey: 'requisitionType', implemented: true },
       { id: 'neighborhood', label: 'Colonia', panelKey: 'neighborhood', implemented: true },
+      { id: 'historicEmployee', label: 'Histórico / Reasignación', panelKey: 'historicEmployee', implemented: true },
     ],
   },
 ];
