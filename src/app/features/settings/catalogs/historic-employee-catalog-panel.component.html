@@ -1,18 +1,25 @@
 <div class="tab-content">
   <div class="sh-filters sh-card">
-    <mat-form-field appearance="outline">
-      <mat-label>{{ searchLabel }}</mat-label>
-      <input matInput [(ngModel)]="search" (keyup.enter)="page = 0; load()" />
-    </mat-form-field>
-    <button mat-stroked-button type="button" (click)="search = ''; page = 0; load()">{{ clearLabel }}</button>
-    <button mat-stroked-button type="button" (click)="fileInput.click()">{{ importLabel }}</button>
-    <input #fileInput type="file" accept=".xlsx,.xls" hidden (change)="onFile($event)" />
-    @if (previewValid.length) {
-      <span>{{ previewValid.length }} OK / {{ previewInvalid }} inválidas</span>
-      <button mat-flat-button color="primary" type="button" [disabled]="importing" (click)="confirmImport()">
-        {{ confirmLabel }}
-      </button>
-    }
+    <div class="filter-fields">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>{{ searchLabel }}</mat-label>
+        <input matInput [(ngModel)]="search" (keyup.enter)="page = 0; load()" />
+      </mat-form-field>
+    </div>
+    <div class="filter-actions">
+      <button mat-stroked-button type="button" (click)="search = ''; page = 0; load()">{{ clearLabel }}</button>
+      <a mat-stroked-button [href]="templateUrl" [download]="templateFilename">
+        <mat-icon>download</mat-icon> {{ templateLabel }}
+      </a>
+      <button mat-stroked-button type="button" (click)="fileInput.click()">{{ importLabel }}</button>
+      <input #fileInput type="file" accept=".xlsx,.xls" hidden (change)="onFile($event)" />
+      @if (previewValid.length) {
+        <span>{{ previewValid.length }} OK / {{ previewInvalid }} inválidas</span>
+        <button mat-flat-button color="primary" type="button" [disabled]="importing" (click)="confirmImport()">
+          {{ confirmLabel }}
+        </button>
+      }
+    </div>
   </div>
   @if (loading) {
     <mat-spinner diameter="32"></mat-spinner>
