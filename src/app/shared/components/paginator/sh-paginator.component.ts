@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { booleanAttribute, Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 /** Default page sizes for SmartHire list tables and dialogs. */
@@ -40,9 +40,9 @@ export class ShPaginatorComponent {
   @Input() pageIndex = 0;
   @Input() pageSize = 10;
   @Input() pageSizeOptions: number[] = [...SH_PAGINATOR_PAGE_SIZE_OPTIONS];
-  @Input() hidePageSize = false;
-  @Input() disabled = false;
-  @Input() showFirstLastButtons = true;
+  @Input({ transform: booleanAttribute }) hidePageSize = false;
+  @Input({ transform: booleanAttribute }) disabled = false;
+  @Input({ transform: booleanAttribute }) showFirstLastButtons = true;
 
   @Output() readonly page = new EventEmitter<PageEvent>();
 }
