@@ -90,6 +90,7 @@ const REQUISITION_FIELD_LABELS: Record<string, string> = {
   hideSalary: $localize`:@@requisition.field.hideSalary:Ocultar salario`,
   publishedOnPortal: $localize`:@@requisition.field.publishedOnPortal:Publicar en portal candidatos`,
   jobPortalId: $localize`:@@requisition.field.jobPortalId:Portal de empleo`,
+  publishedPortals: $localize`:@@requisition.field.publishedPortals:Portales publicados`,
   includeSoftSkills: $localize`:@@requisition.field.includeSoftSkills:Incluir habilidades blandas`,
   includeExtraBenefits: $localize`:@@requisition.field.includeExtraBenefits:Incluir beneficios adicionales`,
   includeProfessionalDevelopment: $localize`:@@requisition.field.includeProfessionalDevelopment:Incluir desarrollo profesional`,

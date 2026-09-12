@@ -107,6 +107,7 @@ export interface CreatePositionRequest {
   hideSalary?: boolean | null;
   publishedOnPortal?: boolean | null;
   jobPortalId?: number | null;
+  publishedPortals?: { jobPortalId: number; externalPortalId: string }[];
   includeSoftSkills?: boolean | null;
   includeExtraBenefits?: boolean | null;
   includeProfessionalDevelopment?: boolean | null;

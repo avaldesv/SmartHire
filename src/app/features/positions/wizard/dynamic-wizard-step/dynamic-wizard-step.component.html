@@ -102,6 +102,14 @@
           [mandatoryReadOnly]="documentSectionReadOnly('documentIsRequired')"
         />
       </div>
+    } @else if (field.uiType === 'portal-publications-grid') {
+      <div class="span-2">
+        <sh-published-portals-editor
+          [control]="$any(fieldControl(field.fieldKey))"
+          [countryId]="countryId"
+          [disabled]="isReadOnly(field)"
+        />
+      </div>
     } @else if (field.uiType === 'document-grid' && field.fieldKey === 'documentTypeIds') {
       <div class="span-2 document-grid">
         <h4 class="grid-title">{{ fieldLabel(field) }}</h4>
