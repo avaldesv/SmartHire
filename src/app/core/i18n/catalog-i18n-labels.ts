@@ -58,6 +58,7 @@ const ENTRY_LABELS: Record<string, string> = {
   fileExtension: $localize`:@@catalogs.entry.fileExtension:Extensión de archivo`,
   requisitionType: $localize`:@@catalogs.entry.requisitionType:Tipo requisición`,
   neighborhood: $localize`:@@catalogs.entry.neighborhood:Colonia`,
+  historicEmployee: $localize`:@@catalogs.entry.historicEmployee:Histórico / Reasignación`,
 };
 
 export function getCatalogCategoryLabel(id: string): string {

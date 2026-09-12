@@ -25,6 +25,7 @@ import {
 import { getRequisitionStatusLabel, isCreatedPositionStatus, isOpenForCancellationRequest, isTerminalPositionStatus } from '../../../../core/i18n/common-labels';
 import { CV_BULK_ACTION } from '../../../../core/i18n/cv-bulk-labels';
 import { EXCEL_BULK_ACTION } from '../../../../core/i18n/excel-bulk-labels';
+import { HISTORIC_REASSIGN_ACTION } from '../../../../core/i18n/historic-reassign-labels';
 import {
   POSITIONS_ACTION_APPLY_CANDIDATES,
   POSITIONS_ACTION_APPROVE_CANCELLATION,
@@ -188,6 +189,10 @@ import {
   ExcelBulkProgressDialogResult,
 } from '../../list/excel-bulk-progress-dialog/excel-bulk-progress-dialog.component';
 import {
+  HistoricReassignDialogComponent,
+  HistoricReassignDialogData,
+} from '../../list/historic-reassign-dialog/historic-reassign-dialog.component';
+import {
   PositionCancelDialogComponent,
   PositionCancelDialogResult,
 } from '../../list/position-cancel-dialog.component';
@@ -332,6 +337,7 @@ export class PositionsTableComponent implements OnInit {
   readonly actionPublishOnPortal = POSITIONS_ACTION_PUBLISH_ON_PORTAL;
   readonly actionCvBulk = CV_BULK_ACTION;
   readonly actionExcelBulk = EXCEL_BULK_ACTION;
+  readonly actionHistoricReassign = HISTORIC_REASSIGN_ACTION;
   readonly goSelectionAria = POSITIONS_ACTION_GO_SELECTION_ARIA;
   readonly moreActionsAria = POSITIONS_ACTION_MORE_ARIA;
 
@@ -1402,6 +1408,13 @@ export class PositionsTableComponent implements OnInit {
       .subscribe((result: CvBulkUploadDialogResult | null | undefined) => {
         this.openCvBulkProgressAndReload(result);
       });
+  }
+
+  openHistoricReassign(row: PositionListItem): void {
+    this.dialog.open(HistoricReassignDialogComponent, {
+      ...catalogDialogConfig('96vw', { maxWidth: '98vw' }),
+      data: { positionId: row.id } as HistoricReassignDialogData,
+    });
   }
 
   openExcelBulkUpload(row: PositionListItem): void {

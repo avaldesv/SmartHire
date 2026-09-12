@@ -66,6 +66,7 @@ import {
   RecruiterGroupFormDialogData,
 } from './recruiter-group-form-dialog.component';
 import { CatalogFormTplDirective } from './catalog-form-tpl.directive';
+import { HistoricEmployeeCatalogPanelComponent } from './historic-employee-catalog-panel.component';
 import { ShModalActionsDirective } from '../../../shared/components/modal-form/sh-modal-form.component';
 import {
   CatalogFormDialogShellComponent,
@@ -248,6 +249,7 @@ const CATALOGS_SELECTION_SESSION_KEY = 'sh_catalogs_selection';
     CatalogTableImportExportActionsComponent,
     CatalogFormTplDirective,
     ShModalActionsDirective,
+    HistoricEmployeeCatalogPanelComponent,
   ],
   templateUrl: './catalogs-admin.component.html',
   styleUrl: './catalogs-admin.component.scss',
@@ -2028,7 +2030,8 @@ export class CatalogsAdminComponent implements OnInit {
     if (
       panel === 'notificationLogs' ||
       panel === 'notificationCoverage' ||
-      panel === 'notificationFailed'
+      panel === 'notificationFailed' ||
+      panel === 'historicEmployee'
     ) {
       return false;
     }
