@@ -2,24 +2,23 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
+import { catalogDialogConfig } from '../../../core/dialog/catalog-dialog.constants';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { COMMON_CLEAR_FILTERS, COMMON_SEARCH } from '../../../core/i18n/common-labels';
 import {
-  HISTORIC_REASSIGN_CONFIRM_IMPORT,
   HISTORIC_REASSIGN_IMPORT,
   HISTORIC_REASSIGN_IMPORT_OK,
-  HISTORIC_REASSIGN_TEMPLATE,
-  HISTORIC_REASSIGN_TEMPLATE_FILENAME,
   HISTORIC_REASSIGN_TITLE,
 } from '../../../core/i18n/historic-reassign-labels';
 import { HistoricEmployeeApiService } from '../../../core/services/historic-employee-api.service';
-import { HistoricEmployee, HistoricEmployeeValidRow } from '../../../shared/models/historic-employee.model';
+import { HistoricEmployee } from '../../../shared/models/historic-employee.model';
+import { HistoricEmployeeImportDialogComponent } from './historic-employee-import-dialog.component';
 
 @Component({
   selector: 'sh-historic-employee-catalog-panel',
@@ -33,7 +32,6 @@ import { HistoricEmployee, HistoricEmployeeValidRow } from '../../../shared/mode
     MatTableModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
-    MatIconModule,
   ],
   templateUrl: './historic-employee-catalog-panel.component.html',
   styleUrl: './historic-employee-catalog-panel.component.scss',
@@ -41,25 +39,19 @@ import { HistoricEmployee, HistoricEmployeeValidRow } from '../../../shared/mode
 export class HistoricEmployeeCatalogPanelComponent {
   private readonly api = inject(HistoricEmployeeApiService);
   private readonly feedback = inject(FeedbackDialogService);
+  private readonly dialog = inject(MatDialog);
 
   readonly title = HISTORIC_REASSIGN_TITLE;
   readonly searchLabel = COMMON_SEARCH;
   readonly clearLabel = COMMON_CLEAR_FILTERS;
   readonly importLabel = HISTORIC_REASSIGN_IMPORT;
-  readonly confirmLabel = HISTORIC_REASSIGN_CONFIRM_IMPORT;
-  readonly templateLabel = HISTORIC_REASSIGN_TEMPLATE;
-  readonly templateFilename = HISTORIC_REASSIGN_TEMPLATE_FILENAME;
-  readonly templateUrl = '/templates/Plantilla_Historico_Reasignacion.xlsx';
 
   search = '';
   loading = false;
-  importing = false;
   rows: HistoricEmployee[] = [];
   total = 0;
   page = 0;
   size = 20;
-  previewValid: HistoricEmployeeValidRow[] = [];
-  previewInvalid = 0;
   displayedColumns = ['id', 'firstName', 'lastNames', 'email', 'jobTitle', 'sourceKind', 'employmentRecordStatus'];
 
   constructor() {
@@ -87,39 +79,16 @@ export class HistoricEmployeeCatalogPanelComponent {
     this.load();
   }
 
-  onFile(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const file = input.files?.[0];
-    if (!file) {
-      return;
-    }
-    this.api.preview(file).subscribe({
-      next: (preview) => {
-        this.previewValid = preview.validRows ?? [];
-        this.previewInvalid = preview.invalidCount ?? 0;
-      },
-      error: (err) => this.feedback.showApiError(err),
-    });
-    input.value = '';
-  }
-
-  confirmImport(): void {
-    if (!this.previewValid.length) {
-      return;
-    }
-    this.importing = true;
-    this.api.importRows(this.previewValid).subscribe({
-      next: () => {
-        this.importing = false;
-        this.previewValid = [];
-        this.previewInvalid = 0;
-        this.feedback.showSuccess(HISTORIC_REASSIGN_IMPORT_OK);
-        this.load();
-      },
-      error: (err) => {
-        this.importing = false;
-        this.feedback.showApiError(err);
-      },
-    });
+  openImport(): void {
+    this.dialog
+      .open(HistoricEmployeeImportDialogComponent, catalogDialogConfig('920px', { maxWidth: '96vw' }))
+      .afterClosed()
+      .subscribe((imported) => {
+        if (imported) {
+          this.feedback.showSuccess(HISTORIC_REASSIGN_IMPORT_OK);
+          this.page = 0;
+          this.load();
+        }
+      });
   }
 }

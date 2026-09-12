@@ -15,7 +15,8 @@ import {
   ShModalActionsDirective,
   ShModalFormComponent,
 } from '../../../../shared/components/modal-form/sh-modal-form.component';
-import { COMMON_CANCEL } from '../../../../core/i18n/nav-labels';
+import { COMMON_CLEAR_FILTERS } from '../../../../core/i18n/common-labels';
+import { COMMON_CANCEL, SNACK_CLOSE_ACTION } from '../../../../core/i18n/nav-labels';
 import {
   HISTORIC_REASSIGN_EDUCATION,
   HISTORIC_REASSIGN_EDUCATION_ANY,
@@ -23,7 +24,6 @@ import {
   HISTORIC_REASSIGN_NOTIFY_WA,
   HISTORIC_REASSIGN_POSTULATE,
   HISTORIC_REASSIGN_POSTULATE_OK,
-  HISTORIC_REASSIGN_REASSIGN_HINT,
   HISTORIC_REASSIGN_SEARCH,
   HISTORIC_REASSIGN_SEARCH_BTN,
   HISTORIC_REASSIGN_SELECT_ONE,
@@ -73,15 +73,16 @@ export class HistoricReassignDialogComponent {
   readonly sourceLabel = HISTORIC_REASSIGN_SOURCE;
   readonly sourceHistory = HISTORIC_REASSIGN_SOURCE_HISTORY;
   readonly sourceReassign = HISTORIC_REASSIGN_SOURCE_REASSIGN;
-  readonly reassignHint = HISTORIC_REASSIGN_REASSIGN_HINT;
   readonly searchLabel = HISTORIC_REASSIGN_SEARCH;
   readonly searchBtn = HISTORIC_REASSIGN_SEARCH_BTN;
+  readonly clearLabel = COMMON_CLEAR_FILTERS;
   readonly educationLabel = HISTORIC_REASSIGN_EDUCATION;
   readonly educationAny = HISTORIC_REASSIGN_EDUCATION_ANY;
   readonly postulateLabel = HISTORIC_REASSIGN_POSTULATE;
   readonly notifyEmailLabel = HISTORIC_REASSIGN_NOTIFY_EMAIL;
   readonly notifyWaLabel = HISTORIC_REASSIGN_NOTIFY_WA;
   readonly cancelLabel = COMMON_CANCEL;
+  readonly closeLabel = SNACK_CLOSE_ACTION;
 
   sourceKind = 'HISTORICAL';
   search = '';
@@ -123,13 +124,8 @@ export class HistoricReassignDialogComponent {
   }
 
   load(): void {
-    if (this.sourceKind !== 'HISTORICAL') {
-      this.rows = [];
-      this.total = 0;
-      return;
-    }
     this.loading = true;
-    this.api.list(this.page, this.size, this.search, 'HISTORICAL', this.educationLevelId).subscribe({
+    this.api.list(this.page, this.size, this.search, this.sourceKind, this.educationLevelId).subscribe({
       next: (res) => {
         this.rows = res.items;
         this.total = res.total;
@@ -140,6 +136,19 @@ export class HistoricReassignDialogComponent {
         this.feedback.showApiError(err);
       },
     });
+  }
+
+  onSourceChange(): void {
+    this.page = 0;
+    this.selected.clear();
+    this.load();
+  }
+
+  clearFilters(): void {
+    this.search = '';
+    this.educationLevelId = null;
+    this.page = 0;
+    this.load();
   }
 
   onPage(event: PageEvent): void {
@@ -156,8 +165,23 @@ export class HistoricReassignDialogComponent {
     }
   }
 
+  toggleAll(checked: boolean): void {
+    for (const row of this.rows) {
+      this.toggle(row.id, checked);
+    }
+  }
+
   isChecked(id: number): boolean {
     return this.selected.has(id);
+  }
+
+  get allSelected(): boolean {
+    return this.rows.length > 0 && this.rows.every((row) => this.selected.has(row.id));
+  }
+
+  get someSelected(): boolean {
+    const count = this.rows.filter((row) => this.selected.has(row.id)).length;
+    return count > 0 && count < this.rows.length;
   }
 
   close(): void {
