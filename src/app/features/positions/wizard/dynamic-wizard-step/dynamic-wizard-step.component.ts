@@ -41,6 +41,7 @@ import {
   REQUISITION_WIZARD_NO_EXAMS,
 } from '../../../../core/i18n/requisition-wizard-labels';
 import { DocumentRequirementsEditorComponent } from '../document-requirements-editor/document-requirements-editor.component';
+import { PublishedPortalsEditorComponent } from '../published-portals-editor/published-portals-editor.component';
 import { DynamicWizardFieldComponent } from '../dynamic-wizard-field/dynamic-wizard-field.component';
 import { JobDescriptionAiFieldComponent } from '../job-description-ai-field/job-description-ai-field.component';
 import { WizardClientSearchFieldComponent } from '../wizard-client-search-field/wizard-client-search-field.component';
@@ -59,6 +60,7 @@ import { CLIENT_ID_FIELD_KEY } from '../../../../shared/constants/requisition-cl
     MatIconModule,
     DynamicWizardFieldComponent,
     DocumentRequirementsEditorComponent,
+    PublishedPortalsEditorComponent,
     JobDescriptionAiFieldComponent,
     WizardClientSearchFieldComponent,
   ],
@@ -101,15 +103,11 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.rootForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.flatValues = this.flattenRootValues();
-      this.visibleFields = this.step.fields.filter(
-        (f) => f.uiType !== 'document-config-section' && isFieldVisible(f, this.flatValues),
-      );
+      this.visibleFields = this.step.fields.filter((f) => this.isRenderableField(f));
       this.syncMirroredFields();
     });
     this.flatValues = this.flattenRootValues();
-    this.visibleFields = this.step.fields.filter(
-      (f) => f.uiType !== 'document-config-section' && isFieldVisible(f, this.flatValues),
-    );
+    this.visibleFields = this.step.fields.filter((f) => this.isRenderableField(f));
     this.syncMirroredFields();
 
     const langField = this.step.fields.find((f) => f.uiType === 'language-grid');
@@ -223,9 +221,7 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
           }
         }
         this.flatValues = this.flattenRootValues();
-        this.visibleFields = this.step.fields.filter(
-          (f) => f.uiType !== 'document-config-section' && isFieldVisible(f, this.flatValues),
-        );
+        this.visibleFields = this.step.fields.filter((f) => this.isRenderableField(f));
         this.syncMirroredFields();
       },
     });
@@ -256,10 +252,24 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
 
   private refreshVisibleFields(): void {
     this.flatValues = this.flattenRootValues();
-    this.visibleFields = this.step.fields.filter(
-      (f) => f.uiType !== 'document-config-section' && isFieldVisible(f, this.flatValues),
-    );
+    this.visibleFields = this.step.fields.filter((f) => this.isRenderableField(f));
     this.syncMirroredFields();
+  }
+
+  private isRenderableField(field: ResolvedRequisitionFormField): boolean {
+    if (field.uiType === 'document-config-section') {
+      return false;
+    }
+    if (!isFieldVisible(field, this.flatValues)) {
+      return false;
+    }
+    if (field.fieldKey === 'jobPortalId') {
+      const multi = this.step.fields.find((f) => f.fieldKey === 'publishedPortals');
+      if (multi && isFieldVisible(multi, this.flatValues)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   private flattenRootValues(): Record<string, unknown> {
@@ -282,6 +292,7 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
       if (
         !field.dataSourceKey ||
         field.uiType === 'document-grid' ||
+        field.uiType === 'portal-publications-grid' ||
         field.uiType === 'language-grid' ||
         field.uiType === 'questionnaire-picker'
       ) {

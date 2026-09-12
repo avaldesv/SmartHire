@@ -22,6 +22,7 @@ import {
   WizardLanguageRow,
   WizardQuestionnaireValue,
 } from '../../../shared/models/requisition-wizard.model';
+import { WizardPublishedPortalRow } from '../../../shared/models/job-portal-credentials.model';
 import { isFieldRequired, isFieldVisible, isFieldReadOnly } from './dynamic-wizard-rules.util';
 import {
   parseWorkDaysToIds,
@@ -50,6 +51,8 @@ export function defaultValueForUiType(uiType: string): unknown {
       return [{ languageId: null, languageLevelId: null }] as WizardLanguageRow[];
     case 'document-grid':
       return [] as WizardDocumentRequirementRow[] | number[];
+    case 'portal-publications-grid':
+      return [] as WizardPublishedPortalRow[];
     case 'questionnaire-picker':
       return {
         examId: null,
@@ -115,6 +118,7 @@ export function buildFieldValidators(
     case 'multiselect':
       return [requiredMultiselectValidator()];
     case 'document-grid':
+    case 'portal-publications-grid':
     case 'language-grid':
     case 'questionnaire-picker':
       return [requiredCompositeValidator(field)];
@@ -150,6 +154,10 @@ function requiredCompositeValidator(field: ResolvedRequisitionFormField): Valida
         return ids?.length ? null : { required: true };
       }
       const rows = (control.value ?? []) as WizardDocumentRequirementRow[];
+      return rows.length > 0 ? null : { required: true };
+    }
+    if (field.uiType === 'portal-publications-grid') {
+      const rows = (control.value ?? []) as WizardPublishedPortalRow[];
       return rows.length > 0 ? null : { required: true };
     }
     return control.value != null && control.value !== '' ? null : { required: true };
@@ -330,6 +338,14 @@ function assignPayloadField(
       }
       break;
     }
+    case 'portal-publications-grid': {
+      const rows = (raw as WizardPublishedPortalRow[]) ?? [];
+      payload['publishedPortals'] = rows.map((r) => ({
+        jobPortalId: r.jobPortalId,
+        externalPortalId: r.externalPortalId,
+      }));
+      break;
+    }
     case 'questionnaire-picker': {
       const q = raw as WizardQuestionnaireValue;
       if (q.examId != null) {
@@ -481,6 +497,11 @@ function resolveHydratedValue(
         validateAiName: false,
         validateAiValidity: false,
         validityMonths: null,
+      }));
+    case 'portal-publications-grid':
+      return (position.publishedPortals ?? []).map((p) => ({
+        jobPortalId: p.jobPortalId,
+        externalPortalId: p.externalPortalId,
       }));
     case 'questionnaire-picker':
       if (position.questionnaire) {

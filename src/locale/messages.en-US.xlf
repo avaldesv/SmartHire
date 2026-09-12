@@ -5484,6 +5484,134 @@
         <source>¿Eliminar la etapa "<x id="name" equiv-text="name" />"?</source>
         <target>Delete stage "<x id="name" equiv-text="name" />"?</target>
       </trans-unit>
+      <trans-unit id="shell.portalCredentials" datatype="html">
+        <source>Credenciales de portales</source>
+        <target>Portal credentials</target>
+      </trans-unit>
+      <trans-unit id="portalCredentials.title" datatype="html">
+        <source>Credenciales de portales</source>
+        <target>Portal credentials</target>
+      </trans-unit>
+      <trans-unit id="portalCredentials.subtitle" datatype="html">
+        <source>Configura usuario y contraseña por cada portal de publicación activo.</source>
+        <target>Set username and password for each active job portal.</target>
+      </trans-unit>
+      <trans-unit id="portalCredentials.field.username" datatype="html">
+        <source>Usuario</source>
+        <target>Username</target>
+      </trans-unit>
+      <trans-unit id="portalCredentials.field.password" datatype="html">
+        <source>Contraseña</source>
+        <target>Password</target>
+      </trans-unit>
+      <trans-unit id="portalCredentials.status.configured" datatype="html">
+        <source>Configurado</source>
+        <target>Configured</target>
+      </trans-unit>
+      <trans-unit id="portalCredentials.status.notConfigured" datatype="html">
+        <source>Sin configurar</source>
+        <target>Not configured</target>
+      </trans-unit>
+      <trans-unit id="portalCredentials.close" datatype="html">
+        <source>Cerrar</source>
+        <target>Close</target>
+      </trans-unit>
+      <trans-unit id="portalCredentials.action.save" datatype="html">
+        <source>GUARDAR</source>
+        <target>SAVE</target>
+      </trans-unit>
+      <trans-unit id="portalCredentials.action.cancel" datatype="html">
+        <source>CANCELAR</source>
+        <target>CANCEL</target>
+      </trans-unit>
+      <trans-unit id="portalCredentials.success.save" datatype="html">
+        <source>Credenciales de portales guardadas</source>
+        <target>Portal credentials saved</target>
+      </trans-unit>
+      <trans-unit id="portalCredentials.errors.load" datatype="html">
+        <source>No se pudo cargar las credenciales de portales</source>
+        <target>Could not load portal credentials</target>
+      </trans-unit>
+      <trans-unit id="portalCredentials.errors.save" datatype="html">
+        <source>No se pudo guardar las credenciales de portales</source>
+        <target>Could not save portal credentials</target>
+      </trans-unit>
+      <trans-unit id="portalCredentials.passwordKeepHint" datatype="html">
+        <source>Deje vacío para conservar la contraseña actual</source>
+        <target>Leave blank to keep the current password</target>
+      </trans-unit>
+      <trans-unit id="portalCredentials.empty" datatype="html">
+        <source>No hay portales de publicación activos</source>
+        <target>There are no active job portals</target>
+      </trans-unit>
+      <trans-unit id="requisition.portals.sectionTitle" datatype="html">
+        <source>Portales de publicación externos</source>
+        <target>External job portals</target>
+      </trans-unit>
+      <trans-unit id="requisition.portals.sectionHint" datatype="html">
+        <source>Asocia los portales donde publicaste esta posición e indica el identificador externo.</source>
+        <target>Associate the portals where you published this position and enter the external identifier.</target>
+      </trans-unit>
+      <trans-unit id="requisition.portals.portal" datatype="html">
+        <source>Portal</source>
+        <target>Portal</target>
+      </trans-unit>
+      <trans-unit id="requisition.portals.externalId" datatype="html">
+        <source>Identificador en portal</source>
+        <target>External portal ID</target>
+      </trans-unit>
+      <trans-unit id="requisition.portals.externalIdPlaceholder" datatype="html">
+        <source>Ej. OCC-AB12X9</source>
+        <target>E.g. OCC-AB12X9</target>
+      </trans-unit>
+      <trans-unit id="requisition.portals.add" datatype="html">
+        <source>Agregar</source>
+        <target>Agregar</target>
+      </trans-unit>
+      <trans-unit id="requisition.portals.update" datatype="html">
+        <source>Actualizar</source>
+        <target>Update</target>
+      </trans-unit>
+      <trans-unit id="requisition.portals.tableTitle" datatype="html">
+        <source>Portales asociados</source>
+        <target>Associated portals</target>
+      </trans-unit>
+      <trans-unit id="requisition.portals.col.portal" datatype="html">
+        <source>Portal</source>
+        <target>Portal</target>
+      </trans-unit>
+      <trans-unit id="requisition.portals.col.externalId" datatype="html">
+        <source>Identificador externo</source>
+        <target>External ID</target>
+      </trans-unit>
+      <trans-unit id="requisition.portals.col.actions" datatype="html">
+        <source>Acciones</source>
+        <target>Actions</target>
+      </trans-unit>
+      <trans-unit id="requisition.portals.edit" datatype="html">
+        <source>Editar</source>
+        <target>Edit</target>
+      </trans-unit>
+      <trans-unit id="requisition.portals.delete" datatype="html">
+        <source>Eliminar</source>
+        <target>Delete</target>
+      </trans-unit>
+      <trans-unit id="requisition.portals.empty" datatype="html">
+        <source>Aún no hay portales asociados</source>
+        <target>Aún no hay portales asociados</target>
+      </trans-unit>
+      <trans-unit id="requisition.portals.select" datatype="html">
+        <source>Seleccionar portal…</source>
+        <target>Select portal…</target>
+      </trans-unit>
+      <trans-unit id="requisition.portals.duplicate" datatype="html">
+        <source>Este portal ya está asociado</source>
+        <target>This portal is already associated</target>
+      </trans-unit>
+      <trans-unit id="requisition.portals.externalIdRequired" datatype="html">
+        <source>Ingrese el identificador externo</source>
+        <target>Enter the external identifier</target>
+      </trans-unit>
       <trans-unit id="applicationsDialog.title" datatype="html">
         <source>Candidatos postulados</source>
         <target>Applied candidates</target>
@@ -9243,6 +9371,10 @@
       <trans-unit id="requisition.field.jobPortalId" datatype="html">
         <source>Portal de empleo</source>
         <target>Job portal</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.publishedPortals" datatype="html">
+        <source>Portales publicados</source>
+        <target>Published portals</target>
       </trans-unit>
       <trans-unit id="requisition.field.includeSoftSkills" datatype="html">
         <source>Incluir habilidades blandas</source>

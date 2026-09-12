@@ -18,9 +18,12 @@ import { PortalLanguage } from '../../shared/models/portal-language.model';
 import { AppPermissions } from '../auth/app-permissions';
 import { MAIN_NAV_ITEMS } from '../i18n/nav-labels';
 import { INTERVIEW_CAL_MENU } from '../i18n/interview-calendar-labels';
+import { PORTAL_CRED_MENU } from '../i18n/portal-credentials-labels';
 import { interviewCalendarDialogConfig } from '../../features/settings/interview-calendar/interview-calendar-dialog.constants';
+import { jobPortalCredentialsDialogConfig } from '../../features/settings/job-portal-credentials/job-portal-credentials-dialog.constants';
 import { NotificationBellComponent } from './notification-bell/notification-bell.component';
 import { InterviewCalendarConfigDialogComponent } from '../../features/settings/interview-calendar/interview-calendar-config-dialog.component';
+import { JobPortalCredentialsDialogComponent } from '../../features/settings/job-portal-credentials/job-portal-credentials-dialog.component';
 
 @Component({
   selector: 'sh-shell',
@@ -52,6 +55,7 @@ export class ShellComponent implements OnInit {
   private readonly router = inject(Router);
 
   readonly interviewCalendarMenuLabel = INTERVIEW_CAL_MENU;
+  readonly portalCredentialsMenuLabel = PORTAL_CRED_MENU;
   readonly user = this.auth.currentUser;
   readonly activeLocale = this.localeService.activeLocale;
   readonly activePortalLanguageId = this.localeService.portalLanguageId;
@@ -114,6 +118,10 @@ export class ShellComponent implements OnInit {
 
   openInterviewCalendar(): void {
     this.dialog.open(InterviewCalendarConfigDialogComponent, interviewCalendarDialogConfig());
+  }
+
+  openJobPortalCredentials(): void {
+    this.dialog.open(JobPortalCredentialsDialogComponent, jobPortalCredentialsDialogConfig());
   }
 
   private loadTenantOptions(): void {

@@ -76,6 +76,7 @@ export const REQUISITION_FIELDS_BY_STEP: Record<(typeof REQUISITION_FORM_DEFAULT
     'hideSalary',
     'publishedOnPortal',
     'jobPortalId',
+    'publishedPortals',
     'includeSoftSkills',
     'includeExtraBenefits',
     'includeProfessionalDevelopment',

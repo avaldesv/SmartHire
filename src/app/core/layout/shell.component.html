@@ -51,6 +51,10 @@
         <mat-icon>calendar_month</mat-icon>
         <span>{{ interviewCalendarMenuLabel }}</span>
       </button>
+      <button mat-menu-item type="button" (click)="openJobPortalCredentials()">
+        <mat-icon>vpn_key</mat-icon>
+        <span>{{ portalCredentialsMenuLabel }}</span>
+      </button>
       <button mat-menu-item (click)="logout()">
         <mat-icon>logout</mat-icon>
         <span i18n="@@shell.logout">Cerrar sesión</span>
