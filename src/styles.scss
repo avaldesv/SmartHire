@@ -410,6 +410,32 @@ a:hover { text-decoration: underline; }
   border-top: 1px solid #e2e8f0;
   margin: 0 !important;
   padding: 14px 20px 16px !important;
+  gap: 12px;
+}
+
+/* Filled/outlined tokens can collapse in teleported dialog actions — force brand colors */
+.sh-job-portal-credentials-dialog-panel .mat-mdc-dialog-actions .portal-cred-btn--cancel {
+  --mdc-outlined-button-outline-color: #0d9488;
+  --mdc-outlined-button-label-text-color: #0d9488;
+  border-color: #0d9488 !important;
+  color: #0d9488 !important;
+}
+
+.sh-job-portal-credentials-dialog-panel .mat-mdc-dialog-actions .portal-cred-btn--save {
+  --mdc-filled-button-container-color: #0d9488;
+  --mdc-filled-button-label-text-color: #ffffff;
+  --mdc-protected-button-container-color: #0d9488;
+  --mdc-protected-button-label-text-color: #ffffff;
+  background-color: #0d9488 !important;
+  color: #ffffff !important;
+}
+
+.sh-job-portal-credentials-dialog-panel .mat-mdc-dialog-actions .portal-cred-btn--save:disabled {
+  --mdc-filled-button-disabled-container-color: color-mix(in srgb, #0d9488 40%, #e2e8f0);
+  --mdc-filled-button-disabled-label-text-color: #ffffff;
+  background-color: color-mix(in srgb, #0d9488 40%, #e2e8f0) !important;
+  color: #ffffff !important;
+  opacity: 1;
 }
 
 /* Standard form dialog footer: aligned buttons with bottom breathing room */
