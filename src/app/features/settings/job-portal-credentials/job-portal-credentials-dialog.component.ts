@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_INFO_TITLE } from '../../../core/i18n/feedback-labels';
 import {
   PORTAL_CRED_CANCEL,
   PORTAL_CRED_CLOSE,
@@ -20,6 +21,8 @@ import {
   PORTAL_CRED_STATUS_CONFIGURED,
   PORTAL_CRED_STATUS_EMPTY,
   PORTAL_CRED_SUBTITLE,
+  PORTAL_CRED_TEST_CONNECTION,
+  PORTAL_CRED_TEST_CONNECTION_UNAVAILABLE,
   PORTAL_CRED_TITLE,
   PORTAL_CRED_USERNAME,
 } from '../../../core/i18n/portal-credentials-labels';
@@ -65,6 +68,7 @@ export class JobPortalCredentialsDialogComponent implements OnInit {
     cancel: PORTAL_CRED_CANCEL,
     passwordKeepHint: PORTAL_CRED_PASSWORD_KEEP_HINT,
     empty: PORTAL_CRED_EMPTY,
+    testConnection: PORTAL_CRED_TEST_CONNECTION,
   };
 
   loading = true;
@@ -110,16 +114,44 @@ export class JobPortalCredentialsDialogComponent implements OnInit {
     return this.items[index]?.portalName ?? '';
   }
 
+  portalInitials(index: number): string {
+    const code = this.items[index]?.portalCode?.trim();
+    if (code) {
+      return code.slice(0, 3).toUpperCase();
+    }
+    const name = this.portalName(index).trim();
+    if (!name) {
+      return 'P';
+    }
+    const parts = name.split(/\s+/).filter(Boolean);
+    if (parts.length >= 2) {
+      return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+    }
+    return name.slice(0, 2).toUpperCase();
+  }
+
+  logoTone(index: number): string {
+    return String(index % 6);
+  }
+
   isConfigured(index: number): boolean {
     const row = this.rows.at(index);
     const username = String(row.get('username')?.value ?? '').trim();
     const password = String(row.get('password')?.value ?? '');
     const hadPassword = Boolean(row.get('hasPassword')?.value);
-    return username.length > 0 || password.length > 0 || hadPassword;
+    return username.length > 0 && (hadPassword || password.length > 0);
+  }
+
+  passwordPlaceholder(index: number): string {
+    return Boolean(this.rows.at(index).get('hasPassword')?.value) ? '••••••••' : '';
   }
 
   togglePassword(index: number): void {
     this.showPassword[index] = !this.showPassword[index];
+  }
+
+  testConnection(_index: number): void {
+    this.feedback.showInfo(FEEDBACK_GENERIC_INFO_TITLE, PORTAL_CRED_TEST_CONNECTION_UNAVAILABLE);
   }
 
   close(): void {

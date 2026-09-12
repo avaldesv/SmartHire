@@ -974,6 +974,8 @@ EN_BY_SOURCE: dict[str, str] = {
     "No se pudo guardar las credenciales de portales": "Could not save portal credentials",
     "Deje vacío para conservar la contraseña actual": "Leave blank to keep the current password",
     "No hay portales de publicación activos": "There are no active job portals",
+    "Probar conexión": "Test connection",
+    "La prueba de conexión estará disponible en una próxima versión.": "Connection testing will be available in a future release.",
     "Portales de publicación externos": "External job portals",
     "Asocia los portales donde publicaste esta posición e indica el identificador externo.": "Associate the portals where you published this position and enter the external identifier.",
     "Identificador en portal": "External portal ID",

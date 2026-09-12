@@ -5544,6 +5544,14 @@
         <source>No hay portales de publicación activos</source>
         <target>No hay portales de publicación activos</target>
       </trans-unit>
+      <trans-unit id="portalCredentials.testConnection" datatype="html">
+        <source>Probar conexión</source>
+        <target>Probar conexión</target>
+      </trans-unit>
+      <trans-unit id="portalCredentials.testConnectionUnavailable" datatype="html">
+        <source>La prueba de conexión estará disponible en una próxima versión.</source>
+        <target>La prueba de conexión estará disponible en una próxima versión.</target>
+      </trans-unit>
       <trans-unit id="requisition.portals.sectionTitle" datatype="html">
         <source>Portales de publicación externos</source>
         <target>Portales de publicación externos</target>

@@ -15,6 +15,8 @@ export const PORTAL_CRED_LOAD_ERROR = $localize`:@@portalCredentials.errors.load
 export const PORTAL_CRED_SAVE_ERROR = $localize`:@@portalCredentials.errors.save:No se pudo guardar las credenciales de portales`;
 export const PORTAL_CRED_PASSWORD_KEEP_HINT = $localize`:@@portalCredentials.passwordKeepHint:Deje vacío para conservar la contraseña actual`;
 export const PORTAL_CRED_EMPTY = $localize`:@@portalCredentials.empty:No hay portales de publicación activos`;
+export const PORTAL_CRED_TEST_CONNECTION = $localize`:@@portalCredentials.testConnection:Probar conexión`;
+export const PORTAL_CRED_TEST_CONNECTION_UNAVAILABLE = $localize`:@@portalCredentials.testConnectionUnavailable:La prueba de conexión estará disponible en una próxima versión.`;
 
 export const REQUISITION_PORTALS_SECTION_TITLE = $localize`:@@requisition.portals.sectionTitle:Portales de publicación externos`;
 export const REQUISITION_PORTALS_SECTION_HINT = $localize`:@@requisition.portals.sectionHint:Asocia los portales donde publicaste esta posición e indica el identificador externo.`;
