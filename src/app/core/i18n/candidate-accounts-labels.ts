@@ -1,6 +1,6 @@
 export const CANDIDATE_ACCOUNTS_PAGE_TITLE = $localize`:@@candidateAccounts.pageTitle:Cuentas de candidatos`;
 export const CANDIDATE_ACCOUNTS_PAGE_SUBTITLE = $localize`:@@candidateAccounts.pageSubtitle:Administración de cuentas del portal candidato`;
-export const CANDIDATE_ACCOUNTS_NEW_BUTTON = $localize`:@@candidateAccounts.new:Nueva cuenta`;
+export const CANDIDATE_ACCOUNTS_NEW_BUTTON = $localize`:@@candidateAccounts.new:Nueva cuenta de candidato`;
 export const CANDIDATE_ACCOUNTS_EMPTY = $localize`:@@candidateAccounts.empty:No hay cuentas de candidatos`;
 export const CANDIDATE_ACCOUNTS_FILTER_EMAIL = $localize`:@@candidateAccounts.filter.email:Buscar email`;
 export const CANDIDATE_ACCOUNTS_COL_EMAIL = $localize`:@@candidateAccounts.col.email:Email`;
