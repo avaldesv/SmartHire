@@ -5,13 +5,16 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../../shared/components/modal-form/sh-modal-form.component';
 import { COMMON_CANCEL } from '../../../../core/i18n/nav-labels';
 import {
   HISTORIC_REASSIGN_EDUCATION,
@@ -53,7 +56,8 @@ export interface HistoricReassignDialogData {
     MatTableModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
-    MatIconModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
   ],
   templateUrl: './historic-reassign-dialog.component.html',
   styleUrl: './historic-reassign-dialog.component.scss',

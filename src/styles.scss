@@ -555,6 +555,31 @@ a:hover { text-decoration: underline; }
   overflow: hidden !important;
 }
 
+.sh-historic-reassign-dialog-panel .mat-mdc-dialog-surface {
+  display: flex !important;
+  flex-direction: column;
+  height: 100% !important;
+  max-height: 100% !important;
+  overflow: hidden;
+}
+
+.sh-historic-reassign-dialog-panel .mat-mdc-dialog-component-host,
+.sh-historic-reassign-dialog-panel sh-historic-reassign-dialog {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+}
+
+.sh-historic-reassign-dialog-panel .mat-mdc-dialog-content.sh-catalog-dialog-body,
+.sh-historic-reassign-dialog-panel .mat-mdc-dialog-title + .mat-mdc-dialog-content.sh-catalog-dialog-body {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: hidden !important;
+}
+
 /* Candidate documents — wide modal, body grows; scroll only inside table when needed */
 .sh-candidate-documents-dialog-panel .mat-mdc-dialog-container,
 .sh-candidate-documents-dialog-panel .mat-mdc-dialog-surface {

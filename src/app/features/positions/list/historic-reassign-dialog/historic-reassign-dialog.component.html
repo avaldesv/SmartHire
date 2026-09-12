@@ -1,75 +1,79 @@
-<div class="sh-historic-dialog">
-  <header class="sh-historic-dialog__header">
-    <h2>{{ title }}</h2>
-    <button mat-icon-button type="button" (click)="close()"><mat-icon>close</mat-icon></button>
-  </header>
-  <div class="sh-historic-dialog__body">
-    <mat-form-field appearance="outline">
-      <mat-label>{{ sourceLabel }}</mat-label>
-      <mat-select [(ngModel)]="sourceKind" (selectionChange)="load()">
-        <mat-option value="HISTORICAL">{{ sourceHistory }}</mat-option>
-        <mat-option value="REASSIGNMENT">{{ sourceReassign }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    @if (sourceKind === 'REASSIGNMENT') {
-      <p class="hint">{{ reassignHint }}</p>
+<sh-modal-form [title]="title" contentClass="historic-dialog-body">
+  <mat-form-field appearance="outline" subscriptSizing="dynamic" class="source-field">
+    <mat-label>{{ sourceLabel }}</mat-label>
+    <mat-select [(ngModel)]="sourceKind" (selectionChange)="load()">
+      <mat-option value="HISTORICAL">{{ sourceHistory }}</mat-option>
+      <mat-option value="REASSIGNMENT">{{ sourceReassign }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  @if (sourceKind === 'REASSIGNMENT') {
+    <p class="hint">{{ reassignHint }}</p>
+  } @else {
+    <div class="filters">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>{{ searchLabel }}</mat-label>
+        <input matInput [(ngModel)]="search" (keyup.enter)="page = 0; load()" />
+      </mat-form-field>
+      <button mat-stroked-button type="button" (click)="page = 0; load()">{{ searchBtn }}</button>
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>{{ educationLabel }}</mat-label>
+        <mat-select [(ngModel)]="educationLevelId" (selectionChange)="page = 0; load()">
+          <mat-option [value]="null">{{ educationAny }}</mat-option>
+          @for (level of educationLevels; track level.id) {
+            <mat-option [value]="level.id">{{ level.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+    @if (loading) {
+      <div class="loading-wrap"><mat-spinner diameter="32" /></div>
     } @else {
-      <div class="filters">
-        <mat-form-field appearance="outline">
-          <mat-label>{{ searchLabel }}</mat-label>
-          <input matInput [(ngModel)]="search" (keyup.enter)="page = 0; load()" />
-        </mat-form-field>
-        <button mat-stroked-button type="button" (click)="page = 0; load()">{{ searchBtn }}</button>
-        <mat-form-field appearance="outline">
-          <mat-label>{{ educationLabel }}</mat-label>
-          <mat-select [(ngModel)]="educationLevelId" (selectionChange)="page = 0; load()">
-            <mat-option [value]="null">{{ educationAny }}</mat-option>
-            @for (level of educationLevels; track level.id) {
-              <mat-option [value]="level.id">{{ level.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
+      <div class="sh-table-wrap">
+        <table mat-table [dataSource]="rows">
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox [checked]="isChecked(row.id)" (change)="toggle(row.id, $event.checked)"></mat-checkbox>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="id"><th mat-header-cell *matHeaderCellDef>Id</th><td mat-cell *matCellDef="let row">{{ row.id }}</td></ng-container>
+          <ng-container matColumnDef="countryName"><th mat-header-cell *matHeaderCellDef>País</th><td mat-cell *matCellDef="let row">{{ row.countryName }}</td></ng-container>
+          <ng-container matColumnDef="firstName"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.firstName }}</td></ng-container>
+          <ng-container matColumnDef="lastNames"><th mat-header-cell *matHeaderCellDef>Apellidos</th><td mat-cell *matCellDef="let row">{{ row.lastNames }}</td></ng-container>
+          <ng-container matColumnDef="email"><th mat-header-cell *matHeaderCellDef>Email</th><td mat-cell *matCellDef="let row">{{ row.email }}</td></ng-container>
+          <ng-container matColumnDef="phone"><th mat-header-cell *matHeaderCellDef>Teléfono</th><td mat-cell *matCellDef="let row">{{ row.phone }}</td></ng-container>
+          <ng-container matColumnDef="mobilePhone"><th mat-header-cell *matHeaderCellDef>Celular</th><td mat-cell *matCellDef="let row">{{ row.mobilePhone }}</td></ng-container>
+          <ng-container matColumnDef="employmentRecordStatus"><th mat-header-cell *matHeaderCellDef>Estatus</th><td mat-cell *matCellDef="let row">{{ row.employmentRecordStatus }}</td></ng-container>
+          <ng-container matColumnDef="jobTitle"><th mat-header-cell *matHeaderCellDef>Puesto</th><td mat-cell *matCellDef="let row">{{ row.jobTitle }}</td></ng-container>
+          <ng-container matColumnDef="birthDate"><th mat-header-cell *matHeaderCellDef>Fecha nacimiento</th><td mat-cell *matCellDef="let row">{{ row.birthDate }}</td></ng-container>
+          <ng-container matColumnDef="salary"><th mat-header-cell *matHeaderCellDef>Sueldo</th><td mat-cell *matCellDef="let row">{{ row.salary }}</td></ng-container>
+          <ng-container matColumnDef="educationLevelName"><th mat-header-cell *matHeaderCellDef>Nivel de estudios</th><td mat-cell *matCellDef="let row">{{ row.educationLevelName }}</td></ng-container>
+          <ng-container matColumnDef="recruitmentSource"><th mat-header-cell *matHeaderCellDef>Fuente</th><td mat-cell *matCellDef="let row">{{ row.recruitmentSource }}</td></ng-container>
+          <ng-container matColumnDef="originSystem"><th mat-header-cell *matHeaderCellDef>Sist</th><td mat-cell *matCellDef="let row">{{ row.originSystem }}</td></ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
       </div>
-      @if (loading) {
-        <mat-spinner diameter="32"></mat-spinner>
-      } @else {
-        <div class="table-wrap">
-          <table mat-table [dataSource]="rows">
-            <ng-container matColumnDef="select">
-              <th mat-header-cell *matHeaderCellDef></th>
-              <td mat-cell *matCellDef="let row">
-                <mat-checkbox [checked]="isChecked(row.id)" (change)="toggle(row.id, $event.checked)"></mat-checkbox>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="id"><th mat-header-cell *matHeaderCellDef>Id</th><td mat-cell *matCellDef="let row">{{ row.id }}</td></ng-container>
-            <ng-container matColumnDef="countryName"><th mat-header-cell *matHeaderCellDef>País</th><td mat-cell *matCellDef="let row">{{ row.countryName }}</td></ng-container>
-            <ng-container matColumnDef="firstName"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let row">{{ row.firstName }}</td></ng-container>
-            <ng-container matColumnDef="lastNames"><th mat-header-cell *matHeaderCellDef>Apellidos</th><td mat-cell *matCellDef="let row">{{ row.lastNames }}</td></ng-container>
-            <ng-container matColumnDef="email"><th mat-header-cell *matHeaderCellDef>Email</th><td mat-cell *matCellDef="let row">{{ row.email }}</td></ng-container>
-            <ng-container matColumnDef="phone"><th mat-header-cell *matHeaderCellDef>Teléfono</th><td mat-cell *matCellDef="let row">{{ row.phone }}</td></ng-container>
-            <ng-container matColumnDef="mobilePhone"><th mat-header-cell *matHeaderCellDef>Celular</th><td mat-cell *matCellDef="let row">{{ row.mobilePhone }}</td></ng-container>
-            <ng-container matColumnDef="employmentRecordStatus"><th mat-header-cell *matHeaderCellDef>Estatus</th><td mat-cell *matCellDef="let row">{{ row.employmentRecordStatus }}</td></ng-container>
-            <ng-container matColumnDef="jobTitle"><th mat-header-cell *matHeaderCellDef>Puesto</th><td mat-cell *matCellDef="let row">{{ row.jobTitle }}</td></ng-container>
-            <ng-container matColumnDef="birthDate"><th mat-header-cell *matHeaderCellDef>Fecha nacimiento</th><td mat-cell *matCellDef="let row">{{ row.birthDate }}</td></ng-container>
-            <ng-container matColumnDef="salary"><th mat-header-cell *matHeaderCellDef>Sueldo</th><td mat-cell *matCellDef="let row">{{ row.salary }}</td></ng-container>
-            <ng-container matColumnDef="educationLevelName"><th mat-header-cell *matHeaderCellDef>Nivel de estudios</th><td mat-cell *matCellDef="let row">{{ row.educationLevelName }}</td></ng-container>
-            <ng-container matColumnDef="recruitmentSource"><th mat-header-cell *matHeaderCellDef>Fuente</th><td mat-cell *matCellDef="let row">{{ row.recruitmentSource }}</td></ng-container>
-            <ng-container matColumnDef="originSystem"><th mat-header-cell *matHeaderCellDef>Sist</th><td mat-cell *matCellDef="let row">{{ row.originSystem }}</td></ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-          </table>
-        </div>
-        <mat-paginator [length]="total" [pageIndex]="page" [pageSize]="size" [pageSizeOptions]="[10,20,50]" (page)="onPage($event)"></mat-paginator>
-      }
+      <mat-paginator [length]="total" [pageIndex]="page" [pageSize]="size" [pageSizeOptions]="[10,20,50]" (page)="onPage($event)"></mat-paginator>
     }
-  </div>
-  <footer class="sh-historic-dialog__footer">
+  }
+
+  <div class="notify-row">
     <mat-checkbox [(ngModel)]="notifyEmail">{{ notifyEmailLabel }}</mat-checkbox>
     <mat-checkbox [(ngModel)]="notifyWhatsApp">{{ notifyWaLabel }}</mat-checkbox>
-    <span class="spacer"></span>
+  </div>
+
+  <div shModalActions>
     <button mat-stroked-button type="button" (click)="close()">{{ cancelLabel }}</button>
-    <button mat-flat-button color="primary" type="button" [disabled]="posting || sourceKind !== 'HISTORICAL'" (click)="postulate()">
+    <button
+      mat-flat-button
+      color="primary"
+      type="button"
+      [disabled]="posting || sourceKind !== 'HISTORICAL'"
+      (click)="postulate()"
+    >
       {{ postulateLabel }}
     </button>
-  </footer>
-</div>
+  </div>
+</sh-modal-form>
