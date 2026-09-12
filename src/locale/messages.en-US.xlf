@@ -5544,6 +5544,14 @@
         <source>No hay portales de publicación activos</source>
         <target>There are no active job portals</target>
       </trans-unit>
+      <trans-unit id="portalCredentials.testConnection" datatype="html">
+        <source>Probar conexión</source>
+        <target>Test connection</target>
+      </trans-unit>
+      <trans-unit id="portalCredentials.testConnectionUnavailable" datatype="html">
+        <source>La prueba de conexión estará disponible en una próxima versión.</source>
+        <target>Connection testing will be available in a future release.</target>
+      </trans-unit>
       <trans-unit id="requisition.portals.sectionTitle" datatype="html">
         <source>Portales de publicación externos</source>
         <target>External job portals</target>

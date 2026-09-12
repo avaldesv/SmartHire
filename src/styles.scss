@@ -386,6 +386,32 @@ a:hover { text-decoration: underline; }
   flex-shrink: 0;
 }
 
+/* Job portal credentials — UX proposal layout */
+.sh-job-portal-credentials-dialog-panel .mat-mdc-dialog-container,
+.sh-job-portal-credentials-dialog-panel .mat-mdc-dialog-surface {
+  max-height: 92vh;
+  padding: 0 !important;
+  overflow: hidden;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sh-job-portal-credentials-dialog-panel .mat-mdc-dialog-content.portal-cred-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: calc(92vh - 140px);
+  overflow: auto !important;
+  padding: 0 !important;
+}
+
+.sh-job-portal-credentials-dialog-panel .mat-mdc-dialog-actions {
+  flex-shrink: 0;
+  border-top: 1px solid #e2e8f0;
+  margin: 0 !important;
+  padding: 14px 20px 16px !important;
+}
+
 /* Standard form dialog footer: aligned buttons with bottom breathing room */
 .sh-catalog-form-dialog-panel .mat-mdc-dialog-actions {
   box-sizing: border-box !important;

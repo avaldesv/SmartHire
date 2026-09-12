@@ -12422,123 +12422,137 @@
           <context context-type="linenumber">17</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="portalCredentials.testConnection" datatype="html">
+        <source>Probar conexión</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/portal-credentials-labels.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="portalCredentials.testConnectionUnavailable" datatype="html">
+        <source>La prueba de conexión estará disponible en una próxima versión.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/portal-credentials-labels.ts</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="requisition.portals.sectionTitle" datatype="html">
         <source>Portales de publicación externos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/portal-credentials-labels.ts</context>
-          <context context-type="linenumber">19</context>
+          <context context-type="linenumber">21</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.portals.sectionHint" datatype="html">
         <source>Asocia los portales donde publicaste esta posición e indica el identificador externo.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/portal-credentials-labels.ts</context>
-          <context context-type="linenumber">20</context>
+          <context context-type="linenumber">22</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.portals.portal" datatype="html">
         <source>Portal</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/portal-credentials-labels.ts</context>
-          <context context-type="linenumber">21</context>
+          <context context-type="linenumber">23</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.portals.externalId" datatype="html">
         <source>Identificador en portal</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/portal-credentials-labels.ts</context>
-          <context context-type="linenumber">22</context>
+          <context context-type="linenumber">24</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.portals.externalIdPlaceholder" datatype="html">
         <source>Ej. OCC-AB12X9</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/portal-credentials-labels.ts</context>
-          <context context-type="linenumber">23</context>
+          <context context-type="linenumber">25</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.portals.add" datatype="html">
         <source>Agregar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/portal-credentials-labels.ts</context>
-          <context context-type="linenumber">24</context>
+          <context context-type="linenumber">26</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.portals.update" datatype="html">
         <source>Actualizar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/portal-credentials-labels.ts</context>
-          <context context-type="linenumber">25</context>
+          <context context-type="linenumber">27</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.portals.tableTitle" datatype="html">
         <source>Portales asociados</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/portal-credentials-labels.ts</context>
-          <context context-type="linenumber">26</context>
+          <context context-type="linenumber">28</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.portals.col.portal" datatype="html">
         <source>Portal</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/portal-credentials-labels.ts</context>
-          <context context-type="linenumber">27</context>
+          <context context-type="linenumber">29</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.portals.col.externalId" datatype="html">
         <source>Identificador externo</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/portal-credentials-labels.ts</context>
-          <context context-type="linenumber">28</context>
+          <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.portals.col.actions" datatype="html">
         <source>Acciones</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/portal-credentials-labels.ts</context>
-          <context context-type="linenumber">29</context>
+          <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.portals.edit" datatype="html">
         <source>Editar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/portal-credentials-labels.ts</context>
-          <context context-type="linenumber">30</context>
+          <context context-type="linenumber">32</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.portals.delete" datatype="html">
         <source>Eliminar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/portal-credentials-labels.ts</context>
-          <context context-type="linenumber">31</context>
+          <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.portals.empty" datatype="html">
         <source>Aún no hay portales asociados</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/portal-credentials-labels.ts</context>
-          <context context-type="linenumber">32</context>
+          <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.portals.select" datatype="html">
         <source>Seleccionar portal…</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/portal-credentials-labels.ts</context>
-          <context context-type="linenumber">33</context>
+          <context context-type="linenumber">35</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.portals.duplicate" datatype="html">
         <source>Este portal ya está asociado</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/portal-credentials-labels.ts</context>
-          <context context-type="linenumber">34</context>
+          <context context-type="linenumber">36</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.portals.externalIdRequired" datatype="html">
         <source>Ingrese el identificador externo</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/portal-credentials-labels.ts</context>
-          <context context-type="linenumber">35</context>
+          <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
       <trans-unit id="applicationsDialog.title" datatype="html">
