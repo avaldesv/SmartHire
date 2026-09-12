@@ -7,7 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
-import { FEEDBACK_GENERIC_INFO_TITLE } from '../../../core/i18n/feedback-labels';
 import {
   PORTAL_CRED_CANCEL,
   PORTAL_CRED_CLOSE,
@@ -21,8 +20,6 @@ import {
   PORTAL_CRED_STATUS_CONFIGURED,
   PORTAL_CRED_STATUS_EMPTY,
   PORTAL_CRED_SUBTITLE,
-  PORTAL_CRED_TEST_CONNECTION,
-  PORTAL_CRED_TEST_CONNECTION_UNAVAILABLE,
   PORTAL_CRED_TITLE,
   PORTAL_CRED_USERNAME,
 } from '../../../core/i18n/portal-credentials-labels';
@@ -68,7 +65,6 @@ export class JobPortalCredentialsDialogComponent implements OnInit {
     cancel: PORTAL_CRED_CANCEL,
     passwordKeepHint: PORTAL_CRED_PASSWORD_KEEP_HINT,
     empty: PORTAL_CRED_EMPTY,
-    testConnection: PORTAL_CRED_TEST_CONNECTION,
   };
 
   loading = true;
@@ -148,10 +144,6 @@ export class JobPortalCredentialsDialogComponent implements OnInit {
 
   togglePassword(index: number): void {
     this.showPassword[index] = !this.showPassword[index];
-  }
-
-  testConnection(_index: number): void {
-    this.feedback.showInfo(FEEDBACK_GENERIC_INFO_TITLE, PORTAL_CRED_TEST_CONNECTION_UNAVAILABLE);
   }
 
   close(): void {
