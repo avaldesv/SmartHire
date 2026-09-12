@@ -6,7 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
+import { ShPaginatorComponent } from '../../../../shared/components/paginator/sh-paginator.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
@@ -54,7 +55,7 @@ export interface HistoricReassignDialogData {
     MatInputModule,
     MatSelectModule,
     MatTableModule,
-    MatPaginatorModule,
+    ShPaginatorComponent,
     MatProgressSpinnerModule,
     ShModalFormComponent,
     ShModalActionsDirective,

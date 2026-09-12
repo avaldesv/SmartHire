@@ -6,7 +6,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
+import { ShPaginatorComponent } from '../../../shared/components/paginator/sh-paginator.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
@@ -233,7 +234,7 @@ const CATALOGS_SELECTION_SESSION_KEY = 'sh_catalogs_selection';
     ReactiveFormsModule,
     MatTabsModule,
     MatTableModule,
-    MatPaginatorModule,
+    ShPaginatorComponent,
     MatProgressSpinnerModule,
     MatButtonModule,
     MatIconModule,

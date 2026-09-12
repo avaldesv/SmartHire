@@ -2,11 +2,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 /** Default page sizes for SmartHire list tables and dialogs. */
-export const SH_PAGINATOR_PAGE_SIZE_OPTIONS = [5, 10, 25] as const;
+export const SH_PAGINATOR_PAGE_SIZE_OPTIONS = [10, 25, 50] as const;
 
 /**
- * Thin wrapper around MatPaginator with SmartHire defaults
- * (page size options, first/last buttons). Labels come from MatPaginatorIntl.
+ * Project paginator: MatPaginator + i18n (`SmarthireMatPaginatorIntl`) and shared defaults.
  */
 @Component({
   selector: 'sh-paginator',

@@ -26,7 +26,7 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
-      <mat-paginator [length]="total" [pageIndex]="page" [pageSize]="size" (page)="onPage($event)"></mat-paginator>
+      <sh-paginator [length]="total" [pageIndex]="page" [pageSize]="size" (page)="onPage($event)"></sh-paginator>
     </div>
   }
 </div>

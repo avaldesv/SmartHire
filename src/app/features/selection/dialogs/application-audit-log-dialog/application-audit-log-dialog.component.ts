@@ -7,7 +7,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
+import { ShPaginatorComponent } from '../../../../shared/components/paginator/sh-paginator.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
@@ -28,7 +29,7 @@ export interface ApplicationAuditLogDialogData {
     ReactiveFormsModule,
     MatDialogModule,
     MatTableModule,
-    MatPaginatorModule,
+    ShPaginatorComponent,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,

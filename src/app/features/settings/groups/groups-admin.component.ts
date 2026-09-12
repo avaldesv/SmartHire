@@ -8,7 +8,8 @@ import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dial
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
+import { ShPaginatorComponent } from '../../../shared/components/paginator/sh-paginator.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
@@ -80,7 +81,7 @@ interface SelectedPermissionChip {
   imports: [
     ReactiveFormsModule,
     MatTableModule,
-    MatPaginatorModule,
+    ShPaginatorComponent,
     MatChipsModule,
     MatProgressSpinnerModule,
     MatButtonModule,

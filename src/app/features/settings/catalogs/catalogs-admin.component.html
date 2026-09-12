@@ -153,7 +153,7 @@
             <tr mat-header-row *matHeaderRowDef="genderColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: genderColumns"></tr>
           </table>
-          <mat-paginator
+          <sh-paginator
             [length]="genderTotal"
             [pageSize]="genderPageSize"
             [pageIndex]="genderPageIndex"
@@ -225,7 +225,7 @@
             <tr mat-header-row *matHeaderRowDef="kinshipColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: kinshipColumns"></tr>
           </table>
-          <mat-paginator [length]="kinshipTotal" [pageSize]="kinshipPageSize" [pageIndex]="kinshipPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onKinshipPage($event)" />
+          <sh-paginator [length]="kinshipTotal" [pageSize]="kinshipPageSize" [pageIndex]="kinshipPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onKinshipPage($event)" />
         </div>
       }
     </div>
@@ -272,7 +272,7 @@
             <tr mat-header-row *matHeaderRowDef="cancellationTypeColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: cancellationTypeColumns"></tr>
           </table>
-          <mat-paginator [length]="cancellationTypeTotal" [pageSize]="cancellationTypePageSize" [pageIndex]="cancellationTypePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCancellationTypePage($event)" />
+          <sh-paginator [length]="cancellationTypeTotal" [pageSize]="cancellationTypePageSize" [pageIndex]="cancellationTypePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCancellationTypePage($event)" />
         </div>
       }
     </div>
@@ -337,7 +337,7 @@
             <tr mat-header-row *matHeaderRowDef="cancellationReasonColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: cancellationReasonColumns"></tr>
           </table>
-          <mat-paginator [length]="cancellationReasonTotal" [pageSize]="cancellationReasonPageSize" [pageIndex]="cancellationReasonPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCancellationReasonPage($event)" />
+          <sh-paginator [length]="cancellationReasonTotal" [pageSize]="cancellationReasonPageSize" [pageIndex]="cancellationReasonPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCancellationReasonPage($event)" />
         </div>
       }
     </div>
@@ -414,7 +414,7 @@
             <tr mat-header-row *matHeaderRowDef="positionStatusColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: positionStatusColumns"></tr>
           </table>
-          <mat-paginator [length]="positionStatusTotal" [pageSize]="positionStatusPageSize" [pageIndex]="positionStatusPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onPositionStatusPage($event)" />
+          <sh-paginator [length]="positionStatusTotal" [pageSize]="positionStatusPageSize" [pageIndex]="positionStatusPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onPositionStatusPage($event)" />
         </div>
       }
     </div>
@@ -558,7 +558,7 @@
             <tr mat-header-row *matHeaderRowDef="companyColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: companyColumns"></tr>
           </table>
-          <mat-paginator [length]="companyTotal" [pageSize]="companyPageSize" [pageIndex]="companyPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCompanyPage($event)" />
+          <sh-paginator [length]="companyTotal" [pageSize]="companyPageSize" [pageIndex]="companyPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCompanyPage($event)" />
         </div>
       }
     </div>
@@ -645,7 +645,7 @@
             <tr mat-header-row *matHeaderRowDef="currencyColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: currencyColumns"></tr>
           </table>
-          <mat-paginator [length]="currencyTotal" [pageSize]="currencyPageSize" [pageIndex]="currencyPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCurrencyPage($event)" />
+          <sh-paginator [length]="currencyTotal" [pageSize]="currencyPageSize" [pageIndex]="currencyPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCurrencyPage($event)" />
         </div>
       }
     </div>
@@ -728,7 +728,7 @@
             <tr mat-header-row *matHeaderRowDef="careerColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: careerColumns"></tr>
           </table>
-          <mat-paginator [length]="careerTotal" [pageSize]="careerPageSize" [pageIndex]="careerPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCareerPage($event)" />
+          <sh-paginator [length]="careerTotal" [pageSize]="careerPageSize" [pageIndex]="careerPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCareerPage($event)" />
         </div>
       }
     </div>
@@ -803,7 +803,7 @@
             <tr mat-header-row *matHeaderRowDef="languageColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: languageColumns"></tr>
           </table>
-          <mat-paginator [length]="languageTotal" [pageSize]="languagePageSize" [pageIndex]="languagePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onLanguagePage($event)" />
+          <sh-paginator [length]="languageTotal" [pageSize]="languagePageSize" [pageIndex]="languagePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onLanguagePage($event)" />
         </div>
       }
     </div>
@@ -886,7 +886,7 @@
             <tr mat-header-row *matHeaderRowDef="shiftColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: shiftColumns"></tr>
           </table>
-          <mat-paginator [length]="shiftTotal" [pageSize]="shiftPageSize" [pageIndex]="shiftPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onShiftPage($event)" />
+          <sh-paginator [length]="shiftTotal" [pageSize]="shiftPageSize" [pageIndex]="shiftPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onShiftPage($event)" />
         </div>
       }
     </div>
@@ -969,7 +969,7 @@
             <tr mat-header-row *matHeaderRowDef="benefitColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: benefitColumns"></tr>
           </table>
-          <mat-paginator [length]="benefitTotal" [pageSize]="benefitPageSize" [pageIndex]="benefitPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onBenefitPage($event)" />
+          <sh-paginator [length]="benefitTotal" [pageSize]="benefitPageSize" [pageIndex]="benefitPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onBenefitPage($event)" />
         </div>
       }
     </div>
@@ -1101,7 +1101,7 @@
             <tr mat-header-row *matHeaderRowDef="documentTypeColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: documentTypeColumns"></tr>
           </table>
-          <mat-paginator [length]="documentTypeTotal" [pageSize]="documentTypePageSize" [pageIndex]="documentTypePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onDocumentTypePage($event)" />
+          <sh-paginator [length]="documentTypeTotal" [pageSize]="documentTypePageSize" [pageIndex]="documentTypePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onDocumentTypePage($event)" />
         </div>
       }
     </div>
@@ -1188,7 +1188,7 @@
             <tr mat-header-row *matHeaderRowDef="fileExtensionColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: fileExtensionColumns"></tr>
           </table>
-          <mat-paginator [length]="fileExtensionTotal" [pageSize]="fileExtensionPageSize" [pageIndex]="fileExtensionPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onFileExtensionPage($event)" />
+          <sh-paginator [length]="fileExtensionTotal" [pageSize]="fileExtensionPageSize" [pageIndex]="fileExtensionPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onFileExtensionPage($event)" />
         </div>
       }
     </div>
@@ -1271,7 +1271,7 @@
             <tr mat-header-row *matHeaderRowDef="brandColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: brandColumns"></tr>
           </table>
-          <mat-paginator [length]="brandTotal" [pageSize]="brandPageSize" [pageIndex]="brandPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onBrandPage($event)" />
+          <sh-paginator [length]="brandTotal" [pageSize]="brandPageSize" [pageIndex]="brandPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onBrandPage($event)" />
         </div>
       }
     </div>
@@ -1356,7 +1356,7 @@
             <tr mat-header-row *matHeaderRowDef="contractTypeColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: contractTypeColumns"></tr>
           </table>
-          <mat-paginator [length]="contractTypeTotal" [pageSize]="contractTypePageSize" [pageIndex]="contractTypePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onContractTypePage($event)" />
+          <sh-paginator [length]="contractTypeTotal" [pageSize]="contractTypePageSize" [pageIndex]="contractTypePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onContractTypePage($event)" />
         </div>
       }
     </div>
@@ -1447,7 +1447,7 @@
             <tr mat-header-row *matHeaderRowDef="coverageTypeColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: coverageTypeColumns"></tr>
           </table>
-          <mat-paginator [length]="coverageTypeTotal" [pageSize]="coverageTypePageSize" [pageIndex]="coverageTypePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCoverageTypePage($event)" />
+          <sh-paginator [length]="coverageTypeTotal" [pageSize]="coverageTypePageSize" [pageIndex]="coverageTypePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCoverageTypePage($event)" />
         </div>
       }
     </div>
@@ -1534,7 +1534,7 @@
             <tr mat-header-row *matHeaderRowDef="educationLevelColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: educationLevelColumns"></tr>
           </table>
-          <mat-paginator [length]="educationLevelTotal" [pageSize]="educationLevelPageSize" [pageIndex]="educationLevelPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onEducationLevelPage($event)" />
+          <sh-paginator [length]="educationLevelTotal" [pageSize]="educationLevelPageSize" [pageIndex]="educationLevelPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onEducationLevelPage($event)" />
         </div>
       }
     </div>
@@ -1619,7 +1619,7 @@
             <tr mat-header-row *matHeaderRowDef="languageLevelColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: languageLevelColumns"></tr>
           </table>
-          <mat-paginator [length]="languageLevelTotal" [pageSize]="languageLevelPageSize" [pageIndex]="languageLevelPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onLanguageLevelPage($event)" />
+          <sh-paginator [length]="languageLevelTotal" [pageSize]="languageLevelPageSize" [pageIndex]="languageLevelPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onLanguageLevelPage($event)" />
         </div>
       }
     </div>
@@ -1704,7 +1704,7 @@
             <tr mat-header-row *matHeaderRowDef="requisitionTypeColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: requisitionTypeColumns"></tr>
           </table>
-          <mat-paginator [length]="requisitionTypeTotal" [pageSize]="requisitionTypePageSize" [pageIndex]="requisitionTypePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onRequisitionTypePage($event)" />
+          <sh-paginator [length]="requisitionTypeTotal" [pageSize]="requisitionTypePageSize" [pageIndex]="requisitionTypePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onRequisitionTypePage($event)" />
         </div>
       }
     </div>
@@ -1790,7 +1790,7 @@
             <tr mat-header-row *matHeaderRowDef="companyAreaColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: companyAreaColumns"></tr>
           </table>
-          <mat-paginator [length]="companyAreaTotal" [pageSize]="companyAreaPageSize" [pageIndex]="companyAreaPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCompanyAreaPage($event)" />
+          <sh-paginator [length]="companyAreaTotal" [pageSize]="companyAreaPageSize" [pageIndex]="companyAreaPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCompanyAreaPage($event)" />
         </div>
       }
     </div>
@@ -1874,7 +1874,7 @@
             <tr mat-header-row *matHeaderRowDef="companyDepartmentColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: companyDepartmentColumns"></tr>
           </table>
-          <mat-paginator [length]="companyDepartmentTotal" [pageSize]="companyDepartmentPageSize" [pageIndex]="companyDepartmentPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCompanyDepartmentPage($event)" />
+          <sh-paginator [length]="companyDepartmentTotal" [pageSize]="companyDepartmentPageSize" [pageIndex]="companyDepartmentPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCompanyDepartmentPage($event)" />
         </div>
       }
     </div>
@@ -1961,7 +1961,7 @@
             <tr mat-header-row *matHeaderRowDef="branchColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: branchColumns"></tr>
           </table>
-          <mat-paginator [length]="branchTotal" [pageSize]="branchPageSize" [pageIndex]="branchPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onBranchPage($event)" />
+          <sh-paginator [length]="branchTotal" [pageSize]="branchPageSize" [pageIndex]="branchPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onBranchPage($event)" />
         </div>
       }
     </div>
@@ -2040,7 +2040,7 @@
             <tr mat-header-row *matHeaderRowDef="questionnaireCategoryColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: questionnaireCategoryColumns"></tr>
           </table>
-          <mat-paginator [length]="questionnaireCategoryTotal" [pageSize]="questionnaireCategoryPageSize" [pageIndex]="questionnaireCategoryPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onQuestionnaireCategoryPage($event)" />
+          <sh-paginator [length]="questionnaireCategoryTotal" [pageSize]="questionnaireCategoryPageSize" [pageIndex]="questionnaireCategoryPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onQuestionnaireCategoryPage($event)" />
         </div>
       }
     </div>
@@ -2110,7 +2110,7 @@
             <tr mat-header-row *matHeaderRowDef="questionnaireQuestionColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: questionnaireQuestionColumns"></tr>
           </table>
-          <mat-paginator [length]="questionnaireQuestionTotal" [pageSize]="questionnaireQuestionPageSize" [pageIndex]="questionnaireQuestionPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onQuestionnaireQuestionPage($event)" />
+          <sh-paginator [length]="questionnaireQuestionTotal" [pageSize]="questionnaireQuestionPageSize" [pageIndex]="questionnaireQuestionPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onQuestionnaireQuestionPage($event)" />
         </div>
       }
     </div>
@@ -2167,7 +2167,7 @@
             <tr mat-header-row *matHeaderRowDef="recruiterGroupColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: recruiterGroupColumns"></tr>
           </table>
-          <mat-paginator [length]="recruiterGroupTotal" [pageSize]="recruiterGroupPageSize" [pageIndex]="recruiterGroupPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onRecruiterGroupPage($event)" />
+          <sh-paginator [length]="recruiterGroupTotal" [pageSize]="recruiterGroupPageSize" [pageIndex]="recruiterGroupPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onRecruiterGroupPage($event)" />
         </div>
       }
     </div>
@@ -2249,7 +2249,7 @@
             <tr mat-header-row *matHeaderRowDef="jobPortalColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: jobPortalColumns"></tr>
           </table>
-          <mat-paginator [length]="jobPortalTotal" [pageSize]="jobPortalPageSize" [pageIndex]="jobPortalPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onJobPortalPage($event)" />
+          <sh-paginator [length]="jobPortalTotal" [pageSize]="jobPortalPageSize" [pageIndex]="jobPortalPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onJobPortalPage($event)" />
         </div>
       }
     </div>
@@ -2337,7 +2337,7 @@
             <tr mat-header-row *matHeaderRowDef="countryColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: countryColumns"></tr>
           </table>
-          <mat-paginator [length]="countryRecordTotal" [pageSize]="countryPageSize" [pageIndex]="countryPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCountryPage($event)" />
+          <sh-paginator [length]="countryRecordTotal" [pageSize]="countryPageSize" [pageIndex]="countryPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCountryPage($event)" />
         </div>
       }
     </div>
@@ -2413,7 +2413,7 @@
             <tr mat-header-row *matHeaderRowDef="stateColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: stateColumns"></tr>
           </table>
-          <mat-paginator [length]="stateTotal" [pageSize]="statePageSize" [pageIndex]="statePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onStatePage($event)" />
+          <sh-paginator [length]="stateTotal" [pageSize]="statePageSize" [pageIndex]="statePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onStatePage($event)" />
         </div>
       }
     </div>
@@ -2495,7 +2495,7 @@
             <tr mat-header-row *matHeaderRowDef="municipalityColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: municipalityColumns"></tr>
           </table>
-          <mat-paginator [length]="municipalityTotal" [pageSize]="municipalityPageSize" [pageIndex]="municipalityPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onMunicipalityPage($event)" />
+          <sh-paginator [length]="municipalityTotal" [pageSize]="municipalityPageSize" [pageIndex]="municipalityPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onMunicipalityPage($event)" />
         </div>
       }
     </div>
@@ -2585,7 +2585,7 @@
             <tr mat-header-row *matHeaderRowDef="neighborhoodColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: neighborhoodColumns"></tr>
           </table>
-          <mat-paginator [length]="neighborhoodTotal" [pageSize]="neighborhoodPageSize" [pageIndex]="neighborhoodPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onNeighborhoodPage($event)" />
+          <sh-paginator [length]="neighborhoodTotal" [pageSize]="neighborhoodPageSize" [pageIndex]="neighborhoodPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onNeighborhoodPage($event)" />
         </div>
       }
     </div>
@@ -2671,7 +2671,7 @@
             <tr mat-header-row *matHeaderRowDef="coverageCategoryColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: coverageCategoryColumns"></tr>
           </table>
-          <mat-paginator [length]="coverageCategoryTotal" [pageSize]="coverageCategoryPageSize" [pageIndex]="coverageCategoryPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCoverageCategoryPage($event)" />
+          <sh-paginator [length]="coverageCategoryTotal" [pageSize]="coverageCategoryPageSize" [pageIndex]="coverageCategoryPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCoverageCategoryPage($event)" />
         </div>
       }
     </div>
@@ -2755,7 +2755,7 @@
             <tr mat-header-row *matHeaderRowDef="characteristicColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: characteristicColumns"></tr>
           </table>
-          <mat-paginator [length]="characteristicTotal" [pageSize]="characteristicPageSize" [pageIndex]="characteristicPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCharacteristicPage($event)" />
+          <sh-paginator [length]="characteristicTotal" [pageSize]="characteristicPageSize" [pageIndex]="characteristicPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCharacteristicPage($event)" />
         </div>
       }
     </div>
@@ -2838,7 +2838,7 @@
             <tr mat-header-row *matHeaderRowDef="categoryColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: categoryColumns"></tr>
           </table>
-          <mat-paginator [length]="categoryTotal" [pageSize]="categoryPageSize" [pageIndex]="categoryPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCategoryPage($event)" />
+          <sh-paginator [length]="categoryTotal" [pageSize]="categoryPageSize" [pageIndex]="categoryPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onCategoryPage($event)" />
         </div>
       }
     </div>
@@ -2922,7 +2922,7 @@
             <tr mat-header-row *matHeaderRowDef="maritalStatusColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: maritalStatusColumns"></tr>
           </table>
-          <mat-paginator [length]="maritalStatusTotal" [pageSize]="maritalStatusPageSize" [pageIndex]="maritalStatusPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onMaritalStatusPage($event)" />
+          <sh-paginator [length]="maritalStatusTotal" [pageSize]="maritalStatusPageSize" [pageIndex]="maritalStatusPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onMaritalStatusPage($event)" />
         </div>
       }
     </div>
@@ -3006,7 +3006,7 @@
             <tr mat-header-row *matHeaderRowDef="experienceLevelColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: experienceLevelColumns"></tr>
           </table>
-          <mat-paginator [length]="experienceLevelTotal" [pageSize]="experienceLevelPageSize" [pageIndex]="experienceLevelPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onExperienceLevelPage($event)" />
+          <sh-paginator [length]="experienceLevelTotal" [pageSize]="experienceLevelPageSize" [pageIndex]="experienceLevelPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onExperienceLevelPage($event)" />
         </div>
       }
     </div>
@@ -3090,7 +3090,7 @@
             <tr mat-header-row *matHeaderRowDef="toolColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: toolColumns"></tr>
           </table>
-          <mat-paginator [length]="toolTotal" [pageSize]="toolPageSize" [pageIndex]="toolPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onToolPage($event)" />
+          <sh-paginator [length]="toolTotal" [pageSize]="toolPageSize" [pageIndex]="toolPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onToolPage($event)" />
         </div>
       }
     </div>
@@ -3174,7 +3174,7 @@
             <tr mat-header-row *matHeaderRowDef="workScheduleColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: workScheduleColumns"></tr>
           </table>
-          <mat-paginator [length]="workScheduleTotal" [pageSize]="workSchedulePageSize" [pageIndex]="workSchedulePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onWorkSchedulePage($event)" />
+          <sh-paginator [length]="workScheduleTotal" [pageSize]="workSchedulePageSize" [pageIndex]="workSchedulePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onWorkSchedulePage($event)" />
         </div>
       }
     </div>
@@ -3258,7 +3258,7 @@
             <tr mat-header-row *matHeaderRowDef="workplaceColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: workplaceColumns"></tr>
           </table>
-          <mat-paginator [length]="workplaceTotal" [pageSize]="workplacePageSize" [pageIndex]="workplacePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onWorkplacePage($event)" />
+          <sh-paginator [length]="workplaceTotal" [pageSize]="workplacePageSize" [pageIndex]="workplacePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onWorkplacePage($event)" />
         </div>
       }
     </div>
@@ -3342,7 +3342,7 @@
             <tr mat-header-row *matHeaderRowDef="requirementColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: requirementColumns"></tr>
           </table>
-          <mat-paginator [length]="requirementTotal" [pageSize]="requirementPageSize" [pageIndex]="requirementPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onRequirementPage($event)" />
+          <sh-paginator [length]="requirementTotal" [pageSize]="requirementPageSize" [pageIndex]="requirementPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onRequirementPage($event)" />
         </div>
       }
     </div>
@@ -3426,7 +3426,7 @@
             <tr mat-header-row *matHeaderRowDef="responsibilityLevelColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: responsibilityLevelColumns"></tr>
           </table>
-          <mat-paginator [length]="responsibilityLevelTotal" [pageSize]="responsibilityLevelPageSize" [pageIndex]="responsibilityLevelPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onResponsibilityLevelPage($event)" />
+          <sh-paginator [length]="responsibilityLevelTotal" [pageSize]="responsibilityLevelPageSize" [pageIndex]="responsibilityLevelPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onResponsibilityLevelPage($event)" />
         </div>
       }
     </div>
@@ -3510,7 +3510,7 @@
             <tr mat-header-row *matHeaderRowDef="disabilityTypeColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: disabilityTypeColumns"></tr>
           </table>
-          <mat-paginator [length]="disabilityTypeTotal" [pageSize]="disabilityTypePageSize" [pageIndex]="disabilityTypePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onDisabilityTypePage($event)" />
+          <sh-paginator [length]="disabilityTypeTotal" [pageSize]="disabilityTypePageSize" [pageIndex]="disabilityTypePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onDisabilityTypePage($event)" />
         </div>
       }
     </div>
@@ -3594,7 +3594,7 @@
             <tr mat-header-row *matHeaderRowDef="businessUnitColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: businessUnitColumns"></tr>
           </table>
-          <mat-paginator [length]="businessUnitTotal" [pageSize]="businessUnitPageSize" [pageIndex]="businessUnitPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onBusinessUnitPage($event)" />
+          <sh-paginator [length]="businessUnitTotal" [pageSize]="businessUnitPageSize" [pageIndex]="businessUnitPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onBusinessUnitPage($event)" />
         </div>
       }
     </div>
@@ -3678,7 +3678,7 @@
             <tr mat-header-row *matHeaderRowDef="positionTypeColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: positionTypeColumns"></tr>
           </table>
-          <mat-paginator [length]="positionTypeTotal" [pageSize]="positionTypePageSize" [pageIndex]="positionTypePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onPositionTypePage($event)" />
+          <sh-paginator [length]="positionTypeTotal" [pageSize]="positionTypePageSize" [pageIndex]="positionTypePageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onPositionTypePage($event)" />
         </div>
       }
     </div>
@@ -3760,7 +3760,7 @@
             <tr mat-header-row *matHeaderRowDef="clientColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: clientColumns"></tr>
           </table>
-          <mat-paginator [length]="clientTotal" [pageSize]="clientPageSize" [pageIndex]="clientPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onClientPage($event)" />
+          <sh-paginator [length]="clientTotal" [pageSize]="clientPageSize" [pageIndex]="clientPageIndex" [pageSizeOptions]="[10, 25, 50]" (page)="onClientPage($event)" />
         </div>
       }
     </div>

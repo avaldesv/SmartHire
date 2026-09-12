@@ -2084,7 +2084,7 @@
       </trans-unit>
       <trans-unit id="candidateEdit.dialog.title" datatype="html">
         <source>Editar candidato</source>
-        <target>Editar candidato</target>
+        <target>Edit candidate</target>
       </trans-unit>
       <trans-unit id="candidateEdit.dialog.save" datatype="html">
         <source>Guardar</source>
@@ -2092,11 +2092,11 @@
       </trans-unit>
       <trans-unit id="candidateEdit.dialog.success" datatype="html">
         <source>Candidato actualizado</source>
-        <target>Candidato actualizado</target>
+        <target>Candidate updated</target>
       </trans-unit>
       <trans-unit id="candidateEdit.dialog.error" datatype="html">
         <source>No se pudo actualizar el candidato</source>
-        <target>No se pudo actualizar el candidato</target>
+        <target>Could not update the candidate</target>
       </trans-unit>
       <trans-unit id="candidateEdit.dialog.loadError" datatype="html">
         <source>No se pudo cargar el candidato</source>
@@ -2104,39 +2104,39 @@
       </trans-unit>
       <trans-unit id="candidateEdit.section.personal" datatype="html">
         <source>Datos personales</source>
-        <target>Datos personales</target>
+        <target>Personal information</target>
       </trans-unit>
       <trans-unit id="candidateEdit.section.cv" datatype="html">
         <source>Currículum vitae</source>
-        <target>Currículum vitae</target>
+        <target>Curriculum vitae</target>
       </trans-unit>
       <trans-unit id="candidateEdit.cv.hint" datatype="html">
         <source>Arrastre un archivo PDF o DOCX, o haga clic para seleccionar</source>
-        <target>Arrastre un archivo PDF o DOCX, o haga clic para seleccionar</target>
+        <target>Drag a PDF or DOCX file, or click to select</target>
       </trans-unit>
       <trans-unit id="candidateEdit.cv.current" datatype="html">
         <source>Archivo actual</source>
-        <target>Archivo actual</target>
+        <target>Current file</target>
       </trans-unit>
       <trans-unit id="candidateEdit.cv.none" datatype="html">
         <source>Sin CV registrado</source>
-        <target>Sin CV registrado</target>
+        <target>No CV on file</target>
       </trans-unit>
       <trans-unit id="candidateEdit.cv.uploading" datatype="html">
         <source>Subiendo CV…</source>
-        <target>Subiendo CV…</target>
+        <target>Uploading CV…</target>
       </trans-unit>
       <trans-unit id="candidateEdit.cv.success" datatype="html">
         <source>CV subido correctamente</source>
-        <target>CV subido correctamente</target>
+        <target>CV uploaded successfully</target>
       </trans-unit>
       <trans-unit id="candidateEdit.cv.error" datatype="html">
         <source>No se pudo subir el CV</source>
-        <target>No se pudo subir el CV</target>
+        <target>Could not upload the CV</target>
       </trans-unit>
       <trans-unit id="candidateEdit.cv.noType" datatype="html">
         <source>La posición no tiene tipo de documento CV configurado</source>
-        <target>La posición no tiene tipo de documento CV configurado</target>
+        <target>This position has no CV document type configured</target>
       </trans-unit>
       <trans-unit id="candidateEdit.cv.download" datatype="html">
         <source>Descargar CV</source>
@@ -2204,7 +2204,7 @@
       </trans-unit>
       <trans-unit id="candidateProfile.field.source" datatype="html">
         <source>Origen</source>
-        <target>Origen</target>
+        <target>Source</target>
       </trans-unit>
       <trans-unit id="candidateProfile.field.createdAt" datatype="html">
         <source>Alta</source>
@@ -2382,23 +2382,23 @@
       </trans-unit>
       <trans-unit id="candidates.list.subtitle" datatype="html">
         <source>Administración de candidatos en el sistema</source>
-        <target>Administración de candidatos en el sistema</target>
+        <target>Candidate administration</target>
       </trans-unit>
       <trans-unit id="candidates.list.new" datatype="html">
         <source>Nuevo candidato</source>
-        <target>Nuevo candidato</target>
+        <target>New candidate</target>
       </trans-unit>
       <trans-unit id="candidates.list.search" datatype="html">
         <source>Buscar candidato</source>
-        <target>Buscar candidato</target>
+        <target>Search candidate</target>
       </trans-unit>
       <trans-unit id="candidates.list.searchPlaceholder" datatype="html">
         <source>Nombre, correo…</source>
-        <target>Nombre, correo…</target>
+        <target>Name, email…</target>
       </trans-unit>
       <trans-unit id="candidates.list.loadError" datatype="html">
         <source>No se pudieron cargar los candidatos</source>
-        <target>Could not load los candidatos</target>
+        <target>Could not load candidates</target>
       </trans-unit>
       <trans-unit id="candidates.list.col.id" datatype="html">
         <source>ID</source>
@@ -2426,7 +2426,7 @@
       </trans-unit>
       <trans-unit id="candidates.list.col.source" datatype="html">
         <source>Origen</source>
-        <target>Origen</target>
+        <target>Source</target>
       </trans-unit>
       <trans-unit id="candidates.list.col.active" datatype="html">
         <source>Activo</source>
@@ -2446,11 +2446,11 @@
       </trans-unit>
       <trans-unit id="candidates.form.titleEdit" datatype="html">
         <source>Editar candidato</source>
-        <target>Editar candidato</target>
+        <target>Edit candidate</target>
       </trans-unit>
       <trans-unit id="candidates.form.subtitle" datatype="html">
         <source>Complete la información del candidato</source>
-        <target>Complete la información del candidato</target>
+        <target>Complete the candidate information</target>
       </trans-unit>
       <trans-unit id="candidates.form.loading" datatype="html">
         <source>Cargando...</source>
@@ -2458,15 +2458,15 @@
       </trans-unit>
       <trans-unit id="candidates.form.gender.female" datatype="html">
         <source>Femenino</source>
-        <target>Femenino</target>
+        <target>Female</target>
       </trans-unit>
       <trans-unit id="candidates.form.gender.male" datatype="html">
         <source>Masculino</source>
-        <target>Masculino</target>
+        <target>Male</target>
       </trans-unit>
       <trans-unit id="candidates.form.source.manual" datatype="html">
         <source>Carga Manual</source>
-        <target>Carga Manual</target>
+        <target>Manual upload</target>
       </trans-unit>
       <trans-unit id="candidates.form.source.jobboard" datatype="html">
         <source>Jobboard</source>
@@ -2478,15 +2478,15 @@
       </trans-unit>
       <trans-unit id="candidates.form.created" datatype="html">
         <source>Candidato creado</source>
-        <target>Candidato creado</target>
+        <target>Candidate created</target>
       </trans-unit>
       <trans-unit id="candidates.form.updated" datatype="html">
         <source>Candidato actualizado</source>
-        <target>Candidato actualizado</target>
+        <target>Candidate updated</target>
       </trans-unit>
       <trans-unit id="candidates.form.saveError" datatype="html">
         <source>No se pudo guardar el candidato</source>
-        <target>Could not save el candidato</target>
+        <target>Could not save the candidate</target>
       </trans-unit>
       <trans-unit id="candidates.form.loadError" datatype="html">
         <source>No se pudo cargar el candidato</source>
@@ -2518,7 +2518,7 @@
       </trans-unit>
       <trans-unit id="candidates.source.recruiterExcelBulk" datatype="html">
         <source>Carga Excel reclutador</source>
-        <target>Carga Excel reclutador</target>
+        <target>Recruiter Excel upload</target>
       </trans-unit>
       <trans-unit id="catalogs.cancellationType.value.CLIENT" datatype="html">
         <source>Cliente</source>
@@ -10042,28 +10042,28 @@
       </trans-unit>
       <trans-unit id="paginator.itemsPerPage" datatype="html">
         <source>Elementos por página:</source>
-        <target>Elementos por página:</target>
+        <target>Items per page:</target>
       </trans-unit>
       <trans-unit id="paginator.nextPage" datatype="html">
         <source>Página siguiente</source>
-        <target>Página siguiente</target>
+        <target>Next page</target>
       </trans-unit>
       <trans-unit id="paginator.previousPage" datatype="html">
         <source>Página anterior</source>
-        <target>Página anterior</target>
+        <target>Previous page</target>
       </trans-unit>
       <trans-unit id="paginator.firstPage" datatype="html">
         <source>Primera página</source>
-        <target>Primera página</target>
+        <target>First page</target>
       </trans-unit>
       <trans-unit id="paginator.lastPage" datatype="html">
         <source>Última página</source>
-        <target>Última página</target>
+        <target>Last page</target>
       </trans-unit>
       <trans-unit id="paginator.rangeEmpty" datatype="html">
         <source>0 de <x id="total" equiv-text="length" />
         </source>
-        <target>0 de <x id="total" equiv-text="length" />
+        <target>0 of <x id="total" equiv-text="length" />
         </target>
       </trans-unit>
       <trans-unit id="paginator.range" datatype="html">
@@ -10071,7 +10071,7 @@
           <x id="start" equiv-text="start" /> – <x id="end" equiv-text="end" /> de <x id="total" equiv-text="length" />
         </source>
         <target>
-          <x id="start" equiv-text="start" /> – <x id="end" equiv-text="end" /> de <x id="total" equiv-text="length" />
+          <x id="start" equiv-text="start" /> – <x id="end" equiv-text="end" /> of <x id="total" equiv-text="length" />
         </target>
       </trans-unit>
       <trans-unit id="users.errors.tenantContext" datatype="html">
