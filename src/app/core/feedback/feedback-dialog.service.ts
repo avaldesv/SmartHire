@@ -1,4 +1,5 @@
 import { Injectable, inject } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import {
@@ -10,6 +11,7 @@ import {
   ApiErrorResolveOptions,
   ApiErrorResolverService,
 } from '../services/api-error-resolver.service';
+import { AuthService } from '../services/auth.service';
 import { FeedbackDialogComponent } from './feedback-dialog.component';
 import { ConfirmOptions, FeedbackDialogData, FeedbackType } from './feedback.types';
 
@@ -17,6 +19,7 @@ import { ConfirmOptions, FeedbackDialogData, FeedbackType } from './feedback.typ
 export class FeedbackDialogService {
   private readonly dialog = inject(MatDialog);
   private readonly apiErrors = inject(ApiErrorResolverService);
+  private readonly auth = inject(AuthService);
 
   showApiError(error: unknown, options: ApiErrorResolveOptions = {}): void {
     const resolved = this.apiErrors.resolve(error, options);
@@ -24,6 +27,7 @@ export class FeedbackDialogService {
       type: resolved.severity,
       title: resolved.title,
       message: resolved.message,
+      redirectToLogin: this.isAuthenticationError(error, resolved.title, resolved.message),
     });
   }
 
@@ -70,10 +74,22 @@ export class FeedbackDialogService {
   }
 
   private open(data: FeedbackDialogData): void {
-    this.dialog.open(FeedbackDialogComponent, {
+    const ref = this.dialog.open(FeedbackDialogComponent, {
       ...this.dialogConfig(data.type),
       data,
     });
+    if (data.redirectToLogin) {
+      ref.afterClosed().subscribe(() => this.auth.completeLogout());
+    }
+  }
+
+  private isAuthenticationError(error: unknown, title: string, message: string): boolean {
+    const status = error instanceof HttpErrorResponse ? error.status : 0;
+    if (status === 401) {
+      return true;
+    }
+    const text = `${title} ${message}`.toLowerCase();
+    return text.includes('authentication required') || text.includes('autenticación requerida');
   }
 
   private dialogConfig(type: FeedbackType) {

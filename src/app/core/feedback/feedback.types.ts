@@ -18,6 +18,8 @@ export interface FeedbackDialogData {
   cancelLabel?: string;
   confirmWarn?: boolean;
   iconType?: 'confirm' | 'warning';
+  /** After the user dismisses the dialog, send them to login (expired session). */
+  redirectToLogin?: boolean;
 }
 
 export interface ResolvedApiError {
