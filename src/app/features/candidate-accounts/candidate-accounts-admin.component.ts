@@ -138,7 +138,7 @@ export class CandidateAccountsAdminComponent implements OnInit {
       return '—';
     }
     const date = new Date(value);
-    return Number.isNaN(date.getTime()) ? '—' : date.toLocaleString();
+    return Number.isNaN(date.getTime()) ? '—' : date.toLocaleString(document.documentElement.lang || undefined);
   }
 
   load(): void {

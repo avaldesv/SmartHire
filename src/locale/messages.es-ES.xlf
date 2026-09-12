@@ -1735,8 +1735,8 @@
         <target>Administración de cuentas del portal candidato</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.new" datatype="html">
-        <source>Nueva cuenta</source>
-        <target>Nueva cuenta</target>
+        <source>Nueva cuenta de candidato</source>
+        <target>Nueva cuenta de candidato</target>
       </trans-unit>
       <trans-unit id="candidateAccounts.empty" datatype="html">
         <source>No hay cuentas de candidatos</source>
