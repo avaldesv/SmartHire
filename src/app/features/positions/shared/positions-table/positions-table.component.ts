@@ -1412,7 +1412,12 @@ export class PositionsTableComponent implements OnInit {
 
   openHistoricReassign(row: PositionListItem): void {
     this.dialog.open(HistoricReassignDialogComponent, {
-      ...catalogDialogConfig('96vw', { maxWidth: '98vw' }),
+      ...catalogDialogConfig('96vw', {
+        maxWidth: '98vw',
+        height: '88vh',
+        maxHeight: '92vh',
+        panelClass: ['sh-catalog-form-dialog-panel', 'sh-catalog-tall-dialog-panel', 'sh-historic-reassign-dialog-panel'],
+      }),
       data: { positionId: row.id } as HistoricReassignDialogData,
     });
   }
