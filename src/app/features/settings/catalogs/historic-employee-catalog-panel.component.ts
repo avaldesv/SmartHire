@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
@@ -13,6 +14,8 @@ import {
   HISTORIC_REASSIGN_CONFIRM_IMPORT,
   HISTORIC_REASSIGN_IMPORT,
   HISTORIC_REASSIGN_IMPORT_OK,
+  HISTORIC_REASSIGN_TEMPLATE,
+  HISTORIC_REASSIGN_TEMPLATE_FILENAME,
   HISTORIC_REASSIGN_TITLE,
 } from '../../../core/i18n/historic-reassign-labels';
 import { HistoricEmployeeApiService } from '../../../core/services/historic-employee-api.service';
@@ -30,8 +33,10 @@ import { HistoricEmployee, HistoricEmployeeValidRow } from '../../../shared/mode
     MatTableModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
+    MatIconModule,
   ],
   templateUrl: './historic-employee-catalog-panel.component.html',
+  styleUrl: './historic-employee-catalog-panel.component.scss',
 })
 export class HistoricEmployeeCatalogPanelComponent {
   private readonly api = inject(HistoricEmployeeApiService);
@@ -42,6 +47,9 @@ export class HistoricEmployeeCatalogPanelComponent {
   readonly clearLabel = COMMON_CLEAR_FILTERS;
   readonly importLabel = HISTORIC_REASSIGN_IMPORT;
   readonly confirmLabel = HISTORIC_REASSIGN_CONFIRM_IMPORT;
+  readonly templateLabel = HISTORIC_REASSIGN_TEMPLATE;
+  readonly templateFilename = HISTORIC_REASSIGN_TEMPLATE_FILENAME;
+  readonly templateUrl = '/templates/Plantilla_Historico_Reasignacion.xlsx';
 
   search = '';
   loading = false;
