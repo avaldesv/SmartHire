@@ -1,7 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
+import { ShPaginatorComponent } from '../../../shared/components/paginator/sh-paginator.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { catalogDialogConfig } from '../../../core/dialog/catalog-dialog.constants';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
@@ -17,7 +18,7 @@ import { ExcelBulkProgressDialogComponent } from '../../positions/list/excel-bul
   standalone: true,
   imports: [
     DatePipe,
-    MatPaginatorModule,
+    ShPaginatorComponent,
     MatProgressSpinnerModule,
     PageHeaderComponent,
   ],

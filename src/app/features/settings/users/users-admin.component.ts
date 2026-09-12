@@ -7,7 +7,8 @@ import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dial
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
+import { ShPaginatorComponent } from '../../../shared/components/paginator/sh-paginator.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
@@ -72,7 +73,7 @@ import {
   imports: [
     ReactiveFormsModule,
     MatTableModule,
-    MatPaginatorModule,
+    ShPaginatorComponent,
     MatFormFieldModule,
     MatInputModule,
     MatProgressSpinnerModule,

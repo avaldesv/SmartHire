@@ -1,14 +1,20 @@
 import { Injectable } from '@angular/core';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 
-/** Localized MatPaginator labels (Material defaults are English regardless of app locale). */
+/**
+ * Localized MatPaginator labels for every `sh-paginator` / MatPaginator.
+ * Strings are compile-time `$localize` (es-MX source, en-US/es-ES XLF targets).
+ */
 @Injectable()
 export class SmarthireMatPaginatorIntl extends MatPaginatorIntl {
-  override itemsPerPageLabel = $localize`:@@paginator.itemsPerPage:Elementos por página:`;
-  override nextPageLabel = $localize`:@@paginator.nextPage:Página siguiente`;
-  override previousPageLabel = $localize`:@@paginator.previousPage:Página anterior`;
-  override firstPageLabel = $localize`:@@paginator.firstPage:Primera página`;
-  override lastPageLabel = $localize`:@@paginator.lastPage:Última página`;
+  constructor() {
+    super();
+    this.itemsPerPageLabel = $localize`:@@paginator.itemsPerPage:Elementos por página:`;
+    this.nextPageLabel = $localize`:@@paginator.nextPage:Página siguiente`;
+    this.previousPageLabel = $localize`:@@paginator.previousPage:Página anterior`;
+    this.firstPageLabel = $localize`:@@paginator.firstPage:Primera página`;
+    this.lastPageLabel = $localize`:@@paginator.lastPage:Última página`;
+  }
 
   override getRangeLabel = (page: number, pageSize: number, length: number): string => {
     if (length === 0 || pageSize === 0) {

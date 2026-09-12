@@ -16,7 +16,7 @@
           <div class="inbox-row-meta">{{ item.createAt | date: 'short' }}</div>
         </button>
       }
-      <mat-paginator
+      <sh-paginator
         [length]="total"
         [pageSize]="pageSize"
         [pageIndex]="pageIndex"

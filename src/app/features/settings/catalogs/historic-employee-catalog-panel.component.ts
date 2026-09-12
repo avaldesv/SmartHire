@@ -5,7 +5,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
+import { ShPaginatorComponent } from '../../../shared/components/paginator/sh-paginator.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { catalogDialogConfig } from '../../../core/dialog/catalog-dialog.constants';
@@ -30,7 +31,7 @@ import { HistoricEmployeeImportDialogComponent } from './historic-employee-impor
     MatFormFieldModule,
     MatInputModule,
     MatTableModule,
-    MatPaginatorModule,
+    ShPaginatorComponent,
     MatProgressSpinnerModule,
   ],
   templateUrl: './historic-employee-catalog-panel.component.html',

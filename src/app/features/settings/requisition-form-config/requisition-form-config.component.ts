@@ -5,7 +5,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
+import { ShPaginatorComponent } from '../../../shared/components/paginator/sh-paginator.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
@@ -73,7 +74,7 @@ import { RequisitionFormConfigDialogComponent } from './requisition-form-config-
     MatFormFieldModule,
     MatSelectModule,
     MatTableModule,
-    MatPaginatorModule,
+    ShPaginatorComponent,
     MatDialogModule,
     TableRowActionsComponent,
   ],

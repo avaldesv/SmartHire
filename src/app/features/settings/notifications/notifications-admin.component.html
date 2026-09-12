@@ -178,7 +178,7 @@
             <tr mat-header-row *matHeaderRowDef="columns"></tr>
             <tr mat-row *matRowDef="let row; columns: columns"></tr>
           </table>
-          <mat-paginator
+          <sh-paginator
             [length]="templatesTotal"
             [pageIndex]="templatesPageIndex"
             [pageSize]="templatesPageSize"
@@ -232,7 +232,7 @@
             <tr mat-header-row *matHeaderRowDef="logColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: logColumns"></tr>
           </table>
-          <mat-paginator
+          <sh-paginator
             [length]="logsTotal"
             [pageIndex]="logsPageIndex"
             [pageSize]="logsPageSize"
@@ -298,7 +298,7 @@
             <tr mat-header-row *matHeaderRowDef="coverageColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: coverageColumns"></tr>
           </table>
-          <mat-paginator
+          <sh-paginator
             [length]="coverageTotal"
             [pageIndex]="coveragePageIndex"
             [pageSize]="coveragePageSize"
@@ -349,7 +349,7 @@
             <tr mat-header-row *matHeaderRowDef="failedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: failedColumns"></tr>
           </table>
-          <mat-paginator
+          <sh-paginator
             [length]="failedTotal"
             [pageIndex]="failedPageIndex"
             [pageSize]="failedPageSize"
