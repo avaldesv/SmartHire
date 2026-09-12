@@ -8,17 +8,7 @@
     </div>
     <div class="filter-actions">
       <button mat-stroked-button type="button" (click)="search = ''; page = 0; load()">{{ clearLabel }}</button>
-      <a mat-stroked-button [href]="templateUrl" [download]="templateFilename">
-        <mat-icon>download</mat-icon> {{ templateLabel }}
-      </a>
-      <button mat-stroked-button type="button" (click)="fileInput.click()">{{ importLabel }}</button>
-      <input #fileInput type="file" accept=".xlsx,.xls" hidden (change)="onFile($event)" />
-      @if (previewValid.length) {
-        <span>{{ previewValid.length }} OK / {{ previewInvalid }} inválidas</span>
-        <button mat-flat-button color="primary" type="button" [disabled]="importing" (click)="confirmImport()">
-          {{ confirmLabel }}
-        </button>
-      }
+      <button mat-stroked-button type="button" (click)="openImport()">{{ importLabel }}</button>
     </div>
   </div>
   @if (loading) {

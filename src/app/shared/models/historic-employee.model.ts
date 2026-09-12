@@ -32,7 +32,15 @@ export interface HistoricEmployeePreviewResponse {
   validCount: number;
   invalidCount: number;
   validRows: HistoricEmployeeValidRow[];
-  invalidRows: { rowNumber: number; email: string | null; errors: { code: string; message: string }[] }[];
+  invalidRows: HistoricEmployeeInvalidRow[];
+}
+
+export interface HistoricEmployeeInvalidRow {
+  rowNumber: number;
+  firstName?: string | null;
+  paternalLastName?: string | null;
+  email: string | null;
+  errors: { code: string; message: string }[];
 }
 
 export interface HistoricEmployeeValidRow {
