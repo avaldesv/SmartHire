@@ -96,6 +96,11 @@ import {
 import { DynamicWizardStepComponent } from './dynamic-wizard-step/dynamic-wizard-step.component';
 import { integerValidator } from './requisition-integer.util';
 import {
+  formatMoneyDisplay,
+  maxTwoDecimalsValidator,
+  roundMoneyToTwoDecimals,
+} from './requisition-money.util';
+import {
   RequisitionScopeDialogComponent,
   RequisitionScopeDialogResult,
 } from './requisition-scope-dialog/requisition-scope-dialog.component';
@@ -225,7 +230,7 @@ export class PositionWizardComponent implements OnInit {
     generalNotes: [''],
     contractTypeId: [null as number | null, Validators.required],
     shiftId: [null as number | null, Validators.required],
-    salary: [0, [Validators.required, Validators.min(0)]],
+    salary: ['0.00', [Validators.required, Validators.min(0), maxTwoDecimalsValidator()]],
     workDays: ['L-V', Validators.required],
   });
 
@@ -777,7 +782,7 @@ export class PositionWizardComponent implements OnInit {
         generalNotes: asString('generalNotes'),
         contractTypeId: asNumber('contractTypeId'),
         shiftId: asNumber('shiftId'),
-        salary: typeof values['salary'] === 'number' ? (values['salary'] as number) : 0,
+        salary: formatMoneyDisplay(values['salary']) || '0.00',
         workDays: asString('workDays', 'L-V'),
       },
       { emitEvent: false },
@@ -1213,7 +1218,7 @@ export class PositionWizardComponent implements OnInit {
             generalNotes: position.generalNotes ?? '',
             contractTypeId: position.contractTypeId,
             shiftId: position.shiftId,
-            salary: Number(position.salary),
+            salary: formatMoneyDisplay(position.salary) || '0.00',
             workDays: position.workDays,
           });
           this.manpowerForm.patchValue({
@@ -1268,6 +1273,13 @@ export class PositionWizardComponent implements OnInit {
     this.selectedDocumentTypeIds.setValue(
       checked ? [...current, id] : current.filter((itemId) => itemId !== id),
     );
+  }
+
+  onStaticSalaryBlur(): void {
+    const control = this.generalForm.controls.salary;
+    const rounded = roundMoneyToTwoDecimals(control.value);
+    control.setValue(rounded == null ? '0.00' : rounded.toFixed(2));
+    control.markAsTouched();
   }
 
   exportJson(): void {
@@ -1326,7 +1338,7 @@ export class PositionWizardComponent implements OnInit {
       generalNotes: general.generalNotes,
       contractTypeId: general.contractTypeId!,
       shiftId: general.shiftId!,
-      salary: general.salary,
+      salary: roundMoneyToTwoDecimals(general.salary) ?? 0,
       workDays: general.workDays,
       positionsCount: manpower.positionsCount,
       headcount: manpower.headcount,
