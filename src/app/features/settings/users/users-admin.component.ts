@@ -62,6 +62,7 @@ import {
 } from '../../../core/i18n/users-labels';
 import { COMMON_CLEAR_FILTERS } from '../../../core/i18n/common-labels';
 import { ShPhoneFieldsComponent } from '../../../shared/components/phone-fields/sh-phone-fields.component';
+import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 import { ShModalActionsDirective } from '../../../shared/components/modal-form/sh-modal-form.component';
 import {
   CatalogFormDialogShellComponent,

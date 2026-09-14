@@ -91,6 +91,7 @@ function findCvDocumentRow(items: CandidateDocumentListItem[]): CandidateDocumen
     MatIconModule,
     MatProgressSpinnerModule,
     ShPhoneFieldsComponent,
+  ],
   template: `
     <div class="sh-catalog-dialog-header" mat-dialog-title>
       <span class="sh-catalog-dialog-header__text">{{ title }}</span>
