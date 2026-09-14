@@ -8,6 +8,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { catalogDialogConfig } from '../../../../core/dialog/catalog-dialog.constants';
+import { CatalogDocumentTypeService } from '../../../../core/services/catalog-document-type.service';
 import {
   REQUISITION_DOCS_WIZARD_ADD_HINT,
   REQUISITION_DOCS_WIZARD_AI_NONE,
@@ -17,7 +18,6 @@ import {
   REQUISITION_DOCS_WIZARD_COL_MONTHS,
   REQUISITION_DOCS_WIZARD_COL_STATUS,
   REQUISITION_DOCS_WIZARD_COL_TYPE,
-  REQUISITION_DOCS_WIZARD_CONFIGURED_TITLE,
   REQUISITION_DOCS_WIZARD_DELETE,
   REQUISITION_DOCS_WIZARD_EDIT,
   REQUISITION_DOCS_WIZARD_EMPTY,
@@ -268,8 +268,8 @@ export class DocumentRequirementsEditorComponent implements OnChanges, OnInit {
       .list(this.countryId, 0, 200)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response) => {
-          this.documentTypes = response.items.filter((doc) => doc.isActive);
+        next: (response: { items: CatalogDocumentType[]; total: number }) => {
+          this.documentTypes = response.items.filter((doc: CatalogDocumentType) => doc.isActive);
           this.mergeCatalog();
           this.loading = false;
         },
