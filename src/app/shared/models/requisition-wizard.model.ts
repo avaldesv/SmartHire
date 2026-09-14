@@ -39,6 +39,7 @@ export interface WizardDocumentRequirementRow {
   validateAiName: boolean;
   validateAiValidity: boolean;
   validityMonths: number | null;
+  isActive: boolean;
 }
 
 export interface WizardQuestionnaireValue {

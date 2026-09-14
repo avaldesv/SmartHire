@@ -86,6 +86,7 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
   @Input({ required: true }) rootForm!: FormGroup;
   @Input({ required: true }) config!: ResolvedRequisitionFormConfig;
   @Input() countryId: number | null = null;
+  @Input() isEditMode = false;
 
   visibleFields: ResolvedRequisitionFormField[] = [];
   optionsByField: Partial<Record<string, WizardFieldOption[]>> = {};

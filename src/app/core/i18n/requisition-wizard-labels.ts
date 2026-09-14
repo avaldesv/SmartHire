@@ -99,7 +99,7 @@ const REQUISITION_FIELD_LABELS: Record<string, string> = {
   extraBenefitsText: $localize`:@@requisition.field.extraBenefitsText:Texto beneficios adicionales`,
   questionnaire: $localize`:@@requisition.field.questionnaire:Cuestionario`,
   exam: $localize`:@@requisition.field.exam:Examen`,
-  documentRequirements: $localize`:@@requisition.field.documentRequirements:Documentos requeridos`,
+  documentRequirements: $localize`:@@requisition.field.documentRequirements:Documentos definidos`,
   documentValidateAiName: $localize`:@@requisition.field.documentValidateAiName:Validar con IA — Nombre`,
   documentValidateAiValidity: $localize`:@@requisition.field.documentValidateAiValidity:Validar con IA — Vigencia`,
   documentValidityMonths: $localize`:@@requisition.field.documentValidityMonths:Tiempo de validez (meses)`,
@@ -278,11 +278,12 @@ export const REQUISITION_DOCS_WIZARD_COL_AI = $localize`:@@requisition.documents
 export const REQUISITION_DOCS_WIZARD_COL_MONTHS = $localize`:@@requisition.documents.wizard.colMonths:Vigencia (meses)`;
 export const REQUISITION_DOCS_WIZARD_COL_MANDATORY = $localize`:@@requisition.documents.wizard.colMandatory:Obligatorio`;
 export const REQUISITION_DOCS_WIZARD_COL_ACTIONS = $localize`:@@requisition.documents.wizard.colActions:Acciones`;
-export const REQUISITION_DOCS_WIZARD_EMPTY = $localize`:@@requisition.documents.wizard.empty:No hay documentos configurados. Agregue al menos uno.`;
+export const REQUISITION_DOCS_WIZARD_EMPTY = $localize`:@@requisition.documents.wizard.empty:No hay tipos de documento en el catálogo del país.`;
 export const REQUISITION_DOCS_WIZARD_DUPLICATE_TYPE = $localize`:@@requisition.documents.wizard.duplicateType:Este tipo de documento ya está en la lista`;
 export const REQUISITION_DOCS_WIZARD_VALIDITY_MONTHS_REQUIRED = $localize`:@@requisition.documents.wizard.validityMonthsRequired:Indique el tiempo de validez en meses`;
 export const REQUISITION_DOCS_WIZARD_EDIT = $localize`:@@requisition.documents.wizard.edit:Editar`;
 export const REQUISITION_DOCS_WIZARD_DELETE = $localize`:@@requisition.documents.wizard.delete:Eliminar`;
+export const REQUISITION_DOCS_WIZARD_ADD_HINT = $localize`:@@requisition.documents.wizard.addHint:Adicionar`;
 export const REQUISITION_DOCS_WIZARD_AI_NONE = $localize`:@@common.emDash:—`;
 
 export function requisitionDocumentsWizardAiSummary(
