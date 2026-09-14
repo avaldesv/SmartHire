@@ -42,7 +42,9 @@ export const QEXAM_MAX_ATTEMPTS_EXAMPLE_THREE = $localize`:@@questionnaires.exam
 export const QEXAM_FIELD_HELP_LINK = $localize`:@@questionnaires.exams.field.helpLink:Ayuda`;
 export const QEXAM_FIELD_RETRY_DELAY = $localize`:@@questionnaires.exams.field.retryDelayDays:Días entre reintentos`;
 export const QEXAM_FIELD_START_DATE = $localize`:@@questionnaires.exams.field.startDate:Inicio ventana`;
+export const QEXAM_FIELD_START_TIME = $localize`:@@questionnaires.exams.field.startTime:Hora inicio`;
 export const QEXAM_FIELD_END_DATE = $localize`:@@questionnaires.exams.field.endDate:Fin ventana`;
+export const QEXAM_FIELD_END_TIME = $localize`:@@questionnaires.exams.field.endTime:Hora fin`;
 export const QEXAM_FIELD_GENERATION_CONFIG = $localize`:@@questionnaires.exams.field.generationConfig:Reglas de selección de preguntas`;
 export const QEXAM_FIELD_RANDOM_SEED = $localize`:@@questionnaires.exams.field.randomSeed:Semilla aleatoria`;
 

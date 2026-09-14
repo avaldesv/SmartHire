@@ -28,12 +28,7 @@
     </mat-select>
   </mat-form-field>
 } @else if (isDate) {
-  <mat-form-field appearance="outline" subscriptSizing="dynamic">
-    <mat-label>{{ label }}</mat-label>
-    <input matInput [matDatepicker]="picker" [formControl]="control" [disabled]="disabled" />
-    <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="disabled"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
+  <sh-datepicker-field [label]="label" [formControl]="control" />
 } @else if (isTime) {
   <sh-timepicker-field [label]="label" [formControl]="control" />
 } @else if (isMoney) {

@@ -14,6 +14,7 @@ import { PositionService } from '../../../core/services/position.service';
 import { ReportsApiService } from '../../../core/services/reports-api.service';
 import { ClientFilterFieldComponent } from '../../../shared/components/client-filter-field/client-filter-field.component';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
+import { ShDatepickerFieldComponent } from '../../../shared/components/datepicker-field/sh-datepicker-field.component';
 import {
   REPORTS_BEH_CHART_BY_TYPE,
   REPORTS_BEH_CHART_FILL_RATE,
@@ -108,6 +109,7 @@ interface SelectOption {
     MatIconModule,
     MatProgressSpinnerModule,
     PageHeaderComponent,
+    ShDatepickerFieldComponent,
     ClientFilterFieldComponent,
   ],
   templateUrl: './comportamiento-report.component.html',

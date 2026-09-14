@@ -1,12 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ResolvedRequisitionFormField, WizardFieldOption } from '../../../../shared/models/requisition-wizard.model';
+import { ShDatepickerFieldComponent } from '../../../../shared/components/datepicker-field/sh-datepicker-field.component';
 import { ShTimepickerFieldComponent } from '../../../../shared/components/timepicker-field/sh-timepicker-field.component';
 import { resolveWizardFieldLabel } from '../requisition-wizard-labels';
 import { REQUISITION_SCOPE_LOADING } from '../../../../core/i18n/requisition-wizard-labels';
@@ -23,12 +22,10 @@ import { MoneyStepperFieldComponent } from '../money-stepper-field/money-stepper
     MatInputModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
     MoneyStepperFieldComponent,
+    ShDatepickerFieldComponent,
     ShTimepickerFieldComponent,
   ],
-  providers: [provideNativeDateAdapter()],
   templateUrl: './dynamic-wizard-field.component.html',
   styleUrl: './dynamic-wizard-field.component.scss',
 })

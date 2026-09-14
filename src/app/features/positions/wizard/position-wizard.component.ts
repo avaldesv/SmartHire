@@ -101,6 +101,7 @@ import {
   roundMoneyToTwoDecimals,
 } from './requisition-money.util';
 import { MoneyStepperFieldComponent } from './money-stepper-field/money-stepper-field.component';
+import { ShDatepickerFieldComponent } from '../../../shared/components/datepicker-field/sh-datepicker-field.component';
 import {
   RequisitionScopeDialogComponent,
   RequisitionScopeDialogResult,
@@ -140,6 +141,7 @@ import {
     PageHeaderComponent,
     DynamicWizardStepComponent,
     MoneyStepperFieldComponent,
+    ShDatepickerFieldComponent,
   ],
   templateUrl: './position-wizard.component.html',
   styleUrl: './position-wizard.component.scss',

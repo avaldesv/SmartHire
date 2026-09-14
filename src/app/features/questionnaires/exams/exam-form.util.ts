@@ -33,3 +33,21 @@ export function toDateTimeLocalValue(isoValue: string | null | undefined): strin
   const pad = (n: number) => String(n).padStart(2, '0');
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
 }
+
+export function splitIsoDateTime(isoValue: string | null | undefined): { date: string; time: string } {
+  const local = toDateTimeLocalValue(isoValue);
+  if (!local) {
+    return { date: '', time: '' };
+  }
+  const [date, time] = local.split('T');
+  return { date: date ?? '', time: (time ?? '').slice(0, 5) };
+}
+
+export function combineDateAndTime(date: string | null | undefined, time: string | null | undefined): string | null {
+  const day = date?.trim();
+  if (!day) {
+    return null;
+  }
+  const clock = (time?.trim() || '00:00').slice(0, 5);
+  return toIsoDateTime(`${day}T${clock}`);
+}
