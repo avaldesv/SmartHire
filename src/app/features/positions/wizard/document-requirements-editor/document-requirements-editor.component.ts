@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { CatalogDocumentTypeService } from '../../../../core/services/catalog-document-type.service';
+import { catalogDialogConfig } from '../../../../core/dialog/catalog-dialog.constants';
 import {
   REQUISITION_DOCS_WIZARD_ADD_HINT,
   REQUISITION_DOCS_WIZARD_AI_NONE,
@@ -196,7 +196,11 @@ export class DocumentRequirementsEditorComponent implements OnChanges, OnInit {
     }
     this.dialog
       .open(DocumentRequirementFormDialogComponent, {
-        width: '520px',
+        ...catalogDialogConfig('560px', {
+          height: 'auto',
+          maxHeight: '90vh',
+          panelClass: ['sh-catalog-form-dialog-panel', 'sh-doc-req-dialog-panel'],
+        }),
         data: {
           documentTypeName: this.documentLabel(row.documentTypeId),
           documentTypeId: row.documentTypeId,

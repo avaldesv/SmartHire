@@ -1,9 +1,18 @@
+:host {
+  display: block;
+  height: auto;
+}
+
+:host ::ng-deep sh-modal-form {
+  height: auto;
+  flex: 0 0 auto;
+}
+
 .doc-req-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  min-width: 420px;
-  padding-top: 4px;
+  gap: 20px;
+  width: 100%;
 }
 
 .full {
@@ -36,27 +45,35 @@
 
 .group-label {
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
   font-size: 12px;
   font-weight: 600;
   color: #64748b;
   text-transform: uppercase;
 }
 
-.checks,
+.ai-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px 24px;
+  align-items: center;
+}
+
+.ai-grid__col {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.ai-grid__col--validity {
+  gap: 12px;
+}
+
 mat-radio-group {
   display: flex;
   flex-wrap: wrap;
   gap: 8px 16px;
   align-items: center;
-}
-
-.validity-row {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
 }
 
 .months-field {

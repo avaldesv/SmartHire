@@ -346,6 +346,19 @@ a:hover { text-decoration: underline; }
   overflow-y: auto;
 }
 
+/* Compact document-requirement editor: no inner scrollbar; extra gap under header. */
+.sh-doc-req-dialog-panel .mat-mdc-dialog-surface {
+  height: auto !important;
+}
+
+.sh-doc-req-dialog-panel .mat-mdc-dialog-content.sh-catalog-dialog-body,
+.sh-doc-req-dialog-panel .mat-mdc-dialog-title + .mat-mdc-dialog-content.sh-catalog-dialog-body {
+  flex: 0 0 auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  padding: 28px 20px 12px !important;
+}
+
 .sh-catalog-tall-dialog-panel .mat-mdc-dialog-content.sh-catalog-dialog-body,
 .sh-catalog-tall-dialog-panel .mat-mdc-dialog-title + .mat-mdc-dialog-content.sh-catalog-dialog-body {
   max-height: calc(92vh - 120px);

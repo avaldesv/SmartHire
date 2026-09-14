@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import {
-  REQUISITION_DOCS_WIZARD_EDIT,
+  REQUISITION_DOCS_WIZARD_EDIT_DIALOG,
   REQUISITION_DOCS_WIZARD_MANDATORY,
   REQUISITION_DOCS_WIZARD_NO,
   REQUISITION_DOCS_WIZARD_TYPE,
@@ -53,7 +53,7 @@ export class DocumentRequirementFormDialogComponent {
   );
   readonly data = inject<DocumentRequirementFormDialogData>(MAT_DIALOG_DATA);
 
-  readonly title = REQUISITION_DOCS_WIZARD_EDIT;
+  readonly title = REQUISITION_DOCS_WIZARD_EDIT_DIALOG;
   readonly labels = {
     type: REQUISITION_DOCS_WIZARD_TYPE,
     validateAi: REQUISITION_DOCS_WIZARD_VALIDATE_AI,
