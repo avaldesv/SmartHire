@@ -224,7 +224,7 @@ export class PositionWizardComponent implements OnInit {
     generalNotes: [''],
     contractTypeId: [null as number | null, Validators.required],
     shiftId: [null as number | null, Validators.required],
-    salary: [0, [Validators.required, Validators.min(1)]],
+    salary: [0, [Validators.required, Validators.min(0)]],
     workDays: ['L-V', Validators.required],
   });
 

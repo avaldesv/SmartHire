@@ -103,27 +103,31 @@ export function buildFieldValidators(
   if (!isFieldVisible(field, formValues)) {
     return [];
   }
-  if (!isFieldRequired(field, formValues)) {
-    return [];
-  }
+  const required = isFieldRequired(field, formValues);
   switch (field.uiType) {
-    case 'number':
-      return [Validators.required];
+    case 'number': {
+      // Allow null/empty when optional; reject negatives when a value is set.
+      const validators: ValidatorFn[] = [Validators.min(0)];
+      if (required) {
+        validators.unshift(Validators.required);
+      }
+      return validators;
+    }
     case 'checkbox':
       return [];
     case 'select':
     case 'client-search':
     case 'user-picker':
-      return [Validators.required];
+      return required ? [Validators.required] : [];
     case 'multiselect':
-      return [requiredMultiselectValidator()];
+      return required ? [requiredMultiselectValidator()] : [];
     case 'document-grid':
     case 'portal-publications-grid':
     case 'language-grid':
     case 'questionnaire-picker':
-      return [requiredCompositeValidator(field)];
+      return required ? [requiredCompositeValidator(field)] : [];
     default:
-      return [Validators.required];
+      return required ? [Validators.required] : [];
   }
 }
 
