@@ -70,7 +70,10 @@ export class DocumentRequirementFormDialogComponent {
 
   validateAiName = this.data.validateAiName;
   validateAiValidity = this.data.validateAiValidity;
-  validityMonths: number | null = this.data.validityMonths;
+  validityMonths: number | null =
+    this.data.validateAiValidity && (this.data.validityMonths == null || this.data.validityMonths < 1)
+      ? 1
+      : this.data.validityMonths;
   isRequired = this.data.isRequired;
   error: string | null = null;
 
@@ -82,6 +85,8 @@ export class DocumentRequirementFormDialogComponent {
     this.validateAiValidity = checked;
     if (!checked) {
       this.validityMonths = null;
+    } else if (this.validityMonths == null || this.validityMonths < 1) {
+      this.validityMonths = 1;
     }
     this.error = null;
   }
