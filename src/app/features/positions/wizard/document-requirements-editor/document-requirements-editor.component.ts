@@ -15,7 +15,14 @@ import {
   REQUISITION_DOCS_WIZARD_COL_AI,
   REQUISITION_DOCS_WIZARD_COL_MANDATORY,
   REQUISITION_DOCS_WIZARD_COL_MONTHS,
+  REQUISITION_DOCS_WIZARD_COL_STATUS,
   REQUISITION_DOCS_WIZARD_COL_TYPE,
+  REQUISITION_DOCS_WIZARD_DELETE,
+  REQUISITION_DOCS_WIZARD_EDIT,
+  REQUISITION_DOCS_WIZARD_EMPTY,
+  REQUISITION_DOCS_WIZARD_NO,
+  REQUISITION_DOCS_WIZARD_STATUS_CONFIGURED,
+  REQUISITION_DOCS_WIZARD_STATUS_NOT_CONFIGURED,
   REQUISITION_DOCS_WIZARD_CONFIGURED_TITLE,
   REQUISITION_DOCS_WIZARD_DELETE,
   REQUISITION_DOCS_WIZARD_EDIT,
@@ -62,8 +69,8 @@ export class DocumentRequirementsEditorComponent implements OnChanges, OnInit {
 
   readonly labels = {
     subtitle: REQUISITION_DOCS_WIZARD_SUBTITLE,
-    configuredTitle: REQUISITION_DOCS_WIZARD_CONFIGURED_TITLE,
     colType: REQUISITION_DOCS_WIZARD_COL_TYPE,
+    colStatus: REQUISITION_DOCS_WIZARD_COL_STATUS,
     colAi: REQUISITION_DOCS_WIZARD_COL_AI,
     colMonths: REQUISITION_DOCS_WIZARD_COL_MONTHS,
     colMandatory: REQUISITION_DOCS_WIZARD_COL_MANDATORY,
@@ -78,10 +85,12 @@ export class DocumentRequirementsEditorComponent implements OnChanges, OnInit {
     dash: REQUISITION_DOCS_WIZARD_AI_NONE,
     yes: REQUISITION_DOCS_WIZARD_YES,
     no: REQUISITION_DOCS_WIZARD_NO,
+    statusConfigured: REQUISITION_DOCS_WIZARD_STATUS_CONFIGURED,
+    statusNotConfigured: REQUISITION_DOCS_WIZARD_STATUS_NOT_CONFIGURED,
   };
 
   get visibleColumns(): string[] {
-    const cols: string[] = ['documentTypeName'];
+    const cols: string[] = ['documentTypeName', 'status'];
     if (this.showValidateAiName || this.showValidateAiValidity) {
       cols.push('validateAi');
     }
@@ -134,6 +143,10 @@ export class DocumentRequirementsEditorComponent implements OnChanges, OnInit {
 
   onPage(event: PageEvent): void {
     this.pageIndex = event.pageIndex;
+  }
+
+  statusLabel(row: WizardDocumentRequirementRow): string {
+    return row.isActive ? this.labels.statusConfigured : this.labels.statusNotConfigured;
   }
 
   aiSummary(row: WizardDocumentRequirementRow): string {

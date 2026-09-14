@@ -19,13 +19,6 @@
   font-size: 0.875rem;
 }
 
-.document-requirements-editor__table-title {
-  margin: 0 0 8px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #1e3a5f;
-}
-
 .document-requirements-editor__table-wrap {
   width: 100%;
   min-width: 0;
@@ -44,6 +37,7 @@
   padding: 12px 14px;
 }
 
-:host ::ng-deep .document-requirements-editor__row--inactive {
-  opacity: 0.55;
+:host ::ng-deep .document-requirements-editor__add.mat-mdc-icon-button,
+:host ::ng-deep .document-requirements-editor__add .mat-icon {
+  color: #1e293b;
 }
