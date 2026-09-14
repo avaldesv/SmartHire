@@ -115,7 +115,7 @@ export class AuthService {
           this.persistSession(email, res, { keepSessionVerified: true });
         }),
         catchError((err) => {
-          this.clearLocalSession();
+          this.handleInvalidSession();
           return throwError(() => err);
         }),
         tap(() => {
@@ -262,11 +262,25 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return !!sessionStorage.getItem('sh_token');
+    const token = sessionStorage.getItem('sh_token');
+    return !!token && !this.isAccessTokenExpired();
   }
 
   getAccessToken(): string | null {
     return sessionStorage.getItem('sh_token');
+  }
+
+  /** Access JWT past exp (sessionStorage clock or JWT `exp` claim). */
+  isAccessTokenExpired(): boolean {
+    if (this.isTokenExpired()) {
+      return true;
+    }
+    const expMs = this.readJwtExpMs(this.getAccessToken());
+    return expMs != null && Date.now() >= expMs;
+  }
+
+  expireSessionAndRedirectToLogin(): void {
+    this.handleInvalidSession();
   }
 
   private persistSession(
@@ -336,10 +350,27 @@ export class AuthService {
     return expiresAt > 0 && Date.now() >= expiresAt;
   }
 
+  private readJwtExpMs(token: string | null): number | null {
+    if (!token) {
+      return null;
+    }
+    const parts = token.split('.');
+    if (parts.length < 2) {
+      return null;
+    }
+    try {
+      const padded = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+      const json = JSON.parse(atob(padded)) as { exp?: number };
+      return typeof json.exp === 'number' ? json.exp * 1000 : null;
+    } catch {
+      return null;
+    }
+  }
+
   private handleInvalidSession(): void {
     this.clearLocalSession();
-    if (!window.location.pathname.startsWith('/login')) {
-      window.location.href = '/login';
+    if (!this.isLoginPath(window.location.pathname)) {
+      window.location.href = this.localeService.appPath('/login');
     }
   }
 

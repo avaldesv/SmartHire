@@ -1,9 +1,10 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { Client, IMessage } from '@stomp/stompjs';
+import { Injectable, OnDestroy, inject } from '@angular/core';
+import { Client, IFrame, IMessage } from '@stomp/stompjs';
 import { Observable, Subject } from 'rxjs';
 import SockJS from 'sockjs-client';
 import { environment } from '../../../environments/environment';
 import { UserNotificationItem } from '../../shared/models/user-notification.model';
+import { AuthService } from './auth.service';
 
 /**
  * STOMP client for /ws/notifications — subscribe /user/queue/notifications.
@@ -12,31 +13,37 @@ import { UserNotificationItem } from '../../shared/models/user-notification.mode
  */
 @Injectable({ providedIn: 'root' })
 export class UserNotificationStompService implements OnDestroy {
+  private readonly auth = inject(AuthService);
   private client: Client | null = null;
+  private endingSession = false;
   private readonly messages$ = new Subject<UserNotificationItem>();
 
   readonly notifications$: Observable<UserNotificationItem> = this.messages$.asObservable();
 
-  connect(accessToken: string): void {
+  connect(accessToken?: string): void {
     this.disconnect();
-    if (!accessToken) {
+    this.endingSession = false;
+    const token = accessToken || this.auth.getAccessToken();
+    if (!token) {
+      return;
+    }
+    if (this.auth.isAccessTokenExpired()) {
+      this.endSessionAfterFailedRefresh();
       return;
     }
 
-    const base = `${environment.apiBaseUrl}/ws/notifications`;
-    const sep = base.includes('?') ? '&' : '?';
-    const wsUrl = `${base}${sep}access_token=${encodeURIComponent(accessToken)}`;
-
     const client = new Client({
-      webSocketFactory: () =>
-        new SockJS(wsUrl, undefined, {
-          // Cross-origin SockJS often falls back to iframe.html → 404 behind reverse proxies.
-          transports: ['websocket', 'xhr-streaming', 'xhr-polling'],
-        }) as WebSocket,
+      webSocketFactory: () => this.createSockJs(),
       connectHeaders: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${this.auth.getAccessToken() ?? token}`,
       },
       reconnectDelay: 5000,
+      beforeConnect: () => {
+        if (this.auth.isAccessTokenExpired()) {
+          this.endSessionAfterFailedRefresh();
+          throw new Error('Session expired');
+        }
+      },
       onConnect: () => {
         client.subscribe('/user/queue/notifications', (message: IMessage) => {
           try {
@@ -50,6 +57,21 @@ export class UserNotificationStompService implements OnDestroy {
           }
         });
       },
+      onStompError: (frame: IFrame) => {
+        if (this.isAuthFailure(frame.headers['message'] ?? '', frame.body)) {
+          this.endSessionAfterFailedRefresh();
+        }
+      },
+      onWebSocketError: () => {
+        if (this.auth.isAccessTokenExpired()) {
+          this.endSessionAfterFailedRefresh();
+        }
+      },
+      onWebSocketClose: () => {
+        if (this.auth.isAccessTokenExpired()) {
+          this.endSessionAfterFailedRefresh();
+        }
+      },
     });
     this.client = client;
     client.activate();
@@ -57,6 +79,7 @@ export class UserNotificationStompService implements OnDestroy {
 
   disconnect(): void {
     if (this.client) {
+      this.client.reconnectDelay = 0;
       void this.client.deactivate();
       this.client = null;
     }
@@ -64,5 +87,48 @@ export class UserNotificationStompService implements OnDestroy {
 
   ngOnDestroy(): void {
     this.disconnect();
+  }
+
+  private createSockJs(): WebSocket {
+    const current = this.auth.getAccessToken();
+    if (!current || this.auth.isAccessTokenExpired()) {
+      this.endSessionAfterFailedRefresh();
+      throw new Error('Session expired');
+    }
+    const base = `${environment.apiBaseUrl}/ws/notifications`;
+    const sep = base.includes('?') ? '&' : '?';
+    const wsUrl = `${base}${sep}access_token=${encodeURIComponent(current)}`;
+    return new SockJS(wsUrl, undefined, {
+      transports: ['websocket', 'xhr-streaming', 'xhr-polling'],
+    }) as WebSocket;
+  }
+
+  private endSessionAfterFailedRefresh(): void {
+    if (this.endingSession) {
+      return;
+    }
+    this.endingSession = true;
+    this.disconnect();
+    this.auth.refreshSession().subscribe({
+      next: () => {
+        this.endingSession = false;
+        const next = this.auth.getAccessToken();
+        if (next && !this.auth.isAccessTokenExpired()) {
+          this.connect(next);
+          return;
+        }
+        this.auth.expireSessionAndRedirectToLogin();
+      },
+      error: () => this.auth.expireSessionAndRedirectToLogin(),
+    });
+  }
+
+  private isAuthFailure(message: string, body: string): boolean {
+    const text = `${message} ${body}`.toLowerCase();
+    return (
+      text.includes('401') ||
+      text.includes('unauthorized') ||
+      text.includes('expired')
+    );
   }
 }

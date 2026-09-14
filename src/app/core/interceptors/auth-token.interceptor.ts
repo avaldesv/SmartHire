@@ -28,26 +28,36 @@ export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
       ? req.clone({ setHeaders: { authorization: `Bearer ${token}` } })
       : req;
 
+  const retryWithRefreshedToken = () =>
+    auth.refreshSession().pipe(
+      switchMap(() => {
+        const newToken = auth.getAccessToken();
+        if (!newToken) {
+          auth.expireSessionAndRedirectToLogin();
+          return throwError(() => new Error('Session expired'));
+        }
+        return next(
+          req.clone({
+            setHeaders: { authorization: `Bearer ${newToken}` },
+          }),
+        );
+      }),
+      catchError((err) => {
+        auth.expireSessionAndRedirectToLogin();
+        return throwError(() => err);
+      }),
+    );
+
+  if (token && auth.isAccessTokenExpired()) {
+    return retryWithRefreshedToken();
+  }
+
   return next(authedReq).pipe(
     catchError((error: HttpErrorResponse) => {
-      const isAuthFailure = error.status === 401 || error.status === 403;
-      if (!isAuthFailure || isAuthEndpoint) {
+      if (error.status !== 401 || isAuthEndpoint) {
         return throwError(() => error);
       }
-      return auth.refreshSession().pipe(
-        switchMap(() => {
-          const newToken = auth.getAccessToken();
-          if (!newToken) {
-            return throwError(() => error);
-          }
-          return next(
-            req.clone({
-              setHeaders: { authorization: `Bearer ${newToken}` },
-            }),
-          );
-        }),
-        catchError(() => throwError(() => error)),
-      );
+      return retryWithRefreshedToken();
     }),
   );
 };
