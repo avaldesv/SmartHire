@@ -60,10 +60,8 @@ import {
 import { InterviewCalendarApiService } from '../../../core/services/interview-calendar-api.service';
 import { InterviewAvailabilitySlot } from '../../../shared/models/interview-calendar.model';
 import { defaultInterviewCalendarModalityConfig } from '../../../shared/models/interview-calendar.model';
-import {
-  ShModalActionsDirective,
-  ShModalFormComponent,
-} from '../../../shared/components/modal-form/sh-modal-form.component';
+import { ShModalActionsDirective, ShModalFormComponent } from '../../../shared/components/modal-form/sh-modal-form.component';
+import { ShTimepickerFieldComponent } from '../../../shared/components/timepicker-field/sh-timepicker-field.component';
 import { merge } from 'rxjs';
 
 @Component({
@@ -84,6 +82,7 @@ import { merge } from 'rxjs';
     MatIconModule,
     ShModalFormComponent,
     ShModalActionsDirective,
+    ShTimepickerFieldComponent,
   ],
   templateUrl: './interview-calendar-config-dialog.component.html',
   styleUrl: './interview-calendar-config-dialog.component.scss',
@@ -137,7 +136,6 @@ export class InterviewCalendarConfigDialogComponent implements OnInit, OnDestroy
     INTERVIEW_CAL_DAY_FRI,
   ];
   readonly durationOptions = [15, 30, 45, 60];
-  readonly pickerTimeOptions = this.buildPickerTimeOptions();
   gridTimeOptions: string[] = [];
 
   loading = true;
@@ -151,12 +149,12 @@ export class InterviewCalendarConfigDialogComponent implements OnInit, OnDestroy
     virtualDurationMinutes: [30],
     virtualMaxWorkingDays: [5],
     virtualWorkStartTime: ['08:00'],
-    virtualWorkEndTime: ['18:00'],
+    virtualWorkEndTime: ['17:00'],
     virtualMinScheduleBufferHours: [12],
     presentialDurationMinutes: [30],
     presentialMaxWorkingDays: [5],
     presentialWorkStartTime: ['08:00'],
-    presentialWorkEndTime: ['18:00'],
+    presentialWorkEndTime: ['17:00'],
     presentialMinScheduleBufferHours: [12],
     reminder15Min: [true],
     reminder1Hour: [false],
@@ -187,12 +185,12 @@ export class InterviewCalendarConfigDialogComponent implements OnInit, OnDestroy
           virtualDurationMinutes: virtual.durationMinutes ?? 30,
           virtualMaxWorkingDays: virtual.maxWorkingDays ?? 5,
           virtualWorkStartTime: virtual.workStartTime ?? '08:00',
-          virtualWorkEndTime: virtual.workEndTime ?? '18:00',
+          virtualWorkEndTime: virtual.workEndTime ?? '17:00',
           virtualMinScheduleBufferHours: virtual.minScheduleBufferHours ?? 12,
           presentialDurationMinutes: presential.durationMinutes ?? 30,
           presentialMaxWorkingDays: presential.maxWorkingDays ?? 5,
           presentialWorkStartTime: presential.workStartTime ?? '08:00',
-          presentialWorkEndTime: presential.workEndTime ?? '18:00',
+          presentialWorkEndTime: presential.workEndTime ?? '17:00',
           presentialMinScheduleBufferHours: presential.minScheduleBufferHours ?? 12,
           reminder15Min: cfg.reminder15Min ?? true,
           reminder1Hour: cfg.reminder1Hour ?? false,
@@ -416,14 +414,6 @@ export class InterviewCalendarConfigDialogComponent implements OnInit, OnDestroy
     }
     const times: string[] = [];
     for (let minutes = startMin; minutes < endMin; minutes += step) {
-      times.push(this.minutesToTime(minutes));
-    }
-    return times;
-  }
-
-  private buildPickerTimeOptions(): string[] {
-    const times: string[] = [];
-    for (let minutes = 6 * 60; minutes <= 22 * 60; minutes += 15) {
       times.push(this.minutesToTime(minutes));
     }
     return times;

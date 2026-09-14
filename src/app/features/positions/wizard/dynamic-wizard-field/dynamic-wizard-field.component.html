@@ -35,29 +35,7 @@
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 } @else if (isTime) {
-  <mat-form-field appearance="outline" class="time-field" subscriptSizing="dynamic" (click)="openTimePicker($event)">
-    <mat-label>{{ label }}</mat-label>
-    <input
-      #timeInput
-      matInput
-      type="time"
-      step="60"
-      [formControl]="control"
-      [disabled]="disabled"
-      (click)="openTimePicker($event)"
-    />
-    <button
-      mat-icon-button
-      matIconSuffix
-      type="button"
-      class="time-field__toggle"
-      [disabled]="disabled"
-      (click)="openTimePicker($event)"
-      [attr.aria-label]="openTimePickerLabel"
-    >
-      <mat-icon>schedule</mat-icon>
-    </button>
-  </mat-form-field>
+  <sh-timepicker-field [label]="label" [formControl]="control" />
 } @else if (isMoney) {
   <sh-money-stepper-field [formControl]="control" [label]="label" [disabled]="disabled" />
 } @else if (isSimpleInput) {

@@ -38,19 +38,28 @@ import {
   maxTwoDecimalsValidator,
   roundMoneyToTwoDecimals,
 } from './requisition-money.util';
+import {
+  defaultTimeDateForField,
+  formatDateToHhMm,
+  REQUISITION_TIME_DEFAULTS,
+} from '../../../shared/utils/time-value.util';
 
 const PAYLOAD_FIELD_ALIASES: Record<string, keyof CreatePositionRequest> = {
   addressLine: 'address',
   clientContactPosition: 'clientPosition',
 };
 
-export function defaultValueForUiType(uiType: string): unknown {
+export function defaultValueForUiType(uiType: string, fieldKey?: string): unknown {
   switch (uiType) {
     case 'checkbox':
       return false;
     case 'number':
     case 'date':
       return null;
+    case 'time':
+      return fieldKey && REQUISITION_TIME_DEFAULTS[fieldKey]
+        ? formatDateToHhMm(defaultTimeDateForField(fieldKey))
+        : '08:00';
     case 'select':
     case 'client-search':
     case 'user-picker':
@@ -102,7 +111,7 @@ export function createFieldControl(
   if (field.uiType === 'multiselect') {
     return fb.nonNullable.control<number[]>([], buildFieldValidators(field, formValues));
   }
-  const initial = defaultValueForUiType(field.uiType);
+  const initial = defaultValueForUiType(field.uiType, field.fieldKey);
   return fb.control(initial, buildFieldValidators(field, formValues));
 }
 
@@ -414,7 +423,7 @@ function assignPayloadField(
       break;
     }
     case 'time': {
-      payload[targetKey] = typeof raw === 'string' && raw.trim() ? raw : null;
+      payload[targetKey] = formatDateToHhMm(raw) ?? (typeof raw === 'string' && raw.trim() ? raw : null);
       break;
     }
     default: {
@@ -545,7 +554,7 @@ function resolveHydratedValue(
           examId: position.questionnaire.examId ?? null,
         };
       }
-      return defaultValueForUiType(field.uiType);
+      return defaultValueForUiType(field.uiType, field.fieldKey);
     case 'multiselect': {
       if (field.fieldKey === 'workDays') {
         const text =
@@ -566,9 +575,13 @@ function resolveHydratedValue(
       let value =
         (alias ? positionRecord[alias as string] : undefined) ??
         positionRecord[field.fieldKey] ??
-        defaultValueForUiType(field.uiType);
+        defaultValueForUiType(field.uiType, field.fieldKey);
       if (field.uiType === 'date') {
         value = parseDateControlValue(value);
+      }
+      if (field.uiType === 'time') {
+        const normalized = formatDateToHhMm(value);
+        value = normalized ?? defaultValueForUiType('time', field.fieldKey);
       }
       if (field.uiType === 'number' && isRequisitionMoneyField(field.fieldKey)) {
         const rounded = roundMoneyToTwoDecimals(value);

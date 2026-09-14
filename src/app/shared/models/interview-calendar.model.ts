@@ -61,7 +61,7 @@ export function defaultInterviewCalendarModalityConfig(): InterviewCalendarModal
     durationMinutes: 30,
     maxWorkingDays: 5,
     workStartTime: '08:00',
-    workEndTime: '18:00',
+    workEndTime: '17:00',
     availabilitySlots: [],
     minScheduleBufferHours: 12,
   };

@@ -1,19 +1,15 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ResolvedRequisitionFormField, WizardFieldOption } from '../../../../shared/models/requisition-wizard.model';
+import { ShTimepickerFieldComponent } from '../../../../shared/components/timepicker-field/sh-timepicker-field.component';
 import { resolveWizardFieldLabel } from '../requisition-wizard-labels';
-import {
-  REQUISITION_SCOPE_LOADING,
-  REQUISITION_WIZARD_OPEN_TIME_PICKER,
-} from '../../../../core/i18n/requisition-wizard-labels';
+import { REQUISITION_SCOPE_LOADING } from '../../../../core/i18n/requisition-wizard-labels';
 import { isRequisitionPositiveIntegerField } from '../requisition-integer.util';
 import { isRequisitionMoneyField } from '../requisition-money.util';
 import { MoneyStepperFieldComponent } from '../money-stepper-field/money-stepper-field.component';
@@ -29,9 +25,8 @@ import { MoneyStepperFieldComponent } from '../money-stepper-field/money-stepper
     MatCheckboxModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatIconModule,
-    MatButtonModule,
     MoneyStepperFieldComponent,
+    ShTimepickerFieldComponent,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './dynamic-wizard-field.component.html',
@@ -44,10 +39,7 @@ export class DynamicWizardFieldComponent {
   @Input() loadingOptions = false;
   @Input() disabled = false;
 
-  @ViewChild('timeInput') timeInput?: ElementRef<HTMLInputElement>;
-
   readonly loadingOptionsLabel = REQUISITION_SCOPE_LOADING;
-  readonly openTimePickerLabel = REQUISITION_WIZARD_OPEN_TIME_PICKER;
 
   get label(): string {
     return resolveWizardFieldLabel(this.field.fieldKey, this.field.labelI18nKey);
@@ -101,31 +93,5 @@ export class DynamicWizardFieldComponent {
 
   get isSimpleInput(): boolean {
     return this.field.uiType === 'text' || this.isTextarea || (this.isNumber && !this.isMoney);
-  }
-
-  openTimePicker(event?: Event): void {
-    if (this.disabled) {
-      return;
-    }
-    const target = event?.currentTarget as HTMLElement | undefined;
-    if (target?.tagName === 'BUTTON') {
-      event?.preventDefault();
-      event?.stopPropagation();
-    }
-    const input = this.timeInput?.nativeElement;
-    if (!input) {
-      return;
-    }
-    if (document.activeElement !== input) {
-      input.focus();
-    }
-    const withPicker = input as HTMLInputElement & { showPicker?: () => void };
-    if (typeof withPicker.showPicker === 'function') {
-      try {
-        withPicker.showPicker();
-      } catch {
-        // Some browsers reject showPicker outside a trusted gesture.
-      }
-    }
   }
 }
