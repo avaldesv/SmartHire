@@ -69,6 +69,7 @@ import {
 import { CatalogFormTplDirective } from './catalog-form-tpl.directive';
 import { HistoricEmployeeCatalogPanelComponent } from './historic-employee-catalog-panel.component';
 import { ShModalActionsDirective } from '../../../shared/components/modal-form/sh-modal-form.component';
+import { ShPhoneFieldsComponent } from '../../../shared/components/phone-fields/sh-phone-fields.component';
 import {
   CatalogFormDialogShellComponent,
   CatalogFormDialogData,
@@ -251,6 +252,7 @@ const CATALOGS_SELECTION_SESSION_KEY = 'sh_catalogs_selection';
     CatalogFormTplDirective,
     ShModalActionsDirective,
     HistoricEmployeeCatalogPanelComponent,
+    ShPhoneFieldsComponent,
   ],
   templateUrl: './catalogs-admin.component.html',
   styleUrl: './catalogs-admin.component.scss',
@@ -1507,6 +1509,7 @@ export class CatalogsAdminComponent implements OnInit {
     companyArea: [''],
     contactName: [''],
     contactPosition: [''],
+    phonePrefix: [''],
     phone: [''],
     email: [''],
     tradeName: [''],
@@ -4659,6 +4662,7 @@ export class CatalogsAdminComponent implements OnInit {
       companyArea: '',
       contactName: '',
       contactPosition: '',
+      phonePrefix: '',
       phone: '',
       email: '',
       tradeName: '',
@@ -4676,6 +4680,7 @@ export class CatalogsAdminComponent implements OnInit {
       companyArea: row.companyArea ?? '',
       contactName: row.contactName ?? '',
       contactPosition: row.contactPosition ?? '',
+      phonePrefix: row.phonePrefix ?? '',
       phone: row.phone ?? '',
       email: row.email ?? '',
       tradeName: row.tradeName ?? '',

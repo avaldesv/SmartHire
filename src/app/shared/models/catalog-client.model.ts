@@ -8,6 +8,7 @@ export interface CatalogClient {
   companyArea?: string | null;
   contactName?: string | null;
   contactPosition?: string | null;
+  phonePrefix?: string | null;
   phone?: string | null;
   email?: string | null;
   tradeName?: string | null;
@@ -22,6 +23,7 @@ export interface CreateClientRequest {
   companyArea?: string;
   contactName?: string;
   contactPosition?: string;
+  phonePrefix?: string;
   phone?: string;
   email?: string;
   tradeName?: string;

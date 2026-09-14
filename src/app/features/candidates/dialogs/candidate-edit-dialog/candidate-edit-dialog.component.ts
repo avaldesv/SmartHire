@@ -43,6 +43,7 @@ import { PermissionService } from '../../../../core/services/permission.service'
 import { CandidateDetail } from '../../../../shared/models/candidate.model';
 import { CandidateDocumentListItem } from '../../../../shared/models/candidate-document.model';
 import { CatalogGender } from '../../../../shared/models/catalog-gender.model';
+import { ShPhoneFieldsComponent } from '../../../../shared/components/phone-fields/sh-phone-fields.component';
 
 export interface CandidateEditDialogData {
   candidateId: number;
@@ -89,7 +90,7 @@ function findCvDocumentRow(items: CandidateDocumentListItem[]): CandidateDocumen
     MatSelectModule,
     MatIconModule,
     MatProgressSpinnerModule,
-  ],
+    ShPhoneFieldsComponent,
   template: `
     <div class="sh-catalog-dialog-header" mat-dialog-title>
       <span class="sh-catalog-dialog-header__text">{{ title }}</span>
@@ -113,10 +114,7 @@ function findCvDocumentRow(items: CandidateDocumentListItem[]): CandidateDocumen
             <mat-label>{{ fieldEmail }}</mat-label>
             <input matInput type="email" formControlName="email" />
           </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>{{ fieldPhone }}</mat-label>
-            <input matInput formControlName="phone" />
-          </mat-form-field>
+          <sh-phone-fields [form]="form" [allowEmpty]="true" />
           <mat-form-field appearance="outline">
             <mat-label>{{ fieldGender }}</mat-label>
             <mat-select formControlName="genderId">
@@ -304,6 +302,7 @@ export class CandidateEditDialogComponent implements OnInit {
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
+    phonePrefix: [''],
     phone: [''],
     genderId: [null as number | null],
     curp: [''],
@@ -333,6 +332,7 @@ export class CandidateEditDialogComponent implements OnInit {
           firstName: candidate.firstName,
           lastName: candidate.lastName,
           email: candidate.email,
+          phonePrefix: candidate.phonePrefix ?? '',
           phone: candidate.phone ?? '',
           genderId: candidate.genderId,
           curp: candidate.curp ?? '',
@@ -371,6 +371,7 @@ export class CandidateEditDialogComponent implements OnInit {
         lastName: v.lastName,
         email: v.email,
         phone: v.phone || null,
+        phonePrefix: v.phonePrefix || null,
         curp: v.curp || null,
         rfc: v.rfc || null,
         nss: v.nss || null,

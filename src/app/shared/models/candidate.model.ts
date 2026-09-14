@@ -6,6 +6,7 @@ export interface CandidateListItem {
   lastName: string;
   email: string;
   phone: string | null;
+  phonePrefix?: string | null;
   country: string;
   state: string;
   city: string | null;
