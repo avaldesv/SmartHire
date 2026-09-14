@@ -154,6 +154,9 @@ function requiredCompositeValidator(field: ResolvedRequisitionFormField): Valida
         return ids?.length ? null : { required: true };
       }
       const rows = (control.value ?? []) as WizardDocumentRequirementRow[];
+      if (field.fieldKey === 'documentRequirements') {
+        return null;
+      }
       return rows.length > 0 ? null : { required: true };
     }
     if (field.uiType === 'portal-publications-grid') {
@@ -332,6 +335,7 @@ function assignPayloadField(
               validateAiName: r.validateAiName ?? false,
               validateAiValidity: r.validateAiValidity ?? false,
               validityMonths: r.validateAiValidity ? r.validityMonths ?? null : null,
+              isActive: r.isActive !== false,
             }) satisfies PositionDocumentRequirementItem,
         );
         payload['documentTypeIds'] = rows.map((r) => r.documentTypeId);
@@ -484,10 +488,11 @@ function resolveHydratedValue(
         return position.documentRequirements.map((d) => ({
           documentTypeId: d.documentTypeId,
           isRequired: d.isRequired,
-          selected: true,
+          selected: d.isActive !== false,
           validateAiName: d.validateAiName ?? false,
           validateAiValidity: d.validateAiValidity ?? false,
           validityMonths: d.validityMonths ?? null,
+          isActive: d.isActive !== false,
         }));
       }
       return (position.documentTypeIds ?? []).map((id) => ({
@@ -497,6 +502,7 @@ function resolveHydratedValue(
         validateAiName: false,
         validateAiValidity: false,
         validityMonths: null,
+        isActive: true,
       }));
     case 'portal-publications-grid':
       return (position.publishedPortals ?? []).map((p) => ({
