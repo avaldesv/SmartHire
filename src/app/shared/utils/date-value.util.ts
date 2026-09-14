@@ -1,5 +1,7 @@
 /** Date helpers for Material datepicker ↔ API payloads (YYYY-MM-DD). */
 
+export const DATE_INPUT_PLACEHOLDER = 'dd/mm/aaaa';
+
 const ISO_RE = /^(\d{4})-(\d{2})-(\d{2})/;
 const DMY_RE = /^(\d{1,2})[/\-.](\d{1,2})[/\-.](\d{2,4})$/;
 

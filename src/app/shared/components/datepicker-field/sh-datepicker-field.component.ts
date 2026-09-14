@@ -9,12 +9,13 @@ import {
   DateAdapter,
   MAT_DATE_FORMATS,
   MAT_DATE_LOCALE,
+  provideNativeDateAdapter,
 } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DMY_DATE_FORMATS, DmyDateAdapter } from '../../utils/dmy-date-adapter';
-import { formatDateToIso, parseDateInput } from '../../utils/date-value.util';
+import { DATE_INPUT_PLACEHOLDER, formatDateToIso, parseDateInput } from '../../utils/date-value.util';
 
 /**
  * Material datepicker bound to YYYY-MM-DD strings for API compatibility.
@@ -25,6 +26,7 @@ import { formatDateToIso, parseDateInput } from '../../utils/date-value.util';
   standalone: true,
   imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule],
   providers: [
+    provideNativeDateAdapter(),
     { provide: MAT_DATE_LOCALE, useValue: 'es-MX' },
     { provide: DateAdapter, useClass: DmyDateAdapter },
     { provide: MAT_DATE_FORMATS, useValue: DMY_DATE_FORMATS },
@@ -39,7 +41,13 @@ import { formatDateToIso, parseDateInput } from '../../utils/date-value.util';
       @if (label) {
         <mat-label>{{ label }}</mat-label>
       }
-      <input matInput [matDatepicker]="picker" [formControl]="innerCtrl" [disabled]="isDisabled" />
+      <input
+        matInput
+        [matDatepicker]="picker"
+        [formControl]="innerCtrl"
+        [placeholder]="placeholder"
+        [disabled]="isDisabled"
+      />
       <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="isDisabled" />
       <mat-datepicker #picker />
     </mat-form-field>
@@ -58,6 +66,7 @@ import { formatDateToIso, parseDateInput } from '../../utils/date-value.util';
 })
 export class ShDatepickerFieldComponent implements ControlValueAccessor {
   @Input() label = '';
+  @Input() placeholder = DATE_INPUT_PLACEHOLDER;
   @Input() full = false;
 
   readonly innerCtrl = new FormControl<Date | null>(null);

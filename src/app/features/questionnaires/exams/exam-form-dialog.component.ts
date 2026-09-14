@@ -19,6 +19,7 @@ import {
   QEXAM_TAB_QUESTION_SELECTION,
   QEXAM_TAB_DESCRIPTION,
   QEXAM_ERRORS_LOAD,
+  QEXAM_ERRORS_DATETIME_PAIR,
   QEXAM_ERRORS_MAX_ATTEMPTS,
   QEXAM_ERRORS_SAVE,
   QEXAM_FIELD_ACCEPTANCE,
@@ -57,7 +58,12 @@ import { ExamGenerationConfigPanelComponent } from './exam-generation-config-pan
 import { ExamMaxAttemptsHelpDialogComponent } from './exam-max-attempts-help-dialog.component';
 import { ExamRandomSeedHelpDialogComponent } from './exam-random-seed-help-dialog.component';
 import { countEligibleQuestions } from './exam-generation-config.util';
-import { combineDateAndTime, maxAttemptsValidator, splitIsoDateTime } from './exam-form.util';
+import {
+  combineDateAndTime,
+  isIncompleteDateTimePair,
+  maxAttemptsValidator,
+  splitIsoDateTime,
+} from './exam-form.util';
 import { ShDatepickerFieldComponent } from '../../../shared/components/datepicker-field/sh-datepicker-field.component';
 import { ShTimepickerFieldComponent } from '../../../shared/components/timepicker-field/sh-timepicker-field.component';
 import {
@@ -327,6 +333,15 @@ export class ExamFormDialogComponent implements OnInit {
     }
 
     const value = this.form.getRawValue();
+    if (
+      isIncompleteDateTimePair(value.startDate, value.startTime) ||
+      isIncompleteDateTimePair(value.endDate, value.endTime)
+    ) {
+      this.form.markAllAsTouched();
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, QEXAM_ERRORS_DATETIME_PAIR);
+      return;
+    }
+
     const maxAttemptsRaw = value.maxAttempts.trim();
     const payload = {
       questionnaireId: value.questionnaireId!,

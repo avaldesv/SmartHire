@@ -88,6 +88,7 @@ export const QEXAM_ERRORS_LOAD = $localize`:@@questionnaires.exams.errors.load:N
 export const QEXAM_ERRORS_SAVE = $localize`:@@questionnaires.exams.errors.save:No se pudo guardar el examen`;
 export const QEXAM_ERRORS_DELETE = $localize`:@@questionnaires.exams.errors.delete:No se pudo eliminar el examen`;
 export const QEXAM_ERRORS_MAX_ATTEMPTS = $localize`:@@questionnaires.exams.errors.maxAttempts:Los intentos máximos deben ser al menos 1 o dejarse vacío`;
+export const QEXAM_ERRORS_DATETIME_PAIR = $localize`:@@questionnaires.exams.errors.datetimePair:Cada ventana de examen necesita fecha y hora, o deje ambos vacíos`;
 export const QEXAM_SUCCESS_SAVED = $localize`:@@questionnaires.exams.success.saved:Examen guardado`;
 export const QEXAM_SUCCESS_DELETED = $localize`:@@questionnaires.exams.success.deleted:Examen eliminado`;
 

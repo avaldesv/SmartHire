@@ -7434,6 +7434,10 @@
         <source>Los intentos máximos deben ser al menos 1 o dejarse vacío</source>
         <target>Maximum attempts must be at least 1 or left empty</target>
       </trans-unit>
+      <trans-unit id="questionnaires.exams.errors.datetimePair" datatype="html">
+        <source>Cada ventana de examen necesita fecha y hora, o deje ambos vacíos</source>
+        <target>Each exam window needs both date and time, or leave both empty</target>
+      </trans-unit>
       <trans-unit id="questionnaires.exams.success.saved" datatype="html">
         <source>Examen guardado</source>
         <target>Exam saved</target>

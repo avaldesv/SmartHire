@@ -43,11 +43,20 @@ export function splitIsoDateTime(isoValue: string | null | undefined): { date: s
   return { date: date ?? '', time: (time ?? '').slice(0, 5) };
 }
 
+export function isIncompleteDateTimePair(
+  date: string | null | undefined,
+  time: string | null | undefined,
+): boolean {
+  const hasDate = !!date?.trim();
+  const hasTime = !!time?.trim();
+  return hasDate !== hasTime;
+}
+
 export function combineDateAndTime(date: string | null | undefined, time: string | null | undefined): string | null {
   const day = date?.trim();
-  if (!day) {
+  const clock = time?.trim()?.slice(0, 5);
+  if (!day || !clock) {
     return null;
   }
-  const clock = (time?.trim() || '00:00').slice(0, 5);
   return toIsoDateTime(`${day}T${clock}`);
 }

@@ -1,4 +1,4 @@
-import { formatDateToDdMmYyyy, formatDateToIso, parseDateInput } from './date-value.util';
+import { DATE_INPUT_PLACEHOLDER, formatDateToDdMmYyyy, formatDateToIso, parseDateInput } from './date-value.util';
 
 describe('parseDateInput', () => {
   it('parses ISO YYYY-MM-DD', () => {
@@ -10,6 +10,7 @@ describe('parseDateInput', () => {
 
   it('parses dd/MM/yyyy and d/m/yy as day-first', () => {
     expect(formatDateToIso('14/09/2026')).toBe('2026-09-14');
+    expect(formatDateToIso('14/9/26')).toBe('2026-09-14');
     expect(formatDateToIso('1/2/26')).toBe('2026-02-01');
     expect(formatDateToIso('01/02/2026')).toBe('2026-02-01');
   });
@@ -23,5 +24,11 @@ describe('formatDateToDdMmYyyy', () => {
   it('pads day and month', () => {
     expect(formatDateToDdMmYyyy('2026-01-08')).toBe('08/01/2026');
     expect(formatDateToDdMmYyyy('2026-09-14')).toBe('14/09/2026');
+  });
+});
+
+describe('DATE_INPUT_PLACEHOLDER', () => {
+  it('uses dd/mm/aaaa', () => {
+    expect(DATE_INPUT_PLACEHOLDER).toBe('dd/mm/aaaa');
   });
 });

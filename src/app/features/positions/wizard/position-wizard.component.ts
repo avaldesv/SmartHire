@@ -102,6 +102,7 @@ import {
 } from './requisition-money.util';
 import { MoneyStepperFieldComponent } from './money-stepper-field/money-stepper-field.component';
 import { ShDatepickerFieldComponent } from '../../../shared/components/datepicker-field/sh-datepicker-field.component';
+import { formatDateToIso } from '../../../shared/utils/date-value.util';
 import {
   RequisitionScopeDialogComponent,
   RequisitionScopeDialogResult,
@@ -796,7 +797,7 @@ export class PositionWizardComponent implements OnInit {
         positionsCount:
           typeof values['positionsCount'] === 'number' ? (values['positionsCount'] as number) : 1,
         headcount: typeof values['headcount'] === 'number' ? (values['headcount'] as number) : 1,
-        startDate: asString('startDate'),
+        startDate: formatDateToIso(values['startDate']) ?? '',
       },
       { emitEvent: false },
     );
@@ -1228,7 +1229,7 @@ export class PositionWizardComponent implements OnInit {
           this.manpowerForm.patchValue({
             positionsCount: position.positionsCount,
             headcount: position.headcount,
-            startDate: position.startDate,
+            startDate: formatDateToIso(position.startDate) ?? '',
           });
           this.hiringForm.patchValue({
             hiringContractTypeId: position.hiringContractTypeId,
@@ -1339,7 +1340,7 @@ export class PositionWizardComponent implements OnInit {
       workDays: general.workDays,
       positionsCount: manpower.positionsCount,
       headcount: manpower.headcount,
-      startDate: manpower.startDate,
+      startDate: formatDateToIso(manpower.startDate) ?? '',
       hiringContractTypeId: hiring.hiringContractTypeId!,
       benefitId: hiring.benefitId!,
       probationDays: hiring.probationDays,

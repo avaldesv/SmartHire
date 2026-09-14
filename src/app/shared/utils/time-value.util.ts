@@ -1,5 +1,7 @@
 /** HH:mm (24h) helpers for Material timepicker ↔ API payloads. */
 
+export const TIME_INPUT_PLACEHOLDER = 'hh:mm AM';
+
 const TIME_RE = /^(\d{1,2}):(\d{2})(?:\s*([AaPp][Mm]?))?$/;
 
 export const REQUISITION_TIME_DEFAULTS: Record<string, string> = {

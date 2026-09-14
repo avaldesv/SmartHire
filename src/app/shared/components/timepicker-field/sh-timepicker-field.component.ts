@@ -9,7 +9,7 @@ import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/cor
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTimepickerModule } from '@angular/material/timepicker';
-import { formatDateToHhMm, parseTimeToDate } from '../../utils/time-value.util';
+import { formatDateToHhMm, parseTimeToDate, TIME_INPUT_PLACEHOLDER } from '../../utils/time-value.util';
 
 /**
  * Material timepicker bound to HH:mm (24h) strings for API compatibility.
@@ -33,7 +33,13 @@ import { formatDateToHhMm, parseTimeToDate } from '../../utils/time-value.util';
       @if (label) {
         <mat-label>{{ label }}</mat-label>
       }
-      <input matInput [matTimepicker]="picker" [formControl]="innerCtrl" [disabled]="isDisabled" />
+      <input
+        matInput
+        [matTimepicker]="picker"
+        [formControl]="innerCtrl"
+        [placeholder]="placeholder"
+        [disabled]="isDisabled"
+      />
       <mat-timepicker-toggle matIconSuffix [for]="picker" [disabled]="isDisabled" />
       <mat-timepicker #picker interval="30minutes" />
     </mat-form-field>
@@ -52,6 +58,7 @@ import { formatDateToHhMm, parseTimeToDate } from '../../utils/time-value.util';
 })
 export class ShTimepickerFieldComponent implements ControlValueAccessor {
   @Input() label = '';
+  @Input() placeholder = TIME_INPUT_PLACEHOLDER;
 
   readonly innerCtrl = new FormControl<Date | null>(null);
 
