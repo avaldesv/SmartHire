@@ -28,6 +28,11 @@ import {
   parseWorkDaysToIds,
   serializeWorkDaysFromIds,
 } from '../../../shared/utils/requisition-work-days.util';
+import {
+  integerValidator,
+  isRequisitionPositiveIntegerField,
+  toPositiveIntegerOrNull,
+} from './requisition-integer.util';
 
 const PAYLOAD_FIELD_ALIASES: Record<string, keyof CreatePositionRequest> = {
   addressLine: 'address',
@@ -106,6 +111,13 @@ export function buildFieldValidators(
   const required = isFieldRequired(field, formValues);
   switch (field.uiType) {
     case 'number': {
+      if (isRequisitionPositiveIntegerField(field.fieldKey)) {
+        const validators: ValidatorFn[] = [Validators.min(1), integerValidator()];
+        if (required) {
+          validators.unshift(Validators.required);
+        }
+        return validators;
+      }
       // Allow null/empty when optional; reject negatives when a value is set.
       const validators: ValidatorFn[] = [Validators.min(0)];
       if (required) {
@@ -367,7 +379,11 @@ function assignPayloadField(
       break;
     }
     case 'number': {
-      payload[targetKey] = raw === null || raw === '' ? null : Number(raw);
+      if (isRequisitionPositiveIntegerField(fieldKey)) {
+        payload[targetKey] = toPositiveIntegerOrNull(raw);
+      } else {
+        payload[targetKey] = raw === null || raw === '' ? null : Number(raw);
+      }
       break;
     }
     case 'multiselect': {

@@ -94,6 +94,7 @@ import {
   resolveRequisitionStepLabel,
 } from './requisition-wizard-labels';
 import { DynamicWizardStepComponent } from './dynamic-wizard-step/dynamic-wizard-step.component';
+import { integerValidator } from './requisition-integer.util';
 import {
   RequisitionScopeDialogComponent,
   RequisitionScopeDialogResult,
@@ -229,7 +230,7 @@ export class PositionWizardComponent implements OnInit {
   });
 
   readonly manpowerForm = this.fb.nonNullable.group({
-    positionsCount: [1, [Validators.required, Validators.min(1)]],
+    positionsCount: [1, [Validators.required, Validators.min(1), integerValidator()]],
     headcount: [1, Validators.required],
     startDate: ['', Validators.required],
   });

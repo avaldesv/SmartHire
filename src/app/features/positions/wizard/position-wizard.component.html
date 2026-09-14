@@ -174,7 +174,7 @@
       <mat-step [stepControl]="manpowerForm" [label]="labels.stepManpower">
         <form [formGroup]="manpowerForm" class="step-form">
           <div class="form-grid">
-            <mat-form-field appearance="outline"><mat-label>{{ labels.positionsCountShort }}</mat-label><input matInput type="number" formControlName="positionsCount" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>{{ labels.positionsCountShort }}</mat-label><input matInput type="number" min="1" step="1" formControlName="positionsCount" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ labels.fieldHeadcount }}</mat-label><input matInput type="number" formControlName="headcount" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ labels.fieldStartDate }}</mat-label><input matInput type="date" formControlName="startDate" /></mat-form-field>
           </div>
