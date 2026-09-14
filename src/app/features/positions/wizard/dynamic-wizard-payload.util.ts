@@ -43,6 +43,7 @@ import {
   formatDateToHhMm,
   REQUISITION_TIME_DEFAULTS,
 } from '../../../shared/utils/time-value.util';
+import { formatDateToIso } from '../../../shared/utils/date-value.util';
 
 const PAYLOAD_FIELD_ALIASES: Record<string, keyof CreatePositionRequest> = {
   addressLine: 'address',
@@ -433,19 +434,7 @@ function assignPayloadField(
 }
 
 function formatDatePayload(raw: unknown): string | null {
-  if (raw == null || raw === '') {
-    return null;
-  }
-  if (raw instanceof Date && !Number.isNaN(raw.getTime())) {
-    const y = raw.getFullYear();
-    const m = String(raw.getMonth() + 1).padStart(2, '0');
-    const d = String(raw.getDate()).padStart(2, '0');
-    return `${y}-${m}-${d}`;
-  }
-  if (typeof raw === 'string') {
-    return raw.length >= 10 ? raw.slice(0, 10) : raw;
-  }
-  return null;
+  return formatDateToIso(raw);
 }
 
 function mapLegacyLanguageFields(payload: Record<string, unknown>, formValues: Record<string, unknown>): void {
@@ -592,15 +581,8 @@ function resolveHydratedValue(
   }
 }
 
-function parseDateControlValue(value: unknown): Date | null {
-  if (value instanceof Date) {
-    return Number.isNaN(value.getTime()) ? null : value;
-  }
-  if (typeof value === 'string' && value.trim()) {
-    const parsed = new Date(`${value.slice(0, 10)}T00:00:00`);
-    return Number.isNaN(parsed.getTime()) ? null : parsed;
-  }
-  return null;
+function parseDateControlValue(value: unknown): string | null {
+  return formatDateToIso(value);
 }
 
 export function patchDynamicForm(

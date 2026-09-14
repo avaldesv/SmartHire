@@ -42,7 +42,9 @@ export const QEXAM_MAX_ATTEMPTS_EXAMPLE_THREE = $localize`:@@questionnaires.exam
 export const QEXAM_FIELD_HELP_LINK = $localize`:@@questionnaires.exams.field.helpLink:Ayuda`;
 export const QEXAM_FIELD_RETRY_DELAY = $localize`:@@questionnaires.exams.field.retryDelayDays:Días entre reintentos`;
 export const QEXAM_FIELD_START_DATE = $localize`:@@questionnaires.exams.field.startDate:Inicio ventana`;
+export const QEXAM_FIELD_START_TIME = $localize`:@@questionnaires.exams.field.startTime:Hora inicio`;
 export const QEXAM_FIELD_END_DATE = $localize`:@@questionnaires.exams.field.endDate:Fin ventana`;
+export const QEXAM_FIELD_END_TIME = $localize`:@@questionnaires.exams.field.endTime:Hora fin`;
 export const QEXAM_FIELD_GENERATION_CONFIG = $localize`:@@questionnaires.exams.field.generationConfig:Reglas de selección de preguntas`;
 export const QEXAM_FIELD_RANDOM_SEED = $localize`:@@questionnaires.exams.field.randomSeed:Semilla aleatoria`;
 
@@ -86,6 +88,7 @@ export const QEXAM_ERRORS_LOAD = $localize`:@@questionnaires.exams.errors.load:N
 export const QEXAM_ERRORS_SAVE = $localize`:@@questionnaires.exams.errors.save:No se pudo guardar el examen`;
 export const QEXAM_ERRORS_DELETE = $localize`:@@questionnaires.exams.errors.delete:No se pudo eliminar el examen`;
 export const QEXAM_ERRORS_MAX_ATTEMPTS = $localize`:@@questionnaires.exams.errors.maxAttempts:Los intentos máximos deben ser al menos 1 o dejarse vacío`;
+export const QEXAM_ERRORS_DATETIME_PAIR = $localize`:@@questionnaires.exams.errors.datetimePair:Cada ventana de examen necesita fecha y hora, o deje ambos vacíos`;
 export const QEXAM_SUCCESS_SAVED = $localize`:@@questionnaires.exams.success.saved:Examen guardado`;
 export const QEXAM_SUCCESS_DELETED = $localize`:@@questionnaires.exams.success.deleted:Examen eliminado`;
 

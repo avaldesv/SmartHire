@@ -5,50 +5,58 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+  provideNativeDateAdapter,
+} from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatTimepickerModule } from '@angular/material/timepicker';
-import { formatDateToHhMm, parseTimeToDate, TIME_INPUT_PLACEHOLDER } from '../../utils/time-value.util';
+import { DMY_DATE_FORMATS, DmyDateAdapter } from '../../utils/dmy-date-adapter';
+import { DATE_INPUT_PLACEHOLDER, formatDateToIso, parseDateInput } from '../../utils/date-value.util';
 
 /**
- * Material timepicker bound to HH:mm (24h) strings for API compatibility.
- * Display uses en-US so values show as 12h AM/PM; typing 14:00 parses to 2:00 PM.
+ * Material datepicker bound to YYYY-MM-DD strings for API compatibility.
+ * Display and typing use dd/MM/yyyy; ISO yyyy-mm-dd is accepted and normalized.
  */
 @Component({
-  selector: 'sh-timepicker-field',
+  selector: 'sh-datepicker-field',
   standalone: true,
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatTimepickerModule],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule],
   providers: [
     provideNativeDateAdapter(),
-    { provide: MAT_DATE_LOCALE, useValue: 'en-US' },
+    { provide: MAT_DATE_LOCALE, useValue: 'es-MX' },
+    { provide: DateAdapter, useClass: DmyDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: DMY_DATE_FORMATS },
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ShTimepickerFieldComponent),
+      useExisting: forwardRef(() => ShDatepickerFieldComponent),
       multi: true,
     },
   ],
   template: `
-    <mat-form-field appearance="outline" class="time-field" subscriptSizing="dynamic">
+    <mat-form-field appearance="outline" class="date-field" [class.full]="full" subscriptSizing="dynamic">
       @if (label) {
         <mat-label>{{ label }}</mat-label>
       }
       <input
         matInput
-        [matTimepicker]="picker"
+        [matDatepicker]="picker"
         [formControl]="innerCtrl"
         [placeholder]="placeholder"
         [disabled]="isDisabled"
       />
-      <mat-timepicker-toggle matIconSuffix [for]="picker" [disabled]="isDisabled" />
-      <mat-timepicker #picker interval="30minutes" />
+      <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="isDisabled" />
+      <mat-datepicker #picker />
     </mat-form-field>
   `,
   styles: `
     :host {
       display: contents;
     }
-    .time-field {
+    .date-field {
       width: 100%;
     }
     input {
@@ -56,9 +64,10 @@ import { formatDateToHhMm, parseTimeToDate, TIME_INPUT_PLACEHOLDER } from '../..
     }
   `,
 })
-export class ShTimepickerFieldComponent implements ControlValueAccessor {
+export class ShDatepickerFieldComponent implements ControlValueAccessor {
   @Input() label = '';
-  @Input() placeholder = TIME_INPUT_PLACEHOLDER;
+  @Input() placeholder = DATE_INPUT_PLACEHOLDER;
+  @Input() full = false;
 
   readonly innerCtrl = new FormControl<Date | null>(null);
 
@@ -73,16 +82,14 @@ export class ShTimepickerFieldComponent implements ControlValueAccessor {
       if (this.writing) {
         return;
       }
-      this.onChange(formatDateToHhMm(date));
+      this.onChange(formatDateToIso(date));
       this.onTouched();
     });
   }
 
   writeValue(value: string | Date | null): void {
     this.writing = true;
-    const parsed =
-      typeof value === 'string' || value instanceof Date ? parseTimeToDate(value) : null;
-    this.innerCtrl.setValue(parsed, { emitEvent: false });
+    this.innerCtrl.setValue(parseDateInput(value), { emitEvent: false });
     this.writing = false;
   }
 

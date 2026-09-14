@@ -106,15 +106,11 @@
               </mat-form-field>
             </div>
 
-            <div class="form-row">
-              <mat-form-field appearance="outline">
-                <mat-label>{{ fieldStartDate }}</mat-label>
-                <input matInput type="datetime-local" formControlName="startDate" />
-              </mat-form-field>
-              <mat-form-field appearance="outline">
-                <mat-label>{{ fieldEndDate }}</mat-label>
-                <input matInput type="datetime-local" formControlName="endDate" />
-              </mat-form-field>
+            <div class="form-row form-row--datetime">
+              <sh-datepicker-field [label]="fieldStartDate" formControlName="startDate" />
+              <sh-timepicker-field [label]="fieldStartTime" formControlName="startTime" />
+              <sh-datepicker-field [label]="fieldEndDate" formControlName="endDate" />
+              <sh-timepicker-field [label]="fieldEndTime" formControlName="endTime" />
             </div>
           </div>
         </mat-tab>

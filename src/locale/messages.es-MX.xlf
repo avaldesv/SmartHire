@@ -15738,6 +15738,13 @@
           <context context-type="linenumber">88</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="questionnaires.exams.errors.datetimePair" datatype="html">
+        <source>Cada ventana de examen necesita fecha y hora, o deje ambos vacíos</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/questionnaire-exams-labels.ts</context>
+          <context context-type="linenumber">91</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="questionnaires.exams.success.saved" datatype="html">
         <source>Examen guardado</source>
         <context-group purpose="location">

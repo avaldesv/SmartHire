@@ -17,15 +17,8 @@
 
   <form [formGroup]="filters" class="sh-filters sh-card rbs-filters">
     <div class="primary-filters-grid">
-      <mat-form-field appearance="outline">
-        <mat-label>{{ ui.startDate }}</mat-label>
-        <input matInput type="date" formControlName="startDate" />
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>{{ ui.endDate }}</mat-label>
-        <input matInput type="date" formControlName="endDate" />
-      </mat-form-field>
+      <sh-datepicker-field [label]="ui.startDate" formControlName="startDate" />
+      <sh-datepicker-field [label]="ui.endDate" formControlName="endDate" />
 
       <mat-form-field appearance="outline">
         <mat-label>{{ ui.country }}</mat-label>

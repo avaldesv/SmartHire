@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { PageEvent } from '@angular/material/paginator';
+import { ShDatepickerFieldComponent } from '../../../../shared/components/datepicker-field/sh-datepicker-field.component';
 import { ShPaginatorComponent } from '../../../../shared/components/paginator/sh-paginator.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
@@ -228,6 +229,7 @@ interface ClientOption {
     ReactiveFormsModule,
     MatTableModule,
     ShPaginatorComponent,
+    ShDatepickerFieldComponent,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,

@@ -16,6 +16,7 @@ import { SecurityRecruiterGroupService } from '../../../core/services/security-r
 import { SecurityUserService } from '../../../core/services/security-user.service';
 import { ClientFilterFieldComponent } from '../../../shared/components/client-filter-field/client-filter-field.component';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
+import { ShDatepickerFieldComponent } from '../../../shared/components/datepicker-field/sh-datepicker-field.component';
 import {
   REPORTS_CLEAR_FILTERS,
   REPORTS_FILTER_ALL,
@@ -91,6 +92,7 @@ interface SelectOption {
     MatIconModule,
     MatProgressSpinnerModule,
     PageHeaderComponent,
+    ShDatepickerFieldComponent,
     ClientFilterFieldComponent,
   ],
   templateUrl: './status-by-requisition-report.component.html',

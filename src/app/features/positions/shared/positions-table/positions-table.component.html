@@ -6,10 +6,7 @@
       <mat-icon matPrefix>search</mat-icon>
       <input matInput formControlName="search" [placeholder]="searchPlaceholder" />
     </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>{{ filterDateFrom }}</mat-label>
-      <input matInput type="date" formControlName="dateFrom" />
-    </mat-form-field>
+    <sh-datepicker-field [label]="filterDateFrom" formControlName="dateFrom" />
     <mat-form-field appearance="outline">
       <mat-label>{{ filterClient }}</mat-label>
       <input

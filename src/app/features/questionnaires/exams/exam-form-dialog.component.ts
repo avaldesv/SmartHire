@@ -19,12 +19,14 @@ import {
   QEXAM_TAB_QUESTION_SELECTION,
   QEXAM_TAB_DESCRIPTION,
   QEXAM_ERRORS_LOAD,
+  QEXAM_ERRORS_DATETIME_PAIR,
   QEXAM_ERRORS_MAX_ATTEMPTS,
   QEXAM_ERRORS_SAVE,
   QEXAM_FIELD_ACCEPTANCE,
   QEXAM_FIELD_DEFAULT_WEIGHT,
   QEXAM_FIELD_DESCRIPTION,
   QEXAM_FIELD_END_DATE,
+  QEXAM_FIELD_END_TIME,
   QEXAM_FIELD_MAX_ATTEMPTS,
   QEXAM_FIELD_HELP_LINK,
   QEXAM_FIELD_NAME,
@@ -33,6 +35,7 @@ import {
   QEXAM_FIELD_RANDOM_SEED,
   QEXAM_FIELD_RETRY_DELAY,
   QEXAM_FIELD_START_DATE,
+  QEXAM_FIELD_START_TIME,
   QEXAM_FIELD_STATUS,
   QEXAM_FIELD_TIME_LIMIT,
   QEXAM_FIELD_TOTAL_TIME,
@@ -55,7 +58,14 @@ import { ExamGenerationConfigPanelComponent } from './exam-generation-config-pan
 import { ExamMaxAttemptsHelpDialogComponent } from './exam-max-attempts-help-dialog.component';
 import { ExamRandomSeedHelpDialogComponent } from './exam-random-seed-help-dialog.component';
 import { countEligibleQuestions } from './exam-generation-config.util';
-import { maxAttemptsValidator, toDateTimeLocalValue, toIsoDateTime } from './exam-form.util';
+import {
+  combineDateAndTime,
+  isIncompleteDateTimePair,
+  maxAttemptsValidator,
+  splitIsoDateTime,
+} from './exam-form.util';
+import { ShDatepickerFieldComponent } from '../../../shared/components/datepicker-field/sh-datepicker-field.component';
+import { ShTimepickerFieldComponent } from '../../../shared/components/timepicker-field/sh-timepicker-field.component';
 import {
   ShModalActionsDirective,
   ShModalFormComponent,
@@ -81,6 +91,8 @@ export interface ExamFormDialogData {
     ExamGenerationConfigPanelComponent,
     ShModalFormComponent,
     ShModalActionsDirective,
+    ShDatepickerFieldComponent,
+    ShTimepickerFieldComponent,
   ],
   templateUrl: './exam-form-dialog.component.html',
   styleUrl: './exam-form-dialog.component.scss',
@@ -124,7 +136,9 @@ export class ExamFormDialogComponent implements OnInit {
   readonly fieldRandomSeed = QEXAM_FIELD_RANDOM_SEED;
   readonly fieldStatus = QEXAM_FIELD_STATUS;
   readonly fieldStartDate = QEXAM_FIELD_START_DATE;
+  readonly fieldStartTime = QEXAM_FIELD_START_TIME;
   readonly fieldEndDate = QEXAM_FIELD_END_DATE;
+  readonly fieldEndTime = QEXAM_FIELD_END_TIME;
   readonly fieldActive = QEXAM_FIELD_ACTIVE;
   readonly questionsAvailableLabel = QEXAM_QUESTIONS_AVAILABLE;
   readonly eligibleQuestionsLabel = QEXAM_ELIGIBLE_QUESTIONS;
@@ -155,7 +169,9 @@ export class ExamFormDialogComponent implements OnInit {
     maxAttempts: ['', maxAttemptsValidator()],
     retryDelayDays: [''],
     startDate: [''],
+    startTime: [''],
     endDate: [''],
+    endTime: [''],
     generationConfig: [null as string | null],
     randomSeed: [''],
     status: ['draft'],
@@ -246,6 +262,8 @@ export class ExamFormDialogComponent implements OnInit {
   private loadExam(id: number): void {
     this.api.getById(id).subscribe({
       next: (exam) => {
+        const startWindow = splitIsoDateTime(exam.startDate);
+        const endWindow = splitIsoDateTime(exam.endDate);
         this.form.patchValue({
           questionnaireId: exam.questionnaireId,
           name: exam.name,
@@ -258,8 +276,10 @@ export class ExamFormDialogComponent implements OnInit {
           acceptancePercent: exam.acceptancePercent != null ? String(exam.acceptancePercent) : '',
           maxAttempts: exam.maxAttempts != null ? String(exam.maxAttempts) : '',
           retryDelayDays: exam.retryDelayDays != null ? String(exam.retryDelayDays) : '',
-          startDate: toDateTimeLocalValue(exam.startDate),
-          endDate: toDateTimeLocalValue(exam.endDate),
+          startDate: startWindow.date,
+          startTime: startWindow.time,
+          endDate: endWindow.date,
+          endTime: endWindow.time,
           generationConfig: exam.generationConfig ?? null,
           randomSeed: exam.randomSeed != null ? String(exam.randomSeed) : '',
           status: exam.status ?? 'draft',
@@ -313,6 +333,15 @@ export class ExamFormDialogComponent implements OnInit {
     }
 
     const value = this.form.getRawValue();
+    if (
+      isIncompleteDateTimePair(value.startDate, value.startTime) ||
+      isIncompleteDateTimePair(value.endDate, value.endTime)
+    ) {
+      this.form.markAllAsTouched();
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, QEXAM_ERRORS_DATETIME_PAIR);
+      return;
+    }
+
     const maxAttemptsRaw = value.maxAttempts.trim();
     const payload = {
       questionnaireId: value.questionnaireId!,
@@ -325,8 +354,8 @@ export class ExamFormDialogComponent implements OnInit {
       acceptancePercent: this.parseOptionalNumber(value.acceptancePercent),
       maxAttempts: maxAttemptsRaw ? Number(maxAttemptsRaw) : null,
       retryDelayDays: this.parseOptionalNumber(value.retryDelayDays),
-      startDate: toIsoDateTime(value.startDate),
-      endDate: toIsoDateTime(value.endDate),
+      startDate: combineDateAndTime(value.startDate, value.startTime),
+      endDate: combineDateAndTime(value.endDate, value.endTime),
       generationConfig: value.generationConfig?.trim() || null,
       randomSeed: this.parseOptionalNumber(value.randomSeed),
       status: value.status || 'draft',
