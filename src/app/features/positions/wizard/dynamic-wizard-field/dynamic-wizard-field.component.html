@@ -58,6 +58,18 @@
       <mat-icon>schedule</mat-icon>
     </button>
   </mat-form-field>
+} @else if (isMoney) {
+  <mat-form-field appearance="outline" subscriptSizing="dynamic">
+    <mat-label>{{ label }}</mat-label>
+    <input
+      matInput
+      type="text"
+      inputmode="decimal"
+      [formControl]="control"
+      [disabled]="disabled"
+      (blur)="onMoneyBlur()"
+    />
+  </mat-form-field>
 } @else if (isSimpleInput) {
   <mat-form-field
     appearance="outline"

@@ -15,6 +15,10 @@ import {
   REQUISITION_WIZARD_OPEN_TIME_PICKER,
 } from '../../../../core/i18n/requisition-wizard-labels';
 import { isRequisitionPositiveIntegerField } from '../requisition-integer.util';
+import {
+  isRequisitionMoneyField,
+  roundMoneyToTwoDecimals,
+} from '../requisition-money.util';
 
 @Component({
   selector: 'sh-dynamic-wizard-field',
@@ -58,15 +62,19 @@ export class DynamicWizardFieldComponent {
     return this.field.uiType === 'number';
   }
 
+  get isMoney(): boolean {
+    return this.isNumber && isRequisitionMoneyField(this.field.fieldKey);
+  }
+
   get numberMin(): number | null {
-    if (!this.isNumber) {
+    if (!this.isNumber || this.isMoney) {
       return null;
     }
     return isRequisitionPositiveIntegerField(this.field.fieldKey) ? 1 : 0;
   }
 
   get numberStep(): number | null {
-    if (!this.isNumber) {
+    if (!this.isNumber || this.isMoney) {
       return null;
     }
     return isRequisitionPositiveIntegerField(this.field.fieldKey) ? 1 : null;
@@ -93,7 +101,14 @@ export class DynamicWizardFieldComponent {
   }
 
   get isSimpleInput(): boolean {
-    return this.field.uiType === 'text' || this.isTextarea || this.isNumber;
+    return this.field.uiType === 'text' || this.isTextarea || (this.isNumber && !this.isMoney);
+  }
+
+  /** Persist as "x.00" so the input shows two decimals (type=number strips trailing zeros). */
+  onMoneyBlur(): void {
+    const rounded = roundMoneyToTwoDecimals(this.control.value);
+    this.control.setValue(rounded == null ? null : rounded.toFixed(2));
+    this.control.markAsTouched();
   }
 
   openTimePicker(event?: Event): void {

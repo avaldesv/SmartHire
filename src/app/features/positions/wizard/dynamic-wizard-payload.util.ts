@@ -33,6 +33,11 @@ import {
   isRequisitionPositiveIntegerField,
   toPositiveIntegerOrNull,
 } from './requisition-integer.util';
+import {
+  isRequisitionMoneyField,
+  maxTwoDecimalsValidator,
+  roundMoneyToTwoDecimals,
+} from './requisition-money.util';
 
 const PAYLOAD_FIELD_ALIASES: Record<string, keyof CreatePositionRequest> = {
   addressLine: 'address',
@@ -120,6 +125,9 @@ export function buildFieldValidators(
       }
       // Allow null/empty when optional; reject negatives when a value is set.
       const validators: ValidatorFn[] = [Validators.min(0)];
+      if (isRequisitionMoneyField(field.fieldKey)) {
+        validators.push(maxTwoDecimalsValidator());
+      }
       if (required) {
         validators.unshift(Validators.required);
       }
@@ -381,6 +389,8 @@ function assignPayloadField(
     case 'number': {
       if (isRequisitionPositiveIntegerField(fieldKey)) {
         payload[targetKey] = toPositiveIntegerOrNull(raw);
+      } else if (isRequisitionMoneyField(fieldKey)) {
+        payload[targetKey] = roundMoneyToTwoDecimals(raw);
       } else {
         payload[targetKey] = raw === null || raw === '' ? null : Number(raw);
       }
@@ -559,6 +569,10 @@ function resolveHydratedValue(
         defaultValueForUiType(field.uiType);
       if (field.uiType === 'date') {
         value = parseDateControlValue(value);
+      }
+      if (field.uiType === 'number' && isRequisitionMoneyField(field.fieldKey)) {
+        const rounded = roundMoneyToTwoDecimals(value);
+        return rounded == null ? null : rounded.toFixed(2);
       }
       return value;
     }
