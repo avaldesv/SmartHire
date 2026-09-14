@@ -99,7 +99,7 @@ const REQUISITION_FIELD_LABELS: Record<string, string> = {
   extraBenefitsText: $localize`:@@requisition.field.extraBenefitsText:Texto beneficios adicionales`,
   questionnaire: $localize`:@@requisition.field.questionnaire:Cuestionario`,
   exam: $localize`:@@requisition.field.exam:Examen`,
-  documentRequirements: $localize`:@@requisition.field.documentRequirements:Documentos definidos`,
+  documentRequirements: $localize`:@@requisition.field.documentRequirements:Documentos definidos y configurados`,
   documentValidateAiName: $localize`:@@requisition.field.documentValidateAiName:Validar con IA — Nombre`,
   documentValidateAiValidity: $localize`:@@requisition.field.documentValidateAiValidity:Validar con IA — Vigencia`,
   documentValidityMonths: $localize`:@@requisition.field.documentValidityMonths:Tiempo de validez (meses)`,
@@ -272,7 +272,10 @@ export const REQUISITION_DOCS_WIZARD_YES = $localize`:@@common.yes:Sí`;
 export const REQUISITION_DOCS_WIZARD_NO = $localize`:@@common.no:No`;
 export const REQUISITION_DOCS_WIZARD_ADD = $localize`:@@requisition.documents.wizard.add:Agregar documento`;
 export const REQUISITION_DOCS_WIZARD_UPDATE = $localize`:@@requisition.documents.wizard.update:Actualizar documento`;
-export const REQUISITION_DOCS_WIZARD_CONFIGURED_TITLE = $localize`:@@requisition.documents.wizard.configuredTitle:Documentos configurados`;
+export const REQUISITION_DOCS_WIZARD_CONFIGURED_TITLE = $localize`:@@requisition.documents.wizard.configuredTitle:Documentos definidos y configurados`;
+export const REQUISITION_DOCS_WIZARD_COL_STATUS = $localize`:@@requisition.documents.wizard.colStatus:Estado`;
+export const REQUISITION_DOCS_WIZARD_STATUS_CONFIGURED = $localize`:@@requisition.documents.wizard.statusConfigured:Configurado`;
+export const REQUISITION_DOCS_WIZARD_STATUS_NOT_CONFIGURED = $localize`:@@requisition.documents.wizard.statusNotConfigured:No configurado`;
 export const REQUISITION_DOCS_WIZARD_COL_TYPE = $localize`:@@requisition.documents.wizard.colType:Tipo`;
 export const REQUISITION_DOCS_WIZARD_COL_AI = $localize`:@@requisition.documents.wizard.colAi:Validar IA`;
 export const REQUISITION_DOCS_WIZARD_COL_MONTHS = $localize`:@@requisition.documents.wizard.colMonths:Vigencia (meses)`;

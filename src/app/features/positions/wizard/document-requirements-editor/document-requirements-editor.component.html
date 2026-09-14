@@ -9,7 +9,6 @@
     <p class="document-requirements-editor__hint">{{ labels.noDocuments }}</p>
   } @else {
     <div class="document-requirements-editor__table-wrap">
-      <h4 class="document-requirements-editor__table-title">{{ labels.configuredTitle }}</h4>
       @if (!rows.length) {
         <p class="document-requirements-editor__empty">{{ labels.empty }}</p>
       } @else {
@@ -17,6 +16,10 @@
           <ng-container matColumnDef="documentTypeName">
             <th mat-header-cell *matHeaderCellDef>{{ labels.colType }}</th>
             <td mat-cell *matCellDef="let row">{{ documentLabel(row.documentTypeId) }}</td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>{{ labels.colStatus }}</th>
+            <td mat-cell *matCellDef="let row">{{ statusLabel(row) }}</td>
           </ng-container>
           <ng-container matColumnDef="validateAi">
             <th mat-header-cell *matHeaderCellDef>{{ labels.colAi }}</th>
@@ -58,6 +61,7 @@
                 <button
                   mat-icon-button
                   type="button"
+                  class="document-requirements-editor__add"
                   [matTooltip]="labels.add"
                   [attr.aria-label]="labels.add"
                   [disabled]="disabled"
@@ -69,11 +73,7 @@
             </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="visibleColumns"></tr>
-          <tr
-            mat-row
-            *matRowDef="let row; columns: visibleColumns"
-            [class.document-requirements-editor__row--inactive]="!row.isActive"
-          ></tr>
+          <tr mat-row *matRowDef="let row; columns: visibleColumns"></tr>
         </table>
         <mat-paginator
           [length]="rows.length"
