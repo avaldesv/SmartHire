@@ -10,6 +10,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
+import { ShPhoneFieldsComponent } from '../../../shared/components/phone-fields/sh-phone-fields.component';
 import { CandidateBeneficiaryApiService } from '../../../core/services/candidate-beneficiary-api.service';
 import { CatalogKinshipService } from '../../../core/services/catalog-kinship.service';
 import { CatalogKinship } from '../../../shared/models/catalog-kinship.model';
@@ -33,6 +34,7 @@ type WizardBeneficiaryType = 'Primario' | 'Contingente';
     MatCheckboxModule,
     MatProgressSpinnerModule,
     PageHeaderComponent,
+    ShPhoneFieldsComponent,
   ],
   templateUrl: './beneficiary-wizard.component.html',
   styleUrl: './beneficiary-wizard.component.scss',
@@ -68,6 +70,7 @@ export class BeneficiaryWizardComponent implements OnInit {
   });
 
   readonly step3 = this.fb.nonNullable.group({
+    phonePrefix: ['+52'],
     phone: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
   });
@@ -114,6 +117,7 @@ export class BeneficiaryWizardComponent implements OnInit {
           country: row.country ?? 'México',
         });
         this.step3.patchValue({
+          phonePrefix: row.phonePrefix ?? '+52',
           phone: row.phone ?? '',
           email: row.email ?? '',
         });
@@ -171,6 +175,7 @@ export class BeneficiaryWizardComponent implements OnInit {
       age: s2.age,
       percent: s2.percent,
       country: s2.country.trim() || null,
+      phonePrefix: s3.phonePrefix.trim() || null,
       phone: s3.phone.trim() || null,
       email: s3.email.trim() || null,
       isActive: true,

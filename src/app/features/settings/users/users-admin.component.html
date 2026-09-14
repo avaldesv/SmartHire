@@ -61,19 +61,7 @@
       <input matInput formControlName="lastName" />
       <mat-error>{{ lastNameRequired }}</mat-error>
     </mat-form-field>
-    <mat-form-field appearance="outline" class="phone-code">
-      <mat-label i18n="@@users.form.phoneCode">Cód. tel.</mat-label>
-      <mat-select formControlName="phoneCountryCode">
-        <mat-option [value]="''">—</mat-option>
-        @for (option of dialCodeOptions; track option.dialCode) {
-          <mat-option [value]="option.dialCode">{{ dialCodeLabel(option) }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="phone-number">
-      <mat-label i18n="@@users.form.phone">Teléfono</mat-label>
-      <input matInput formControlName="phone" />
-    </mat-form-field>
+    <sh-phone-fields [form]="userForm" [tenantCountryId]="tenantCountryId" [allowEmpty]="true" />
     @if (tenantCountryName) {
       <div class="tenant-country-badge">
         <span class="label" i18n="@@users.form.tenantCountry">País (tenant)</span>

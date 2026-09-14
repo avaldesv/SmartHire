@@ -10,6 +10,7 @@ export interface SecurityUserRole {
 export interface SecurityUserProfile {
   countryId?: number | null;
   phoneCountryCode?: string | null;
+  phonePrefix?: string | null;
   supervisorId?: number | null;
   supervisorLabel?: string | null;
   branchId?: number | null;

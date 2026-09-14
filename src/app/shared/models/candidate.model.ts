@@ -21,6 +21,7 @@ export interface CandidateDetail {
   lastName: string;
   email: string;
   phone: string | null;
+  phonePrefix?: string | null;
   curp: string | null;
   rfc: string | null;
   nss: string | null;
@@ -42,6 +43,7 @@ export interface CreateCandidateRequest {
   lastName: string;
   email: string;
   phone?: string | null;
+  phonePrefix?: string | null;
   curp?: string | null;
   rfc?: string | null;
   nss?: string | null;

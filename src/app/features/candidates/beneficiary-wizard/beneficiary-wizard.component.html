@@ -60,10 +60,7 @@
         </mat-step>
         <mat-step [stepControl]="step3" label="Contacto">
           <form [formGroup]="step3" class="form-grid">
-            <mat-form-field appearance="outline">
-              <mat-label>Teléfono</mat-label>
-              <input matInput formControlName="phone" />
-            </mat-form-field>
+            <sh-phone-fields [form]="step3" />
             <mat-form-field appearance="outline">
               <mat-label>Correo</mat-label>
               <input matInput type="email" formControlName="email" />

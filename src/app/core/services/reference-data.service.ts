@@ -8,6 +8,7 @@ export interface CountryDialCodeOption {
   countryCode: string;
   countryName: string;
   dialCode: string;
+  phonePrefix?: string;
 }
 
 export interface UserTenantContext {

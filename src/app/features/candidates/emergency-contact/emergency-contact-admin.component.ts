@@ -18,6 +18,7 @@ import {
   CandidateEmergencyContactPayload,
 } from '../../../shared/models/candidate-emergency-contact.model';
 import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
+import { ShPhoneFieldsComponent } from '../../../shared/components/phone-fields/sh-phone-fields.component';
 
 @Component({
   selector: 'sh-emergency-contact-admin',
@@ -33,6 +34,7 @@ import { TableRowActionsComponent } from '../../../shared/components/table-row-a
     MatIconModule,
     PageHeaderComponent,
     TableRowActionsComponent,
+    ShPhoneFieldsComponent,
   ],
   templateUrl: './emergency-contact-admin.component.html',
   styleUrl: './emergency-contact-admin.component.scss',

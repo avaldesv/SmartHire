@@ -51,6 +51,7 @@ import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { CandidateApiService } from '../../../core/services/candidate-api.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
+import { ShPhoneFieldsComponent } from '../../../shared/components/phone-fields/sh-phone-fields.component';
 import { CreateCandidateRequest } from '../../../shared/models/candidate.model';
 import {
   CatalogCountry,
@@ -71,6 +72,7 @@ import {
     MatSlideToggleModule,
     MatProgressSpinnerModule,
     PageHeaderComponent,
+    ShPhoneFieldsComponent,
   ],
   templateUrl: './candidate-form.component.html',
   styleUrl: './candidate-form.component.scss',
@@ -135,6 +137,7 @@ export class CandidateFormComponent implements OnInit {
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
+    phonePrefix: ['+52'],
     phone: ['', Validators.required],
     curp: [''],
     rfc: [''],
@@ -320,6 +323,7 @@ export class CandidateFormComponent implements OnInit {
             firstName: c.firstName,
             lastName: c.lastName,
             email: c.email,
+            phonePrefix: c.phonePrefix ?? '+52',
             phone: c.phone ?? '',
             curp: c.curp ?? '',
             rfc: c.rfc ?? '',
@@ -381,6 +385,7 @@ export class CandidateFormComponent implements OnInit {
       lastName: v.lastName,
       email: v.email,
       phone: v.phone || null,
+      phonePrefix: v.phonePrefix || null,
       curp: v.curp || null,
       rfc: v.rfc || null,
       nss: v.nss || null,
