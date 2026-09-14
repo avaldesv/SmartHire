@@ -3721,7 +3721,7 @@
             <mat-form-field appearance="outline"><mat-label>{{ colCompanyArea }}</mat-label><input matInput formControlName="companyArea" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ colContact }}</mat-label><input matInput formControlName="contactName" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ colPosition }}</mat-label><input matInput formControlName="contactPosition" /></mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>{{ colPhone }}</mat-label><input matInput formControlName="phone" /></mat-form-field>
+            <sh-phone-fields [form]="clientForm" [allowEmpty]="true" />
             <mat-form-field appearance="outline"><mat-label>{{ colEmail }}</mat-label><input matInput formControlName="email" type="email" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ colTradeName }}</mat-label><input matInput formControlName="tradeName" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ colLegalName }}</mat-label><input matInput formControlName="legalName" /></mat-form-field>
