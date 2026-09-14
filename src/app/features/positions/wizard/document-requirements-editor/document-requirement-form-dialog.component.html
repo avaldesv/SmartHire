@@ -1,8 +1,8 @@
 <sh-modal-form [title]="title">
   <form class="doc-req-form" (ngSubmit)="save()">
-    <mat-form-field appearance="outline" class="full">
+    <mat-form-field appearance="outline" class="full type-readonly">
       <mat-label>{{ labels.type }}</mat-label>
-      <input matInput [value]="data.documentTypeName" readonly />
+      <input matInput [value]="data.documentTypeName" readonly tabindex="-1" />
     </mat-form-field>
 
     @if (showAiGroup) {
@@ -19,27 +19,40 @@
             </mat-checkbox>
           }
           @if (data.showValidateAiValidity) {
-            <mat-checkbox
-              [checked]="validateAiValidity"
-              [disabled]="data.validateAiValidityReadOnly"
-              (change)="onValidateValidityChange($event.checked)"
-            >
-              {{ labels.validateValidity }}
-            </mat-checkbox>
+            <div class="validity-row">
+              <mat-checkbox
+                [checked]="validateAiValidity"
+                [disabled]="data.validateAiValidityReadOnly"
+                (change)="onValidateValidityChange($event.checked)"
+              >
+                {{ labels.validateValidity }}
+              </mat-checkbox>
+              @if (data.showValidityMonths) {
+                <mat-form-field appearance="outline" class="months-field" subscriptSizing="dynamic">
+                  <mat-label>{{ labels.validityMonths }}</mat-label>
+                  <input
+                    matInput
+                    type="number"
+                    min="1"
+                    max="120"
+                    [disabled]="data.validityMonthsReadOnly || !validateAiValidity"
+                    [value]="validityMonths ?? ''"
+                    (input)="onValidityMonthsInput($any($event.target).value)"
+                  />
+                </mat-form-field>
+              }
+            </div>
           }
         </div>
       </div>
-    }
-
-    @if (data.showValidityMonths) {
-      <mat-form-field appearance="outline" class="full">
+    } @else if (data.showValidityMonths) {
+      <mat-form-field appearance="outline" class="months-field" subscriptSizing="dynamic">
         <mat-label>{{ labels.validityMonths }}</mat-label>
         <input
           matInput
           type="number"
           min="1"
           max="120"
-          [placeholder]="labels.validityMonthsPlaceholder"
           [disabled]="data.validityMonthsReadOnly || !validateAiValidity"
           [value]="validityMonths ?? ''"
           (input)="onValidityMonthsInput($any($event.target).value)"
