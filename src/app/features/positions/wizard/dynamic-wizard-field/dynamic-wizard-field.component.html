@@ -72,7 +72,8 @@
       <input
         matInput
         [type]="isNumber ? 'number' : 'text'"
-        [min]="isNumber ? 0 : null"
+        [min]="numberMin"
+        [step]="numberStep"
         [formControl]="control"
         [disabled]="disabled"
       />

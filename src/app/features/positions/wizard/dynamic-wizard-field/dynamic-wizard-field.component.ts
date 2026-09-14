@@ -14,6 +14,7 @@ import {
   REQUISITION_SCOPE_LOADING,
   REQUISITION_WIZARD_OPEN_TIME_PICKER,
 } from '../../../../core/i18n/requisition-wizard-labels';
+import { isRequisitionPositiveIntegerField } from '../requisition-integer.util';
 
 @Component({
   selector: 'sh-dynamic-wizard-field',
@@ -55,6 +56,20 @@ export class DynamicWizardFieldComponent {
 
   get isNumber(): boolean {
     return this.field.uiType === 'number';
+  }
+
+  get numberMin(): number | null {
+    if (!this.isNumber) {
+      return null;
+    }
+    return isRequisitionPositiveIntegerField(this.field.fieldKey) ? 1 : 0;
+  }
+
+  get numberStep(): number | null {
+    if (!this.isNumber) {
+      return null;
+    }
+    return isRequisitionPositiveIntegerField(this.field.fieldKey) ? 1 : null;
   }
 
   get isDate(): boolean {
