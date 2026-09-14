@@ -285,6 +285,7 @@ export const REQUISITION_DOCS_WIZARD_EMPTY = $localize`:@@requisition.documents.
 export const REQUISITION_DOCS_WIZARD_DUPLICATE_TYPE = $localize`:@@requisition.documents.wizard.duplicateType:Este tipo de documento ya está en la lista`;
 export const REQUISITION_DOCS_WIZARD_VALIDITY_MONTHS_REQUIRED = $localize`:@@requisition.documents.wizard.validityMonthsRequired:Indique el tiempo de validez en meses`;
 export const REQUISITION_DOCS_WIZARD_EDIT = $localize`:@@requisition.documents.wizard.edit:Editar`;
+export const REQUISITION_DOCS_WIZARD_EDIT_DIALOG = $localize`:@@requisition.documents.wizard.editDialog:Editar documento`;
 export const REQUISITION_DOCS_WIZARD_DELETE = $localize`:@@requisition.documents.wizard.delete:Eliminar`;
 export const REQUISITION_DOCS_WIZARD_ADD_HINT = $localize`:@@requisition.documents.wizard.addHint:Adicionar`;
 export const REQUISITION_DOCS_WIZARD_AI_NONE = $localize`:@@common.emDash:—`;
