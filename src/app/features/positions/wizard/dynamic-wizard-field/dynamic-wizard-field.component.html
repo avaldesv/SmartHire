@@ -59,17 +59,7 @@
     </button>
   </mat-form-field>
 } @else if (isMoney) {
-  <mat-form-field appearance="outline" subscriptSizing="dynamic">
-    <mat-label>{{ label }}</mat-label>
-    <input
-      matInput
-      type="text"
-      inputmode="decimal"
-      [formControl]="control"
-      [disabled]="disabled"
-      (blur)="onMoneyBlur()"
-    />
-  </mat-form-field>
+  <sh-money-stepper-field [formControl]="control" [label]="label" [disabled]="disabled" />
 } @else if (isSimpleInput) {
   <mat-form-field
     appearance="outline"

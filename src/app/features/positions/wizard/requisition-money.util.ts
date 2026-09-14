@@ -42,6 +42,16 @@ export function roundMoneyToTwoDecimals(value: unknown): number | null {
   return Math.round(num * 100) / 100;
 }
 
+/** Native-like spinner step for money inputs (keeps scale=2). */
+export const MONEY_STEP = 0.01;
+
+/** Step money by ±delta and return display string with two decimals (clamped to min). */
+export function stepMoneyValue(value: unknown, delta: number, min = 0): string {
+  const current = roundMoneyToTwoDecimals(value) ?? 0;
+  const next = roundMoneyToTwoDecimals(current + delta) ?? 0;
+  return Math.max(min, next).toFixed(2);
+}
+
 /** Display value always with two fractional digits (e.g. 15000 → "15000.00"). */
 export function formatMoneyDisplay(value: unknown): string {
   const rounded = roundMoneyToTwoDecimals(value);

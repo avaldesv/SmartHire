@@ -15,10 +15,8 @@ import {
   REQUISITION_WIZARD_OPEN_TIME_PICKER,
 } from '../../../../core/i18n/requisition-wizard-labels';
 import { isRequisitionPositiveIntegerField } from '../requisition-integer.util';
-import {
-  isRequisitionMoneyField,
-  roundMoneyToTwoDecimals,
-} from '../requisition-money.util';
+import { isRequisitionMoneyField } from '../requisition-money.util';
+import { MoneyStepperFieldComponent } from '../money-stepper-field/money-stepper-field.component';
 
 @Component({
   selector: 'sh-dynamic-wizard-field',
@@ -33,6 +31,7 @@ import {
     MatNativeDateModule,
     MatIconModule,
     MatButtonModule,
+    MoneyStepperFieldComponent,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './dynamic-wizard-field.component.html',
@@ -102,13 +101,6 @@ export class DynamicWizardFieldComponent {
 
   get isSimpleInput(): boolean {
     return this.field.uiType === 'text' || this.isTextarea || (this.isNumber && !this.isMoney);
-  }
-
-  /** Persist as "x.00" so the input shows two decimals (type=number strips trailing zeros). */
-  onMoneyBlur(): void {
-    const rounded = roundMoneyToTwoDecimals(this.control.value);
-    this.control.setValue(rounded == null ? null : rounded.toFixed(2));
-    this.control.markAsTouched();
   }
 
   openTimePicker(event?: Event): void {
