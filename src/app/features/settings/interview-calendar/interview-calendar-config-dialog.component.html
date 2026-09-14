@@ -43,22 +43,14 @@
               <div class="cal-field cal-field--hours">
                 <span class="cal-field__label">{{ labels.workHours }}</span>
                 <div class="cal-field__hours">
-                  <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                    <mat-label>{{ labels.start }}</mat-label>
-                    <mat-select formControlName="virtualWorkStartTime">
-                      @for (t of pickerTimeOptions; track t) {
-                        <mat-option [value]="t">{{ formatTime(t) }}</mat-option>
-                      }
-                    </mat-select>
-                  </mat-form-field>
-                  <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                    <mat-label>{{ labels.end }}</mat-label>
-                    <mat-select formControlName="virtualWorkEndTime">
-                      @for (t of pickerTimeOptions; track t) {
-                        <mat-option [value]="t">{{ formatTime(t) }}</mat-option>
-                      }
-                    </mat-select>
-                  </mat-form-field>
+                  <sh-timepicker-field
+                    [label]="labels.start"
+                    [formControl]="form.controls.virtualWorkStartTime"
+                  />
+                  <sh-timepicker-field
+                    [label]="labels.end"
+                    [formControl]="form.controls.virtualWorkEndTime"
+                  />
                 </div>
               </div>
             </div>
@@ -148,22 +140,14 @@
               <div class="cal-field cal-field--hours">
                 <span class="cal-field__label">{{ labels.workHours }}</span>
                 <div class="cal-field__hours">
-                  <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                    <mat-label>{{ labels.start }}</mat-label>
-                    <mat-select formControlName="presentialWorkStartTime">
-                      @for (t of pickerTimeOptions; track t) {
-                        <mat-option [value]="t">{{ formatTime(t) }}</mat-option>
-                      }
-                    </mat-select>
-                  </mat-form-field>
-                  <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                    <mat-label>{{ labels.end }}</mat-label>
-                    <mat-select formControlName="presentialWorkEndTime">
-                      @for (t of pickerTimeOptions; track t) {
-                        <mat-option [value]="t">{{ formatTime(t) }}</mat-option>
-                      }
-                    </mat-select>
-                  </mat-form-field>
+                  <sh-timepicker-field
+                    [label]="labels.start"
+                    [formControl]="form.controls.presentialWorkStartTime"
+                  />
+                  <sh-timepicker-field
+                    [label]="labels.end"
+                    [formControl]="form.controls.presentialWorkEndTime"
+                  />
                 </div>
               </div>
             </div>
