@@ -41,21 +41,11 @@
         <div class="section-block section-block--separated">
           <div class="section-title">{{ whatsappSectionLabel }}</div>
 
-          <div class="field-row">
-            <mat-form-field appearance="outline" class="prefix-field">
-              <mat-label>{{ fieldSharePrefix }}</mat-label>
-              <mat-select formControlName="countryPrefix">
-                @for (option of dialCodeOptions; track option.countryId) {
-                  <mat-option [value]="option.dialCode">{{ dialCodeLabel(option) }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="phone-field">
-              <mat-label>{{ fieldSharePhone }}</mat-label>
-              <input matInput formControlName="phoneNumber" inputmode="tel" autocomplete="tel-national" />
-            </mat-form-field>
-          </div>
+          <sh-phone-fields
+            [form]="shareForm"
+            prefixControl="countryPrefix"
+            phoneControl="phoneNumber"
+          />
 
           <button
             mat-flat-button

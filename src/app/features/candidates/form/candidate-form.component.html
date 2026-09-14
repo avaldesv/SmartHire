@@ -8,7 +8,7 @@
       <mat-form-field appearance="outline"><mat-label>{{ ui.firstName }}</mat-label><input matInput formControlName="firstName" /></mat-form-field>
       <mat-form-field appearance="outline"><mat-label>{{ ui.lastName }}</mat-label><input matInput formControlName="lastName" /></mat-form-field>
       <mat-form-field appearance="outline"><mat-label>{{ ui.email }}</mat-label><input matInput type="email" formControlName="email" /></mat-form-field>
-      <mat-form-field appearance="outline"><mat-label>{{ ui.phone }}</mat-label><input matInput formControlName="phone" /></mat-form-field>
+      <sh-phone-fields [form]="form" />
       <mat-form-field appearance="outline"><mat-label>{{ ui.curp }}</mat-label><input matInput formControlName="curp" /></mat-form-field>
       <mat-form-field appearance="outline"><mat-label>{{ ui.rfc }}</mat-label><input matInput formControlName="rfc" /></mat-form-field>
       <mat-form-field appearance="outline"><mat-label>{{ ui.nss }}</mat-label><input matInput formControlName="nss" /></mat-form-field>

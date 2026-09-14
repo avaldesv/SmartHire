@@ -14,6 +14,7 @@ export interface CandidateBeneficiary {
   age: number | null;
   percent: number;
   country: string | null;
+  phonePrefix?: string | null;
   phone: string | null;
   email: string | null;
   active: boolean;
@@ -29,6 +30,7 @@ export interface CandidateBeneficiaryPayload {
   age: number | null;
   percent: number;
   country: string | null;
+  phonePrefix?: string | null;
   phone: string | null;
   email: string | null;
   isActive: boolean;

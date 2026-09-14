@@ -61,7 +61,7 @@ import {
   usersDeleteConfirm,
 } from '../../../core/i18n/users-labels';
 import { COMMON_CLEAR_FILTERS } from '../../../core/i18n/common-labels';
-import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
+import { ShPhoneFieldsComponent } from '../../../shared/components/phone-fields/sh-phone-fields.component';
 import { ShModalActionsDirective } from '../../../shared/components/modal-form/sh-modal-form.component';
 import {
   CatalogFormDialogShellComponent,
@@ -84,6 +84,7 @@ import {
     MatAutocompleteModule,
     MatDialogModule,
     TableRowActionsComponent,
+    ShPhoneFieldsComponent,
     ShModalActionsDirective,
   ],
   templateUrl: './users-admin.component.html',
@@ -168,7 +169,7 @@ export class UsersAdminComponent implements OnInit {
     password: ['', Validators.required],
     name: ['', Validators.required],
     lastName: ['', Validators.required],
-    phoneCountryCode: [''],
+    phonePrefix: [''],
     phone: [''],
     supervisorId: [null as number | null],
     supervisorSearch: [''],
@@ -388,7 +389,7 @@ export class UsersAdminComponent implements OnInit {
       password: '',
       name: '',
       lastName: '',
-      phoneCountryCode: defaultDialCode,
+      phonePrefix: defaultDialCode,
       phone: '',
       supervisorId: null,
       supervisorSearch: '',
@@ -451,7 +452,7 @@ export class UsersAdminComponent implements OnInit {
         password: '',
         name: user.name,
         lastName: user.lastName,
-        phoneCountryCode: user.phoneCountryCode ?? '',
+        phonePrefix: user.phonePrefix ?? user.phoneCountryCode ?? '',
         phone: user.phone ?? '',
         supervisorId: user.supervisorId ?? null,
         supervisorSearch: user.supervisorLabel ?? '',
@@ -488,7 +489,7 @@ export class UsersAdminComponent implements OnInit {
     const supervisorId =
       value.supervisorId ?? this.parseSupervisorOption(value.supervisorSearch)?.id ?? undefined;
     const profilePayload = {
-      phoneCountryCode: value.phoneCountryCode || undefined,
+      phonePrefix: value.phonePrefix || undefined,
       supervisorId,
       branchId: value.branchId ?? undefined,
       companyAreaId: value.companyAreaId ?? undefined,

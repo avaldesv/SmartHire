@@ -31,14 +31,7 @@
               }
             </mat-select>
           </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>Prefijo</mat-label>
-            <input matInput formControlName="phonePrefix" />
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>Teléfono</mat-label>
-            <input matInput formControlName="phone" />
-          </mat-form-field>
+          <sh-phone-fields [form]="contactForm" />
           <mat-form-field appearance="outline" class="span-2">
             <mat-label>Correo</mat-label>
             <input matInput type="email" formControlName="email" />
