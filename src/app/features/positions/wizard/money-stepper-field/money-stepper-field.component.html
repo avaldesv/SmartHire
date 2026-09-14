@@ -1,0 +1,38 @@
+<mat-form-field appearance="outline" class="money-stepper-field" subscriptSizing="dynamic">
+  <mat-label>{{ label }}</mat-label>
+
+  <input
+    matInput
+    class="money-stepper__input"
+    type="text"
+    inputmode="decimal"
+    [value]="displayValue"
+    [disabled]="isDisabled"
+    [attr.aria-label]="label"
+    (input)="onInput($any($event.target).value)"
+    (blur)="onBlur()"
+  />
+
+  <div matSuffix class="money-stepper__spinners" role="group" [attr.aria-label]="label">
+    <button
+      type="button"
+      class="money-stepper__btn"
+      [attr.aria-label]="incrementLabel"
+      [disabled]="!canIncrement"
+      (mousedown)="$event.preventDefault()"
+      (click)="increment(); $event.stopPropagation()"
+    >
+      <mat-icon>arrow_drop_up</mat-icon>
+    </button>
+    <button
+      type="button"
+      class="money-stepper__btn"
+      [attr.aria-label]="decrementLabel"
+      [disabled]="!canDecrement"
+      (mousedown)="$event.preventDefault()"
+      (click)="decrement(); $event.stopPropagation()"
+    >
+      <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+  </div>
+</mat-form-field>

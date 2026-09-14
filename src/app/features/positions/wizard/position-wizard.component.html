@@ -164,7 +164,7 @@
                 }
               </mat-select>
             </mat-form-field>
-            <mat-form-field appearance="outline"><mat-label>{{ labels.fieldSalary }}</mat-label><input matInput type="text" inputmode="decimal" formControlName="salary" (blur)="onStaticSalaryBlur()" /></mat-form-field>
+            <sh-money-stepper-field formControlName="salary" [label]="labels.fieldSalary" />
             <mat-form-field appearance="outline"><mat-label>{{ labels.workDays }}</mat-label><input matInput formControlName="workDays" /></mat-form-field>
           </div>
           <div class="step-actions"><button mat-button matStepperPrevious>{{ labels.previous }}</button><button mat-button matStepperNext>{{ labels.continue }}</button></div>

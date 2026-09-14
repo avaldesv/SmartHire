@@ -304,6 +304,8 @@ export function requisitionDocumentsWizardAiSummary(
   return parts.length ? parts.join(', ') : REQUISITION_DOCS_WIZARD_AI_NONE;
 }
 export const REQUISITION_WIZARD_OPEN_TIME_PICKER = $localize`:@@requisition.wizard.openTimePicker:Abrir selector de hora`;
+export const REQUISITION_WIZARD_MONEY_INCREMENT = $localize`:@@requisition.wizard.moneyIncrement:Aumentar 0.01`;
+export const REQUISITION_WIZARD_MONEY_DECREMENT = $localize`:@@requisition.wizard.moneyDecrement:Disminuir 0.01`;
 export const REQUISITION_WIZARD_CLIENT_SEARCH_PLACEHOLDER = $localize`:@@requisition.wizard.clientSearchPlaceholder:Buscar por nombre, email, código o nombre comercial`;
 export const REQUISITION_WIZARD_CLIENT_SEARCH_NO_COUNTRY = $localize`:@@requisition.wizard.clientSearchNoCountry:Seleccione un país para buscar clientes`;
 export const REQUISITION_WIZARD_CLIENT_SEARCH_NO_RESULTS = $localize`:@@requisition.wizard.clientSearchNoResults:Sin coincidencias`;

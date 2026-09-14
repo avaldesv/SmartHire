@@ -100,6 +100,7 @@ import {
   maxTwoDecimalsValidator,
   roundMoneyToTwoDecimals,
 } from './requisition-money.util';
+import { MoneyStepperFieldComponent } from './money-stepper-field/money-stepper-field.component';
 import {
   RequisitionScopeDialogComponent,
   RequisitionScopeDialogResult,
@@ -138,6 +139,7 @@ import {
     MatDialogModule,
     PageHeaderComponent,
     DynamicWizardStepComponent,
+    MoneyStepperFieldComponent,
   ],
   templateUrl: './position-wizard.component.html',
   styleUrl: './position-wizard.component.scss',
@@ -1273,13 +1275,6 @@ export class PositionWizardComponent implements OnInit {
     this.selectedDocumentTypeIds.setValue(
       checked ? [...current, id] : current.filter((itemId) => itemId !== id),
     );
-  }
-
-  onStaticSalaryBlur(): void {
-    const control = this.generalForm.controls.salary;
-    const rounded = roundMoneyToTwoDecimals(control.value);
-    control.setValue(rounded == null ? '0.00' : rounded.toFixed(2));
-    control.markAsTouched();
   }
 
   exportJson(): void {
