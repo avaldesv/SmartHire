@@ -45,6 +45,8 @@ import {
   PRESELECTION_COL_DOCS,
   PRESELECTION_COL_EVALUATION,
   PRESELECTION_COL_INTERVIEWED,
+  PRESELECTION_COL_REQUEST_COMPLETE_INFO,
+  PRESELECTION_COL_REQUEST_DOCUMENTS,
   PRESELECTION_COL_STAGE,
   PRESELECTION_COMPAT_UPDATE_ERROR,
   PRESELECTION_COMPAT_UPDATED,
@@ -74,6 +76,17 @@ import {
   PRESELECTION_LOAD_ERROR,
   PRESELECTION_POOL_CREATED,
   PRESELECTION_QUESTIONNAIRE_INVITE_ERROR,
+  PRESELECTION_REQUEST_DOCS_ERROR,
+  PRESELECTION_REQUEST_DOCS_NO_REQUIREMENTS,
+  PRESELECTION_REQUEST_DOCS_SUCCESS,
+  PRESELECTION_REQUEST_DOCS_TOOLTIP,
+  PRESELECTION_REQUEST_INFO_DONE_TOOLTIP,
+  PRESELECTION_REQUEST_INFO_ERROR,
+  PRESELECTION_REQUEST_INFO_SUCCESS,
+  PRESELECTION_REQUEST_INFO_TOOLTIP,
+  PRESELECTION_BULK_REQUEST_DOCS_CONFIRM,
+  PRESELECTION_BULK_REQUEST_DOCS_PARTIAL,
+  PRESELECTION_BULK_REQUEST_DOCS_SUCCESS,
   PRESELECTION_ROW_ACTIONS_ARIA,
   PRESELECTION_ROW_DESELECT_SUCCESS,
   PRESELECTION_SMART_SEND_ERROR,
@@ -88,6 +101,7 @@ import {
 } from '../../../core/i18n/preselection-actions-labels';
 import { CandidateApplicationApiService } from '../../../core/services/candidate-application-api.service';
 import { CandidateApiService } from '../../../core/services/candidate-api.service';
+import { PositionService } from '../../../core/services/position.service';
 import { PermissionService } from '../../../core/services/permission.service';
 import {
   CandidateEditDialogComponent,
@@ -178,6 +192,7 @@ export class PreselectionComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly applicationApi = inject(CandidateApplicationApiService);
   private readonly candidateApi = inject(CandidateApiService);
+  private readonly positionService = inject(PositionService);
   private readonly questionnaireApi = inject(QuestionnaireApiService);
   private readonly dialog = inject(MatDialog);
   private readonly feedback = inject(FeedbackDialogService);
@@ -200,6 +215,8 @@ export class PreselectionComponent implements OnInit {
     colContact: PRESELECTION_COL_CONTACT,
     colEvaluation: PRESELECTION_COL_EVALUATION,
     colAppointment: PRESELECTION_COL_APPOINTMENT,
+    colRequestDocuments: PRESELECTION_COL_REQUEST_DOCUMENTS,
+    colRequestCompleteInfo: PRESELECTION_COL_REQUEST_COMPLETE_INFO,
     colInterviewed: PRESELECTION_COL_INTERVIEWED,
     interviewedTooltip: PRESELECTION_INTERVIEWED_TOOLTIP,
     interviewedDoneTooltip: PRESELECTION_INTERVIEWED_DONE_TOOLTIP,
@@ -208,6 +225,10 @@ export class PreselectionComponent implements OnInit {
     evaluationTooltip: PRESELECTION_EVALUATION_TOOLTIP,
     appointmentTooltip: PRESELECTION_APPOINTMENT_TOOLTIP,
     appointmentScheduledTooltip: PRESELECTION_APPOINTMENT_SCHEDULED_TOOLTIP,
+    requestDocsTooltip: PRESELECTION_REQUEST_DOCS_TOOLTIP,
+    requestDocsNoRequirements: PRESELECTION_REQUEST_DOCS_NO_REQUIREMENTS,
+    requestInfoTooltip: PRESELECTION_REQUEST_INFO_TOOLTIP,
+    requestInfoDoneTooltip: PRESELECTION_REQUEST_INFO_DONE_TOOLTIP,
     bulkContact: PRESELECTION_BULK_CONTACT,
     bulkAppointment: PRESELECTION_BULK_APPOINTMENT,
     bulkMarkSelected: PRESELECTION_BULK_MARK_SELECTED,
@@ -218,7 +239,10 @@ export class PreselectionComponent implements OnInit {
   loading = true;
   bulkLoading = false;
   contactingApplicationId: number | null = null;
+  requestingDocsApplicationId: number | null = null;
+  requestingInfoApplicationId: number | null = null;
   interviewingApplicationId: number | null = null;
+  hasDocumentRequirements = false;
   data: PreselectionCandidate[] = [];
   selectedCount = 0;
   total = 0;
@@ -235,10 +259,13 @@ export class PreselectionComponent implements OnInit {
     'evaluation',
     'interviewed',
     'appointment',
+    'requestDocuments',
+    'requestCompleteInfo',
     'actions',
   ];
 
   ngOnInit(): void {
+    this.loadPositionRequirements();
     this.loadApplications();
   }
 
@@ -248,6 +275,18 @@ export class PreselectionComponent implements OnInit {
 
   get someSelected(): boolean {
     return this.data.some((c) => c.selected) && !this.allSelected;
+  }
+
+  private loadPositionRequirements(): void {
+    this.positionService.getById(this.positionId).subscribe({
+      next: (position) => {
+        const reqs = position.documentRequirements ?? [];
+        this.hasDocumentRequirements = reqs.some((r) => r.documentTypeId != null && r.documentTypeId > 0);
+      },
+      error: () => {
+        this.hasDocumentRequirements = false;
+      },
+    });
   }
 
   loadApplications(): void {
@@ -588,6 +627,97 @@ export class PreselectionComponent implements OnInit {
         this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_CONTACT_ERROR });
       },
     });
+  }
+
+  requestDocuments(row: PreselectionCandidate): void {
+    if (!this.canEditSelection || !this.hasDocumentRequirements || this.requestingDocsApplicationId != null) {
+      return;
+    }
+    this.requestingDocsApplicationId = row.applicationId;
+    this.applicationApi.requestDocuments(row.applicationId).subscribe({
+      next: (res) => {
+        this.requestingDocsApplicationId = null;
+        this.feedback.showSuccess(res.message?.trim() || PRESELECTION_REQUEST_DOCS_SUCCESS);
+      },
+      error: (err) => {
+        this.requestingDocsApplicationId = null;
+        this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_REQUEST_DOCS_ERROR });
+      },
+    });
+  }
+
+  requestCompleteInfo(row: PreselectionCandidate): void {
+    if (!this.canEditSelection || this.requestingInfoApplicationId != null) {
+      return;
+    }
+    this.requestingInfoApplicationId = row.applicationId;
+    this.applicationApi.requestCompleteInfo(row.applicationId).subscribe({
+      next: (res) => {
+        this.requestingInfoApplicationId = null;
+        this.feedback.showSuccess(res.message?.trim() || PRESELECTION_REQUEST_INFO_SUCCESS);
+      },
+      error: (err) => {
+        this.requestingInfoApplicationId = null;
+        this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_REQUEST_INFO_ERROR });
+      },
+    });
+  }
+
+  bulkRequestDocumentsSelected(): void {
+    if (!this.canEditSelection || this.bulkLoading || !this.hasDocumentRequirements) {
+      if (!this.hasDocumentRequirements) {
+        this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, PRESELECTION_REQUEST_DOCS_NO_REQUIREMENTS);
+      }
+      return;
+    }
+    const selected = this.data.filter((row) => row.selected);
+    if (selected.length === 0) {
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, PRESELECTION_BULK_NONE_SELECTED);
+      return;
+    }
+    this.feedback
+      .confirm({
+        title: PRESELECTION_TOOLBAR_REQUEST_DOCUMENTS,
+        message: PRESELECTION_BULK_REQUEST_DOCS_CONFIRM,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
+        this.bulkLoading = true;
+        this.applicationApi.bulkRequestDocuments(selected.map((row) => row.applicationId)).subscribe({
+          next: (res) => {
+            this.bulkLoading = false;
+            const results = res.results ?? [];
+            const succeeded = results.filter((item) => item.success).length;
+            const failed = results.length - succeeded;
+            if (failed === 0) {
+              this.feedback.showSuccess(`${PRESELECTION_BULK_REQUEST_DOCS_SUCCESS} (${succeeded})`);
+            } else if (succeeded === 0) {
+              this.feedback.showApiError(null, { fallbackMessage: PRESELECTION_REQUEST_DOCS_ERROR });
+            } else {
+              this.feedback.showWarning(
+                PRESELECTION_BULK_REQUEST_DOCS_PARTIAL,
+                `${succeeded} ${PRESELECTION_BULK_CONTACT_SENT}, ${failed} ${PRESELECTION_BULK_CONTACT_FAILED}`,
+              );
+            }
+          },
+          error: (err) => {
+            this.bulkLoading = false;
+            this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_REQUEST_DOCS_ERROR });
+          },
+        });
+      });
+  }
+
+  requestDocumentsTooltip(): string {
+    return this.hasDocumentRequirements
+      ? this.labels.requestDocsTooltip
+      : this.labels.requestDocsNoRequirements;
+  }
+
+  requestCompleteInfoTooltip(row: PreselectionCandidate): string {
+    return row.infoValidated ? this.labels.requestInfoDoneTooltip : this.labels.requestInfoTooltip;
   }
 
   isContacted(row: PreselectionCandidate): boolean {

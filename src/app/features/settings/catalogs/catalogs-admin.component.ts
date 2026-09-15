@@ -1596,6 +1596,9 @@ export class CatalogsAdminComponent implements OnInit {
     name: ['', Validators.required],
     description: [''],
     isActive: [true],
+    completeInfoRequirePersonal: [{ value: true, disabled: true }],
+    completeInfoRequireBeneficiaries: [false],
+    completeInfoRequireEmergencyContacts: [false],
   });
 
   readonly educationLevelForm = this.fb.nonNullable.group({
@@ -5496,7 +5499,11 @@ export class CatalogsAdminComponent implements OnInit {
       name: '',
       description: '',
       isActive: true,
+      completeInfoRequirePersonal: true,
+      completeInfoRequireBeneficiaries: false,
+      completeInfoRequireEmergencyContacts: false,
     });
+    this.coverageTypeForm.controls.completeInfoRequirePersonal.disable({ emitEvent: false });
   }
 
   openEditCoverageType(row: CatalogCoverageType): void {
@@ -5508,7 +5515,11 @@ export class CatalogsAdminComponent implements OnInit {
       name: row.name,
       description: row.description ?? '',
       isActive: row.isActive,
+      completeInfoRequirePersonal: true,
+      completeInfoRequireBeneficiaries: row.completeInfoRequireBeneficiaries ?? false,
+      completeInfoRequireEmergencyContacts: row.completeInfoRequireEmergencyContacts ?? false,
     });
+    this.coverageTypeForm.controls.completeInfoRequirePersonal.disable({ emitEvent: false });
   }
 
   cancelCoverageTypeForm(): void {
@@ -5529,6 +5540,9 @@ export class CatalogsAdminComponent implements OnInit {
       name: value.name,
       description: value.description || undefined,
       isActive: value.isActive,
+      completeInfoRequirePersonal: true,
+      completeInfoRequireBeneficiaries: value.completeInfoRequireBeneficiaries,
+      completeInfoRequireEmergencyContacts: value.completeInfoRequireEmergencyContacts,
     };
     this.savingCoverageType = true;
     const request$ =

@@ -149,6 +149,45 @@ export interface ContactQuestionnaireResponse {
   message: string;
 }
 
+/** POST /api/v1/candidate-applications/{id}/request-documents */
+export interface RequestDocumentsResponse {
+  inviteId: number;
+  applicationId: number;
+  status: string;
+  expiresAt: string;
+  url: string;
+  candidateEmail: string | null;
+  message: string;
+}
+
+/** POST /api/v1/candidate-applications/request-documents/bulk */
+export interface BulkRequestDocumentsRequest {
+  applicationIds: number[];
+}
+
+export interface BulkRequestDocumentsItem {
+  applicationId: number;
+  success: boolean;
+  errorCode: string | null;
+  errorMessage: string | null;
+  response: RequestDocumentsResponse | null;
+}
+
+export interface BulkRequestDocumentsResponse {
+  results: BulkRequestDocumentsItem[];
+}
+
+/** POST /api/v1/candidate-applications/{id}/request-complete-info */
+export interface RequestCompleteInfoResponse {
+  inviteId: number;
+  applicationId: number;
+  status: string;
+  expiresAt: string;
+  url: string;
+  candidateEmail: string | null;
+  message: string;
+}
+
 /** GET /api/v1/candidate-applications/{id}/questionnaire-evaluation */
 export interface QuestionnaireEvaluationResponse {
   applicationId: number;

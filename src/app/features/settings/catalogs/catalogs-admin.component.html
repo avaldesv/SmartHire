@@ -1409,6 +1409,26 @@
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
             <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
+            <div class="complete-info-tabs-section">
+              <h4 class="complete-info-tabs-title" i18n="@@catalogs.coverageType.completeInfoTabsTitle">
+                Tabs del formulario Completar información
+              </h4>
+              <p class="complete-info-tabs-hint" i18n="@@catalogs.coverageType.completeInfoTabsHint">
+                Define qué secciones se pedirán al candidato
+              </p>
+              <mat-checkbox formControlName="completeInfoRequirePersonal" i18n="@@catalogs.coverageType.tabPersonal">
+                Datos personales (siempre requerido)
+              </mat-checkbox>
+              <mat-checkbox formControlName="completeInfoRequireBeneficiaries" i18n="@@catalogs.coverageType.tabBeneficiaries">
+                Beneficiarios
+              </mat-checkbox>
+              <mat-checkbox
+                formControlName="completeInfoRequireEmergencyContacts"
+                i18n="@@catalogs.coverageType.tabEmergencyContacts"
+              >
+                Contactos de emergencia
+              </mat-checkbox>
+            </div>
             <div shModalActions>
               <button mat-stroked-button type="button" (click)="cancelCoverageTypeForm()" i18n="@@common.cancel">Cancelar</button>
               <button mat-flat-button color="primary" type="submit" [disabled]="savingCoverageType">

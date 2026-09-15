@@ -26,6 +26,10 @@ export interface CatalogCoverageType {
   name: string;
   description?: string;
   isActive: boolean;
+  completeInfoRequirePersonal?: boolean;
+  completeInfoRequireBeneficiaries?: boolean;
+  completeInfoRequireEmergencyContacts?: boolean;
+  companyId?: number | null;
 }
 
 export interface CatalogShift {
