@@ -22,6 +22,10 @@ import {
   QuestionnaireEvaluationResponse,
   SendQuestionnaireInviteRequest,
   SendQuestionnaireInviteResponse,
+  RequestDocumentsResponse,
+  BulkRequestDocumentsRequest,
+  BulkRequestDocumentsResponse,
+  RequestCompleteInfoResponse,
 } from '../../shared/models/candidate-application.model';
 import { ApiClientService } from './api-client.service';
 
@@ -163,6 +167,31 @@ export class CandidateApplicationApiService {
   contactQuestionnaire(applicationId: number): Observable<ContactQuestionnaireResponse> {
     return this.http.post<ContactQuestionnaireResponse>(
       this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/contact-questionnaire`),
+      {},
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  requestDocuments(applicationId: number): Observable<RequestDocumentsResponse> {
+    return this.http.post<RequestDocumentsResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/request-documents`),
+      {},
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  bulkRequestDocuments(applicationIds: number[]): Observable<BulkRequestDocumentsResponse> {
+    const body: BulkRequestDocumentsRequest = { applicationIds };
+    return this.http.post<BulkRequestDocumentsResponse>(
+      this.api.apiUrl('/api/v1/candidate-applications/request-documents/bulk'),
+      body,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  requestCompleteInfo(applicationId: number): Observable<RequestCompleteInfoResponse> {
+    return this.http.post<RequestCompleteInfoResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/request-complete-info`),
       {},
       { headers: this.api.buildHeaders() },
     );

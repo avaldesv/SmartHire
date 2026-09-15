@@ -60,6 +60,29 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
   color: #334155;
 }
 .gender-form { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; align-items: center; }
+
+.complete-info-tabs-section {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid #99f6e4;
+  border-radius: 8px;
+  background: #f0fdfa;
+}
+
+.complete-info-tabs-title {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #1e3a5f;
+}
+
+.complete-info-tabs-hint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #64748b;
+}
 .doc-type-form {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

@@ -7,6 +7,8 @@ export const PRESELECTION_COL_DOCS = $localize`:@@preselection.col.docs:Docs`;
 export const PRESELECTION_COL_CONTACT = $localize`:@@preselection.col.contact:Contactar`;
 export const PRESELECTION_COL_EVALUATION = $localize`:@@preselection.col.evaluation:Evaluación`;
 export const PRESELECTION_COL_APPOINTMENT = $localize`:@@preselection.col.appointment:Cita para entrevista`;
+export const PRESELECTION_COL_REQUEST_DOCUMENTS = $localize`:@@preselection.col.requestDocuments:Solicitar documentos`;
+export const PRESELECTION_COL_REQUEST_COMPLETE_INFO = $localize`:@@preselection.col.requestCompleteInfo:Completar información`;
 export const PRESELECTION_COL_INTERVIEWED = $localize`:@@preselection.col.interviewed:Entrevistado`;
 
 export const PRESELECTION_TOOLBAR_ADD_FROM_POOL = $localize`:@@preselection.toolbar.addFromPool:Agregar del pool`;
@@ -27,6 +29,19 @@ export const PRESELECTION_CONTACT_TOOLTIP = $localize`:@@preselection.contact.to
 export const PRESELECTION_CONTACT_DONE_TOOLTIP = $localize`:@@preselection.contact.doneTooltip:Cuestionario de contacto enviado`;
 export const PRESELECTION_CONTACT_SUCCESS = $localize`:@@preselection.contact.success:Cuestionario de contacto enviado`;
 export const PRESELECTION_CONTACT_ERROR = $localize`:@@preselection.contact.error:No se pudo enviar el cuestionario de contacto`;
+
+export const PRESELECTION_REQUEST_DOCS_TOOLTIP = $localize`:@@preselection.requestDocs.tooltip:Solicitar documentos al candidato`;
+export const PRESELECTION_REQUEST_DOCS_NO_REQUIREMENTS = $localize`:@@preselection.requestDocs.noRequirements:No hay documentos requeridos`;
+export const PRESELECTION_REQUEST_DOCS_SUCCESS = $localize`:@@preselection.requestDocs.success:Solicitud de documentos enviada`;
+export const PRESELECTION_REQUEST_DOCS_ERROR = $localize`:@@preselection.requestDocs.error:No se pudo solicitar documentos`;
+export const PRESELECTION_BULK_REQUEST_DOCS_CONFIRM = $localize`:@@preselection.bulk.requestDocsConfirm:¿Solicitar documentos a los candidatos seleccionados?`;
+export const PRESELECTION_BULK_REQUEST_DOCS_SUCCESS = $localize`:@@preselection.bulk.requestDocsSuccess:Solicitudes de documentos enviadas`;
+export const PRESELECTION_BULK_REQUEST_DOCS_PARTIAL = $localize`:@@preselection.bulk.requestDocsPartial:Algunas solicitudes de documentos no se enviaron`;
+
+export const PRESELECTION_REQUEST_INFO_TOOLTIP = $localize`:@@preselection.requestInfo.tooltip:Solicitar completar información`;
+export const PRESELECTION_REQUEST_INFO_DONE_TOOLTIP = $localize`:@@preselection.requestInfo.doneTooltip:Información ya validada`;
+export const PRESELECTION_REQUEST_INFO_SUCCESS = $localize`:@@preselection.requestInfo.success:Solicitud de información enviada`;
+export const PRESELECTION_REQUEST_INFO_ERROR = $localize`:@@preselection.requestInfo.error:No se pudo solicitar completar información`;
 
 export const PRESELECTION_EVALUATION_TOOLTIP = $localize`:@@preselection.evaluation.tooltip:Evaluación del cuestionario`;
 export const PRESELECTION_EVALUATION_PENDING_TITLE = $localize`:@@preselection.evaluation.pendingTitle:Evaluación pendiente`;
