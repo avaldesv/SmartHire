@@ -1,0 +1,523 @@
+<div class="sh-catalog-dialog-header-bar validate-info-header">
+  <span class="sh-catalog-dialog-header-bar__text">
+    <mat-icon aria-hidden="true">fact_check</mat-icon>
+    <span>
+      {{ labels.title }}
+      @if (subtitle) {
+        <span class="validate-info-subtitle">— {{ subtitle }}</span>
+      }
+    </span>
+  </span>
+  <button
+    mat-icon-button
+    type="button"
+    class="validate-info-close"
+    [attr.aria-label]="labels.close"
+    (click)="cancel()"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content class="sh-catalog-dialog-body validate-info-body">
+  @if (loading) {
+    <div class="validate-info-loading">
+      <mat-spinner diameter="36" />
+      <span>{{ labels.loading }}</span>
+    </div>
+  } @else if (info) {
+    <nav class="vi-tabs" role="tablist">
+      @for (tab of enabledTabs; track tab) {
+        <button
+          type="button"
+          class="vi-tab"
+          role="tab"
+          [class.active]="activeTab === tab"
+          [attr.aria-selected]="activeTab === tab"
+          (click)="selectTab(tab)"
+        >
+          {{ tabLabel(tab) }}
+        </button>
+      }
+    </nav>
+
+    <div class="vi-form">
+      @if (activeTab === 'PERSONAL') {
+        <section class="vi-section">
+          <header class="vi-section-header">{{ labels.sectionGeneral }}</header>
+          <div class="vi-grid">
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.firstName }} <em>*</em></span>
+              <input type="text" [(ngModel)]="personal.firstName" name="firstName" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.lastName }} <em>*</em></span>
+              <input type="text" [(ngModel)]="personal.lastName" name="lastName" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.maternal }} <em>*</em></span>
+              <input type="text" [(ngModel)]="personal.maternalLastName" name="maternalLastName" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.position }}</span>
+              <input type="text" [ngModel]="info.positionName" name="positionName" readonly />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.experience }}</span>
+              <input type="number" min="0" [(ngModel)]="personal.experienceYears" name="experienceYears" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.salary }}</span>
+              <input type="number" min="0" [(ngModel)]="personal.desiredSalary" name="desiredSalary" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.email }} <em>*</em></span>
+              <input type="email" [(ngModel)]="personal.email" name="email" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.phone }}</span>
+              <input type="text" [(ngModel)]="personal.phone" name="phone" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.country }}</span>
+              <select [(ngModel)]="personal.phoneCountryId" name="phoneCountryId">
+                <option [ngValue]="null">{{ labels.select }}</option>
+                @for (c of lookups.countries; track c.id) {
+                  <option [ngValue]="c.id">{{ c.name }}</option>
+                }
+              </select>
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.gender }}</span>
+              <select [(ngModel)]="personal.genderId" name="genderId">
+                <option [ngValue]="null">{{ labels.select }}</option>
+                @for (g of lookups.genders; track g.id) {
+                  <option [ngValue]="g.id">{{ g.name }}</option>
+                }
+              </select>
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.marital }}</span>
+              <select [(ngModel)]="personal.maritalStatusId" name="maritalStatusId">
+                <option [ngValue]="null">{{ labels.select }}</option>
+                @for (m of lookups.maritalStatuses; track m.id) {
+                  <option [ngValue]="m.id">{{ m.name }}</option>
+                }
+              </select>
+            </label>
+          </div>
+        </section>
+
+        <section class="vi-section">
+          <header class="vi-section-header">{{ labels.sectionGov }}</header>
+          <div class="vi-grid">
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.curp }}</span>
+              <input type="text" [(ngModel)]="personal.curp" name="curp" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.nss }}</span>
+              <input type="text" [(ngModel)]="personal.nss" name="nss" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.nssDv }}</span>
+              <input type="text" [(ngModel)]="personal.nssDv" name="nssDv" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.infonavit }}</span>
+              <input type="text" [(ngModel)]="personal.infonavit" name="infonavit" />
+            </label>
+          </div>
+        </section>
+
+        <section class="vi-section">
+          <header class="vi-section-header">{{ labels.sectionTax }}</header>
+          <div class="vi-grid">
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.rfc }}</span>
+              <input type="text" [(ngModel)]="personal.rfc" name="rfc" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.taxRegime }}</span>
+              <input type="text" [(ngModel)]="personal.taxRegime" name="taxRegime" />
+            </label>
+            <div class="vi-field vi-field-with-action">
+              <label class="vi-field grow">
+                <span class="vi-label">{{ labels.rfcPostal }}</span>
+                <input type="text" [(ngModel)]="personal.rfcPostalCode" name="rfcPostalCode" />
+              </label>
+              <button type="button" class="vi-btn-teal-solid vi-btn-inline" (click)="searchTaxData()">
+                {{ labels.searchTax }}
+              </button>
+            </div>
+          </div>
+          @if (taxSearchHint) {
+            <p class="vi-hint">{{ taxSearchHint }}</p>
+          }
+        </section>
+
+        <section class="vi-section">
+          <header class="vi-section-header">{{ labels.sectionBirth }}</header>
+          <div class="vi-grid">
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.country }}</span>
+              <select
+                [(ngModel)]="personal.birthCountryId"
+                name="birthCountryId"
+                (ngModelChange)="onBirthCountryChange()"
+              >
+                <option [ngValue]="null">{{ labels.select }}</option>
+                @for (c of lookups.countries; track c.id) {
+                  <option [ngValue]="c.id">{{ c.name }}</option>
+                }
+              </select>
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.state }}</span>
+              <select [(ngModel)]="personal.birthStateId" name="birthStateId">
+                <option [ngValue]="null">{{ labels.select }}</option>
+                @for (s of statesFor(personal.birthCountryId); track s.id) {
+                  <option [ngValue]="s.id">{{ s.name }}</option>
+                }
+              </select>
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.birthDate }}</span>
+              <input type="date" [(ngModel)]="personal.birthDate" name="birthDate" />
+            </label>
+          </div>
+        </section>
+
+        <section class="vi-section">
+          <header class="vi-section-header">{{ labels.sectionResidence }}</header>
+          <div class="vi-grid">
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.country }}</span>
+              <select
+                [(ngModel)]="personal.residenceCountryId"
+                name="residenceCountryId"
+                (ngModelChange)="onResidenceCountryChange()"
+              >
+                <option [ngValue]="null">{{ labels.select }}</option>
+                @for (c of lookups.countries; track c.id) {
+                  <option [ngValue]="c.id">{{ c.name }}</option>
+                }
+              </select>
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.state }}</span>
+              <select [(ngModel)]="personal.residenceStateId" name="residenceStateId">
+                <option [ngValue]="null">{{ labels.select }}</option>
+                @for (s of statesFor(personal.residenceCountryId); track s.id) {
+                  <option [ngValue]="s.id">{{ s.name }}</option>
+                }
+              </select>
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.postal }}</span>
+              <input type="text" [(ngModel)]="personal.postalCode" name="postalCode" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.municipality }}</span>
+              <input type="text" [(ngModel)]="personal.municipality" name="municipality" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.neighborhood }}</span>
+              <input type="text" [(ngModel)]="personal.neighborhood" name="neighborhood" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.street }}</span>
+              <input type="text" [(ngModel)]="personal.street" name="street" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.extNum }}</span>
+              <input type="text" [(ngModel)]="personal.exteriorNumber" name="exteriorNumber" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.intNum }}</span>
+              <input type="text" [(ngModel)]="personal.interiorNumber" name="interiorNumber" />
+            </label>
+          </div>
+        </section>
+
+        <section class="vi-section">
+          <header class="vi-section-header">{{ labels.sectionStudies }}</header>
+          <div class="vi-grid">
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.eduLevel }}</span>
+              <select [(ngModel)]="personal.educationLevelId" name="educationLevelId">
+                <option [ngValue]="null">{{ labels.select }}</option>
+                @for (e of lookups.educationLevels; track e.id) {
+                  <option [ngValue]="e.id">{{ e.name }}</option>
+                }
+              </select>
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.institution }}</span>
+              <input type="text" [(ngModel)]="personal.educationInstitution" name="educationInstitution" />
+            </label>
+          </div>
+        </section>
+      }
+
+      @if (activeTab === 'BENEFICIARIES') {
+        <section class="vi-section">
+          <h2 class="vi-section-title">{{ labels.sectionBeneficiary }}</h2>
+          <div class="vi-info-box">
+            <p>{{ labels.hintBeneficiaries }}</p>
+          </div>
+
+          <div class="vi-grid vi-draft-grid">
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.type }} <em>*</em></span>
+              <select [(ngModel)]="beneficiaryDraft.beneficiaryType" name="bDraftType">
+                <option value="PRIMARY">{{ labels.typePrimary }}</option>
+                <option value="CONTINGENT">{{ labels.typeContingent }}</option>
+              </select>
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.firstName }} <em>*</em></span>
+              <input type="text" [(ngModel)]="beneficiaryDraft.firstName" name="bDraftFirst" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.lastName }} <em>*</em></span>
+              <input type="text" [(ngModel)]="beneficiaryDraft.lastName" name="bDraftLast" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.maternal }} <em>*</em></span>
+              <input type="text" [(ngModel)]="beneficiaryDraft.secondLastName" name="bDraftSecond" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.kinship }} <em>*</em></span>
+              <select [(ngModel)]="beneficiaryDraft.kinshipId" name="bDraftKinship">
+                <option [ngValue]="null">{{ labels.select }}</option>
+                @for (k of lookups.kinships; track k.id) {
+                  <option [ngValue]="k.id">{{ k.name }}</option>
+                }
+              </select>
+            </label>
+            <label class="vi-field vi-check-field">
+              <span class="vi-label">{{ labels.irrevocable }}</span>
+              <mat-checkbox [(ngModel)]="beneficiaryDraft.irrevocable" name="bDraftIrrev">
+                {{ labels.yes }}
+              </mat-checkbox>
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.percent }} <em>*</em></span>
+              <input
+                type="number"
+                min="0"
+                max="100"
+                [(ngModel)]="beneficiaryDraft.percent"
+                name="bDraftPct"
+              />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.age }}</span>
+              <input type="number" min="0" [(ngModel)]="beneficiaryDraft.age" name="bDraftAge" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.phone }}</span>
+              <input type="text" [(ngModel)]="beneficiaryDraft.phone" name="bDraftPhone" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.email }}</span>
+              <input type="email" [(ngModel)]="beneficiaryDraft.email" name="bDraftEmail" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.country }}</span>
+              <input type="text" [(ngModel)]="beneficiaryDraft.country" name="bDraftCountry" />
+            </label>
+          </div>
+          <div class="vi-draft-actions">
+            <button type="button" class="vi-btn-teal-outline" (click)="addBeneficiaryFromDraft()">
+              + {{ labels.add }}
+            </button>
+          </div>
+
+          <header class="vi-section-header vi-table-header">{{ labels.sectionBeneficiariesList }}</header>
+          <div class="vi-table-wrap">
+            <table mat-table [dataSource]="beneficiaries" class="vi-table">
+              <ng-container matColumnDef="beneficiaryType">
+                <th mat-header-cell *matHeaderCellDef>{{ labels.type }}</th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.beneficiaryType === 'CONTINGENT' ? labels.typeContingent : labels.typePrimary }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="firstName">
+                <th mat-header-cell *matHeaderCellDef>{{ labels.firstName }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.firstName }}</td>
+              </ng-container>
+              <ng-container matColumnDef="lastName">
+                <th mat-header-cell *matHeaderCellDef>{{ labels.lastName }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.lastName }}</td>
+              </ng-container>
+              <ng-container matColumnDef="secondLastName">
+                <th mat-header-cell *matHeaderCellDef>{{ labels.maternal }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.secondLastName }}</td>
+              </ng-container>
+              <ng-container matColumnDef="percent">
+                <th mat-header-cell *matHeaderCellDef>{{ labels.percent }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.percent }}%</td>
+              </ng-container>
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef>{{ labels.email }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+              </ng-container>
+              <ng-container matColumnDef="phone">
+                <th mat-header-cell *matHeaderCellDef>{{ labels.phone }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.phone }}</td>
+              </ng-container>
+              <ng-container matColumnDef="age">
+                <th mat-header-cell *matHeaderCellDef>{{ labels.age }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.age }}</td>
+              </ng-container>
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let row; let i = index">
+                  <button type="button" class="vi-link-remove" (click)="removeBeneficiary(i)">
+                    {{ labels.remove }}
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="beneficiaryColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: beneficiaryColumns"></tr>
+            </table>
+            @if (!beneficiaries.length) {
+              <p class="vi-empty-table">{{ labels.noItems }}</p>
+            }
+          </div>
+        </section>
+      }
+
+      @if (activeTab === 'EMERGENCY_CONTACTS') {
+        <section class="vi-section">
+          <h2 class="vi-section-title">{{ labels.sectionContacts }}</h2>
+          <div class="vi-info-box">
+            <p>{{ labels.hintEmergency }}</p>
+          </div>
+
+          <div class="vi-grid vi-draft-grid">
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.firstName }} <em>*</em></span>
+              <input type="text" [(ngModel)]="emergencyDraft.firstName" name="eDraftFirst" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.lastName }} <em>*</em></span>
+              <input type="text" [(ngModel)]="emergencyDraft.lastName" name="eDraftLast" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.maternal }}</span>
+              <input type="text" [(ngModel)]="emergencyDraft.secondLastName" name="eDraftSecond" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.kinship }}</span>
+              <select [(ngModel)]="emergencyDraft.kinshipId" name="eDraftKinship">
+                <option [ngValue]="null">{{ labels.select }}</option>
+                @for (k of lookups.kinships; track k.id) {
+                  <option [ngValue]="k.id">{{ k.name }}</option>
+                }
+              </select>
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.prefix }}</span>
+              <input type="text" [(ngModel)]="emergencyDraft.phonePrefix" name="eDraftPrefix" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.phone }} <em>*</em></span>
+              <input type="text" [(ngModel)]="emergencyDraft.phone" name="eDraftPhone" />
+            </label>
+            <label class="vi-field">
+              <span class="vi-label">{{ labels.email }}</span>
+              <input type="email" [(ngModel)]="emergencyDraft.email" name="eDraftEmail" />
+            </label>
+          </div>
+          <div class="vi-draft-actions">
+            <button type="button" class="vi-btn-teal-outline" (click)="addEmergencyFromDraft()">
+              + {{ labels.add }}
+            </button>
+          </div>
+
+          <header class="vi-section-header vi-table-header">{{ labels.sectionContactsList }}</header>
+          <div class="vi-table-wrap">
+            <table mat-table [dataSource]="emergencyContacts" class="vi-table">
+              <ng-container matColumnDef="firstName">
+                <th mat-header-cell *matHeaderCellDef>{{ labels.firstName }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.firstName }}</td>
+              </ng-container>
+              <ng-container matColumnDef="lastNames">
+                <th mat-header-cell *matHeaderCellDef>{{ labels.lastName }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.lastName }} {{ row.secondLastName }}</td>
+              </ng-container>
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef>{{ labels.email }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+              </ng-container>
+              <ng-container matColumnDef="phone">
+                <th mat-header-cell *matHeaderCellDef>{{ labels.phone }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.phonePrefix }} {{ row.phone }}</td>
+              </ng-container>
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let row; let i = index">
+                  <button type="button" class="vi-link-remove" (click)="removeEmergency(i)">
+                    {{ labels.remove }}
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="emergencyColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: emergencyColumns"></tr>
+            </table>
+            @if (!emergencyContacts.length) {
+              <p class="vi-empty-table">{{ labels.noItems }}</p>
+            }
+          </div>
+        </section>
+      }
+    </div>
+
+    @if (formError) {
+      <p class="vi-form-error">{{ formError }}</p>
+    }
+  }
+</mat-dialog-content>
+
+<div class="validate-info-footer" mat-dialog-actions>
+  <button mat-stroked-button type="button" [disabled]="saving" (click)="cancel()">
+    {{ labels.cancel }}
+  </button>
+  <div class="validate-info-footer__nav">
+    <button
+      mat-stroked-button
+      type="button"
+      class="vi-btn-teal-outline-mat"
+      [disabled]="saving || selectedTabIndex === 0 || loading"
+      (click)="goBack()"
+    >
+      ← {{ labels.back }}
+    </button>
+    @if (!isLastTab) {
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        [disabled]="saving || loading"
+        (click)="goNext()"
+      >
+        {{ labels.next }} →
+      </button>
+    } @else {
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        [disabled]="saving || loading"
+        (click)="save()"
+      >
+        {{ saving ? labels.saving : labels.save }}
+      </button>
+    }
+  </div>
+</div>

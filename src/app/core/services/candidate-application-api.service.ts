@@ -2,6 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import {
+  ApplicationCompleteInfoResponse,
+  ApplicationCompleteInfoSaveResponse,
+  SubmitApplicationCompleteInfoRequest,
+} from '../../shared/models/application-complete-info.model';
+import {
   BulkCandidateApplicationsRequest,
   BulkCandidateApplicationsResponse,
   BulkUpdateCandidateApplicationStatusRequest,
@@ -193,6 +198,24 @@ export class CandidateApplicationApiService {
     return this.http.post<RequestCompleteInfoResponse>(
       this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/request-complete-info`),
       {},
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  getCompleteInfo(applicationId: number): Observable<ApplicationCompleteInfoResponse> {
+    return this.http.get<ApplicationCompleteInfoResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/complete-info`),
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  saveCompleteInfo(
+    applicationId: number,
+    body: SubmitApplicationCompleteInfoRequest,
+  ): Observable<ApplicationCompleteInfoSaveResponse> {
+    return this.http.put<ApplicationCompleteInfoSaveResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/complete-info`),
+      body,
       { headers: this.api.buildHeaders() },
     );
   }
