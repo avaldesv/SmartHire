@@ -65,8 +65,6 @@ import {
   PRESELECTION_EVALUATION_PENDING_MSG,
   PRESELECTION_EVALUATION_PENDING_TITLE,
   PRESELECTION_EVALUATION_TOOLTIP,
-  PRESELECTION_INFO_ALREADY_VALIDATED,
-  PRESELECTION_INFO_VALIDATE_ERROR,
   PRESELECTION_INFO_VALIDATED,
   PRESELECTION_INTERVIEWED_DONE_TOOLTIP,
   PRESELECTION_INTERVIEWED_ERROR,
@@ -113,6 +111,12 @@ import {
   CandidateDocumentsDialogData,
   candidateDocumentsDialogConfig,
 } from '../../candidates/dialogs/candidate-documents-dialog/candidate-documents-dialog.component';
+import {
+  ValidateInfoDialogComponent,
+  ValidateInfoDialogData,
+  ValidateInfoDialogResult,
+  validateInfoDialogConfig,
+} from './dialogs/validate-info-dialog/validate-info-dialog.component';
 import {
   CandidatePoolDialogComponent,
   CandidatePoolDialogData,
@@ -1011,19 +1015,27 @@ export class PreselectionComponent implements OnInit {
   }
 
   private validateApplicationInfo(row: PreselectionCandidate): void {
-    if (row.infoValidated) {
-      this.feedback.showSuccess(PRESELECTION_INFO_ALREADY_VALIDATED);
-      return;
-    }
-    this.applicationApi.validateInfo(row.applicationId).subscribe({
-      next: (res) => {
-        this.applyValidationFlags(row, res);
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    this.dialog
+      .open<
+        ValidateInfoDialogComponent,
+        ValidateInfoDialogData,
+        ValidateInfoDialogResult | null
+      >(ValidateInfoDialogComponent, {
+        ...validateInfoDialogConfig(),
+        data: {
+          applicationId: row.applicationId,
+          candidateName: name,
+        },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (!result?.saved) {
+          return;
+        }
+        row.infoValidated = result.infoValidated ?? true;
         this.feedback.showSuccess(PRESELECTION_INFO_VALIDATED);
-      },
-      error: (err) => {
-        this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_INFO_VALIDATE_ERROR });
-      },
-    });
+      });
   }
 
   private validateApplicationStudies(row: PreselectionCandidate): void {
