@@ -24,6 +24,7 @@ import {
 } from '../../../shared/models/requisition-wizard.model';
 import { WizardPublishedPortalRow } from '../../../shared/models/job-portal-credentials.model';
 import { isFieldRequired, isFieldVisible, isFieldReadOnly } from './dynamic-wizard-rules.util';
+import { isClientCatalogFillTarget } from '../../../shared/constants/requisition-client-catalog-fill';
 import {
   parseWorkDaysToIds,
   serializeWorkDaysFromIds,
@@ -302,9 +303,12 @@ export function buildDynamicCreatePayload(
       if (!isFieldVisible(field, formValues)) {
         continue;
       }
+      // Client catalog auto-fill targets must travel even when read-only (readOnlyWhen / roles).
+      const includeDespiteReadOnly = isClientCatalogFillTarget(field.fieldKey);
       if (
         !includeReadOnlyFields &&
-        (isFieldReadOnly(field) || field.fieldKey === 'orderId' || field.fieldKey === 'brandId')
+        !includeDespiteReadOnly &&
+        (isFieldReadOnly(field, formValues) || field.fieldKey === 'orderId' || field.fieldKey === 'brandId')
       ) {
         continue;
       }

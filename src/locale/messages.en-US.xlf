@@ -6247,8 +6247,8 @@
         <target>View applicants</target>
       </trans-unit>
       <trans-unit id="preselection.toolbar.sendSmart" datatype="html">
-        <source>Enviar Smart</source>
-        <target>Send Smart</target>
+        <source>Enviar a nómina</source>
+        <target>Send to payroll</target>
       </trans-unit>
       <trans-unit id="preselection.toolbar.documents" datatype="html">
         <source>Documentos</source>
@@ -6455,8 +6455,8 @@
         <target>Audit log</target>
       </trans-unit>
       <trans-unit id="preselection.row.sendSmart" datatype="html">
-        <source>Enviar a SMART</source>
-        <target>Send to SMART</target>
+        <source>Enviar a nómina</source>
+        <target>Send to payroll</target>
       </trans-unit>
       <trans-unit id="preselection.row.generateContract" datatype="html">
         <source>Generar contrato</source>

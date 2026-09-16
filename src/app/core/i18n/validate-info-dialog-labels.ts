@@ -1,7 +1,6 @@
 /** i18n labels for validate-info dialog (preselection). */
 
 export const VALIDATE_INFO_DIALOG_TITLE = $localize`:@@validateInfoDialog.title:Validar información`;
-export const VALIDATE_INFO_DIALOG_FOR_POSITION = $localize`:@@validateInfoDialog.forPosition:puesto`;
 export const VALIDATE_INFO_DIALOG_LOADING = $localize`:@@validateInfoDialog.loading:Cargando formulario…`;
 export const VALIDATE_INFO_DIALOG_LOAD_ERROR = $localize`:@@validateInfoDialog.loadError:No se pudo cargar el formulario.`;
 export const VALIDATE_INFO_DIALOG_SAVE_ERROR = $localize`:@@validateInfoDialog.saveError:No se pudo guardar y validar la información.`;
@@ -84,20 +83,6 @@ export const VALIDATE_INFO_ERR_EMERGENCY_MIN = $localize`:@@validateInfoDialog.e
 export const VALIDATE_INFO_ERR_EMERGENCY_DRAFT = $localize`:@@validateInfoDialog.error.emergencyDraft:Completa nombre, apellido paterno y teléfono del contacto.`;
 export const VALIDATE_INFO_ERR_EMERGENCY_ROW = $localize`:@@validateInfoDialog.error.emergencyRow:Completa nombre, apellido y teléfono de cada contacto de emergencia.`;
 
-export function validateInfoDialogSubtitle(
-  candidateName: string | undefined,
-  positionName: string | null | undefined,
-): string {
-  const name = candidateName?.trim();
-  const position = positionName?.trim();
-  if (name && position) {
-    return `${name} / ${VALIDATE_INFO_DIALOG_FOR_POSITION} ${position}`;
-  }
-  if (name) {
-    return name;
-  }
-  if (position) {
-    return `${VALIDATE_INFO_DIALOG_FOR_POSITION} ${position}`;
-  }
-  return '';
+export function validateInfoDialogSubtitle(candidateName: string | undefined): string {
+  return candidateName?.trim() || '';
 }

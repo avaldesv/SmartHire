@@ -13,7 +13,7 @@ export const PRESELECTION_COL_INTERVIEWED = $localize`:@@preselection.col.interv
 
 export const PRESELECTION_TOOLBAR_ADD_FROM_POOL = $localize`:@@preselection.toolbar.addFromPool:Agregar del pool`;
 export const PRESELECTION_TOOLBAR_VIEW_APPLICANTS = $localize`:@@preselection.toolbar.viewApplicants:Ver postulados`;
-export const PRESELECTION_TOOLBAR_SEND_SMART = $localize`:@@preselection.toolbar.sendSmart:Enviar Smart`;
+export const PRESELECTION_TOOLBAR_SEND_SMART = $localize`:@@preselection.toolbar.sendSmart:Enviar a nómina`;
 export const PRESELECTION_TOOLBAR_DOCUMENTS = $localize`:@@preselection.toolbar.documents:Documentos`;
 export const PRESELECTION_TOOLBAR_REQUEST_DOCUMENTS = $localize`:@@preselection.toolbar.requestDocuments:Solicitar documentos`;
 export const PRESELECTION_EMPTY = $localize`:@@preselection.empty:No hay candidatos preseleccionados en esta posición.`;
@@ -86,7 +86,7 @@ export const PRESELECTION_ROW_VIEW_DOCUMENTS = $localize`:@@preselection.row.vie
 export const PRESELECTION_ROW_VALIDATE_INFO = $localize`:@@preselection.row.validateInfo:Validar información`;
 export const PRESELECTION_ROW_VALIDATE_STUDIES = $localize`:@@preselection.row.validateStudies:Validar estudios`;
 export const PRESELECTION_ROW_AUDIT_LOG = $localize`:@@preselection.row.auditLog:Bitácora`;
-export const PRESELECTION_ROW_SEND_SMART = $localize`:@@preselection.row.sendSmart:Enviar a SMART`;
+export const PRESELECTION_ROW_SEND_SMART = $localize`:@@preselection.row.sendSmart:Enviar a nómina`;
 export const PRESELECTION_ROW_GENERATE_CONTRACT = $localize`:@@preselection.row.generateContract:Generar contrato`;
 export const PRESELECTION_ROW_NOTIFY_QUESTIONNAIRE = $localize`:@@preselection.row.notifyQuestionnaire:Notificar cuestionario`;
 export const PRESELECTION_ROW_DESELECT_SUCCESS = $localize`:@@preselection.row.deselectSuccess:Candidato deseleccionado`;

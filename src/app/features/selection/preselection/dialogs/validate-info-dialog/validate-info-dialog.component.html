@@ -1,22 +1,23 @@
-<div class="sh-catalog-dialog-header-bar validate-info-header">
-  <span class="sh-catalog-dialog-header-bar__text">
-    <mat-icon aria-hidden="true">fact_check</mat-icon>
-    <span>
-      {{ labels.title }}
+<div class="sh-catalog-dialog-header validate-info-header" mat-dialog-title>
+  <div class="validate-info-header__row">
+    <div class="validate-info-header__title-row">
+      <mat-icon class="validate-info-header__icon" aria-hidden="true">fact_check</mat-icon>
+      <span class="validate-info-header__title">{{ labels.title }}</span>
       @if (subtitle) {
-        <span class="validate-info-subtitle">— {{ subtitle }}</span>
+        <span class="validate-info-header__sep" aria-hidden="true">—</span>
+        <span class="validate-info-header__candidate">{{ subtitle }}</span>
       }
-    </span>
-  </span>
-  <button
-    mat-icon-button
-    type="button"
-    class="validate-info-close"
-    [attr.aria-label]="labels.close"
-    (click)="cancel()"
-  >
-    <mat-icon>close</mat-icon>
-  </button>
+    </div>
+    <button
+      mat-icon-button
+      type="button"
+      class="validate-info-header__close"
+      [attr.aria-label]="labels.close"
+      (click)="cancel()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
 </div>
 
 <mat-dialog-content class="sh-catalog-dialog-body validate-info-body">

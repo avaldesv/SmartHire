@@ -4,7 +4,8 @@ import { ApiErrorI18nEntry } from './api-error-catalog';
 export const API_ERROR_CATALOG_CANDIDATE: Record<string, ApiErrorI18nEntry> = {
   CANDIDATE_ALREADY_PRESELECTED: {
     title: $localize`:@@errors.CANDIDATE_ALREADY_PRESELECTED.title:Candidato ya preseleccionado`,
-    message: $localize`:@@errors.CANDIDATE_ALREADY_PRESELECTED.message:El candidato ya está preseleccionado en {0} ({1}).`,
+    // Keep {0}/{1} as literals — raw braces inside $localize are stripped by Angular i18n.
+    message: $localize`:@@errors.CANDIDATE_ALREADY_PRESELECTED.message:El candidato ya está preseleccionado en ${'{0}'}:p0: (${'{1}'}:p1:).`,
   },
   DOCUMENT_VALIDATION_STATUS_REQUIRED: {
     title: $localize`:@@errors.DOCUMENT_VALIDATION_STATUS_REQUIRED.title:Validación requerida`,
