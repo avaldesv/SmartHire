@@ -91,7 +91,7 @@ export function validateInfoDialogSubtitle(
   const name = candidateName?.trim();
   const position = positionName?.trim();
   if (name && position) {
-    return `${name} / ${VALIDATE_INFO_DIALOG_FOR_POSITION} ${position}`;
+    return `${name} · ${position}`;
   }
   if (name) {
     return name;
