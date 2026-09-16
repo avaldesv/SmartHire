@@ -1,0 +1,13 @@
+{
+  "/smart_hire_api": {
+    "target": "https://smarthire-backend-production-15bd.up.railway.app",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "info",
+    "ws": true,
+    "headers": {
+      "Origin": "https://smarthire-production-504c.up.railway.app",
+      "Referer": "https://smarthire-production-504c.up.railway.app/"
+    }
+  }
+}

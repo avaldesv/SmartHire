@@ -1,3 +1,4 @@
+import { TenantDataScope } from './tenant-data-scope.model';
 import { ApiPageResponse } from './catalog-position.model';
 
 export interface CatalogCoverageType {
@@ -7,14 +8,22 @@ export interface CatalogCoverageType {
   name: string;
   description?: string;
   isActive: boolean;
+  completeInfoRequirePersonal?: boolean;
+  completeInfoRequireBeneficiaries?: boolean;
+  completeInfoRequireEmergencyContacts?: boolean;
+  companyId?: number | null;
 }
 
 export interface CreateCoverageTypeRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   description?: string;
   isActive?: boolean;
+  completeInfoRequirePersonal?: boolean;
+  completeInfoRequireBeneficiaries?: boolean;
+  completeInfoRequireEmergencyContacts?: boolean;
+  scope?: TenantDataScope;
 }
 
 export type UpdateCoverageTypeRequest = CreateCoverageTypeRequest;

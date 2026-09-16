@@ -4,9 +4,14 @@ export interface AuthUser {
   firstName: string;
   lastName: string;
   initials: string;
-  role: 'RECRUITER' | 'COORDINATOR' | 'ADMIN';
+  roles: string[];
+  authorities: string[];
   branch: string;
-  permissions: string[];
+  globalAdmin?: boolean;
+  companyId?: number;
+  portalLanguageId?: number;
+  portalLanguageCode?: string;
+  locale?: string;
 }
 
 export interface PaginatedResult<T> {
@@ -77,12 +82,20 @@ export interface Candidate {
 }
 
 export interface PreselectionCandidate extends Candidate {
+  applicationId: number;
   compatibility: number;
   stage: string;
   interviewScheduled: boolean;
+  interviewed: boolean;
+  interviewedAt?: string | null;
+  infoValidated: boolean;
+  studiesValidated: boolean;
+  documentsSaved: boolean;
   documentsComplete: boolean;
   selected: boolean;
   smartSent: boolean;
+  questionnaireStatus?: string | null;
+  questionnaireAutoScorePercent?: number | null;
 }
 
 export interface SystemUser {
@@ -166,10 +179,27 @@ export interface ReportKpi {
   trend?: string;
 }
 
+/** @deprecated Prefer ReportRowResponse / ReportGroupResponse from report.model.ts */
 export interface MmrRow {
   indicator: string;
   months: number[];
 }
+
+export type {
+  ReportFilterRequest,
+  ReportGroupResponse,
+  ReportKpisResponse,
+  ReportMatrixResponse,
+  ReportRowResponse,
+  RequisitionsInProcessClientResponse,
+  RequisitionsInProcessClientsPage,
+  RequisitionsInProcessFilterRequest,
+  RequisitionsInProcessResponse,
+  RequisitionsInProcessYearResponse,
+  StatusByRequisitionFilterRequest,
+  StatusByRequisitionResponse,
+  StatusByRequisitionRowResponse,
+} from './report.model';
 
 export interface AiSearchResult {
   candidateId: number;

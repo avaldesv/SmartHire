@@ -1,21 +1,130 @@
 import { DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { filter } from 'rxjs';
+import { AppPermissions } from '../../../../core/auth/app-permissions';
+import { catalogDialogConfig } from '../../../../core/dialog/catalog-dialog.constants';
+import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../../core/i18n/feedback-labels';
+import {
+  APP_DIALOG_ACTIONS_MENU,
+  APP_DIALOG_ACTION_PRESELECT,
+  APP_DIALOG_ACTION_UNPRESELECT,
+  APP_DIALOG_BULK_PRESELECT,
+  APP_DIALOG_BULK_UNPRESELECT,
+  APP_DIALOG_BULK_PRESELECT_SUCCESS,
+  APP_DIALOG_BULK_UNPRESELECT_SUCCESS,
+  APP_DIALOG_BULK_NONE_SELECTED,
+  APP_DIALOG_ACTION_VIEW_DOCUMENTS,
+  APP_DIALOG_ACTION_DOWNLOAD_CV,
+  APP_DIALOG_ACTION_GENERATE_DOCUMENTS,
+  APP_DIALOG_ACTION_VIEW_PROFILE,
+  APP_DIALOG_APPOINTMENT_SCHEDULED_TOOLTIP,
+  APP_DIALOG_APPOINTMENT_TOOLTIP,
+  APP_DIALOG_CLOSE,
+  APP_DIALOG_COL_ACTIONS,
+  APP_DIALOG_COL_APPOINTMENT,
+  APP_DIALOG_COL_CANDIDATE,
+  APP_DIALOG_COL_COMPAT,
+  APP_DIALOG_COL_CONTACT,
+  APP_DIALOG_COL_CREATED,
+  APP_DIALOG_COL_EMAIL,
+  APP_DIALOG_COL_EVALUATION,
+  APP_DIALOG_COL_SOURCE,
+  APP_DIALOG_COL_STATUS,
+  APP_DIALOG_CONTACT_ERROR,
+  APP_DIALOG_CONTACT_SUCCESS,
+  APP_DIALOG_CONTACT_TOOLTIP,
+  APP_DIALOG_EM_DASH,
+  APP_DIALOG_EMPTY,
+  APP_DIALOG_ERRORS_CV_DOWNLOAD,
+  APP_DIALOG_ERRORS_LIST,
+  APP_DIALOG_ERRORS_PRESELECT,
+  APP_DIALOG_ERRORS_UNPRESELECT,
+  APP_DIALOG_EVALUATION_PENDING_MSG,
+  APP_DIALOG_EVALUATION_PENDING_TITLE,
+  APP_DIALOG_EVALUATION_TOOLTIP,
+  APP_DIALOG_PRESELECT_SUCCESS,
+  APP_DIALOG_UNPRESELECT_SUCCESS,
+  APP_DIALOG_TITLE,
+  APP_DIALOG_CV_DOWNLOAD_SUCCESS,
+  applicationsDialogCandidateFallback,
+} from '../../../../core/i18n/position-applications-dialog-labels';
 import { CandidateApplicationApiService } from '../../../../core/services/candidate-application-api.service';
+import { CandidateApiService } from '../../../../core/services/candidate-api.service';
+import { PermissionService } from '../../../../core/services/permission.service';
+import {
+  QuestionnaireEvaluationDialogComponent,
+  QuestionnaireEvaluationDialogData,
+} from '../../../selection/dialogs/questionnaire-evaluation-dialog/questionnaire-evaluation-dialog.component';
+import {
+  GenerateDocumentDialogComponent,
+  GenerateDocumentDialogData,
+} from '../../../selection/dialogs/generate-document-dialog/generate-document-dialog.component';
 import { CandidateApplicationListItem } from '../../../../shared/models/candidate-application.model';
 import { StatusBadgeComponent } from '../../../../shared/components/status-badge/status-badge.component';
+import { ShPaginatorComponent } from '../../../../shared/components/paginator/sh-paginator.component';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../../shared/components/modal-form/sh-modal-form.component';
+import {
+  CandidateDocumentsDialogComponent,
+  CandidateDocumentsDialogData,
+  candidateDocumentsDialogConfig,
+} from '../candidate-documents-dialog/candidate-documents-dialog.component';
+import {
+  CandidateProfileDialogComponent,
+  CandidateProfileDialogData,
+} from '../candidate-profile-dialog/candidate-profile-dialog.component';
+import {
+  ScheduleInterviewDialogComponent,
+  ScheduleInterviewDialogData,
+} from '../schedule-interview-dialog/schedule-interview-dialog.component';
 
 export interface PositionApplicationsDialogData {
   positionId: number;
   requisitionNo?: string;
   positionName?: string;
+  /**
+   * When `home`, hides contact/evaluation/appointment/generate-docs and enables
+   * un-preselect back to APPLIED. Omit (or any other value) for the full modal
+   * used from Preselection → Ver postulados.
+   */
+  context?: 'home';
 }
+
+export interface PositionApplicationsDialogResult {
+  changed?: boolean;
+}
+
+/** Dialog width (2× former 720px default from Positions table). */
+export const POSITION_APPLICATIONS_DIALOG_WIDTH = '1440px';
+
+export function positionApplicationsDialogConfig(extra: MatDialogConfig = {}): MatDialogConfig {
+  return catalogDialogConfig(POSITION_APPLICATIONS_DIALOG_WIDTH, {
+    maxWidth: '96vw',
+    ...extra,
+  });
+}
+
+const APPLICATIONS_SORT_FIELDS: Record<string, string> = {
+  candidate: 'candidate',
+  email: 'candidateEmail',
+  status: 'status',
+  source: 'source',
+  compatibility: 'compatibilityPercent',
+  createdAt: 'createAt',
+};
 
 @Component({
   selector: 'sh-position-applications-dialog',
@@ -24,47 +133,177 @@ export interface PositionApplicationsDialogData {
     DatePipe,
     MatDialogModule,
     MatTableModule,
-    MatPaginatorModule,
+    MatSortModule,
+    ShPaginatorComponent,
     MatButtonModule,
     MatIconModule,
-    MatSnackBarModule,
+    MatMenuModule,
     MatProgressSpinnerModule,
+    MatTooltipModule,
+    MatCheckboxModule,
     StatusBadgeComponent,
+    ShModalFormComponent,
+    ShModalActionsDirective,
   ],
   templateUrl: './position-applications-dialog.component.html',
   styleUrl: './position-applications-dialog.component.scss',
 })
 export class PositionApplicationsDialogComponent implements OnInit {
-  private readonly dialogRef = inject(MatDialogRef<PositionApplicationsDialogComponent>);
+  private readonly dialogRef = inject(MatDialogRef<PositionApplicationsDialogComponent, PositionApplicationsDialogResult>);
   readonly data = inject<PositionApplicationsDialogData>(MAT_DIALOG_DATA);
   private readonly applicationApi = inject(CandidateApplicationApiService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly candidateApi = inject(CandidateApiService);
+  private readonly feedback = inject(FeedbackDialogService);
+  private readonly dialog = inject(MatDialog);
+  private readonly permission = inject(PermissionService);
+
+  readonly labels = {
+    title: APP_DIALOG_TITLE,
+    empty: APP_DIALOG_EMPTY,
+    close: APP_DIALOG_CLOSE,
+    colCandidate: APP_DIALOG_COL_CANDIDATE,
+    colEmail: APP_DIALOG_COL_EMAIL,
+    colStatus: APP_DIALOG_COL_STATUS,
+    colSource: APP_DIALOG_COL_SOURCE,
+    colCompat: APP_DIALOG_COL_COMPAT,
+    colCreated: APP_DIALOG_COL_CREATED,
+    colContact: APP_DIALOG_COL_CONTACT,
+    colEvaluation: APP_DIALOG_COL_EVALUATION,
+    colAppointment: APP_DIALOG_COL_APPOINTMENT,
+    colActions: APP_DIALOG_COL_ACTIONS,
+    actionsMenu: APP_DIALOG_ACTIONS_MENU,
+    viewProfile: APP_DIALOG_ACTION_VIEW_PROFILE,
+    viewDocuments: APP_DIALOG_ACTION_VIEW_DOCUMENTS,
+    downloadCv: APP_DIALOG_ACTION_DOWNLOAD_CV,
+    generateDocuments: APP_DIALOG_ACTION_GENERATE_DOCUMENTS,
+    preselect: APP_DIALOG_ACTION_PRESELECT,
+    unpreselect: APP_DIALOG_ACTION_UNPRESELECT,
+    bulkPreselect: APP_DIALOG_BULK_PRESELECT,
+    bulkUnpreselect: APP_DIALOG_BULK_UNPRESELECT,
+    bulkNoneSelected: APP_DIALOG_BULK_NONE_SELECTED,
+    contactTooltip: APP_DIALOG_CONTACT_TOOLTIP,
+    evaluationTooltip: APP_DIALOG_EVALUATION_TOOLTIP,
+    appointmentTooltip: APP_DIALOG_APPOINTMENT_TOOLTIP,
+    appointmentScheduledTooltip: APP_DIALOG_APPOINTMENT_SCHEDULED_TOOLTIP,
+    emDash: APP_DIALOG_EM_DASH,
+  };
 
   loading = true;
-  rows: CandidateApplicationListItem[] = [];
+  rows: (CandidateApplicationListItem & { selected: boolean })[] = [];
   total = 0;
   pageIndex = 0;
   pageSize = 10;
-
-  readonly columns = ['candidate', 'email', 'status', 'source', 'compatibility', 'createdAt'];
+  sortActive = 'createdAt';
+  sortDirection: 'asc' | 'desc' = 'desc';
+  preselectingId: number | null = null;
+  unpreselectingId: number | null = null;
+  bulkPreselecting = false;
+  bulkUnpreselecting = false;
+  selectedCount = 0;
+  contactingApplicationId: number | null = null;
+  downloadingCvId: number | null = null;
+  private changed = false;
 
   ngOnInit(): void {
     this.load();
   }
 
+  /** Home / dashboard "Ver postulados" — restricted actions + un-preselect. */
+  get isHomeContext(): boolean {
+    return this.data.context === 'home';
+  }
+
+  get columns(): string[] {
+    const cols = [
+      'select',
+      'candidate',
+      'email',
+      'status',
+      'source',
+      'compatibility',
+      'createdAt',
+    ];
+    if (!this.isHomeContext) {
+      cols.push('contact', 'evaluation', 'appointment');
+    }
+    cols.push('actions');
+    return cols;
+  }
+
+  get canReadSelection(): boolean {
+    return this.permission.hasAuthority(AppPermissions.SELECTION_READ);
+  }
+
+  get canReadCandidate(): boolean {
+    return this.permission.hasAuthority(AppPermissions.CANDIDATE_READ);
+  }
+
+  get canEditSelection(): boolean {
+    return this.permission.hasAuthority(AppPermissions.SELECTION_EDIT);
+  }
+
+  hasRowActions(row: CandidateApplicationListItem): boolean {
+    return (
+      this.canReadCandidate ||
+      (this.canReadSelection && !this.isHomeContext) ||
+      this.canPreselect(row) ||
+      this.canUnpreselect(row)
+    );
+  }
+
+  canPreselect(row: CandidateApplicationListItem): boolean {
+    return this.canEditSelection && row.status?.toUpperCase() !== 'PRESELECTED';
+  }
+
+  canUnpreselect(row: CandidateApplicationListItem): boolean {
+    return this.isHomeContext && this.canEditSelection && row.status?.toUpperCase() === 'PRESELECTED';
+  }
+
+  canSelectRow(row: CandidateApplicationListItem): boolean {
+    return this.canPreselect(row) || this.canUnpreselect(row);
+  }
+
+  get selectableRows(): (CandidateApplicationListItem & { selected: boolean })[] {
+    return this.rows.filter((row) => this.canSelectRow(row));
+  }
+
+  get allSelectableSelected(): boolean {
+    const selectable = this.selectableRows;
+    return selectable.length > 0 && selectable.every((row) => row.selected);
+  }
+
+  get someSelectableSelected(): boolean {
+    const selectable = this.selectableRows;
+    return selectable.some((row) => row.selected) && !this.allSelectableSelected;
+  }
+
+  get selectedPreselectableCount(): number {
+    return this.rows.filter((row) => row.selected && this.canPreselect(row)).length;
+  }
+
+  get selectedUnpreselectableCount(): number {
+    return this.rows.filter((row) => row.selected && this.canUnpreselect(row)).length;
+  }
+
   load(): void {
     this.loading = true;
-    this.applicationApi.list(this.pageIndex, this.pageSize, { positionId: this.data.positionId }).subscribe({
-      next: (res) => {
-        this.rows = res.items;
-        this.total = res.total;
-        this.loading = false;
-      },
-      error: () => {
-        this.loading = false;
-        this.snack.open('No se pudieron cargar las postulaciones', 'Cerrar', { duration: 4000 });
-      },
-    });
+    this.applicationApi
+      .list(this.pageIndex, this.pageSize, {
+        positionId: this.data.positionId,
+        ordersBy: this.buildOrdersBy(),
+      })
+      .subscribe({
+        next: (res) => {
+          this.rows = res.items.map((item) => ({ ...item, selected: false }));
+          this.total = res.total;
+          this.loading = false;
+          this.updateSelectedCount();
+        },
+        error: (err) => {
+          this.loading = false;
+          this.feedback.showApiError(err, { fallbackMessage: APP_DIALOG_ERRORS_LIST });
+        },
+      });
   }
 
   onPage(e: PageEvent): void {
@@ -73,14 +312,276 @@ export class PositionApplicationsDialogComponent implements OnInit {
     this.load();
   }
 
-  close(): void {
-    this.dialogRef.close();
+  onSortChange(sort: Sort): void {
+    this.sortActive = sort.active || 'createdAt';
+    this.sortDirection = sort.direction === 'asc' ? 'asc' : 'desc';
+    this.pageIndex = 0;
+    this.load();
   }
 
   candidateName(row: CandidateApplicationListItem): string {
     const first = row.candidateFirstName ?? '';
     const last = row.candidateLastName ?? '';
     const name = `${first} ${last}`.trim();
-    return name || `Candidato #${row.candidateId}`;
+    return name || applicationsDialogCandidateFallback(row.candidateId);
+  }
+
+  contactQuestionnaire(row: CandidateApplicationListItem): void {
+    if (!this.canEditSelection || this.contactingApplicationId != null) {
+      return;
+    }
+    this.contactingApplicationId = row.id;
+    this.applicationApi.contactQuestionnaire(row.id).subscribe({
+      next: (res) => {
+        this.contactingApplicationId = null;
+        this.feedback.showSuccess(res.message?.trim() || APP_DIALOG_CONTACT_SUCCESS);
+      },
+      error: (err) => {
+        this.contactingApplicationId = null;
+        this.feedback.showApiError(err, { fallbackMessage: APP_DIALOG_CONTACT_ERROR });
+      },
+    });
+  }
+
+  openEvaluationPending(row: CandidateApplicationListItem): void {
+    if (row.questionnaireStatus !== 'ANSWERED') {
+      this.feedback.showInfo(
+        APP_DIALOG_EVALUATION_PENDING_TITLE,
+        `${APP_DIALOG_EVALUATION_PENDING_MSG} (${this.candidateName(row)})`,
+      );
+      return;
+    }
+    const data: QuestionnaireEvaluationDialogData = {
+      applicationId: row.id,
+      candidateName: this.candidateName(row),
+    };
+    this.dialog.open(QuestionnaireEvaluationDialogComponent, {
+      ...catalogDialogConfig('920px'),
+      maxWidth: '96vw',
+      data,
+    });
+  }
+
+  scheduleInterview(row: CandidateApplicationListItem): void {
+    if (!this.canEditSelection) {
+      return;
+    }
+    const dialogRef = this.dialog.open<
+      ScheduleInterviewDialogComponent,
+      ScheduleInterviewDialogData,
+      boolean | null
+    >(ScheduleInterviewDialogComponent, {
+      ...catalogDialogConfig('480px'),
+      data: { applicationId: row.id, candidateName: this.candidateName(row) },
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(filter((ok): ok is true => ok === true))
+      .subscribe(() => {
+        row.interviewScheduled = true;
+        this.changed = true;
+      });
+  }
+
+  appointmentTooltip(row: CandidateApplicationListItem): string {
+    return row.interviewScheduled
+      ? this.labels.appointmentScheduledTooltip
+      : this.labels.appointmentTooltip;
+  }
+
+  toggleAllSelectable(checked: boolean): void {
+    this.selectableRows.forEach((row) => (row.selected = checked));
+    this.updateSelectedCount();
+  }
+
+  setRowSelected(row: CandidateApplicationListItem & { selected: boolean }, checked: boolean): void {
+    if (!this.canSelectRow(row)) {
+      return;
+    }
+    row.selected = checked;
+    this.updateSelectedCount();
+  }
+
+  updateSelectedCount(): void {
+    this.selectedCount = this.rows.filter((row) => row.selected).length;
+  }
+
+  bulkPreselect(): void {
+    if (!this.canEditSelection || this.bulkPreselecting) {
+      return;
+    }
+    const applicationIds = this.rows
+      .filter((row) => row.selected && this.canPreselect(row))
+      .map((row) => row.id);
+    if (applicationIds.length === 0) {
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, this.labels.bulkNoneSelected);
+      return;
+    }
+    this.bulkPreselecting = true;
+    this.applicationApi
+      .updateStatus({
+        positionId: this.data.positionId,
+        applicationIds,
+        status: 'PRESELECTED',
+      })
+      .subscribe({
+        next: (res) => {
+          this.bulkPreselecting = false;
+          this.changed = true;
+          this.feedback.showSuccess(`${APP_DIALOG_BULK_PRESELECT_SUCCESS} (${res.updatedCount})`);
+          this.load();
+        },
+        error: (err) => {
+          this.bulkPreselecting = false;
+          this.feedback.showApiError(err, { fallbackMessage: APP_DIALOG_ERRORS_PRESELECT });
+        },
+      });
+  }
+
+  bulkUnpreselect(): void {
+    if (!this.isHomeContext || !this.canEditSelection || this.bulkUnpreselecting) {
+      return;
+    }
+    const applicationIds = this.rows
+      .filter((row) => row.selected && this.canUnpreselect(row))
+      .map((row) => row.id);
+    if (applicationIds.length === 0) {
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, this.labels.bulkNoneSelected);
+      return;
+    }
+    this.bulkUnpreselecting = true;
+    this.applicationApi
+      .updateStatus({
+        positionId: this.data.positionId,
+        applicationIds,
+        status: 'APPLIED',
+      })
+      .subscribe({
+        next: (res) => {
+          this.bulkUnpreselecting = false;
+          this.changed = true;
+          this.feedback.showSuccess(`${APP_DIALOG_BULK_UNPRESELECT_SUCCESS} (${res.updatedCount})`);
+          this.load();
+        },
+        error: (err) => {
+          this.bulkUnpreselecting = false;
+          this.feedback.showApiError(err, { fallbackMessage: APP_DIALOG_ERRORS_UNPRESELECT });
+        },
+      });
+  }
+
+  preselect(row: CandidateApplicationListItem): void {
+    if (!this.canPreselect(row) || this.preselectingId != null) {
+      return;
+    }
+    this.preselectingId = row.id;
+    this.applicationApi
+      .updateApplication(row.id, { status: 'PRESELECTED' })
+      .subscribe({
+        next: () => {
+          this.preselectingId = null;
+          this.changed = true;
+          this.feedback.showSuccess(APP_DIALOG_PRESELECT_SUCCESS);
+          this.load();
+        },
+        error: (err) => {
+          this.preselectingId = null;
+          this.feedback.showApiError(err, { fallbackMessage: APP_DIALOG_ERRORS_PRESELECT });
+        },
+      });
+  }
+
+  unpreselect(row: CandidateApplicationListItem): void {
+    if (!this.canUnpreselect(row) || this.unpreselectingId != null) {
+      return;
+    }
+    this.unpreselectingId = row.id;
+    this.applicationApi
+      .updateApplication(row.id, { status: 'APPLIED' })
+      .subscribe({
+        next: () => {
+          this.unpreselectingId = null;
+          this.changed = true;
+          this.feedback.showSuccess(APP_DIALOG_UNPRESELECT_SUCCESS);
+          this.load();
+        },
+        error: (err) => {
+          this.unpreselectingId = null;
+          this.feedback.showApiError(err, { fallbackMessage: APP_DIALOG_ERRORS_UNPRESELECT });
+        },
+      });
+  }
+
+  openProfile(row: CandidateApplicationListItem): void {
+    this.dialog.open<CandidateProfileDialogComponent, CandidateProfileDialogData>(
+      CandidateProfileDialogComponent,
+      {
+        ...catalogDialogConfig('920px'),
+        autoFocus: false,
+        data: {
+          candidateId: row.candidateId,
+          candidateName: this.candidateName(row),
+        },
+      },
+    );
+  }
+
+  openDocuments(row: CandidateApplicationListItem): void {
+    this.dialog.open<CandidateDocumentsDialogComponent, CandidateDocumentsDialogData>(
+      CandidateDocumentsDialogComponent,
+      {
+        ...candidateDocumentsDialogConfig(),
+        autoFocus: false,
+        data: {
+          applicationId: row.id,
+          candidateId: row.candidateId,
+          candidateName: this.candidateName(row),
+          requisitionNo: this.data.requisitionNo,
+        },
+      },
+    );
+  }
+
+  downloadCv(row: CandidateApplicationListItem): void {
+    if (!this.canReadCandidate || this.downloadingCvId != null) {
+      return;
+    }
+    this.downloadingCvId = row.candidateId;
+    this.candidateApi.downloadCv(row.candidateId).subscribe({
+      next: () => {
+        this.downloadingCvId = null;
+        this.feedback.showSuccess(APP_DIALOG_CV_DOWNLOAD_SUCCESS);
+      },
+      error: (err) => {
+        this.downloadingCvId = null;
+        this.feedback.showApiError(err, { fallbackMessage: APP_DIALOG_ERRORS_CV_DOWNLOAD });
+      },
+    });
+  }
+
+  openGenerateDocuments(row: CandidateApplicationListItem): void {
+    if (!this.canReadSelection) {
+      return;
+    }
+    this.dialog.open<GenerateDocumentDialogComponent, GenerateDocumentDialogData>(
+      GenerateDocumentDialogComponent,
+      {
+        ...catalogDialogConfig('640px'),
+        autoFocus: false,
+        data: {
+          applicationId: row.id,
+          candidateName: this.candidateName(row),
+        },
+      },
+    );
+  }
+
+  close(): void {
+    this.dialogRef.close({ changed: this.changed });
+  }
+
+  private buildOrdersBy(): string[] {
+    const field = APPLICATIONS_SORT_FIELDS[this.sortActive] ?? 'createAt';
+    return [`${field}:${this.sortDirection}`];
   }
 }

@@ -2,11 +2,35 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import {
+  ApplicationCompleteInfoResponse,
+  ApplicationCompleteInfoSaveResponse,
+  SubmitApplicationCompleteInfoRequest,
+} from '../../shared/models/application-complete-info.model';
+import {
+  BulkCandidateApplicationsRequest,
+  BulkCandidateApplicationsResponse,
+  BulkUpdateCandidateApplicationStatusRequest,
   CandidateApplicationListItem,
   CandidateApplicationListResponse,
   CreateCandidateApplicationRequest,
   CreateCandidateApplicationResponse,
   ListCandidateApplicationsRequest,
+  PatchCandidateApplicationRequest,
+  PatchCandidateApplicationResponse,
+  ReleaseAllCandidateApplicationsRequest,
+  UpdateCandidateApplicationRequest,
+  UpdateCandidateApplicationResponse,
+  ValidateCandidateApplicationFlagsResponse,
+  SendCandidateToSmartResponse,
+  GenerateContractResponse,
+  ContactQuestionnaireResponse,
+  QuestionnaireEvaluationResponse,
+  SendQuestionnaireInviteRequest,
+  SendQuestionnaireInviteResponse,
+  RequestDocumentsResponse,
+  BulkRequestDocumentsRequest,
+  BulkRequestDocumentsResponse,
+  RequestCompleteInfoResponse,
 } from '../../shared/models/candidate-application.model';
 import { ApiClientService } from './api-client.service';
 
@@ -24,6 +48,7 @@ export class CandidateApplicationApiService {
       positionId: request.positionId ?? null,
       candidateId: request.candidateId ?? null,
       status: request.status?.trim() || null,
+      postPreselectedOnly: request.postPreselectedOnly ?? null,
       filters: request.filters ?? [],
       ordersBy: request.ordersBy ?? ['createAt:desc'],
     };
@@ -43,6 +68,161 @@ export class CandidateApplicationApiService {
     return this.http.post<CreateCandidateApplicationResponse>(
       this.api.apiUrl('/api/v1/candidate-applications'),
       request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  select(request: BulkCandidateApplicationsRequest): Observable<BulkCandidateApplicationsResponse> {
+    return this.http.post<BulkCandidateApplicationsResponse>(
+      this.api.apiUrl('/api/v1/candidate-applications/select'),
+      request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  deselect(request: BulkCandidateApplicationsRequest): Observable<BulkCandidateApplicationsResponse> {
+    return this.http.post<BulkCandidateApplicationsResponse>(
+      this.api.apiUrl('/api/v1/candidate-applications/deselect'),
+      request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  releaseAll(request: ReleaseAllCandidateApplicationsRequest): Observable<BulkCandidateApplicationsResponse> {
+    return this.http.post<BulkCandidateApplicationsResponse>(
+      this.api.apiUrl('/api/v1/candidate-applications/release-all'),
+      request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  updateStatus(request: BulkUpdateCandidateApplicationStatusRequest): Observable<BulkCandidateApplicationsResponse> {
+    return this.http.post<BulkCandidateApplicationsResponse>(
+      this.api.apiUrl('/api/v1/candidate-applications/update-status'),
+      request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  patchApplication(
+    applicationId: number,
+    request: PatchCandidateApplicationRequest,
+  ): Observable<PatchCandidateApplicationResponse> {
+    return this.http.patch<PatchCandidateApplicationResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}`),
+      request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  updateApplication(
+    applicationId: number,
+    request: UpdateCandidateApplicationRequest,
+  ): Observable<UpdateCandidateApplicationResponse> {
+    return this.http.put<UpdateCandidateApplicationResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}`),
+      request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  validateInfo(applicationId: number): Observable<ValidateCandidateApplicationFlagsResponse> {
+    return this.http.post<ValidateCandidateApplicationFlagsResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/validate-info`),
+      {},
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  validateStudies(applicationId: number): Observable<ValidateCandidateApplicationFlagsResponse> {
+    return this.http.post<ValidateCandidateApplicationFlagsResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/validate-studies`),
+      {},
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  sendToSmart(applicationId: number): Observable<SendCandidateToSmartResponse> {
+    return this.http.post<SendCandidateToSmartResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/send-to-smart`),
+      {},
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  generateContract(applicationId: number): Observable<GenerateContractResponse> {
+    return this.http.post<GenerateContractResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/generate-contract`),
+      {},
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  sendQuestionnaireInvite(
+    applicationId: number,
+    request: SendQuestionnaireInviteRequest = {},
+  ): Observable<SendQuestionnaireInviteResponse> {
+    return this.http.post<SendQuestionnaireInviteResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/questionnaire-invite`),
+      { questionnaireId: request.questionnaireId ?? null },
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  contactQuestionnaire(applicationId: number): Observable<ContactQuestionnaireResponse> {
+    return this.http.post<ContactQuestionnaireResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/contact-questionnaire`),
+      {},
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  requestDocuments(applicationId: number): Observable<RequestDocumentsResponse> {
+    return this.http.post<RequestDocumentsResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/request-documents`),
+      {},
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  bulkRequestDocuments(applicationIds: number[]): Observable<BulkRequestDocumentsResponse> {
+    const body: BulkRequestDocumentsRequest = { applicationIds };
+    return this.http.post<BulkRequestDocumentsResponse>(
+      this.api.apiUrl('/api/v1/candidate-applications/request-documents/bulk'),
+      body,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  requestCompleteInfo(applicationId: number): Observable<RequestCompleteInfoResponse> {
+    return this.http.post<RequestCompleteInfoResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/request-complete-info`),
+      {},
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  getCompleteInfo(applicationId: number): Observable<ApplicationCompleteInfoResponse> {
+    return this.http.get<ApplicationCompleteInfoResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/complete-info`),
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  saveCompleteInfo(
+    applicationId: number,
+    body: SubmitApplicationCompleteInfoRequest,
+  ): Observable<ApplicationCompleteInfoSaveResponse> {
+    return this.http.put<ApplicationCompleteInfoSaveResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/complete-info`),
+      body,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  getQuestionnaireEvaluation(applicationId: number): Observable<QuestionnaireEvaluationResponse> {
+    return this.http.get<QuestionnaireEvaluationResponse>(
+      this.api.apiUrl(`/api/v1/candidate-applications/${applicationId}/questionnaire-evaluation`),
       { headers: this.api.buildHeaders() },
     );
   }

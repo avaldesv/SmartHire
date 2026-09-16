@@ -14,8 +14,9 @@ export class CatalogCurrencyService {
   private readonly http = inject(HttpClient);
   private readonly api = inject(ApiClientService);
 
-  list(countryId: number, page = 0, size = 20): Observable<{ items: CatalogCurrency[]; total: number }> {
-    const body = { countryId, isActive: null, filters: [], ordersBy: ['name:asc'] as string[] };
+  list(countryId: number, page = 0, size = 20, search?: string | null): Observable<{ items: CatalogCurrency[]; total: number }> {
+    const body = {
+      search: search?.trim() || null, countryId, isActive: null, filters: [], ordersBy: ['name:asc'] as string[] };
     return this.http
       .post<CurrencyListResponse>(this.api.apiUrl('/api/v1/currencies/list'), body, {
         headers: this.api.buildHeaders(page, size),
@@ -34,4 +35,10 @@ export class CatalogCurrencyService {
       headers: this.api.buildHeaders(),
     });
   }
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(this.api.apiUrl(`/api/v1/currencies/${id}`), {
+      headers: this.api.buildHeaders(),
+    });
+  }
+
 }

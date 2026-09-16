@@ -1,0 +1,65 @@
+<sh-modal-form [title]="title" contentClass="dialog-body">
+  @if (loading) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else {
+    <form [formGroup]="form" class="template-form">
+      <div class="form-main">
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="name-field">
+            <mat-label>{{ fieldName }}</mat-label>
+            <input matInput formControlName="name" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="locale-field">
+            <mat-label>{{ fieldLocale }}</mat-label>
+            <mat-select formControlName="locale">
+              @for (option of localeOptions; track option.value) {
+                <mat-option [value]="option.value">{{ option.label }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          @if (localeHint) {
+            <p class="locale-hint">{{ localeHint }}</p>
+          }
+        </div>
+
+        <mat-form-field appearance="outline" class="html-field">
+          <mat-label>{{ fieldHtmlBody }}</mat-label>
+          <textarea matInput rows="6" formControlName="htmlBody"></textarea>
+        </mat-form-field>
+
+        <div class="checkbox-row">
+          <mat-checkbox formControlName="isDefault">{{ fieldDefault }}</mat-checkbox>
+          <mat-checkbox formControlName="isActive">{{ fieldActive }}</mat-checkbox>
+        </div>
+      </div>
+
+      <aside class="preview-panel" aria-live="polite">
+        <div class="preview-header">
+          <h4>{{ previewTitle }}</h4>
+          @if (previewing) {
+            <span class="preview-status">
+              <mat-spinner diameter="16" />
+              {{ previewLoadingLabel }}
+            </span>
+          }
+        </div>
+
+        @if (previewHtml) {
+          <div class="preview-frame-wrap">
+            <iframe class="preview-frame" [srcdoc]="previewHtml" sandbox="" title="preview"></iframe>
+          </div>
+        } @else {
+          <p class="preview-empty">{{ previewEmptyLabel }}</p>
+        }
+      </aside>
+    </form>
+  }
+
+  <div shModalActions>
+    <button mat-stroked-button type="button" (click)="cancel()" [disabled]="saving">{{ cancelLabel }}</button>
+    <button mat-flat-button color="primary" type="button" (click)="save()" [disabled]="saving || loading">
+      {{ saving ? savingLabel : saveLabel }}
+    </button>
+  </div>
+</sh-modal-form>

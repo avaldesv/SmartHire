@@ -1,0 +1,202 @@
+@if (loading) {
+  <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+} @else if (candidate) {
+  <div class="profile-grid">
+    <mat-card class="info-card">
+      <mat-card-header><mat-card-title>{{ labels.general }}</mat-card-title></mat-card-header>
+      <mat-card-content>
+        <dl>
+          <div><dt>{{ labels.id }}</dt><dd>{{ candidate.id }}</dd></div>
+          <div><dt>{{ labels.email }}</dt><dd>{{ candidate.email }}</dd></div>
+          <div><dt>{{ labels.phone }}</dt><dd>{{ candidate.phone }}</dd></div>
+          <div><dt>{{ labels.gender }}</dt><dd>{{ labels.emDash }}</dd></div>
+          <div><dt>{{ labels.source }}</dt><dd>{{ candidate.source }}</dd></div>
+          <div><dt>{{ labels.created }}</dt><dd>{{ candidate.createdAt | date:'dd/MM/yyyy' }}</dd></div>
+          <div><dt>{{ labels.experience }}</dt><dd>{{ experienceYearsLabel(candidate.experienceYears) }}</dd></div>
+          <div>
+            <dt>{{ labels.salary }}</dt>
+            <dd>{{ candidate.desiredSalary ? (candidate.desiredSalary | currency:'MXN':'symbol-narrow':'1.0-0') : labels.emDash }}</dd>
+          </div>
+        </dl>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="info-card">
+      <mat-card-header><mat-card-title>{{ labels.officialId }}</mat-card-title></mat-card-header>
+      <mat-card-content>
+        <section class="id-section">
+          <h4>{{ labels.curp }}</h4>
+          <p class="mono-id">{{ candidate.curp || labels.notRegistered }}</p>
+        </section>
+        <section class="id-section">
+          <h4>{{ labels.rfc }}</h4>
+          <p class="mono-id">{{ candidate.rfc || labels.notRegistered }}</p>
+        </section>
+        <section class="id-section">
+          <h4>{{ labels.nss }}</h4>
+          <p class="mono-id">{{ candidate.nss || labels.notRegistered }}</p>
+        </section>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="info-card">
+      <mat-card-header><mat-card-title>{{ labels.location }}</mat-card-title></mat-card-header>
+      <mat-card-content>
+        <dl>
+          <div><dt>{{ labels.country }}</dt><dd>{{ candidate.country }}</dd></div>
+          <div><dt>{{ labels.state }}</dt><dd>{{ candidate.state }}</dd></div>
+          <div><dt>{{ labels.city }}</dt><dd>{{ candidate.city }}</dd></div>
+          <div><dt>{{ labels.status }}</dt><dd>{{ candidate.isActive ? labels.active : labels.inactive }}</dd></div>
+        </dl>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="sections-grid">
+    @if (sectionsLoading) {
+      <div class="loading-wrap sections-loading"><mat-spinner diameter="32" /></div>
+    } @else {
+      <mat-card class="info-card section-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>work</mat-icon>
+            {{ labels.experienceSection }}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          @if (experiences.length === 0) {
+            <p class="empty-state">{{ labels.noExperience }}</p>
+          } @else {
+            <ul class="item-list">
+              @for (item of experiences; track item.id) {
+                <li class="item-row">
+                  <strong>{{ item.position }}</strong>
+                  <span class="item-sub">{{ item.companyName }}</span>
+                  <span class="item-meta">{{ formatDateRange(item.startDate, item.endDate) }}</span>
+                  @if (item.description) {
+                    <p class="item-desc">{{ item.description }}</p>
+                  }
+                </li>
+              }
+            </ul>
+          }
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="info-card section-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>school</mat-icon>
+            {{ labels.educationSection }}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          @if (educations.length === 0) {
+            <p class="empty-state">{{ labels.noEducation }}</p>
+          } @else {
+            <ul class="item-list">
+              @for (item of educations; track item.id) {
+                <li class="item-row">
+                  <strong>{{ item.degree }}</strong>
+                  <span class="item-sub">{{ item.institution || labels.emDash }}</span>
+                  <span class="item-meta">
+                    {{ formatDate(item.issueDate) }}
+                    @if (item.isGraduate) { · {{ labels.graduate }} }
+                    @if (item.rating) { · {{ labels.average }} {{ item.rating }} }
+                  </span>
+                  @if (item.locationText) {
+                    <span class="item-meta">{{ item.locationText }}</span>
+                  }
+                </li>
+              }
+            </ul>
+          }
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="info-card section-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>folder_special</mat-icon>
+            {{ labels.coursesSection }}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          @if (courses.length === 0) {
+            <p class="empty-state">{{ labels.noCourses }}</p>
+          } @else {
+            <ul class="item-list">
+              @for (item of courses; track item.id) {
+                <li class="item-row">
+                  <strong>{{ item.name }}</strong>
+                  <span class="item-sub">{{ item.institution || labels.emDash }}</span>
+                  <span class="item-meta">
+                    {{ kindLabel(item.kind) }}
+                    @if (item.credentialNumber) { · {{ item.credentialNumber }} }
+                    @if (item.expiresAt) { · {{ labels.expires }} {{ formatDate(item.expiresAt) }} }
+                  </span>
+                </li>
+              }
+            </ul>
+          }
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="info-card section-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>translate</mat-icon>
+            {{ labels.languagesSection }}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          @if (languages.length === 0) {
+            <p class="empty-state">{{ labels.noLanguages }}</p>
+          } @else {
+            <ul class="item-list">
+              @for (item of languages; track item.id) {
+                <li class="item-row">
+                  <strong>{{ item.name }}</strong>
+                  <span class="item-sub">
+                    {{ item.level || labels.emDash }}
+                    @if (item.institution) { · {{ item.institution }} }
+                  </span>
+                </li>
+              }
+            </ul>
+          }
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="info-card section-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>psychology</mat-icon>
+            {{ labels.skillsSection }}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          @if (skills.length === 0) {
+            <p class="empty-state">{{ labels.noSkills }}</p>
+          } @else {
+            <ul class="item-list">
+              @for (item of skills; track item.id) {
+                <li class="item-row">
+                  <strong>{{ item.name }}</strong>
+                  <span class="item-sub">
+                    {{ skillLevelLabel(item.level) }}
+                    @if (item.yearsExperience != null) {
+                      · {{ skillYearsLabel(item.yearsExperience) }}
+                    }
+                  </span>
+                </li>
+              }
+            </ul>
+          }
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+} @else {
+  <p>{{ labels.notFound }}</p>
+}

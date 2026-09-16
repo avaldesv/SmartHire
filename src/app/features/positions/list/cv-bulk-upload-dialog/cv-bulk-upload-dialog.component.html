@@ -1,0 +1,67 @@
+<sh-modal-form [title]="labels.title">
+  @if (positionName) {
+    <p class="position-line">{{ positionName }}</p>
+  }
+  <p class="hint">{{ labels.hint }}</p>
+
+  <div class="checks">
+    <mat-checkbox [(ngModel)]="notifyEmail">{{ labels.email }}</mat-checkbox>
+    <mat-checkbox [(ngModel)]="notifyWhatsapp">{{ labels.wa }}</mat-checkbox>
+  </div>
+
+  <div class="pickers">
+    <input
+      #filesInput
+      type="file"
+      multiple
+      accept=".pdf,.doc,.docx,.jpg,.jpeg"
+      (change)="onFilesSelected($event)"
+      hidden
+    />
+    <input
+      #folderInput
+      type="file"
+      multiple
+      webkitdirectory
+      directory
+      (change)="onFilesSelected($event)"
+      hidden
+    />
+    <button mat-stroked-button type="button" [disabled]="uploading()" (click)="pickFiles()">
+      {{ labels.pickFiles }}
+    </button>
+    <button mat-stroked-button type="button" [disabled]="uploading()" (click)="pickFolder()">
+      {{ labels.pickFolder }}
+    </button>
+    @if (selectedCount() > 0) {
+      <button mat-button type="button" [disabled]="uploading()" (click)="clearFiles()">{{ labels.clear }}</button>
+    }
+  </div>
+
+  @if (selectedCount() > 0) {
+    <p class="count">{{ selectedCount() }} archivo(s) listos</p>
+  }
+  @if (invalidSummary()) {
+    <p class="warn">{{ invalidSummary() }}</p>
+  }
+  @if (error()) {
+    <p class="err">{{ error() }}</p>
+  }
+  @if (uploading()) {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <p class="upload-label">{{ uploadLabel() }}</p>
+  }
+
+  <div shModalActions>
+    <button mat-stroked-button type="button" [disabled]="uploading()" (click)="cancel()">{{ labels.cancel }}</button>
+    <button
+      mat-flat-button
+      color="primary"
+      type="button"
+      [disabled]="uploading() || selectedCount() === 0"
+      (click)="startUpload()"
+    >
+      {{ labels.start }}
+    </button>
+  </div>
+</sh-modal-form>

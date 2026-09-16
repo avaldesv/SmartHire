@@ -2,31 +2,239 @@
   <div class="loading-wrap"><mat-spinner diameter="36" /></div>
 } @else {
   <div class="sh-toolbar-actions">
-    <button mat-stroked-button (click)="openPoolDialog()"><mat-icon>person_add</mat-icon> Agregar del pool</button>
-    <button mat-stroked-button (click)="openApplicationsDialog()"><mat-icon>groups</mat-icon> Ver postulados</button>
-    <button mat-stroked-button (click)="action('Enviar Smart')"><mat-icon>send</mat-icon> Enviar Smart</button>
-    <button mat-stroked-button (click)="action('Agendar entrevista')"><mat-icon>event</mat-icon> Agendar</button>
-    <button mat-stroked-button (click)="action('Solicitar documentos')"><mat-icon>description</mat-icon> Documentos</button>
-    <button mat-flat-button color="primary" (click)="action('Avanzar etapa')"><mat-icon>arrow_forward</mat-icon> Avanzar ({{ selectedCount }})</button>
+    <button mat-stroked-button (click)="openPoolDialog()"><mat-icon>person_add</mat-icon> {{ labels.addFromPool }}</button>
+    <button mat-stroked-button (click)="openApplicationsDialog()"><mat-icon>groups</mat-icon> {{ labels.viewApplicants }}</button>
+    <span class="toolbar-divider"></span>
+    <button
+      mat-stroked-button
+      color="primary"
+      (click)="bulkSelect()"
+      [disabled]="bulkLoading || selectedCount === 0"
+    >
+      <mat-icon>check_circle</mat-icon> {{ labels.bulkMarkSelected }} ({{ selectedCount }})
+    </button>
+    <button mat-stroked-button (click)="bulkDeselect()" [disabled]="bulkLoading || selectedCount === 0">
+      <mat-icon>remove_circle_outline</mat-icon> {{ labels.bulkRelease }} ({{ selectedCount }})
+    </button>
+    <button mat-stroked-button color="warn" (click)="releaseAll()" [disabled]="bulkLoading">
+      <mat-icon>clear_all</mat-icon> {{ labels.bulkReleaseAll }}
+    </button>
+    <span class="toolbar-divider"></span>
+    <button
+      mat-stroked-button
+      (click)="bulkContactSelectedCandidates()"
+      [disabled]="bulkLoading || selectedCount === 0 || !canEditSelection"
+    >
+      <mat-icon>phone</mat-icon> {{ labels.bulkContact }} ({{ selectedCount }})
+    </button>
+    <button
+      mat-stroked-button
+      (click)="bulkSendInterviewAppointments()"
+      [disabled]="bulkLoading || selectedCount === 0 || !canEditSelection"
+    >
+      <mat-icon>event</mat-icon> {{ labels.bulkAppointment }} ({{ selectedCount }})
+    </button>
+    <span class="toolbar-divider"></span>
+    <button mat-stroked-button (click)="action(labels.sendSmart)"><mat-icon>send</mat-icon> {{ labels.sendSmart }}</button>
+    @if (hasDocumentRequirements) {
+      <button
+        mat-stroked-button
+        (click)="bulkRequestDocumentsSelected()"
+        [disabled]="bulkLoading || selectedCount === 0 || !canEditSelection"
+        [matTooltip]="labels.requestDocuments"
+      >
+        <mat-icon>description</mat-icon> {{ labels.requestDocuments }}
+      </button>
+    }
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="bulkChangeStage()"
+      [disabled]="bulkLoading || selectedCount === 0 || !canEditSelection"
+    >
+      <mat-icon>swap_horiz</mat-icon> {{ labels.changeStage }} ({{ selectedCount }})
+    </button>
   </div>
 
   <div class="sh-card sh-table-wrap">
-    <table mat-table [dataSource]="data">
-      <ng-container matColumnDef="select">
-        <th mat-header-cell *matHeaderCellDef><mat-checkbox (change)="toggleAll($event.checked)" /></th>
-        <td mat-cell *matCellDef="let row"><mat-checkbox [checked]="row.selected" (change)="toggleRow(row)" /></td>
-      </ng-container>
-      <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Candidato</th><td mat-cell *matCellDef="let row">{{ row.firstName }} {{ row.lastName }}</td></ng-container>
-      <ng-container matColumnDef="compatibility"><th mat-header-cell *matHeaderCellDef>Compat.</th><td mat-cell *matCellDef="let row">{{ row.compatibility }}%</td></ng-container>
-      <ng-container matColumnDef="stage"><th mat-header-cell *matHeaderCellDef>Etapa</th><td mat-cell *matCellDef="let row">{{ row.stage }}</td></ng-container>
-      <ng-container matColumnDef="documentsComplete"><th mat-header-cell *matHeaderCellDef>Docs</th><td mat-cell *matCellDef="let row">{{ row.documentsComplete ? 'Completo' : 'Pendiente' }}</td></ng-container>
-      <ng-container matColumnDef="interviewScheduled"><th mat-header-cell *matHeaderCellDef>Entrevista</th><td mat-cell *matCellDef="let row">{{ row.interviewScheduled ? 'Sí' : 'No' }}</td></ng-container>
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let row"><button mat-icon-button (click)="action('Ver ' + row.firstName)"><mat-icon>visibility</mat-icon></button></td>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="columns"></tr>
-      <tr mat-row *matRowDef="let row; columns: columns"></tr>
-    </table>
+    @if (data.length === 0) {
+      <p class="empty-msg">{{ labels.empty }}</p>
+    } @else {
+      <table mat-table [dataSource]="data">
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox
+              [checked]="allSelected"
+              [indeterminate]="someSelected"
+              (change)="toggleAll($event.checked)"
+            />
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox [checked]="row.selected" (change)="setRowSelected(row, $event.checked)" />
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>{{ labels.colCandidate }}</th>
+          <td mat-cell *matCellDef="let row">
+            <a [routerLink]="['/candidates', row.id]" [queryParams]="{ from: 'preselection', positionId: positionId }" class="candidate-link">
+              {{ row.firstName }} {{ row.lastName }}
+            </a>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="compatibility">
+          <th mat-header-cell *matHeaderCellDef>{{ labels.colCompat }}</th>
+          <td mat-cell *matCellDef="let row">{{ row.compatibility }}%</td>
+        </ng-container>
+        <ng-container matColumnDef="stage">
+          <th mat-header-cell *matHeaderCellDef>{{ labels.colStage }}</th>
+          <td mat-cell *matCellDef="let row"><sh-status-badge [status]="stageLabel(row.stage)" /></td>
+        </ng-container>
+        <ng-container matColumnDef="documentsComplete">
+          <th mat-header-cell *matHeaderCellDef>{{ labels.colDocs }}</th>
+          <td mat-cell *matCellDef="let row">{{ formatDocumentsStatus(row) }}</td>
+        </ng-container>
+        <ng-container matColumnDef="contact">
+          <th mat-header-cell *matHeaderCellDef class="col-action-header">{{ labels.colContact }}</th>
+          <td mat-cell *matCellDef="let row" class="col-action-cell">
+            <button
+              mat-stroked-button
+              type="button"
+              class="sh-col-action-btn"
+              [class.sh-col-action-btn--done]="isContacted(row)"
+              [disabled]="!canEditSelection || contactingApplicationId === row.applicationId"
+              [matTooltip]="contactTooltip(row)"
+              [attr.aria-label]="contactTooltip(row)"
+              (click)="contactQuestionnaire(row)"
+            >
+              <mat-icon>phone</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="evaluation">
+          <th mat-header-cell *matHeaderCellDef class="col-action-header">{{ labels.colEvaluation }}</th>
+          <td mat-cell *matCellDef="let row" class="col-action-cell">
+            <button
+              mat-stroked-button
+              type="button"
+              class="sh-col-action-btn"
+              [class.sh-col-action-btn--done]="row.questionnaireStatus === 'ANSWERED'"
+              [class.sh-col-action-btn--pending]="row.questionnaireStatus !== 'ANSWERED'"
+              [matTooltip]="evaluationTooltip(row)"
+              [attr.aria-label]="evaluationTooltip(row)"
+              (click)="openEvaluationPending(row)"
+            >
+              <mat-icon>{{ row.questionnaireStatus === 'ANSWERED' ? 'fact_check' : 'edit' }}</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="interviewed">
+          <th mat-header-cell *matHeaderCellDef class="col-action-header">{{ labels.colInterviewed }}</th>
+          <td mat-cell *matCellDef="let row" class="col-action-cell col-interviewed-cell">
+            <div class="sh-interviewed-wrap">
+              <button
+                mat-stroked-button
+                type="button"
+                class="sh-col-action-btn"
+                [class.sh-col-action-btn--done]="row.interviewed"
+                [disabled]="!canEditSelection || interviewingApplicationId === row.applicationId"
+                [matTooltip]="interviewedTooltip(row)"
+                [attr.aria-label]="interviewedTooltip(row)"
+                (click)="toggleInterviewed(row)"
+              >
+                <mat-icon>check</mat-icon>
+              </button>
+              @if (row.interviewed && row.interviewedAt) {
+                <span class="sh-interviewed-date">{{ formatInterviewedAt(row.interviewedAt) }}</span>
+              }
+            </div>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="appointment">
+          <th mat-header-cell *matHeaderCellDef class="col-action-header">{{ labels.colAppointment }}</th>
+          <td mat-cell *matCellDef="let row" class="col-action-cell">
+            <button
+              mat-stroked-button
+              type="button"
+              class="sh-col-action-btn"
+              [class.sh-col-action-btn--done]="row.interviewScheduled"
+              [disabled]="!canEditSelection"
+              [matTooltip]="appointmentTooltip(row)"
+              [attr.aria-label]="appointmentTooltip(row)"
+              (click)="scheduleInterviewForRow(row)"
+            >
+              <mat-icon>event</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="requestDocuments">
+          <th mat-header-cell *matHeaderCellDef class="col-action-header">{{ labels.colRequestDocuments }}</th>
+          <td mat-cell *matCellDef="let row" class="col-action-cell">
+            @if (hasDocumentRequirements) {
+              <button
+                mat-stroked-button
+                type="button"
+                class="sh-col-action-btn"
+                [disabled]="!canEditSelection || requestingDocsApplicationId === row.applicationId"
+                [matTooltip]="requestDocumentsTooltip()"
+                [attr.aria-label]="requestDocumentsTooltip()"
+                (click)="requestDocuments(row)"
+              >
+                <mat-icon>folder_open</mat-icon>
+              </button>
+            }
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="requestCompleteInfo">
+          <th mat-header-cell *matHeaderCellDef class="col-action-header">{{ labels.colRequestCompleteInfo }}</th>
+          <td mat-cell *matCellDef="let row" class="col-action-cell">
+            <button
+              mat-stroked-button
+              type="button"
+              class="sh-col-action-btn"
+              [class.sh-col-action-btn--done]="row.infoValidated"
+              [disabled]="!canEditSelection || requestingInfoApplicationId === row.applicationId"
+              [matTooltip]="requestCompleteInfoTooltip(row)"
+              [attr.aria-label]="requestCompleteInfoTooltip(row)"
+              (click)="requestCompleteInfo(row)"
+            >
+              <mat-icon>badge</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let row">
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="rowMenu"
+              [disabled]="visibleRowActions().length === 0"
+              [attr.aria-label]="labels.rowActionsAria"
+            >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #rowMenu="matMenu">
+              @for (action of visibleRowActions(); track action.id) {
+                @if (action.dividerBefore) {
+                  <mat-divider />
+                }
+                <button mat-menu-item (click)="onRowAction(action.id, row)">
+                  <mat-icon>{{ action.icon }}</mat-icon>
+                  <span>{{ action.label }}</span>
+                </button>
+              }
+            </mat-menu>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns"></tr>
+      </table>
+      <sh-paginator
+        [length]="total"
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[10, 20, 50]"
+        (page)="onPage($event)"
+      />
+    }
   </div>
 }

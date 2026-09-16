@@ -1,0 +1,88 @@
+<sh-modal-form [title]="title" contentClass="doc-req-dialog-body">
+  <form class="doc-req-form" (ngSubmit)="save()">
+    <mat-form-field appearance="outline" class="full type-readonly">
+      <mat-label>{{ labels.type }}</mat-label>
+      <input matInput [value]="data.documentTypeName" readonly tabindex="-1" />
+    </mat-form-field>
+
+    @if (showAiGroup) {
+      <div class="group">
+        <span class="group-label">{{ labels.validateAi }}</span>
+        <div class="ai-grid">
+          @if (data.showValidateAiName) {
+            <div class="ai-grid__col">
+              <mat-checkbox
+                [checked]="validateAiName"
+                [disabled]="data.validateAiNameReadOnly"
+                (change)="validateAiName = $event.checked"
+              >
+                {{ labels.validateName }}
+              </mat-checkbox>
+            </div>
+          }
+          @if (data.showValidateAiValidity) {
+            <div class="ai-grid__col ai-grid__col--validity">
+              <mat-checkbox
+                [checked]="validateAiValidity"
+                [disabled]="data.validateAiValidityReadOnly"
+                (change)="onValidateValidityChange($event.checked)"
+              >
+                {{ labels.validateValidity }}
+              </mat-checkbox>
+              @if (data.showValidityMonths) {
+                <mat-form-field appearance="outline" class="months-field" subscriptSizing="dynamic">
+                  <mat-label>{{ labels.validityMonths }}</mat-label>
+                  <input
+                    matInput
+                    type="number"
+                    min="1"
+                    max="120"
+                    [disabled]="data.validityMonthsReadOnly || !validateAiValidity"
+                    [value]="validityMonths ?? ''"
+                    (input)="onValidityMonthsInput($any($event.target).value)"
+                  />
+                </mat-form-field>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    } @else if (data.showValidityMonths) {
+      <mat-form-field appearance="outline" class="months-field" subscriptSizing="dynamic">
+        <mat-label>{{ labels.validityMonths }}</mat-label>
+        <input
+          matInput
+          type="number"
+          min="1"
+          max="120"
+          [disabled]="data.validityMonthsReadOnly || !validateAiValidity"
+          [value]="validityMonths ?? ''"
+          (input)="onValidityMonthsInput($any($event.target).value)"
+        />
+      </mat-form-field>
+    }
+
+    @if (data.showMandatory) {
+      <div class="group">
+        <span class="group-label">{{ labels.mandatory }}</span>
+        <mat-radio-group
+          [disabled]="data.mandatoryReadOnly"
+          [value]="isRequired"
+          (change)="isRequired = $event.value"
+        >
+          <mat-radio-button [value]="true">{{ labels.yes }}</mat-radio-button>
+          <mat-radio-button [value]="false">{{ labels.no }}</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    }
+
+    @if (error) {
+      <p class="error" role="alert">{{ error }}</p>
+    }
+  </form>
+
+  <div shModalActions>
+    <button mat-stroked-button type="button" (click)="cancel()">{{ labels.cancel }}</button>
+    <button mat-flat-button color="primary" type="button" (click)="save()">{{ labels.save }}</button>
+  </div>
+</sh-modal-form>

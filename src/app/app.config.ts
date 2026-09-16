@@ -2,12 +2,15 @@ import { APP_INITIALIZER, ApplicationConfig, provideZoneChangeDetection } from '
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 import { MSAL_INSTANCE, MsalBroadcastService, MsalService } from '@azure/msal-angular';
 import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
 
 import { routes } from './app.routes';
 import { createMsalConfiguration } from './core/auth/msal.config';
+import { SmarthireMatPaginatorIntl } from './core/i18n/smarthire-mat-paginator-intl';
 import { authTokenInterceptor } from './core/interceptors/auth-token.interceptor';
+import { languageInterceptor } from './core/interceptors/language.interceptor';
 
 function createMsalInstance(): IPublicClientApplication | null {
   const config = createMsalConfiguration();
@@ -45,7 +48,8 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimations(),
-    provideHttpClient(withInterceptors([authTokenInterceptor])),
+    provideHttpClient(withInterceptors([languageInterceptor, authTokenInterceptor])),
+    { provide: MatPaginatorIntl, useClass: SmarthireMatPaginatorIntl },
     ...msalProviders,
   ],
 };

@@ -1,10 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-
-interface SettingsNavItem {
-  label: string;
-  path: string;
-}
+import { PermissionService } from '../../../core/services/permission.service';
+import { SETTINGS_NAV_ITEMS } from '../../../core/i18n/nav-labels';
 
 @Component({
   selector: 'sh-settings-layout',
@@ -14,17 +11,9 @@ interface SettingsNavItem {
   styleUrl: './settings-layout.component.scss',
 })
 export class SettingsLayoutComponent {
-  readonly navItems: SettingsNavItem[] = [
-    { label: 'Usuarios', path: 'users' },
-    { label: 'Grupos', path: 'groups' },
-    { label: 'Catálogos', path: 'catalogs' },
-    { label: 'Notificaciones', path: 'notifications' },
-    { label: 'Documentos', path: 'documents' },
-    { label: 'Prompts IA', path: 'prompts' },
-    { label: 'CVs', path: 'cvs' },
-    { label: 'Entrevistas', path: 'interviews' },
-    { label: 'Etapas', path: 'pipeline-stages' },
-    { label: 'Sistema', path: 'system' },
-    { label: 'Bitácoras', path: 'audit' },
-  ];
+  private readonly permissions = inject(PermissionService);
+
+  readonly navItems = computed(() =>
+    SETTINGS_NAV_ITEMS.filter((item) => this.permissions.hasAuthority(item.authority)),
+  );
 }

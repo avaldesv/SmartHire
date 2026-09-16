@@ -1,0 +1,212 @@
+<div class="form-grid">
+  @for (field of visibleFields; track field.fieldKey) {
+    @if (isGeneralRequirementsBlockStart(field)) {
+      <div class="general-requirements-block span-2">
+        <h4 class="general-requirements-block__title">{{ jobRequirementSectionTitle }}</h4>
+        <div class="general-requirements-block__columns">
+          <div class="general-requirements-block__job">
+            <sh-job-description-ai-field
+              [control]="$any(fieldControl(generalRequirementsBlock!.jobDescription.fieldKey))"
+              [disabled]="isReadOnly(generalRequirementsBlock!.jobDescription)"
+              [fieldLabel]="fieldLabel(generalRequirementsBlock!.jobDescription)"
+              [sectionTitle]="null"
+              [fillHeight]="true"
+              [sourceControl]="$any(stepForm.get('positionName'))"
+              autoGenerateMode="jobDescription"
+              [showCharCount]="true"
+              [rows]="8"
+            />
+          </div>
+          <div class="general-requirements-block__reqs">
+            <sh-job-description-ai-field
+              [control]="$any(fieldControl(generalRequirementsBlock!.requirementsMandatory.fieldKey))"
+              [disabled]="isReadOnly(generalRequirementsBlock!.requirementsMandatory)"
+              [fieldLabel]="fieldLabel(generalRequirementsBlock!.requirementsMandatory)"
+              [sectionTitle]="null"
+              [sourceControl]="$any(fieldControl(generalRequirementsBlock!.jobDescription.fieldKey))"
+              autoGenerateMode="requirementsMandatory"
+              [showCharCount]="true"
+              [rows]="3"
+            />
+            <sh-job-description-ai-field
+              [control]="$any(fieldControl(generalRequirementsBlock!.requirementsOptional.fieldKey))"
+              [disabled]="isReadOnly(generalRequirementsBlock!.requirementsOptional)"
+              [fieldLabel]="fieldLabel(generalRequirementsBlock!.requirementsOptional)"
+              [sectionTitle]="null"
+              [sourceControl]="$any(fieldControl(generalRequirementsBlock!.jobDescription.fieldKey))"
+              autoGenerateMode="requirementsOptional"
+              [showCharCount]="true"
+              [rows]="3"
+            />
+            <sh-job-description-ai-field
+              [control]="$any(fieldControl(generalRequirementsBlock!.requirementsDesirable.fieldKey))"
+              [disabled]="isReadOnly(generalRequirementsBlock!.requirementsDesirable)"
+              [fieldLabel]="fieldLabel(generalRequirementsBlock!.requirementsDesirable)"
+              [sectionTitle]="null"
+              [sourceControl]="$any(fieldControl(generalRequirementsBlock!.jobDescription.fieldKey))"
+              autoGenerateMode="requirementsDesirable"
+              [showCharCount]="true"
+              [rows]="3"
+            />
+          </div>
+        </div>
+      </div>
+    } @else if (isConsumedByGeneralRequirementsBlock(field.fieldKey)) {
+      <!-- rendered inside general-requirements-block -->
+    } @else if (field.uiType === 'language-grid') {
+      <div class="span-2 language-grid">
+        <h4 class="grid-title">{{ fieldLabel(field) }}</h4>
+        @for (row of languageArray(field.fieldKey).controls; track $index; let i = $index) {
+          <div class="language-row" [formGroup]="$any(row)">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>{{ languageLabel }}</mat-label>
+              <mat-select formControlName="languageId">
+                <mat-option [value]="null">—</mat-option>
+                @for (opt of languageOptions(); track opt.id) {
+                  <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>{{ languageLevelLabel }}</mat-label>
+              <mat-select formControlName="languageLevelId">
+                <mat-option [value]="null">—</mat-option>
+                @for (opt of languageLevelOptions(); track opt.id) {
+                  <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <button mat-icon-button type="button" (click)="removeLanguageRow(field.fieldKey, i)" [disabled]="languageArray(field.fieldKey).length <= 1">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        }
+        <button mat-stroked-button type="button" (click)="addLanguageRow(field.fieldKey)">
+          <mat-icon>add</mat-icon> {{ addLanguageLabel }}
+        </button>
+      </div>
+    } @else if (field.uiType === 'document-grid' && field.fieldKey === 'documentRequirements') {
+      <div class="span-2">
+        <h4 class="grid-title">{{ fieldLabel(field) }}</h4>
+        <sh-document-requirements-editor
+          [control]="$any(fieldControl(field.fieldKey))"
+          [countryId]="countryId"
+          [disabled]="isReadOnly(field)"
+          [isEditMode]="isEditMode"
+          [showValidateAiName]="documentSectionVisible('documentValidateAiName')"
+          [showValidateAiValidity]="documentSectionVisible('documentValidateAiValidity')"
+          [showValidityMonths]="documentSectionVisible('documentValidityMonths')"
+          [showMandatory]="documentSectionVisible('documentIsRequired')"
+          [validateAiNameReadOnly]="documentSectionReadOnly('documentValidateAiName')"
+          [validateAiValidityReadOnly]="documentSectionReadOnly('documentValidateAiValidity')"
+          [validityMonthsReadOnly]="documentSectionReadOnly('documentValidityMonths')"
+          [mandatoryReadOnly]="documentSectionReadOnly('documentIsRequired')"
+        />
+      </div>
+    } @else if (field.uiType === 'portal-publications-grid') {
+      <div class="span-2">
+        <sh-published-portals-editor
+          [control]="$any(fieldControl(field.fieldKey))"
+          [countryId]="countryId"
+          [disabled]="isReadOnly(field)"
+        />
+      </div>
+    } @else if (field.uiType === 'document-grid' && field.fieldKey === 'documentTypeIds') {
+      <div class="span-2 document-grid">
+        <h4 class="grid-title">{{ fieldLabel(field) }}</h4>
+        @if (loadingByField['__documents__']) {
+          <p>{{ loadingDocumentsLabel }}</p>
+        } @else {
+          @for (doc of documentTypeOptions; track doc.id) {
+            <mat-checkbox
+              [checked]="isLegacyDocumentSelected(field.fieldKey, doc.id)"
+              (change)="toggleLegacyDocument(field.fieldKey, doc.id, $event.checked)"
+            >
+              {{ doc.label }}
+            </mat-checkbox>
+          }
+        }
+      </div>
+    } @else if (field.uiType === 'questionnaire-picker') {
+      <div class="span-2 questionnaire-picker" [formGroup]="questionnaireGroup(field.fieldKey)">
+        <div class="questionnaire-fields">
+          <mat-form-field appearance="outline">
+            <mat-label>{{ examFieldLabel }}</mat-label>
+            <mat-select formControlName="examId" [required]="isRequired(field)">
+              <mat-option [value]="null">—</mat-option>
+              @if (!(optionsByField[field.fieldKey] ?? []).length && !loadingByField[field.fieldKey]) {
+                <mat-option disabled>{{ noExamsLabel }}</mat-option>
+              }
+              @for (opt of optionsByField[field.fieldKey] ?? []; track opt.id) {
+                <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    } @else if (field.fieldKey === 'stateId') {
+      <mat-form-field appearance="outline">
+        <mat-label>{{ fieldLabel(field) }}</mat-label>
+        <mat-select [formControl]="fieldControl(field.fieldKey)" [disabled]="isReadOnly(field)">
+          @for (opt of states; track opt.id) {
+            <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    } @else if (field.fieldKey === 'municipalityId') {
+      <mat-form-field appearance="outline">
+        <mat-label>{{ fieldLabel(field) }}</mat-label>
+        <mat-select [formControl]="fieldControl(field.fieldKey)" [disabled]="isReadOnly(field)">
+          @for (opt of municipalities; track opt.id) {
+            <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    } @else if (field.fieldKey === 'neighborhoodId') {
+      <mat-form-field appearance="outline">
+        <mat-label>{{ fieldLabel(field) }}</mat-label>
+        <mat-select [formControl]="fieldControl(field.fieldKey)" [disabled]="isReadOnly(field)">
+          @for (opt of neighborhoods; track opt.id) {
+            <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    } @else if (isClientSearchField(field)) {
+      <sh-wizard-client-search-field
+        [control]="fieldControl(field.fieldKey)"
+        [countryId]="countryId"
+        [disabled]="isReadOnly(field)"
+        [label]="fieldLabel(field)"
+      />
+    } @else if (field.fieldKey === 'jobDescription') {
+      <div class="span-2 field-full">
+        <sh-job-description-ai-field
+          [control]="$any(fieldControl(field.fieldKey))"
+          [disabled]="isReadOnly(field)"
+          [fieldLabel]="fieldLabel(field)"
+          [sourceControl]="$any(stepForm.get('positionName'))"
+          autoGenerateMode="jobDescription"
+          [showCharCount]="true"
+        />
+      </div>
+    } @else if (field.uiType === 'textarea') {
+      <div class="span-2 field-full">
+        <sh-dynamic-wizard-field
+          [field]="field"
+          [control]="fieldControl(field.fieldKey)"
+          [options]="optionsByField[field.fieldKey] ?? []"
+          [loadingOptions]="loadingByField[field.fieldKey] ?? false"
+          [disabled]="isReadOnly(field)"
+        />
+      </div>
+    } @else {
+      <sh-dynamic-wizard-field
+        [field]="field"
+        [control]="fieldControl(field.fieldKey)"
+        [options]="optionsByField[field.fieldKey] ?? []"
+        [loadingOptions]="loadingByField[field.fieldKey] ?? false"
+        [disabled]="isReadOnly(field)"
+      />
+    }
+  }
+</div>

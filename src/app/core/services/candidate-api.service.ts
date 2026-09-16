@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 import {
   CandidateDetail,
+  CandidateCvDownloadUrlResponse,
   CandidateListItem,
   CandidateListResponse,
   CreateCandidateRequest,
@@ -51,6 +52,28 @@ export class CandidateApiService {
     return this.http.get<CandidateDetail>(this.api.apiUrl(`/api/v1/candidates/${id}`), {
       headers: this.api.buildHeaders(),
     });
+  }
+
+  getCvDownloadUrl(candidateId: number): Observable<CandidateCvDownloadUrlResponse> {
+    return this.http.get<CandidateCvDownloadUrlResponse>(
+      this.api.apiUrl(`/api/v1/candidates/${candidateId}/cv/download-url`),
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  /**
+   * Opens the S3 signed URL in a new tab (no CORS fetch). The API embeds
+   * Content-Disposition so the browser saves with the original file name.
+   */
+  downloadCv(candidateId: number): Observable<CandidateCvDownloadUrlResponse> {
+    return this.getCvDownloadUrl(candidateId).pipe(
+      tap((res) => {
+        if (!res.downloadUrl) {
+          throw new Error('CV download URL missing');
+        }
+        window.open(res.downloadUrl, '_blank', 'noopener,noreferrer');
+      }),
+    );
   }
 
   create(request: CreateCandidateRequest): Observable<CreateCandidateResponse> {

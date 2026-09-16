@@ -1,1 +1,80 @@
 .loading-wrap { display: flex; justify-content: center; padding: 48px; }
+.empty-msg { padding: 24px; margin: 0; color: var(--sh-text-muted, #666); }
+.toolbar-divider {
+  display: inline-block;
+  width: 1px;
+  height: 24px;
+  margin: 0 8px;
+  background: rgba(0, 0, 0, 0.12);
+  vertical-align: middle;
+}
+.candidate-link {
+  color: var(--sh-primary, #0d9488);
+  font-weight: 500;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.col-action-header {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.col-action-cell {
+  text-align: center;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.sh-interviewed-wrap {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-height: 40px;
+}
+
+.sh-interviewed-date {
+  font-size: 10px;
+  line-height: 1.2;
+  color: var(--sh-text-muted, #64748b);
+  white-space: nowrap;
+}
+
+.sh-col-action-btn {
+  min-width: 40px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  line-height: 40px;
+  border-radius: 50%;
+  border-color: var(--sh-primary, #0d9488);
+  color: var(--sh-primary, #0d9488);
+
+  mat-icon {
+    margin: 0;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+  }
+
+  &--pending {
+    border-color: #94a3b8;
+    color: #94a3b8;
+  }
+
+  &--done {
+    background: var(--sh-primary, #0d9488);
+    border-color: var(--sh-primary, #0d9488);
+    color: #fff;
+
+    &:hover:not([disabled]) {
+      background: color-mix(in srgb, var(--sh-primary, #0d9488) 88%, #000);
+      border-color: color-mix(in srgb, var(--sh-primary, #0d9488) 88%, #000);
+      color: #fff;
+    }
+  }
+}

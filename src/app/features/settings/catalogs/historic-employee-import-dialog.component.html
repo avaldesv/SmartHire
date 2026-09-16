@@ -1,0 +1,101 @@
+<sh-modal-form [title]="labels.title">
+  <p class="hint">{{ labels.hint }}</p>
+
+  <a class="template-link" [href]="templateUrl" [download]="labels.templateFilename">
+    <mat-icon>download</mat-icon> {{ labels.template }}
+  </a>
+
+  <div class="pickers">
+    <input #fileInput type="file" accept=".xlsx,.xls" (change)="onFileSelected($event)" hidden />
+    <button mat-stroked-button type="button" [disabled]="busy()" (click)="pickFile()">
+      {{ labels.pickFile }}
+    </button>
+    @if (fileName()) {
+      <span class="file-name">{{ fileName() }}</span>
+      <button mat-button type="button" [disabled]="busy()" (click)="clearFile()">{{ labels.clear }}</button>
+    }
+  </div>
+
+  @if (error()) {
+    <p class="err">{{ error() }}</p>
+  }
+
+  @if (preview(); as p) {
+    <div class="counters">
+      <span>{{ labels.totalRows }}: {{ p.validCount + p.invalidCount }}</span>
+      <span class="ok">{{ labels.validRows }}: {{ p.validCount }}</span>
+      <span class="ko">{{ labels.invalidRows }}: {{ p.invalidCount }}</span>
+    </div>
+    <p class="hint">{{ labels.onlyValidHint }}</p>
+
+    <mat-tab-group dynamicHeight animationDuration="0ms" class="preview-tabs">
+      <mat-tab [label]="labels.validRows + ' (' + p.validCount + ')'">
+        <div class="preview-scroll">
+          <table class="preview-table">
+            <thead>
+              <tr>
+                <th>{{ labels.colRow }}</th>
+                <th>{{ labels.colName }}</th>
+                <th>{{ labels.colEmail }}</th>
+                <th>{{ labels.colJob }}</th>
+                <th>{{ labels.colStatus }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of p.validRows; track row.rowNumber) {
+                <tr>
+                  <td>{{ row.rowNumber }}</td>
+                  <td>{{ displayName(row) }}</td>
+                  <td>{{ row.email }}</td>
+                  <td>{{ row.jobTitle }}</td>
+                  <td>{{ row.employmentStatusLabel }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </mat-tab>
+      <mat-tab [label]="labels.invalidRows + ' (' + p.invalidCount + ')'">
+        <div class="preview-scroll">
+          <ul class="invalid-list">
+            @for (row of p.invalidRows; track row.rowNumber) {
+              <li class="invalid-item">
+                <div class="invalid-head">
+                  <span class="row-num">{{ labels.colRow }} {{ row.rowNumber }}</span>
+                  <span class="row-name">{{ displayName(row) || '—' }}</span>
+                  @if (row.email) {
+                    <span class="row-email">{{ row.email }}</span>
+                  }
+                </div>
+                <ul class="error-list">
+                  @for (err of row.errors; track $index) {
+                    <li>{{ err.message || err.code || 'Error' }}</li>
+                  } @empty {
+                    <li>{{ labels.colErrors }}</li>
+                  }
+                </ul>
+              </li>
+            }
+          </ul>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  }
+
+  @if (busy()) {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
+
+  <div shModalActions>
+    <button mat-stroked-button type="button" [disabled]="busy()" (click)="cancel()">{{ labels.cancel }}</button>
+    @if (!preview()) {
+      <button mat-flat-button color="primary" type="button" [disabled]="!canValidate()" (click)="validateFile()">
+        {{ labels.validate }}
+      </button>
+    } @else {
+      <button mat-flat-button color="primary" type="button" [disabled]="!canConfirm()" (click)="confirmUpload()">
+        {{ labels.confirm }}
+      </button>
+    }
+  </div>
+</sh-modal-form>

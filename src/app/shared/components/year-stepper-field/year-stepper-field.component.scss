@@ -1,0 +1,39 @@
+.year-stepper-field {
+  width: 100%;
+  min-width: 0;
+  display: block;
+}
+
+.year-stepper__btn {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+}
+
+.year-stepper__input {
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  /* Hide native number spinners — we use chevron buttons. */
+  appearance: textfield;
+  -moz-appearance: textfield;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+/* Keep prefix/suffix icons aligned with other outline fields in the filter grid. */
+:host ::ng-deep .mat-mdc-form-field-icon-prefix,
+:host ::ng-deep .mat-mdc-form-field-icon-suffix {
+  padding: 0;
+}
+
+:host ::ng-deep .mat-mdc-form-field-icon-prefix .mat-mdc-icon-button,
+:host ::ng-deep .mat-mdc-form-field-icon-suffix .mat-mdc-icon-button {
+  width: 36px;
+  height: 36px;
+  padding: 6px;
+}

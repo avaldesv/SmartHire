@@ -1,6 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
+import {
+  SELECTION_PAGE_TITLE,
+  SELECTION_TAB_AI,
+  SELECTION_TAB_ANALYSIS,
+  SELECTION_TAB_PRESELECTION,
+} from '../../../core/i18n/selection-labels';
 import { PositionService } from '../../../core/services/position.service';
 
 @Component({
@@ -17,10 +23,11 @@ export class SelectionLayoutComponent {
   positionId = +this.route.snapshot.paramMap.get('positionId')!;
   positionHeader: { requisitionNo: string; name: string; client: string } | null = null;
 
+  readonly pageTitle = SELECTION_PAGE_TITLE;
   readonly tabs = [
-    { label: 'Perfil gestión (AI)', path: 'ai', icon: 'psychology' },
-    { label: 'Preselección', path: 'preselection', icon: 'filter_list' },
-    { label: 'Análisis', path: 'analysis', icon: 'analytics' },
+    { label: SELECTION_TAB_AI, path: 'ai', icon: 'psychology' },
+    { label: SELECTION_TAB_PRESELECTION, path: 'preselection', icon: 'filter_list' },
+    { label: SELECTION_TAB_ANALYSIS, path: 'analysis', icon: 'analytics' },
   ];
 
   constructor() {

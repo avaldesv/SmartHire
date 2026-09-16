@@ -1,0 +1,134 @@
+.loading-wrap { display: flex; justify-content: center; padding: 48px; }
+.sh-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: stretch;
+  margin-bottom: 16px;
+  padding: 16px;
+}
+.primary-filters-grid,
+.advanced-filters-grid,
+.filters-actions-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+  align-items: center;
+}
+.filter-search { min-width: 0; }
+.filter-grid-spacer { min-height: 1px; }
+.filters-actions {
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+  min-width: 0;
+}
+.filters-actions .mat-mdc-outlined-button,
+.filters-actions button {
+  width: 100%;
+}
+@media (max-width: 1200px) {
+  .primary-filters-grid,
+  .advanced-filters-grid,
+  .filters-actions-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+  .primary-filters-grid,
+  .advanced-filters-grid,
+  .filters-actions-row { grid-template-columns: 1fr; }
+  .filter-grid-spacer { display: none; }
+}
+.mono-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+}
+
+/* Card padding + overflow on the same node leaves a gap past stickyEnd. */
+.positions-table-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.positions-table-embedded {
+  overflow: hidden;
+}
+
+.positions-table-wrap {
+  overflow-x: auto;
+  position: relative;
+}
+
+.positions-table {
+  min-width: 1800px;
+}
+
+.col-text-clamp {
+  max-width: 40ch;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.col-category {
+  max-width: 30ch;
+}
+
+/* Compact metric columns — same width as Posiciones */
+.col-metric {
+  width: 10ch;
+  min-width: 10ch;
+  max-width: 10ch;
+  box-sizing: content-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.positions-table-card mat-paginator,
+.positions-table-embedded mat-paginator {
+  padding: 0 16px;
+}
+
+:host ::ng-deep {
+  .col-sticky-start,
+  .col-sticky-end,
+  .mat-mdc-header-cell.mat-mdc-table-sticky,
+  .mat-mdc-cell.mat-mdc-table-sticky {
+    background: #fff;
+  }
+
+  th.col-sticky-start,
+  th.col-sticky-end,
+  .mat-mdc-header-cell.mat-mdc-table-sticky {
+    z-index: 4;
+    background: #fff;
+  }
+
+  .col-sticky-start--second {
+    border-right: 1px solid #e2e8f0;
+    box-shadow: 4px 0 8px -4px rgba(15, 23, 42, 0.18);
+  }
+
+  .col-sticky-end,
+  .mat-column-actions.mat-mdc-table-sticky,
+  .mat-mdc-header-cell.mat-column-actions.mat-mdc-table-sticky,
+  .mat-mdc-cell.mat-column-actions.mat-mdc-table-sticky {
+    right: 0 !important;
+    z-index: 12 !important;
+    min-width: 136px;
+    background: #fff !important;
+    border-left: 1px solid #e2e8f0;
+    box-shadow: -6px 0 10px -4px rgba(15, 23, 42, 0.2);
+    white-space: nowrap;
+    text-align: right;
+    overflow: hidden !important;
+  }
+
+  .mat-mdc-row:hover .col-sticky-start,
+  .mat-mdc-row:hover .col-sticky-end,
+  .mat-mdc-row:hover .mat-column-actions.mat-mdc-table-sticky {
+    background: #f8fafc !important;
+  }
+}

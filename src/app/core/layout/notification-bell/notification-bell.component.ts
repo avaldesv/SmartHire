@@ -1,0 +1,166 @@
+import { DatePipe } from '@angular/common';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  inject,
+  signal,
+} from '@angular/core';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FeedbackDialogService } from '../../feedback/feedback-dialog.service';
+import { catalogDialogConfig } from '../../dialog/catalog-dialog.constants';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { UserNotificationApiService } from '../../services/user-notification-api.service';
+import { UserNotificationStompService } from '../../services/user-notification-stomp.service';
+import { UserNotificationItem } from '../../../shared/models/user-notification.model';
+import { CvBulkNotificationPayload } from '../../../shared/models/cv-bulk-upload.model';
+import { CvBulkProgressDialogComponent } from '../../../features/positions/list/cv-bulk-progress-dialog/cv-bulk-progress-dialog.component';
+import { ExcelBulkProgressDialogComponent } from '../../../features/positions/list/excel-bulk-progress-dialog/excel-bulk-progress-dialog.component';
+
+@Component({
+  selector: 'sh-notification-bell',
+  standalone: true,
+  imports: [
+    DatePipe,
+    MatBadgeModule,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    MatProgressSpinnerModule,
+  ],
+  templateUrl: './notification-bell.component.html',
+  styleUrl: './notification-bell.component.scss',
+})
+export class NotificationBellComponent implements OnInit, OnDestroy {
+  private static readonly PREVIEW_SIZE = 5;
+
+  @ViewChild('menuTrigger') private menuTrigger?: MatMenuTrigger;
+
+  private readonly api = inject(UserNotificationApiService);
+  private readonly stomp = inject(UserNotificationStompService);
+  private readonly feedback = inject(FeedbackDialogService);
+  private readonly dialog = inject(MatDialog);
+  private readonly router = inject(Router);
+
+  readonly portal = 'RECRUITER' as const;
+  readonly loading = signal(false);
+  readonly unreadCount = signal(0);
+  readonly items = signal<UserNotificationItem[]>([]);
+  readonly totalElements = signal(0);
+
+  private pushSub?: Subscription;
+
+  ngOnInit(): void {
+    this.refreshUnread();
+    const token = sessionStorage.getItem('sh_token') ?? '';
+    this.stomp.connect(token);
+    this.pushSub = this.stomp.notifications$.subscribe((n) => {
+      if ((n.portal ?? '').toUpperCase() !== this.portal) {
+        return;
+      }
+      this.items.update((list) =>
+        [n, ...list.filter((x) => x.id !== n.id)].slice(0, NotificationBellComponent.PREVIEW_SIZE),
+      );
+      this.totalElements.update((t) => t + 1);
+      if (!n.read) {
+        this.unreadCount.update((c) => c + 1);
+      }
+      this.feedback.showSuccess(n.title || $localize`:@@shell.notifications:Notificaciones`);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.pushSub?.unsubscribe();
+    this.stomp.disconnect();
+  }
+
+  canShowAll(): boolean {
+    return this.totalElements() > NotificationBellComponent.PREVIEW_SIZE;
+  }
+
+  onMenuOpened(): void {
+    this.items.set([]);
+    this.loadInbox(NotificationBellComponent.PREVIEW_SIZE);
+  }
+
+  onShowAll(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.menuTrigger?.closeMenu();
+    void this.router.navigate(['/inbox']);
+  }
+
+  onItemClick(item: UserNotificationItem, event: Event): void {
+    event.stopPropagation();
+    this.markRead(item);
+    const type = (item.type ?? '').toUpperCase();
+    if (type !== 'CV_BULK_DONE' && type !== 'EXCEL_BULK_DONE') {
+      return;
+    }
+    const payload = this.parseBulkPayload(item.payloadJson);
+    if (!payload?.jobId || !payload?.positionId) {
+      return;
+    }
+    const config = catalogDialogConfig('720px', {
+      data: { positionId: payload.positionId, jobId: payload.jobId },
+    });
+    if (type === 'EXCEL_BULK_DONE') {
+      this.dialog.open(ExcelBulkProgressDialogComponent, config);
+    } else {
+      this.dialog.open(CvBulkProgressDialogComponent, config);
+    }
+  }
+
+  private markRead(item: UserNotificationItem): void {
+    if (item.read) {
+      return;
+    }
+    this.api.markRead(item.id).subscribe({
+      next: () => {
+        this.items.update((list) =>
+          list.map((x) => (x.id === item.id ? { ...x, read: true, readAt: new Date().toISOString() } : x)),
+        );
+        this.unreadCount.update((c) => Math.max(0, c - 1));
+      },
+      error: (err) => undefined,
+    });
+  }
+
+  private parseBulkPayload(payloadJson: string | null): CvBulkNotificationPayload | null {
+    if (!payloadJson) {
+      return null;
+    }
+    try {
+      return JSON.parse(payloadJson) as CvBulkNotificationPayload;
+    } catch {
+      return null;
+    }
+  }
+
+  private refreshUnread(): void {
+    this.api.unreadCount(this.portal).subscribe({
+      next: (res) => this.unreadCount.set(res.unreadCount ?? 0),
+      error: (err) => undefined,
+    });
+  }
+
+  private loadInbox(size: number): void {
+    this.loading.set(true);
+    this.api.list(this.portal, 0, size).subscribe({
+      next: (res) => {
+        this.items.set(res.data ?? []);
+        this.totalElements.set(res.pagination?.total ?? res.data?.length ?? 0);
+        this.loading.set(false);
+        this.refreshUnread();
+      },
+      error: (err) => this.loading.set(false),
+    });
+  }
+}

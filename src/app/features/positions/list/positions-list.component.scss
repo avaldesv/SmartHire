@@ -1,10 +1,4 @@
-.loading-wrap { display: flex; justify-content: center; padding: 48px; }
-.sh-filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: flex-start;
-  margin-bottom: 16px;
-  padding: 16px;
+/* Page shell only; panel owns header/actions styles. */
+:host {
+  display: block;
 }
-.filter-search { min-width: 280px; flex: 1; }

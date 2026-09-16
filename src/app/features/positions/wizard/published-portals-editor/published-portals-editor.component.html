@@ -1,0 +1,59 @@
+<section class="published-portals-editor">
+  <h4 class="title">{{ labels.sectionTitle }}</h4>
+  <p class="hint">{{ labels.hint }}</p>
+
+  <div class="draft-row">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-label>{{ labels.portal }}</mat-label>
+      <mat-select [(value)]="draftPortalId" [disabled]="disabled || loading">
+        <mat-option [value]="null">{{ labels.select }}</mat-option>
+        @for (portal of availablePortals(); track portal.id) {
+          <mat-option [value]="portal.id">{{ portal.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-label>{{ labels.externalId }}</mat-label>
+      <input
+        matInput
+        [(ngModel)]="draftExternalId"
+        [ngModelOptions]="{ standalone: true }"
+        [placeholder]="labels.externalIdPlaceholder"
+        [disabled]="disabled"
+      />
+    </mat-form-field>
+    <button mat-flat-button color="primary" type="button" (click)="addOrUpdate()" [disabled]="disabled">
+      <mat-icon>add</mat-icon>
+      {{ editingIndex != null ? labels.update : labels.add }}
+    </button>
+  </div>
+
+  <h5 class="table-title">{{ labels.tableTitle }}</h5>
+  @if (!rows.length) {
+    <p class="empty">{{ labels.empty }}</p>
+  } @else {
+    <table mat-table [dataSource]="rows" class="table">
+      <ng-container matColumnDef="portal">
+        <th mat-header-cell *matHeaderCellDef>{{ labels.colPortal }}</th>
+        <td mat-cell *matCellDef="let row">{{ portalName(row.jobPortalId) }}</td>
+      </ng-container>
+      <ng-container matColumnDef="externalId">
+        <th mat-header-cell *matHeaderCellDef>{{ labels.colExternalId }}</th>
+        <td mat-cell *matCellDef="let row"><code>{{ row.externalPortalId }}</code></td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>{{ labels.colActions }}</th>
+        <td mat-cell *matCellDef="let row; let i = index">
+          <button mat-icon-button type="button" [disabled]="disabled" (click)="editRow(i)" [attr.aria-label]="labels.edit">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button type="button" [disabled]="disabled" (click)="deleteRow(i)" [attr.aria-label]="labels.delete">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  }
+</section>

@@ -1,0 +1,130 @@
+<sh-modal-form [title]="dialogTitle" contentClass="dialog-body">
+  <div class="generate-layout">
+    <section class="form-column" [attr.aria-label]="dialogTitle">
+      <form [formGroup]="configForm" class="column-form">
+        <div class="section-block">
+          <div class="section-title">{{ contactSectionLabel }}</div>
+
+          <mat-form-field appearance="outline" class="full-field contact-email-readonly">
+            <mat-label>{{ fieldEmail }}</mat-label>
+            <input matInput type="email" formControlName="contactEmail" readonly tabindex="-1" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-field">
+            <mat-label>{{ fieldPhone }}</mat-label>
+            <input matInput formControlName="contactPhone" />
+          </mat-form-field>
+
+          <div class="field-row">
+            <mat-form-field appearance="outline" class="half-field">
+              <mat-label>{{ fieldLocale }}</mat-label>
+              <mat-select formControlName="locale">
+                @for (option of localeOptions; track option.value) {
+                  <mat-option [value]="option.value">{{ option.label }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="half-field" [formGroup]="formatForm">
+              <mat-label>{{ fieldFormat }}</mat-label>
+              <mat-select formControlName="format" (selectionChange)="onFormatChange()">
+                @for (option of formatOptions; track option.value) {
+                  <mat-option [value]="option.value">{{ option.label }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+
+      <form [formGroup]="shareForm" class="column-form share-form">
+        <div class="section-block section-block--separated">
+          <div class="section-title">{{ whatsappSectionLabel }}</div>
+
+          <sh-phone-fields
+            [form]="shareForm"
+            prefixControl="countryPrefix"
+            phoneControl="phoneNumber"
+          />
+
+          <button
+            mat-flat-button
+            color="primary"
+            type="button"
+            class="action-btn"
+            [disabled]="!canShareWhatsApp"
+            [matTooltip]="formatForm.controls.format.value !== 'JPG' ? shareJpgHint : ''"
+            (click)="shareWhatsApp()"
+          >
+            @if (sharing) {
+              <mat-spinner diameter="18" />
+            } @else {
+              <mat-icon>share</mat-icon>
+            }
+            {{ sharing ? shareLoadingLabel : shareWhatsAppLabel }}
+          </button>
+        </div>
+
+        <div class="section-block section-block--separated">
+          <div class="section-title">{{ emailSectionLabel }}</div>
+
+          <mat-form-field appearance="outline" class="full-field">
+            <mat-label>{{ fieldShareEmail }}</mat-label>
+            <input matInput type="email" formControlName="email" />
+          </mat-form-field>
+
+          <button mat-stroked-button type="button" class="action-btn" [disabled]="!canSendEmail" (click)="sendEmail()">
+            @if (sendingEmail) {
+              <mat-spinner diameter="18" />
+            } @else {
+              <mat-icon>email</mat-icon>
+            }
+            {{ sendingEmail ? emailLoadingLabel : sendEmailLabel }}
+          </button>
+        </div>
+
+        <div class="section-block section-block--separated">
+          <div class="section-title">{{ downloadLabel }}</div>
+          <button
+            mat-stroked-button
+            type="button"
+            class="download-btn"
+            [disabled]="generating || (!previewImageSrc && !previewPdfUrl)"
+            (click)="download()"
+          >
+            <mat-icon>download</mat-icon>
+            {{ downloadLabel }}
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <aside class="preview-panel" aria-live="polite">
+      <div class="preview-header">
+        <h4>{{ previewTitle }}</h4>
+        @if (generating) {
+          <span class="preview-status">
+            <mat-spinner diameter="16" />
+            {{ previewLoadingLabel }}
+          </span>
+        }
+      </div>
+
+      @if (previewImageSrc || previewPdfUrl) {
+        @if (isPdf && previewPdfUrl) {
+          <iframe class="preview-frame" [src]="previewPdfUrl" [title]="previewPdfAria"></iframe>
+        } @else if (previewImageSrc) {
+          <div class="preview-image-wrap">
+            <img class="preview-image" [src]="previewImageSrc" alt="" />
+          </div>
+        }
+      } @else {
+        <p class="preview-empty">{{ previewEmptyLabel }}</p>
+      }
+    </aside>
+  </div>
+
+  <div shModalActions>
+    <button mat-stroked-button type="button" (click)="close()">{{ closeLabel }}</button>
+  </div>
+</sh-modal-form>

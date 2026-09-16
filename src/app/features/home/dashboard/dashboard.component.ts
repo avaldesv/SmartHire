@@ -1,119 +1,62 @@
-import { DatePipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { Component, effect, inject, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTableModule } from '@angular/material/table';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatDialog } from '@angular/material/dialog';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { AuthService } from '../../../core/services/auth.service';
-import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { PositionService } from '../../../core/services/position.service';
+import { TenantContextService } from '../../../core/services/tenant-context.service';
+import {
+  DASHBOARD_KPI_INTERESTED,
+  DASHBOARD_KPI_INTERESTED_SUB,
+  DASHBOARD_KPI_PRESELECTED,
+  DASHBOARD_KPI_PRESELECTED_SUB,
+  DASHBOARD_KPI_TOTAL_POSITIONS,
+  DASHBOARD_KPI_TOTAL_POSITIONS_SUB,
+  DASHBOARD_LOAD_KPIS_ERROR,
+  DASHBOARD_SUBTITLE,
+  DASHBOARD_WELCOME,
+} from '../../../core/i18n/dashboard-labels';
 import { KpiCardComponent } from '../../../shared/components/kpi-card/kpi-card.component';
-import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
-import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
-import { PositionListItem } from '../../../shared/models/position.model';
-import {
-  CandidatePoolDialogComponent,
-  CandidatePoolDialogData,
-} from '../../candidates/dialogs/candidate-pool-dialog/candidate-pool-dialog.component';
-import {
-  PositionApplicationsDialogComponent,
-  PositionApplicationsDialogData,
-} from '../../candidates/dialogs/position-applications-dialog/position-applications-dialog.component';
+import { PositionsPanelComponent } from '../../positions/shared/positions-panel/positions-panel.component';
 
 @Component({
   selector: 'sh-dashboard',
   standalone: true,
-  imports: [
-    DatePipe,
-    RouterLink,
-    ReactiveFormsModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatIconModule,
-    MatMenuModule,
-    MatSnackBarModule,
-    MatProgressSpinnerModule,
-    KpiCardComponent,
-    StatusBadgeComponent,
-  ],
+  imports: [MatIconModule, KpiCardComponent, PositionsPanelComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
   private readonly auth = inject(AuthService);
   private readonly positionService = inject(PositionService);
-  private readonly geographyService = inject(CatalogGeographyService);
-  private readonly snack = inject(MatSnackBar);
-  private readonly fb = inject(FormBuilder);
-  private readonly dialog = inject(MatDialog);
+  private readonly feedback = inject(FeedbackDialogService);
+  private readonly tenantContext = inject(TenantContextService);
+  private tenantReloadReady = false;
 
   readonly user = this.auth.currentUser;
-  loading = true;
-  total = 0;
-  pageSize = 10;
-  pageIndex = 0;
-  data: PositionListItem[] = [];
-  countryOptions: CatalogCountry[] = [];
+  readonly welcomeLabel = DASHBOARD_WELCOME;
+  readonly subtitle = DASHBOARD_SUBTITLE;
+  readonly kpiTotalPositions = DASHBOARD_KPI_TOTAL_POSITIONS;
+  readonly kpiTotalPositionsSub = DASHBOARD_KPI_TOTAL_POSITIONS_SUB;
+  readonly kpiPreselected = DASHBOARD_KPI_PRESELECTED;
+  readonly kpiPreselectedSub = DASHBOARD_KPI_PRESELECTED_SUB;
+  readonly kpiInterested = DASHBOARD_KPI_INTERESTED;
+  readonly kpiInterestedSub = DASHBOARD_KPI_INTERESTED_SUB;
 
   kpis = { totalPositions: 0, preselected: 0, interested: 0 };
 
-  readonly statusOptions = ['Todos', 'DRAFT', 'PENDING_CANCELLATION'];
-
-  readonly displayedColumns = [
-    'requisitionNo',
-    'name',
-    'ot',
-    'client',
-    'clientKey',
-    'positionsCount',
-    'city',
-    'state',
-    'brand',
-    'type',
-    'category',
-    'country',
-    'startDate',
-    'status',
-    'recruiter',
-    'createdAt',
-    'actions',
-  ];
-
-  readonly filters = this.fb.nonNullable.group({
-    search: [''],
-    status: ['Todos'],
-    countryId: [0],
-    recruiter: [''],
-    dateFrom: [''],
-    dateTo: [''],
-  });
+  constructor() {
+    effect(() => {
+      this.tenantContext.activeCompanyId();
+      if (!this.tenantReloadReady) {
+        return;
+      }
+      this.loadKpis();
+    });
+  }
 
   ngOnInit(): void {
-    this.geographyService.listCountries(0, 200).subscribe({
-      next: (countries) => {
-        this.countryOptions = countries.filter((c) => c.isActive);
-      },
-    });
+    this.tenantReloadReady = true;
     this.loadKpis();
-    this.loadData();
-    this.filters.valueChanges.pipe(debounceTime(300), distinctUntilChanged()).subscribe(() => {
-      this.pageIndex = 0;
-      this.loadData();
-    });
   }
 
   loadKpis(): void {
@@ -125,170 +68,9 @@ export class DashboardComponent implements OnInit {
           interested: res.interestedCandidates,
         };
       },
-      error: () => {
-        this.snack.open('No se pudieron cargar los KPIs', 'Cerrar', { duration: 4000 });
+      error: (err) => {
+        this.feedback.showApiError(err, { fallbackMessage: DASHBOARD_LOAD_KPIS_ERROR });
       },
     });
-  }
-
-  loadData(): void {
-    this.loading = true;
-    const status = this.filters.controls.status.value;
-    const search = this.filters.controls.search.value;
-    const dateFrom = this.filters.controls.dateFrom.value || null;
-    const dateTo = this.filters.controls.dateTo.value || null;
-    const countryId = this.filters.controls.countryId.value;
-    const recruiter = this.filters.controls.recruiter.value;
-    this.positionService
-      .list(
-        this.pageIndex,
-        this.pageSize,
-        status !== 'Todos' ? status : null,
-        search,
-        dateFrom,
-        dateTo,
-        countryId > 0 ? countryId : null,
-        recruiter,
-      )
-      .subscribe({
-        next: (res) => {
-          this.data = res.items;
-          this.total = res.total;
-          this.loading = false;
-        },
-        error: () => {
-          this.loading = false;
-          this.snack.open('No se pudieron cargar las solicitudes', 'Cerrar', { duration: 4000 });
-        },
-      });
-  }
-
-  onPage(e: PageEvent): void {
-    this.pageIndex = e.pageIndex;
-    this.pageSize = e.pageSize;
-    this.loadData();
-  }
-
-  clearFilters(): void {
-    this.filters.reset({ search: '', status: 'Todos', countryId: 0, recruiter: '', dateFrom: '', dateTo: '' });
-    this.snack.open('Filtros limpiados', 'Cerrar', { duration: 2500 });
-  }
-
-  duplicatePosition(row: PositionListItem): void {
-    this.positionService.duplicate(row.id).subscribe({
-      next: (res) => {
-        this.loadKpis();
-        this.loadData();
-        this.snack.open(`Posición duplicada: REQ-${res.id}`, 'Cerrar', { duration: 4000 });
-      },
-      error: () => {
-        this.snack.open('No se pudo duplicar la posición', 'Cerrar', { duration: 4000 });
-      },
-    });
-  }
-
-  cancelPosition(row: PositionListItem): void {
-    if (!confirm(`¿Cancelar directamente la requisición ${row.requisitionNo}? Esta acción no se puede deshacer.`)) {
-      return;
-    }
-    this.positionService.delete(row.id).subscribe({
-      next: () => {
-        this.loadKpis();
-        this.loadData();
-        this.snack.open('Requisición cancelada', 'Cerrar', { duration: 3000 });
-      },
-      error: () => {
-        this.snack.open('No se pudo cancelar la requisición', 'Cerrar', { duration: 4000 });
-      },
-    });
-  }
-
-  requestCancellation(row: PositionListItem): void {
-    if (row.status !== 'DRAFT') {
-      return;
-    }
-    if (!confirm(`¿Solicitar cancelación de ${row.requisitionNo}? Quedará pendiente de aprobación.`)) {
-      return;
-    }
-    this.positionService.requestCancellation(row.id).subscribe({
-      next: () => {
-        this.loadData();
-        this.snack.open('Solicitud de cancelación enviada', 'Cerrar', { duration: 3000 });
-      },
-      error: () => {
-        this.snack.open('No se pudo solicitar la cancelación', 'Cerrar', { duration: 4000 });
-      },
-    });
-  }
-
-  approveCancellation(row: PositionListItem): void {
-    if (row.status !== 'PENDING_CANCELLATION') {
-      return;
-    }
-    if (!confirm(`¿Aprobar cancelación de ${row.requisitionNo}? La requisición será eliminada.`)) {
-      return;
-    }
-    this.positionService.approveCancellation(row.id).subscribe({
-      next: () => {
-        this.loadKpis();
-        this.loadData();
-        this.snack.open('Cancelación aprobada', 'Cerrar', { duration: 3000 });
-      },
-      error: () => {
-        this.snack.open('No se pudo aprobar la cancelación', 'Cerrar', { duration: 4000 });
-      },
-    });
-  }
-
-  rejectCancellation(row: PositionListItem): void {
-    if (row.status !== 'PENDING_CANCELLATION') {
-      return;
-    }
-    if (!confirm(`¿Rechazar solicitud de cancelación de ${row.requisitionNo}? Volverá a borrador.`)) {
-      return;
-    }
-    this.positionService.rejectCancellation(row.id).subscribe({
-      next: () => {
-        this.loadData();
-        this.snack.open('Solicitud de cancelación rechazada', 'Cerrar', { duration: 3000 });
-      },
-      error: () => {
-        this.snack.open('No se pudo rechazar la solicitud', 'Cerrar', { duration: 4000 });
-      },
-    });
-  }
-
-  openPoolDialog(row: PositionListItem): void {
-    const ref = this.dialog.open<CandidatePoolDialogComponent, CandidatePoolDialogData>(
-      CandidatePoolDialogComponent,
-      {
-        width: '760px',
-        maxWidth: '95vw',
-        data: { positionId: row.id, requisitionNo: row.requisitionNo },
-      },
-    );
-    ref.afterClosed().subscribe((result) => {
-      if (result?.created) {
-        this.loadKpis();
-        this.snack.open(`${result.created} candidato(s) postulado(s) a ${row.requisitionNo}`, 'Cerrar', {
-          duration: 4000,
-        });
-      }
-    });
-  }
-
-  openApplicationsDialog(row: PositionListItem): void {
-    this.dialog.open<PositionApplicationsDialogComponent, PositionApplicationsDialogData>(
-      PositionApplicationsDialogComponent,
-      {
-        width: '720px',
-        maxWidth: '95vw',
-        data: {
-          positionId: row.id,
-          requisitionNo: row.requisitionNo,
-          positionName: row.name,
-        },
-      },
-    );
   }
 }

@@ -1,0 +1,43 @@
+.document-requirements-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  min-width: 0;
+}
+
+.document-requirements-editor__subtitle {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+.document-requirements-editor__hint,
+.document-requirements-editor__empty {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+.document-requirements-editor__table-wrap {
+  width: 100%;
+  min-width: 0;
+}
+
+.document-requirements-editor__table {
+  width: 100%;
+}
+
+:host ::ng-deep .document-requirements-editor__table .mat-mdc-header-row {
+  background: #f8fafc;
+}
+
+:host ::ng-deep .document-requirements-editor__table .mat-mdc-header-cell,
+:host ::ng-deep .document-requirements-editor__table .mat-mdc-cell {
+  padding: 12px 14px;
+}
+
+:host ::ng-deep .document-requirements-editor__add.mat-mdc-icon-button,
+:host ::ng-deep .document-requirements-editor__add .mat-icon {
+  color: #1e293b;
+}

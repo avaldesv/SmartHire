@@ -1,0 +1,625 @@
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
+import {
+  CreatePositionRequest,
+  PositionDetail,
+  PositionDocumentRequirementItem,
+  PositionLanguageItem,
+  PositionQuestionnaireItem,
+} from '../../../shared/models/position.model';
+import {
+  ResolvedRequisitionFormConfig,
+  ResolvedRequisitionFormField,
+  WizardDocumentRequirementRow,
+  WizardLanguageRow,
+  WizardQuestionnaireValue,
+} from '../../../shared/models/requisition-wizard.model';
+import { WizardPublishedPortalRow } from '../../../shared/models/job-portal-credentials.model';
+import { isFieldRequired, isFieldVisible, isFieldReadOnly } from './dynamic-wizard-rules.util';
+import {
+  parseWorkDaysToIds,
+  serializeWorkDaysFromIds,
+} from '../../../shared/utils/requisition-work-days.util';
+import {
+  integerValidator,
+  isRequisitionPositiveIntegerField,
+  toPositiveIntegerOrNull,
+} from './requisition-integer.util';
+import {
+  isRequisitionMoneyField,
+  maxTwoDecimalsValidator,
+  roundMoneyToTwoDecimals,
+} from './requisition-money.util';
+import {
+  defaultTimeDateForField,
+  formatDateToHhMm,
+  REQUISITION_TIME_DEFAULTS,
+} from '../../../shared/utils/time-value.util';
+import { formatDateToIso } from '../../../shared/utils/date-value.util';
+
+const PAYLOAD_FIELD_ALIASES: Record<string, keyof CreatePositionRequest> = {
+  addressLine: 'address',
+  clientContactPosition: 'clientPosition',
+};
+
+export function defaultValueForUiType(uiType: string, fieldKey?: string): unknown {
+  switch (uiType) {
+    case 'checkbox':
+      return false;
+    case 'number':
+    case 'date':
+      return null;
+    case 'time':
+      return fieldKey && REQUISITION_TIME_DEFAULTS[fieldKey]
+        ? formatDateToHhMm(defaultTimeDateForField(fieldKey))
+        : '08:00';
+    case 'select':
+    case 'client-search':
+    case 'user-picker':
+      return null;
+    case 'multiselect':
+      return [] as number[];
+    case 'language-grid':
+      return [{ languageId: null, languageLevelId: null }] as WizardLanguageRow[];
+    case 'document-grid':
+      return [] as WizardDocumentRequirementRow[] | number[];
+    case 'portal-publications-grid':
+      return [] as WizardPublishedPortalRow[];
+    case 'questionnaire-picker':
+      return {
+        examId: null,
+      } as WizardQuestionnaireValue;
+    default:
+      return '';
+  }
+}
+
+function createLanguageRowGroup(fb: FormBuilder): FormGroup {
+  return fb.nonNullable.group({
+    languageId: [null as number | null],
+    languageLevelId: [null as number | null],
+  });
+}
+
+export function createFieldControl(
+  fb: FormBuilder,
+  field: ResolvedRequisitionFormField,
+  formValues: Record<string, unknown>,
+): AbstractControl {
+  if (field.uiType === 'language-grid') {
+    return fb.array([createLanguageRowGroup(fb)], buildFieldValidators(field, formValues));
+  }
+  if (field.uiType === 'questionnaire-picker') {
+    const required = isFieldRequired(field, formValues);
+    return fb.nonNullable.group(
+      {
+        examId: [null as number | null, required ? [Validators.required] : []],
+      },
+      { validators: buildFieldValidators(field, formValues) },
+    );
+  }
+  if (field.uiType === 'document-grid' && field.fieldKey === 'documentTypeIds') {
+    return fb.nonNullable.control<number[]>([]);
+  }
+  if (field.uiType === 'multiselect') {
+    return fb.nonNullable.control<number[]>([], buildFieldValidators(field, formValues));
+  }
+  const initial = defaultValueForUiType(field.uiType, field.fieldKey);
+  return fb.control(initial, buildFieldValidators(field, formValues));
+}
+
+export function buildFieldValidators(
+  field: ResolvedRequisitionFormField,
+  formValues: Record<string, unknown>,
+): ValidatorFn[] {
+  if (!isFieldVisible(field, formValues)) {
+    return [];
+  }
+  const required = isFieldRequired(field, formValues);
+  switch (field.uiType) {
+    case 'number': {
+      if (isRequisitionPositiveIntegerField(field.fieldKey)) {
+        const validators: ValidatorFn[] = [Validators.min(1), integerValidator()];
+        if (required) {
+          validators.unshift(Validators.required);
+        }
+        return validators;
+      }
+      // Allow null/empty when optional; reject negatives when a value is set.
+      const validators: ValidatorFn[] = [Validators.min(0)];
+      if (isRequisitionMoneyField(field.fieldKey)) {
+        validators.push(maxTwoDecimalsValidator());
+      }
+      if (required) {
+        validators.unshift(Validators.required);
+      }
+      return validators;
+    }
+    case 'checkbox':
+      return [];
+    case 'select':
+    case 'client-search':
+    case 'user-picker':
+      return required ? [Validators.required] : [];
+    case 'multiselect':
+      return required ? [requiredMultiselectValidator()] : [];
+    case 'document-grid':
+    case 'portal-publications-grid':
+    case 'language-grid':
+    case 'questionnaire-picker':
+      return required ? [requiredCompositeValidator(field)] : [];
+    default:
+      return required ? [Validators.required] : [];
+  }
+}
+
+function requiredMultiselectValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value as number[] | null;
+    return value != null && value.length > 0 ? null : { required: true };
+  };
+}
+
+function requiredCompositeValidator(field: ResolvedRequisitionFormField): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (field.uiType === 'language-grid' && control instanceof FormArray) {
+      const rows = (control.getRawValue() as WizardLanguageRow[]).filter(
+        (r) => r.languageId != null || r.languageLevelId != null,
+      );
+      return rows.length > 0 && rows.every((r) => r.languageId != null && r.languageLevelId != null)
+        ? null
+        : { required: true };
+    }
+    if (field.uiType === 'questionnaire-picker' && control instanceof FormGroup) {
+      const q = control.getRawValue() as WizardQuestionnaireValue;
+      return q.examId != null ? null : { required: true };
+    }
+    if (field.uiType === 'document-grid') {
+      if (field.fieldKey === 'documentTypeIds') {
+        const ids = control.value as number[];
+        return ids?.length ? null : { required: true };
+      }
+      const rows = (control.value ?? []) as WizardDocumentRequirementRow[];
+      if (field.fieldKey === 'documentRequirements') {
+        return null;
+      }
+      return rows.length > 0 ? null : { required: true };
+    }
+    if (field.uiType === 'portal-publications-grid') {
+      const rows = (control.value ?? []) as WizardPublishedPortalRow[];
+      return rows.length > 0 ? null : { required: true };
+    }
+    return control.value != null && control.value !== '' ? null : { required: true };
+  };
+}
+
+export function buildDynamicStepForms(
+  fb: FormBuilder,
+  config: ResolvedRequisitionFormConfig,
+): FormGroup {
+  const root = fb.nonNullable.group({});
+  const flatValues: Record<string, unknown> = {};
+
+  for (const step of config.steps) {
+    const stepGroup = fb.nonNullable.group({});
+    for (const field of step.fields) {
+      if (field.uiType === 'document-config-section') {
+        continue;
+      }
+      stepGroup.addControl(field.fieldKey, createFieldControl(fb, field, flatValues));
+      flatValues[field.fieldKey] = stepGroup.get(field.fieldKey)?.value;
+    }
+    root.addControl(step.stepKey, stepGroup);
+  }
+  return root;
+}
+
+export function flattenDynamicFormValues(form: FormGroup): Record<string, unknown> {
+  const values: Record<string, unknown> = {};
+  for (const stepKey of Object.keys(form.controls)) {
+    const stepGroup = form.get(stepKey) as FormGroup;
+    if (!stepGroup) {
+      continue;
+    }
+    for (const fieldKey of Object.keys(stepGroup.controls)) {
+      const control = stepGroup.get(fieldKey);
+      if (!control) {
+        continue;
+      }
+      values[fieldKey] = readControlValue(control);
+    }
+  }
+  return values;
+}
+
+function readControlValue(control: AbstractControl): unknown {
+  if (control instanceof FormGroup || control instanceof FormArray) {
+    return control.getRawValue();
+  }
+  return control.disabled ? control.getRawValue() : control.value;
+}
+
+export function refreshDynamicValidators(
+  form: FormGroup,
+  config: ResolvedRequisitionFormConfig,
+): void {
+  const values = flattenDynamicFormValues(form);
+  for (const step of config.steps) {
+    const stepGroup = form.get(step.stepKey) as FormGroup | null;
+    if (!stepGroup) {
+      continue;
+    }
+    for (const field of step.fields) {
+      const control = stepGroup.get(field.fieldKey);
+      if (!control) {
+        continue;
+      }
+      if (field.uiType === 'document-config-section') {
+        continue;
+      }
+      const visible = isFieldVisible(field, values);
+      if (!visible) {
+        control.clearValidators();
+        control.disable({ emitEvent: false });
+        control.updateValueAndValidity({ emitEvent: false });
+        continue;
+      }
+      if (isFieldReadOnly(field, values)) {
+        control.clearValidators();
+        control.disable({ emitEvent: false });
+        control.updateValueAndValidity({ emitEvent: false });
+        continue;
+      }
+      control.enable({ emitEvent: false });
+      control.setValidators(buildFieldValidators(field, values));
+      if (field.uiType === 'questionnaire-picker' && control instanceof FormGroup) {
+        const examId = control.get('examId');
+        examId?.setValidators(isFieldRequired(field, values) ? [Validators.required] : []);
+        examId?.updateValueAndValidity({ emitEvent: false });
+      }
+      control.updateValueAndValidity({ emitEvent: false });
+    }
+  }
+}
+
+export function buildDynamicCreatePayload(
+  formValues: Record<string, unknown>,
+  config: ResolvedRequisitionFormConfig,
+  includeReadOnlyFields = false,
+): CreatePositionRequest {
+  const payload: Record<string, unknown> = { brandId: null };
+
+  for (const step of config.steps) {
+    for (const field of step.fields) {
+      if (!isFieldVisible(field, formValues)) {
+        continue;
+      }
+      if (
+        !includeReadOnlyFields &&
+        (isFieldReadOnly(field) || field.fieldKey === 'orderId' || field.fieldKey === 'brandId')
+      ) {
+        continue;
+      }
+      if (field.fieldKey === 'orderId' || field.fieldKey === 'brandId') {
+        continue;
+      }
+      const raw = formValues[field.fieldKey];
+      if (raw === undefined) {
+        continue;
+      }
+      assignPayloadField(payload, field.fieldKey, field.uiType, raw);
+    }
+  }
+
+  mapLegacyLanguageFields(payload, formValues);
+  mapLegacyDocumentFields(payload, formValues);
+
+  return payload as unknown as CreatePositionRequest;
+}
+
+function assignPayloadField(
+  payload: Record<string, unknown>,
+  fieldKey: string,
+  uiType: string,
+  raw: unknown,
+): void {
+  const targetKey = PAYLOAD_FIELD_ALIASES[fieldKey] ?? fieldKey;
+
+  switch (uiType) {
+    case 'language-grid': {
+      const rows = (raw as WizardLanguageRow[]).filter(
+        (r) => r.languageId != null && r.languageLevelId != null,
+      );
+      const seen = new Set<number>();
+      payload['languages'] = rows
+        .filter((r) => {
+          if (seen.has(r.languageId!)) {
+            return false;
+          }
+          seen.add(r.languageId!);
+          return true;
+        })
+        .map(
+          (r) =>
+            ({
+              languageId: r.languageId!,
+              languageLevelId: r.languageLevelId!,
+            }) satisfies PositionLanguageItem,
+        );
+      break;
+    }
+    case 'document-grid': {
+      if (fieldKey === 'documentTypeIds') {
+        payload['documentTypeIds'] = (raw as number[]) ?? [];
+      } else {
+        const rows = (raw as WizardDocumentRequirementRow[]) ?? [];
+        payload['documentRequirements'] = rows.map(
+          (r) =>
+            ({
+              documentTypeId: r.documentTypeId,
+              isRequired: r.isRequired,
+              validateAiName: r.validateAiName ?? false,
+              validateAiValidity: r.validateAiValidity ?? false,
+              validityMonths: r.validateAiValidity ? r.validityMonths ?? null : null,
+              isActive: r.isActive !== false,
+            }) satisfies PositionDocumentRequirementItem,
+        );
+        payload['documentTypeIds'] = rows.map((r) => r.documentTypeId);
+      }
+      break;
+    }
+    case 'portal-publications-grid': {
+      const rows = (raw as WizardPublishedPortalRow[]) ?? [];
+      payload['publishedPortals'] = rows.map((r) => ({
+        jobPortalId: r.jobPortalId,
+        externalPortalId: r.externalPortalId,
+      }));
+      break;
+    }
+    case 'questionnaire-picker': {
+      const q = raw as WizardQuestionnaireValue;
+      if (q.examId != null) {
+        payload['questionnaire'] = {
+          examId: q.examId,
+          questionnaireId: null,
+          evaluationType: null,
+          acceptancePercentage: null,
+        } satisfies PositionQuestionnaireItem;
+      }
+      break;
+    }
+    case 'number': {
+      if (isRequisitionPositiveIntegerField(fieldKey)) {
+        payload[targetKey] = toPositiveIntegerOrNull(raw);
+      } else if (isRequisitionMoneyField(fieldKey)) {
+        payload[targetKey] = roundMoneyToTwoDecimals(raw);
+      } else {
+        payload[targetKey] = raw === null || raw === '' ? null : Number(raw);
+      }
+      break;
+    }
+    case 'multiselect': {
+      if (fieldKey === 'workDays') {
+        payload[targetKey] = serializeWorkDaysFromIds(raw as number[]);
+        break;
+      }
+      const ids = Array.isArray(raw) ? (raw as number[]).filter((id) => id != null) : [];
+      payload[targetKey] = ids;
+      break;
+    }
+    case 'checkbox': {
+      payload[targetKey] = !!raw;
+      break;
+    }
+    case 'date': {
+      payload[targetKey] = formatDatePayload(raw);
+      break;
+    }
+    case 'time': {
+      payload[targetKey] = formatDateToHhMm(raw) ?? (typeof raw === 'string' && raw.trim() ? raw : null);
+      break;
+    }
+    default: {
+      payload[targetKey] = raw === '' ? null : raw;
+    }
+  }
+}
+
+function formatDatePayload(raw: unknown): string | null {
+  return formatDateToIso(raw);
+}
+
+function mapLegacyLanguageFields(payload: Record<string, unknown>, formValues: Record<string, unknown>): void {
+  if (payload['languages']) {
+    return;
+  }
+  const primary = formValues['primaryLanguageId'] as number | null | undefined;
+  const secondary = formValues['secondaryLanguageId'] as number | null | undefined;
+  const level = formValues['languageLevelId'] as number | null | undefined;
+  if (primary == null || level == null) {
+    return;
+  }
+  const languages: PositionLanguageItem[] = [{ languageId: primary, languageLevelId: level }];
+  if (secondary != null) {
+    languages.push({ languageId: secondary, languageLevelId: level });
+  }
+  payload['languages'] = languages;
+  payload['primaryLanguageId'] = primary;
+  payload['secondaryLanguageId'] = secondary ?? null;
+  payload['languageLevelId'] = level;
+}
+
+function mapLegacyDocumentFields(payload: Record<string, unknown>, formValues: Record<string, unknown>): void {
+  if (payload['documentTypeIds'] || payload['documentRequirements']) {
+    return;
+  }
+  const ids = formValues['documentTypeIds'] as number[] | undefined;
+  if (ids?.length) {
+    payload['documentTypeIds'] = ids;
+  }
+}
+
+export function hydrateDynamicFormValues(
+  position: PositionDetail,
+  config: ResolvedRequisitionFormConfig,
+): Record<string, unknown> {
+  const values: Record<string, unknown> = {};
+  const positionRecord = position as unknown as Record<string, unknown>;
+
+  for (const step of config.steps) {
+    for (const field of step.fields) {
+      values[field.fieldKey] = resolveHydratedValue(field, position, positionRecord);
+    }
+  }
+  return values;
+}
+
+function resolveHydratedValue(
+  field: ResolvedRequisitionFormField,
+  position: PositionDetail,
+  positionRecord: Record<string, unknown>,
+): unknown {
+  switch (field.uiType) {
+    case 'language-grid':
+      if (position.languages?.length) {
+        return position.languages.map((l) => ({
+          languageId: l.languageId,
+          languageLevelId: l.languageLevelId,
+        }));
+      }
+      if (position.primaryLanguageId != null && position.languageLevelId != null) {
+        const rows: WizardLanguageRow[] = [
+          { languageId: position.primaryLanguageId, languageLevelId: position.languageLevelId },
+        ];
+        if (position.secondaryLanguageId != null) {
+          rows.push({
+            languageId: position.secondaryLanguageId,
+            languageLevelId: position.languageLevelId,
+          });
+        }
+        return rows;
+      }
+      return [{ languageId: null, languageLevelId: null }];
+    case 'document-grid':
+      if (field.fieldKey === 'documentTypeIds') {
+        return position.documentTypeIds ?? [];
+      }
+      if (position.documentRequirements?.length) {
+        return position.documentRequirements.map((d) => ({
+          documentTypeId: d.documentTypeId,
+          isRequired: d.isRequired,
+          selected: d.isActive !== false,
+          validateAiName: d.validateAiName ?? false,
+          validateAiValidity: d.validateAiValidity ?? false,
+          validityMonths: d.validityMonths ?? null,
+          isActive: d.isActive !== false,
+        }));
+      }
+      return (position.documentTypeIds ?? []).map((id) => ({
+        documentTypeId: id,
+        isRequired: false,
+        selected: true,
+        validateAiName: false,
+        validateAiValidity: false,
+        validityMonths: null,
+        isActive: true,
+      }));
+    case 'portal-publications-grid':
+      return (position.publishedPortals ?? []).map((p) => ({
+        jobPortalId: p.jobPortalId,
+        externalPortalId: p.externalPortalId,
+      }));
+    case 'questionnaire-picker':
+      if (position.questionnaire) {
+        return {
+          examId: position.questionnaire.examId ?? null,
+        };
+      }
+      return defaultValueForUiType(field.uiType, field.fieldKey);
+    case 'multiselect': {
+      if (field.fieldKey === 'workDays') {
+        const text =
+          (positionRecord[field.fieldKey] as string | null | undefined) ?? position.workDays;
+        return parseWorkDaysToIds(text);
+      }
+      const raw = positionRecord[field.fieldKey];
+      if (Array.isArray(raw)) {
+        return (raw as number[]).filter((id) => id != null);
+      }
+      if (field.fieldKey === 'disabilityTypeIds' && position.disabilityTypeId != null) {
+        return [position.disabilityTypeId];
+      }
+      return [];
+    }
+    default: {
+      const alias = PAYLOAD_FIELD_ALIASES[field.fieldKey];
+      let value =
+        (alias ? positionRecord[alias as string] : undefined) ??
+        positionRecord[field.fieldKey] ??
+        defaultValueForUiType(field.uiType, field.fieldKey);
+      if (field.uiType === 'date') {
+        value = parseDateControlValue(value);
+      }
+      if (field.uiType === 'time') {
+        const normalized = formatDateToHhMm(value);
+        value = normalized ?? defaultValueForUiType('time', field.fieldKey);
+      }
+      if (field.uiType === 'number' && isRequisitionMoneyField(field.fieldKey)) {
+        const rounded = roundMoneyToTwoDecimals(value);
+        return rounded == null ? null : rounded.toFixed(2);
+      }
+      return value;
+    }
+  }
+}
+
+function parseDateControlValue(value: unknown): string | null {
+  return formatDateToIso(value);
+}
+
+export function patchDynamicForm(
+  form: FormGroup,
+  values: Record<string, unknown>,
+  config: ResolvedRequisitionFormConfig,
+): void {
+  const fb = new FormBuilder();
+  for (const step of config.steps) {
+    const stepGroup = form.get(step.stepKey) as FormGroup | null;
+    if (!stepGroup) {
+      continue;
+    }
+    for (const field of step.fields) {
+      const control = stepGroup.get(field.fieldKey);
+      const value = values[field.fieldKey];
+      if (!control || value === undefined) {
+        continue;
+      }
+      if (field.uiType === 'language-grid' && control instanceof FormArray) {
+        control.clear();
+        const rows = (value as WizardLanguageRow[]) ?? [];
+        for (const row of rows) {
+          control.push(
+            fb.nonNullable.group({
+              languageId: [row.languageId],
+              languageLevelId: [row.languageLevelId],
+            }),
+          );
+        }
+        if (!control.length) {
+          control.push(createLanguageRowGroup(fb));
+        }
+        continue;
+      }
+      control.patchValue(value, { emitEvent: false });
+    }
+  }
+  refreshDynamicValidators(form, config);
+}

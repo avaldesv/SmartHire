@@ -1,3 +1,4 @@
+import { TenantDataScope } from './tenant-data-scope.model';
 import { ApiPageResponse } from './catalog-position.model';
 
 export interface CatalogRequisitionType {
@@ -7,14 +8,16 @@ export interface CatalogRequisitionType {
   name: string;
   description?: string;
   isActive: boolean;
+  companyId?: number | null;
 }
 
 export interface CreateRequisitionTypeRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   description?: string;
   isActive?: boolean;
+  scope?: TenantDataScope;
 }
 
 export type UpdateRequisitionTypeRequest = CreateRequisitionTypeRequest;

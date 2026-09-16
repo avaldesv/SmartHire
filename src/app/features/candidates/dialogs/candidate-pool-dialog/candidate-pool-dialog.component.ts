@@ -1,25 +1,47 @@
 import { DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { catalogDialogConfig } from '../../../../core/dialog/catalog-dialog.constants';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
 import { debounceTime, forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { CandidateApiService } from '../../../../core/services/candidate-api.service';
 import { CandidateApplicationApiService } from '../../../../core/services/candidate-application-api.service';
 import { CandidateListItem } from '../../../../shared/models/candidate.model';
+import { ShPaginatorComponent } from '../../../../shared/components/paginator/sh-paginator.component';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../../shared/components/modal-form/sh-modal-form.component';
 
 export interface CandidatePoolDialogData {
   positionId: number;
   requisitionNo?: string;
+}
+
+/** Dialog width: former 760px + 40% to avoid horizontal scroll. */
+export const CANDIDATE_POOL_DIALOG_WIDTH = '1064px';
+
+/** Fixed height so filter/load does not collapse or resize the modal. */
+export const CANDIDATE_POOL_DIALOG_HEIGHT = '850px';
+
+export function candidatePoolDialogConfig(extra: MatDialogConfig = {}): MatDialogConfig {
+  return catalogDialogConfig(CANDIDATE_POOL_DIALOG_WIDTH, {
+    height: CANDIDATE_POOL_DIALOG_HEIGHT,
+    maxHeight: CANDIDATE_POOL_DIALOG_HEIGHT,
+    maxWidth: '96vw',
+    panelClass: ['sh-catalog-form-dialog-panel', 'sh-candidate-pool-dialog-panel'],
+    ...extra,
+  });
 }
 
 @Component({
@@ -30,13 +52,14 @@ export interface CandidatePoolDialogData {
     ReactiveFormsModule,
     MatDialogModule,
     MatTableModule,
-    MatPaginatorModule,
+    ShPaginatorComponent,
+    ShModalFormComponent,
+    ShModalActionsDirective,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatIconModule,
     MatCheckboxModule,
-    MatSnackBarModule,
     MatProgressSpinnerModule,
   ],
   templateUrl: './candidate-pool-dialog.component.html',
@@ -47,7 +70,7 @@ export class CandidatePoolDialogComponent implements OnInit {
   readonly data = inject<CandidatePoolDialogData>(MAT_DIALOG_DATA);
   private readonly candidateApi = inject(CandidateApiService);
   private readonly applicationApi = inject(CandidateApplicationApiService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly fb = inject(FormBuilder);
 
   loading = true;
@@ -80,9 +103,9 @@ export class CandidatePoolDialogComponent implements OnInit {
         this.total = res.total;
         this.loading = false;
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open('No se pudo cargar el pool de candidatos', 'Cerrar', { duration: 4000 });
+        this.feedback.showSuccess('No se pudo cargar el pool de candidatos');
       },
     });
   }
@@ -116,7 +139,7 @@ export class CandidatePoolDialogComponent implements OnInit {
 
   submit(): void {
     if (this.selectedIds.size === 0) {
-      this.snack.open('Selecciona al menos un candidato', 'Cerrar', { duration: 3000 });
+      this.feedback.showSuccess('Selecciona al menos un candidato');
       return;
     }
     this.submitting = true;
@@ -133,12 +156,12 @@ export class CandidatePoolDialogComponent implements OnInit {
         if (created > 0) {
           this.dialogRef.close({ created, skipped });
         } else {
-          this.snack.open('Ningún candidato pudo postularse (¿ya estaban postulados?)', 'Cerrar', { duration: 4000 });
+          this.feedback.showSuccess('Ningún candidato pudo postularse (¿ya estaban postulados?)');
         }
       },
-      error: () => {
+      error: (err) => {
         this.submitting = false;
-        this.snack.open('Error al postular candidatos', 'Cerrar', { duration: 4000 });
+        this.feedback.showSuccess('Error al postular candidatos');
       },
     });
   }

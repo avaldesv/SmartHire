@@ -1,0 +1,388 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.documents-dialog-header__content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.documents-dialog-header__top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+
+.documents-dialog-header__title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.documents-dialog-header__icon {
+  flex-shrink: 0;
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+  color: inherit;
+}
+
+.documents-dialog-header__title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.documents-dialog-header__subtitle {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.3;
+  opacity: 0.92;
+  padding-left: 40px;
+}
+
+.documents-dialog-header__close {
+  flex: 0 0 auto;
+  margin: -8px -8px -8px 0;
+  color: inherit;
+}
+
+.documents-dialog-body {
+  display: flex !important;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: hidden !important;
+  padding-top: 16px !important;
+}
+
+.documents-dialog-body .sh-catalog-dialog-gap {
+  display: none;
+}
+
+.documents-table-wrap {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.documents-table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+sh-paginator {
+  flex-shrink: 0;
+  border-top: 1px solid #e2e8f0;
+}
+
+.col-type {
+  width: 16%;
+  min-width: 10rem;
+}
+
+.col-file {
+  width: 20%;
+  min-width: 10rem;
+}
+
+.col-size {
+  width: 8%;
+  min-width: 4.5rem;
+}
+
+.col-status {
+  width: 10%;
+  min-width: 5.5rem;
+}
+
+.col-validation {
+  width: 12%;
+  min-width: 6.5rem;
+}
+
+.col-date {
+  width: 10%;
+  min-width: 5.5rem;
+}
+
+.col-actions {
+  width: 16%;
+  min-width: 8.5rem;
+}
+
+:host ::ng-deep .documents-table .mat-mdc-header-row {
+  background: #f8fafc;
+}
+
+:host ::ng-deep .documents-table .mat-mdc-header-cell,
+:host ::ng-deep .documents-table .mat-mdc-cell {
+  padding: 12px 14px;
+  vertical-align: middle;
+}
+
+:host ::ng-deep .documents-table .mat-mdc-header-cell {
+  font-weight: 600;
+  white-space: nowrap;
+  color: #334155;
+}
+
+:host ::ng-deep .documents-table .mat-mdc-cell.col-file {
+  word-break: break-word;
+}
+
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.empty-msg {
+  padding: 1.5rem 0;
+  color: var(--sh-text-muted, #64748b);
+  text-align: center;
+}
+
+.hidden-file-input {
+  display: none;
+}
+
+.compliance-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 16px 18px;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  flex-shrink: 0;
+}
+
+.compliance-card--ok {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.compliance-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.compliance-card__headline {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.compliance-card__subline {
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.compliance-card__subline--hint {
+  color: #475569;
+}
+
+.compliance-card__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #fee2e2;
+  color: #991b1b;
+  white-space: nowrap;
+}
+
+.progress-ring {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+}
+
+.progress-ring__svg {
+  width: 72px;
+  height: 72px;
+  transform: rotate(-90deg);
+}
+
+.progress-ring__track {
+  fill: none;
+  stroke: #e2e8f0;
+  stroke-width: 8;
+}
+
+.progress-ring__fill {
+  fill: none;
+  stroke: #0d9488;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.25s ease;
+}
+
+.progress-ring__label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f766e;
+}
+
+.type-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.type-cell__lock {
+  flex-shrink: 0;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  color: #94a3b8;
+}
+
+.file-cell--missing {
+  color: #b91c1c;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.validation-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.validation-badge__icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+}
+
+.validation-badge--pending {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.validation-badge--validated {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.validation-badge--rejected {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.validation-badge--missing {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.actions-cell {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 4px;
+}
+
+.action-tooltip-host {
+  display: inline-flex;
+}
+
+.action-icon {
+  color: #475569;
+}
+
+.action-icon--upload {
+  color: #0d9488;
+}
+
+.upload-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 12px;
+  white-space: nowrap;
+}
+
+.upload-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.validate-action--validated {
+  color: #16a34a;
+}
+
+.validate-action--rejected {
+  color: #dc2626;
+}
+
+.validate-action--pending {
+  color: #ca8a04;
+}
+
+.documents-dialog-actions {
+  flex-shrink: 0;
+  align-self: stretch;
+  width: 100%;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+}
+
+.documents-dialog-actions > button {
+  margin-inline-start: auto;
+  flex: 0 0 auto;
+}
+
+:host ::ng-deep tr.row-missing-required > .mat-mdc-cell {
+  background: #fffafa;
+}
+
+:host ::ng-deep tr.row-missing-required > .mat-mdc-cell:first-child {
+  box-shadow: inset 4px 0 0 #ef4444;
+}
+
+:host ::ng-deep tr.row-missing-optional > .mat-mdc-cell {
+  background: #f8fafc;
+}
+
+:host ::ng-deep tr.row-missing-optional > .mat-mdc-cell:first-child {
+  box-shadow: inset 4px 0 0 #94a3b8;
+}

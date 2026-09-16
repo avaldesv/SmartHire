@@ -1,5 +1,6 @@
 import { ApiPageResponse } from './catalog-position.model';
 import { SecurityModulePermission } from './security-module-permission.model';
+import { TenantDataScope } from './tenant-data-scope.model';
 
 export interface SecurityRolePermission {
   id: number;
@@ -9,7 +10,7 @@ export interface SecurityRolePermission {
 
 export interface SecurityRole {
   id: number;
-  companyId: number;
+  companyId: number | null;
   name: string;
   description?: string;
   isActive: boolean;
@@ -20,7 +21,7 @@ export interface CreateSecurityRoleRequest {
   name: string;
   description?: string;
   isActive: boolean;
-  companyId: number;
+  scope?: TenantDataScope;
   modulePermissionIds?: number[];
 }
 

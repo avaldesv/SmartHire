@@ -1,16 +1,197 @@
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px 16px;
   margin-top: 16px;
+  align-items: start;
+  width: 100%;
 }
 
-.span-2 { grid-column: span 2; }
+.span-2 {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-width: 0;
+}
 
-.step-form { padding: 8px 0; }
+.wizard-page {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+
+  .sh-card {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  ::ng-deep .wizard-stepper--compact {
+    .mat-horizontal-stepper-header-container,
+    .mat-stepper-horizontal-line {
+      display: none !important;
+      height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      visibility: hidden !important;
+    }
+
+    .mat-horizontal-content-container {
+      padding: 0;
+      overflow: visible;
+    }
+
+    .mat-horizontal-stepper-content {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+}
+
+.wizard-header-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.wizard-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  width: 100%;
+  padding: 4px 0 16px;
+  margin-bottom: 4px;
+  box-sizing: border-box;
+}
+
+.wizard-progress__caption {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #0f172a;
+  text-align: left;
+  word-break: break-word;
+}
+
+.wizard-progress__caption-sep {
+  margin: 0 0.35rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.wizard-progress__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0;
+  width: 100%;
+  border-bottom: 1px solid #e2e8f0;
+  box-sizing: border-box;
+}
+
+.wizard-progress__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 1 auto;
+  max-width: 100%;
+  margin: 0;
+  padding: 10px 14px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  background: transparent;
+  color: #64748b;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+
+  &:hover {
+    color: #0f766e;
+    background: rgba(15, 118, 110, 0.04);
+  }
+}
+
+.wizard-progress__tab-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  color: #475569;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.wizard-progress__tab-label {
+  white-space: nowrap;
+}
+
+.wizard-progress__tab--active {
+  color: #0f766e;
+  border-bottom-color: #0f766e;
+  font-weight: 600;
+
+  .wizard-progress__tab-index {
+    background: #0f766e;
+    color: #fff;
+  }
+
+  &:hover {
+    color: #0f766e;
+  }
+}
+
+.wizard-progress__tab--done:not(.wizard-progress__tab--active) {
+  color: #0f766e;
+
+  .wizard-progress__tab-index {
+    background: #ccfbf1;
+    color: #0f766e;
+  }
+}
+
+.step-title {
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.step-form {
+  padding: 8px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.step-hint {
+  margin: 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.tenant-brand-hint {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+}
+
+.tenant-brand-hint--warning {
+  color: #b45309;
+}
 
 .step-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-top: 16px;
 }
@@ -32,7 +213,66 @@
   flex-wrap: wrap;
 }
 
+.loading-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 280px;
+  padding: 48px 24px;
+}
+
+.loading-wrap__label {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 900px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bottom-actions {
+    justify-content: stretch;
+  }
+
+  .bottom-actions button {
+    flex: 1 1 auto;
+  }
+}
+
 @media (max-width: 700px) {
-  .form-grid { grid-template-columns: 1fr; }
-  .span-2 { grid-column: span 1; }
+  .wizard-header-nav {
+    width: 100%;
+  }
+
+  .wizard-header-nav button {
+    flex: 1 1 auto;
+  }
+
+  .wizard-progress__tab {
+    padding: 8px 10px;
+    font-size: 0.75rem;
+  }
+
+  .wizard-progress__tab-label {
+    white-space: normal;
+  }
+
+  .wizard-progress__caption {
+    font-size: 0.85rem;
+  }
+
+  .step-actions,
+  .bottom-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .step-actions button,
+  .bottom-actions button {
+    width: 100%;
+  }
 }

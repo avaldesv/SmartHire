@@ -11,14 +11,32 @@ Datos **100% mock** (sin backend). Cubre los módulos y pantallas definidos en l
 ## Inicio rápido
 
 ```bash
-cd smarthire-recruiter-portal
+cd smart_hire_recruiter_portal
 npm install
-npm start
+npm run start:local          # FE local + BE local (:8080) → http://localhost:4200
+npm run start:remote         # FE local + BE Railway (proxy) → http://localhost:4300
 ```
+
+`start:dev` es alias de `start:local`. Locales i18n: `start:es-MX`, `start:es-ES`, `start:en-US`.
 
 Abrir http://localhost:4200 → redirige a `/login`.
 
-**Login mock:** cualquier correo corporativo o botón «Iniciar sesión con SSO» → sesión simulada como Gerardo Quintana.
+### Environments
+
+| Archivo | Script | API |
+|---|---|---|
+| `environment.ts` | `start:local` (:4200) | `http://localhost:8080/smart_hire_api` |
+| `environment.remote.ts` | `start:remote` (:4300) + `proxy.conf.json` | Railway vía `/smart_hire_api` |
+| `environment.production.ts` | `build` / deploy | Railway directo |
+
+## Build producción
+
+```bash
+npm run build                # genera dist/… (environment.production)
+npm run start:prod           # sirve estáticos (SPA)
+```
+
+Salida en `dist/smarthire-recruiter-portal/`.
 
 ## Arquitectura frontend (alineada al target)
 
@@ -78,14 +96,6 @@ src/app/
 - Colores: teal `#0D9488`, navy `#1E3A5F`, fondo `#F8FAFC`
 - Tipografía: Inter + JetBrains Mono (IDs)
 - Layout: top nav horizontal + content area
-
-## Build producción
-
-```bash
-npm run build
-```
-
-Salida en `dist/smarthire-recruiter-portal/`.
 
 ## Próximo paso (integración real)
 

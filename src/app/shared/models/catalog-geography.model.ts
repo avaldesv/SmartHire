@@ -1,11 +1,15 @@
+import { TenantDataScope } from './tenant-data-scope.model';
+
 export interface CatalogListRequest {
   isActive?: boolean | null;
+  search?: string | null;
   filters?: string[];
   ordersBy?: string[];
   countryId?: number;
   stateId?: number;
   postalCode?: string;
   municipalityId?: number;
+  companyId?: number | null;
 }
 
 export interface ApiPageResponse<T> {
@@ -18,14 +22,28 @@ export interface CatalogCountry {
   code: string;
   secondaryCode?: string;
   name: string;
+  description?: string;
+  currencyId?: number | null;
+  languageId?: number | null;
+  manpowerId?: number | null;
+  region?: string;
+  jobPortalUrl?: string;
   isActive: boolean;
+  companyId?: number | null;
 }
 
 export interface CreateCountryRequest {
   code: string;
   secondaryCode?: string;
   name: string;
+  description?: string;
+  currencyId?: number | null;
+  languageId?: number | null;
+  manpowerId?: number | null;
+  region?: string;
+  jobPortalUrl?: string;
   isActive?: boolean;
+  scope?: TenantDataScope;
 }
 
 export type UpdateCountryRequest = CreateCountryRequest;
@@ -37,14 +55,16 @@ export interface CatalogState {
   name: string;
   shortDescription?: string;
   isActive: boolean;
+  companyId?: number | null;
 }
 
 export interface CreateStateRequest {
-  countryId: number;
+  countryId?: number | null;
   code: string;
   name: string;
   shortDescription?: string;
   isActive?: boolean;
+  scope?: TenantDataScope;
 }
 
 export type UpdateStateRequest = CreateStateRequest;
@@ -54,6 +74,7 @@ export interface CreateMunicipalityRequest {
   code: string;
   name: string;
   isActive?: boolean;
+  scope?: TenantDataScope;
 }
 
 export type UpdateMunicipalityRequest = CreateMunicipalityRequest;
@@ -63,6 +84,7 @@ export interface CreateNeighborhoodRequest {
   name: string;
   postalCode: string;
   isActive?: boolean;
+  scope?: TenantDataScope;
 }
 
 export type UpdateNeighborhoodRequest = CreateNeighborhoodRequest;
@@ -74,6 +96,7 @@ export interface CatalogMunicipality {
   code?: string;
   name: string;
   isActive: boolean;
+  companyId?: number | null;
 }
 
 export interface CatalogNeighborhood {
@@ -82,6 +105,7 @@ export interface CatalogNeighborhood {
   name: string;
   postalCode: string;
   isActive: boolean;
+  companyId?: number | null;
 }
 
 export interface CatalogOption {

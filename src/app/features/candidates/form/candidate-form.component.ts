@@ -7,12 +7,51 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import {
+  CANDIDATES_FORM_ACTIVE,
+  CANDIDATES_FORM_CANCEL,
+  CANDIDATES_FORM_COUNTRIES_ERROR,
+  CANDIDATES_FORM_COUNTRY,
+  CANDIDATES_FORM_CREATED,
+  CANDIDATES_FORM_CURP,
+  CANDIDATES_FORM_EMAIL,
+  CANDIDATES_FORM_FIRST_NAME,
+  CANDIDATES_FORM_GENDER,
+  CANDIDATES_FORM_GENDER_FEMALE,
+  CANDIDATES_FORM_GENDER_MALE,
+  CANDIDATES_FORM_LAST_NAME,
+  CANDIDATES_FORM_LOAD_ERROR,
+  CANDIDATES_FORM_LOADING,
+  CANDIDATES_FORM_MUNICIPALITIES_ERROR,
+  CANDIDATES_FORM_MUNICIPALITY,
+  CANDIDATES_FORM_NEIGHBORHOOD,
+  CANDIDATES_FORM_NEIGHBORHOODS_ERROR,
+  CANDIDATES_FORM_NO_NEIGHBORHOODS,
+  CANDIDATES_FORM_NSS,
+  CANDIDATES_FORM_PHONE,
+  CANDIDATES_FORM_POSTAL_CODE,
+  CANDIDATES_FORM_RFC,
+  CANDIDATES_FORM_SALARY,
+  CANDIDATES_FORM_SAVE,
+  CANDIDATES_FORM_SAVE_ERROR,
+  CANDIDATES_FORM_SOURCE,
+  CANDIDATES_FORM_SOURCE_BUC,
+  CANDIDATES_FORM_SOURCE_JOBBOARD,
+  CANDIDATES_FORM_SOURCE_MANUAL,
+  CANDIDATES_FORM_STATE,
+  CANDIDATES_FORM_STATES_ERROR,
+  CANDIDATES_FORM_SUBTITLE,
+  CANDIDATES_FORM_TITLE_EDIT,
+  CANDIDATES_FORM_TITLE_NEW,
+  CANDIDATES_FORM_UPDATED,
+} from '../../../core/i18n/candidates-labels';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { CandidateApiService } from '../../../core/services/candidate-api.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
+import { ShPhoneFieldsComponent } from '../../../shared/components/phone-fields/sh-phone-fields.component';
 import { CreateCandidateRequest } from '../../../shared/models/candidate.model';
 import {
   CatalogCountry,
@@ -31,9 +70,9 @@ import {
     MatSelectModule,
     MatButtonModule,
     MatSlideToggleModule,
-    MatSnackBarModule,
     MatProgressSpinnerModule,
     PageHeaderComponent,
+    ShPhoneFieldsComponent,
   ],
   templateUrl: './candidate-form.component.html',
   styleUrl: './candidate-form.component.scss',
@@ -44,8 +83,38 @@ export class CandidateFormComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly candidateService = inject(CandidateApiService);
   private readonly geographyService = inject(CatalogGeographyService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly destroyRef = inject(DestroyRef);
+
+  readonly ui = {
+    titleNew: CANDIDATES_FORM_TITLE_NEW,
+    titleEdit: CANDIDATES_FORM_TITLE_EDIT,
+    subtitle: CANDIDATES_FORM_SUBTITLE,
+    firstName: CANDIDATES_FORM_FIRST_NAME,
+    lastName: CANDIDATES_FORM_LAST_NAME,
+    email: CANDIDATES_FORM_EMAIL,
+    phone: CANDIDATES_FORM_PHONE,
+    curp: CANDIDATES_FORM_CURP,
+    rfc: CANDIDATES_FORM_RFC,
+    nss: CANDIDATES_FORM_NSS,
+    gender: CANDIDATES_FORM_GENDER,
+    genderFemale: CANDIDATES_FORM_GENDER_FEMALE,
+    genderMale: CANDIDATES_FORM_GENDER_MALE,
+    country: CANDIDATES_FORM_COUNTRY,
+    state: CANDIDATES_FORM_STATE,
+    municipality: CANDIDATES_FORM_MUNICIPALITY,
+    postalCode: CANDIDATES_FORM_POSTAL_CODE,
+    neighborhood: CANDIDATES_FORM_NEIGHBORHOOD,
+    salary: CANDIDATES_FORM_SALARY,
+    source: CANDIDATES_FORM_SOURCE,
+    sourceManual: CANDIDATES_FORM_SOURCE_MANUAL,
+    sourceJobboard: CANDIDATES_FORM_SOURCE_JOBBOARD,
+    sourceBuc: CANDIDATES_FORM_SOURCE_BUC,
+    active: CANDIDATES_FORM_ACTIVE,
+    loading: CANDIDATES_FORM_LOADING,
+    save: CANDIDATES_FORM_SAVE,
+    cancel: CANDIDATES_FORM_CANCEL,
+  };
 
   isEdit = false;
   loading = false;
@@ -68,6 +137,7 @@ export class CandidateFormComponent implements OnInit {
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
+    phonePrefix: ['+52'],
     phone: ['', Validators.required],
     curp: [''],
     rfc: [''],
@@ -105,9 +175,9 @@ export class CandidateFormComponent implements OnInit {
           this.loadStates(mexico.id);
         }
       },
-      error: () => {
+      error: (err) => {
         this.loadingGeo.countries = false;
-        this.snack.open('No se pudieron cargar los países', 'Cerrar', { duration: 4000 });
+        this.feedback.showSuccess(CANDIDATES_FORM_COUNTRIES_ERROR);
       },
     });
   }
@@ -183,9 +253,9 @@ export class CandidateFormComponent implements OnInit {
         this.states = items;
         this.loadingGeo.states = false;
       },
-      error: () => {
+      error: (err) => {
         this.loadingGeo.states = false;
-        this.snack.open('No se pudieron cargar los estados', 'Cerrar', { duration: 4000 });
+        this.feedback.showSuccess(CANDIDATES_FORM_STATES_ERROR);
       },
     });
   }
@@ -197,9 +267,9 @@ export class CandidateFormComponent implements OnInit {
         this.municipalities = items;
         this.loadingGeo.municipalities = false;
       },
-      error: () => {
+      error: (err) => {
         this.loadingGeo.municipalities = false;
-        this.snack.open('No se pudieron cargar los municipios', 'Cerrar', { duration: 4000 });
+        this.feedback.showSuccess(CANDIDATES_FORM_MUNICIPALITIES_ERROR);
       },
     });
   }
@@ -214,12 +284,12 @@ export class CandidateFormComponent implements OnInit {
         if (items.length) {
           this.form.controls.neighborhoodId.enable();
         } else {
-          this.snack.open('Sin colonias para ese código postal', 'Cerrar', { duration: 3000 });
+          this.feedback.showSuccess(CANDIDATES_FORM_NO_NEIGHBORHOODS);
         }
       },
-      error: () => {
+      error: (err) => {
         this.loadingGeo.neighborhoods = false;
-        this.snack.open('No se pudieron cargar las colonias', 'Cerrar', { duration: 4000 });
+        this.feedback.showSuccess(CANDIDATES_FORM_NEIGHBORHOODS_ERROR);
       },
     });
   }
@@ -253,6 +323,7 @@ export class CandidateFormComponent implements OnInit {
             firstName: c.firstName,
             lastName: c.lastName,
             email: c.email,
+            phonePrefix: c.phonePrefix ?? '+52',
             phone: c.phone ?? '',
             curp: c.curp ?? '',
             rfc: c.rfc ?? '',
@@ -276,9 +347,9 @@ export class CandidateFormComponent implements OnInit {
           }
           this.loading = false;
         },
-        error: () => {
+        error: (err) => {
           this.loading = false;
-          this.snack.open('No se pudo cargar el candidato', 'Cerrar', { duration: 4000 });
+          this.feedback.showSuccess(CANDIDATES_FORM_LOAD_ERROR);
         },
       });
     }
@@ -297,12 +368,12 @@ export class CandidateFormComponent implements OnInit {
     request$.subscribe({
       next: () => {
         this.saving = false;
-        this.snack.open(this.isEdit ? 'Candidato actualizado' : 'Candidato creado', 'Cerrar', { duration: 3000 });
+        this.feedback.showSuccess(this.isEdit ? CANDIDATES_FORM_UPDATED : CANDIDATES_FORM_CREATED);
         this.router.navigate(['/candidates']);
       },
-      error: () => {
+      error: (err) => {
         this.saving = false;
-        this.snack.open('No se pudo guardar el candidato', 'Cerrar', { duration: 4000 });
+        this.feedback.showSuccess(CANDIDATES_FORM_SAVE_ERROR);
       },
     });
   }
@@ -314,6 +385,7 @@ export class CandidateFormComponent implements OnInit {
       lastName: v.lastName,
       email: v.email,
       phone: v.phone || null,
+      phonePrefix: v.phonePrefix || null,
       curp: v.curp || null,
       rfc: v.rfc || null,
       nss: v.nss || null,

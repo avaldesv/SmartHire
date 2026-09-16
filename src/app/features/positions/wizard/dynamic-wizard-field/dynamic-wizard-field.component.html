@@ -1,0 +1,57 @@
+@if (isCheckbox) {
+  <mat-checkbox [formControl]="control" [disabled]="disabled">{{ label }}</mat-checkbox>
+} @else if (isSelect) {
+  <mat-form-field appearance="outline" subscriptSizing="dynamic">
+    <mat-label>{{ label }}</mat-label>
+    <mat-select [formControl]="control" [disabled]="disabled || loadingOptions">
+      @if (loadingOptions) {
+        <mat-option disabled>{{ loadingOptionsLabel }}</mat-option>
+      } @else {
+        <mat-option [value]="null">—</mat-option>
+        @for (opt of options; track opt.id) {
+          <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
+        }
+      }
+    </mat-select>
+  </mat-form-field>
+} @else if (isMultiselect) {
+  <mat-form-field appearance="outline" class="multiselect-field" subscriptSizing="dynamic">
+    <mat-label>{{ label }}</mat-label>
+    <mat-select [formControl]="control" [disabled]="disabled || loadingOptions" multiple>
+      @if (loadingOptions) {
+        <mat-option disabled>{{ loadingOptionsLabel }}</mat-option>
+      } @else {
+        @for (opt of options; track opt.id) {
+          <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
+        }
+      }
+    </mat-select>
+  </mat-form-field>
+} @else if (isDate) {
+  <sh-datepicker-field [label]="label" [formControl]="control" />
+} @else if (isTime) {
+  <sh-timepicker-field [label]="label" [formControl]="control" />
+} @else if (isMoney) {
+  <sh-money-stepper-field [formControl]="control" [label]="label" [disabled]="disabled" />
+} @else if (isSimpleInput) {
+  <mat-form-field
+    appearance="outline"
+    subscriptSizing="dynamic"
+    [class.span-2]="isTextarea"
+    [class.textarea-field]="isTextarea"
+  >
+    <mat-label>{{ label }}</mat-label>
+    @if (isTextarea) {
+      <textarea matInput rows="6" [formControl]="control" [disabled]="disabled"></textarea>
+    } @else {
+      <input
+        matInput
+        [type]="isNumber ? 'number' : 'text'"
+        [min]="numberMin"
+        [step]="numberStep"
+        [formControl]="control"
+        [disabled]="disabled"
+      />
+    }
+  </mat-form-field>
+}

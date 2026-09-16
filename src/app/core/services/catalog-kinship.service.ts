@@ -14,8 +14,9 @@ export class CatalogKinshipService {
   private readonly http = inject(HttpClient);
   private readonly api = inject(ApiClientService);
 
-  list(page = 0, size = 20): Observable<{ items: CatalogKinship[]; total: number }> {
-    const body = { isActive: null, filters: [], ordersBy: ['name:asc'] as string[] };
+  list(page = 0, size = 20, search?: string | null): Observable<{ items: CatalogKinship[]; total: number }> {
+    const body = {
+      search: search?.trim() || null, isActive: null, filters: [], ordersBy: ['name:asc'] as string[] };
     return this.http
       .post<KinshipListResponse>(this.api.apiUrl('/api/v1/kinships/list'), body, {
         headers: this.api.buildHeaders(page, size),
@@ -34,4 +35,10 @@ export class CatalogKinshipService {
       headers: this.api.buildHeaders(),
     });
   }
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(this.api.apiUrl(`/api/v1/kinships/${id}`), {
+      headers: this.api.buildHeaders(),
+    });
+  }
+
 }

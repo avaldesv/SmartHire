@@ -6,6 +6,7 @@ export interface CandidateListItem {
   lastName: string;
   email: string;
   phone: string | null;
+  phonePrefix?: string | null;
   country: string;
   state: string;
   city: string | null;
@@ -21,6 +22,7 @@ export interface CandidateDetail {
   lastName: string;
   email: string;
   phone: string | null;
+  phonePrefix?: string | null;
   curp: string | null;
   rfc: string | null;
   nss: string | null;
@@ -42,6 +44,7 @@ export interface CreateCandidateRequest {
   lastName: string;
   email: string;
   phone?: string | null;
+  phonePrefix?: string | null;
   curp?: string | null;
   rfc?: string | null;
   nss?: string | null;
@@ -63,3 +66,10 @@ export type UpdateCandidateRequest = CreateCandidateRequest & { isActive: boolea
 export type UpdateCandidateResponse = CreateCandidateResponse;
 
 export type CandidateListResponse = ApiPageResponse<CandidateListItem>;
+
+export interface CandidateCvDownloadUrlResponse {
+  candidateId: number;
+  fileName: string;
+  contentType: string;
+  downloadUrl: string;
+}

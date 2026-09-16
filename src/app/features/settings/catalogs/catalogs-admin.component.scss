@@ -1,9 +1,185 @@
 h3 { margin: 0 0 16px; font-size: 1.1rem; }
-.tab-content { margin-top: 16px; }
+.category-shell {
+  margin-top: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.category-shell.sh-list-page-header {
+  flex-wrap: nowrap;
+  align-items: center;
+}
+.category-shell.sh-list-page-header > .catalog-select {
+  flex: 1 1 auto;
+  min-width: 12rem;
+  max-width: 480px;
+  margin: 0;
+}
+.category-shell .sh-list-page-header__actions {
+  flex: 0 0 auto;
+  margin-left: auto;
+  white-space: nowrap;
+}
+.catalog-select { min-width: 280px; max-width: 480px; }
+.catalog-panels {
+  margin-top: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+}
+.tab-content {
+  margin-top: 0;
+  width: 100%;
+  min-width: 0;
+}
+.pending-catalog {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 16px;
+  color: #475569;
+  mat-icon { color: #0d9488; }
+  p { margin: 0; line-height: 1.5; }
+  code { font-size: 0.85rem; }
+}
 .loading-wrap { display: flex; justify-content: center; padding: 48px; }
 .toolbar { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
 .country-field { min-width: 220px; }
 .form-card { margin-bottom: 16px; padding: 16px; }
 .form-card h4 { margin: 0 0 12px; }
+.scope-selector {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.scope-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #334155;
+}
 .gender-form { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; align-items: center; }
+
+.complete-info-tabs-section {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid #99f6e4;
+  border-radius: 8px;
+  background: #f0fdfa;
+}
+
+.complete-info-tabs-title {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #1e3a5f;
+}
+
+.complete-info-tabs-hint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+.doc-type-form {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  align-items: center;
+}
+.doc-type-full-row { grid-column: 1 / -1; }
+.doc-type-checkbox-cell {
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+}
+.table-header-bar { display: flex; justify-content: flex-end; padding: 8px 8px 0; }
 .form-actions { grid-column: 1 / -1; display: flex; gap: 8px; justify-content: flex-end; }
+
+.company-portal-block {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+.company-portal-title {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1e3a5f;
+}
+.company-portal-slug {
+  width: 100%;
+}
+.company-color-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+.company-color-field {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.company-color-picker {
+  width: 40px;
+  height: 40px;
+  margin-top: 8px;
+  padding: 0;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+}
+.portal-color-preview {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  min-height: 56px;
+}
+.portal-preview-bar {
+  display: block;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--portal-primary, #003366);
+}
+.portal-preview-chip {
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--portal-accent, #ff6600);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+:host ::ng-deep .mat-column-actions {
+  width: 1%;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+/* Align catalog selector height with Nuevo in row 1 */
+:host ::ng-deep .category-shell .catalog-select.mat-mdc-form-field {
+  height: 52px;
+}
+:host ::ng-deep .category-shell .catalog-select .mat-mdc-text-field-wrapper,
+:host ::ng-deep .category-shell .catalog-select .mat-mdc-form-field-flex {
+  height: 52px;
+}
+:host ::ng-deep .category-shell .catalog-select .mat-mdc-form-field-infix {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  min-height: 0;
+}
+:host ::ng-deep .category-shell .catalog-select .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}

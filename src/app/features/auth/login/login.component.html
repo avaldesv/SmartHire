@@ -3,25 +3,25 @@
     <div class="brand">
       <div class="logo-mark">SH</div>
       <div>
-        <h1>Smart Hire</h1>
-        <p>Portal de Reclutamiento</p>
+        <h1 i18n="@@app.brand">Smart Hire</h1>
+        <p i18n="@@auth.login.subtitle">Portal de Reclutamiento</p>
       </div>
     </div>
 
     <form [formGroup]="form" (ngSubmit)="submit()">
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Usuario</mat-label>
+        <mat-label i18n="@@auth.login.username">Usuario</mat-label>
         <input matInput formControlName="email" autocomplete="username" />
         @if (form.controls.email.hasError('required') && form.controls.email.touched) {
-          <mat-error>El usuario es obligatorio</mat-error>
+          <mat-error i18n="@@auth.login.usernameRequired">El usuario es obligatorio</mat-error>
         }
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Contraseña</mat-label>
+        <mat-label i18n="@@auth.login.password">Contraseña</mat-label>
         <input matInput type="password" formControlName="password" autocomplete="current-password" />
         @if (form.controls.password.hasError('required') && form.controls.password.touched) {
-          <mat-error>La contraseña es obligatoria</mat-error>
+          <mat-error i18n="@@auth.login.passwordRequired">La contraseña es obligatoria</mat-error>
         }
       </mat-form-field>
 
@@ -33,15 +33,15 @@
         @if (loading) {
           <mat-spinner diameter="20" />
         } @else {
-          Iniciar sesión
+          <span i18n="@@auth.login.submit">Iniciar sesión</span>
         }
       </button>
 
-      <div class="divider"><span>o</span></div>
+      <div class="divider"><span i18n="@@auth.login.or">o</span></div>
 
       <button mat-stroked-button type="button" class="full-width sso-btn" (click)="ssoLogin()" [disabled]="loading">
         <mat-icon>lock</mat-icon>
-        Iniciar sesión con SSO corporativo
+        <span i18n="@@auth.login.sso">Iniciar sesión con SSO corporativo</span>
       </button>
     </form>
   </div>

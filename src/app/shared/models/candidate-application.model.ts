@@ -10,17 +10,27 @@ export interface CandidateApplicationListItem {
   isInterested: boolean | null;
   isSelected: boolean | null;
   isHired: boolean | null;
+  hiredDate?: string | null;
   candidateFirstName: string | null;
   candidateLastName: string | null;
   candidateEmail: string | null;
   candidatePhone: string | null;
   createdAt: string;
+  interviewScheduled?: boolean | null;
+  interviewed?: boolean | null;
+  interviewedAt?: string | null;
+  infoValidated?: boolean | null;
+  studiesValidated?: boolean | null;
+  documentsSaved?: boolean | null;
+  questionnaireStatus?: string | null;
+  questionnaireAutoScorePercent?: number | null;
 }
 
 export interface ListCandidateApplicationsRequest {
   positionId?: number | null;
   candidateId?: number | null;
   status?: string | null;
+  postPreselectedOnly?: boolean | null;
   filters?: string[];
   ordersBy?: string[];
 }
@@ -42,3 +52,190 @@ export interface CreateCandidateApplicationResponse {
 }
 
 export type CandidateApplicationListResponse = ApiPageResponse<CandidateApplicationListItem>;
+
+export interface BulkCandidateApplicationsRequest {
+  positionId: number;
+  applicationIds: number[];
+}
+
+export interface ReleaseAllCandidateApplicationsRequest {
+  positionId: number;
+}
+
+export interface BulkCandidateApplicationsResponse {
+  positionId: number;
+  updatedCount: number;
+}
+
+export interface BulkUpdateCandidateApplicationStatusRequest {
+  positionId: number;
+  applicationIds: number[];
+  status: string;
+}
+
+export interface ValidateCandidateApplicationFlagsResponse {
+  id: number;
+  candidateId: number;
+  positionId: number;
+  infoValidated: boolean;
+  studiesValidated: boolean;
+  documentsSaved: boolean;
+}
+
+export interface SendCandidateToSmartResponse {
+  applicationId: number;
+  candidateId: number;
+  positionId: number;
+  status: string;
+  externalReference: string;
+  message: string;
+  processedAt: string;
+}
+
+export interface GenerateContractResponse {
+  applicationId: number;
+  candidateId: number;
+  positionId: number;
+  status: string;
+  contractReference: string;
+  message: string;
+  processedAt: string;
+}
+
+export interface PatchCandidateApplicationRequest {
+  compatibilityPercent?: number | null;
+  interviewScheduled?: boolean | null;
+  interviewed?: boolean | null;
+}
+
+export interface PatchCandidateApplicationResponse {
+  id: number;
+  candidateId: number;
+  positionId: number;
+  compatibilityPercent: number | null;
+  interviewScheduled: boolean;
+  interviewId: string | null;
+  interviewed: boolean;
+  interviewedAt: string | null;
+}
+
+export interface SendQuestionnaireInviteRequest {
+  questionnaireId?: number | null;
+}
+
+export interface SendQuestionnaireInviteResponse {
+  applicationId: number;
+  candidateId: number;
+  positionId: number;
+  questionnaireId: number | null;
+  status: string;
+  invitationLink: string;
+  candidateEmail: string | null;
+  message: string;
+  sentAt: string;
+}
+
+/** POST /api/v1/candidate-applications/{id}/contact-questionnaire */
+export interface ContactQuestionnaireResponse {
+  inviteId: number;
+  applicationId: number;
+  questionnaireId: number;
+  examId: number;
+  attemptNo: number;
+  status: string;
+  expiresAt: string;
+  urlConfirm: string;
+  candidateEmail: string | null;
+  message: string;
+}
+
+/** POST /api/v1/candidate-applications/{id}/request-documents */
+export interface RequestDocumentsResponse {
+  inviteId: number;
+  applicationId: number;
+  status: string;
+  expiresAt: string;
+  url: string;
+  candidateEmail: string | null;
+  message: string;
+}
+
+/** POST /api/v1/candidate-applications/request-documents/bulk */
+export interface BulkRequestDocumentsRequest {
+  applicationIds: number[];
+}
+
+export interface BulkRequestDocumentsItem {
+  applicationId: number;
+  success: boolean;
+  errorCode: string | null;
+  errorMessage: string | null;
+  response: RequestDocumentsResponse | null;
+}
+
+export interface BulkRequestDocumentsResponse {
+  results: BulkRequestDocumentsItem[];
+}
+
+/** POST /api/v1/candidate-applications/{id}/request-complete-info */
+export interface RequestCompleteInfoResponse {
+  inviteId: number;
+  applicationId: number;
+  status: string;
+  expiresAt: string;
+  url: string;
+  candidateEmail: string | null;
+  message: string;
+}
+
+/** GET /api/v1/candidate-applications/{id}/questionnaire-evaluation */
+export interface QuestionnaireEvaluationResponse {
+  applicationId: number;
+  inviteId: number;
+  inviteStatus: string;
+  evaluationStatus: string | null;
+  attemptNo: number | null;
+  answeredAt: string | null;
+  autoScorePercent: number | null;
+  autoPointsEarned: number | null;
+  autoPointsMax: number | null;
+  openPendingCount: number | null;
+  candidate: { candidateId: number | null; name: string; email: string };
+  position: { positionId: number | null; positionName: string };
+  exam: { examId: number | null; name: string };
+  answers: Array<{
+    answerId: number;
+    questionId: number;
+    questionText: string;
+    questionType: string;
+    answerText: string;
+    sortOrder: number | null;
+    weightApplied: number | null;
+    pointsEarned: number | null;
+    correct: boolean | null;
+    evaluationStatus: string | null;
+  }>;
+}
+
+export interface UpdateCandidateApplicationRequest {
+  status?: string | null;
+  isSelected?: boolean | null;
+  isInterested?: boolean | null;
+  isHired?: boolean | null;
+  hiredDate?: string | null;
+  compatibilityPercent?: number | null;
+}
+
+export interface UpdateCandidateApplicationResponse {
+  id: number;
+  companyId: number;
+  candidateId: number;
+  positionId: number;
+  status: string;
+  isInterested: boolean | null;
+  isSelected: boolean | null;
+  isHired?: boolean | null;
+  hiredDate?: string | null;
+  compatibilityPercent: number | null;
+  preselectionDate: string | null;
+}

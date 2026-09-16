@@ -6,35 +6,54 @@ import { environment } from '../../../environments/environment';
 import { msalScopes } from '../auth/msal.config';
 import { AuthUser } from '../../shared/models';
 import { ApiClientService } from './api-client.service';
-
-const MOCK_USER: AuthUser = {
-  id: '1',
-  email: 'gquintana@empresa.com',
-  firstName: 'Gerardo',
-  lastName: 'Quintana',
-  initials: 'GQ',
-  role: 'RECRUITER',
-  branch: 'CDMX Centro',
-  permissions: ['home:read', 'positions:write', 'candidates:write', 'reports:read', 'settings:admin'],
-};
+import { LocaleService } from './locale.service';
+import { TenantContextService } from './tenant-context.service';
 
 interface LoginApiResponse {
   accessToken: string;
   expiresIn?: number;
   refreshToken?: string;
   refreshExpiresIn?: number;
+  userId?: number;
+  username?: string;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  roles?: string[];
+  authorities?: string[];
+  globalAdmin?: boolean;
+  companyId?: number;
+}
+
+interface AuthMeApiResponse {
+  userId: number;
+  username: string;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  companyId: number;
+  globalAdmin: boolean;
+  roles: string[];
+  authorities: string[];
+  portalLanguageId?: number;
+  portalLanguageCode?: string;
+  locale?: string;
 }
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly api = inject(ApiClientService);
+  private readonly localeService = inject(LocaleService);
+  private readonly tenantContext = inject(TenantContextService);
   private readonly msal = inject(MsalService, { optional: true });
 
   readonly currentUser = signal<AuthUser | null>(null);
+  readonly sessionVerified = signal(false);
 
   private refreshTimerId: ReturnType<typeof setTimeout> | null = null;
   private refreshInFlight: Observable<LoginApiResponse> | null = null;
+  private sessionValidationStarted = false;
 
   isSsoEnabled(): boolean {
     const azure = environment.azure;
@@ -45,12 +64,12 @@ export class AuthService {
     return this.http
       .post<LoginApiResponse>(
         this.api.apiUrl('/api/v1/auth/login'),
-        { companyId: environment.companyId, username, password },
+        { username, password },
         { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) },
       )
       .pipe(
         tap((res) => this.persistSession(username, res)),
-        map(() => this.buildUserFromUsername(username)),
+        map(() => this.currentUser()!),
       );
   }
 
@@ -58,7 +77,7 @@ export class AuthService {
     return this.http
       .post<LoginApiResponse>(
         this.api.apiUrl('/api/v1/auth/sso/exchange'),
-        { companyId: environment.companyId },
+        { companyId: this.tenantContext.getCompanyId() },
         {
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
@@ -68,10 +87,10 @@ export class AuthService {
       )
       .pipe(
         tap((res) => {
-          const email = this.resolveSsoEmail();
+          const email = this.resolveSsoEmail(res);
           this.persistSession(email, res);
         }),
-        map(() => this.buildUserFromUsername(this.resolveSsoEmail())),
+        map(() => this.currentUser()!),
       );
   }
 
@@ -86,17 +105,17 @@ export class AuthService {
     this.refreshInFlight = this.http
       .post<LoginApiResponse>(
         this.api.apiUrl('/api/v1/auth/refresh'),
-        { companyId: environment.companyId, refreshToken },
+        { companyId: this.tenantContext.getCompanyId(), refreshToken },
         { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) },
       )
       .pipe(
         tap((res) => {
           const userRaw = sessionStorage.getItem('sh_user');
-          const email = userRaw ? (JSON.parse(userRaw) as AuthUser).email : MOCK_USER.email;
-          this.persistSession(email, res);
+          const email = userRaw ? (JSON.parse(userRaw) as AuthUser).email : 'user@empresa.com';
+          this.persistSession(email, res, { keepSessionVerified: true });
         }),
         catchError((err) => {
-          this.clearLocalSession();
+          this.handleInvalidSession();
           return throwError(() => err);
         }),
         tap(() => {
@@ -104,6 +123,50 @@ export class AuthService {
         }),
       );
     return this.refreshInFlight.pipe(map(() => true));
+  }
+
+  loadCurrentUserProfile(): Observable<AuthUser> {
+    return this.http.get<AuthMeApiResponse>(this.api.apiUrl('/api/v1/auth/me')).pipe(
+      tap((profile) => {
+        const existing = this.currentUser();
+        if (!profile.globalAdmin) {
+          this.tenantContext.setCompanyId(profile.companyId);
+        }
+        const activeCompanyId = profile.globalAdmin
+          ? this.tenantContext.getCompanyId()
+          : profile.companyId;
+        const user = this.buildUser({
+          userId: profile.userId,
+          username: profile.username,
+          email: profile.email ?? existing?.email ?? profile.username,
+          firstName: profile.firstName,
+          lastName: profile.lastName,
+          roles: profile.roles,
+          authorities: profile.authorities,
+          globalAdmin: profile.globalAdmin,
+          companyId: activeCompanyId,
+          portalLanguageId: profile.portalLanguageId,
+          portalLanguageCode: profile.portalLanguageCode,
+          locale: profile.locale,
+        });
+        this.currentUser.set(user);
+        sessionStorage.setItem('sh_user', JSON.stringify(user));
+        this.localeService.resolveFromAuth(profile.locale, profile.portalLanguageId);
+        this.sessionVerified.set(true);
+        if (this.isLoginPath(window.location.pathname)) {
+          window.location.href = this.localeService.appPath('/home');
+        } else if (this.localeService.needsLocaleReload(profile.locale)) {
+          this.localeService.reloadForLocale(profile.locale!);
+        }
+      }),
+      map(() => this.currentUser()!),
+      catchError((err) => {
+        if (err.status === 401 || err.status === 403) {
+          this.handleInvalidSession();
+        }
+        return throwError(() => err);
+      }),
+    );
   }
 
   ssoLogin(): void {
@@ -119,7 +182,7 @@ export class AuthService {
       refreshToken != null
         ? this.http.post<{ success: boolean }>(
             this.api.apiUrl('/api/v1/auth/logout'),
-            { companyId: environment.companyId, refreshToken },
+            { companyId: this.tenantContext.getCompanyId(), refreshToken },
             { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) },
           )
         : of({ success: true });
@@ -149,34 +212,102 @@ export class AuthService {
   private clearLocalSession(): void {
     this.clearRefreshTimer();
     this.currentUser.set(null);
+    this.sessionVerified.set(false);
+    this.sessionValidationStarted = false;
+    this.tenantContext.clear();
+    this.localeService.clearLocalePreference();
     sessionStorage.removeItem('sh_token');
     sessionStorage.removeItem('sh_refresh_token');
     sessionStorage.removeItem('sh_token_expires_at');
     sessionStorage.removeItem('sh_user');
   }
 
-  restoreSession(): boolean {
+  validateStoredSession(): void {
+    if (this.sessionValidationStarted || this.sessionVerified()) {
+      return;
+    }
     const raw = sessionStorage.getItem('sh_user');
     const token = sessionStorage.getItem('sh_token');
-    if (raw && token) {
-      this.currentUser.set(JSON.parse(raw));
-      this.scheduleSilentRefresh();
-      return true;
+    if (!raw || !token) {
+      return;
     }
-    return false;
+    if (this.isTokenExpired()) {
+      this.handleInvalidSession();
+      return;
+    }
+    this.sessionValidationStarted = true;
+    const user = JSON.parse(raw) as AuthUser;
+    this.currentUser.set(user);
+    this.tenantContext.initialize(user.companyId);
+    this.scheduleSilentRefresh();
+    this.loadCurrentUserProfile().subscribe({
+      error: () => undefined,
+    });
+  }
+
+  restoreSession(): boolean {
+    if (!this.isAuthenticated()) {
+      return false;
+    }
+    if (this.isTokenExpired()) {
+      this.handleInvalidSession();
+      return false;
+    }
+    this.validateStoredSession();
+    return true;
+  }
+
+  isSessionVerified(): boolean {
+    return this.sessionVerified();
   }
 
   isAuthenticated(): boolean {
-    return !!sessionStorage.getItem('sh_token');
+    const token = sessionStorage.getItem('sh_token');
+    return !!token && !this.isAccessTokenExpired();
   }
 
   getAccessToken(): string | null {
     return sessionStorage.getItem('sh_token');
   }
 
-  private persistSession(usernameOrEmail: string, response: LoginApiResponse): void {
-    const user = this.buildUserFromUsername(usernameOrEmail);
+  /** Access JWT past exp (sessionStorage clock or JWT `exp` claim). */
+  isAccessTokenExpired(): boolean {
+    if (this.isTokenExpired()) {
+      return true;
+    }
+    const expMs = this.readJwtExpMs(this.getAccessToken());
+    return expMs != null && Date.now() >= expMs;
+  }
+
+  expireSessionAndRedirectToLogin(): void {
+    this.handleInvalidSession();
+  }
+
+  private persistSession(
+    usernameOrEmail: string,
+    response: LoginApiResponse,
+    options?: { keepSessionVerified?: boolean },
+  ): void {
+    const sessionCompanyId = response.companyId ?? this.tenantContext.getCompanyId();
+    const user = this.buildUser({
+      userId: response.userId,
+      username: response.username ?? usernameOrEmail,
+      email: response.email ?? usernameOrEmail,
+      firstName: response.firstName,
+      lastName: response.lastName,
+      roles: response.roles,
+      authorities: response.authorities,
+      globalAdmin: response.globalAdmin,
+      companyId: sessionCompanyId,
+    });
+    this.tenantContext.initialize(sessionCompanyId);
     this.currentUser.set(user);
+    if (options?.keepSessionVerified) {
+      this.sessionVerified.set(true);
+    } else {
+      this.sessionVerified.set(false);
+      this.sessionValidationStarted = false;
+    }
     sessionStorage.setItem('sh_token', response.accessToken);
     sessionStorage.setItem('sh_user', JSON.stringify(user));
     if (response.refreshToken) {
@@ -214,17 +345,83 @@ export class AuthService {
     }
   }
 
-  private buildUserFromUsername(usernameOrEmail: string): AuthUser {
-    const email = usernameOrEmail.includes('@') ? usernameOrEmail : `${usernameOrEmail}@empresa.com`;
-    return { ...MOCK_USER, email };
+  private isTokenExpired(): boolean {
+    const expiresAt = Number(sessionStorage.getItem('sh_token_expires_at') ?? 0);
+    return expiresAt > 0 && Date.now() >= expiresAt;
   }
 
-  private resolveSsoEmail(): string {
+  private readJwtExpMs(token: string | null): number | null {
+    if (!token) {
+      return null;
+    }
+    const parts = token.split('.');
+    if (parts.length < 2) {
+      return null;
+    }
+    try {
+      const padded = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+      const json = JSON.parse(atob(padded)) as { exp?: number };
+      return typeof json.exp === 'number' ? json.exp * 1000 : null;
+    } catch {
+      return null;
+    }
+  }
+
+  private handleInvalidSession(): void {
+    this.clearLocalSession();
+    if (!this.isLoginPath(window.location.pathname)) {
+      window.location.href = this.localeService.appPath('/login');
+    }
+  }
+
+  private buildUser(input: {
+    userId?: number;
+    username?: string;
+    email: string;
+    firstName?: string;
+    lastName?: string;
+    roles?: string[];
+    authorities?: string[];
+    globalAdmin?: boolean;
+    companyId?: number;
+    portalLanguageId?: number;
+    portalLanguageCode?: string;
+    locale?: string;
+  }): AuthUser {
+    const email = input.email.includes('@') ? input.email : `${input.email}@empresa.com`;
+    const firstName = input.firstName?.trim() || 'Usuario';
+    const lastName = input.lastName?.trim() || 'SmartHire';
+    const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+    return {
+      id: String(input.userId ?? email),
+      email,
+      firstName,
+      lastName,
+      initials,
+      roles: (input.roles ?? []).map((role) => role.toUpperCase()),
+      authorities: (input.authorities ?? []).map((authority) => authority.toUpperCase()),
+      branch: 'CDMX Centro',
+      globalAdmin: input.globalAdmin === true,
+      companyId: input.companyId,
+      portalLanguageId: input.portalLanguageId,
+      portalLanguageCode: input.portalLanguageCode,
+      locale: input.locale,
+    };
+  }
+
+  private isLoginPath(pathname: string): boolean {
+    return this.localeService.normalizeAppPath(pathname) === '/login';
+  }
+
+  private resolveSsoEmail(response?: LoginApiResponse): string {
+    if (response?.email) {
+      return response.email;
+    }
     const account = this.msal?.instance.getAllAccounts()[0];
     const claimEmail = account?.username ?? account?.idTokenClaims?.['preferred_username'];
     if (typeof claimEmail === 'string' && claimEmail.includes('@')) {
       return claimEmail;
     }
-    return MOCK_USER.email;
+    return 'user@empresa.com';
   }
 }

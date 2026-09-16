@@ -1,0 +1,139 @@
+.header-filter-actions {
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  align-items: stretch;
+  gap: 8px;
+
+  > button {
+    width: 100%;
+    white-space: nowrap;
+  }
+}
+
+.seg-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: stretch;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.primary-filters-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+  align-items: start;
+}
+
+@media (max-width: 1200px) {
+  .primary-filters-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .primary-filters-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 48px;
+}
+
+.error-msg {
+  color: #b91c1c;
+  margin: 0 0 12px;
+  font-size: 14px;
+}
+
+.chart-card,
+.results-card {
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.chart-title,
+.section-title {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.hbar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hbar-row {
+  display: grid;
+  grid-template-columns: 100px 1fr 40px;
+  gap: 10px;
+  align-items: center;
+}
+
+.hbar-label {
+  font-size: 13px;
+  color: #475569;
+}
+
+.hbar-track {
+  height: 14px;
+  background: #f1f5f9;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.hbar-fill {
+  height: 100%;
+  background: #2563eb;
+  border-radius: 4px;
+}
+
+.hbar-value {
+  text-align: right;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.seg-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+
+  th,
+  td {
+    padding: 8px 10px;
+    text-align: right;
+    border-bottom: 1px solid #e2e8f0;
+    white-space: nowrap;
+  }
+
+  th {
+    color: #64748b;
+    font-weight: 600;
+    background: #f8fafc;
+  }
+
+  .col-label {
+    text-align: left;
+    min-width: 160px;
+  }
+
+  .empty-cell {
+    text-align: center;
+    color: #94a3b8;
+    padding: 32px 16px;
+  }
+}

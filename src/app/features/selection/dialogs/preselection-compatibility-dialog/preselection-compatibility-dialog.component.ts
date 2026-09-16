@@ -1,0 +1,68 @@
+import { Component, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { CATALOGS_SAVE } from '../../../../core/i18n/catalog-i18n-labels';
+import { COMMON_CANCEL } from '../../../../core/i18n/nav-labels';
+import {
+  PRESELECTION_COMPAT_DIALOG_TITLE,
+  PRESELECTION_COMPAT_FIELD,
+} from '../../../../core/i18n/preselection-actions-labels';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../../shared/components/modal-form/sh-modal-form.component';
+
+export interface PreselectionCompatibilityDialogData {
+  candidateName: string;
+  currentCompatibility: number;
+}
+
+@Component({
+  selector: 'sh-preselection-compatibility-dialog',
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
+  ],
+  templateUrl: './preselection-compatibility-dialog.component.html',
+  styleUrl: './preselection-compatibility-dialog.component.scss',
+})
+export class PreselectionCompatibilityDialogComponent {
+  private readonly dialogRef = inject(MatDialogRef<PreselectionCompatibilityDialogComponent, number | undefined>);
+  readonly data = inject<PreselectionCompatibilityDialogData>(MAT_DIALOG_DATA);
+  private readonly fb = inject(FormBuilder);
+
+  readonly labels = {
+    title: PRESELECTION_COMPAT_DIALOG_TITLE,
+    field: PRESELECTION_COMPAT_FIELD,
+    cancel: COMMON_CANCEL,
+    save: CATALOGS_SAVE,
+  };
+
+  readonly form = this.fb.nonNullable.group({
+    compatibilityPercent: [
+      this.data.currentCompatibility,
+      [Validators.required, Validators.min(0), Validators.max(100)],
+    ],
+  });
+
+  save(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    this.dialogRef.close(this.form.controls.compatibilityPercent.value);
+  }
+
+  cancel(): void {
+    this.dialogRef.close(undefined);
+  }
+}

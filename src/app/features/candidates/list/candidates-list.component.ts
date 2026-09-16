@@ -6,14 +6,36 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { PageEvent } from '@angular/material/paginator';
+import { ShPaginatorComponent } from '../../../shared/components/paginator/sh-paginator.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { debounceTime } from 'rxjs';
+import {
+  CANDIDATES_LIST_COL_ACTIVE,
+  CANDIDATES_LIST_COL_CITY,
+  CANDIDATES_LIST_COL_CREATED,
+  CANDIDATES_LIST_COL_EMAIL,
+  CANDIDATES_LIST_COL_FIRST_NAME,
+  CANDIDATES_LIST_COL_ID,
+  CANDIDATES_LIST_COL_LAST_NAME,
+  CANDIDATES_LIST_COL_PHONE,
+  CANDIDATES_LIST_COL_SOURCE,
+  CANDIDATES_LIST_LOAD_ERROR,
+  CANDIDATES_LIST_NEW,
+  CANDIDATES_LIST_NO,
+  CANDIDATES_LIST_SEARCH,
+  CANDIDATES_LIST_SEARCH_PLACEHOLDER,
+  CANDIDATES_LIST_SUBTITLE,
+  CANDIDATES_LIST_TITLE,
+  CANDIDATES_LIST_YES,
+  candidatesSourceLabel,
+} from '../../../core/i18n/candidates-labels';
 import { CandidateApiService } from '../../../core/services/candidate-api.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { CandidateListItem } from '../../../shared/models/candidate.model';
+import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 
 @Component({
   selector: 'sh-candidates-list',
@@ -23,22 +45,42 @@ import { CandidateListItem } from '../../../shared/models/candidate.model';
     RouterLink,
     ReactiveFormsModule,
     MatTableModule,
-    MatPaginatorModule,
+    ShPaginatorComponent,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    MatSnackBarModule,
     MatProgressSpinnerModule,
     PageHeaderComponent,
+    TableRowActionsComponent,
   ],
   templateUrl: './candidates-list.component.html',
   styleUrl: './candidates-list.component.scss',
 })
 export class CandidatesListComponent implements OnInit {
   private readonly candidateService = inject(CandidateApiService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
   private readonly fb = inject(FormBuilder);
+
+  readonly ui = {
+    title: CANDIDATES_LIST_TITLE,
+    subtitle: CANDIDATES_LIST_SUBTITLE,
+    newCandidate: CANDIDATES_LIST_NEW,
+    search: CANDIDATES_LIST_SEARCH,
+    searchPlaceholder: CANDIDATES_LIST_SEARCH_PLACEHOLDER,
+    colId: CANDIDATES_LIST_COL_ID,
+    colFirstName: CANDIDATES_LIST_COL_FIRST_NAME,
+    colLastName: CANDIDATES_LIST_COL_LAST_NAME,
+    colEmail: CANDIDATES_LIST_COL_EMAIL,
+    colPhone: CANDIDATES_LIST_COL_PHONE,
+    colCity: CANDIDATES_LIST_COL_CITY,
+    colSource: CANDIDATES_LIST_COL_SOURCE,
+    colActive: CANDIDATES_LIST_COL_ACTIVE,
+    colCreated: CANDIDATES_LIST_COL_CREATED,
+    yes: CANDIDATES_LIST_YES,
+    no: CANDIDATES_LIST_NO,
+  };
+  readonly sourceLabel = candidatesSourceLabel;
 
   loading = true;
   data: CandidateListItem[] = [];
@@ -65,9 +107,9 @@ export class CandidatesListComponent implements OnInit {
         this.total = res.total;
         this.loading = false;
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open('No se pudieron cargar los candidatos', 'Cerrar', { duration: 4000 });
+        this.feedback.showSuccess(CANDIDATES_LIST_LOAD_ERROR);
       },
     });
   }

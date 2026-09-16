@@ -1,35 +1,329 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
+import { Component, computed, inject, OnInit } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { SettingsService } from '../../../mock/services/settings.service';
-import { PipelineStage } from '../../../shared/models';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { COMMON_CLEAR_FILTERS } from '../../../core/i18n/common-labels';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
+import { PermissionService } from '../../../core/services/permission.service';
+import { debounceTime } from 'rxjs';
+import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
+import { CatalogPipelineStageService } from '../../../core/services/catalog-pipeline-stage.service';
+import { CatalogCountry } from '../../../shared/models/catalog-geography.model';
+import { CatalogPipelineStage } from '../../../shared/models/catalog-pipeline-stage.model';
+import { TenantDataScope } from '../../../shared/models/tenant-data-scope.model';
+import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
+import { canEditScopedRecord } from '../../../shared/utils/tenant-scope.util';
+import {
+  PIPELINE_STAGES_CANCEL,
+  PIPELINE_STAGES_COLUMN_COLOR,
+  PIPELINE_STAGES_COLUMN_ORDER,
+  PIPELINE_STAGES_COLUMN_REORDER,
+  PIPELINE_STAGES_COLUMN_STAGE,
+  PIPELINE_STAGES_DELETE_ERROR,
+  PIPELINE_STAGES_DELETE_SUCCESS,
+  PIPELINE_STAGES_EDIT_TITLE,
+  PIPELINE_STAGES_FIELD_ACTIVE,
+  PIPELINE_STAGES_FIELD_CODE,
+  PIPELINE_STAGES_FIELD_COLOR,
+  PIPELINE_STAGES_FIELD_COUNTRY,
+  PIPELINE_STAGES_FIELD_DESCRIPTION,
+  PIPELINE_STAGES_FIELD_ORDER,
+  PIPELINE_STAGES_FIELD_STAGE,
+  PIPELINE_STAGES_LOAD_ERROR,
+  PIPELINE_STAGES_MOVE_DOWN,
+  PIPELINE_STAGES_MOVE_UP,
+  PIPELINE_STAGES_NEW_BUTTON,
+  PIPELINE_STAGES_NEW_TITLE,
+  PIPELINE_STAGES_NO,
+  PIPELINE_STAGES_PAGE_TITLE,
+  PIPELINE_STAGES_RECORD_SCOPE,
+  PIPELINE_STAGES_REORDER_ERROR,
+  PIPELINE_STAGES_SAVE,
+  PIPELINE_STAGES_SAVE_ERROR,
+  PIPELINE_STAGES_SAVE_SUCCESS,
+  PIPELINE_STAGES_SAVING,
+  PIPELINE_STAGES_SCOPE_GLOBAL,
+  PIPELINE_STAGES_SCOPE_TENANT,
+  PIPELINE_STAGES_SNACK_CLOSE,
+  PIPELINE_STAGES_YES,
+  pipelineStagesDeleteConfirm,
+} from '../../../core/i18n/pipeline-stages-labels';
 
 @Component({
   selector: 'sh-pipeline-stages',
   standalone: true,
-  imports: [MatTableModule, MatButtonModule, MatIconModule, MatSnackBarModule, MatProgressSpinnerModule],
+  imports: [
+    ReactiveFormsModule,
+    MatTableModule,
+    MatProgressSpinnerModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatRadioModule,
+    TableRowActionsComponent,
+  ],
   templateUrl: './pipeline-stages.component.html',
   styleUrl: './pipeline-stages.component.scss',
 })
 export class PipelineStagesComponent implements OnInit {
-  private readonly settings = inject(SettingsService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly pipelineStageService = inject(CatalogPipelineStageService);
+  private readonly geographyService = inject(CatalogGeographyService);
+  private readonly permissions = inject(PermissionService);
+  private readonly feedback = inject(FeedbackDialogService);
+  private readonly fb = inject(FormBuilder);
+
+  readonly isGlobalAdmin = computed(() => this.permissions.isGlobalAdmin());
+
+  readonly pageTitle = PIPELINE_STAGES_PAGE_TITLE;
+  readonly newButton = PIPELINE_STAGES_NEW_BUTTON;
+  readonly editTitle = PIPELINE_STAGES_EDIT_TITLE;
+  readonly newTitle = PIPELINE_STAGES_NEW_TITLE;
+  readonly recordScope = PIPELINE_STAGES_RECORD_SCOPE;
+  readonly scopeTenant = PIPELINE_STAGES_SCOPE_TENANT;
+  readonly scopeGlobal = PIPELINE_STAGES_SCOPE_GLOBAL;
+  readonly fieldCountry = PIPELINE_STAGES_FIELD_COUNTRY;
+  readonly fieldCode = PIPELINE_STAGES_FIELD_CODE;
+  readonly fieldStage = PIPELINE_STAGES_FIELD_STAGE;
+  readonly fieldDescription = PIPELINE_STAGES_FIELD_DESCRIPTION;
+  readonly fieldOrder = PIPELINE_STAGES_FIELD_ORDER;
+  readonly fieldColor = PIPELINE_STAGES_FIELD_COLOR;
+  readonly fieldActive = PIPELINE_STAGES_FIELD_ACTIVE;
+  readonly columnOrder = PIPELINE_STAGES_COLUMN_ORDER;
+  readonly columnStage = PIPELINE_STAGES_COLUMN_STAGE;
+  readonly columnColor = PIPELINE_STAGES_COLUMN_COLOR;
+  readonly columnReorder = PIPELINE_STAGES_COLUMN_REORDER;
+  readonly moveUpLabel = PIPELINE_STAGES_MOVE_UP;
+  readonly moveDownLabel = PIPELINE_STAGES_MOVE_DOWN;
+  readonly cancelLabel = PIPELINE_STAGES_CANCEL;
+  readonly savingLabel = PIPELINE_STAGES_SAVING;
+  readonly saveLabel = PIPELINE_STAGES_SAVE;
+  readonly yesLabel = PIPELINE_STAGES_YES;
+  readonly noLabel = PIPELINE_STAGES_NO;
+  readonly clearFiltersLabel = COMMON_CLEAR_FILTERS;
+  readonly searchLabel = $localize`:@@pipelineStages.search:Buscar etapa`;
 
   loading = true;
-  data: PipelineStage[] = [];
-  readonly columns = ['order', 'name', 'color', 'candidatesCount', 'actions'];
+  saving = false;
+  reordering = false;
+  deletingId: number | null = null;
+  private allItems: CatalogPipelineStage[] = [];
+  data: CatalogPipelineStage[] = [];
+  countries: CatalogCountry[] = [];
+  editingStageId: number | null = null;
+  showForm = false;
+
+  readonly columns = ['order', 'name', 'color', 'code', 'active', 'reorder', 'actions'];
+
+  readonly searchForm = this.fb.nonNullable.group({ search: [''] });
+  readonly stageForm = this.fb.nonNullable.group({
+    countryId: this.fb.control<number | null>(null),
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
+    sortOrder: [1, [Validators.required, Validators.min(1)]],
+    colorHex: ['#9E9E9E'],
+    isActive: [true],
+  });
+
+  readonly createScopeForm = this.fb.nonNullable.group({
+    scope: ['TENANT' as TenantDataScope],
+  });
 
   ngOnInit(): void {
-    this.settings.getPipeline().subscribe((s) => {
-      this.data = s;
-      this.loading = false;
+    this.searchForm.controls.search.valueChanges.pipe(debounceTime(300)).subscribe(() => {
+      this.applyFilter();
+    });
+    this.geographyService.listCountries().subscribe({
+      next: (countries) => {
+        this.countries = countries;
+        this.load();
+      },
+      error: () => {
+        this.load();
+      },
     });
   }
 
-  edit(stage: PipelineStage): void {
-    this.snack.open(`Editar etapa: ${stage.name}`, 'Cerrar', { duration: 2500 });
+  load(): void {
+    this.loading = true;
+    this.pipelineStageService.list().subscribe({
+      next: ({ items }) => {
+        this.allItems = [...items].sort((a, b) => a.sortOrder - b.sortOrder);
+        this.applyFilter();
+        this.loading = false;
+      },
+      error: (err) => {
+        this.loading = false;
+        this.feedback.showApiError(err, { fallbackMessage: PIPELINE_STAGES_LOAD_ERROR });
+      },
+    });
+  }
+
+  private applyFilter(): void {
+    const q = this.searchForm.controls.search.value.trim().toLowerCase();
+    this.data = !q
+      ? [...this.allItems]
+      : this.allItems.filter(
+          (r) =>
+            r.name?.toLowerCase().includes(q) ||
+            r.code?.toLowerCase().includes(q) ||
+            (r.description ?? '').toLowerCase().includes(q),
+        );
+  }
+
+  clearFilters(): void {
+    this.searchForm.controls.search.setValue('');
+    this.applyFilter();
+  }
+
+  isFirstStage(stage: CatalogPipelineStage): boolean {
+    return this.allItems[0]?.id === stage.id;
+  }
+
+  isLastStage(stage: CatalogPipelineStage): boolean {
+    return this.allItems[this.allItems.length - 1]?.id === stage.id;
+  }
+
+  canEditRecord(companyId?: number | null): boolean {
+    return canEditScopedRecord(companyId, this.isGlobalAdmin());
+  }
+
+  openCreate(): void {
+    const nextOrder =
+      this.allItems.length > 0 ? Math.max(...this.allItems.map((s) => s.sortOrder)) + 1 : 1;
+    this.stageForm.reset({
+      countryId: this.countries[0]?.id ?? null,
+      code: '',
+      name: '',
+      description: '',
+      sortOrder: nextOrder,
+      colorHex: '#9E9E9E',
+      isActive: true,
+    });
+    this.createScopeForm.reset({ scope: 'TENANT' });
+    this.editingStageId = null;
+    this.showForm = true;
+  }
+
+  openEdit(stage: CatalogPipelineStage): void {
+    this.editingStageId = stage.id;
+    this.showForm = true;
+    this.stageForm.patchValue({
+      countryId: stage.countryId,
+      code: stage.code,
+      name: stage.name,
+      description: stage.description ?? '',
+      sortOrder: stage.sortOrder,
+      colorHex: stage.colorHex || '#9E9E9E',
+      isActive: stage.isActive,
+    });
+  }
+
+  cancelForm(): void {
+    this.showForm = false;
+    this.editingStageId = null;
+  }
+
+  save(): void {
+    if (this.stageForm.invalid) {
+      this.stageForm.markAllAsTouched();
+      return;
+    }
+    this.saving = true;
+    const value = this.stageForm.getRawValue();
+    const payload = {
+      countryId: value.countryId,
+      code: value.code,
+      name: value.name,
+      description: value.description || null,
+      sortOrder: value.sortOrder,
+      colorHex: value.colorHex || '#9E9E9E',
+      isActive: value.isActive,
+    };
+
+    const request$ =
+      this.editingStageId != null
+        ? this.pipelineStageService.update(this.editingStageId, payload)
+        : this.pipelineStageService.create({
+            ...payload,
+            scope: this.isGlobalAdmin() ? this.createScopeForm.getRawValue().scope : 'TENANT',
+          });
+
+    request$.subscribe({
+      next: () => {
+        this.saving = false;
+        this.showForm = false;
+        this.editingStageId = null;
+        this.feedback.showSuccess(PIPELINE_STAGES_SAVE_SUCCESS);
+        this.load();
+      },
+      error: (err) => {
+        this.saving = false;
+        this.feedback.showApiError(err, { fallbackMessage: PIPELINE_STAGES_SAVE_ERROR });
+      },
+    });
+  }
+
+  deleteStage(stage: CatalogPipelineStage): void {
+    this.feedback
+      .confirm({
+        title: FEEDBACK_GENERIC_WARNING_TITLE,
+        message: pipelineStagesDeleteConfirm(stage.name),
+        confirmWarn: true,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
+        this.deletingId = stage.id;
+        this.pipelineStageService.delete(stage.id).subscribe({
+          next: () => {
+            this.deletingId = null;
+            this.feedback.showSuccess(PIPELINE_STAGES_DELETE_SUCCESS);
+            this.load();
+          },
+          error: (err) => {
+            this.deletingId = null;
+            this.feedback.showApiError(err, { fallbackMessage: PIPELINE_STAGES_DELETE_ERROR });
+          },
+        });
+      });
+  }
+
+  moveStage(stage: CatalogPipelineStage, direction: -1 | 1): void {
+    const index = this.allItems.findIndex((item) => item.id === stage.id);
+    const targetIndex = index + direction;
+    if (index < 0 || targetIndex < 0 || targetIndex >= this.allItems.length) {
+      return;
+    }
+
+    const target = this.allItems[targetIndex];
+    const payload = [
+      { id: stage.id, sortOrder: target.sortOrder },
+      { id: target.id, sortOrder: stage.sortOrder },
+    ];
+
+    this.reordering = true;
+    this.pipelineStageService.reorder(payload).subscribe({
+      next: () => {
+        this.reordering = false;
+        this.load();
+      },
+      error: (err) => {
+        this.reordering = false;
+        this.feedback.showApiError(err, { fallbackMessage: PIPELINE_STAGES_REORDER_ERROR });
+      },
+    });
   }
 }

@@ -1,52 +1,306 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { PageEvent } from '@angular/material/paginator';
+import { ShPaginatorComponent } from '../../../shared/components/paginator/sh-paginator.component';
 import { MatTableModule } from '@angular/material/table';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { catalogDialogConfig } from '../../../core/dialog/catalog-dialog.constants';
+import { AppPermissions } from '../../../core/auth/app-permissions';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
+import {
+  PRESELECTION_ACTION_CANDIDATES_SUFFIX,
+  PRESELECTION_ACTION_PENDING_API,
+  PRESELECTION_APPOINTMENT_SCHEDULED_TOOLTIP,
+  PRESELECTION_APPOINTMENT_TOOLTIP,
+  PRESELECTION_BULK_APPOINTMENT,
+  PRESELECTION_BULK_CONTACT,
+  PRESELECTION_BULK_CONTACT_CONFIRM,
+  PRESELECTION_BULK_CONTACT_PARTIAL,
+  PRESELECTION_BULK_CONTACT_FAILED,
+  PRESELECTION_BULK_CONTACT_SENT,
+  PRESELECTION_BULK_CONTACT_SUCCESS,
+  PRESELECTION_BULK_ERROR,
+  PRESELECTION_BULK_MARK_SELECTED,
+  PRESELECTION_BULK_MARK_SUCCESS,
+  PRESELECTION_BULK_NONE_SELECTED,
+  PRESELECTION_BULK_RELEASE,
+  PRESELECTION_BULK_RELEASE_ALL,
+  PRESELECTION_BULK_RELEASE_ALL_CONFIRM,
+  PRESELECTION_BULK_RELEASE_ALL_SUCCESS,
+  PRESELECTION_BULK_RELEASE_SUCCESS,
+  PRESELECTION_CHANGE_STAGE,
+  PRESELECTION_CHANGE_STAGE_TITLE,
+  PRESELECTION_COL_APPOINTMENT,
+  PRESELECTION_COL_CANDIDATE,
+  PRESELECTION_COL_COMPAT,
+  PRESELECTION_COL_CONTACT,
+  PRESELECTION_COL_DOCS,
+  PRESELECTION_COL_EVALUATION,
+  PRESELECTION_COL_INTERVIEWED,
+  PRESELECTION_COL_REQUEST_COMPLETE_INFO,
+  PRESELECTION_COL_REQUEST_DOCUMENTS,
+  PRESELECTION_COL_STAGE,
+  PRESELECTION_COMPAT_UPDATE_ERROR,
+  PRESELECTION_COMPAT_UPDATED,
+  PRESELECTION_CONTACT_DONE_TOOLTIP,
+  PRESELECTION_CONTACT_ERROR,
+  PRESELECTION_CONTACT_SUCCESS,
+  PRESELECTION_CONTACT_TOOLTIP,
+  PRESELECTION_CONTRACT_GENERATE_ERROR,
+  PRESELECTION_CV_DOWNLOAD_ERROR,
+  PRESELECTION_DOCS_COMPLETE,
+  PRESELECTION_DOCS_INFO_OK,
+  PRESELECTION_DOCS_INFO_PENDING,
+  PRESELECTION_DOCS_STUDIES_OK,
+  PRESELECTION_DOCS_STUDIES_PENDING,
+  PRESELECTION_EMPTY,
+  PRESELECTION_EVALUATION_PENDING_MSG,
+  PRESELECTION_EVALUATION_PENDING_TITLE,
+  PRESELECTION_EVALUATION_TOOLTIP,
+  PRESELECTION_INFO_VALIDATED,
+  PRESELECTION_INTERVIEWED_DONE_TOOLTIP,
+  PRESELECTION_INTERVIEWED_ERROR,
+  PRESELECTION_INTERVIEWED_SUCCESS,
+  PRESELECTION_INTERVIEWED_TOOLTIP,
+  PRESELECTION_INTERVIEWED_UNMARK_SUCCESS,
+  PRESELECTION_LOAD_ERROR,
+  PRESELECTION_POOL_CREATED,
+  PRESELECTION_QUESTIONNAIRE_INVITE_ERROR,
+  PRESELECTION_REQUEST_DOCS_ERROR,
+  PRESELECTION_REQUEST_DOCS_NO_REQUIREMENTS,
+  PRESELECTION_REQUEST_DOCS_SUCCESS,
+  PRESELECTION_REQUEST_DOCS_TOOLTIP,
+  PRESELECTION_REQUEST_INFO_DONE_TOOLTIP,
+  PRESELECTION_REQUEST_INFO_ERROR,
+  PRESELECTION_REQUEST_INFO_SUCCESS,
+  PRESELECTION_REQUEST_INFO_TOOLTIP,
+  PRESELECTION_BULK_REQUEST_DOCS_CONFIRM,
+  PRESELECTION_BULK_REQUEST_DOCS_PARTIAL,
+  PRESELECTION_BULK_REQUEST_DOCS_SUCCESS,
+  PRESELECTION_ROW_ACTIONS_ARIA,
+  PRESELECTION_ROW_DESELECT_SUCCESS,
+  PRESELECTION_SMART_SEND_ERROR,
+  PRESELECTION_STUDIES_ALREADY_VALIDATED,
+  PRESELECTION_STUDIES_VALIDATE_ERROR,
+  PRESELECTION_STUDIES_VALIDATED,
+  PRESELECTION_TOOLBAR_ADD_FROM_POOL,
+  PRESELECTION_TOOLBAR_DOCUMENTS,
+  PRESELECTION_TOOLBAR_REQUEST_DOCUMENTS,
+  PRESELECTION_TOOLBAR_SEND_SMART,
+  PRESELECTION_TOOLBAR_VIEW_APPLICANTS,
+} from '../../../core/i18n/preselection-actions-labels';
 import { CandidateApplicationApiService } from '../../../core/services/candidate-application-api.service';
+import { CandidateApiService } from '../../../core/services/candidate-api.service';
+import { PositionService } from '../../../core/services/position.service';
+import { PermissionService } from '../../../core/services/permission.service';
+import {
+  CandidateEditDialogComponent,
+  CandidateEditDialogData,
+  CandidateEditDialogResult,
+} from '../../candidates/dialogs/candidate-edit-dialog/candidate-edit-dialog.component';
+import {
+  CandidateDocumentsDialogComponent,
+  CandidateDocumentsDialogData,
+  candidateDocumentsDialogConfig,
+} from '../../candidates/dialogs/candidate-documents-dialog/candidate-documents-dialog.component';
+import {
+  ValidateInfoDialogComponent,
+  ValidateInfoDialogData,
+  ValidateInfoDialogResult,
+  validateInfoDialogConfig,
+} from './dialogs/validate-info-dialog/validate-info-dialog.component';
 import {
   CandidatePoolDialogComponent,
   CandidatePoolDialogData,
+  candidatePoolDialogConfig,
 } from '../../candidates/dialogs/candidate-pool-dialog/candidate-pool-dialog.component';
+import {
+  ScheduleInterviewDialogComponent,
+  ScheduleInterviewDialogData,
+} from '../../candidates/dialogs/schedule-interview-dialog/schedule-interview-dialog.component';
 import {
   PositionApplicationsDialogComponent,
   PositionApplicationsDialogData,
+  PositionApplicationsDialogResult,
+  positionApplicationsDialogConfig,
 } from '../../candidates/dialogs/position-applications-dialog/position-applications-dialog.component';
+import {
+  BulkScheduleInterviewsDialogComponent,
+  BulkScheduleInterviewsDialogData,
+  BulkScheduleInterviewsDialogResult,
+} from '../dialogs/bulk-schedule-interviews-dialog/bulk-schedule-interviews-dialog.component';
+import {
+  ChangeApplicationStageDialogComponent,
+  ChangeApplicationStageDialogData,
+  ChangeApplicationStageDialogResult,
+} from '../dialogs/change-application-stage-dialog/change-application-stage-dialog.component';
+import {
+  ApplicationNotificationsDialogComponent,
+  ApplicationNotificationsDialogData,
+} from '../dialogs/application-notifications-dialog/application-notifications-dialog.component';
+import {
+  ApplicationAuditLogDialogComponent,
+  ApplicationAuditLogDialogData,
+} from '../dialogs/application-audit-log-dialog/application-audit-log-dialog.component';
+import {
+  GenerateDocumentDialogComponent,
+  GenerateDocumentDialogData,
+} from '../dialogs/generate-document-dialog/generate-document-dialog.component';
+import {
+  PreselectionCompatibilityDialogComponent,
+  PreselectionCompatibilityDialogData,
+} from '../dialogs/preselection-compatibility-dialog/preselection-compatibility-dialog.component';
+import {
+  QuestionnaireEvaluationDialogComponent,
+  QuestionnaireEvaluationDialogData,
+} from '../dialogs/questionnaire-evaluation-dialog/questionnaire-evaluation-dialog.component';
+import { QuestionnaireApiService } from '../../../core/services/questionnaire-api.service';
+import { getCandidateApplicationStageLabel } from '../../../shared/constants/candidate-application-stage';
+import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
+import { filter, switchMap, catchError, concatMap, from, map, of, toArray } from 'rxjs';
 import { PreselectionCandidate } from '../../../shared/models';
+import {
+  PRESELECTION_ROW_ACTIONS,
+  PreselectionRowAction,
+  PreselectionRowActionId,
+} from './preselection-row-actions.config';
 
 @Component({
   selector: 'sh-preselection',
   standalone: true,
-  imports: [MatTableModule, MatButtonModule, MatIconModule, MatCheckboxModule, MatSnackBarModule, MatProgressSpinnerModule],
+  imports: [
+    MatTableModule,
+    ShPaginatorComponent,
+    MatButtonModule,
+    MatIconModule,
+    MatCheckboxModule,
+    MatProgressSpinnerModule,
+    MatMenuModule,
+    MatDividerModule,
+    MatTooltipModule,
+    RouterLink,
+    StatusBadgeComponent,
+  ],
   templateUrl: './preselection.component.html',
   styleUrl: './preselection.component.scss',
 })
 export class PreselectionComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly applicationApi = inject(CandidateApplicationApiService);
+  private readonly candidateApi = inject(CandidateApiService);
+  private readonly positionService = inject(PositionService);
+  private readonly questionnaireApi = inject(QuestionnaireApiService);
   private readonly dialog = inject(MatDialog);
-  private readonly snack = inject(MatSnackBar);
+  private readonly feedback = inject(FeedbackDialogService);
+  private readonly permission = inject(PermissionService);
 
   readonly positionId = +this.route.parent!.snapshot.paramMap.get('positionId')!;
+  readonly rowActionCatalog = PRESELECTION_ROW_ACTIONS;
+  readonly labels = {
+    addFromPool: PRESELECTION_TOOLBAR_ADD_FROM_POOL,
+    viewApplicants: PRESELECTION_TOOLBAR_VIEW_APPLICANTS,
+    sendSmart: PRESELECTION_TOOLBAR_SEND_SMART,
+    documents: PRESELECTION_TOOLBAR_DOCUMENTS,
+    requestDocuments: PRESELECTION_TOOLBAR_REQUEST_DOCUMENTS,
+    empty: PRESELECTION_EMPTY,
+    rowActionsAria: PRESELECTION_ROW_ACTIONS_ARIA,
+    colCandidate: PRESELECTION_COL_CANDIDATE,
+    colCompat: PRESELECTION_COL_COMPAT,
+    colStage: PRESELECTION_COL_STAGE,
+    colDocs: PRESELECTION_COL_DOCS,
+    colContact: PRESELECTION_COL_CONTACT,
+    colEvaluation: PRESELECTION_COL_EVALUATION,
+    colAppointment: PRESELECTION_COL_APPOINTMENT,
+    colRequestDocuments: PRESELECTION_COL_REQUEST_DOCUMENTS,
+    colRequestCompleteInfo: PRESELECTION_COL_REQUEST_COMPLETE_INFO,
+    colInterviewed: PRESELECTION_COL_INTERVIEWED,
+    interviewedTooltip: PRESELECTION_INTERVIEWED_TOOLTIP,
+    interviewedDoneTooltip: PRESELECTION_INTERVIEWED_DONE_TOOLTIP,
+    contactTooltip: PRESELECTION_CONTACT_TOOLTIP,
+    contactDoneTooltip: PRESELECTION_CONTACT_DONE_TOOLTIP,
+    evaluationTooltip: PRESELECTION_EVALUATION_TOOLTIP,
+    appointmentTooltip: PRESELECTION_APPOINTMENT_TOOLTIP,
+    appointmentScheduledTooltip: PRESELECTION_APPOINTMENT_SCHEDULED_TOOLTIP,
+    requestDocsTooltip: PRESELECTION_REQUEST_DOCS_TOOLTIP,
+    requestDocsNoRequirements: PRESELECTION_REQUEST_DOCS_NO_REQUIREMENTS,
+    requestInfoTooltip: PRESELECTION_REQUEST_INFO_TOOLTIP,
+    requestInfoDoneTooltip: PRESELECTION_REQUEST_INFO_DONE_TOOLTIP,
+    bulkContact: PRESELECTION_BULK_CONTACT,
+    bulkAppointment: PRESELECTION_BULK_APPOINTMENT,
+    bulkMarkSelected: PRESELECTION_BULK_MARK_SELECTED,
+    bulkRelease: PRESELECTION_BULK_RELEASE,
+    bulkReleaseAll: PRESELECTION_BULK_RELEASE_ALL,
+    changeStage: PRESELECTION_CHANGE_STAGE,
+  };
   loading = true;
+  bulkLoading = false;
+  contactingApplicationId: number | null = null;
+  requestingDocsApplicationId: number | null = null;
+  requestingInfoApplicationId: number | null = null;
+  interviewingApplicationId: number | null = null;
+  hasDocumentRequirements = false;
   data: PreselectionCandidate[] = [];
   selectedCount = 0;
+  total = 0;
+  pageIndex = 0;
+  pageSize = 10;
 
-  readonly columns = ['select', 'name', 'compatibility', 'stage', 'documentsComplete', 'interviewScheduled', 'actions'];
+  readonly columns = [
+    'select',
+    'name',
+    'compatibility',
+    'stage',
+    'documentsComplete',
+    'contact',
+    'evaluation',
+    'interviewed',
+    'appointment',
+    'requestDocuments',
+    'requestCompleteInfo',
+    'actions',
+  ];
 
   ngOnInit(): void {
+    this.loadPositionRequirements();
     this.loadApplications();
+  }
+
+  get allSelected(): boolean {
+    return this.data.length > 0 && this.data.every((c) => c.selected);
+  }
+
+  get someSelected(): boolean {
+    return this.data.some((c) => c.selected) && !this.allSelected;
+  }
+
+  private loadPositionRequirements(): void {
+    this.positionService.getById(this.positionId).subscribe({
+      next: (position) => {
+        const reqs = position.documentRequirements ?? [];
+        this.hasDocumentRequirements = reqs.some((r) => r.documentTypeId != null && r.documentTypeId > 0);
+      },
+      error: () => {
+        this.hasDocumentRequirements = false;
+      },
+    });
   }
 
   loadApplications(): void {
     this.loading = true;
-    this.applicationApi.list(0, 100, { positionId: this.positionId }).subscribe({
+    this.applicationApi
+      .list(this.pageIndex, this.pageSize, { positionId: this.positionId, postPreselectedOnly: true })
+      .subscribe({
       next: (res) => {
         this.data = res.items.map((app) => ({
+          applicationId: app.id,
           id: app.candidateId,
           firstName: app.candidateFirstName ?? '',
           lastName: app.candidateLastName ?? '',
@@ -60,47 +314,66 @@ export class PreselectionComponent implements OnInit {
           createdAt: app.createdAt,
           compatibility: app.compatibilityPercent ?? 0,
           stage: app.status,
-          interviewScheduled: false,
-          documentsComplete: false,
-          selected: app.isSelected ?? false,
+          interviewScheduled: app.interviewScheduled ?? false,
+          interviewed: app.interviewed ?? false,
+          interviewedAt: app.interviewedAt ?? null,
+          infoValidated: app.infoValidated ?? false,
+          studiesValidated: app.studiesValidated ?? false,
+          documentsSaved: app.documentsSaved ?? false,
+          documentsComplete: app.documentsSaved ?? false,
+          selected: false,
           smartSent: false,
+          questionnaireStatus: app.questionnaireStatus ?? null,
+          questionnaireAutoScorePercent: app.questionnaireAutoScorePercent ?? null,
         }));
+        this.total = res.total;
         this.loading = false;
         this.updateSelected();
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snack.open('No se pudieron cargar los candidatos postulados', 'Cerrar', { duration: 4000 });
+        this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_LOAD_ERROR });
       },
     });
+  }
+
+  onPage(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.loadApplications();
   }
 
   openPoolDialog(): void {
     const ref = this.dialog.open<CandidatePoolDialogComponent, CandidatePoolDialogData>(
       CandidatePoolDialogComponent,
       {
-        width: '760px',
-        maxWidth: '95vw',
+        ...candidatePoolDialogConfig(),
         data: { positionId: this.positionId, requisitionNo: `REQ-${this.positionId}` },
       },
     );
     ref.afterClosed().subscribe((result) => {
       if (result?.created) {
-        this.snack.open(`${result.created} candidato(s) postulado(s)`, 'Cerrar', { duration: 3500 });
+        this.feedback.showSuccess(`${result.created} ${PRESELECTION_POOL_CREATED}`);
         this.loadApplications();
       }
     });
   }
 
   openApplicationsDialog(): void {
-    this.dialog.open<PositionApplicationsDialogComponent, PositionApplicationsDialogData>(
-      PositionApplicationsDialogComponent,
-      {
-        width: '720px',
-        maxWidth: '95vw',
-        data: { positionId: this.positionId, requisitionNo: `REQ-${this.positionId}` },
-      },
-    );
+    this.dialog
+      .open<PositionApplicationsDialogComponent, PositionApplicationsDialogData, PositionApplicationsDialogResult>(
+        PositionApplicationsDialogComponent,
+        {
+          ...positionApplicationsDialogConfig(),
+          data: { positionId: this.positionId, requisitionNo: `REQ-${this.positionId}` },
+        },
+      )
+      .afterClosed()
+      .subscribe((result) => {
+        if (result?.changed) {
+          this.loadApplications();
+        }
+      });
   }
 
   toggleAll(checked: boolean): void {
@@ -108,8 +381,8 @@ export class PreselectionComponent implements OnInit {
     this.updateSelected();
   }
 
-  toggleRow(row: PreselectionCandidate): void {
-    row.selected = !row.selected;
+  setRowSelected(row: PreselectionCandidate, checked: boolean): void {
+    row.selected = checked;
     this.updateSelected();
   }
 
@@ -117,7 +390,746 @@ export class PreselectionComponent implements OnInit {
     this.selectedCount = this.data.filter((c) => c.selected).length;
   }
 
+  selectedApplicationIds(): number[] {
+    return this.data.filter((c) => c.selected).map((c) => c.applicationId);
+  }
+
+  bulkSelect(): void {
+    const applicationIds = this.selectedApplicationIds();
+    if (applicationIds.length === 0) {
+      return;
+    }
+    this.runBulk(
+      this.applicationApi.select({ positionId: this.positionId, applicationIds }),
+      PRESELECTION_BULK_MARK_SUCCESS,
+    );
+  }
+
+  bulkDeselect(): void {
+    const applicationIds = this.selectedApplicationIds();
+    if (applicationIds.length === 0) {
+      return;
+    }
+    this.runBulk(
+      this.applicationApi.deselect({ positionId: this.positionId, applicationIds }),
+      PRESELECTION_BULK_RELEASE_SUCCESS,
+    );
+  }
+
+  releaseAll(): void {
+    this.feedback
+      .confirm({
+        title: FEEDBACK_GENERIC_WARNING_TITLE,
+        message: PRESELECTION_BULK_RELEASE_ALL_CONFIRM,
+        confirmWarn: true,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
+        this.runBulk(
+          this.applicationApi.releaseAll({ positionId: this.positionId }),
+          PRESELECTION_BULK_RELEASE_ALL_SUCCESS,
+        );
+      });
+  }
+
+  private runBulk(
+    request$: ReturnType<CandidateApplicationApiService['select']>,
+    successMessage: string,
+  ): void {
+    this.bulkLoading = true;
+    request$.subscribe({
+      next: (res) => {
+        this.bulkLoading = false;
+        this.feedback.showSuccess(`${successMessage} (${res.updatedCount})`);
+        this.loadApplications();
+      },
+      error: (err) => {
+        this.bulkLoading = false;
+        this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_BULK_ERROR });
+      },
+    });
+  }
+
   action(name: string): void {
-    this.snack.open(`${name}: ${this.selectedCount} candidato(s)`, 'Cerrar', { duration: 2500 });
+    this.feedback.showSuccess(`${name}: ${this.selectedCount} ${PRESELECTION_ACTION_CANDIDATES_SUFFIX}`);
+  }
+
+  openChangeStageDialog(rows: PreselectionCandidate[]): void {
+    if (!this.canEditSelection || this.bulkLoading || rows.length === 0) {
+      return;
+    }
+    const candidates = rows.map((row) => ({
+      applicationId: row.applicationId,
+      name: `${row.firstName} ${row.lastName}`.trim() || row.email,
+      currentStatus: row.stage,
+    }));
+    this.dialog
+      .open<
+        ChangeApplicationStageDialogComponent,
+        ChangeApplicationStageDialogData,
+        ChangeApplicationStageDialogResult | null
+      >(ChangeApplicationStageDialogComponent, {
+        ...catalogDialogConfig('560px'),
+        maxWidth: '96vw',
+        autoFocus: false,
+        ariaLabel: PRESELECTION_CHANGE_STAGE_TITLE,
+        data: { positionId: this.positionId, candidates },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result && result.updated > 0) {
+          this.loadApplications();
+        }
+      });
+  }
+
+  bulkChangeStage(): void {
+    const selected = this.data.filter((row) => row.selected);
+    if (selected.length === 0) {
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, PRESELECTION_BULK_NONE_SELECTED);
+      return;
+    }
+    this.openChangeStageDialog(selected);
+  }
+
+  stageLabel(status: string | null | undefined): string {
+    return getCandidateApplicationStageLabel(status);
+  }
+
+  bulkContactSelectedCandidates(): void {
+    if (!this.canEditSelection || this.bulkLoading) {
+      return;
+    }
+    const selected = this.data.filter((row) => row.selected);
+    if (selected.length === 0) {
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, PRESELECTION_BULK_NONE_SELECTED);
+      return;
+    }
+    this.feedback
+      .confirm({
+        title: PRESELECTION_BULK_CONTACT,
+        message: PRESELECTION_BULK_CONTACT_CONFIRM,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
+        this.bulkLoading = true;
+        from(selected)
+          .pipe(
+            concatMap((row) =>
+              this.applicationApi.contactQuestionnaire(row.applicationId).pipe(
+                map(() => {
+                  if (!row.questionnaireStatus) {
+                    row.questionnaireStatus = 'PENDING';
+                  }
+                  return true;
+                }),
+                catchError(() => of(false)),
+              ),
+            ),
+            toArray(),
+          )
+          .subscribe({
+            next: (results) => {
+              this.bulkLoading = false;
+              const succeeded = results.filter(Boolean).length;
+              const failed = results.length - succeeded;
+              if (failed === 0) {
+                this.feedback.showSuccess(`${PRESELECTION_BULK_CONTACT_SUCCESS} (${succeeded})`);
+              } else if (succeeded === 0) {
+                this.feedback.showApiError(null, { fallbackMessage: PRESELECTION_CONTACT_ERROR });
+              } else {
+                this.feedback.showWarning(
+                  PRESELECTION_BULK_CONTACT_PARTIAL,
+                  `${succeeded} ${PRESELECTION_BULK_CONTACT_SENT}, ${failed} ${PRESELECTION_BULK_CONTACT_FAILED}`,
+                );
+              }
+              this.loadApplications();
+            },
+            error: (err) => {
+              this.bulkLoading = false;
+              this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_CONTACT_ERROR });
+            },
+          });
+      });
+  }
+
+  bulkSendInterviewAppointments(): void {
+    if (!this.canEditSelection || this.bulkLoading) {
+      return;
+    }
+    const selected = this.data.filter((row) => row.selected);
+    if (selected.length === 0) {
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, PRESELECTION_BULK_NONE_SELECTED);
+      return;
+    }
+    const candidates = selected.map((row) => ({
+      applicationId: row.applicationId,
+      name: `${row.firstName} ${row.lastName}`.trim() || row.email,
+    }));
+    this.dialog
+      .open<
+        BulkScheduleInterviewsDialogComponent,
+        BulkScheduleInterviewsDialogData,
+        BulkScheduleInterviewsDialogResult | null
+      >(BulkScheduleInterviewsDialogComponent, {
+        ...catalogDialogConfig('480px'),
+        data: { candidates },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result && result.scheduled > 0) {
+          this.loadApplications();
+        }
+      });
+  }
+
+  private openScheduleInterview(row: PreselectionCandidate): void {
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    const dialogRef = this.dialog.open<
+      ScheduleInterviewDialogComponent,
+      ScheduleInterviewDialogData,
+      boolean | null
+    >(ScheduleInterviewDialogComponent, {
+      ...catalogDialogConfig('480px'),
+      data: { applicationId: row.applicationId, candidateName: name },
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(filter((ok): ok is true => ok === true))
+      .subscribe(() => {
+        row.interviewScheduled = true;
+      });
+  }
+
+  get canEditSelection(): boolean {
+    return this.permission.hasAuthority(AppPermissions.SELECTION_EDIT);
+  }
+
+  visibleRowActions(): PreselectionRowAction[] {
+    return this.rowActionCatalog.filter((action) => this.permission.hasAnyPermission(action.permissions));
+  }
+
+  contactQuestionnaire(row: PreselectionCandidate): void {
+    if (!this.canEditSelection || this.contactingApplicationId != null) {
+      return;
+    }
+    this.contactingApplicationId = row.applicationId;
+    this.applicationApi.contactQuestionnaire(row.applicationId).subscribe({
+      next: (res) => {
+        this.contactingApplicationId = null;
+        if (!row.questionnaireStatus) {
+          row.questionnaireStatus = 'PENDING';
+        }
+        this.feedback.showSuccess(res.message?.trim() || PRESELECTION_CONTACT_SUCCESS);
+      },
+      error: (err) => {
+        this.contactingApplicationId = null;
+        this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_CONTACT_ERROR });
+      },
+    });
+  }
+
+  requestDocuments(row: PreselectionCandidate): void {
+    if (!this.canEditSelection || !this.hasDocumentRequirements || this.requestingDocsApplicationId != null) {
+      return;
+    }
+    this.requestingDocsApplicationId = row.applicationId;
+    this.applicationApi.requestDocuments(row.applicationId).subscribe({
+      next: (res) => {
+        this.requestingDocsApplicationId = null;
+        this.feedback.showSuccess(res.message?.trim() || PRESELECTION_REQUEST_DOCS_SUCCESS);
+      },
+      error: (err) => {
+        this.requestingDocsApplicationId = null;
+        this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_REQUEST_DOCS_ERROR });
+      },
+    });
+  }
+
+  requestCompleteInfo(row: PreselectionCandidate): void {
+    if (!this.canEditSelection || this.requestingInfoApplicationId != null) {
+      return;
+    }
+    this.requestingInfoApplicationId = row.applicationId;
+    this.applicationApi.requestCompleteInfo(row.applicationId).subscribe({
+      next: (res) => {
+        this.requestingInfoApplicationId = null;
+        this.feedback.showSuccess(res.message?.trim() || PRESELECTION_REQUEST_INFO_SUCCESS);
+      },
+      error: (err) => {
+        this.requestingInfoApplicationId = null;
+        this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_REQUEST_INFO_ERROR });
+      },
+    });
+  }
+
+  bulkRequestDocumentsSelected(): void {
+    if (!this.canEditSelection || this.bulkLoading || !this.hasDocumentRequirements) {
+      if (!this.hasDocumentRequirements) {
+        this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, PRESELECTION_REQUEST_DOCS_NO_REQUIREMENTS);
+      }
+      return;
+    }
+    const selected = this.data.filter((row) => row.selected);
+    if (selected.length === 0) {
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, PRESELECTION_BULK_NONE_SELECTED);
+      return;
+    }
+    this.feedback
+      .confirm({
+        title: PRESELECTION_TOOLBAR_REQUEST_DOCUMENTS,
+        message: PRESELECTION_BULK_REQUEST_DOCS_CONFIRM,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
+        this.bulkLoading = true;
+        this.applicationApi.bulkRequestDocuments(selected.map((row) => row.applicationId)).subscribe({
+          next: (res) => {
+            this.bulkLoading = false;
+            const results = res.results ?? [];
+            const succeeded = results.filter((item) => item.success).length;
+            const failed = results.length - succeeded;
+            if (failed === 0) {
+              this.feedback.showSuccess(`${PRESELECTION_BULK_REQUEST_DOCS_SUCCESS} (${succeeded})`);
+            } else if (succeeded === 0) {
+              this.feedback.showApiError(null, { fallbackMessage: PRESELECTION_REQUEST_DOCS_ERROR });
+            } else {
+              this.feedback.showWarning(
+                PRESELECTION_BULK_REQUEST_DOCS_PARTIAL,
+                `${succeeded} ${PRESELECTION_BULK_CONTACT_SENT}, ${failed} ${PRESELECTION_BULK_CONTACT_FAILED}`,
+              );
+            }
+          },
+          error: (err) => {
+            this.bulkLoading = false;
+            this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_REQUEST_DOCS_ERROR });
+          },
+        });
+      });
+  }
+
+  requestDocumentsTooltip(): string {
+    return this.hasDocumentRequirements
+      ? this.labels.requestDocsTooltip
+      : this.labels.requestDocsNoRequirements;
+  }
+
+  requestCompleteInfoTooltip(row: PreselectionCandidate): string {
+    return row.infoValidated ? this.labels.requestInfoDoneTooltip : this.labels.requestInfoTooltip;
+  }
+
+  isContacted(row: PreselectionCandidate): boolean {
+    return row.questionnaireStatus === 'PENDING' || row.questionnaireStatus === 'ANSWERED';
+  }
+
+  contactTooltip(row: PreselectionCandidate): string {
+    return this.isContacted(row) ? this.labels.contactDoneTooltip : this.labels.contactTooltip;
+  }
+
+  openEvaluationPending(row: PreselectionCandidate): void {
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    if (row.questionnaireStatus !== 'ANSWERED') {
+      this.feedback.showInfo(
+        PRESELECTION_EVALUATION_PENDING_TITLE,
+        `${PRESELECTION_EVALUATION_PENDING_MSG} (${name})`,
+      );
+      return;
+    }
+    const data: QuestionnaireEvaluationDialogData = {
+      applicationId: row.applicationId,
+      candidateName: name,
+    };
+    this.dialog.open(QuestionnaireEvaluationDialogComponent, {
+      ...catalogDialogConfig,
+      width: '920px',
+      maxWidth: '96vw',
+      data,
+    });
+  }
+
+  evaluationTooltip(row: PreselectionCandidate): string {
+    if (row.questionnaireStatus === 'ANSWERED') {
+      const score = row.questionnaireAutoScorePercent;
+      return score != null
+        ? `${this.labels.evaluationTooltip} (${score}%)`
+        : this.labels.evaluationTooltip;
+    }
+    return this.labels.evaluationTooltip;
+  }
+
+  scheduleInterviewForRow(row: PreselectionCandidate): void {
+    if (!this.canEditSelection) {
+      return;
+    }
+    this.openScheduleInterview(row);
+  }
+
+  appointmentTooltip(row: PreselectionCandidate): string {
+    return row.interviewScheduled
+      ? this.labels.appointmentScheduledTooltip
+      : this.labels.appointmentTooltip;
+  }
+
+  toggleInterviewed(row: PreselectionCandidate): void {
+    if (!this.canEditSelection || this.interviewingApplicationId != null) {
+      return;
+    }
+    const interviewed = !row.interviewed;
+    this.interviewingApplicationId = row.applicationId;
+    this.applicationApi.patchApplication(row.applicationId, { interviewed }).subscribe({
+      next: (res) => {
+        this.interviewingApplicationId = null;
+        row.interviewed = res.interviewed ?? interviewed;
+        row.interviewedAt = res.interviewedAt ?? null;
+        this.feedback.showSuccess(
+          interviewed ? PRESELECTION_INTERVIEWED_SUCCESS : PRESELECTION_INTERVIEWED_UNMARK_SUCCESS,
+        );
+      },
+      error: (err) => {
+        this.interviewingApplicationId = null;
+        this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_INTERVIEWED_ERROR });
+      },
+    });
+  }
+
+  interviewedTooltip(row: PreselectionCandidate): string {
+    return row.interviewed ? this.labels.interviewedDoneTooltip : this.labels.interviewedTooltip;
+  }
+
+  formatInterviewedAt(value: string): string {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) {
+      return '';
+    }
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+
+  onRowAction(actionId: PreselectionRowActionId, row: PreselectionCandidate): void {
+    const action = this.rowActionCatalog.find((a) => a.id === actionId);
+    if (!action) {
+      return;
+    }
+    if (actionId === 'deselectRow') {
+      this.deselectSingleRow(row);
+      return;
+    }
+    if (actionId === 'viewProfile') {
+      this.openCandidateProfile(row);
+      return;
+    }
+    if (actionId === 'downloadCv') {
+      this.downloadCandidateCv(row);
+      return;
+    }
+    if (actionId === 'modifyCompatibility') {
+      this.openCompatibilityDialog(row);
+      return;
+    }
+    if (actionId === 'scheduleInterview') {
+      this.openScheduleInterview(row);
+      return;
+    }
+    if (actionId === 'viewDocuments') {
+      this.openCandidateDocuments(row);
+      return;
+    }
+    if (actionId === 'validateInfo') {
+      this.validateApplicationInfo(row);
+      return;
+    }
+    if (actionId === 'validateStudies') {
+      this.validateApplicationStudies(row);
+      return;
+    }
+    if (actionId === 'auditLog') {
+      this.openAuditLogDialog(row);
+      return;
+    }
+    if (actionId === 'sendSmart') {
+      this.sendCandidateToSmart(row);
+      return;
+    }
+    if (actionId === 'generateContract') {
+      this.generateCandidateContract(row);
+      return;
+    }
+    if (actionId === 'generateDocument') {
+      this.openGenerateDocumentDialog(row);
+      return;
+    }
+    if (actionId === 'viewNotifications') {
+      this.openApplicationNotificationsDialog(row);
+      return;
+    }
+    if (actionId === 'notifyQuestionnaire') {
+      this.notifyCandidateQuestionnaire(row);
+      return;
+    }
+    if (actionId === 'changeStage') {
+      this.openChangeStageDialog([row]);
+      return;
+    }
+    const name = `${row.firstName} ${row.lastName}`.trim();
+    this.feedback.showSuccess(`${action.label} — ${name}: ${PRESELECTION_ACTION_PENDING_API}`);
+  }
+
+  private deselectSingleRow(row: PreselectionCandidate): void {
+    this.runBulk(
+      this.applicationApi.deselect({
+        positionId: this.positionId,
+        applicationIds: [row.applicationId],
+      }),
+      PRESELECTION_ROW_DESELECT_SUCCESS,
+    );
+  }
+
+  openCandidateProfile(row: PreselectionCandidate): void {
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    this.dialog
+      .open<CandidateEditDialogComponent, CandidateEditDialogData, CandidateEditDialogResult | null>(
+        CandidateEditDialogComponent,
+        {
+          ...catalogDialogConfig('720px'),
+          maxWidth: '96vw',
+          maxHeight: '90vh',
+          autoFocus: false,
+          data: {
+            candidateId: row.id,
+            applicationId: row.applicationId,
+            candidateName: name,
+          },
+        },
+      )
+      .afterClosed()
+      .subscribe((result) => {
+        if (result?.saved) {
+          this.loadApplications();
+        }
+      });
+  }
+
+  private openCandidateDocuments(row: PreselectionCandidate): void {
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    this.dialog.open<CandidateDocumentsDialogComponent, CandidateDocumentsDialogData>(
+      CandidateDocumentsDialogComponent,
+      {
+        ...candidateDocumentsDialogConfig(),
+        autoFocus: false,
+        data: {
+          applicationId: row.applicationId,
+          candidateId: row.id,
+          candidateName: name,
+          requisitionNo: `REQ-${this.positionId}`,
+        },
+      },
+    );
+  }
+
+  private openCompatibilityDialog(row: PreselectionCandidate): void {
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    const dialogRef = this.dialog.open<
+      PreselectionCompatibilityDialogComponent,
+      PreselectionCompatibilityDialogData,
+      number | undefined
+    >(PreselectionCompatibilityDialogComponent, {
+      ...catalogDialogConfig('480px'),
+      data: { candidateName: name, currentCompatibility: row.compatibility },
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(filter((value): value is number => value != null))
+      .subscribe((compatibilityPercent) => {
+        this.applicationApi.patchApplication(row.applicationId, { compatibilityPercent }).subscribe({
+          next: (res) => {
+            row.compatibility = res.compatibilityPercent ?? compatibilityPercent;
+            this.feedback.showSuccess(PRESELECTION_COMPAT_UPDATED);
+          },
+          error: (err) => {
+            this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_COMPAT_UPDATE_ERROR });
+          },
+        });
+      });
+  }
+
+  openAuditLogDialog(row: PreselectionCandidate): void {
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    this.dialog.open<ApplicationAuditLogDialogComponent, ApplicationAuditLogDialogData>(
+      ApplicationAuditLogDialogComponent,
+      {
+        ...catalogDialogConfig('800px'),
+        data: {
+          applicationId: row.applicationId,
+          candidateName: name,
+          positionId: this.positionId,
+        },
+      },
+    );
+  }
+
+  private openApplicationNotificationsDialog(row: PreselectionCandidate): void {
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    this.dialog.open<ApplicationNotificationsDialogComponent, ApplicationNotificationsDialogData>(
+      ApplicationNotificationsDialogComponent,
+      {
+        ...catalogDialogConfig('720px'),
+        maxWidth: '96vw',
+        maxHeight: '88vh',
+        autoFocus: false,
+        ariaLabel: `Notificaciones — ${name}`,
+        data: {
+          applicationId: row.applicationId,
+          candidateName: name,
+        },
+      },
+    );
+  }
+
+  downloadCandidateCv(row: PreselectionCandidate): void {
+    this.candidateApi.downloadCv(row.id).subscribe({
+      next: (res) => {
+        this.feedback.showSuccess(`CV: ${res.fileName}`);
+      },
+      error: (err) => {
+        this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_CV_DOWNLOAD_ERROR });
+      },
+    });
+  }
+
+  formatDocumentsStatus(row: PreselectionCandidate): string {
+    if (row.documentsSaved) {
+      return PRESELECTION_DOCS_COMPLETE;
+    }
+    const parts: string[] = [];
+    parts.push(row.infoValidated ? PRESELECTION_DOCS_INFO_OK : PRESELECTION_DOCS_INFO_PENDING);
+    parts.push(row.studiesValidated ? PRESELECTION_DOCS_STUDIES_OK : PRESELECTION_DOCS_STUDIES_PENDING);
+    return parts.join(' · ');
+  }
+
+  private validateApplicationInfo(row: PreselectionCandidate): void {
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    this.dialog
+      .open<
+        ValidateInfoDialogComponent,
+        ValidateInfoDialogData,
+        ValidateInfoDialogResult | null
+      >(ValidateInfoDialogComponent, {
+        ...validateInfoDialogConfig(),
+        data: {
+          applicationId: row.applicationId,
+          candidateName: name,
+        },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (!result?.saved) {
+          return;
+        }
+        row.infoValidated = result.infoValidated ?? true;
+        this.feedback.showSuccess(PRESELECTION_INFO_VALIDATED);
+      });
+  }
+
+  private validateApplicationStudies(row: PreselectionCandidate): void {
+    if (row.studiesValidated) {
+      this.feedback.showSuccess(PRESELECTION_STUDIES_ALREADY_VALIDATED);
+      return;
+    }
+    this.applicationApi.validateStudies(row.applicationId).subscribe({
+      next: (res) => {
+        this.applyValidationFlags(row, res);
+        this.feedback.showSuccess(PRESELECTION_STUDIES_VALIDATED);
+      },
+      error: (err) => {
+        this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_STUDIES_VALIDATE_ERROR });
+      },
+    });
+  }
+
+  private sendCandidateToSmart(row: PreselectionCandidate): void {
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    this.applicationApi.sendToSmart(row.applicationId).subscribe({
+      next: (res) => {
+        this.feedback.showSuccess(`SMART (stub): ${name} — ref. ${res.externalReference}`);
+      },
+      error: (err) => {
+        this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_SMART_SEND_ERROR });
+      },
+    });
+  }
+
+  private generateCandidateContract(row: PreselectionCandidate): void {
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    this.applicationApi.generateContract(row.applicationId).subscribe({
+      next: (res) => {
+        this.feedback.showSuccess(`Contrato (stub): ${name} — ref. ${res.contractReference}`);
+      },
+      error: (err) => {
+        this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_CONTRACT_GENERATE_ERROR });
+      },
+    });
+  }
+
+  private openGenerateDocumentDialog(row: PreselectionCandidate): void {
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    this.dialog.open<GenerateDocumentDialogComponent, GenerateDocumentDialogData, boolean>(
+      GenerateDocumentDialogComponent,
+      {
+        ...catalogDialogConfig('640px'),
+        data: {
+          applicationId: row.applicationId,
+          candidateName: name,
+        },
+      },
+    );
+  }
+
+  private notifyCandidateQuestionnaire(row: PreselectionCandidate): void {
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    this.questionnaireApi
+      .getPositionAssignment(this.positionId)
+      .pipe(
+        switchMap((assignment) =>
+          this.applicationApi.sendQuestionnaireInvite(row.applicationId, {
+            questionnaireId: assignment.persisted ? assignment.questionnaireFormId : null,
+          }),
+        ),
+      )
+      .subscribe({
+        next: (res) => {
+          const label = res.questionnaireId
+            ? `Cuestionario #${res.questionnaireId} (stub) enviado a ${res.candidateEmail ?? name}`
+            : `Invitación (stub) enviada sin formulario asignado a ${res.candidateEmail ?? name}`;
+          this.feedback.showSuccess(label);
+          if (res.invitationLink) {
+            window.open(res.invitationLink, '_blank', 'noopener,noreferrer');
+          }
+        },
+        error: (err) => {
+          this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_QUESTIONNAIRE_INVITE_ERROR });
+        },
+      });
+  }
+
+  private applyValidationFlags(
+    row: PreselectionCandidate,
+    flags: {
+      infoValidated: boolean;
+      studiesValidated: boolean;
+      documentsSaved: boolean;
+    },
+  ): void {
+    row.infoValidated = flags.infoValidated;
+    row.studiesValidated = flags.studiesValidated;
+    row.documentsSaved = flags.documentsSaved;
+    row.documentsComplete = flags.documentsSaved;
   }
 }

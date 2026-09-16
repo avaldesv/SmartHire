@@ -1,0 +1,175 @@
+export {
+  DASHBOARD_ACTION_APPLY_CANDIDATES as POSITIONS_ACTION_APPLY_CANDIDATES,
+  DASHBOARD_ACTION_APPROVE_CANCELLATION as POSITIONS_ACTION_APPROVE_CANCELLATION,
+  DASHBOARD_ACTION_CANCEL_DIRECT as POSITIONS_ACTION_CANCEL_DIRECT,
+  DASHBOARD_ACTION_DUPLICATE as POSITIONS_ACTION_DUPLICATE,
+  DASHBOARD_ACTION_EXECUTE_CANCELLATION as POSITIONS_ACTION_EXECUTE_CANCELLATION,
+  DASHBOARD_ACTION_GO_SELECTION as POSITIONS_ACTION_GO_PRESELECTION,
+  DASHBOARD_ACTION_HISTORY as POSITIONS_ACTION_HISTORY,
+  DASHBOARD_ACTION_REASSIGN as POSITIONS_ACTION_REASSIGN,
+  DASHBOARD_ACTION_REJECT_CANCELLATION as POSITIONS_ACTION_REJECT_CANCELLATION,
+  DASHBOARD_ACTION_REQUEST_CANCELLATION as POSITIONS_ACTION_REQUEST_CANCELLATION,
+  DASHBOARD_ACTION_VIEW_APPLICANTS as POSITIONS_ACTION_VIEW_APPLICANTS,
+  DASHBOARD_APPROVE_CANCELLATION_ERROR as POSITIONS_APPROVE_CANCELLATION_ERROR,
+  DASHBOARD_APPROVE_CANCELLATION_SUCCESS as POSITIONS_APPROVE_CANCELLATION_SUCCESS,
+  DASHBOARD_CANCEL_ERROR as POSITIONS_CANCEL_ERROR,
+  DASHBOARD_CANCEL_SUCCESS as POSITIONS_CANCEL_SUCCESS,
+  DASHBOARD_COVERED_SUCCESS as POSITIONS_COVERED_SUCCESS,
+  DASHBOARD_PARTIALLY_COVERED_SUCCESS as POSITIONS_PARTIALLY_COVERED_SUCCESS,
+  DASHBOARD_EXECUTE_CANCELLATION_ERROR as POSITIONS_EXECUTE_CANCELLATION_ERROR,
+  DASHBOARD_EXECUTE_CANCELLATION_SUCCESS as POSITIONS_EXECUTE_CANCELLATION_SUCCESS,
+  DASHBOARD_HISTORY_LOAD_ERROR as POSITIONS_HISTORY_LOAD_ERROR,
+  DASHBOARD_REASSIGN_ERROR as POSITIONS_REASSIGN_ERROR,
+  DASHBOARD_REASSIGN_SUCCESS as POSITIONS_REASSIGN_SUCCESS,
+  DASHBOARD_CLEAR_FILTERS as POSITIONS_CLEAR_FILTERS,
+  DASHBOARD_COL_BRAND as POSITIONS_COL_BRAND,
+  DASHBOARD_COL_CATEGORY as POSITIONS_COL_CATEGORY,
+  DASHBOARD_COL_CITY as POSITIONS_COL_CITY,
+  DASHBOARD_COL_CLIENT as POSITIONS_COL_CLIENT,
+  DASHBOARD_COL_COUNTRY as POSITIONS_COL_COUNTRY,
+  DASHBOARD_COL_POSITION as POSITIONS_COL_POSITION,
+  DASHBOARD_COL_POSITIONS_COUNT as POSITIONS_COL_POSITIONS_COUNT,
+  DASHBOARD_COL_RECRUITER as POSITIONS_COL_RECRUITER,
+  DASHBOARD_COL_REQUISITION as POSITIONS_COL_REQUISITION,
+  DASHBOARD_COL_START_DATE as POSITIONS_COL_START_DATE,
+  DASHBOARD_COL_STATE as POSITIONS_COL_STATE,
+  DASHBOARD_COL_TYPE as POSITIONS_COL_TYPE,
+  DASHBOARD_DUPLICATE_ERROR as POSITIONS_DUPLICATE_ERROR,
+  DASHBOARD_FILTER_ALL as POSITIONS_FILTER_ALL,
+  DASHBOARD_FILTER_COUNTRY as POSITIONS_FILTER_COUNTRY,
+  DASHBOARD_FILTER_DATE_FROM as POSITIONS_FILTER_DATE_FROM,
+  DASHBOARD_FILTER_DATE_TO as POSITIONS_FILTER_DATE_TO,
+  DASHBOARD_FILTER_RECRUITER as POSITIONS_FILTER_RECRUITER,
+  DASHBOARD_FILTER_RECRUITER_PLACEHOLDER as POSITIONS_FILTER_RECRUITER_PLACEHOLDER,
+  DASHBOARD_FILTER_STATUS as POSITIONS_FILTER_STATUS,
+  DASHBOARD_FILTERS_CLEARED as POSITIONS_FILTERS_CLEARED,
+  DASHBOARD_REJECT_CANCELLATION_ERROR as POSITIONS_REJECT_CANCELLATION_ERROR,
+  DASHBOARD_REJECT_CANCELLATION_SUCCESS as POSITIONS_REJECT_CANCELLATION_SUCCESS,
+  DASHBOARD_REQUEST_CANCELLATION_ERROR as POSITIONS_REQUEST_CANCELLATION_ERROR,
+  DASHBOARD_REQUEST_CANCELLATION_SUCCESS as POSITIONS_REQUEST_CANCELLATION_SUCCESS,
+  DASHBOARD_SNACK_CLOSE as POSITIONS_SNACK_CLOSE,
+  dashboardApproveCancellationConfirm as positionsApproveCancellationConfirm,
+  dashboardCancelConfirm as positionsCancelConfirm,
+  dashboardCandidatesApplied as positionsCandidatesApplied,
+  dashboardDuplicateSuccess as positionsDuplicateSuccess,
+  dashboardExecuteCancellationConfirm as positionsExecuteCancellationConfirm,
+  dashboardCoverageCloseSuccess as positionsCoverageCloseSuccess,
+  dashboardRejectCancellationConfirm as positionsRejectCancellationConfirm,
+  dashboardRequestCancellationConfirm as positionsRequestCancellationConfirm,
+  buildDuplicatedPositionName as buildDuplicatedPositionName,
+  POSITION_DUPLICATE_NAME_SUFFIX as POSITION_DUPLICATE_NAME_SUFFIX,
+} from './dashboard-labels';
+
+export const POSITIONS_PAGE_TITLE = $localize`:@@positions.pageTitle:Posiciones`;
+export const POSITIONS_PAGE_SUBTITLE = $localize`:@@positions.pageSubtitle:Gestión de requisiciones y posiciones abiertas`;
+export const POSITIONS_NEW_BUTTON = $localize`:@@positions.newButton:Nueva posición`;
+export const POSITIONS_SEARCH_LABEL = $localize`:@@positions.searchLabel:Buscar posición`;
+export const POSITIONS_SEARCH_PLACEHOLDER = $localize`:@@positions.searchPlaceholder:Cliente, puesto, OT, clave…`;
+export const POSITIONS_LOAD_ERROR = $localize`:@@positions.errors.load:No se pudieron cargar las posiciones`;
+export const POSITIONS_COL_CLIENT_KEY = $localize`:@@positions.column.clientKey:Clave`;
+export const POSITIONS_COL_STATUS = $localize`:@@positions.column.status:Estatus`;
+export const POSITIONS_COL_CREATED_AT = $localize`:@@positions.column.createdAt:Creación`;
+export const POSITIONS_COL_NAME = $localize`:@@positions.column.name:Nombre`;
+export const POSITIONS_COL_OT = $localize`:@@positions.column.ot:OT`;
+export const POSITIONS_COL_POSITIONS = $localize`:@@positions.column.positions:Posiciones`;
+export const POSITIONS_COL_APPLICANTS = $localize`:@@positions.column.applicants:Postulados`;
+export const POSITIONS_COL_PRESELECTION = $localize`:@@positions.column.preselection:Preselección`;
+export const POSITIONS_COL_FIRST_DAY = $localize`:@@positions.column.firstDay:Primer día`;
+export const POSITIONS_COL_GROUP = $localize`:@@positions.column.group:Grupo`;
+export const POSITIONS_COL_SUPERVISOR = $localize`:@@positions.column.supervisor:Supervisor`;
+export const POSITIONS_COL_SCOPE = $localize`:@@positions.column.cancellationScope:Alcance cancelación`;
+export const POSITIONS_REASON_DIALOG_TITLE = $localize`:@@positions.reasonDialog.title:Motivo`;
+export const POSITIONS_REASON_DIALOG_LABEL = $localize`:@@positions.reasonDialog.label:Motivo de la acción`;
+export const POSITIONS_REASON_DIALOG_REQUIRED = $localize`:@@positions.reasonDialog.required:El motivo es obligatorio`;
+export const POSITIONS_REASON_DIALOG_CONFIRM = $localize`:@@positions.reasonDialog.confirm:Confirmar`;
+export const POSITIONS_REASON_DIALOG_CANCEL = $localize`:@@positions.reasonDialog.cancel:Cancelar`;
+export const POSITIONS_HISTORY_TITLE = $localize`:@@positions.history.title:Historial de la requisición`;
+export const POSITIONS_HISTORY_EMPTY = $localize`:@@positions.history.empty:Sin eventos registrados`;
+export const POSITIONS_HISTORY_CLOSE = $localize`:@@positions.history.close:Cerrar`;
+export const POSITIONS_REASSIGN_TITLE = $localize`:@@positions.reassign.title:Reasignar reclutador`;
+export const POSITIONS_REASSIGN_USER = $localize`:@@positions.reassign.user:Nuevo reclutador`;
+export const POSITIONS_REASSIGN_REASON = $localize`:@@positions.reassign.reason:Motivo (opcional)`;
+export const POSITIONS_REASSIGN_CONFIRM = $localize`:@@positions.reassign.confirm:Reasignar`;
+export const POSITIONS_ACTION_ASSIGN = $localize`:@@positions.action.assign:Asignar reclutador`;
+export const POSITIONS_ASSIGN_TITLE = $localize`:@@positions.assign.title:Asignar reclutador`;
+export const POSITIONS_ASSIGN_USER = $localize`:@@positions.assign.user:Reclutador`;
+export const POSITIONS_ASSIGN_CONFIRM = $localize`:@@positions.assign.confirm:Asignar`;
+export const POSITIONS_ASSIGN_SUCCESS = $localize`:@@positions.success.assign:Reclutador asignado`;
+export const POSITIONS_ACTION_GO_SELECTION_ARIA = $localize`:@@positions.action.goSelectionAria:Ir a selección`;
+export const POSITIONS_ACTION_MORE_ARIA = $localize`:@@positions.action.moreAria:Más acciones`;
+export const POSITIONS_ACTION_GENERATE_PUBLICATION = $localize`:@@positions.action.generatePublication:Generar publicación`;
+export const POSITIONS_ACTION_PUBLISH_ON_PORTAL = $localize`:@@positions.action.publishOnPortal:Publicar en portal candidatos`;
+export const POSITIONS_MORE_FILTERS = $localize`:@@positions.filters.more:Mostrar más filtros`;
+export const POSITIONS_LESS_FILTERS = $localize`:@@positions.filters.less:Ocultar filtros`;
+export const POSITIONS_FILTER_CLIENT = $localize`:@@positions.filters.client:Cliente`;
+export const POSITIONS_FILTER_REQUISITION_TYPE = $localize`:@@positions.filters.requisitionType:Tipo requisición`;
+export const POSITIONS_FILTER_COVERAGE_TYPE = $localize`:@@positions.filters.coverageType:Tipo cubrimiento`;
+export const POSITIONS_FILTER_BRAND = $localize`:@@positions.filters.brand:Empresa`;
+export const POSITIONS_FILTER_WORKPLACE = $localize`:@@positions.filters.workplace:Lugar trabajo`;
+export const POSITIONS_FILTER_SHIFT = $localize`:@@positions.filters.shift:Horario trabajo`;
+export const POSITIONS_FILTER_CONTRACT_TYPE = $localize`:@@positions.filters.contractType:Tipo contratación`;
+export const POSITIONS_FILTER_EDUCATION = $localize`:@@positions.filters.education:Nivel escolaridad`;
+export const POSITIONS_FILTER_RESPONSIBILITY = $localize`:@@positions.filters.responsibility:Nivel de responsabilidad`;
+export const POSITIONS_FILTER_CLIENT_POSITION = $localize`:@@positions.filters.clientPosition:Cliente puesto`;
+export const POSITIONS_FILTER_CREATED_BY = $localize`:@@positions.filters.createdBy:Creado por`;
+export const POSITIONS_FILTER_COORDINATOR = $localize`:@@positions.filters.coordinator:Coordinador`;
+export const POSITIONS_FILTER_RECRUITER_ATS = $localize`:@@positions.filters.recruiterAts:Reclutador ATS`;
+export const POSITIONS_FILTER_COORDINATOR_APPIAN = $localize`:@@positions.filters.coordinatorAppian:Coordinador Appian`;
+export const POSITIONS_FILTER_RECRUITER_APPIAN = $localize`:@@positions.filters.recruiterAppian:Reclutador Appian`;
+export const POSITIONS_FILTER_CLOSER_APPIAN = $localize`:@@positions.filters.closerAppian:Cerrador Appian`;
+export const POSITIONS_FILTER_REQUEST_TYPE = $localize`:@@positions.filters.requestType:Tipo de solicitud`;
+export const POSITIONS_FILTER_APPIAN_UNAVAILABLE = $localize`:@@positions.filters.appianUnavailable:No disponible`;
+export const POSITIONS_FILTER_DEFERRED_UNAVAILABLE = $localize`:@@positions.filters.deferredUnavailable:No disponible`;
+export const POSITIONS_FILTER_STATE = $localize`:@@positions.filters.state:Entidad federativa`;
+export const POSITIONS_FILTER_GENERAL_CATEGORY = $localize`:@@positions.filters.generalCategory:C Categoría cubrimiento`;
+export const POSITIONS_FILTER_QUESTIONNAIRE = $localize`:@@positions.filters.questionnaire:Formulario`;
+export const POSITIONS_PUBLISH_ON_PORTAL_SUCCESS = $localize`:@@positions.success.publishOnPortal:Vacante publicada en el portal candidatos`;
+export const POSITIONS_PUBLISH_ON_PORTAL_ERROR = $localize`:@@positions.errors.publishOnPortal:No se pudo publicar la vacante en el portal`;
+export const POSITIONS_PUBLISH_ON_PORTAL_CONFIRM = $localize`:@@positions.confirm.publishOnPortal:¿Publicar esta vacante en el portal de candidatos?`;
+export const POSITIONS_GENERATE_PUBLICATION_LOAD_ERROR = $localize`:@@positions.errors.generatePublicationLoad:No se pudo obtener la información de contacto de la posición`;
+export const POSITIONS_NO_PUBLICATION_TEMPLATE_TITLE = $localize`:@@positions.publication.noTemplate.title:Plantilla de publicación requerida`;
+export const POSITIONS_NO_PUBLICATION_TEMPLATE_MESSAGE = $localize`:@@positions.publication.noTemplate.message:No hay plantilla de publicación para el idioma seleccionado. Cree una plantilla en Configuración para poder generar el anuncio.`;
+export const POSITIONS_NO_PUBLICATION_TEMPLATE_OK = $localize`:@@positions.publication.noTemplate.ok:OK`;
+export const POSITIONS_NO_PUBLICATION_TEMPLATE_CREATE = $localize`:@@positions.publication.noTemplate.create:Crear publicación`;
+export const POSITIONS_NO_PUBLICATION_TEMPLATE_CHECK_ERROR = $localize`:@@positions.publication.noTemplate.checkError:No se pudo verificar si existen plantillas de publicación`;
+
+export const POSITIONS_CANCEL_DIALOG_REQUISITION = $localize`:@@positions.cancelDialog.requisition:Requisición`;
+export const POSITIONS_CANCEL_DIALOG_SHOW = $localize`:@@positions.cancelDialog.show:Mostrar`;
+export const POSITIONS_CANCEL_DIALOG_HIDE = $localize`:@@positions.cancelDialog.hide:Ocultar`;
+export const POSITIONS_CANCEL_DIALOG_CANDIDATES = $localize`:@@positions.cancelDialog.candidates:Candidatos`;
+export const POSITIONS_CANCEL_DIALOG_COL_NAME = $localize`:@@positions.cancelDialog.col.name:Nombre completo`;
+export const POSITIONS_CANCEL_DIALOG_COL_EMAIL = $localize`:@@positions.cancelDialog.col.email:Correo`;
+export const POSITIONS_CANCEL_DIALOG_COL_PHONE = $localize`:@@positions.cancelDialog.col.phone:Teléfono`;
+export const POSITIONS_CANCEL_DIALOG_COL_STATUS = $localize`:@@positions.cancelDialog.col.status:Estado`;
+export const POSITIONS_CANCEL_DIALOG_TYPE = $localize`:@@positions.cancelDialog.type:Tipo de cancelación`;
+export const POSITIONS_CANCEL_DIALOG_REASON = $localize`:@@positions.cancelDialog.reason:Motivos`;
+export const POSITIONS_CANCEL_DIALOG_DESCRIPTION = $localize`:@@positions.cancelDialog.description:Descripción (opcional)`;
+export const POSITIONS_CANCEL_DIALOG_EVIDENCE = $localize`:@@positions.cancelDialog.evidence:Evidencia (opcional)`;
+export const POSITIONS_CANCEL_DIALOG_EVIDENCE_HINT = $localize`:@@positions.cancelDialog.evidenceHint:PDF, JPG, PNG, DOC, DOCX, XLS o XLSX. Máximo 10 MB.`;
+export const POSITIONS_CANCEL_DIALOG_EVIDENCE_PICK = $localize`:@@positions.cancelDialog.evidencePick:Seleccionar archivo`;
+export const POSITIONS_CANCEL_DIALOG_EVIDENCE_CLEAR = $localize`:@@positions.cancelDialog.evidenceClear:Quitar`;
+export const POSITIONS_CANCEL_DIALOG_EVIDENCE_INVALID = $localize`:@@positions.cancelDialog.evidenceInvalid:Archivo no válido. Use PDF, JPG, PNG, DOC, DOCX, XLS o XLSX de hasta 10 MB.`;
+export const POSITIONS_CANCEL_DIALOG_REQUIRED = $localize`:@@positions.cancelDialog.required:Campo obligatorio`;
+export const POSITIONS_CANCEL_DIALOG_LOAD_ERROR = $localize`:@@positions.cancelDialog.loadError:No se pudo cargar el impacto de cancelación`;
+export const POSITIONS_CANCEL_DIALOG_REASONS_ERROR = $localize`:@@positions.cancelDialog.reasonsError:No se pudieron cargar los motivos`;
+export const POSITIONS_CANCEL_DIALOG_CRITICAL_WARNING = $localize`:@@positions.cancelDialog.criticalWarning:Hay candidatos en Preselección o Primer día. ¿Desea continuar con la cancelación?`;
+export const POSITIONS_CANCEL_DIALOG_CRITICAL_TITLE = $localize`:@@positions.cancelDialog.criticalTitle:Confirmar cancelación`;
+export const POSITIONS_CANCEL_DIALOG_NO_CANDIDATES = $localize`:@@positions.cancelDialog.noCandidates:Sin candidatos asociados a esta posición`;
+export const POSITIONS_CANCEL_EVIDENCE_UPLOAD_ERROR = $localize`:@@positions.errors.cancelEvidenceUpload:No se pudo subir la evidencia de cancelación`;
+
+const POSITION_EVENT_TYPE_LABELS: Record<string, string> = {
+  CREATED: $localize`:@@positions.history.event.created:Requisición creada`,
+  STATUS_CHANGED: $localize`:@@positions.history.event.statusChanged:Cambio de estatus`,
+  ASSIGNED: $localize`:@@positions.history.event.assigned:Asignación de reclutador`,
+  REASSIGNED: $localize`:@@positions.history.event.reassigned:Reasignación de reclutador`,
+  GROUP_CHANGED: $localize`:@@positions.history.event.groupChanged:Cambio de grupo`,
+  CANCELLATION_REQUESTED: $localize`:@@positions.history.event.cancellationRequested:Solicitud de cancelación`,
+  CANCELLATION_AUTHORIZED: $localize`:@@positions.history.event.cancellationAuthorized:Cancelación autorizada`,
+  CANCELLATION_REJECTED: $localize`:@@positions.history.event.cancellationRejected:Cancelación rechazada`,
+  CANCELLATION_EXECUTED: $localize`:@@positions.history.event.cancellationExecuted:Cancelación ejecutada`,
+  DIRECT_CANCELLATION: $localize`:@@positions.history.event.directCancellation:Cancelación directa`,
+};
+
+export function getPositionEventTypeLabel(eventType: string): string {
+  return POSITION_EVENT_TYPE_LABELS[eventType] ?? eventType;
+}

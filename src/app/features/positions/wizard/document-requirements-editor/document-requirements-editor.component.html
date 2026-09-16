@@ -1,0 +1,88 @@
+<div class="document-requirements-editor">
+  <p class="document-requirements-editor__subtitle">{{ labels.subtitle }}</p>
+
+  @if (countryId == null) {
+    <p class="document-requirements-editor__hint">{{ labels.selectCountryHint }}</p>
+  } @else if (loading) {
+    <p class="document-requirements-editor__hint">{{ labels.loading }}</p>
+  } @else if (!documentTypes.length) {
+    <p class="document-requirements-editor__hint">{{ labels.noDocuments }}</p>
+  } @else {
+    <div class="document-requirements-editor__table-wrap">
+      @if (!rows.length) {
+        <p class="document-requirements-editor__empty">{{ labels.empty }}</p>
+      } @else {
+        <table mat-table class="document-requirements-editor__table" [dataSource]="pagedRows">
+          <ng-container matColumnDef="documentTypeName">
+            <th mat-header-cell *matHeaderCellDef>{{ labels.colType }}</th>
+            <td mat-cell *matCellDef="let row">{{ documentLabel(row.documentTypeId) }}</td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>{{ labels.colStatus }}</th>
+            <td mat-cell *matCellDef="let row">{{ statusLabel(row) }}</td>
+          </ng-container>
+          <ng-container matColumnDef="validateAi">
+            <th mat-header-cell *matHeaderCellDef>{{ labels.colAi }}</th>
+            <td mat-cell *matCellDef="let row">{{ aiSummary(row) }}</td>
+          </ng-container>
+          <ng-container matColumnDef="validityMonths">
+            <th mat-header-cell *matHeaderCellDef>{{ labels.colMonths }}</th>
+            <td mat-cell *matCellDef="let row">{{ monthsLabel(row) }}</td>
+          </ng-container>
+          <ng-container matColumnDef="isRequired">
+            <th mat-header-cell *matHeaderCellDef>{{ labels.colMandatory }}</th>
+            <td mat-cell *matCellDef="let row">{{ mandatoryLabel(row) }}</td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>{{ labels.colActions }}</th>
+            <td mat-cell *matCellDef="let row">
+              @if (row.isActive) {
+                <button
+                  mat-icon-button
+                  type="button"
+                  [matTooltip]="labels.edit"
+                  [attr.aria-label]="labels.edit"
+                  [disabled]="disabled"
+                  (click)="editRow(row)"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  type="button"
+                  [matTooltip]="labels.delete"
+                  [attr.aria-label]="labels.delete"
+                  [disabled]="disabled"
+                  (click)="deactivate(row)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              } @else {
+                <button
+                  mat-icon-button
+                  type="button"
+                  class="document-requirements-editor__add"
+                  [matTooltip]="labels.add"
+                  [attr.aria-label]="labels.add"
+                  [disabled]="disabled"
+                  (click)="activate(row)"
+                >
+                  <mat-icon>add</mat-icon>
+                </button>
+              }
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="visibleColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: visibleColumns"></tr>
+        </table>
+        <mat-paginator
+          [length]="rows.length"
+          [pageSize]="pageSize"
+          [pageIndex]="pageIndex"
+          [hidePageSize]="true"
+          (page)="onPage($event)"
+        />
+      }
+    </div>
+  }
+</div>
