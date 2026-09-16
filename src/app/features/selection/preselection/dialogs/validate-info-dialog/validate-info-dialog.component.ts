@@ -150,8 +150,8 @@ const EMPTY_LOOKUPS: ApplicationCompleteInfoLookups = {
   kinships: [],
 };
 
-export const VALIDATE_INFO_DIALOG_WIDTH = '95vw';
-export const VALIDATE_INFO_DIALOG_MAX_WIDTH = '960px';
+export const VALIDATE_INFO_DIALOG_WIDTH = '96vw';
+export const VALIDATE_INFO_DIALOG_MAX_WIDTH = '1280px';
 
 export function validateInfoDialogConfig(extra: MatDialogConfig = {}): MatDialogConfig {
   return catalogDialogConfig(VALIDATE_INFO_DIALOG_WIDTH, {
@@ -291,7 +291,7 @@ export class ValidateInfoDialogComponent implements OnInit {
   }
 
   get subtitle(): string {
-    return validateInfoDialogSubtitle(this.data.candidateName, this.info?.positionName);
+    return validateInfoDialogSubtitle(this.data.candidateName);
   }
 
   ngOnInit(): void {
