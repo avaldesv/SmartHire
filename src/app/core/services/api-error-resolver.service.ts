@@ -30,10 +30,16 @@ export class ApiErrorResolverService {
     if (code) {
       const catalog = API_ERROR_CATALOG[code];
       if (catalog) {
+        const params = Array.isArray(body?.params) ? body.params : undefined;
+        const fromCatalog = this.interpolate(catalog.message, params);
+        const fromApi = this.asUserText(body?.userMessage) ?? this.asUserText(body?.title);
+        // If $localize ate {n} placeholders, catalog.message has no {0} left — prefer API text.
+        const catalogLostPlaceholders =
+          !!params?.length && !/\{\d+\}/.test(catalog.message) && !!fromApi;
         return {
           code,
-          title: this.interpolate(catalog.title, body?.params),
-          message: this.interpolate(catalog.message, body?.params),
+          title: this.interpolate(catalog.title, params),
+          message: catalogLostPlaceholders ? fromApi! : fromCatalog,
           severity: catalog.severity ?? 'error',
         };
       }
