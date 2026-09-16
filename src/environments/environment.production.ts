@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   /** FE + BE Railway (deploy) */
-  apiBaseUrl: 'https://smarthire-backend-production-15bd.up.railway.app/smart_hire_api',
+  apiBaseUrl: 'https://smarthire-backend-staging.up.railway.app/smart_hire_api',
   applicationId: 'smart-hire',
   companyId: 1,
   defaultLocale: 'es-MX',
@@ -9,6 +9,6 @@ export const environment = {
     enabled: false,
     tenantId: '',
     clientId: '',
-    redirectUri: 'https://smarthire-production-504c.up.railway.app/auth/callback',
+    redirectUri: 'https://portal-reclutadores-smarthire-staging.up.railway.app/auth/callback',
   },
 };
