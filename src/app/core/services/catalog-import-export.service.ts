@@ -13,6 +13,11 @@ export interface CatalogCsvStructureValidationResponse {
   actualColumns: string[];
   totalRows: number;
   structureErrors: string[];
+  businessPreviewValid?: boolean;
+  previewCreated?: number;
+  previewUpdated?: number;
+  previewFailed?: number;
+  previewErrorReportCsvBase64?: string | null;
 }
 
 export interface CatalogCsvImportResponse {

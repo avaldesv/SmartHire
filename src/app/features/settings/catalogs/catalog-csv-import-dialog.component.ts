@@ -13,6 +13,7 @@ import {
 import {
   CATALOG_IMPORT_CLOSE,
   CATALOG_IMPORT_DOWNLOAD_ERRORS,
+  CATALOG_IMPORT_DOWNLOAD_PREVIEW_ERRORS,
   CATALOG_IMPORT_DOWNLOAD_TEMPLATE,
   CATALOG_IMPORT_HINT,
   CATALOG_IMPORT_IMPORT,
@@ -21,6 +22,7 @@ import {
   CATALOG_IMPORT_TEMPLATE_ERROR,
   CATALOG_IMPORT_VALIDATE,
   CATALOG_IMPORT_VALIDATE_ERROR,
+  catalogImportPreviewSummary,
   catalogImportResultSummary,
   catalogImportStructureValid,
   catalogImportTitle,
@@ -65,10 +67,12 @@ export class CatalogCsvImportDialogComponent {
   readonly hint = CATALOG_IMPORT_HINT;
   readonly downloadTemplateLabel = CATALOG_IMPORT_DOWNLOAD_TEMPLATE;
   readonly downloadErrorsLabel = CATALOG_IMPORT_DOWNLOAD_ERRORS;
+  readonly downloadPreviewErrorsLabel = CATALOG_IMPORT_DOWNLOAD_PREVIEW_ERRORS;
   readonly closeLabel = CATALOG_IMPORT_CLOSE;
   readonly validateLabel = CATALOG_IMPORT_VALIDATE;
   readonly importLabel = CATALOG_IMPORT_IMPORT;
   readonly structureValidMessage = catalogImportStructureValid;
+  readonly previewSummary = catalogImportPreviewSummary;
 
   resultSummary(created: number, updated: number, failed: number): string {
     return catalogImportResultSummary(this.data.catalogKey, created, updated, failed);
@@ -92,6 +96,10 @@ export class CatalogCsvImportDialogComponent {
 
   get isBusy(): boolean {
     return this.validating || this.importing;
+  }
+
+  get showPreview(): boolean {
+    return this.isValidated && !this.isImportDone && this.validation != null;
   }
 
   onFileSelected(event: Event): void {
@@ -158,6 +166,16 @@ export class CatalogCsvImportDialogComponent {
       return;
     }
     downloadBase64Csv(this.importResult.errorReportCsvBase64, `${this.data.catalogKey}-import-errors.csv`);
+  }
+
+  downloadPreviewErrorReport(): void {
+    if (!this.validation?.previewErrorReportCsvBase64) {
+      return;
+    }
+    downloadBase64Csv(
+      this.validation.previewErrorReportCsvBase64,
+      `${this.data.catalogKey}-import-preview-errors.csv`,
+    );
   }
 
   close(): void {

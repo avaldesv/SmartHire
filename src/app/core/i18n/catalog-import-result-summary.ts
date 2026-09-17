@@ -18,35 +18,46 @@ export function catalogImportResultSummary(
   updated: number,
   failed: number,
 ): string {
+  const finished = $localize`:@@catalogImport.resultFinished:Importación finalizada.`;
   const errors = importErrorSuffix(failed);
 
   switch (catalogKey) {
     case 'questionnaire-question-options':
       return (
+        finished +
+        ' ' +
         $localize`:@@catalogImport.resultSummary.questionOptions:Se importaron ${created}:options: opciones en ${updated}:questions: preguntas.` +
         ' ' +
         errors
       );
     case 'questionnaire-questionnaire-questions':
       return (
+        finished +
+        ' ' +
         $localize`:@@catalogImport.resultSummary.questionnaireQuestions:Se vincularon ${created}:links: preguntas en ${updated}:questionnaires: cuestionarios.` +
         ' ' +
         errors
       );
     case 'questionnaire-question-tags':
       return (
+        finished +
+        ' ' +
         $localize`:@@catalogImport.resultSummary.questionTags:Se asignaron ${created}:tags: tags en ${updated}:questions: preguntas.` +
         ' ' +
         errors
       );
     case 'questionnaire-questionnaire-publish':
       return (
+        finished +
+        ' ' +
         $localize`:@@catalogImport.resultSummary.questionnairePublish:Se publicaron ${updated}:questionnaires: cuestionarios.` +
         ' ' +
         errors
       );
     default:
       return (
+        finished +
+        ' ' +
         $localize`:@@catalogImport.resultSummary.default:Nuevos: ${created}:created: · Actualizados: ${updated}:updated:.` +
         ' ' +
         errors
