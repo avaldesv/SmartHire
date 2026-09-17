@@ -48,20 +48,18 @@
               <thead>
                 <tr>
                   <th>{{ labels.colRow }}</th>
-                  <th>{{ labels.colId }}</th>
-                  <th>{{ labels.colCode }}</th>
-                  <th>{{ labels.colName }}</th>
-                  <th>{{ labels.colCountry }}</th>
+                  @for (col of previewColumns; track col) {
+                    <th>{{ columnLabel(col) }}</th>
+                  }
                 </tr>
               </thead>
               <tbody>
                 @for (row of validation!.validRows ?? []; track rowNumber(row)) {
                   <tr>
                     <td>{{ rowNumber(row) }}</td>
-                    <td>{{ cell(row, 'id') }}</td>
-                    <td>{{ cell(row, 'code') }}</td>
-                    <td>{{ cell(row, 'name') }}</td>
-                    <td>{{ cell(row, 'countryId') }}</td>
+                    @for (col of previewColumns; track col) {
+                      <td>{{ cell(row, col) }}</td>
+                    }
                   </tr>
                 }
               </tbody>
