@@ -262,6 +262,12 @@
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
+          <div class="table-header-bar">
+            <sh-catalog-table-import-export-actions
+              panelKey="cancellationType"
+              (importComplete)="reloadCatalogAfterImport('cancellationType')"
+            />
+          </div>
           <table mat-table [dataSource]="cancellationTypes">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.code">Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.name">Nombre</th><td mat-cell *matCellDef="let row">{{ cancellationTypeOptionLabel(row) }}</td></ng-container>
@@ -326,6 +332,12 @@
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
+          <div class="table-header-bar">
+            <sh-catalog-table-import-export-actions
+              panelKey="cancellationReason"
+              (importComplete)="reloadCatalogAfterImport('cancellationReason')"
+            />
+          </div>
           <table mat-table [dataSource]="cancellationReasons">
             <ng-container matColumnDef="cancellationType"><th mat-header-cell *matHeaderCellDef>{{ colCancellationType }}</th><td mat-cell *matCellDef="let row">{{ cancellationTypeName(row.cancellationTypeId) }}</td></ng-container>
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.code">Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
@@ -393,6 +405,12 @@
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
+          <div class="table-header-bar">
+            <sh-catalog-table-import-export-actions
+              panelKey="positionStatus"
+              (importComplete)="reloadCatalogAfterImport('positionStatus')"
+            />
+          </div>
           <table mat-table [dataSource]="positionStatuses">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.code">Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.name">Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
