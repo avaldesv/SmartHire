@@ -3,6 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTabsModule } from '@angular/material/tabs';
 import {
   CatalogCsvImportResponse,
   CatalogCsvStructureValidationResponse,
@@ -12,12 +13,18 @@ import {
 } from '../../../core/services/catalog-import-export.service';
 import {
   CATALOG_IMPORT_CLOSE,
+  CATALOG_IMPORT_COL_CODE,
+  CATALOG_IMPORT_COL_COUNTRY,
+  CATALOG_IMPORT_COL_ID,
+  CATALOG_IMPORT_COL_NAME,
   CATALOG_IMPORT_DOWNLOAD_ERRORS,
   CATALOG_IMPORT_DOWNLOAD_PREVIEW_ERRORS,
   CATALOG_IMPORT_DOWNLOAD_TEMPLATE,
   CATALOG_IMPORT_HINT,
   CATALOG_IMPORT_IMPORT,
   CATALOG_IMPORT_IMPORT_ERROR,
+  CATALOG_IMPORT_NO_VALID_ROWS,
+  CATALOG_IMPORT_ONLY_VALID_HINT,
   CATALOG_IMPORT_SELECT_FILE,
   CATALOG_IMPORT_TEMPLATE_ERROR,
   CATALOG_IMPORT_VALIDATE,
@@ -27,6 +34,13 @@ import {
   catalogImportStructureValid,
   catalogImportTitle,
 } from '../../../core/i18n/catalog-import-labels';
+import {
+  EXCEL_BULK_COL_ERRORS,
+  EXCEL_BULK_COL_ROW,
+  EXCEL_BULK_INVALID_ROWS,
+  EXCEL_BULK_TOTAL_ROWS,
+  EXCEL_BULK_VALID_ROWS,
+} from '../../../core/i18n/excel-bulk-labels';
 import {
   ShModalActionsDirective,
   ShModalFormComponent,
@@ -45,11 +59,15 @@ export interface CatalogCsvImportDialogData {
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    MatTabsModule,
     ShModalFormComponent,
     ShModalActionsDirective,
   ],
   templateUrl: './catalog-csv-import-dialog.component.html',
-  styleUrl: './catalog-csv-import-dialog.component.scss',
+  styleUrls: [
+    './catalog-csv-import-dialog.component.scss',
+    '../../positions/list/excel-bulk-upload-dialog/excel-bulk-upload-dialog.component.scss',
+  ],
 })
 export class CatalogCsvImportDialogComponent {
   private readonly dialogRef = inject(MatDialogRef<CatalogCsvImportDialogComponent, boolean>);
@@ -71,8 +89,21 @@ export class CatalogCsvImportDialogComponent {
   readonly closeLabel = CATALOG_IMPORT_CLOSE;
   readonly validateLabel = CATALOG_IMPORT_VALIDATE;
   readonly importLabel = CATALOG_IMPORT_IMPORT;
+  readonly onlyValidHint = CATALOG_IMPORT_ONLY_VALID_HINT;
+  readonly noValidRowsLabel = CATALOG_IMPORT_NO_VALID_ROWS;
   readonly structureValidMessage = catalogImportStructureValid;
   readonly previewSummary = catalogImportPreviewSummary;
+  readonly labels = {
+    totalRows: EXCEL_BULK_TOTAL_ROWS,
+    validRows: EXCEL_BULK_VALID_ROWS,
+    invalidRows: EXCEL_BULK_INVALID_ROWS,
+    colRow: EXCEL_BULK_COL_ROW,
+    colId: CATALOG_IMPORT_COL_ID,
+    colCode: CATALOG_IMPORT_COL_CODE,
+    colName: CATALOG_IMPORT_COL_NAME,
+    colCountry: CATALOG_IMPORT_COL_COUNTRY,
+    colErrors: EXCEL_BULK_COL_ERRORS,
+  };
 
   resultSummary(created: number, updated: number, failed: number): string {
     return catalogImportResultSummary(this.data.catalogKey, created, updated, failed);
@@ -100,6 +131,26 @@ export class CatalogCsvImportDialogComponent {
 
   get showPreview(): boolean {
     return this.isValidated && !this.isImportDone && this.validation != null;
+  }
+
+  get validCount(): number {
+    return this.validation?.validCount ?? this.validation?.validRows?.length ?? 0;
+  }
+
+  get invalidCount(): number {
+    return this.validation?.invalidCount ?? this.validation?.invalidRows?.length ?? 0;
+  }
+
+  get canConfirmImport(): boolean {
+    return this.showImportAction && this.validCount > 0;
+  }
+
+  cell(row: Record<string, string>, key: string): string {
+    return row[key] ?? row[key.toLowerCase()] ?? '';
+  }
+
+  rowNumber(row: Record<string, string>): string {
+    return this.cell(row, 'rowNumber') || '—';
   }
 
   onFileSelected(event: Event): void {
@@ -144,12 +195,17 @@ export class CatalogCsvImportDialogComponent {
   }
 
   importCsv(): void {
-    if (!this.selectedFile || !this.validation?.structureValid) {
+    if (!this.validation?.structureValid) {
+      return;
+    }
+    const validRows = this.validation.validRows ?? [];
+    if (validRows.length === 0) {
+      this.errorMessage = CATALOG_IMPORT_NO_VALID_ROWS;
       return;
     }
     this.importing = true;
     this.errorMessage = '';
-    this.catalogImportExport.importCatalog(this.data.catalogKey, this.selectedFile).subscribe({
+    this.catalogImportExport.importRows(this.data.catalogKey, validRows).subscribe({
       next: (response) => {
         this.importResult = response;
         this.importing = false;
