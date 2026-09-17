@@ -3,19 +3,34 @@
   color: #475569;
 }
 
-.actions-row,
 .file-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
   margin-bottom: 12px;
 }
 
+.equal-action-btn {
+  min-width: 200px;
+  justify-content: center;
+}
+
+.equal-footer-btn {
+  min-width: 120px;
+  justify-content: center;
+}
+
+.footer-download-btn {
+  order: -1;
+  margin-right: auto;
+}
+
 .file-name {
-  display: block;
-  margin-top: 8px;
   font-size: 0.9rem;
   color: #334155;
 }
 
-.validation-result,
 .import-result {
   margin-top: 12px;
   padding: 10px 12px;
@@ -23,17 +38,56 @@
   background: #f8fafc;
 }
 
-.validation-result.valid {
-  border: 1px solid #86efac;
+.summary-panel {
+  margin-top: 0;
 }
 
-.validation-result.invalid {
-  border: 1px solid #fca5a5;
+.preview-summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 0.9rem;
+
+  td {
+    padding: 4px 8px;
+    vertical-align: middle;
+  }
+
+  .label {
+    width: 28%;
+    text-align: right;
+    color: #475569;
+    white-space: nowrap;
+  }
+
+  .value {
+    width: 22%;
+    text-align: left;
+    color: #1e293b;
+    font-weight: 500;
+  }
+
+  .value.ok {
+    color: #2e7d32;
+  }
+
+  .value.ko {
+    color: #c62828;
+  }
+
+  .only-valid-hint {
+    text-align: left;
+    color: #475569;
+  }
+
+  .errors-download {
+    text-align: left;
+  }
 }
 
 .error {
   color: #b91c1c;
-  margin-top: 12px;
+  margin: 8px 0 0;
 }
 
 mat-spinner {
