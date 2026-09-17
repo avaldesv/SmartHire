@@ -6,6 +6,17 @@ import { LocaleService, X_LANGUAGE_HEADER } from './locale.service';
 import { TenantContextService } from './tenant-context.service';
 import { environment } from '../../../environments/environment';
 
+export interface CatalogCsvRowIssue {
+  code: string;
+  message: string;
+}
+
+export interface CatalogCsvInvalidRow {
+  rowNumber: number;
+  values: Record<string, string>;
+  errors: CatalogCsvRowIssue[];
+}
+
 export interface CatalogCsvStructureValidationResponse {
   structureValid: boolean;
   delimiter: string;
@@ -18,6 +29,10 @@ export interface CatalogCsvStructureValidationResponse {
   previewUpdated?: number;
   previewFailed?: number;
   previewErrorReportCsvBase64?: string | null;
+  validCount?: number;
+  invalidCount?: number;
+  validRows?: Record<string, string>[];
+  invalidRows?: CatalogCsvInvalidRow[];
 }
 
 export interface CatalogCsvImportResponse {
@@ -69,6 +84,14 @@ export class CatalogImportExportService {
     );
   }
 
+  importRows(catalogKey: string, rows: Record<string, string>[]): Observable<CatalogCsvImportResponse> {
+    return this.http.post<CatalogCsvImportResponse>(
+      this.api.apiUrl(`/api/v1/catalogs/${catalogKey}/import/rows`),
+      { rows },
+      { headers: this.buildJsonHeaders() },
+    );
+  }
+
   private buildFileHeaders(): HttpHeaders {
     const token = sessionStorage.getItem('sh_token') ?? '';
     return new HttpHeaders({
@@ -77,6 +100,10 @@ export class CatalogImportExportService {
       [X_LANGUAGE_HEADER]: this.localeService.getLanguageHeader(),
       authorization: token ? `Bearer ${token}` : '',
     });
+  }
+
+  private buildJsonHeaders(): HttpHeaders {
+    return this.buildFileHeaders().set('Content-Type', 'application/json');
   }
 }
 
