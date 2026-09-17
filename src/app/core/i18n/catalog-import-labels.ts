@@ -9,6 +9,12 @@ export const CATALOG_IMPORT_DOWNLOAD_PREVIEW_ERRORS = $localize`:@@catalogImport
 export const CATALOG_IMPORT_CLOSE = $localize`:@@common.close:Cerrar`;
 export const CATALOG_IMPORT_VALIDATE = $localize`:@@catalogImport.validate:Validar`;
 export const CATALOG_IMPORT_IMPORT = $localize`:@@catalogImport.import:Importar`;
+export const CATALOG_IMPORT_ONLY_VALID_HINT = $localize`:@@catalogImport.onlyValidHint:Solo se importarán las filas válidas.`;
+export const CATALOG_IMPORT_NO_VALID_ROWS = $localize`:@@catalogImport.noValidRows:No hay filas válidas para importar.`;
+export const CATALOG_IMPORT_COL_ID = $localize`:@@catalogImport.col.id:Id`;
+export const CATALOG_IMPORT_COL_CODE = $localize`:@@catalogImport.col.code:Código`;
+export const CATALOG_IMPORT_COL_NAME = $localize`:@@catalogImport.col.name:Nombre`;
+export const CATALOG_IMPORT_COL_COUNTRY = $localize`:@@catalogImport.col.countryId:País`;
 export const CATALOG_IMPORT_EXPORT_TOOLTIP = $localize`:@@catalogImport.exportTooltip:Exportar CSV`;
 export const CATALOG_IMPORT_IMPORT_TOOLTIP = $localize`:@@catalogImport.importTooltip:Importar CSV`;
 
