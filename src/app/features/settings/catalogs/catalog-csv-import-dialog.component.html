@@ -30,6 +30,18 @@
     </div>
   }
 
+  @if (showPreview) {
+    <div class="import-result">
+      <p>{{ previewSummary(validation!.previewCreated ?? 0, validation!.previewUpdated ?? 0, validation!.previewFailed ?? 0) }}</p>
+      @if ((validation!.previewFailed ?? 0) > 0 && validation!.previewErrorReportCsvBase64) {
+        <button mat-button type="button" (click)="downloadPreviewErrorReport()">
+          <mat-icon>download</mat-icon>
+          {{ downloadPreviewErrorsLabel }}
+        </button>
+      }
+    </div>
+  }
+
   @if (importResult) {
     <div class="import-result">
       <p>{{ resultSummary(importResult.created, importResult.updated, importResult.failed) }}</p>
