@@ -314,6 +314,33 @@ a:hover { text-decoration: underline; }
   margin: 0 !important;
 }
 
+/* CSV import dialog: compact form layout, no inner scrollbar (content fits). */
+.sh-catalog-csv-import-dialog-panel .mat-mdc-dialog-surface {
+  height: auto !important;
+}
+
+.sh-catalog-csv-import-dialog-panel .mat-mdc-dialog-content.sh-catalog-dialog-body,
+.sh-catalog-csv-import-dialog-panel .mat-mdc-dialog-title + .mat-mdc-dialog-content.sh-catalog-dialog-body {
+  flex: 0 0 auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  padding: 16px 20px 12px !important;
+}
+
+.sh-catalog-csv-import-dialog-panel .mat-mdc-dialog-actions {
+  justify-content: flex-end !important;
+}
+
+.sh-catalog-csv-import-dialog-panel .mat-mdc-dialog-actions > button.equal-action-btn {
+  width: auto !important;
+  min-width: 200px !important;
+}
+
+.sh-catalog-csv-import-dialog-panel .mat-mdc-dialog-actions > button.equal-footer-btn {
+  width: 7.5rem !important;
+  min-width: 7.5rem !important;
+}
+
 .sh-catalog-form-dialog-panel .mat-mdc-dialog-component-host,
 .sh-catalog-form-dialog-panel .mat-mdc-dialog-component-host > * {
   display: flex;
