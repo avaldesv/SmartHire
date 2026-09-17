@@ -38,7 +38,7 @@
         <td class="label">{{ labels.validRows }}:</td>
         <td class="value" [class.ok]="hasValidation && validCount > 0">{{ validCountDisplay }}</td>
         <td class="label">{{ labels.invalidRows }}:</td>
-        <td class="value" [class.ko]="hasValidation">{{ invalidCountDisplay }}</td>
+        <td class="value" [class.ko]="hasValidation && invalidCount > 0">{{ invalidCountDisplay }}</td>
       </tr>
       <tr>
         <td colspan="2" class="only-valid-hint">{{ onlyValidHint }}</td>
