@@ -33,6 +33,8 @@ import {
   CATALOG_IMPORT_VALIDATE_ERROR,
   catalogImportResultSummary,
   catalogImportTitle,
+  localizeCatalogCsvStructureError,
+  localizeCatalogCsvStructureErrors,
 } from '../../../core/i18n/catalog-import-labels';
 import {
   EXCEL_BULK_INVALID_ROWS,
@@ -196,7 +198,8 @@ export class CatalogCsvImportDialogComponent {
         next: (response) => {
           this.validation = response;
           if (!response.structureValid) {
-            this.errorMessage = response.structureErrors.join(' ') || CATALOG_IMPORT_VALIDATE_ERROR;
+            this.errorMessage =
+              localizeCatalogCsvStructureErrors(response.structureErrors) || CATALOG_IMPORT_VALIDATE_ERROR;
           }
         },
         error: (err: unknown) => {
@@ -214,7 +217,9 @@ export class CatalogCsvImportDialogComponent {
       return;
     }
     if (!this.validation?.structureValid) {
-      this.errorMessage = this.validation?.structureErrors?.join(' ') || CATALOG_IMPORT_VALIDATE_ERROR;
+      this.errorMessage =
+        localizeCatalogCsvStructureErrors(this.validation?.structureErrors ?? []) ||
+        CATALOG_IMPORT_VALIDATE_ERROR;
       return;
     }
     const validRows = this.validation.validRows ?? [];
@@ -242,13 +247,13 @@ export class CatalogCsvImportDialogComponent {
     if (err instanceof HttpErrorResponse) {
       const body = err.error;
       if (typeof body === 'string' && body.trim()) {
-        return body;
+        return localizeCatalogCsvStructureError(body);
       }
       if (body && typeof body === 'object') {
         const msg = (body as { message?: string; detail?: string }).message
           ?? (body as { detail?: string }).detail;
         if (msg) {
-          return String(msg);
+          return localizeCatalogCsvStructureError(String(msg));
         }
       }
       if (err.status === 0) {

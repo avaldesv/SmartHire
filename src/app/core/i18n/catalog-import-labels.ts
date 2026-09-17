@@ -32,6 +32,27 @@ export const CATALOG_IMPORT_STRUCTURE_VALID_VALUE = $localize`:@@catalogImport.s
 export const CATALOG_IMPORT_STRUCTURE_INVALID_VALUE = $localize`:@@catalogImport.structureInvalidValue:inválida`;
 export const CATALOG_IMPORT_STRUCTURE_PENDING_VALUE = $localize`:@@catalogImport.structurePendingValue:—`;
 export const CATALOG_IMPORT_ROWS_DETECTED = $localize`:@@catalogImport.rowsDetected:Filas detectadas`;
+/** Prefix only; column names stay as returned by the API (technical). */
+export const CATALOG_IMPORT_MISSING_COLUMNS_PREFIX = $localize`:@@catalogImport.missingRequiredColumns:Faltan columnas requeridas:`;
+
+const MISSING_REQUIRED_COLUMNS_EN = 'Missing required columns:';
+
+/** Localize known CSV structure error prefixes; leave technical column names intact. */
+export function localizeCatalogCsvStructureError(raw: string): string {
+  const idx = raw.indexOf(MISSING_REQUIRED_COLUMNS_EN);
+  if (idx >= 0) {
+    return (
+      raw.slice(0, idx) +
+      CATALOG_IMPORT_MISSING_COLUMNS_PREFIX +
+      raw.slice(idx + MISSING_REQUIRED_COLUMNS_EN.length)
+    );
+  }
+  return raw;
+}
+
+export function localizeCatalogCsvStructureErrors(errors: string[]): string {
+  return errors.map(localizeCatalogCsvStructureError).filter(Boolean).join(' ');
+}
 
 export function catalogImportPreviewSummary(created: number, updated: number, failed: number): string {
   return $localize`:@@catalogImport.previewSummary:Preview de negocio — Se crearían: ${created}:created: · Se actualizarían: ${updated}:updated: · Errores: ${failed}:failed:.`;
