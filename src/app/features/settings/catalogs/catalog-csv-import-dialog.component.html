@@ -1,102 +1,58 @@
 <sh-modal-form [title]="importTitle">
   <p class="hint">{{ hint }}</p>
 
-  <div class="actions-row">
-    <button mat-stroked-button type="button" [disabled]="isImportDone || isBusy" (click)="downloadTemplate()">
-      <mat-icon>download</mat-icon>
-      {{ downloadTemplateLabel }}
-    </button>
-  </div>
-
   <div class="file-row">
     <input
+      #fileInput
       type="file"
       accept=".csv,text/csv"
+      hidden
       [disabled]="isImportDone || isBusy"
       (change)="onFileSelected($event)"
     />
+    <button
+      mat-stroked-button
+      type="button"
+      class="equal-action-btn"
+      [disabled]="isImportDone || isBusy"
+      (click)="pickFile()"
+    >
+      {{ pickFileLabel }}
+    </button>
     @if (selectedFile) {
       <span class="file-name">{{ selectedFile.name }}</span>
     }
   </div>
 
-  @if (validation) {
-    <div class="validation-result" [class.valid]="validation.structureValid" [class.invalid]="!validation.structureValid">
-      @if (validation.structureValid) {
-        <p>{{ structureValidMessage(validation.totalRows) }}</p>
-      } @else {
-        <p>{{ validation.structureErrors.join(' ') }}</p>
-      }
-    </div>
-  }
-
-  @if (showPreview) {
-    <div class="import-result">
-      <p>{{ previewSummary(validation!.previewCreated ?? 0, validation!.previewUpdated ?? 0, validation!.previewFailed ?? 0) }}</p>
-
-      <div class="counters">
-        <span>{{ labels.totalRows }}: {{ validation!.totalRows }}</span>
-        <span class="ok">{{ labels.validRows }}: {{ validCount }}</span>
-        <span class="ko">{{ labels.invalidRows }}: {{ invalidCount }}</span>
-      </div>
-      <p class="hint">{{ onlyValidHint }}</p>
-
-      <mat-tab-group dynamicHeight animationDuration="0ms" class="preview-tabs">
-        <mat-tab [label]="labels.validRows + ' (' + validCount + ')'">
-          <div class="preview-scroll">
-            <table class="preview-table">
-              <thead>
-                <tr>
-                  <th>{{ labels.colRow }}</th>
-                  @for (col of previewColumns; track col) {
-                    <th>{{ columnLabel(col) }}</th>
-                  }
-                </tr>
-              </thead>
-              <tbody>
-                @for (row of validation!.validRows ?? []; track rowNumber(row)) {
-                  <tr>
-                    <td>{{ rowNumber(row) }}</td>
-                    @for (col of previewColumns; track col) {
-                      <td>{{ cell(row, col) }}</td>
-                    }
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
-        </mat-tab>
-        <mat-tab [label]="labels.invalidRows + ' (' + invalidCount + ')'">
-          <div class="preview-scroll">
-            <ul class="invalid-list">
-              @for (row of validation!.invalidRows ?? []; track row.rowNumber) {
-                <li class="invalid-item">
-                  <div class="invalid-head">
-                    <span class="row-num">{{ labels.colRow }} {{ row.rowNumber }}</span>
-                    <span class="row-name">{{ cell(row.values, 'code') || cell(row.values, 'name') || '—' }}</span>
-                  </div>
-                  <ul class="error-list">
-                    @for (err of row.errors; track $index) {
-                      <li>{{ err.message || err.code || 'Error' }}</li>
-                    } @empty {
-                      <li>{{ labels.colErrors }}</li>
-                    }
-                  </ul>
-                </li>
-              }
-            </ul>
-          </div>
-        </mat-tab>
-      </mat-tab-group>
-
-      @if ((validation!.previewFailed ?? 0) > 0 && validation!.previewErrorReportCsvBase64) {
-        <button mat-button type="button" (click)="downloadPreviewErrorReport()">
-          <mat-icon>download</mat-icon>
-          {{ downloadPreviewErrorsLabel }}
-        </button>
-      }
-    </div>
-  }
+  <div class="import-result summary-panel">
+    <table class="preview-summary-table">
+      <tr>
+        <td class="label">{{ structureLabel }}:</td>
+        <td class="value" [class.ok]="structureIsValid" [class.ko]="structureIsInvalid">
+          {{ structureStatusText }}
+        </td>
+        <td class="label">{{ rowsDetectedLabel }}:</td>
+        <td class="value">{{ totalRowsDisplay }}</td>
+      </tr>
+      <tr>
+        <td class="label">{{ labels.validRows }}:</td>
+        <td class="value" [class.ok]="hasValidation && validCount > 0">{{ validCountDisplay }}</td>
+        <td class="label">{{ labels.invalidRows }}:</td>
+        <td class="value" [class.ko]="hasValidation">{{ invalidCountDisplay }}</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="only-valid-hint">{{ onlyValidHint }}</td>
+        <td colspan="2" class="errors-download">
+          @if (invalidCount > 0 && validation?.previewErrorReportCsvBase64) {
+            <button mat-button type="button" (click)="downloadPreviewErrorReport()">
+              <mat-icon>download</mat-icon>
+              {{ downloadPreviewErrorsLabel }}
+            </button>
+          }
+        </td>
+      </tr>
+    </table>
+  </div>
 
   @if (importResult) {
     <div class="import-result">
@@ -114,30 +70,39 @@
     <p class="error">{{ errorMessage }}</p>
   }
 
-  <div shModalActions>
+  <div shModalActions class="footer-actions">
     @if (!isImportDone) {
-      <button mat-stroked-button type="button" [disabled]="isBusy" (click)="close()">{{ closeLabel }}</button>
-    }
-    @if (showValidateAction) {
-      <button mat-stroked-button type="button" [disabled]="isBusy" (click)="validateStructure()">
-        @if (validating) {
-          <mat-spinner diameter="18" />
-        } @else {
-          {{ validateLabel }}
-        }
+      <button
+        mat-stroked-button
+        type="button"
+        class="equal-action-btn footer-download-btn"
+        [disabled]="isBusy"
+        (click)="downloadTemplate()"
+      >
+        <mat-icon>download</mat-icon>
+        {{ downloadTemplateLabel }}
       </button>
-    }
-    @if (showImportAction) {
-      <button mat-flat-button color="primary" type="button" [disabled]="isBusy || !canConfirmImport" (click)="importCsv()">
-        @if (importing) {
+      <button mat-stroked-button type="button" class="equal-footer-btn" [disabled]="isBusy" (click)="close()">
+        {{ closeLabel }}
+      </button>
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        class="equal-footer-btn"
+        [disabled]="!canConfirmImport"
+        (click)="importCsv()"
+      >
+        @if (isBusy) {
           <mat-spinner diameter="18" />
         } @else {
           {{ importLabel }}
         }
       </button>
-    }
-    @if (isImportDone) {
-      <button mat-flat-button color="primary" type="button" (click)="close()">{{ closeLabel }}</button>
+    } @else {
+      <button mat-flat-button color="primary" type="button" class="equal-footer-btn" (click)="close()">
+        {{ closeLabel }}
+      </button>
     }
   </div>
 </sh-modal-form>

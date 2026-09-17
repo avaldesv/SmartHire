@@ -10,6 +10,7 @@ import {
   downloadBlob,
 } from '../../../core/services/catalog-import-export.service';
 import { PermissionService } from '../../../core/services/permission.service';
+import { catalogDialogConfig } from '../../../core/dialog/catalog-dialog.constants';
 import {
   CatalogCsvImportDialogComponent,
   CatalogCsvImportDialogData,
@@ -119,10 +120,13 @@ export class QuestionnaireImportExportActionsComponent {
       catalogLabel: this.catalogLabel,
     };
     this.dialog
-      .open(CatalogCsvImportDialogComponent, {
-        width: '560px',
-        data,
-      })
+      .open(
+        CatalogCsvImportDialogComponent,
+        catalogDialogConfig('720px', {
+          panelClass: ['sh-catalog-form-dialog-panel', 'sh-catalog-csv-import-dialog-panel'],
+          data,
+        }),
+      )
       .afterClosed()
       .subscribe((imported) => {
         if (imported) {

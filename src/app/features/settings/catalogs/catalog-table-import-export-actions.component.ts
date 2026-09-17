@@ -15,6 +15,7 @@ import {
 } from '../../../core/services/catalog-import-export.service';
 import { PermissionService } from '../../../core/services/permission.service';
 import { CatalogPanelKey } from './catalog-admin.registry';
+import { catalogDialogConfig } from '../../../core/dialog/catalog-dialog.constants';
 import {
   CatalogCsvImportDialogComponent,
   CatalogCsvImportDialogData,
@@ -129,10 +130,13 @@ export class CatalogTableImportExportActionsComponent {
       catalogLabel: cfg.label,
     };
     this.dialog
-      .open(CatalogCsvImportDialogComponent, {
-        width: '560px',
-        data,
-      })
+      .open(
+        CatalogCsvImportDialogComponent,
+        catalogDialogConfig('720px', {
+          panelClass: ['sh-catalog-form-dialog-panel', 'sh-catalog-csv-import-dialog-panel'],
+          data,
+        }),
+      )
       .afterClosed()
       .subscribe((imported) => {
         if (imported) {
