@@ -145,6 +145,32 @@ export class CatalogCsvImportDialogComponent {
     return this.showImportAction && this.validCount > 0;
   }
 
+  /** Preview table columns: prefer API expectedColumns, fall back to id/code/name/countryId. */
+  get previewColumns(): string[] {
+    const fromApi = this.validation?.expectedColumns?.filter(
+      (c) => c && c.toLowerCase() !== 'rownumber',
+    );
+    if (fromApi && fromApi.length > 0) {
+      return fromApi.slice(0, 6);
+    }
+    return ['id', 'code', 'name', 'countryId'];
+  }
+
+  columnLabel(col: string): string {
+    switch (col.toLowerCase()) {
+      case 'id':
+        return this.labels.colId;
+      case 'code':
+        return this.labels.colCode;
+      case 'name':
+        return this.labels.colName;
+      case 'countryid':
+        return this.labels.colCountry;
+      default:
+        return col;
+    }
+  }
+
   cell(row: Record<string, string>, key: string): string {
     return row[key] ?? row[key.toLowerCase()] ?? '';
   }
