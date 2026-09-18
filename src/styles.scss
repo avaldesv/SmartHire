@@ -279,13 +279,16 @@ a:hover { text-decoration: underline; }
 }
 
 .sh-company-integrations-dialog-panel .mat-mdc-dialog-surface {
-  max-height: 92vh;
+  width: min(1200px, 96vw) !important;
+  max-width: 96vw !important;
+  max-height: 90vh;
 }
 
 .sh-company-integrations-dialog-panel .mat-mdc-dialog-content.sh-catalog-dialog-body,
 .sh-company-integrations-dialog-panel .mat-mdc-dialog-title + .mat-mdc-dialog-content.sh-catalog-dialog-body {
-  max-height: calc(92vh - 140px) !important;
+  max-height: calc(90vh - 130px) !important;
   overflow-y: auto !important;
+  padding: 12px 20px 8px !important;
 }
 
 .sh-company-integrations-dialog-panel .mat-mdc-dialog-actions .company-btn-cancel {
@@ -296,6 +299,15 @@ a:hover { text-decoration: underline; }
 .sh-company-integrations-dialog-panel .mat-mdc-dialog-actions .company-btn-save {
   text-transform: uppercase;
   letter-spacing: 0.02em;
+}
+
+/* Compact Material fields inside company integrations dialog */
+.sh-company-integrations-dialog-panel .company-integrations-form .mat-mdc-form-field {
+  width: 100%;
+}
+
+.sh-company-integrations-dialog-panel .company-integrations-form .mat-mdc-form-field-subscript-wrapper {
+  margin-top: 0;
 }
 
 .sh-catalog-dialog-header-bar__text,
