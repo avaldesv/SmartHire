@@ -1,6 +1,6 @@
 import { Component, computed, DestroyRef, effect, inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormArray, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,6 +11,7 @@ import { ShPaginatorComponent } from '../../../shared/components/paginator/sh-pa
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -25,6 +26,36 @@ import { CatalogBenefitService } from '../../../core/services/catalog-benefit.se
 import { CatalogBrandService } from '../../../core/services/catalog-brand.service';
 import { CatalogClientService } from '../../../core/services/catalog-client.service';
 import { CatalogCompanyService } from '../../../core/services/catalog-company.service';
+import { CompanyIntegrationsService } from '../../../core/services/company-integrations.service';
+import { CompanyIntegrations } from '../../../shared/models/company-integrations.model';
+import {
+  COMPANY_BTN_CANCEL,
+  COMPANY_BTN_SAVE,
+  COMPANY_CHANNEL_EMAIL,
+  COMPANY_CHANNEL_WHATSAPP,
+  COMPANY_COL_API_KEY,
+  COMPANY_COL_DESCRIPTION,
+  COMPANY_COL_SERVICE,
+  COMPANY_DIALOG_SUBTITLE,
+  COMPANY_EMAIL_FOOTNOTE,
+  COMPANY_FIELD_COLORS,
+  COMPANY_FIELD_ENABLED,
+  COMPANY_FIELD_MAIL_FROM,
+  COMPANY_FIELD_SMTP_HOST,
+  COMPANY_FIELD_SMTP_PASSWORD,
+  COMPANY_FIELD_SMTP_PORT,
+  COMPANY_FIELD_SMTP_USER,
+  COMPANY_FIELD_TAX_ID,
+  COMPANY_FIELD_URL_OVERRIDE,
+  COMPANY_FIELD_WA_BASE_URL,
+  COMPANY_FIELD_WA_BEARER,
+  COMPANY_FIELD_WA_INSTANCE_ID,
+  COMPANY_FIELD_WA_INSTANCE_TOKEN,
+  COMPANY_SECTION_CHANNELS,
+  COMPANY_SECTION_DOC_SERVICES,
+  COMPANY_SECTION_GENERAL,
+} from '../../../core/i18n/company-integrations-labels';
+import { forkJoin, of, switchMap } from 'rxjs';
 import { CatalogCoverageCategoryService } from '../../../core/services/catalog-coverage-category.service';
 import { CatalogCoverageCategory } from '../../../shared/models/catalog-coverage-category.model';
 import { CatalogCharacteristicService } from '../../../core/services/catalog-characteristic.service';
@@ -243,6 +274,7 @@ const CATALOGS_SELECTION_SESSION_KEY = 'sh_catalogs_selection';
     MatInputModule,
     MatCheckboxModule,
     MatSelectModule,
+    MatSlideToggleModule,
     MatRadioModule,
     MatDialogModule,
     ScopeBadgeComponent,
@@ -275,6 +307,35 @@ export class CatalogsAdminComponent implements OnInit {
   readonly searchLabel = COMMON_SEARCH;
   readonly colTradeName = CATALOG_COLUMN_TRADE_NAME;
   readonly colTaxId = CATALOG_COLUMN_TAX_ID;
+  readonly companyDialogSubtitle = COMPANY_DIALOG_SUBTITLE;
+  readonly companySectionGeneral = COMPANY_SECTION_GENERAL;
+  readonly companySectionChannels = COMPANY_SECTION_CHANNELS;
+  readonly companySectionDocServices = COMPANY_SECTION_DOC_SERVICES;
+  readonly companyChannelEmail = COMPANY_CHANNEL_EMAIL;
+  readonly companyChannelWhatsapp = COMPANY_CHANNEL_WHATSAPP;
+  readonly companyFieldEnabled = COMPANY_FIELD_ENABLED;
+  readonly companyFieldMailFrom = COMPANY_FIELD_MAIL_FROM;
+  readonly companyFieldSmtpHost = COMPANY_FIELD_SMTP_HOST;
+  readonly companyFieldSmtpPort = COMPANY_FIELD_SMTP_PORT;
+  readonly companyFieldSmtpUser = COMPANY_FIELD_SMTP_USER;
+  readonly companyFieldSmtpPassword = COMPANY_FIELD_SMTP_PASSWORD;
+  readonly companyEmailFootnote = COMPANY_EMAIL_FOOTNOTE;
+  readonly companyFieldWaBaseUrl = COMPANY_FIELD_WA_BASE_URL;
+  readonly companyFieldWaBearer = COMPANY_FIELD_WA_BEARER;
+  readonly companyFieldWaInstanceId = COMPANY_FIELD_WA_INSTANCE_ID;
+  readonly companyFieldWaInstanceToken = COMPANY_FIELD_WA_INSTANCE_TOKEN;
+  readonly companyColService = COMPANY_COL_SERVICE;
+  readonly companyColDescription = COMPANY_COL_DESCRIPTION;
+  readonly companyColApiKey = COMPANY_COL_API_KEY;
+  readonly companyFieldUrlOverride = COMPANY_FIELD_URL_OVERRIDE;
+  readonly companyFieldTaxId = COMPANY_FIELD_TAX_ID;
+  readonly companyFieldColors = COMPANY_FIELD_COLORS;
+  readonly companyBtnCancel = COMPANY_BTN_CANCEL;
+  readonly companyBtnSave = COMPANY_BTN_SAVE;
+  showSmtpPassword = false;
+  showWaBearer = false;
+  showWaInstanceToken = false;
+  docTokenVisible: boolean[] = [];
   readonly colSymbol = CATALOG_COLUMN_SYMBOL;
   readonly colDenomination = CATALOG_COLUMN_DENOMINATION;
   readonly colType = CATALOG_COLUMN_TYPE;
@@ -347,6 +408,7 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly cancellationReasonService = inject(CatalogCancellationReasonService);
   private readonly positionStatusService = inject(CatalogPositionStatusService);
   private readonly companyService = inject(CatalogCompanyService);
+  private readonly companyIntegrationsService = inject(CompanyIntegrationsService);
   private readonly currencyService = inject(CatalogCurrencyService);
   private readonly careerService = inject(CatalogCareerService);
   private readonly languageService = inject(CatalogLanguageService);
@@ -1397,7 +1459,27 @@ export class CatalogsAdminComponent implements OnInit {
     r3Interface: [false],
     wsSignature: [false],
     isActive: [true],
+    email: this.fb.nonNullable.group({
+      isEnabled: [false],
+      mailFrom: [''],
+      smtpHost: [''],
+      smtpPort: [null as number | null],
+      smtpUsername: [''],
+      smtpPassword: [''],
+    }),
+    whatsapp: this.fb.nonNullable.group({
+      isEnabled: [false],
+      whatsappBaseUrl: [''],
+      whatsappBearer: [''],
+      whatsappInstanceId: [''],
+      whatsappInstanceToken: [''],
+    }),
+    documentServices: this.fb.array<FormGroup>([]),
   });
+
+  get documentServices(): FormArray<FormGroup> {
+    return this.companyForm.controls.documentServices;
+  }
 
   readonly coverageCategoryForm = this.fb.nonNullable.group({
     countryId: [null as number | null],
@@ -1708,12 +1790,21 @@ export class CatalogsAdminComponent implements OnInit {
     this.activeCatalogFormDialog = null;
     previous?.close(false);
 
+    const isCompany = key === 'company';
     const ref = this.dialog.open(CatalogFormDialogShellComponent, {
-      width: '720px',
+      width: isCompany ? '920px' : '720px',
       maxWidth: '95vw',
+      maxHeight: isCompany ? '92vh' : undefined,
       autoFocus: 'first-tabbable',
-      panelClass: CATALOG_FORM_DIALOG_PANEL_CLASS,
-      data: { title, content: tpl.template } satisfies CatalogFormDialogData,
+      panelClass: isCompany
+        ? [CATALOG_FORM_DIALOG_PANEL_CLASS, 'sh-company-integrations-dialog-panel']
+        : CATALOG_FORM_DIALOG_PANEL_CLASS,
+      data: {
+        title,
+        content: tpl.template,
+        subtitle: isCompany ? this.companyDialogSubtitle : undefined,
+        contentClass: isCompany ? 'company-integrations-dialog-body' : undefined,
+      } satisfies CatalogFormDialogData,
     });
     this.activeCatalogFormDialog = ref;
     ref.afterClosed().subscribe(() => {
@@ -4726,8 +4817,11 @@ export class CatalogsAdminComponent implements OnInit {
   openCreateCompany(): void {
     this.editingCompanyId = null;
     this.portalSlugManual = false;
+    this.showSmtpPassword = false;
+    this.showWaBearer = false;
+    this.showWaInstanceToken = false;
     this.openCatalogFormDialog('company', 'new');
-    this.loadingCompanyDetail = false;
+    this.loadingCompanyDetail = true;
     this.companyForm.reset({
       code: '',
       name: '',
@@ -4751,16 +4845,48 @@ export class CatalogsAdminComponent implements OnInit {
       r3Interface: false,
       wsSignature: false,
       isActive: true,
+      email: {
+        isEnabled: false,
+        mailFrom: '',
+        smtpHost: '',
+        smtpPort: null,
+        smtpUsername: '',
+        smtpPassword: '',
+      },
+      whatsapp: {
+        isEnabled: false,
+        whatsappBaseUrl: '',
+        whatsappBearer: '',
+        whatsappInstanceId: '',
+        whatsappInstanceToken: '',
+      },
+    });
+    this.documentServices.clear();
+    this.companyIntegrationsService.template().subscribe({
+      next: (integrations) => {
+        this.applyIntegrationsToForm(integrations);
+        this.loadingCompanyDetail = false;
+      },
+      error: (err) => {
+        this.loadingCompanyDetail = false;
+        this.feedback.showApiError(err, { fallbackMessage: CATALOG_MSG_LOAD_SINGLE_COMPANY });
+      },
     });
   }
 
   openEditCompany(row: CatalogCompany): void {
     this.editingCompanyId = row.id;
     this.portalSlugManual = true;
+    this.showSmtpPassword = false;
+    this.showWaBearer = false;
+    this.showWaInstanceToken = false;
     this.openCatalogFormDialog('company', 'edit');
     this.loadingCompanyDetail = true;
-    this.companyService.getById(row.id).subscribe({
-      next: (company) => {
+    forkJoin({
+      company: this.companyService.getById(row.id),
+      integrations: this.companyIntegrationsService.get(row.id),
+    }).subscribe({
+      next: ({ company, integrations }) => {
         this.loadingCompanyDetail = false;
         const existingSlug = company.portalSlug?.trim() ?? '';
         this.portalSlugManual = existingSlug.length > 0;
@@ -4788,6 +4914,7 @@ export class CatalogsAdminComponent implements OnInit {
           wsSignature: company.wsSignature ?? false,
           isActive: company.isActive,
         });
+        this.applyIntegrationsToForm(integrations);
         if (!existingSlug) {
           this.syncPortalSlugFromName(company.name);
         }
@@ -4795,11 +4922,85 @@ export class CatalogsAdminComponent implements OnInit {
       error: (err) => {
         this.loadingCompanyDetail = false;
         this.closeCatalogFormDialog();
-    this.showCompanyForm = false;
+        this.showCompanyForm = false;
         this.editingCompanyId = null;
         this.feedback.showApiError(err, { fallbackMessage: CATALOG_MSG_LOAD_SINGLE_COMPANY });
       },
     });
+  }
+
+  private applyIntegrationsToForm(integrations: CompanyIntegrations): void {
+    this.companyForm.controls.email.patchValue({
+      isEnabled: integrations.email?.isEnabled ?? false,
+      mailFrom: integrations.email?.mailFrom ?? '',
+      smtpHost: integrations.email?.smtpHost ?? '',
+      smtpPort: integrations.email?.smtpPort ?? null,
+      smtpUsername: integrations.email?.smtpUsername ?? '',
+      smtpPassword: integrations.email?.smtpPassword ?? '',
+    });
+    this.companyForm.controls.whatsapp.patchValue({
+      isEnabled: integrations.whatsapp?.isEnabled ?? false,
+      whatsappBaseUrl: integrations.whatsapp?.whatsappBaseUrl ?? '',
+      whatsappBearer: integrations.whatsapp?.whatsappBearer ?? '',
+      whatsappInstanceId: integrations.whatsapp?.whatsappInstanceId ?? '',
+      whatsappInstanceToken: integrations.whatsapp?.whatsappInstanceToken ?? '',
+    });
+    this.documentServices.clear();
+    this.docTokenVisible = [];
+    for (const svc of integrations.documentServices ?? []) {
+      this.documentServices.push(
+        this.fb.nonNullable.group({
+          documentProcessingServiceId: [svc.documentProcessingServiceId],
+          code: [svc.code],
+          name: [svc.name],
+          description: [svc.description || svc.name],
+          isEnabled: [svc.isEnabled ?? false],
+          apiKeyToken: [svc.apiKeyToken ?? ''],
+          serviceUrlOverride: [svc.serviceUrlOverride ?? ''],
+        }),
+      );
+      this.docTokenVisible.push(false);
+    }
+  }
+
+  toggleDocTokenVisible(index: number): void {
+    this.docTokenVisible[index] = !this.docTokenVisible[index];
+  }
+
+  private buildIntegrationsPayload() {
+    const email = this.companyForm.controls.email.getRawValue();
+    const whatsapp = this.companyForm.controls.whatsapp.getRawValue();
+    return {
+      email: {
+        isEnabled: email.isEnabled,
+        mailFrom: email.mailFrom || null,
+        smtpHost: email.smtpHost || null,
+        smtpPort: email.smtpPort,
+        smtpUsername: email.smtpUsername || null,
+        smtpPassword: email.smtpPassword || null,
+      },
+      whatsapp: {
+        isEnabled: whatsapp.isEnabled,
+        whatsappBaseUrl: whatsapp.whatsappBaseUrl || null,
+        whatsappBearer: whatsapp.whatsappBearer || null,
+        whatsappInstanceId: whatsapp.whatsappInstanceId || null,
+        whatsappInstanceToken: whatsapp.whatsappInstanceToken || null,
+      },
+      documentServices: this.documentServices.controls.map((ctrl) => {
+        const row = ctrl.getRawValue() as {
+          documentProcessingServiceId: number;
+          isEnabled: boolean;
+          apiKeyToken: string;
+          serviceUrlOverride: string;
+        };
+        return {
+          documentProcessingServiceId: row.documentProcessingServiceId,
+          isEnabled: row.isEnabled,
+          apiKeyToken: row.apiKeyToken || null,
+          serviceUrlOverride: row.serviceUrlOverride || null,
+        };
+      }),
+    };
   }
 
   cancelCompanyForm(): void {
@@ -4851,7 +5052,11 @@ export class CatalogsAdminComponent implements OnInit {
     }
     const value = this.companyForm.getRawValue();
     const payload = {
-      ...value,
+      code: value.code,
+      name: value.name,
+      description: value.description || undefined,
+      tradeName: value.tradeName || undefined,
+      taxId: value.taxId || undefined,
       countryId: value.countryId!,
       defaultPortalLanguageId: value.defaultPortalLanguageId!,
       portalSlug: slugifyCompanyName(value.portalSlug) || slugifyCompanyName(value.name),
@@ -4859,24 +5064,45 @@ export class CatalogsAdminComponent implements OnInit {
       portalAccentColor: value.portalAccentColor.trim().toUpperCase(),
       atsCode: value.atsCode ?? undefined,
       billingMessage: value.billingMessage || undefined,
+      noPurchaseOrder: value.noPurchaseOrder,
+      street: value.street || undefined,
+      neighborhood: value.neighborhood || undefined,
+      municipality: value.municipality || undefined,
+      stateName: value.stateName || undefined,
+      logoUrl: value.logoUrl || undefined,
+      bannerUrl: value.bannerUrl || undefined,
+      r3Interface: value.r3Interface,
+      wsSignature: value.wsSignature,
+      isActive: value.isActive,
     };
+    const integrationsPayload = this.buildIntegrationsPayload();
     this.savingCompany = true;
-    const request$ =
+    const companyRequest$ =
       this.editingCompanyId != null
         ? this.companyService.update(this.editingCompanyId, payload)
         : this.companyService.create(payload);
-    request$.subscribe({
-      next: () => {
-        this.savingCompany = false;
-        this.cancelCompanyForm();
-        this.loadCompanies();
-        this.catalogSuccess(catalogSaveSuccess(getCatalogEntryLabel('company')));
-      },
-      error: (err) => {
-        this.savingCompany = false;
-        this.catalogSaveErrorFeedback(err, getCatalogEntryLabel('company'));
-      },
-    });
+    companyRequest$
+      .pipe(
+        switchMap((company) => {
+          const id = company.id ?? this.editingCompanyId;
+          if (id == null) {
+            return of(company);
+          }
+          return this.companyIntegrationsService.upsert(id, integrationsPayload).pipe(switchMap(() => of(company)));
+        }),
+      )
+      .subscribe({
+        next: () => {
+          this.savingCompany = false;
+          this.cancelCompanyForm();
+          this.loadCompanies();
+          this.catalogSuccess(catalogSaveSuccess(getCatalogEntryLabel('company')));
+        },
+        error: (err) => {
+          this.savingCompany = false;
+          this.catalogSaveErrorFeedback(err, getCatalogEntryLabel('company'));
+        },
+      });
   }
 
   openCreateCurrency(): void {

@@ -278,6 +278,26 @@ a:hover { text-decoration: underline; }
   overflow: hidden;
 }
 
+.sh-company-integrations-dialog-panel .mat-mdc-dialog-surface {
+  max-height: 92vh;
+}
+
+.sh-company-integrations-dialog-panel .mat-mdc-dialog-content.sh-catalog-dialog-body,
+.sh-company-integrations-dialog-panel .mat-mdc-dialog-title + .mat-mdc-dialog-content.sh-catalog-dialog-body {
+  max-height: calc(92vh - 140px) !important;
+  overflow-y: auto !important;
+}
+
+.sh-company-integrations-dialog-panel .mat-mdc-dialog-actions .company-btn-cancel {
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.sh-company-integrations-dialog-panel .mat-mdc-dialog-actions .company-btn-save {
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
 .sh-catalog-dialog-header-bar__text,
 .sh-catalog-dialog-header__text {
   display: flex;
