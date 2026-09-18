@@ -1792,9 +1792,9 @@ export class CatalogsAdminComponent implements OnInit {
 
     const isCompany = key === 'company';
     const ref = this.dialog.open(CatalogFormDialogShellComponent, {
-      width: isCompany ? '1200px' : '720px',
-      maxWidth: isCompany ? '96vw' : '95vw',
-      maxHeight: isCompany ? '90vh' : undefined,
+      width: isCompany ? '1080px' : '720px',
+      maxWidth: isCompany ? '94vw' : '95vw',
+      maxHeight: isCompany ? '92vh' : undefined,
       autoFocus: 'first-tabbable',
       panelClass: isCompany
         ? [CATALOG_FORM_DIALOG_PANEL_CLASS, 'sh-company-integrations-dialog-panel']
@@ -5025,6 +5025,12 @@ export class CatalogsAdminComponent implements OnInit {
   onPortalColorPicked(control: 'portalPrimaryColor' | 'portalAccentColor', event: Event): void {
     const hex = (event.target as HTMLInputElement).value?.toUpperCase() ?? '';
     this.companyForm.controls[control].setValue(hex);
+    this.companyForm.controls[control].markAsTouched();
+  }
+
+  onPortalColorHexTyped(control: 'portalPrimaryColor' | 'portalAccentColor', event: Event): void {
+    const raw = ((event.target as HTMLInputElement).value ?? '').toUpperCase();
+    this.companyForm.controls[control].setValue(raw);
     this.companyForm.controls[control].markAsTouched();
   }
 
