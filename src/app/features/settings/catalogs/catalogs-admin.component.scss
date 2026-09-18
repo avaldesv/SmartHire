@@ -183,3 +183,157 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
 :host ::ng-deep .category-shell .catalog-select .mat-mdc-form-field-subscript-wrapper {
   display: none;
 }
+
+.company-integrations-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+}
+
+.company-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.company-section__title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.company-general-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+  align-items: start;
+}
+
+.company-colors-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.company-colors-label {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.company-divider {
+  border: none;
+  border-top: 1px solid #e2e8f0;
+  margin: 16px 0;
+}
+
+.company-channels-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0 16px;
+  align-items: start;
+}
+
+.company-channel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.company-channel__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.company-channel__icon {
+  color: #0d9488;
+}
+
+.company-channel__icon--wa {
+  color: #16a34a;
+}
+
+.company-channel__title {
+  flex: 1;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.company-channel__footnote {
+  margin: 4px 0 0;
+  font-size: 0.75rem;
+  font-style: italic;
+  color: #64748b;
+}
+
+.company-channel-vdivider {
+  width: 1px;
+  align-self: stretch;
+  background: #e2e8f0;
+  margin: 0 4px;
+}
+
+.company-doc-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.company-doc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.company-doc-table th {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid #e2e8f0;
+  color: #475569;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.company-doc-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: top;
+}
+
+.company-doc-table__code {
+  font-family: ui-monospace, monospace;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.company-doc-table__desc {
+  color: #475569;
+  max-width: 280px;
+}
+
+.company-doc-token-field,
+.company-doc-url-override {
+  width: 100%;
+}
+
+.company-doc-url-override {
+  margin-top: 4px;
+}
+
+.company-doc-url-override .mat-mdc-form-field-label,
+.company-doc-url-override .mdc-floating-label {
+  font-size: 0.75rem;
+}
+
+@media (max-width: 800px) {
+  .company-general-grid,
+  .company-channels-grid {
+    grid-template-columns: 1fr;
+  }
+  .company-channel-vdivider {
+    display: none;
+  }
+}
