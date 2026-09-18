@@ -1792,9 +1792,9 @@ export class CatalogsAdminComponent implements OnInit {
 
     const isCompany = key === 'company';
     const ref = this.dialog.open(CatalogFormDialogShellComponent, {
-      width: isCompany ? '920px' : '720px',
-      maxWidth: '95vw',
-      maxHeight: isCompany ? '92vh' : undefined,
+      width: isCompany ? '1200px' : '720px',
+      maxWidth: isCompany ? '96vw' : '95vw',
+      maxHeight: isCompany ? '90vh' : undefined,
       autoFocus: 'first-tabbable',
       panelClass: isCompany
         ? [CATALOG_FORM_DIALOG_PANEL_CLASS, 'sh-company-integrations-dialog-panel']
