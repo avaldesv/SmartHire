@@ -643,12 +643,10 @@
                               <mat-icon>{{ docTokenVisible[i] ? 'visibility_off' : 'visibility' }}</mat-icon>
                             </button>
                           </mat-form-field>
-                          @if (row.get('isEnabled')?.value) {
-                            <mat-form-field appearance="outline" subscriptSizing="dynamic" class="company-doc-url-override">
-                              <mat-label>{{ companyFieldUrlOverride }}</mat-label>
-                              <input matInput formControlName="serviceUrlOverride" />
-                            </mat-form-field>
-                          }
+                          <mat-form-field appearance="outline" subscriptSizing="dynamic" class="company-doc-url-override">
+                            <mat-label>{{ companyFieldUrlOverride }}</mat-label>
+                            <input matInput formControlName="serviceUrlOverride" />
+                          </mat-form-field>
                         </td>
                       </tr>
                     }
