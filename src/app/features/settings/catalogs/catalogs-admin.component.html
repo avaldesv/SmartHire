@@ -468,19 +468,19 @@
             <section class="company-section">
               <h3 class="company-section__title">{{ companySectionGeneral }}</h3>
               <div class="company-general-grid">
-                <mat-form-field appearance="outline">
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
                   <mat-label i18n="@@catalogs.field.code">Código</mat-label>
                   <input matInput formControlName="code" />
                 </mat-form-field>
-                <mat-form-field appearance="outline">
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
                   <mat-label i18n="@@catalogs.field.name">Nombre</mat-label>
                   <input matInput formControlName="name" />
                 </mat-form-field>
-                <mat-form-field appearance="outline">
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
                   <mat-label>{{ companyFieldTaxId }}</mat-label>
                   <input matInput formControlName="taxId" />
                 </mat-form-field>
-                <mat-form-field appearance="outline">
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
                   <mat-label i18n="@@catalogs.field.country">País</mat-label>
                   <mat-select formControlName="countryId">
                     @for (country of countries; track country.id) {
@@ -498,33 +498,39 @@
                 </mat-form-field>
                 <div class="company-colors-field">
                   <span class="company-colors-label">{{ companyFieldColors }}</span>
-                  <div class="company-color-fields">
-                    <div class="company-color-field">
+                  <div class="company-color-swatches">
+                    <label class="company-color-swatch">
                       <input
                         type="color"
-                        class="company-color-picker"
+                        class="company-color-swatch__picker"
                         [value]="portalColorPickerValue('portalPrimaryColor')"
                         (input)="onPortalColorPicked('portalPrimaryColor', $event)"
                         [attr.aria-label]="fieldPortalPrimaryColor"
                       />
-                      <mat-form-field appearance="outline">
-                        <mat-label>{{ fieldPortalPrimaryColor }}</mat-label>
-                        <input matInput formControlName="portalPrimaryColor" maxlength="7" />
-                      </mat-form-field>
-                    </div>
-                    <div class="company-color-field">
+                      <input
+                        type="text"
+                        class="company-color-swatch__hex"
+                        [value]="companyForm.controls.portalPrimaryColor.value"
+                        (input)="onPortalColorHexTyped('portalPrimaryColor', $event)"
+                        maxlength="7"
+                      />
+                    </label>
+                    <label class="company-color-swatch">
                       <input
                         type="color"
-                        class="company-color-picker"
+                        class="company-color-swatch__picker"
                         [value]="portalColorPickerValue('portalAccentColor')"
                         (input)="onPortalColorPicked('portalAccentColor', $event)"
                         [attr.aria-label]="fieldPortalAccentColor"
                       />
-                      <mat-form-field appearance="outline">
-                        <mat-label>{{ fieldPortalAccentColor }}</mat-label>
-                        <input matInput formControlName="portalAccentColor" maxlength="7" />
-                      </mat-form-field>
-                    </div>
+                      <input
+                        type="text"
+                        class="company-color-swatch__hex"
+                        [value]="companyForm.controls.portalAccentColor.value"
+                        (input)="onPortalColorHexTyped('portalAccentColor', $event)"
+                        maxlength="7"
+                      />
+                    </label>
                   </div>
                 </div>
               </div>
@@ -541,23 +547,25 @@
                     <span class="company-channel__title">{{ companyChannelEmail }}</span>
                     <mat-slide-toggle formControlName="isEnabled" color="primary">{{ companyFieldEnabled }}</mat-slide-toggle>
                   </div>
-                  <mat-form-field appearance="outline">
+                  <mat-form-field appearance="outline" subscriptSizing="dynamic">
                     <mat-label>{{ companyFieldMailFrom }}</mat-label>
                     <input matInput formControlName="mailFrom" />
                   </mat-form-field>
-                  <mat-form-field appearance="outline">
-                    <mat-label>{{ companyFieldSmtpHost }}</mat-label>
-                    <input matInput formControlName="smtpHost" />
-                  </mat-form-field>
-                  <mat-form-field appearance="outline" class="company-channel__port">
-                    <mat-label>{{ companyFieldSmtpPort }}</mat-label>
-                    <input matInput type="number" formControlName="smtpPort" />
-                  </mat-form-field>
-                  <mat-form-field appearance="outline">
+                  <div class="company-channel__host-port">
+                    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="company-channel__host">
+                      <mat-label>{{ companyFieldSmtpHost }}</mat-label>
+                      <input matInput formControlName="smtpHost" />
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="company-channel__port">
+                      <mat-label>{{ companyFieldSmtpPort }}</mat-label>
+                      <input matInput type="number" formControlName="smtpPort" />
+                    </mat-form-field>
+                  </div>
+                  <mat-form-field appearance="outline" subscriptSizing="dynamic">
                     <mat-label>{{ companyFieldSmtpUser }}</mat-label>
                     <input matInput formControlName="smtpUsername" />
                   </mat-form-field>
-                  <mat-form-field appearance="outline">
+                  <mat-form-field appearance="outline" subscriptSizing="dynamic">
                     <mat-label>{{ companyFieldSmtpPassword }}</mat-label>
                     <input matInput [type]="showSmtpPassword ? 'text' : 'password'" formControlName="smtpPassword" autocomplete="new-password" />
                     <button mat-icon-button matSuffix type="button" (click)="showSmtpPassword = !showSmtpPassword" tabindex="-1">
@@ -575,22 +583,22 @@
                     <span class="company-channel__title">{{ companyChannelWhatsapp }}</span>
                     <mat-slide-toggle formControlName="isEnabled" color="primary">{{ companyFieldEnabled }}</mat-slide-toggle>
                   </div>
-                  <mat-form-field appearance="outline">
+                  <mat-form-field appearance="outline" subscriptSizing="dynamic">
                     <mat-label>{{ companyFieldWaBaseUrl }}</mat-label>
                     <input matInput formControlName="whatsappBaseUrl" />
                   </mat-form-field>
-                  <mat-form-field appearance="outline">
+                  <mat-form-field appearance="outline" subscriptSizing="dynamic">
                     <mat-label>{{ companyFieldWaBearer }}</mat-label>
                     <input matInput [type]="showWaBearer ? 'text' : 'password'" formControlName="whatsappBearer" autocomplete="new-password" />
                     <button mat-icon-button matSuffix type="button" (click)="showWaBearer = !showWaBearer" tabindex="-1">
                       <mat-icon>{{ showWaBearer ? 'visibility_off' : 'visibility' }}</mat-icon>
                     </button>
                   </mat-form-field>
-                  <mat-form-field appearance="outline">
+                  <mat-form-field appearance="outline" subscriptSizing="dynamic">
                     <mat-label>{{ companyFieldWaInstanceId }}</mat-label>
                     <input matInput formControlName="whatsappInstanceId" />
                   </mat-form-field>
-                  <mat-form-field appearance="outline">
+                  <mat-form-field appearance="outline" subscriptSizing="dynamic">
                     <mat-label>{{ companyFieldWaInstanceToken }}</mat-label>
                     <input matInput [type]="showWaInstanceToken ? 'text' : 'password'" formControlName="whatsappInstanceToken" autocomplete="new-password" />
                     <button mat-icon-button matSuffix type="button" (click)="showWaInstanceToken = !showWaInstanceToken" tabindex="-1">
@@ -603,16 +611,16 @@
 
             <hr class="company-divider" />
 
-            <section class="company-section">
+            <section class="company-section company-section--docs">
               <h3 class="company-section__title">{{ companySectionDocServices }}</h3>
               <div class="company-doc-table-wrap">
                 <table class="company-doc-table">
                   <thead>
                     <tr>
-                      <th>{{ companyFieldEnabled }}</th>
-                      <th>{{ companyColService }}</th>
-                      <th>{{ companyColDescription }}</th>
-                      <th>{{ companyColApiKey }}</th>
+                      <th class="company-doc-table__check">{{ companyFieldEnabled }}</th>
+                      <th class="company-doc-table__code">{{ companyColService }}</th>
+                      <th class="company-doc-table__desc">{{ companyColDescription }}</th>
+                      <th class="company-doc-table__token">{{ companyColApiKey }}</th>
                     </tr>
                   </thead>
                   <tbody formArrayName="documentServices">
