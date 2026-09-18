@@ -483,7 +483,7 @@ export class PositionWizardComponent implements OnInit {
 
   private handleMissingPublishedFormConfig(error: unknown, preserved: Record<string, unknown>): void {
     this.activeScopeKey = null;
-    const entry = API_ERROR_CATALOG_REQUISITION.REQUISITION_FORM_CONFIG_NOT_PUBLISHED;
+    const entry = API_ERROR_CATALOG_REQUISITION['REQUISITION_FORM_CONFIG_NOT_PUBLISHED'];
     if (error) {
       this.feedback.showApiError(error, { fallbackMessage: entry.message });
     } else {
