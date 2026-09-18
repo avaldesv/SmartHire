@@ -279,16 +279,16 @@ a:hover { text-decoration: underline; }
 }
 
 .sh-company-integrations-dialog-panel .mat-mdc-dialog-surface {
-  width: min(1200px, 96vw) !important;
-  max-width: 96vw !important;
-  max-height: 90vh;
+  width: min(1080px, 94vw) !important;
+  max-width: 94vw !important;
+  max-height: 92vh;
 }
 
 .sh-company-integrations-dialog-panel .mat-mdc-dialog-content.sh-catalog-dialog-body,
 .sh-company-integrations-dialog-panel .mat-mdc-dialog-title + .mat-mdc-dialog-content.sh-catalog-dialog-body {
-  max-height: calc(90vh - 130px) !important;
+  max-height: calc(92vh - 120px) !important;
   overflow-y: auto !important;
-  padding: 12px 20px 8px !important;
+  padding: 10px 24px 6px !important;
 }
 
 .sh-company-integrations-dialog-panel .mat-mdc-dialog-actions .company-btn-cancel {
@@ -301,13 +301,50 @@ a:hover { text-decoration: underline; }
   letter-spacing: 0.02em;
 }
 
-/* Compact Material fields inside company integrations dialog */
+/* Dense outline fields — match mock density, not stretched tall Material defaults */
+.sh-company-integrations-dialog-panel .company-integrations-form {
+  --mat-form-field-container-height: 40px;
+  --mat-form-field-filled-label-display: block;
+  --mat-form-field-container-vertical-padding: 6px;
+}
+
 .sh-company-integrations-dialog-panel .company-integrations-form .mat-mdc-form-field {
   width: 100%;
+  font-size: 0.8125rem;
+}
+
+.sh-company-integrations-dialog-panel .company-integrations-form .mat-mdc-text-field-wrapper {
+  padding-bottom: 0 !important;
+}
+
+.sh-company-integrations-dialog-panel .company-integrations-form .mat-mdc-form-field-infix {
+  min-height: 40px !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
 }
 
 .sh-company-integrations-dialog-panel .company-integrations-form .mat-mdc-form-field-subscript-wrapper {
   margin-top: 0;
+  height: auto;
+  min-height: 0;
+}
+
+.sh-company-integrations-dialog-panel .company-integrations-form .company-portal-slug .mat-mdc-form-field-subscript-wrapper {
+  min-height: 16px;
+}
+
+.sh-company-integrations-dialog-panel .company-integrations-form .mat-mdc-form-field-icon-suffix .mat-icon-button,
+.sh-company-integrations-dialog-panel .company-integrations-form .mat-mdc-form-field-icon-suffix button {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+}
+
+.sh-company-integrations-dialog-panel .company-integrations-form .mat-mdc-slide-toggle {
+  --mdc-switch-track-height: 18px;
+  --mdc-switch-track-width: 34px;
+  transform: scale(0.9);
+  transform-origin: right center;
 }
 
 .sh-catalog-dialog-header-bar__text,

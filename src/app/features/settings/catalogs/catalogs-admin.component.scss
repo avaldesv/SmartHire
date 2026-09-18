@@ -189,50 +189,93 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
   flex-direction: column;
   gap: 0;
   width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
   box-sizing: border-box;
 }
 
 .company-section {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .company-section__title {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 0.875rem;
   font-weight: 700;
   color: #0f172a;
 }
 
 .company-general-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px 24px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 20px;
+  row-gap: 2px;
   align-items: start;
 }
 
 .company-colors-field {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
+  min-height: 56px;
+  justify-content: flex-start;
+  padding-top: 2px;
 }
 
 .company-colors-label {
   font-size: 0.75rem;
   color: #64748b;
+  line-height: 1.2;
+}
+
+.company-color-swatches {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.company-color-swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.company-color-swatch__picker {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.company-color-swatch__hex {
+  width: 72px;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-size: 0.75rem;
+  font-family: ui-monospace, monospace;
+  color: #334155;
+  padding: 0;
 }
 
 .company-divider {
   border: none;
   border-top: 1px solid #e2e8f0;
-  margin: 12px 0;
+  margin: 10px 0;
 }
 
 .company-channels-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  gap: 0 24px;
+  grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
+  column-gap: 20px;
   align-items: start;
 }
 
@@ -247,11 +290,15 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
+  min-height: 32px;
 }
 
 .company-channel__icon {
   color: #0d9488;
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
 }
 
 .company-channel__icon--wa {
@@ -261,21 +308,29 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
 .company-channel__title {
   flex: 1;
   font-weight: 600;
+  font-size: 0.875rem;
   color: #0f172a;
 }
 
+.company-channel__host-port {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 88px;
+  gap: 8px;
+  align-items: start;
+}
+
 .company-channel__footnote {
-  margin: 4px 0 0;
-  font-size: 0.75rem;
+  margin: 2px 0 0;
+  font-size: 0.7rem;
   font-style: italic;
   color: #64748b;
+  line-height: 1.3;
 }
 
 .company-channel-vdivider {
   width: 1px;
   align-self: stretch;
   background: #e2e8f0;
-  margin: 0 4px;
 }
 
 .company-doc-table-wrap {
@@ -286,13 +341,13 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
 .company-doc-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   table-layout: fixed;
 }
 
 .company-doc-table th {
   text-align: left;
-  padding: 6px 10px;
+  padding: 4px 8px;
   border-bottom: 1px solid #e2e8f0;
   color: #475569;
   font-weight: 600;
@@ -300,29 +355,30 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
 }
 
 .company-doc-table td {
-  padding: 6px 10px;
+  padding: 4px 8px;
   border-bottom: 1px solid #f1f5f9;
-  vertical-align: top;
+  vertical-align: middle;
 }
 
 .company-doc-table__check {
-  width: 88px;
+  width: 84px;
 }
 
 .company-doc-table__code {
   font-family: ui-monospace, monospace;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   white-space: nowrap;
-  width: 22%;
+  width: 24%;
 }
 
 .company-doc-table__desc {
   color: #475569;
-  width: 38%;
+  width: 40%;
+  line-height: 1.35;
 }
 
 .company-doc-table__token {
-  width: 32%;
+  width: 28%;
 }
 
 .company-doc-token-field,
@@ -331,20 +387,21 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
 }
 
 .company-doc-url-override {
-  margin-top: 4px;
-}
-
-.company-doc-url-override .mat-mdc-form-field-label,
-.company-doc-url-override .mdc-floating-label {
-  font-size: 0.75rem;
+  margin-top: 2px;
 }
 
 @media (max-width: 900px) {
+  .company-integrations-form {
+    max-width: none;
+  }
   .company-general-grid,
   .company-channels-grid {
     grid-template-columns: 1fr;
   }
   .company-channel-vdivider {
     display: none;
+  }
+  .company-channel__host-port {
+    grid-template-columns: 1fr;
   }
 }
