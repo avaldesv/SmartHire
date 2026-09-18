@@ -118,7 +118,6 @@ import { CatalogCoverageTypeService } from '../../../core/services/catalog-cover
 import { CatalogCurrencyService } from '../../../core/services/catalog-currency.service';
 import { CatalogDocumentTypeService } from '../../../core/services/catalog-document-type.service';
 import { CatalogFileExtensionService } from '../../../core/services/catalog-file-extension.service';
-import { CatalogDocumentProcessingServiceService } from '../../../core/services/catalog-document-processing-service.service';
 import { CatalogGenderService } from '../../../core/services/catalog-gender.service';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { UserSettingsApiService } from '../../../core/services/user-settings-api.service';
@@ -444,7 +443,6 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly coverageTypeService = inject(CatalogCoverageTypeService);
   private readonly documentTypeService = inject(CatalogDocumentTypeService);
   private readonly fileExtensionService = inject(CatalogFileExtensionService);
-  private readonly documentProcessingServiceService = inject(CatalogDocumentProcessingServiceService);
   private readonly geographyService = inject(CatalogGeographyService);
   private readonly userSettingsApi = inject(UserSettingsApiService);
   private readonly feedback = inject(FeedbackDialogService);
@@ -4948,15 +4946,18 @@ export class CatalogsAdminComponent implements OnInit {
     this.documentServices.clear();
     this.docTokenVisible = [];
     for (const svc of integrations.documentServices ?? []) {
+      const catalogUrl = svc.catalogServiceUrl ?? '';
+      const displayUrl = svc.serviceUrlOverride?.trim() || catalogUrl;
       this.documentServices.push(
         this.fb.nonNullable.group({
           documentProcessingServiceId: [svc.documentProcessingServiceId],
           code: [svc.code],
           name: [svc.name],
           description: [svc.description || svc.name],
+          catalogServiceUrl: [catalogUrl],
           isEnabled: [svc.isEnabled ?? false],
           apiKeyToken: [svc.apiKeyToken ?? ''],
-          serviceUrlOverride: [svc.serviceUrlOverride ?? ''],
+          serviceUrlOverride: [displayUrl],
         }),
       );
       this.docTokenVisible.push(false);
@@ -4992,12 +4993,16 @@ export class CatalogsAdminComponent implements OnInit {
           isEnabled: boolean;
           apiKeyToken: string;
           serviceUrlOverride: string;
+          catalogServiceUrl: string;
         };
+        const url = (row.serviceUrlOverride ?? '').trim();
+        // Blank → null so backend does not overwrite existing override.
+        const serviceUrlOverride = url.length === 0 ? null : url;
         return {
           documentProcessingServiceId: row.documentProcessingServiceId,
           isEnabled: row.isEnabled,
-          apiKeyToken: row.apiKeyToken || null,
-          serviceUrlOverride: row.serviceUrlOverride || null,
+          apiKeyToken: row.apiKeyToken?.trim() ? row.apiKeyToken.trim() : null,
+          serviceUrlOverride,
         };
       }),
     };
@@ -5491,9 +5496,21 @@ export class CatalogsAdminComponent implements OnInit {
         this.catalogLoadError(err, getCatalogEntryLabel('fileExtension'));
       },
     });
-    this.documentProcessingServiceService.list(countryId, 0, 200).subscribe({
-      next: (res) => {
-        this.processingServiceOptions = res.items;
+    const companyId =
+      this.tenantContext.activeCompanyId() ?? this.selectedCatalogCompanyId ?? null;
+    if (companyId == null) {
+      this.processingServiceOptions = [];
+      return;
+    }
+    this.companyIntegrationsService.get(companyId).subscribe({
+      next: (integrations) => {
+        this.processingServiceOptions = (integrations.documentServices ?? [])
+          .filter((svc) => svc.isEnabled)
+          .map((svc) => ({
+            id: svc.documentProcessingServiceId,
+            code: svc.code,
+            name: svc.name,
+          }));
       },
       error: (err) => {
         this.processingServiceOptions = [];

@@ -301,16 +301,16 @@ a:hover { text-decoration: underline; }
   letter-spacing: 0.02em;
 }
 
-/* Dense outline fields — match mock density, not stretched tall Material defaults */
+/* Compact but readable outline fields */
 .sh-company-integrations-dialog-panel .company-integrations-form {
-  --mat-form-field-container-height: 40px;
+  --mat-form-field-container-height: 48px;
   --mat-form-field-filled-label-display: block;
-  --mat-form-field-container-vertical-padding: 6px;
+  --mat-form-field-container-vertical-padding: 8px;
 }
 
 .sh-company-integrations-dialog-panel .company-integrations-form .mat-mdc-form-field {
   width: 100%;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
 }
 
 .sh-company-integrations-dialog-panel .company-integrations-form .mat-mdc-text-field-wrapper {
@@ -318,13 +318,13 @@ a:hover { text-decoration: underline; }
 }
 
 .sh-company-integrations-dialog-panel .company-integrations-form .mat-mdc-form-field-infix {
-  min-height: 40px !important;
-  padding-top: 8px !important;
-  padding-bottom: 8px !important;
+  min-height: 48px !important;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
 }
 
 .sh-company-integrations-dialog-panel .company-integrations-form .mat-mdc-form-field-subscript-wrapper {
-  margin-top: 0;
+  margin-top: 2px;
   height: auto;
   min-height: 0;
 }

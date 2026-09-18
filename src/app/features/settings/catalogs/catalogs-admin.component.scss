@@ -197,12 +197,12 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
 .company-section {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 10px;
 }
 
 .company-section__title {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   font-weight: 700;
   color: #0f172a;
 }
@@ -211,7 +211,7 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   column-gap: 20px;
-  row-gap: 2px;
+  row-gap: 10px;
   align-items: start;
 }
 
@@ -269,7 +269,7 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
 .company-divider {
   border: none;
   border-top: 1px solid #e2e8f0;
-  margin: 10px 0;
+  margin: 14px 0;
 }
 
 .company-channels-grid {
@@ -282,7 +282,7 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
 .company-channel {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 8px;
   min-width: 0;
 }
 
@@ -290,7 +290,7 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
   min-height: 32px;
 }
 
