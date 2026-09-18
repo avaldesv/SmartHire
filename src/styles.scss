@@ -301,7 +301,7 @@ a:hover { text-decoration: underline; }
   letter-spacing: 0.02em;
 }
 
-/* Compact but readable outline fields */
+/* Compact but readable outline fields — explicit vertical margin (MDC collapses flex gap) */
 .sh-company-integrations-dialog-panel .company-integrations-form {
   --mat-form-field-container-height: 48px;
   --mat-form-field-filled-label-display: block;
@@ -311,10 +311,18 @@ a:hover { text-decoration: underline; }
 .sh-company-integrations-dialog-panel .company-integrations-form .mat-mdc-form-field {
   width: 100%;
   font-size: 0.875rem;
+  display: block;
+  margin: 0 0 12px !important;
+}
+
+.sh-company-integrations-dialog-panel .company-integrations-form .company-channel__host-port .mat-mdc-form-field,
+.sh-company-integrations-dialog-panel .company-integrations-form .company-general-grid > .mat-mdc-form-field {
+  margin-bottom: 0 !important;
 }
 
 .sh-company-integrations-dialog-panel .company-integrations-form .mat-mdc-text-field-wrapper {
   padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 .sh-company-integrations-dialog-panel .company-integrations-form .mat-mdc-form-field-infix {
@@ -324,13 +332,23 @@ a:hover { text-decoration: underline; }
 }
 
 .sh-company-integrations-dialog-panel .company-integrations-form .mat-mdc-form-field-subscript-wrapper {
-  margin-top: 2px;
-  height: auto;
-  min-height: 0;
+  display: none;
 }
 
 .sh-company-integrations-dialog-panel .company-integrations-form .company-portal-slug .mat-mdc-form-field-subscript-wrapper {
+  display: block;
+  margin-top: 2px;
   min-height: 16px;
+  height: auto;
+}
+
+.sh-company-integrations-dialog-panel .company-integrations-form .company-doc-url-override.mat-mdc-form-field {
+  margin-top: 12px !important;
+  margin-bottom: 0 !important;
+}
+
+.sh-company-integrations-dialog-panel .company-integrations-form .company-doc-token-field.mat-mdc-form-field {
+  margin-bottom: 0 !important;
 }
 
 .sh-company-integrations-dialog-panel .company-integrations-form .mat-mdc-form-field-icon-suffix .mat-icon-button,

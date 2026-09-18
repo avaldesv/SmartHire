@@ -211,7 +211,7 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   column-gap: 20px;
-  row-gap: 10px;
+  row-gap: 14px;
   align-items: start;
 }
 
@@ -282,7 +282,7 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
 .company-channel {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
   min-width: 0;
 }
 
@@ -290,7 +290,7 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
   min-height: 32px;
 }
 
@@ -315,7 +315,7 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
 .company-channel__host-port {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 88px;
-  gap: 8px;
+  gap: 12px;
   align-items: start;
 }
 
@@ -387,7 +387,7 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
 }
 
 .company-doc-url-override {
-  margin-top: 2px;
+  margin-top: 12px !important;
 }
 
 @media (max-width: 900px) {
