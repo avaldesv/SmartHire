@@ -13,9 +13,15 @@ import {
 } from '../../../../core/i18n/feedback-labels';
 import { GenerateJobDescriptionApiService } from '../../../../core/services/generate-job-description-api.service';
 import { LocaleService } from '../../../../core/services/locale.service';
+import {
+  appendJobDescriptionLanguageInstruction,
+  buildJobDescriptionPrompt,
+  jobDescriptionLanguageDisplayName,
+  type JobDescriptionPromptLanguage,
+} from './build-job-description-prompt';
 
 /** UI codes for the language selector used when generating/translating job descriptions. */
-export type JobDescriptionOutputLanguage = 'es' | 'en';
+export type JobDescriptionOutputLanguage = JobDescriptionPromptLanguage;
 
 export type JobDescriptionAutoGenerateMode =
   | 'jobDescription'
@@ -168,14 +174,14 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * FE request: "Crear descripcion del puesto: [nombre]. En 1000 caracteres."
+   * Auto Generate (empty textarea): Appian-style prompt from wizard snapshot.
+   * L1 uses positionName only; L2 passes the full rootForm snapshot + labels.
    */
   buildJobDescriptionPregunta(
     positionName: string,
     language: JobDescriptionOutputLanguage,
   ): string {
-    const prompt = `Crear descripcion del puesto: ${positionName.trim()}. En 1000 caracteres.`;
-    return this.appendLanguageInstruction(prompt, language);
+    return buildJobDescriptionPrompt({ positionName }, {}, language);
   }
 
   /**
@@ -240,8 +246,7 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
     pregunta: string,
     language: JobDescriptionOutputLanguage,
   ): string {
-    const trimmed = pregunta.trim().replace(/\.?\s*$/, '');
-    return `${trimmed}. En idioma ${this.languageDisplayName(language)}.`;
+    return appendJobDescriptionLanguageInstruction(pregunta, language);
   }
 
   /**
@@ -256,7 +261,7 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
   }
 
   languageDisplayName(language: JobDescriptionOutputLanguage): string {
-    return language === 'en' ? 'inglés' : 'español';
+    return jobDescriptionLanguageDisplayName(language);
   }
 
   private runChat(
