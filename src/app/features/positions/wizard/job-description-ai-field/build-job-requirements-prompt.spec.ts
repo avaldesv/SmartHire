@@ -91,6 +91,20 @@ describe('parseJobRequirementsJson', () => {
     expect(parsed?.desirable[2]).toBe('Conocimiento de Python');
   });
 
+  it('parses chat JSON that uses |*| instead of newlines', () => {
+    const piped =
+      '{|*|  "type_document": "json",|*|  "nombre de la vacante": "Requisición de Prueba Luis",|*|  "tipo_de_requisitos": {|*|    "obligatorios": {|*|      "requisito1": "Experiencia comprobable en Java.",|*|      "requisito2": "Dominio de Spring Boot.",|*|      "requisito3": "Dominio del idioma alemán."|*|    },|*|    "opcionales": {|*|      "requisito1": "Git y CI/CD.",|*|      "requisito2": "Bases de datos relacionales.",|*|      "requisito3": "Pruebas automatizadas."|*|    },|*|    "deseables": {|*|      "requisito1": "Consultoría similar a Systek.",|*|      "requisito2": "Arquitectura y microservicios.",|*|      "requisito3": "Docker y Kubernetes."|*|    }|*|  }|*|}';
+    const parsed = parseJobRequirementsJson(piped);
+    expect(parsed).not.toBeNull();
+    expect(parsed?.mandatory).toEqual([
+      'Experiencia comprobable en Java.',
+      'Dominio de Spring Boot.',
+      'Dominio del idioma alemán.',
+    ]);
+    expect(parsed?.optional[1]).toBe('Bases de datos relacionales.');
+    expect(parsed?.desirable[2]).toBe('Docker y Kubernetes.');
+  });
+
   it('returns null for invalid, incomplete or empty requirements', () => {
     expect(parseJobRequirementsJson('not json')).toBeNull();
     expect(parseJobRequirementsJson('{"obligatorios":{}}')).toBeNull();
@@ -155,5 +169,15 @@ DESEABLES:
   it('returns null when a header is missing', () => {
     expect(splitTranslatedRequirements('OBLIGATORIOS:\nfoo\nOPCIONALES:\nbar')).toBeNull();
     expect(splitTranslatedRequirements('')).toBeNull();
+  });
+
+  it('splits a labeled response that uses |*| delimiters', () => {
+    const piped =
+      'OBLIGATORIOS:|*|- Bachelor degree|*|- SQL|*||*|OPCIONALES:|*||*|DESEABLES:|*|- Python knowledge';
+    expect(splitTranslatedRequirements(piped)).toEqual({
+      mandatory: '- Bachelor degree\n- SQL',
+      optional: '',
+      desirable: '- Python knowledge',
+    });
   });
 });
