@@ -20,35 +20,18 @@
             />
           </div>
           <div class="general-requirements-block__reqs">
-            <sh-job-description-ai-field
-              [control]="$any(fieldControl(generalRequirementsBlock!.requirementsMandatory.fieldKey))"
-              [disabled]="isReadOnly(generalRequirementsBlock!.requirementsMandatory)"
-              [fieldLabel]="fieldLabel(generalRequirementsBlock!.requirementsMandatory)"
-              [sectionTitle]="null"
-              [sourceControl]="$any(fieldControl(generalRequirementsBlock!.jobDescription.fieldKey))"
-              autoGenerateMode="requirementsMandatory"
-              [showCharCount]="true"
-              [rows]="3"
-            />
-            <sh-job-description-ai-field
-              [control]="$any(fieldControl(generalRequirementsBlock!.requirementsOptional.fieldKey))"
-              [disabled]="isReadOnly(generalRequirementsBlock!.requirementsOptional)"
-              [fieldLabel]="fieldLabel(generalRequirementsBlock!.requirementsOptional)"
-              [sectionTitle]="null"
-              [sourceControl]="$any(fieldControl(generalRequirementsBlock!.jobDescription.fieldKey))"
-              autoGenerateMode="requirementsOptional"
-              [showCharCount]="true"
-              [rows]="3"
-            />
-            <sh-job-description-ai-field
-              [control]="$any(fieldControl(generalRequirementsBlock!.requirementsDesirable.fieldKey))"
-              [disabled]="isReadOnly(generalRequirementsBlock!.requirementsDesirable)"
-              [fieldLabel]="fieldLabel(generalRequirementsBlock!.requirementsDesirable)"
-              [sectionTitle]="null"
-              [sourceControl]="$any(fieldControl(generalRequirementsBlock!.jobDescription.fieldKey))"
-              autoGenerateMode="requirementsDesirable"
-              [showCharCount]="true"
-              [rows]="3"
+            <sh-job-requirements-ai-column
+              [mandatoryControl]="$any(fieldControl(generalRequirementsBlock!.requirementsMandatory.fieldKey))"
+              [optionalControl]="$any(fieldControl(generalRequirementsBlock!.requirementsOptional.fieldKey))"
+              [desirableControl]="$any(fieldControl(generalRequirementsBlock!.requirementsDesirable.fieldKey))"
+              [positionNameControl]="textControl('positionName')"
+              [jobDescriptionControl]="$any(fieldControl(generalRequirementsBlock!.jobDescription.fieldKey))"
+              [mandatoryLabel]="fieldLabel(generalRequirementsBlock!.requirementsMandatory)"
+              [optionalLabel]="fieldLabel(generalRequirementsBlock!.requirementsOptional)"
+              [desirableLabel]="fieldLabel(generalRequirementsBlock!.requirementsDesirable)"
+              [mandatoryDisabled]="isReadOnly(generalRequirementsBlock!.requirementsMandatory)"
+              [optionalDisabled]="isReadOnly(generalRequirementsBlock!.requirementsOptional)"
+              [desirableDisabled]="isReadOnly(generalRequirementsBlock!.requirementsDesirable)"
             />
           </div>
         </div>

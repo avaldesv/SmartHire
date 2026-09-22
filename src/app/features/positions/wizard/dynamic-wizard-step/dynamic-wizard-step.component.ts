@@ -45,6 +45,7 @@ import { flattenDynamicFormValues } from '../dynamic-wizard-payload.util';
 import { PublishedPortalsEditorComponent } from '../published-portals-editor/published-portals-editor.component';
 import { DynamicWizardFieldComponent } from '../dynamic-wizard-field/dynamic-wizard-field.component';
 import { JobDescriptionAiFieldComponent } from '../job-description-ai-field/job-description-ai-field.component';
+import { JobRequirementsAiColumnComponent } from '../job-description-ai-field/job-requirements-ai-column.component';
 import {
   catalogLabelMapFromOptions,
   type JobDescriptionPromptCatalogLabels,
@@ -68,6 +69,7 @@ import { CLIENT_ID_FIELD_KEY } from '../../../../shared/constants/requisition-cl
     DocumentRequirementsEditorComponent,
     PublishedPortalsEditorComponent,
     JobDescriptionAiFieldComponent,
+    JobRequirementsAiColumnComponent,
     WizardClientSearchFieldComponent,
   ],
   templateUrl: './dynamic-wizard-step.component.html',
@@ -161,6 +163,22 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
 
   fieldControl(fieldKey: string): FormControl {
     return this.stepForm.get(fieldKey) as FormControl;
+  }
+
+  /** Resolve a text control from this step or another wizard step (e.g. positionName). */
+  textControl(fieldKey: string): FormControl<string | null> {
+    const fromStep = this.stepForm.get(fieldKey);
+    if (fromStep) {
+      return fromStep as FormControl<string | null>;
+    }
+    for (const step of this.config.steps) {
+      const group = this.rootForm.get(step.stepKey) as FormGroup | null;
+      const control = group?.get(fieldKey);
+      if (control) {
+        return control as FormControl<string | null>;
+      }
+    }
+    return this.fb.control<string | null>('');
   }
 
   isReadOnly(field: ResolvedRequisitionFormField): boolean {
