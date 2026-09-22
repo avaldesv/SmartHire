@@ -21,6 +21,7 @@ import {
   type JobDescriptionPromptLanguage,
   type JobDescriptionPromptSnapshot,
 } from './build-job-description-prompt';
+import { sanitizeJobDescriptionChatMessage } from './sanitize-job-description-chat';
 
 /** UI codes for the language selector used when generating/translating job descriptions. */
 export type JobDescriptionOutputLanguage = JobDescriptionPromptLanguage;
@@ -131,7 +132,9 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
         return;
       }
       this.openAutoGenerateConfirm(this.autoGenerateFromPositionNameMessage, () =>
-        this.runChat(this.buildJobDescriptionPregunta(positionName, this.selectedLanguage), 'generate'),
+        this.runChat(this.buildJobDescriptionPregunta(positionName, this.selectedLanguage), 'generate', {
+          sanitizeDelimiters: true,
+        }),
       );
       return;
     }
@@ -214,13 +217,13 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Optional `maxChars` clips requirements Auto Generate (~500).
-   * Job-description Auto Generate must persist the full chat `message`.
+   * `sanitizeDelimiters` applies only to job-description Auto Generate.
+   * Optional `maxChars` remains available for clipped flows.
    */
   private runChat(
     pregunta: string,
     action: 'generate' | 'translate',
-    maxChars?: number,
+    options?: { maxChars?: number; sanitizeDelimiters?: boolean },
   ): void {
     this.busyAction = action;
     this.api
@@ -231,6 +234,10 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           let message = res.message ?? '';
+          if (options?.sanitizeDelimiters) {
+            message = sanitizeJobDescriptionChatMessage(message);
+          }
+          const maxChars = options?.maxChars;
           if (maxChars != null && maxChars > 0 && message.length > maxChars) {
             message = message.slice(0, maxChars).trimEnd();
           }
