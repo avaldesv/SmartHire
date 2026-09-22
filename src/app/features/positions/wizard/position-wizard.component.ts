@@ -15,6 +15,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { catalogDialogConfig } from '../../../core/dialog/catalog-dialog.constants';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { FEEDBACK_GENERIC_INFO_TITLE, FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
+import { API_ERROR_CATALOG_REQUISITION } from '../../../core/i18n/api-error-catalog-requisition';
 import {
   catchError,
   combineLatest,
@@ -442,8 +443,10 @@ export class PositionWizardComponent implements OnInit {
             return of(null);
           }
           return this.dynamicWizardService.resolve(countryId, coverageTypeId).pipe(
-            map((config) => ({ config, countryId, coverageTypeId, preserved, scopeKey })),
-            catchError(() => of({ config: null, countryId, coverageTypeId, preserved, scopeKey })),
+            map((config) => ({ config, countryId, coverageTypeId, preserved, scopeKey, error: null as unknown })),
+            catchError((err) =>
+              of({ config: null, countryId, coverageTypeId, preserved, scopeKey, error: err }),
+            ),
           );
         }),
         takeUntilDestroyed(this.destroyRef),
@@ -453,6 +456,10 @@ export class PositionWizardComponent implements OnInit {
           return;
         }
         this.resolvingConfig = false;
+        if (result.error) {
+          this.handleMissingPublishedFormConfig(result.error, result.preserved);
+          return;
+        }
         this.activeScopeKey = result.scopeKey;
         if (!this.isEditMode) {
           void this.router.navigate([], {
@@ -466,10 +473,29 @@ export class PositionWizardComponent implements OnInit {
         }
         if (result.config) {
           this.activateDynamicWizard(result.config, result.preserved);
-        } else {
+        } else if (this.isEditMode) {
           this.deactivateDynamicWizard(result.preserved);
+        } else {
+          this.handleMissingPublishedFormConfig(null, result.preserved);
         }
       });
+  }
+
+  private handleMissingPublishedFormConfig(error: unknown, preserved: Record<string, unknown>): void {
+    this.activeScopeKey = null;
+    const entry = API_ERROR_CATALOG_REQUISITION['REQUISITION_FORM_CONFIG_NOT_PUBLISHED'];
+    if (error) {
+      this.feedback.showApiError(error, { fallbackMessage: entry.message });
+    } else {
+      this.feedback.showError(entry.title, entry.message);
+    }
+    if (!this.isEditMode) {
+      this.useDynamicWizard = false;
+      this.dynamicForm = null;
+      this.resolvedConfig = null;
+    } else {
+      this.deactivateDynamicWizard(preserved);
+    }
   }
 
   private requestScopeResolve(countryId: number, coverageTypeId: number, preserveValues: boolean): void {

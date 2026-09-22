@@ -129,7 +129,7 @@ export const API_ERROR_CATALOG_REQUISITION: Record<string, ApiErrorI18nEntry> = 
   },
   REQUISITION_FORM_CONFIG_NOT_PUBLISHED: {
     title: $localize`:@@errors.REQUISITION_FORM_CONFIG_NOT_PUBLISHED.title:Sin configuración publicada`,
-    message: $localize`:@@errors.REQUISITION_FORM_CONFIG_NOT_PUBLISHED.message:No hay configuración publicada para el alcance solicitado.`,
+    message: $localize`:@@errors.REQUISITION_FORM_CONFIG_NOT_PUBLISHED.message:No es posible crear una requisición hasta que exista una configuración de formulario publicada para el país y tipo de cobertura seleccionados.`,
   },
   REQUISITION_FORM_CONFIG_NOT_DRAFT: {
     title: $localize`:@@errors.REQUISITION_FORM_CONFIG_NOT_DRAFT.title:Solo borrador editable`,

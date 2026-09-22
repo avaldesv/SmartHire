@@ -374,6 +374,46 @@
         <source>Slug duplicado</source>
         <target>Duplicate slug</target>
       </trans-unit>
+      <trans-unit id="errors.COMPANY_INTEGRATION_DOC_TOKEN_REQUIRED.title" datatype="html">
+        <source>Token requerido</source>
+        <target>Token required</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_INTEGRATION_DOC_TOKEN_REQUIRED.message" datatype="html">
+        <source>Servicio de documentos habilitado: la clave API (token) es obligatoria.</source>
+        <target>Document service enabled: API key (token) is required.</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_INTEGRATION_DOC_SERVICE_NOT_FOUND.title" datatype="html">
+        <source>Servicio no encontrado</source>
+        <target>Service not found</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_INTEGRATION_DOC_SERVICE_NOT_FOUND.message" datatype="html">
+        <source>El servicio de procesamiento de documentos no existe.</source>
+        <target>The document processing service does not exist.</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_INTEGRATION_DOC_SERVICE_NOT_GLOBAL.title" datatype="html">
+        <source>Servicio no válido</source>
+        <target>Invalid service</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_INTEGRATION_DOC_SERVICE_NOT_GLOBAL.message" datatype="html">
+        <source>Solo se pueden habilitar servicios globales del catálogo.</source>
+        <target>Only global catalog services can be enabled.</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_INTEGRATION_EMAIL_INCOMPLETE.title" datatype="html">
+        <source>Correo incompleto</source>
+        <target>Incomplete email</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_INTEGRATION_EMAIL_INCOMPLETE.message" datatype="html">
+        <source>Canal de correo habilitado: completa remitente, servidor, puerto, usuario y contraseña.</source>
+        <target>Email channel enabled: complete sender, host, port, username and password.</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_INTEGRATION_WHATSAPP_INCOMPLETE.title" datatype="html">
+        <source>WhatsApp incompleto</source>
+        <target>Incomplete WhatsApp</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_INTEGRATION_WHATSAPP_INCOMPLETE.message" datatype="html">
+        <source>Canal WhatsApp habilitado: completa URL base, token Bearer, ID de instancia y token de instancia.</source>
+        <target>WhatsApp channel enabled: complete base URL, bearer token, instance ID and instance token.</target>
+      </trans-unit>
       <trans-unit id="errors.COMPANY_PORTAL_SLUG_DUPLICATE.message" datatype="html">
         <source>El slug del portal "{0}" ya está en uso</source>
         <target>Portal slug "{0}" is already in use</target>
@@ -1207,8 +1247,8 @@
         <target>No published configuration</target>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_CONFIG_NOT_PUBLISHED.message" datatype="html">
-        <source>No hay configuración publicada para el alcance solicitado.</source>
-        <target>No published configuration found for the requested scope</target>
+        <source>No es posible crear una requisición hasta que exista una configuración de formulario publicada para el país y tipo de cobertura seleccionados.</source>
+        <target>A requisition cannot be created until a published form configuration exists for the selected country and coverage type.</target>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_CONFIG_NOT_DRAFT.title" datatype="html">
         <source>Solo borrador editable</source>
@@ -3219,6 +3259,106 @@
       <trans-unit id="catalogs.company.newTitle" datatype="html">
         <source>Nueva empresa</source>
         <target>New company</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.dialog.subtitle" datatype="html">
+        <source>Datos generales, canales de notificación e integraciones de documentos</source>
+        <target>General data, notification channels and document integrations</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.section.general" datatype="html">
+        <source>1. Datos generales</source>
+        <target>1. General data</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.section.channels" datatype="html">
+        <source>2. Canales de notificación</source>
+        <target>2. Notification channels</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.section.docServices" datatype="html">
+        <source>3. Servicios de procesamiento de documentos</source>
+        <target>3. Document processing services</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.channel.email" datatype="html">
+        <source>Correo (SMTP)</source>
+        <target>Email (SMTP)</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.channel.whatsapp" datatype="html">
+        <source>WhatsApp</source>
+        <target>WhatsApp</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.enabled" datatype="html">
+        <source>Habilitado</source>
+        <target>Enabled</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.mailFrom" datatype="html">
+        <source>Remitente</source>
+        <target>Sender</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.smtpHost" datatype="html">
+        <source>Servidor SMTP</source>
+        <target>SMTP host</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.smtpPort" datatype="html">
+        <source>Puerto</source>
+        <target>Port</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.smtpUser" datatype="html">
+        <source>Usuario</source>
+        <target>Username</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.smtpPassword" datatype="html">
+        <source>Contraseña</source>
+        <target>Password</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.email.footnote" datatype="html">
+        <source>Cada tenant usa sus propias credenciales para métricas de uso.</source>
+        <target>Each tenant uses its own credentials for usage metrics.</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.waBaseUrl" datatype="html">
+        <source>URL base</source>
+        <target>Base URL</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.waBearer" datatype="html">
+        <source>Token Bearer</source>
+        <target>Bearer token</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.waInstanceId" datatype="html">
+        <source>ID de instancia</source>
+        <target>Instance ID</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.waInstanceToken" datatype="html">
+        <source>Token de instancia</source>
+        <target>Instance token</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.col.service" datatype="html">
+        <source>Servicio</source>
+        <target>Service</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.col.description" datatype="html">
+        <source>Descripción</source>
+        <target>Description</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.col.apiKey" datatype="html">
+        <source>Clave API (Token)</source>
+        <target>API Key (Token)</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.urlOverride" datatype="html">
+        <source>URL alternativa (opcional)</source>
+        <target>URL override (optional)</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.taxId" datatype="html">
+        <source>RFC / ID fiscal</source>
+        <target>Tax ID</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.colors" datatype="html">
+        <source>Colores</source>
+        <target>Colors</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.btn.cancel" datatype="html">
+        <source>CANCELAR</source>
+        <target>CANCEL</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.btn.save" datatype="html">
+        <source>GUARDAR</source>
+        <target>SAVE</target>
       </trans-unit>
       <trans-unit id="catalogs.currency.newButton" datatype="html">
         <source>Nueva moneda</source>
@@ -10387,8 +10527,8 @@
         <target>Pulsa Entendido para escribir una instrucción o borrador en el campo. Pulsa Auto Generar para crear el texto a partir de Requerimiento del Empleo.</target>
       </trans-unit>
       <trans-unit id="requisition.jobDescription.autoGenerateFromPositionName" datatype="html">
-        <source>Pulsa Entendido para escribir una instrucción o borrador en el campo. Pulsa Auto Generar para crear el texto a partir del nombre del puesto.</source>
-        <target>Pulsa Entendido para escribir una instrucción o borrador en el campo. Pulsa Auto Generar para crear el texto a partir del nombre del puesto.</target>
+        <source>Pulsa Entendido para escribir una instrucción o borrador en el campo. Pulsa Auto Generar para crear el texto a partir de los datos de la requisición.</source>
+        <target>Press Understood to write an instruction or draft in the field. Press Auto Generate to create the text from the requisition data.</target>
       </trans-unit>
       <trans-unit id="requisition.jobDescription.emptySourceForAutoGenerate" datatype="html">
         <source>Escribe o genera la descripción del puesto antes de auto generar requisitos.</source>
@@ -10409,6 +10549,30 @@
       <trans-unit id="requisition.jobDescription.translateError" datatype="html">
         <source>No se pudo traducir la descripción. Intenta de nuevo.</source>
         <target>No se pudo traducir la descripción. Intenta de nuevo.</target>
+      </trans-unit>
+      <trans-unit id="requisition.requirements.emptyPositionName" datatype="html">
+        <source>Escribe el nombre del puesto antes de generar los requisitos.</source>
+        <target>Enter the job title before generating requirements.</target>
+      </trans-unit>
+      <trans-unit id="requisition.requirements.emptyTranslate" datatype="html">
+        <source>Escribe o genera al menos un tipo de requisito antes de traducir.</source>
+        <target>Write or generate at least one requirement type before translating.</target>
+      </trans-unit>
+      <trans-unit id="requisition.requirements.invalidJson" datatype="html">
+        <source>No se pudo leer la respuesta de requisitos. El contenido anterior se conservó.</source>
+        <target>The requirements response could not be read. Previous content was kept.</target>
+      </trans-unit>
+      <trans-unit id="requisition.requirements.invalidTranslateSplit" datatype="html">
+        <source>No se pudo separar la traducción de los tres tipos de requisitos. El contenido anterior se conservó.</source>
+        <target>The translation of the three requirement types could not be split. Previous content was kept.</target>
+      </trans-unit>
+      <trans-unit id="requisition.requirements.generateError" datatype="html">
+        <source>No se pudieron generar los requisitos. Intenta de nuevo.</source>
+        <target>Requirements could not be generated. Please try again.</target>
+      </trans-unit>
+      <trans-unit id="requisition.requirements.translateError" datatype="html">
+        <source>No se pudieron traducir los requisitos. Intenta de nuevo.</source>
+        <target>Requirements could not be translated. Please try again.</target>
       </trans-unit>
       <trans-unit id="reports.month.jan" datatype="html">
         <source>Ene</source>

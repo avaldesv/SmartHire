@@ -13,17 +13,20 @@ import {
 } from '../../../../core/i18n/feedback-labels';
 import { GenerateJobDescriptionApiService } from '../../../../core/services/generate-job-description-api.service';
 import { LocaleService } from '../../../../core/services/locale.service';
+import {
+  appendJobDescriptionLanguageInstruction,
+  buildJobDescriptionPrompt,
+  jobDescriptionLanguageDisplayName,
+  type JobDescriptionPromptCatalogLabels,
+  type JobDescriptionPromptLanguage,
+  type JobDescriptionPromptSnapshot,
+} from './build-job-description-prompt';
+import { sanitizeJobDescriptionChatMessage } from './sanitize-job-description-chat';
 
 /** UI codes for the language selector used when generating/translating job descriptions. */
-export type JobDescriptionOutputLanguage = 'es' | 'en';
+export type JobDescriptionOutputLanguage = JobDescriptionPromptLanguage;
 
-export type JobDescriptionAutoGenerateMode =
-  | 'jobDescription'
-  | 'requirementsMandatory'
-  | 'requirementsOptional'
-  | 'requirementsDesirable';
-
-type RequirementsAutoGenerateMode = Exclude<JobDescriptionAutoGenerateMode, 'jobDescription'>;
+export type JobDescriptionAutoGenerateMode = 'jobDescription';
 
 @Component({
   selector: 'sh-job-description-ai-field',
@@ -59,8 +62,13 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
    */
   @Input() sourceControl: FormControl<string | null> | null = null;
   @Input() autoGenerateMode: JobDescriptionAutoGenerateMode | null = null;
+  /** Full wizard snapshot (all steps). Used only for jobDescription Auto Generate. */
+  @Input() promptSnapshotFactory: (() => JobDescriptionPromptSnapshot) | null = null;
+  @Input() promptLabels: JobDescriptionPromptCatalogLabels | null = null;
   /** Show live character counter after Traducir (job description). */
   @Input() showCharCount = false;
+  /** Hide Generar / Idioma / Traducir (used by the unified requirements column). */
+  @Input() showAiActions = true;
 
   @HostBinding('class.job-description-ai-host--fill')
   get hostFillHeight(): boolean {
@@ -73,9 +81,7 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
   readonly autoGenerateLabel = $localize`:@@requisition.action.autoGenerateRequirements:Auto Generar`;
   readonly charactersLabel = $localize`:@@requisition.jobDescription.characters:Caracteres`;
   readonly emptyPromptMessage = $localize`:@@requisition.jobDescription.emptyPrompt:Escribe una instrucción o borrador en el campo antes de generar.`;
-  readonly autoGenerateFromJobRequirementMessage = $localize`:@@requisition.jobDescription.autoGenerateFromJobRequirement:Pulsa Entendido para escribir una instrucción o borrador en el campo. Pulsa Auto Generar para crear el texto a partir de Requerimiento del Empleo.`;
-  readonly autoGenerateFromPositionNameMessage = $localize`:@@requisition.jobDescription.autoGenerateFromPositionName:Pulsa Entendido para escribir una instrucción o borrador en el campo. Pulsa Auto Generar para crear el texto a partir del nombre del puesto.`;
-  readonly emptySourceForAutoGenerateMessage = $localize`:@@requisition.jobDescription.emptySourceForAutoGenerate:Escribe o genera la descripción del puesto antes de auto generar requisitos.`;
+  readonly autoGenerateFromPositionNameMessage = $localize`:@@requisition.jobDescription.autoGenerateFromPositionName:Pulsa Entendido para escribir una instrucción o borrador en el campo. Pulsa Auto Generar para crear el texto a partir de los datos de la requisición.`;
   readonly emptyPositionNameForAutoGenerateMessage = $localize`:@@requisition.jobDescription.emptyPositionNameForAutoGenerate:Escribe el nombre del puesto antes de auto generar la descripción.`;
   readonly emptyTranslateMessage = $localize`:@@requisition.jobDescription.emptyTranslate:Escribe o genera una descripción antes de traducir.`;
   readonly generateErrorMessage = $localize`:@@requisition.jobDescription.generateError:No se pudo generar la descripción. Intenta de nuevo.`;
@@ -107,7 +113,7 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
   }
 
   onGenerate(): void {
-    if (this.disabled || this.busy) {
+    if (this.disabled || this.busy || !this.showAiActions) {
       return;
     }
     const basePregunta = (this.control.value ?? '').trim();
@@ -126,24 +132,9 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
         return;
       }
       this.openAutoGenerateConfirm(this.autoGenerateFromPositionNameMessage, () =>
-        this.runChat(this.buildJobDescriptionPregunta(positionName, this.selectedLanguage), 'generate', 1000),
-      );
-      return;
-    }
-
-    if (this.isRequirementsAutoGenerateMode(this.autoGenerateMode)) {
-      const jobDescription = (this.sourceControl?.value ?? '').trim();
-      if (!jobDescription) {
-        this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, this.emptySourceForAutoGenerateMessage);
-        return;
-      }
-      const mode = this.autoGenerateMode;
-      this.openAutoGenerateConfirm(this.autoGenerateFromJobRequirementMessage, () =>
-        this.runChat(
-          this.buildRequirementsPregunta(mode, jobDescription, this.selectedLanguage),
-          'generate',
-          500,
-        ),
+        this.runChat(this.buildJobDescriptionPregunta(positionName, this.selectedLanguage), 'generate', {
+          sanitizeDelimiters: true,
+        }),
       );
       return;
     }
@@ -168,51 +159,18 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * FE request: "Crear descripcion del puesto: [nombre]. En 1000 caracteres."
+   * Auto Generate (empty textarea): Appian-style prompt from wizard snapshot.
    */
   buildJobDescriptionPregunta(
     positionName: string,
     language: JobDescriptionOutputLanguage,
   ): string {
-    const prompt = `Crear descripcion del puesto: ${positionName.trim()}. En 1000 caracteres.`;
-    return this.appendLanguageInstruction(prompt, language);
-  }
-
-  /**
-   * Auto-generate requirements (~500 chars) from the job description.
-   * Kind depends on the field: mandatory, optional, or desirable.
-   */
-  buildRequirementsPregunta(
-    mode: RequirementsAutoGenerateMode,
-    jobDescription: string,
-    language: JobDescriptionOutputLanguage,
-  ): string {
-    const kind =
-      mode === 'requirementsMandatory'
-        ? 'obligatorios'
-        : mode === 'requirementsOptional'
-          ? 'opcionales'
-          : 'deseables';
-    const trimmed = jobDescription.trim().replace(/\.?\s*$/, '');
-    const prompt =
-      `A partir de la siguiente descripción del puesto, genera únicamente los requisitos ${kind} ` +
-      `del empleo en aproximadamente 500 caracteres (texto continuo, sin títulos ni introducciones). ` +
-      `Descripción del puesto: ${trimmed}`;
-    return this.appendLanguageInstruction(prompt, language);
-  }
-
-  private isRequirementsAutoGenerateMode(
-    mode: JobDescriptionAutoGenerateMode | null,
-  ): mode is RequirementsAutoGenerateMode {
-    return (
-      mode === 'requirementsMandatory' ||
-      mode === 'requirementsOptional' ||
-      mode === 'requirementsDesirable'
-    );
+    const snapshot = this.promptSnapshotFactory?.() ?? {};
+    return buildJobDescriptionPrompt({ ...snapshot, positionName }, this.promptLabels ?? {}, language);
   }
 
   onTranslate(): void {
-    if (this.disabled || this.busy) {
+    if (this.disabled || this.busy || !this.showAiActions) {
       return;
     }
     const jobDescription = (this.control.value ?? '').trim();
@@ -240,8 +198,7 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
     pregunta: string,
     language: JobDescriptionOutputLanguage,
   ): string {
-    const trimmed = pregunta.trim().replace(/\.?\s*$/, '');
-    return `${trimmed}. En idioma ${this.languageDisplayName(language)}.`;
+    return appendJobDescriptionLanguageInstruction(pregunta, language);
   }
 
   /**
@@ -256,13 +213,17 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
   }
 
   languageDisplayName(language: JobDescriptionOutputLanguage): string {
-    return language === 'en' ? 'inglés' : 'español';
+    return jobDescriptionLanguageDisplayName(language);
   }
 
+  /**
+   * `sanitizeDelimiters` applies only to job-description Auto Generate.
+   * Optional `maxChars` remains available for clipped flows.
+   */
   private runChat(
     pregunta: string,
     action: 'generate' | 'translate',
-    maxChars?: number,
+    options?: { maxChars?: number; sanitizeDelimiters?: boolean },
   ): void {
     this.busyAction = action;
     this.api
@@ -273,6 +234,10 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           let message = res.message ?? '';
+          if (options?.sanitizeDelimiters) {
+            message = sanitizeJobDescriptionChatMessage(message);
+          }
+          const maxChars = options?.maxChars;
           if (maxChars != null && maxChars > 0 && message.length > maxChars) {
             message = message.slice(0, maxChars).trimEnd();
           }

@@ -28,15 +28,19 @@ export interface ViaBotConversationResponse {
 }
 
 export interface ViaBotChatRequest {
-  message: string;
+  message?: string | null;
   scope: ViaBotScope;
   candidateLimit?: number | null;
   experienceYears?: number | null;
+  /** When true, backend builds and sends the initial candidate-search prompt. */
+  bootstrap?: boolean;
 }
 
 export interface ViaBotChatResponse {
   conversationId: number;
   viaConversationId: string;
+  /** USER message stored in history (full bootstrap prompt when searching). */
+  userMessage?: string | null;
   response: string;
   candidates: ViaBotCandidate[];
 }

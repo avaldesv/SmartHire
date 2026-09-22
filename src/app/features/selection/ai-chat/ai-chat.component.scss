@@ -133,6 +133,16 @@
   width: 100%;
 }
 
+.via-bot__search-gate {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 4px;
+
+  button mat-icon {
+    margin-right: 4px;
+  }
+}
+
 .via-bot__results-title-row {
   display: flex;
   align-items: center;
