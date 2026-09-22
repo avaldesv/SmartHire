@@ -39,6 +39,8 @@ export interface ViaBotChatRequest {
 export interface ViaBotChatResponse {
   conversationId: number;
   viaConversationId: string;
+  /** USER message stored in history (full bootstrap prompt when searching). */
+  userMessage?: string | null;
   response: string;
   candidates: ViaBotCandidate[];
 }

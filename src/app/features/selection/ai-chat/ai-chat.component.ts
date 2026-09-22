@@ -166,8 +166,6 @@ export class AiChatComponent implements OnInit {
       return;
     }
     const { candidateLimit, experienceYears } = this.readCriteria();
-    const userSummary = `Búsqueda de candidatos (máx. ${candidateLimit})`;
-    this.messages = [...this.messages, { role: 'user', text: userSummary }];
     this.sending = true;
     this.viaBotApi
       .chat(this.positionId, {
@@ -180,12 +178,16 @@ export class AiChatComponent implements OnInit {
         next: (res) => {
           this.sending = false;
           this.searchPending = false;
-          this.messages = [...this.messages, { role: 'ai', text: res.response }];
+          const userText = (res.userMessage ?? '').trim();
+          this.messages = [
+            ...this.messages,
+            ...(userText ? [{ role: 'user' as const, text: userText }] : []),
+            { role: 'ai', text: res.response },
+          ];
           this.results = (res.candidates ?? []).map((c) => ({ ...c, selected: true }));
         },
         error: (err) => {
           this.sending = false;
-          this.messages = this.messages.slice(0, -1);
           this.feedback.showApiError(err, { fallbackMessage: VIA_BOT_SEARCH_ERROR });
         },
       });
