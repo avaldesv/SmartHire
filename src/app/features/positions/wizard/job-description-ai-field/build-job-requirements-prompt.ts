@@ -8,6 +8,7 @@ import {
   jobDescriptionLanguageDisplayName,
   type JobDescriptionPromptLanguage,
 } from './build-job-description-prompt';
+import { sanitizeJobDescriptionChatMessage } from './sanitize-job-description-chat';
 
 export type JobRequirementsPromptLanguage = JobDescriptionPromptLanguage;
 
@@ -96,11 +97,14 @@ export function buildJobRequirementsPrompt(
 
 /**
  * Reads the chat message into nine requirement strings.
- * Accepts markdown fences and either a `tipo_de_requisitos` wrapper or top-level blocks.
+ * Accepts markdown fences, Appian `|*|` line delimiters (same sanitizer as
+ * job-description Auto Generate), and either a `tipo_de_requisitos` wrapper
+ * or top-level blocks.
  * Returns null when JSON is invalid, incomplete, or any requirement is empty.
  */
 export function parseJobRequirementsJson(message: string): JobRequirementsTriple | null {
-  const raw = stripMarkdownFence(message);
+  const decoded = sanitizeJobDescriptionChatMessage(message ?? '');
+  const raw = stripMarkdownFence(decoded);
   let parsed: unknown;
   try {
     parsed = JSON.parse(raw);
@@ -162,7 +166,7 @@ export function buildJobRequirementsTranslatePrompt(
  * Returns null if any of the three headers is missing.
  */
 export function splitTranslatedRequirements(message: string): JobRequirementsTextBlocks | null {
-  const text = (message ?? '').replace(/\r\n/g, '\n');
+  const text = sanitizeJobDescriptionChatMessage(message ?? '').replace(/\r\n/g, '\n');
   const mandatory = sliceBetweenHeaders(text, TRANSLATE_HEADERS.mandatory, TRANSLATE_HEADERS.optional);
   const optional = sliceBetweenHeaders(text, TRANSLATE_HEADERS.optional, TRANSLATE_HEADERS.desirable);
   const desirable = sliceAfterHeader(text, TRANSLATE_HEADERS.desirable);
