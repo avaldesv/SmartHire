@@ -137,7 +137,7 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
         return;
       }
       this.openAutoGenerateConfirm(this.autoGenerateFromPositionNameMessage, () =>
-        this.runChat(this.buildJobDescriptionPregunta(positionName, this.selectedLanguage), 'generate', 1000),
+        this.runChat(this.buildJobDescriptionPregunta(positionName, this.selectedLanguage), 'generate'),
       );
       return;
     }
@@ -269,6 +269,10 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
     return jobDescriptionLanguageDisplayName(language);
   }
 
+  /**
+   * Optional `maxChars` clips requirements Auto Generate (~500).
+   * Job-description Auto Generate must persist the full chat `message`.
+   */
   private runChat(
     pregunta: string,
     action: 'generate' | 'translate',
