@@ -13,6 +13,8 @@
               [fillHeight]="true"
               [sourceControl]="$any(stepForm.get('positionName'))"
               autoGenerateMode="jobDescription"
+              [promptSnapshotFactory]="jobDescriptionSnapshotFn"
+              [promptLabels]="promptCatalogLabels"
               [showCharCount]="true"
               [rows]="8"
             />
@@ -186,6 +188,8 @@
           [fieldLabel]="fieldLabel(field)"
           [sourceControl]="$any(stepForm.get('positionName'))"
           autoGenerateMode="jobDescription"
+          [promptSnapshotFactory]="jobDescriptionSnapshotFn"
+          [promptLabels]="promptCatalogLabels"
           [showCharCount]="true"
         />
       </div>

@@ -47,6 +47,19 @@ export interface JobDescriptionPromptSnapshot {
   responsibilityLevelId?: unknown;
 }
 
+export function catalogLabelMapFromOptions(
+  options: { id: number; label: string }[] | undefined,
+): Record<number, string> {
+  const map: Record<number, string> = {};
+  for (const opt of options ?? []) {
+    const label = (opt.label ?? '').trim();
+    if (opt.id > 0 && label) {
+      map[opt.id] = label;
+    }
+  }
+  return map;
+}
+
 const CLOSING =
   'En la respuesta no incluyas el nombre de la vacante, ni nada adicional a la publicación de la vacante.';
 
