@@ -1,5 +1,6 @@
 import {
   buildJobDescriptionPrompt,
+  catalogLabelMapFromOptions,
   JobDescriptionPromptCatalogLabels,
   JobDescriptionPromptSnapshot,
 } from './build-job-description-prompt';
@@ -171,5 +172,17 @@ describe('buildJobDescriptionPrompt', () => {
     );
     expect(prompt).not.toContain('edad');
     expect(prompt).not.toContain('50');
+  });
+});
+
+describe('catalogLabelMapFromOptions', () => {
+  it('maps id to trimmed label and skips empty rows', () => {
+    expect(
+      catalogLabelMapFromOptions([
+        { id: 3, label: ' Licenciatura ' },
+        { id: 0, label: 'Invalid' },
+        { id: 4, label: '  ' },
+      ]),
+    ).toEqual({ 3: 'Licenciatura' });
   });
 });

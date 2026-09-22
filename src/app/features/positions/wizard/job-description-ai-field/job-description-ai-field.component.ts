@@ -17,7 +17,9 @@ import {
   appendJobDescriptionLanguageInstruction,
   buildJobDescriptionPrompt,
   jobDescriptionLanguageDisplayName,
+  type JobDescriptionPromptCatalogLabels,
   type JobDescriptionPromptLanguage,
+  type JobDescriptionPromptSnapshot,
 } from './build-job-description-prompt';
 
 /** UI codes for the language selector used when generating/translating job descriptions. */
@@ -65,6 +67,9 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
    */
   @Input() sourceControl: FormControl<string | null> | null = null;
   @Input() autoGenerateMode: JobDescriptionAutoGenerateMode | null = null;
+  /** Full wizard snapshot (all steps). Used only for jobDescription Auto Generate. */
+  @Input() promptSnapshotFactory: (() => JobDescriptionPromptSnapshot) | null = null;
+  @Input() promptLabels: JobDescriptionPromptCatalogLabels | null = null;
   /** Show live character counter after Traducir (job description). */
   @Input() showCharCount = false;
 
@@ -80,7 +85,7 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
   readonly charactersLabel = $localize`:@@requisition.jobDescription.characters:Caracteres`;
   readonly emptyPromptMessage = $localize`:@@requisition.jobDescription.emptyPrompt:Escribe una instrucción o borrador en el campo antes de generar.`;
   readonly autoGenerateFromJobRequirementMessage = $localize`:@@requisition.jobDescription.autoGenerateFromJobRequirement:Pulsa Entendido para escribir una instrucción o borrador en el campo. Pulsa Auto Generar para crear el texto a partir de Requerimiento del Empleo.`;
-  readonly autoGenerateFromPositionNameMessage = $localize`:@@requisition.jobDescription.autoGenerateFromPositionName:Pulsa Entendido para escribir una instrucción o borrador en el campo. Pulsa Auto Generar para crear el texto a partir del nombre del puesto.`;
+  readonly autoGenerateFromPositionNameMessage = $localize`:@@requisition.jobDescription.autoGenerateFromPositionName:Pulsa Entendido para escribir una instrucción o borrador en el campo. Pulsa Auto Generar para crear el texto a partir de los datos de la requisición.`;
   readonly emptySourceForAutoGenerateMessage = $localize`:@@requisition.jobDescription.emptySourceForAutoGenerate:Escribe o genera la descripción del puesto antes de auto generar requisitos.`;
   readonly emptyPositionNameForAutoGenerateMessage = $localize`:@@requisition.jobDescription.emptyPositionNameForAutoGenerate:Escribe el nombre del puesto antes de auto generar la descripción.`;
   readonly emptyTranslateMessage = $localize`:@@requisition.jobDescription.emptyTranslate:Escribe o genera una descripción antes de traducir.`;
@@ -175,13 +180,13 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
 
   /**
    * Auto Generate (empty textarea): Appian-style prompt from wizard snapshot.
-   * L1 uses positionName only; L2 passes the full rootForm snapshot + labels.
    */
   buildJobDescriptionPregunta(
     positionName: string,
     language: JobDescriptionOutputLanguage,
   ): string {
-    return buildJobDescriptionPrompt({ positionName }, {}, language);
+    const snapshot = this.promptSnapshotFactory?.() ?? {};
+    return buildJobDescriptionPrompt({ ...snapshot, positionName }, this.promptLabels ?? {}, language);
   }
 
   /**

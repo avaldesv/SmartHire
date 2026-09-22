@@ -41,9 +41,15 @@ import {
   REQUISITION_WIZARD_NO_EXAMS,
 } from '../../../../core/i18n/requisition-wizard-labels';
 import { DocumentRequirementsEditorComponent } from '../document-requirements-editor/document-requirements-editor.component';
+import { flattenDynamicFormValues } from '../dynamic-wizard-payload.util';
 import { PublishedPortalsEditorComponent } from '../published-portals-editor/published-portals-editor.component';
 import { DynamicWizardFieldComponent } from '../dynamic-wizard-field/dynamic-wizard-field.component';
 import { JobDescriptionAiFieldComponent } from '../job-description-ai-field/job-description-ai-field.component';
+import {
+  catalogLabelMapFromOptions,
+  type JobDescriptionPromptCatalogLabels,
+  type JobDescriptionPromptSnapshot,
+} from '../job-description-ai-field/build-job-description-prompt';
 import { WizardClientSearchFieldComponent } from '../wizard-client-search-field/wizard-client-search-field.component';
 import { CLIENT_ID_FIELD_KEY } from '../../../../shared/constants/requisition-client-catalog-fill';
 
@@ -91,6 +97,10 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
   visibleFields: ResolvedRequisitionFormField[] = [];
   optionsByField: Partial<Record<string, WizardFieldOption[]>> = {};
   loadingByField: Partial<Record<string, boolean>> = {};
+  promptCatalogLabels: JobDescriptionPromptCatalogLabels = {};
+
+  readonly jobDescriptionSnapshotFn = (): JobDescriptionPromptSnapshot =>
+    flattenDynamicFormValues(this.rootForm);
 
   states: WizardFieldOption[] = [];
   municipalities: WizardFieldOption[] = [];
@@ -126,6 +136,7 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
     }
 
     this.loadExamOptions();
+    this.loadJobDescriptionPromptCatalogs();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -133,6 +144,7 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
       this.refreshVisibleFields();
       this.loadFieldOptions();
       this.loadExamOptions();
+      this.loadJobDescriptionPromptCatalogs();
       if (!this.geographySetup) {
         this.setupGeographyCascade();
         this.geographySetup = true;
@@ -143,6 +155,7 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
     if (changes['countryId'] && !changes['countryId'].firstChange) {
       this.loadFieldOptions();
       this.loadStates();
+      this.loadJobDescriptionPromptCatalogs();
     }
   }
 
@@ -328,6 +341,32 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
       });
     }
     this.loadStates();
+  }
+
+  private loadJobDescriptionPromptCatalogs(): void {
+    if (!this.step?.fields.some((f) => f.fieldKey === 'jobDescription')) {
+      return;
+    }
+    const ctx = { countryId: this.countryId };
+    const sources: Array<[keyof JobDescriptionPromptCatalogLabels, string]> = [
+      ['jobPortal', 'job-portals'],
+      ['educationLevel', 'education-levels'],
+      ['shift', 'shifts'],
+      ['workplace', 'workplaces'],
+      ['contractType', 'contract-types'],
+      ['language', 'languages'],
+      ['languageLevel', 'language-levels'],
+    ];
+    for (const [key, dataSource] of sources) {
+      this.catalogService.loadOptions(dataSource, ctx).subscribe({
+        next: (opts) => {
+          this.promptCatalogLabels = {
+            ...this.promptCatalogLabels,
+            [key]: catalogLabelMapFromOptions(opts),
+          };
+        },
+      });
+    }
   }
 
   private loadExamOptions(): void {
