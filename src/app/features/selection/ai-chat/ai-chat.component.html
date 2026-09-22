@@ -53,15 +53,30 @@
         }
       </div>
 
-      <form class="via-bot__composer" [formGroup]="messageForm" (ngSubmit)="send()">
-        <mat-form-field appearance="outline" class="via-bot__composer-field" subscriptSizing="dynamic">
-          <mat-label>{{ labels.inputPlaceholder }}</mat-label>
-          <input matInput formControlName="message" autocomplete="off" />
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="submit" [disabled]="sending || messageForm.invalid || criteriaForm.invalid">
-          {{ labels.send }}
-        </button>
-      </form>
+      @if (searchPending) {
+        <div class="via-bot__search-gate">
+          <button
+            mat-flat-button
+            color="primary"
+            type="button"
+            [disabled]="sending || resetting || criteriaForm.invalid"
+            (click)="search()"
+          >
+            <mat-icon>search</mat-icon>
+            {{ labels.search }}
+          </button>
+        </div>
+      } @else {
+        <form class="via-bot__composer" [formGroup]="messageForm" (ngSubmit)="send()">
+          <mat-form-field appearance="outline" class="via-bot__composer-field" subscriptSizing="dynamic">
+            <mat-label>{{ labels.inputPlaceholder }}</mat-label>
+            <input matInput formControlName="message" autocomplete="off" />
+          </mat-form-field>
+          <button mat-flat-button color="primary" type="submit" [disabled]="sending || messageForm.invalid || criteriaForm.invalid">
+            {{ labels.send }}
+          </button>
+        </form>
+      }
     }
   </section>
 

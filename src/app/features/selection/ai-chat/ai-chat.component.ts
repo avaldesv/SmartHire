@@ -32,6 +32,8 @@ import {
   VIA_BOT_SCOPE_APPLICANTS,
   VIA_BOT_SCOPE_LABEL,
   VIA_BOT_SCOPE_POOL,
+  VIA_BOT_SEARCH,
+  VIA_BOT_SEARCH_ERROR,
   VIA_BOT_SELECT_ALL,
   VIA_BOT_SELECT_ONE,
   VIA_BOT_SEND,
@@ -83,6 +85,7 @@ export class AiChatComponent implements OnInit {
     candidateLimit: VIA_BOT_CANDIDATE_LIMIT,
     experienceYears: VIA_BOT_EXPERIENCE_YEARS,
     welcome: VIA_BOT_WELCOME,
+    search: VIA_BOT_SEARCH,
     inputPlaceholder: VIA_BOT_INPUT_PLACEHOLDER,
     send: VIA_BOT_SEND,
     newConversation: VIA_BOT_NEW_CONVERSATION,
@@ -95,6 +98,8 @@ export class AiChatComponent implements OnInit {
   };
 
   loadingConversation = true;
+  /** True until the first real USER message exists (show Buscar, hide composer). */
+  searchPending = true;
   sending = false;
   resetting = false;
   submitting = false;
@@ -135,6 +140,7 @@ export class AiChatComponent implements OnInit {
         if (!res.exists || !res.messages?.length) {
           this.messages = [{ role: 'ai', text: this.labels.welcome }];
           this.results = [];
+          this.searchPending = true;
           return;
         }
         if (res.scope === 'APPLICANTS' || res.scope === 'POOL') {
@@ -144,6 +150,7 @@ export class AiChatComponent implements OnInit {
           role: m.role?.toUpperCase() === 'USER' ? 'user' : 'ai',
           text: m.content,
         }));
+        this.searchPending = !this.messages.some((m) => m.role === 'user');
         this.results = (res.candidates ?? []).map((c) => ({ ...c, selected: true }));
       },
       error: (err) => {
@@ -153,8 +160,39 @@ export class AiChatComponent implements OnInit {
     });
   }
 
+  search(): void {
+    if (!this.searchPending || this.criteriaForm.invalid || this.sending) {
+      this.criteriaForm.markAllAsTouched();
+      return;
+    }
+    const { candidateLimit, experienceYears } = this.readCriteria();
+    const userSummary = `Búsqueda de candidatos (máx. ${candidateLimit})`;
+    this.messages = [...this.messages, { role: 'user', text: userSummary }];
+    this.sending = true;
+    this.viaBotApi
+      .chat(this.positionId, {
+        bootstrap: true,
+        scope: this.scope,
+        candidateLimit,
+        experienceYears,
+      })
+      .subscribe({
+        next: (res) => {
+          this.sending = false;
+          this.searchPending = false;
+          this.messages = [...this.messages, { role: 'ai', text: res.response }];
+          this.results = (res.candidates ?? []).map((c) => ({ ...c, selected: true }));
+        },
+        error: (err) => {
+          this.sending = false;
+          this.messages = this.messages.slice(0, -1);
+          this.feedback.showApiError(err, { fallbackMessage: VIA_BOT_SEARCH_ERROR });
+        },
+      });
+  }
+
   send(): void {
-    if (this.messageForm.invalid || this.criteriaForm.invalid || this.sending) {
+    if (this.searchPending || this.messageForm.invalid || this.criteriaForm.invalid || this.sending) {
       this.messageForm.markAllAsTouched();
       this.criteriaForm.markAllAsTouched();
       return;
@@ -163,14 +201,7 @@ export class AiChatComponent implements OnInit {
     if (!text) {
       return;
     }
-    const candidateLimit = this.criteriaForm.controls.candidateLimit.value;
-    const experienceRaw = this.criteriaForm.controls.experienceYears.value;
-    const experienceNum =
-      experienceRaw === null || experienceRaw === undefined || experienceRaw === ('' as unknown)
-        ? NaN
-        : Number(experienceRaw);
-    const experienceYears =
-      Number.isNaN(experienceNum) || experienceNum <= 0 ? null : experienceNum;
+    const { candidateLimit, experienceYears } = this.readCriteria();
     this.messages = [...this.messages, { role: 'user', text }];
     this.messageForm.reset({ message: '' });
     this.sending = true;
@@ -180,18 +211,19 @@ export class AiChatComponent implements OnInit {
         scope: this.scope,
         candidateLimit,
         experienceYears,
+        bootstrap: false,
       })
       .subscribe({
-      next: (res) => {
-        this.sending = false;
-        this.messages = [...this.messages, { role: 'ai', text: res.response }];
-        this.results = (res.candidates ?? []).map((c) => ({ ...c, selected: true }));
-      },
-      error: (err) => {
-        this.sending = false;
-        this.feedback.showApiError(err, { fallbackMessage: VIA_BOT_CHAT_ERROR });
-      },
-    });
+        next: (res) => {
+          this.sending = false;
+          this.messages = [...this.messages, { role: 'ai', text: res.response }];
+          this.results = (res.candidates ?? []).map((c) => ({ ...c, selected: true }));
+        },
+        error: (err) => {
+          this.sending = false;
+          this.feedback.showApiError(err, { fallbackMessage: VIA_BOT_CHAT_ERROR });
+        },
+      });
   }
 
   newConversation(): void {
@@ -204,6 +236,8 @@ export class AiChatComponent implements OnInit {
         this.resetting = false;
         this.messages = [{ role: 'ai', text: this.labels.welcome }];
         this.results = [];
+        this.searchPending = true;
+        this.messageForm.reset({ message: '' });
         this.feedback.showSuccess(VIA_BOT_RESET_SUCCESS);
       },
       error: (err) => {
@@ -264,5 +298,17 @@ export class AiChatComponent implements OnInit {
     const last = (c.lastName ?? '').trim().charAt(0);
     const value = `${first}${last}`.toUpperCase();
     return value || '?';
+  }
+
+  private readCriteria(): { candidateLimit: number; experienceYears: number | null } {
+    const candidateLimit = this.criteriaForm.controls.candidateLimit.value;
+    const experienceRaw = this.criteriaForm.controls.experienceYears.value;
+    const experienceNum =
+      experienceRaw === null || experienceRaw === undefined || experienceRaw === ('' as unknown)
+        ? NaN
+        : Number(experienceRaw);
+    const experienceYears =
+      Number.isNaN(experienceNum) || experienceNum <= 0 ? null : experienceNum;
+    return { candidateLimit, experienceYears };
   }
 }
