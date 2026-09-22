@@ -10550,6 +10550,30 @@
         <source>No se pudo traducir la descripción. Intenta de nuevo.</source>
         <target>No se pudo traducir la descripción. Intenta de nuevo.</target>
       </trans-unit>
+      <trans-unit id="requisition.requirements.emptyPositionName" datatype="html">
+        <source>Escribe el nombre del puesto antes de generar los requisitos.</source>
+        <target>Escribe el nombre del puesto antes de generar los requisitos.</target>
+      </trans-unit>
+      <trans-unit id="requisition.requirements.emptyTranslate" datatype="html">
+        <source>Escribe o genera al menos un tipo de requisito antes de traducir.</source>
+        <target>Escribe o genera al menos un tipo de requisito antes de traducir.</target>
+      </trans-unit>
+      <trans-unit id="requisition.requirements.invalidJson" datatype="html">
+        <source>No se pudo leer la respuesta de requisitos. El contenido anterior se conservó.</source>
+        <target>No se pudo leer la respuesta de requisitos. El contenido anterior se conservó.</target>
+      </trans-unit>
+      <trans-unit id="requisition.requirements.invalidTranslateSplit" datatype="html">
+        <source>No se pudo separar la traducción de los tres tipos de requisitos. El contenido anterior se conservó.</source>
+        <target>No se pudo separar la traducción de los tres tipos de requisitos. El contenido anterior se conservó.</target>
+      </trans-unit>
+      <trans-unit id="requisition.requirements.generateError" datatype="html">
+        <source>No se pudieron generar los requisitos. Intenta de nuevo.</source>
+        <target>No se pudieron generar los requisitos. Intenta de nuevo.</target>
+      </trans-unit>
+      <trans-unit id="requisition.requirements.translateError" datatype="html">
+        <source>No se pudieron traducir los requisitos. Intenta de nuevo.</source>
+        <target>No se pudieron traducir los requisitos. Intenta de nuevo.</target>
+      </trans-unit>
       <trans-unit id="reports.month.jan" datatype="html">
         <source>Ene</source>
         <target>Ene</target>

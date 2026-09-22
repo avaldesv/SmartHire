@@ -1,0 +1,41 @@
+:host {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.job-requirements-ai {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+}
+
+.actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.actions-row button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.language-select {
+  width: 160px;
+  min-width: 140px;
+}
+
+@media (max-width: 600px) {
+  .language-select {
+    width: 100%;
+  }
+
+  .actions-row button {
+    width: 100%;
+  }
+}
