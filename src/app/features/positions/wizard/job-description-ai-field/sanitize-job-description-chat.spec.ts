@@ -25,8 +25,16 @@ describe('sanitizeJobDescriptionChatMessage', () => {
     expect(text).toContain('Cómo postular');
     expect(text).toContain('Te esperamos.');
 
-    expect(text).toContain('Lo que harás\n\n- Participar');
+    expect(text).toContain('Lo que harás\n- Participar');
+    expect(text).not.toContain('Lo que harás\n\n- Participar');
     expect(text).toMatch(/impulsadas\.\n\nLo que harás/);
     expect(text).toMatch(/equipo\.\n\nPerfil que buscamos/);
+  });
+
+  it('keeps a list heading on the line above its first bullet', () => {
+    const text = sanitizeJobDescriptionChatMessage(
+      'Intro.|*||*|Lo que harás:|*|- Uno|*|- Dos|*||*|Cierre del anuncio.',
+    );
+    expect(text).toBe('Intro.\n\nLo que harás:\n- Uno\n- Dos\n\nCierre del anuncio.');
   });
 });

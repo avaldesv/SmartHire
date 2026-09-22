@@ -3,6 +3,7 @@
  * Does not rewrite, summarize, or drop content.
  *
  * `|*||*|` → section break; remaining `|*|` → line break.
+ * A heading immediately followed by `-` bullets stays one list (no extra blank line).
  */
 
 const SECTION_BREAK = '|*||*|';
@@ -18,19 +19,25 @@ export function sanitizeJobDescriptionChatMessage(raw: string): string {
   text = text.split(LINE_BREAK).join('\n');
   text = text.replace(/[ \t]+\n/g, '\n');
   text = text.replace(/\n{3,}/g, '\n\n');
-  text = insertBlankLineBeforeBulletLists(text);
+  text = collapseBlankLinesBeforeBullets(text);
   return text.trim();
 }
 
-function insertBlankLineBeforeBulletLists(text: string): string {
+function collapseBlankLinesBeforeBullets(text: string): string {
   const lines = text.split('\n');
   const out: string[] = [];
   for (let i = 0; i < lines.length; i++) {
     out.push(lines[i]);
     const current = lines[i].trim();
-    const next = lines[i + 1]?.trim() ?? '';
-    if (current && !current.startsWith('-') && next.startsWith('-')) {
-      out.push('');
+    if (!current || current.startsWith('-')) {
+      continue;
+    }
+    let j = i + 1;
+    while (j < lines.length && lines[j].trim() === '') {
+      j++;
+    }
+    if (j < lines.length && lines[j].trim().startsWith('-') && j > i + 1) {
+      i = j - 1;
     }
   }
   return out.join('\n');
