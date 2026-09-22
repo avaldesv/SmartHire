@@ -3,13 +3,15 @@
  * Does not rewrite, summarize, or drop content.
  *
  * `|*||*|` → section break; remaining `|*|` → line break.
- * A heading immediately followed by `-` bullets stays one list (no extra blank line).
+ * Description-only: a heading immediately followed by `-` bullets stays one list
+ * (no extra blank line). Requirements JSON must use `decodeAppianChatDelimiters`.
  */
 
 const SECTION_BREAK = '|*||*|';
 const LINE_BREAK = '|*|';
 
-export function sanitizeJobDescriptionChatMessage(raw: string): string {
+/** Converts Appian `|*|` / `|*||*|` to newlines. No list-layout rewrite. */
+export function decodeAppianChatDelimiters(raw: string): string {
   if (!raw) {
     return '';
   }
@@ -19,8 +21,11 @@ export function sanitizeJobDescriptionChatMessage(raw: string): string {
   text = text.split(LINE_BREAK).join('\n');
   text = text.replace(/[ \t]+\n/g, '\n');
   text = text.replace(/\n{3,}/g, '\n\n');
-  text = collapseBlankLinesBeforeBullets(text);
   return text.trim();
+}
+
+export function sanitizeJobDescriptionChatMessage(raw: string): string {
+  return collapseBlankLinesBeforeBullets(decodeAppianChatDelimiters(raw));
 }
 
 function collapseBlankLinesBeforeBullets(text: string): string {
