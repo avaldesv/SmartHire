@@ -369,48 +369,10 @@
         </div>
       </div>
 
-      <ng-template catalogFormTpl="positionStatus">
-        <form [formGroup]="positionStatusForm" class="gender-form" (ngSubmit)="savePositionStatus()">
-          <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.code">Clave</mat-label><input matInput formControlName="code" /></mat-form-field>
-          <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.name">Nombre</mat-label><input matInput formControlName="name" /></mat-form-field>
-          <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.description">Descripción</mat-label><input matInput formControlName="description" /></mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>{{ colType }}</mat-label>
-            <mat-select formControlName="type">
-              @for (t of positionStatusTypeOptions; track t) {
-                <mat-option [value]="t">{{ t }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field appearance="outline"><mat-label>{{ fieldSortOrder }}</mat-label><input matInput type="number" formControlName="sortOrder" /></mat-form-field>
-          <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.colorHex">Color texto</mat-label><input matInput formControlName="colorHex" placeholder="#166534" /></mat-form-field>
-          <mat-form-field appearance="outline"><mat-label i18n="@@catalogs.field.backgroundColorHex">Color fondo</mat-label><input matInput formControlName="backgroundColorHex" placeholder="#dcfce7" /></mat-form-field>
-          <div class="status-color-preview">
-            @if (positionStatusForm.value.colorHex || positionStatusForm.value.backgroundColorHex) {
-              <span
-                class="status-badge"
-                [style.color]="positionStatusForm.value.colorHex || '#166534'"
-                [style.background-color]="positionStatusForm.value.backgroundColorHex || '#dcfce7'"
-              >Preview</span>
-            }
-          </div>
-          <mat-checkbox formControlName="isActive" i18n="@@catalogs.field.active">Activo</mat-checkbox>
-          <div shModalActions>
-            <button mat-stroked-button type="button" (click)="cancelPositionStatusForm()" i18n="@@common.cancel">Cancelar</button>
-            <button mat-flat-button color="primary" type="submit" [disabled]="savingPositionStatus">{{ savingPositionStatus ? catalogsSaving : catalogsSave }}</button>
-          </div>
-        </form>
-      </ng-template>
       @if (loadingPositionStatuses) {
         <div class="loading-wrap"><mat-spinner diameter="36" /></div>
       } @else {
         <div class="sh-card sh-table-wrap">
-          <div class="table-header-bar">
-            <sh-catalog-table-import-export-actions
-              panelKey="positionStatus"
-              (importComplete)="reloadCatalogAfterImport('positionStatus')"
-            />
-          </div>
           <table mat-table [dataSource]="positionStatuses">
             <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.code">Clave</th><td mat-cell *matCellDef="let row">{{ row.code }}</td></ng-container>
             <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.name">Nombre</th><td mat-cell *matCellDef="let row">{{ row.name }}</td></ng-container>
@@ -428,7 +390,6 @@
               </td>
             </ng-container>
             <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef i18n="@@catalogs.field.active">Activo</th><td mat-cell *matCellDef="let row">{{ row.isActive ? catalogsYes : catalogsNo }}</td></ng-container>
-            <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef></th><td mat-cell *matCellDef="let row"><sh-catalog-list-actions [showDelete]="true" (editClick)="openEditPositionStatus(row)" (deleteClick)="deletePositionStatus(row)" [deleteDisabled]="deletingCatalogId === row.id" /></td></ng-container>
             <tr mat-header-row *matHeaderRowDef="positionStatusColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: positionStatusColumns"></tr>
           </table>
