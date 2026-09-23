@@ -42,15 +42,16 @@
 
 .general-requirements-block__job,
 .general-requirements-block__reqs {
+  grid-row: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  align-self: stretch;
 }
 
 .general-requirements-block__job {
   grid-column: 1;
-  align-self: stretch;
 }
 
 .general-requirements-block__reqs {
@@ -160,6 +161,7 @@
   .general-requirements-block__job,
   .general-requirements-block__reqs {
     grid-column: 1;
+    grid-row: auto;
   }
 
   .language-row {
