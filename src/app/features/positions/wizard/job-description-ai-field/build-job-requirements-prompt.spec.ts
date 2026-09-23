@@ -54,17 +54,22 @@ describe('buildJobRequirementsPrompt', () => {
     expect(prompt).not.toContain('Complementa con la siguiente descripción');
   });
 
-  it('includes jobDescription when it has text', () => {
+  it('includes wizard facts and does not send the job description textarea', () => {
     const prompt = buildJobRequirementsPrompt(
       {
         positionName: 'Ingeniero de software',
         jobDescription: 'Desarrollar APIs en Java y atender al negocio.',
+        snapshot: { city: 'Guadalajara', tradeName: 'Systek' },
+        labels: {},
       },
       'en',
     );
 
     expect(prompt).toContain('Ingeniero de software');
-    expect(prompt).toContain('Desarrollar APIs en Java y atender al negocio.');
+    expect(prompt).toContain('Guadalajara');
+    expect(prompt).toContain('Systek');
+    expect(prompt).not.toContain('Desarrollar APIs en Java');
+    expect(prompt).not.toContain('Complementa con la siguiente descripción del puesto');
     expect(prompt).toContain('En idioma inglés');
   });
 });
