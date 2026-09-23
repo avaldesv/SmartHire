@@ -1308,7 +1308,7 @@ export class CatalogsAdminComponent implements OnInit {
   readonly kinshipColumns = ['code', 'name', 'active', 'scope', 'actions'];
   readonly cancellationTypeColumns = ['code', 'name', 'description', 'sortOrder', 'active', 'actions'];
   readonly cancellationReasonColumns = ['cancellationType', 'code', 'name', 'description', 'sortOrder', 'active', 'actions'];
-  readonly positionStatusColumns = ['code', 'name', 'type', 'description', 'sortOrder', 'colors', 'active', 'actions'];
+  readonly positionStatusColumns = ['code', 'name', 'type', 'description', 'sortOrder', 'colors', 'active'];
   readonly coverageCategoryColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
   readonly characteristicColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
   readonly categoryColumns = ['code', 'name', 'description', 'active', 'scope', 'actions'];
@@ -2122,12 +2122,13 @@ export class CatalogsAdminComponent implements OnInit {
     if (!panel) {
       return false;
     }
-    // Log / Cobertura / Fallidos: sin botón Nuevo en el shell.
+    // Read-only panels: no New button in the shell.
     if (
       panel === 'notificationLogs' ||
       panel === 'notificationCoverage' ||
       panel === 'notificationFailed' ||
-      panel === 'historicEmployee'
+      panel === 'historicEmployee' ||
+      panel === 'positionStatus'
     ) {
       return false;
     }
