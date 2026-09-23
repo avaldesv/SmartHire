@@ -34,7 +34,6 @@ export const CATALOG_CSV_PANELS: Partial<Record<CatalogPanelKey, CatalogCsvPanel
   fileExtension: { catalogKey: 'file-extensions', label: 'Extensión de archivo', usesCountryFilter: true },
   cancellationType: { catalogKey: 'cancellation-types', label: 'Tipo de cancelación', usesCountryFilter: false },
   cancellationReason: { catalogKey: 'cancellation-reasons', label: 'Motivos de cancelación', usesCountryFilter: false },
-  positionStatus: { catalogKey: 'position-statuses', label: 'Estatus de posición', usesCountryFilter: false },
   brand: { catalogKey: 'brands', label: 'Marca', usesCountryFilter: true },
   requisitionType: { catalogKey: 'requisition-types', label: 'Tipo requisición', usesCountryFilter: true },
   jobPortal: { catalogKey: 'job-portals', label: 'Portales de publicación', usesCountryFilter: true },

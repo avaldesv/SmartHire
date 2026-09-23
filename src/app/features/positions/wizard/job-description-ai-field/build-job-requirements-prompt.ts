@@ -5,8 +5,11 @@
 
 import {
   appendJobDescriptionLanguageInstruction,
+  collectJobWizardDataClauses,
   jobDescriptionLanguageDisplayName,
+  type JobDescriptionPromptCatalogLabels,
   type JobDescriptionPromptLanguage,
+  type JobDescriptionPromptSnapshot,
 } from './build-job-description-prompt';
 import { decodeAppianChatDelimiters } from './sanitize-job-description-chat';
 
@@ -14,7 +17,13 @@ export type JobRequirementsPromptLanguage = JobDescriptionPromptLanguage;
 
 export interface JobRequirementsPromptInput {
   positionName?: unknown;
+  /**
+   * Ignored. The description textarea is not part of this prompt
+   * (the two generates run in parallel).
+   */
   jobDescription?: unknown;
+  snapshot?: JobDescriptionPromptSnapshot;
+  labels?: JobDescriptionPromptCatalogLabels;
 }
 
 /** Three requirement texts per type (mandatory / optional / desirable). */
@@ -76,10 +85,12 @@ export function buildJobRequirementsPrompt(
     `Actúa como un especialista experto en reclutamiento y selección de personal y ayúdame a obtener los ` +
     `requisitos que debe de cubrir un candidato para poder cubrir la vacante de: '${escapeForPrompt(positionName)}'`;
 
-  const jobDescription = asTrimmedString(input.jobDescription);
-  if (jobDescription) {
-    prompt +=
-      `. Complementa con la siguiente descripción del puesto: ${escapeForPrompt(jobDescription)}`;
+  const facts = collectJobWizardDataClauses(
+    { ...(input.snapshot ?? {}), positionName },
+    input.labels ?? {},
+  );
+  if (facts.length) {
+    prompt += `. ${facts.join('. ')}`;
   }
 
   prompt +=

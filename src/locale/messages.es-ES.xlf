@@ -10558,6 +10558,10 @@
         <source>Escribe o genera al menos un tipo de requisito antes de traducir.</source>
         <target>Escribe o genera al menos un tipo de requisito antes de traducir.</target>
       </trans-unit>
+      <trans-unit id="requisition.jobRequirementBlock.emptyTranslate" datatype="html">
+        <source>Escribe la descripción del puesto o al menos un requisito antes de traducir.</source>
+        <target>Escribe la descripción del puesto o al menos un requisito antes de traducir.</target>
+      </trans-unit>
       <trans-unit id="requisition.requirements.invalidJson" datatype="html">
         <source>No se pudo leer la respuesta de requisitos. El contenido anterior se conservó.</source>
         <target>No se pudo leer la respuesta de requisitos. El contenido anterior se conservó.</target>

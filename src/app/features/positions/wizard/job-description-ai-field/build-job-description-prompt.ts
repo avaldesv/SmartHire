@@ -79,107 +79,144 @@ export function buildJobDescriptionPrompt(
 
   let prompt = `Actúa como un especialista en reclutamiento y selección de personal experto y genera un perfil de empleo para la vacante de ${positionName}`;
 
-  const destination = resolvePublicationDestination(snapshot, labels);
-  if (destination) {
-    prompt += `, para publicar en ${destination}`;
+  const clauses = collectJobWizardDataClauses(snapshot, labels);
+  const destinationIndex = clauses.findIndex((clause) => clause.startsWith('para publicar en '));
+  if (destinationIndex >= 0) {
+    prompt += `, ${clauses[destinationIndex]}`;
+    clauses.splice(destinationIndex, 1);
   }
 
   prompt +=
     ', que sea atractivo y persuasivo, positivo y motivador, personalizado y humano';
 
-  const email = asTrimmedString(snapshot.recruiterEmail);
-  if (email) {
-    prompt += `. Indica que el correo para recibir cvs de la vacante es ${email}`;
-  }
-
-  const experience = asTrimmedString(snapshot.experienceIn);
-  if (experience) {
-    prompt += `. Indica que el perfil debe estar orientado o tener experiencia en la industria o sector ${experience}`;
-  }
-
-  const minAge = asNumber(snapshot.minAge);
-  if (minAge != null) {
-    const maxAge = asNumber(snapshot.maxAge);
-    prompt += `. Indica que el perfil del candidato debe de estar en un rango de edad entre ${minAge}${
-      maxAge != null ? ` - ${maxAge}` : ''
-    }`;
-  }
-
-  const education = catalogLabel(labels.educationLevel, asId(snapshot.educationLevelId));
-  if (education) {
-    prompt += `. Indica en el perfil que el candidato debe de tener un nivel de escolaridad mínimo de ${education}`;
-  }
-
-  const schedule = resolveSchedule(snapshot, labels);
-  if (schedule) {
-    prompt += `. Incluye en el perfil que el horario de trabajo será ${schedule}`;
-  }
-
-  const workplace = catalogLabel(labels.workplace, asId(snapshot.workplaceId));
-  if (workplace) {
-    prompt += `. Incluye en el perfil que el lugar de trabajo será ${workplace}`;
-  }
-
-  const contractType = catalogLabel(labels.contractType, asId(snapshot.contractTypeId));
-  if (contractType) {
-    prompt += `. Incluye en el perfil que el tipo de contratación será ${contractType}`;
-  }
-
-  const city = asTrimmedString(snapshot.city);
-  if (city) {
-    prompt += `. Incluye en el perfil que el candidato debe vivir en una ubicación cercana a ${city}`;
-    const postal = asTrimmedString(snapshot.postalCode);
-    if (postal) {
-      prompt += ` (codigo postal ${postal})`;
-    }
-  }
-
-  const client = asTrimmedString(snapshot.tradeName) || asTrimmedString(snapshot.legalName);
-  if (client) {
-    prompt += `. Incluye en el perfil que la vacante está asociada al cliente ${client}`;
-  }
-
-  const languageLine = resolveLanguages(snapshot.languages, labels);
-  if (languageLine) {
-    prompt += `. Incluye en el perfil que el candidato debe tener dominio en los siguientes idiomas ${languageLine}`;
-  }
-
-  if (!asBool(snapshot.hideSalary)) {
-    const salary = resolveSalaryRange(snapshot.publishSalaryMin, snapshot.publishSalaryMax);
-    if (salary) {
-      prompt += `. El sueldo estará en el rango de ${salary}`;
-    }
-  }
-
-  if (asBool(snapshot.includeSoftSkills)) {
-    prompt += '. Incluye en el perfil un desgloce de las habilidades blandas requeridas para el puesto';
-  }
-
-  const benefitsText = asTrimmedString(snapshot.extraBenefitsText);
-  if (benefitsText) {
-    prompt += `. Incluye en el perfil los beneficios adicionales de la vacante ${benefitsText}`;
-  } else if (asBool(snapshot.includeExtraBenefits)) {
-    prompt +=
-      '. Incluye en el perfil un desgloce de beneficios adicionales que podrían ser aplicables para este puesto';
-  }
-
-  if (asBool(snapshot.includeProfessionalDevelopment)) {
-    prompt += '. Incluye en el perfil desarrollo profesional que podría ser aplicable para este puesto';
-  }
-
-  if (asBool(snapshot.includeKeywords)) {
-    prompt +=
-      '. Incluye en el perfil palabras claves (hashtags) que hagan más atractiva la publicación de esta vacante';
-  }
-
-  const clientExpansion = asTrimmedString(snapshot.clientExpansionDescription);
-  if (clientExpansion) {
-    prompt += `. Complementa este perfil con la siguiente descripción de la vacante generada por el cliente ${clientExpansion}`;
+  if (clauses.length) {
+    prompt += `. ${clauses.join('. ')}`;
   }
 
   prompt += `. ${CLOSING}`;
 
   return appendJobDescriptionLanguageInstruction(prompt, language);
+}
+
+/**
+ * Wizard facts that have a value. Does not include the job-description textarea.
+ * The publication destination, when present, is the first clause (`para publicar en …`).
+ */
+export function collectJobWizardDataClauses(
+  snapshot: JobDescriptionPromptSnapshot,
+  labels: JobDescriptionPromptCatalogLabels,
+): string[] {
+  const clauses: string[] = [];
+
+  const destination = resolvePublicationDestination(snapshot, labels);
+  if (destination) {
+    clauses.push(`para publicar en ${destination}`);
+  }
+
+  const email = asTrimmedString(snapshot.recruiterEmail);
+  if (email) {
+    clauses.push(`Indica que el correo para recibir cvs de la vacante es ${email}`);
+  }
+
+  const experience = asTrimmedString(snapshot.experienceIn);
+  if (experience) {
+    clauses.push(
+      `Indica que el perfil debe estar orientado o tener experiencia en la industria o sector ${experience}`,
+    );
+  }
+
+  const minAge = asNumber(snapshot.minAge);
+  if (minAge != null) {
+    const maxAge = asNumber(snapshot.maxAge);
+    clauses.push(
+      `Indica que el perfil del candidato debe de estar en un rango de edad entre ${minAge}${
+        maxAge != null ? ` - ${maxAge}` : ''
+      }`,
+    );
+  }
+
+  const education = catalogLabel(labels.educationLevel, asId(snapshot.educationLevelId));
+  if (education) {
+    clauses.push(
+      `Indica en el perfil que el candidato debe de tener un nivel de escolaridad mínimo de ${education}`,
+    );
+  }
+
+  const schedule = resolveSchedule(snapshot, labels);
+  if (schedule) {
+    clauses.push(`Incluye en el perfil que el horario de trabajo será ${schedule}`);
+  }
+
+  const workplace = catalogLabel(labels.workplace, asId(snapshot.workplaceId));
+  if (workplace) {
+    clauses.push(`Incluye en el perfil que el lugar de trabajo será ${workplace}`);
+  }
+
+  const contractType = catalogLabel(labels.contractType, asId(snapshot.contractTypeId));
+  if (contractType) {
+    clauses.push(`Incluye en el perfil que el tipo de contratación será ${contractType}`);
+  }
+
+  const city = asTrimmedString(snapshot.city);
+  if (city) {
+    const postal = asTrimmedString(snapshot.postalCode);
+    clauses.push(
+      `Incluye en el perfil que el candidato debe vivir en una ubicación cercana a ${city}${
+        postal ? ` (codigo postal ${postal})` : ''
+      }`,
+    );
+  }
+
+  const client = asTrimmedString(snapshot.tradeName) || asTrimmedString(snapshot.legalName);
+  if (client) {
+    clauses.push(`Incluye en el perfil que la vacante está asociada al cliente ${client}`);
+  }
+
+  const languageLine = resolveLanguages(snapshot.languages, labels);
+  if (languageLine) {
+    clauses.push(
+      `Incluye en el perfil que el candidato debe tener dominio en los siguientes idiomas ${languageLine}`,
+    );
+  }
+
+  if (!asBool(snapshot.hideSalary)) {
+    const salary = resolveSalaryRange(snapshot.publishSalaryMin, snapshot.publishSalaryMax);
+    if (salary) {
+      clauses.push(`El sueldo estará en el rango de ${salary}`);
+    }
+  }
+
+  if (asBool(snapshot.includeSoftSkills)) {
+    clauses.push('Incluye en el perfil un desgloce de las habilidades blandas requeridas para el puesto');
+  }
+
+  const benefitsText = asTrimmedString(snapshot.extraBenefitsText);
+  if (benefitsText) {
+    clauses.push(`Incluye en el perfil los beneficios adicionales de la vacante ${benefitsText}`);
+  } else if (asBool(snapshot.includeExtraBenefits)) {
+    clauses.push(
+      'Incluye en el perfil un desgloce de beneficios adicionales que podrían ser aplicables para este puesto',
+    );
+  }
+
+  if (asBool(snapshot.includeProfessionalDevelopment)) {
+    clauses.push('Incluye en el perfil desarrollo profesional que podría ser aplicable para este puesto');
+  }
+
+  if (asBool(snapshot.includeKeywords)) {
+    clauses.push(
+      'Incluye en el perfil palabras claves (hashtags) que hagan más atractiva la publicación de esta vacante',
+    );
+  }
+
+  const clientExpansion = asTrimmedString(snapshot.clientExpansionDescription);
+  if (clientExpansion) {
+    clauses.push(
+      `Complementa este perfil con la siguiente descripción de la vacante generada por el cliente ${clientExpansion}`,
+    );
+  }
+
+  return clauses;
 }
 
 export function jobDescriptionLanguageDisplayName(language: JobDescriptionPromptLanguage): string {
