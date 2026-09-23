@@ -13,6 +13,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { debounceTime, distinctUntilChanged, filter, Subject, takeUntil } from 'rxjs';
 import { WizardFieldCatalogService } from '../../../../core/services/wizard-field-catalog.service';
@@ -65,6 +66,7 @@ import { CLIENT_ID_FIELD_KEY } from '../../../../shared/constants/requisition-cl
     MatCheckboxModule,
     MatButtonModule,
     MatIconModule,
+    MatProgressSpinnerModule,
     DynamicWizardFieldComponent,
     DocumentRequirementsEditorComponent,
     PublishedPortalsEditorComponent,

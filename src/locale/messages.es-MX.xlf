@@ -21194,6 +21194,9 @@
       <trans-unit id="requisition.requirements.emptyTranslate" datatype="html">
         <source>Escribe o genera al menos un tipo de requisito antes de traducir.</source>
       </trans-unit>
+      <trans-unit id="requisition.jobRequirementBlock.emptyTranslate" datatype="html">
+        <source>Escribe la descripción del puesto o al menos un requisito antes de traducir.</source>
+      </trans-unit>
       <trans-unit id="requisition.requirements.invalidJson" datatype="html">
         <source>No se pudo leer la respuesta de requisitos. El contenido anterior se conservó.</source>
       </trans-unit>

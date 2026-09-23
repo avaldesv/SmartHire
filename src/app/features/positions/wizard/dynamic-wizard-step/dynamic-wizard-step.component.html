@@ -4,23 +4,9 @@
       <div class="general-requirements-block span-2">
         <h4 class="general-requirements-block__title">{{ jobRequirementSectionTitle }}</h4>
         <div class="general-requirements-block__columns">
-          <div class="general-requirements-block__job">
-            <sh-job-description-ai-field
-              [control]="$any(fieldControl(generalRequirementsBlock!.jobDescription.fieldKey))"
-              [disabled]="isReadOnly(generalRequirementsBlock!.jobDescription)"
-              [fieldLabel]="fieldLabel(generalRequirementsBlock!.jobDescription)"
-              [sectionTitle]="null"
-              [fillHeight]="true"
-              [sourceControl]="$any(stepForm.get('positionName'))"
-              autoGenerateMode="jobDescription"
-              [promptSnapshotFactory]="jobDescriptionSnapshotFn"
-              [promptLabels]="promptCatalogLabels"
-              [showCharCount]="true"
-              [rows]="8"
-            />
-          </div>
           <div class="general-requirements-block__reqs">
             <sh-job-requirements-ai-column
+              #jobBlock
               [mandatoryControl]="$any(fieldControl(generalRequirementsBlock!.requirementsMandatory.fieldKey))"
               [optionalControl]="$any(fieldControl(generalRequirementsBlock!.requirementsOptional.fieldKey))"
               [desirableControl]="$any(fieldControl(generalRequirementsBlock!.requirementsDesirable.fieldKey))"
@@ -32,8 +18,58 @@
               [mandatoryDisabled]="isReadOnly(generalRequirementsBlock!.requirementsMandatory)"
               [optionalDisabled]="isReadOnly(generalRequirementsBlock!.requirementsOptional)"
               [desirableDisabled]="isReadOnly(generalRequirementsBlock!.requirementsDesirable)"
+              [descriptionDisabled]="isReadOnly(generalRequirementsBlock!.jobDescription)"
+              [promptSnapshotFactory]="jobDescriptionSnapshotFn"
+              [promptLabels]="promptCatalogLabels"
             />
           </div>
+          <div class="general-requirements-block__job">
+            <sh-job-description-ai-field
+              [control]="$any(fieldControl(generalRequirementsBlock!.jobDescription.fieldKey))"
+              [disabled]="isReadOnly(generalRequirementsBlock!.jobDescription) || jobBlock.busy"
+              [fieldLabel]="fieldLabel(generalRequirementsBlock!.jobDescription)"
+              [sectionTitle]="null"
+              [fillHeight]="true"
+              [showAiActions]="false"
+              [showCharCount]="true"
+              [rows]="8"
+            />
+          </div>
+        </div>
+        <div class="general-requirements-block__actions">
+          <button
+            mat-stroked-button
+            type="button"
+            (click)="jobBlock.onGenerate()"
+            [disabled]="jobBlock.toolbarDisabled"
+          >
+            @if (jobBlock.busyAction === 'generate') {
+              <mat-spinner diameter="18"></mat-spinner>
+            } @else {
+              <mat-icon>auto_awesome</mat-icon>
+            }
+            {{ jobBlock.generateLabel }}
+          </button>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic" class="language-select">
+            <mat-label>{{ jobBlock.languageLabel }}</mat-label>
+            <mat-select [(value)]="jobBlock.selectedLanguage" [disabled]="jobBlock.toolbarDisabled">
+              <mat-option value="es">Español</mat-option>
+              <mat-option value="en">English</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button
+            mat-stroked-button
+            type="button"
+            (click)="jobBlock.onTranslate()"
+            [disabled]="jobBlock.toolbarDisabled"
+          >
+            @if (jobBlock.busyAction === 'translate') {
+              <mat-spinner diameter="18"></mat-spinner>
+            } @else {
+              <mat-icon>translate</mat-icon>
+            }
+            {{ jobBlock.translateLabel }}
+          </button>
         </div>
       </div>
     } @else if (isConsumedByGeneralRequirementsBlock(field.fieldKey)) {
