@@ -16,6 +16,7 @@ export interface SurveyListItem {
   id: number;
   name: string;
   descriptionText?: string | null;
+  finalMessageText?: string | null;
   isActive: boolean;
   companyId?: number | null;
   questionCount?: number | null;
@@ -25,6 +26,7 @@ export interface SurveyDetail {
   id: number;
   name: string;
   descriptionText?: string | null;
+  finalMessageText?: string | null;
   isActive: boolean;
   companyId?: number | null;
   questions: SurveyQuestionItem[];
@@ -42,6 +44,7 @@ export interface ListSurveysRequest {
 export interface UpsertSurveyRequest {
   name: string;
   descriptionText?: string | null;
+  finalMessageText?: string | null;
   isActive?: boolean | null;
   questions: Array<{
     sortOrder?: number | null;
@@ -112,6 +115,10 @@ export interface ListSurveySessionsRequest {
   isSurveyCompleted?: boolean | null;
   phone?: string | null;
   candidateId?: number | null;
+  candidate?: string | null;
+  position?: string | null;
+  dateFrom?: string | null;
+  dateTo?: string | null;
   ordersBy?: string[];
   filters?: string[];
 }

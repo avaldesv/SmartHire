@@ -1,87 +1,99 @@
-<sh-modal-form [title]="title" contentClass="dialog-body">
+<sh-modal-form [title]="title" contentClass="dialog-body survey-dialog-body">
   @if (loading) {
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else {
     <form [formGroup]="form" class="survey-form">
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" class="full-width">
         <mat-label>{{ fieldName }}</mat-label>
         <input matInput formControlName="name" />
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>{{ fieldDescription }}</mat-label>
-        <textarea matInput rows="3" formControlName="descriptionText"></textarea>
-      </mat-form-field>
+      <section class="form-section">
+        <h4>{{ sectionMessages }}</h4>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{ fieldDescription }}</mat-label>
+          <textarea matInput rows="3" formControlName="descriptionText"></textarea>
+          <mat-hint>{{ fieldDescriptionHint }}</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{ fieldFinalMessage }}</mat-label>
+          <textarea matInput rows="3" formControlName="finalMessageText"></textarea>
+          <mat-hint>{{ fieldFinalMessageHint }}</mat-hint>
+        </mat-form-field>
+      </section>
 
       <mat-checkbox formControlName="isActive">{{ fieldActive }}</mat-checkbox>
 
-      <div class="questions-header">
-        <h4>{{ fieldQuestions }}</h4>
-        <button mat-stroked-button type="button" (click)="addQuestion()">
-          <mat-icon>add</mat-icon> {{ addQuestionLabel }}
-        </button>
-      </div>
+      <section class="form-section">
+        <div class="questions-header">
+          <h4>{{ fieldQuestions }}</h4>
+          <button mat-stroked-button type="button" class="add-question-btn" (click)="addQuestion()">
+            <mat-icon>add</mat-icon> {{ addQuestionLabel }}
+          </button>
+        </div>
 
-      @if (questions.length === 0) {
-        <p class="questions-empty">{{ questionsEmptyLabel }}</p>
-      }
+        @if (questions.length === 0) {
+          <p class="questions-empty">{{ questionsEmptyLabel }}</p>
+        }
 
-      <div formArrayName="questions" class="questions-list">
-        @for (question of questions.controls; track $index; let i = $index) {
-          <div class="question-card" [formGroupName]="i">
-            <div class="question-card__toolbar">
-              <span class="question-index">#{{ i + 1 }}</span>
-              <div class="question-card__actions">
-                <button
-                  mat-icon-button
-                  type="button"
-                  [disabled]="i === 0"
-                  (click)="moveQuestion(i, -1)"
-                  [attr.aria-label]="questionOrderLabel"
-                >
-                  <mat-icon>arrow_upward</mat-icon>
-                </button>
-                <button
-                  mat-icon-button
-                  type="button"
-                  [disabled]="i === questions.length - 1"
-                  (click)="moveQuestion(i, 1)"
-                  [attr.aria-label]="questionOrderLabel"
-                >
-                  <mat-icon>arrow_downward</mat-icon>
-                </button>
-                <button
-                  mat-icon-button
-                  type="button"
-                  color="warn"
-                  [disabled]="questions.length <= 1"
-                  (click)="removeQuestion(i)"
-                  [attr.aria-label]="removeQuestionLabel"
-                >
-                  <mat-icon>delete</mat-icon>
-                </button>
+        <div formArrayName="questions" class="questions-list">
+          @for (question of questions.controls; track $index; let i = $index) {
+            <div class="question-card" [formGroupName]="i">
+              <div class="question-card__toolbar">
+                <span class="question-index">#{{ i + 1 }}</span>
+                <div class="question-card__actions">
+                  <button
+                    mat-icon-button
+                    type="button"
+                    [disabled]="i === 0"
+                    (click)="moveQuestion(i, -1)"
+                    [attr.aria-label]="questionOrderLabel"
+                  >
+                    <mat-icon>arrow_upward</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    [disabled]="i === questions.length - 1"
+                    (click)="moveQuestion(i, 1)"
+                    [attr.aria-label]="questionOrderLabel"
+                  >
+                    <mat-icon>arrow_downward</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    color="warn"
+                    [disabled]="questions.length <= 1"
+                    (click)="removeQuestion(i)"
+                    [attr.aria-label]="removeQuestionLabel"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>{{ questionTextLabel }}</mat-label>
+                <textarea matInput rows="2" formControlName="questionText"></textarea>
+              </mat-form-field>
+
+              <div class="question-row">
+                <mat-form-field appearance="outline">
+                  <mat-label>{{ questionTypeLabel }}</mat-label>
+                  <mat-select formControlName="answerType">
+                    @for (option of answerTypeOptions; track option.value) {
+                      <mat-option [value]="option.value">{{ option.label }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+                <mat-checkbox formControlName="isRequired">{{ questionRequiredLabel }}</mat-checkbox>
               </div>
             </div>
-
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>{{ questionTextLabel }}</mat-label>
-              <textarea matInput rows="2" formControlName="questionText"></textarea>
-            </mat-form-field>
-
-            <div class="question-row">
-              <mat-form-field appearance="outline">
-                <mat-label>{{ questionTypeLabel }}</mat-label>
-                <mat-select formControlName="answerType">
-                  @for (option of answerTypeOptions; track option.value) {
-                    <mat-option [value]="option.value">{{ option.label }}</mat-option>
-                  }
-                </mat-select>
-              </mat-form-field>
-              <mat-checkbox formControlName="isRequired">{{ questionRequiredLabel }}</mat-checkbox>
-            </div>
-          </div>
-        }
-      </div>
+          }
+        </div>
+      </section>
     </form>
   }
 

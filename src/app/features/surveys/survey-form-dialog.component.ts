@@ -29,8 +29,12 @@ import {
   SURVEYS_ERRORS_SAVE,
   SURVEYS_FIELD_ACTIVE,
   SURVEYS_FIELD_DESCRIPTION,
+  SURVEYS_FIELD_DESCRIPTION_HINT,
+  SURVEYS_FIELD_FINAL_MESSAGE,
+  SURVEYS_FIELD_FINAL_MESSAGE_HINT,
   SURVEYS_FIELD_NAME,
   SURVEYS_FIELD_QUESTIONS,
+  SURVEYS_SECTION_MESSAGES,
   SURVEYS_QUESTION_ORDER,
   SURVEYS_QUESTION_REQUIRED,
   SURVEYS_QUESTION_TEXT,
@@ -84,6 +88,10 @@ export class SurveyFormDialogComponent implements OnInit {
   readonly title = this.data.surveyId ? SURVEYS_DIALOG_EDIT : SURVEYS_DIALOG_NEW;
   readonly fieldName = SURVEYS_FIELD_NAME;
   readonly fieldDescription = SURVEYS_FIELD_DESCRIPTION;
+  readonly fieldDescriptionHint = SURVEYS_FIELD_DESCRIPTION_HINT;
+  readonly fieldFinalMessage = SURVEYS_FIELD_FINAL_MESSAGE;
+  readonly fieldFinalMessageHint = SURVEYS_FIELD_FINAL_MESSAGE_HINT;
+  readonly sectionMessages = SURVEYS_SECTION_MESSAGES;
   readonly fieldActive = SURVEYS_FIELD_ACTIVE;
   readonly fieldQuestions = SURVEYS_FIELD_QUESTIONS;
   readonly addQuestionLabel = SURVEYS_ADD_QUESTION;
@@ -108,6 +116,7 @@ export class SurveyFormDialogComponent implements OnInit {
   readonly form = this.fb.nonNullable.group({
     name: ['', Validators.required],
     descriptionText: [''],
+    finalMessageText: [''],
     isActive: [true],
     questions: this.fb.array<FormGroup>([]),
   });
@@ -127,6 +136,7 @@ export class SurveyFormDialogComponent implements OnInit {
         this.form.patchValue({
           name: survey.name,
           descriptionText: survey.descriptionText ?? '',
+          finalMessageText: survey.finalMessageText ?? '',
           isActive: survey.isActive ?? true,
         });
         this.questions.clear();
@@ -206,6 +216,7 @@ export class SurveyFormDialogComponent implements OnInit {
     const request: UpsertSurveyRequest = {
       name: raw.name.trim(),
       descriptionText: raw.descriptionText?.trim() || null,
+      finalMessageText: raw.finalMessageText?.trim() || null,
       isActive: raw.isActive,
       questions: raw.questions.map((q, index) => ({
         sortOrder: Number(q['sortOrder']) || index + 1,
