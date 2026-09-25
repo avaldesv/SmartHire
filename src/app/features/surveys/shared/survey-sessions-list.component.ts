@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -11,7 +10,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { PageEvent } from '@angular/material/paginator';
 import { debounceTime } from 'rxjs';
-import { catalogTallDialogConfig } from '../../../core/dialog/catalog-dialog.constants';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { COMMON_CLEAR_FILTERS } from '../../../core/i18n/common-labels';
 import {
@@ -22,7 +20,14 @@ import {
   SURVEYS_RESULTS_COL_POSITION,
   SURVEYS_RESULTS_COL_PROGRESS,
   SURVEYS_RESULTS_COL_SURVEY,
+  SURVEYS_RESULTS_DETAIL_ANSWER,
+  SURVEYS_RESULTS_DETAIL_CLOSE,
+  SURVEYS_RESULTS_DETAIL_NO_ANSWERS,
+  SURVEYS_RESULTS_DETAIL_QUESTION,
+  SURVEYS_RESULTS_DETAIL_TITLE,
+  SURVEYS_RESULTS_DETAIL_TYPE,
   SURVEYS_RESULTS_EMPTY,
+  SURVEYS_RESULTS_ERRORS_DETAIL,
   SURVEYS_RESULTS_ERRORS_LIST,
   SURVEYS_RESULTS_FILTER_ALL,
   SURVEYS_RESULTS_FILTER_COMPLETED,
@@ -34,11 +39,12 @@ import {
 } from '../../../core/i18n/survey-labels';
 import { SurveyApiService } from '../../../core/services/survey-api.service';
 import { ShPaginatorComponent } from '../../../shared/components/paginator/sh-paginator.component';
-import { ListSurveySessionsRequest, SurveySessionListItem } from '../../../shared/models/survey.model';
 import {
-  SurveySessionDetailDialogComponent,
-  SurveySessionDetailDialogData,
-} from './survey-session-detail-dialog.component';
+  ListSurveySessionsRequest,
+  SurveySessionAnswer,
+  SurveySessionDetail,
+  SurveySessionListItem,
+} from '../../../shared/models/survey.model';
 
 @Component({
   selector: 'sh-survey-sessions-list',
@@ -53,7 +59,6 @@ import {
     MatSelectModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
-    MatDialogModule,
     ShPaginatorComponent,
   ],
   templateUrl: './survey-sessions-list.component.html',
@@ -62,21 +67,29 @@ import {
 export class SurveySessionsListComponent implements OnInit, OnChanges {
   private readonly api = inject(SurveyApiService);
   private readonly feedback = inject(FeedbackDialogService);
-  private readonly dialog = inject(MatDialog);
   private readonly fb = inject(FormBuilder);
 
   /** When set, uses position-scoped session APIs (SELECTION_READ). */
   @Input() positionId: number | null = null;
+  /** Filter sessions to one survey (drill-down). */
+  @Input() surveyId: number | null = null;
   /** Show position column (global results). Hidden for position-scoped list. */
   @Input() showPositionColumn = true;
+  @Input() showSurveyColumn = true;
   @Input() showTitle = true;
+  /** Open detail in side drawer instead of MatDialog. */
+  @Input() useDrawer = true;
 
   loading = true;
+  detailLoading = false;
   data: SurveySessionListItem[] = [];
   total = 0;
   pageIndex = 0;
   pageSize = 10;
   columns: string[] = [];
+  drawerOpen = false;
+  detail: SurveySessionDetail | null = null;
+  answers: SurveySessionAnswer[] = [];
 
   readonly labels = {
     title: SURVEYS_RESULTS_TITLE,
@@ -95,7 +108,15 @@ export class SurveySessionsListComponent implements OnInit, OnChanges {
     colCompleted: SURVEYS_RESULTS_COL_COMPLETED,
     colDate: SURVEYS_RESULTS_COL_DATE,
     viewAria: SURVEYS_RESULTS_VIEW_ARIA,
+    detailTitle: SURVEYS_RESULTS_DETAIL_TITLE,
+    close: SURVEYS_RESULTS_DETAIL_CLOSE,
+    question: SURVEYS_RESULTS_DETAIL_QUESTION,
+    answer: SURVEYS_RESULTS_DETAIL_ANSWER,
+    type: SURVEYS_RESULTS_DETAIL_TYPE,
+    noAnswers: SURVEYS_RESULTS_DETAIL_NO_ANSWERS,
   };
+
+  readonly answerColumns = ['order', 'question', 'type', 'answer'];
 
   readonly filterForm = this.fb.nonNullable.group({
     phone: [''],
@@ -112,11 +133,17 @@ export class SurveySessionsListComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['showPositionColumn'] && !changes['showPositionColumn'].firstChange) {
-      this.refreshColumns();
+    if (changes['showPositionColumn'] || changes['showSurveyColumn']) {
+      if (!changes['showPositionColumn']?.firstChange || !changes['showSurveyColumn']?.firstChange) {
+        this.refreshColumns();
+      }
     }
-    if (changes['positionId'] && !changes['positionId'].firstChange) {
+    if (
+      (changes['positionId'] && !changes['positionId'].firstChange) ||
+      (changes['surveyId'] && !changes['surveyId'].firstChange)
+    ) {
       this.pageIndex = 0;
+      this.closeDrawer();
       this.load();
     }
   }
@@ -131,11 +158,17 @@ export class SurveySessionsListComponent implements OnInit, OnChanges {
     this.load();
   }
 
-  candidateName(row: SurveySessionListItem): string {
+  candidateName(row: SurveySessionListItem | SurveySessionDetail | null): string {
+    if (!row) {
+      return '—';
+    }
     return `${row.candidateFirstName ?? ''} ${row.candidateLastName ?? ''}`.trim() || '—';
   }
 
-  progressLabel(row: SurveySessionListItem): string {
+  progressLabel(row: SurveySessionListItem | SurveySessionDetail | null): string {
+    if (!row) {
+      return '—';
+    }
     const answered = row.totalQuestionAnswers ?? 0;
     const total = row.totalQuestionsSend ?? row.totalQuestions ?? 0;
     return `${answered} / ${total}`;
@@ -153,23 +186,46 @@ export class SurveySessionsListComponent implements OnInit, OnChanges {
   }
 
   openDetail(row: SurveySessionListItem): void {
-    this.dialog.open<
-      SurveySessionDetailDialogComponent,
-      SurveySessionDetailDialogData,
-      void
-    >(SurveySessionDetailDialogComponent, {
-      ...catalogTallDialogConfig('720px'),
-      data: {
-        sessionId: row.id,
-        positionId: this.positionId,
+    this.drawerOpen = true;
+    this.detailLoading = true;
+    this.detail = null;
+    this.answers = [];
+    const request$ =
+      this.positionId != null && this.positionId > 0
+        ? this.api.getPositionSession(this.positionId, row.id)
+        : this.api.getSession(row.id);
+
+    request$.subscribe({
+      next: (detail) => {
+        this.detail = detail;
+        this.answers = [...(detail.answers ?? [])].sort(
+          (a, b) =>
+            (a.sortOrder ?? a.questionIndex ?? 0) - (b.sortOrder ?? b.questionIndex ?? 0),
+        );
+        this.detailLoading = false;
+      },
+      error: (err) => {
+        this.detailLoading = false;
+        this.drawerOpen = false;
+        this.feedback.showApiError(err, { fallbackMessage: SURVEYS_RESULTS_ERRORS_DETAIL });
       },
     });
+  }
+
+  closeDrawer(): void {
+    this.drawerOpen = false;
+    this.detail = null;
+    this.answers = [];
+  }
+
+  answerOrder(row: SurveySessionAnswer): number {
+    return (row.sortOrder ?? row.questionIndex ?? 0) + 1;
   }
 
   private refreshColumns(): void {
     this.columns = [
       'candidate',
-      'survey',
+      ...(this.showSurveyColumn ? ['survey'] : []),
       ...(this.showPositionColumn ? ['position'] : []),
       'phone',
       'progress',
@@ -186,6 +242,7 @@ export class SurveySessionsListComponent implements OnInit, OnChanges {
       phone: this.filterForm.controls.phone.value.trim() || null,
       isSurveyCompleted:
         completedRaw === 'true' ? true : completedRaw === 'false' ? false : null,
+      surveyId: this.surveyId != null && this.surveyId > 0 ? this.surveyId : null,
     };
 
     const request$ =

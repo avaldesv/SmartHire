@@ -1,13 +1,15 @@
 <div class="surveys-layout sh-page">
-  <h2>{{ pageTitle }}</h2>
-  <div class="layout-body">
-    <aside class="sidebar">
-      @for (item of navItems(); track item.path) {
-        <a [routerLink]="['/surveys', item.path]" routerLinkActive="active">{{ item.label }}</a>
-      }
-    </aside>
-    <main class="content">
-      <router-outlet />
-    </main>
+  <header class="surveys-header">
+    <h2>{{ pageTitle }}</h2>
+  </header>
+
+  <nav class="surveys-tabs">
+    @for (item of navItems(); track item.path) {
+      <a [routerLink]="['/surveys', item.path]" routerLinkActive="active">{{ item.label }}</a>
+    }
+  </nav>
+
+  <div class="tab-content">
+    <router-outlet />
   </div>
 </div>

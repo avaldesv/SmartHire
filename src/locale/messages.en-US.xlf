@@ -1928,7 +1928,7 @@
       </trans-unit>
       <trans-unit id="candidateDocuments.col.status" datatype="html">
         <source>Estado</source>
-        <target>State</target>
+        <target>Status</target>
       </trans-unit>
       <trans-unit id="candidateDocuments.col.validation" datatype="html">
         <source>Validación</source>
@@ -2276,7 +2276,7 @@
       </trans-unit>
       <trans-unit id="candidateProfile.field.state" datatype="html">
         <source>Estado</source>
-        <target>State</target>
+        <target>Status</target>
       </trans-unit>
       <trans-unit id="candidateProfile.field.city" datatype="html">
         <source>Ciudad</source>
@@ -2958,7 +2958,7 @@
       </trans-unit>
       <trans-unit id="catalogs.field.state" datatype="html">
         <source>Estado</source>
-        <target>State</target>
+        <target>Status</target>
       </trans-unit>
       <trans-unit id="catalogs.field.logoUrl" datatype="html">
         <source>URL logo</source>
@@ -4086,7 +4086,7 @@
       </trans-unit>
       <trans-unit id="dashboard.filter.status" datatype="html">
         <source>Estado</source>
-        <target>State</target>
+        <target>Status</target>
       </trans-unit>
       <trans-unit id="dashboard.filter.recruiter" datatype="html">
         <source>Reclutador</source>
@@ -4146,7 +4146,7 @@
       </trans-unit>
       <trans-unit id="dashboard.column.state" datatype="html">
         <source>Estado</source>
-        <target>State</target>
+        <target>Status</target>
       </trans-unit>
       <trans-unit id="dashboard.column.brand" datatype="html">
         <source>Marca</source>
@@ -5638,7 +5638,7 @@
       </trans-unit>
       <trans-unit id="notifications.column.status" datatype="html">
         <source>Estado</source>
-        <target>State</target>
+        <target>Status</target>
       </trans-unit>
       <trans-unit id="notifications.column.date" datatype="html">
         <source>Fecha</source>
@@ -5666,7 +5666,7 @@
       </trans-unit>
       <trans-unit id="notifications.filter.active" datatype="html">
         <source>Estado</source>
-        <target>State</target>
+        <target>Status</target>
       </trans-unit>
       <trans-unit id="notifications.filter.activeAll" datatype="html">
         <source>Todos</source>
@@ -5674,7 +5674,7 @@
       </trans-unit>
       <trans-unit id="notifications.filter.activeYes" datatype="html">
         <source>Activas</source>
-        <target>Activas</target>
+        <target>Active</target>
       </trans-unit>
       <trans-unit id="notifications.filter.activeNo" datatype="html">
         <source>Inactivas</source>
@@ -5954,7 +5954,7 @@
       </trans-unit>
       <trans-unit id="applicationsDialog.col.status" datatype="html">
         <source>Estado</source>
-        <target>State</target>
+        <target>Status</target>
       </trans-unit>
       <trans-unit id="applicationsDialog.col.source" datatype="html">
         <source>Origen</source>
@@ -8476,7 +8476,7 @@
       </trans-unit>
       <trans-unit id="reports.filter.status" datatype="html">
         <source>Estado</source>
-        <target>State</target>
+        <target>Status</target>
       </trans-unit>
       <trans-unit id="reports.filter.startDate" datatype="html">
         <source>Fecha inicial</source>
@@ -8698,7 +8698,7 @@
       </trans-unit>
       <trans-unit id="reports.sbr.col.status" datatype="html">
         <source>Estado</source>
-        <target>State</target>
+        <target>Status</target>
       </trans-unit>
       <trans-unit id="reports.sbr.col.requisitions" datatype="html">
         <source>Requisiciones</source>
@@ -9126,7 +9126,7 @@
       </trans-unit>
       <trans-unit id="requisitionFormConfig.status" datatype="html">
         <source>Estado</source>
-        <target>State</target>
+        <target>Status</target>
       </trans-unit>
       <trans-unit id="requisitionFormConfig.version" datatype="html">
         <source>Versión</source>
@@ -9146,7 +9146,7 @@
       </trans-unit>
       <trans-unit id="requisitionFormConfig.field.status" datatype="html">
         <source>Estado</source>
-        <target>State</target>
+        <target>Status</target>
       </trans-unit>
       <trans-unit id="requisitionFormConfig.filter.all" datatype="html">
         <source>Todos</source>
@@ -9346,7 +9346,7 @@
       </trans-unit>
       <trans-unit id="requisitionFormConfig.column.status" datatype="html">
         <source>Estado</source>
-        <target>State</target>
+        <target>Status</target>
       </trans-unit>
       <trans-unit id="requisitionFormConfig.column.publishedAt" datatype="html">
         <source>Publicado</source>
@@ -10190,7 +10190,7 @@
       </trans-unit>
       <trans-unit id="requisition.documents.wizard.colStatus" datatype="html">
         <source>Estado</source>
-        <target>State</target>
+        <target>Status</target>
       </trans-unit>
       <trans-unit id="requisition.documents.wizard.statusConfigured" datatype="html">
         <source>Configurado</source>
@@ -10306,7 +10306,7 @@
       </trans-unit>
       <trans-unit id="requisition.legacy.state" datatype="html">
         <source>Estado</source>
-        <target>State</target>
+        <target>Status</target>
       </trans-unit>
       <trans-unit id="requisition.weekday.monday" datatype="html">
         <source>Lunes</source>
@@ -10781,6 +10781,98 @@
       <trans-unit id="surveys.results.viewAria" datatype="html">
         <source>Ver detalle de la sesión</source>
         <target>View session detail</target>
+      </trans-unit>
+      <trans-unit id="surveys.kpi.total" datatype="html">
+        <source>Total encuestas</source>
+        <target>Total surveys</target>
+      </trans-unit>
+      <trans-unit id="surveys.kpi.active" datatype="html">
+        <source>Activas</source>
+        <target>Active</target>
+      </trans-unit>
+      <trans-unit id="surveys.kpi.avgQuestions" datatype="html">
+        <source>Preguntas promedio</source>
+        <target>Avg. questions</target>
+      </trans-unit>
+      <trans-unit id="surveys.preview.title" datatype="html">
+        <source>Vista previa</source>
+        <target>Preview</target>
+      </trans-unit>
+      <trans-unit id="surveys.preview.empty" datatype="html">
+        <source>Seleccione una encuesta para ver sus preguntas</source>
+        <target>Select a survey to preview its questions</target>
+      </trans-unit>
+      <trans-unit id="surveys.preview.noQuestions" datatype="html">
+        <source>Esta encuesta no tiene preguntas</source>
+        <target>This survey has no questions</target>
+      </trans-unit>
+      <trans-unit id="surveys.col.status" datatype="html">
+        <source>Estado</source>
+        <target>Status</target>
+      </trans-unit>
+      <trans-unit id="surveys.status.active" datatype="html">
+        <source>Activa</source>
+        <target>Active</target>
+      </trans-unit>
+      <trans-unit id="surveys.status.inactive" datatype="html">
+        <source>Inactiva</source>
+        <target>Inactive</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.view.sessions" datatype="html">
+        <source>Sesiones</source>
+        <target>Sessions</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.view.bySurvey" datatype="html">
+        <source>Por encuesta</source>
+        <target>By survey</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.kpi.sent" datatype="html">
+        <source>Envíos</source>
+        <target>Sent</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.kpi.completed" datatype="html">
+        <source>Completadas</source>
+        <target>Completed</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.kpi.inProgress" datatype="html">
+        <source>En curso</source>
+        <target>In progress</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.kpi.rate" datatype="html">
+        <source>Tasa de respuesta</source>
+        <target>Response rate</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.col.sent" datatype="html">
+        <source>Enviados</source>
+        <target>Sent</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.col.inProgress" datatype="html">
+        <source>En curso</source>
+        <target>In progress</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.col.rate" datatype="html">
+        <source>% respuesta</source>
+        <target>Response %</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.col.lastSent" datatype="html">
+        <source>Último envío</source>
+        <target>Last sent</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.bySurvey.empty" datatype="html">
+        <source>No hay envíos de encuestas</source>
+        <target>No survey sends yet</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.bySurvey.errors" datatype="html">
+        <source>No se pudo cargar el resumen por encuesta</source>
+        <target>Could not load survey summary</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.back" datatype="html">
+        <source>Volver al resumen</source>
+        <target>Back to summary</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.drill.title" datatype="html">
+        <source>Candidatos de la encuesta</source>
+        <target>Survey candidates</target>
       </trans-unit>
       <trans-unit id="users.errors.tenantContext" datatype="html">
         <source>No se pudo cargar el contexto del tenant</source>
@@ -11661,6 +11753,10 @@
       <trans-unit id="users.form.editTitle" datatype="html">
         <source>Editar usuario</source>
         <target>Edit user</target>
+      </trans-unit>
+      <trans-unit id="surveys.preview.edit" datatype="html">
+        <source>Editar</source>
+        <target>Edit</target>
       </trans-unit>
       <trans-unit id="phone.prefix" datatype="html">
         <source>Prefijo del país</source>

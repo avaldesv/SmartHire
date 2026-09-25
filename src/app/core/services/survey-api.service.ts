@@ -12,6 +12,7 @@ import {
   SurveySessionDetail,
   SurveySessionListItem,
   SurveySessionListResponse,
+  SurveySessionsSummaryResponse,
   UpsertSurveyRequest,
 } from '../../shared/models/survey.model';
 import { ApiClientService } from './api-client.service';
@@ -117,6 +118,25 @@ export class SurveyApiService {
   getPositionSession(positionId: number, id: number): Observable<SurveySessionDetail> {
     return this.http.get<SurveySessionDetail>(
       this.api.apiUrl(`/api/v1/positions/${positionId}/surveys/sessions/${id}`),
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  sessionsSummary(surveyId?: number | null): Observable<SurveySessionsSummaryResponse> {
+    return this.http.post<SurveySessionsSummaryResponse>(
+      this.api.apiUrl('/api/v1/surveys/sessions/summary'),
+      { surveyId: surveyId ?? null },
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  positionSessionsSummary(
+    positionId: number,
+    surveyId?: number | null,
+  ): Observable<SurveySessionsSummaryResponse> {
+    return this.http.post<SurveySessionsSummaryResponse>(
+      this.api.apiUrl(`/api/v1/positions/${positionId}/surveys/sessions/summary`),
+      { surveyId: surveyId ?? null },
       { headers: this.api.buildHeaders() },
     );
   }
