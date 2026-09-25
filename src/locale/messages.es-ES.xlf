@@ -47,8 +47,8 @@
         <target>Candidato ya preseleccionado</target>
       </trans-unit>
       <trans-unit id="errors.CANDIDATE_ALREADY_PRESELECTED.message" datatype="html">
-        <source>El candidato ya está preseleccionado en {0} ({1}).</source>
-        <target>El candidato ya está preseleccionado en {0} ({1}).</target>
+        <source>El candidato ya está preseleccionado en <x id="p0" equiv-text="'{0}'" /> (<x id="p1" equiv-text="'{1}'" />).</source>
+        <target>El candidato ya está preseleccionado en <x id="p0" equiv-text="'{0}'" /> (<x id="p1" equiv-text="'{1}'" />).</target>
       </trans-unit>
       <trans-unit id="errors.DOCUMENT_VALIDATION_STATUS_REQUIRED.title" datatype="html">
         <source>Validación requerida</source>
@@ -374,46 +374,6 @@
         <source>Slug duplicado</source>
         <target>Slug duplicado</target>
       </trans-unit>
-      <trans-unit id="errors.COMPANY_INTEGRATION_DOC_TOKEN_REQUIRED.title" datatype="html">
-        <source>Token requerido</source>
-        <target>Token requerido</target>
-      </trans-unit>
-      <trans-unit id="errors.COMPANY_INTEGRATION_DOC_TOKEN_REQUIRED.message" datatype="html">
-        <source>Servicio de documentos habilitado: la clave API (token) es obligatoria.</source>
-        <target>Servicio de documentos habilitado: la clave API (token) es obligatoria.</target>
-      </trans-unit>
-      <trans-unit id="errors.COMPANY_INTEGRATION_DOC_SERVICE_NOT_FOUND.title" datatype="html">
-        <source>Servicio no encontrado</source>
-        <target>Servicio no encontrado</target>
-      </trans-unit>
-      <trans-unit id="errors.COMPANY_INTEGRATION_DOC_SERVICE_NOT_FOUND.message" datatype="html">
-        <source>El servicio de procesamiento de documentos no existe.</source>
-        <target>El servicio de procesamiento de documentos no existe.</target>
-      </trans-unit>
-      <trans-unit id="errors.COMPANY_INTEGRATION_DOC_SERVICE_NOT_GLOBAL.title" datatype="html">
-        <source>Servicio no válido</source>
-        <target>Servicio no válido</target>
-      </trans-unit>
-      <trans-unit id="errors.COMPANY_INTEGRATION_DOC_SERVICE_NOT_GLOBAL.message" datatype="html">
-        <source>Solo se pueden habilitar servicios globales del catálogo.</source>
-        <target>Solo se pueden habilitar servicios globales del catálogo.</target>
-      </trans-unit>
-      <trans-unit id="errors.COMPANY_INTEGRATION_EMAIL_INCOMPLETE.title" datatype="html">
-        <source>Correo incompleto</source>
-        <target>Correo incompleto</target>
-      </trans-unit>
-      <trans-unit id="errors.COMPANY_INTEGRATION_EMAIL_INCOMPLETE.message" datatype="html">
-        <source>Canal de correo habilitado: completa remitente, servidor, puerto, usuario y contraseña.</source>
-        <target>Canal de correo habilitado: completa remitente, servidor, puerto, usuario y contraseña.</target>
-      </trans-unit>
-      <trans-unit id="errors.COMPANY_INTEGRATION_WHATSAPP_INCOMPLETE.title" datatype="html">
-        <source>WhatsApp incompleto</source>
-        <target>WhatsApp incompleto</target>
-      </trans-unit>
-      <trans-unit id="errors.COMPANY_INTEGRATION_WHATSAPP_INCOMPLETE.message" datatype="html">
-        <source>Canal WhatsApp habilitado: completa URL base, token Bearer, ID de instancia y token de instancia.</source>
-        <target>Canal WhatsApp habilitado: completa URL base, token Bearer, ID de instancia y token de instancia.</target>
-      </trans-unit>
       <trans-unit id="errors.COMPANY_PORTAL_SLUG_DUPLICATE.message" datatype="html">
         <source>El slug del portal "{0}" ya está en uso</source>
         <target>El slug del portal "{0}" ya está en uso</target>
@@ -705,6 +665,46 @@
       <trans-unit id="errors.WORKSCHEDULE_NOT_FOUND.message" datatype="html">
         <source>Tipo de contrato no encontrado</source>
         <target>Tipo de contrato no encontrado</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_INTEGRATION_DOC_TOKEN_REQUIRED.title" datatype="html">
+        <source>Token requerido</source>
+        <target>Token requerido</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_INTEGRATION_DOC_TOKEN_REQUIRED.message" datatype="html">
+        <source>Servicio de documentos habilitado: la clave API (token) es obligatoria.</source>
+        <target>Servicio de documentos habilitado: la clave API (token) es obligatoria.</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_INTEGRATION_DOC_SERVICE_NOT_FOUND.title" datatype="html">
+        <source>Servicio no encontrado</source>
+        <target>Servicio no encontrado</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_INTEGRATION_DOC_SERVICE_NOT_FOUND.message" datatype="html">
+        <source>El servicio de procesamiento de documentos no existe.</source>
+        <target>El servicio de procesamiento de documentos no existe.</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_INTEGRATION_DOC_SERVICE_NOT_GLOBAL.title" datatype="html">
+        <source>Servicio no válido</source>
+        <target>Servicio no válido</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_INTEGRATION_DOC_SERVICE_NOT_GLOBAL.message" datatype="html">
+        <source>Solo se pueden habilitar servicios globales del catálogo.</source>
+        <target>Solo se pueden habilitar servicios globales del catálogo.</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_INTEGRATION_EMAIL_INCOMPLETE.title" datatype="html">
+        <source>Correo incompleto</source>
+        <target>Correo incompleto</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_INTEGRATION_EMAIL_INCOMPLETE.message" datatype="html">
+        <source>Canal de correo habilitado: completa remitente, servidor, puerto, usuario y contraseña.</source>
+        <target>Canal de correo habilitado: completa remitente, servidor, puerto, usuario y contraseña.</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_INTEGRATION_WHATSAPP_INCOMPLETE.title" datatype="html">
+        <source>WhatsApp incompleto</source>
+        <target>WhatsApp incompleto</target>
+      </trans-unit>
+      <trans-unit id="errors.COMPANY_INTEGRATION_WHATSAPP_INCOMPLETE.message" datatype="html">
+        <source>Canal WhatsApp habilitado: completa URL base, token Bearer, ID de instancia y token de instancia.</source>
+        <target>Canal WhatsApp habilitado: completa URL base, token Bearer, ID de instancia y token de instancia.</target>
       </trans-unit>
       <trans-unit id="errors.NOTIFICATION_TEMPLATE_NOT_FOUND.title" datatype="html">
         <source>Plantilla no encontrada</source>
@@ -2820,6 +2820,10 @@
         <source>Colonia</source>
         <target>Colonia</target>
       </trans-unit>
+      <trans-unit id="catalogs.entry.historicEmployee" datatype="html">
+        <source>Histórico / Reasignación</source>
+        <target>Histórico / Reasignación</target>
+      </trans-unit>
       <trans-unit id="catalogs.pageTitle" datatype="html">
         <source>Catálogos</source>
         <target>Catálogos</target>
@@ -3055,16 +3059,24 @@
         </target>
       </trans-unit>
       <trans-unit id="catalogImport.hint" datatype="html">
-        <source>Descargue la plantilla, complete los datos y suba el archivo CSV.</source>
-        <target>Descargue la plantilla, complete los datos y suba el archivo CSV.</target>
+        <source>Descargue la plantilla, complete los datos y suba el archivo CSV. Al seleccionar el archivo se valida automáticamente; Importar escribe solo las filas válidas.</source>
+        <target>Descargue la plantilla, complete los datos y suba el archivo CSV. Al seleccionar el archivo se valida automáticamente; Importar escribe solo las filas válidas.</target>
       </trans-unit>
       <trans-unit id="catalogImport.downloadTemplate" datatype="html">
         <source>Descargar plantilla</source>
         <target>Descargar plantilla</target>
       </trans-unit>
+      <trans-unit id="catalogImport.pickFile" datatype="html">
+        <source>Seleccionar archivo</source>
+        <target>Seleccionar archivo</target>
+      </trans-unit>
       <trans-unit id="catalogImport.downloadErrors" datatype="html">
         <source>Descargar reporte de errores</source>
         <target>Descargar reporte de errores</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.downloadPreviewErrors" datatype="html">
+        <source>Descargar preview de errores</source>
+        <target>Descargar preview de errores</target>
       </trans-unit>
       <trans-unit id="catalogImport.validate" datatype="html">
         <source>Validar</source>
@@ -3073,6 +3085,30 @@
       <trans-unit id="catalogImport.import" datatype="html">
         <source>Importar</source>
         <target>Importar</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.onlyValidHint" datatype="html">
+        <source>Solo se importarán las filas válidas.</source>
+        <target>Solo se importarán las filas válidas.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.noValidRows" datatype="html">
+        <source>No hay filas válidas para importar.</source>
+        <target>No hay filas válidas para importar.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.col.id" datatype="html">
+        <source>Id</source>
+        <target>Id</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.col.code" datatype="html">
+        <source>Código</source>
+        <target>Código</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.col.name" datatype="html">
+        <source>Nombre</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.col.countryId" datatype="html">
+        <source>País</source>
+        <target>País</target>
       </trans-unit>
       <trans-unit id="catalogImport.exportTooltip" datatype="html">
         <source>Exportar CSV</source>
@@ -3103,12 +3139,32 @@
         <target>No se pudo exportar el catálogo</target>
       </trans-unit>
       <trans-unit id="catalogImport.success.importComplete" datatype="html">
-        <source>Importación completada</source>
-        <target>Importación completada</target>
+        <source>Importación finalizada</source>
+        <target>Importación finalizada</target>
       </trans-unit>
-      <trans-unit id="catalogImport.structureValid" datatype="html">
-        <source>Estructura válida. Filas detectadas: <x id="totalRows" equiv-text="totalRows" />.</source>
-        <target>Estructura válida. Filas detectadas: <x id="totalRows" equiv-text="totalRows" />.</target>
+      <trans-unit id="catalogImport.structureLabel" datatype="html">
+        <source>Estructura</source>
+        <target>Estructura</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.structureValidValue" datatype="html">
+        <source>válida</source>
+        <target>válida</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.structureInvalidValue" datatype="html">
+        <source>inválida</source>
+        <target>inválida</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.structurePendingValue" datatype="html">
+        <source>—</source>
+        <target>—</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.rowsDetected" datatype="html">
+        <source>Filas detectadas</source>
+        <target>Filas detectadas</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.missingRequiredColumns" datatype="html">
+        <source>Faltan columnas requeridas:</source>
+        <target>Faltan columnas requeridas:</target>
       </trans-unit>
       <trans-unit id="catalogImport.resultNoErrors" datatype="html">
         <source> Sin errores.</source>
@@ -3117,6 +3173,10 @@
       <trans-unit id="catalogImport.resultWithErrors" datatype="html">
         <source> Filas con error: <x id="failed" equiv-text="failed" />.</source>
         <target> Filas con error: <x id="failed" equiv-text="failed" />.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.resultFinished" datatype="html">
+        <source>Importación finalizada.</source>
+        <target>Importación finalizada.</target>
       </trans-unit>
       <trans-unit id="catalogImport.resultSummary.questionOptions" datatype="html">
         <source>Se importaron <x id="options" equiv-text="created" /> opciones en <x id="questions" equiv-text="updated" /> preguntas.</source>
@@ -3259,106 +3319,6 @@
       <trans-unit id="catalogs.company.newTitle" datatype="html">
         <source>Nueva empresa</source>
         <target>Nueva empresa</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.dialog.subtitle" datatype="html">
-        <source>Datos generales, canales de notificación e integraciones de documentos</source>
-        <target>Datos generales, canales de notificación e integraciones de documentos</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.section.general" datatype="html">
-        <source>1. Datos generales</source>
-        <target>1. Datos generales</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.section.channels" datatype="html">
-        <source>2. Canales de notificación</source>
-        <target>2. Canales de notificación</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.section.docServices" datatype="html">
-        <source>3. Servicios de procesamiento de documentos</source>
-        <target>3. Servicios de procesamiento de documentos</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.channel.email" datatype="html">
-        <source>Correo (SMTP)</source>
-        <target>Correo (SMTP)</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.channel.whatsapp" datatype="html">
-        <source>WhatsApp</source>
-        <target>WhatsApp</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.field.enabled" datatype="html">
-        <source>Habilitado</source>
-        <target>Habilitado</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.field.mailFrom" datatype="html">
-        <source>Remitente</source>
-        <target>Remitente</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.field.smtpHost" datatype="html">
-        <source>Servidor SMTP</source>
-        <target>Servidor SMTP</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.field.smtpPort" datatype="html">
-        <source>Puerto</source>
-        <target>Puerto</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.field.smtpUser" datatype="html">
-        <source>Usuario</source>
-        <target>Usuario</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.field.smtpPassword" datatype="html">
-        <source>Contraseña</source>
-        <target>Contraseña</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.email.footnote" datatype="html">
-        <source>Cada tenant usa sus propias credenciales para métricas de uso.</source>
-        <target>Cada tenant usa sus propias credenciales para métricas de uso.</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.field.waBaseUrl" datatype="html">
-        <source>URL base</source>
-        <target>URL base</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.field.waBearer" datatype="html">
-        <source>Token Bearer</source>
-        <target>Token Bearer</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.field.waInstanceId" datatype="html">
-        <source>ID de instancia</source>
-        <target>ID de instancia</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.field.waInstanceToken" datatype="html">
-        <source>Token de instancia</source>
-        <target>Token de instancia</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.col.service" datatype="html">
-        <source>Servicio</source>
-        <target>Servicio</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.col.description" datatype="html">
-        <source>Descripción</source>
-        <target>Descripción</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.col.apiKey" datatype="html">
-        <source>Clave API (Token)</source>
-        <target>Clave API (Token)</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.field.urlOverride" datatype="html">
-        <source>URL alternativa (opcional)</source>
-        <target>URL alternativa (opcional)</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.field.taxId" datatype="html">
-        <source>RFC / ID fiscal</source>
-        <target>RFC / ID fiscal</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.field.colors" datatype="html">
-        <source>Colores</source>
-        <target>Colores</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.btn.cancel" datatype="html">
-        <source>CANCELAR</source>
-        <target>CANCELAR</target>
-      </trans-unit>
-      <trans-unit id="catalogs.company.btn.save" datatype="html">
-        <source>GUARDAR</source>
-        <target>GUARDAR</target>
       </trans-unit>
       <trans-unit id="catalogs.currency.newButton" datatype="html">
         <source>Nueva moneda</source>
@@ -3895,6 +3855,106 @@
       <trans-unit id="status.partiallyCovered" datatype="html">
         <source>Parcialmente cubierta</source>
         <target>Parcialmente cubierta</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.dialog.subtitle" datatype="html">
+        <source>Datos generales, canales de notificación e integraciones de documentos</source>
+        <target>Datos generales, canales de notificación e integraciones de documentos</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.section.general" datatype="html">
+        <source>1. Datos generales</source>
+        <target>1. Datos generales</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.section.channels" datatype="html">
+        <source>2. Canales de notificación</source>
+        <target>2. Canales de notificación</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.section.docServices" datatype="html">
+        <source>3. Servicios de procesamiento de documentos</source>
+        <target>3. Servicios de procesamiento de documentos</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.channel.email" datatype="html">
+        <source>Correo (SMTP)</source>
+        <target>Correo (SMTP)</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.channel.whatsapp" datatype="html">
+        <source>WhatsApp</source>
+        <target>WhatsApp</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.enabled" datatype="html">
+        <source>Habilitado</source>
+        <target>Habilitado</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.mailFrom" datatype="html">
+        <source>Remitente</source>
+        <target>Remitente</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.smtpHost" datatype="html">
+        <source>Servidor SMTP</source>
+        <target>Servidor SMTP</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.smtpPort" datatype="html">
+        <source>Puerto</source>
+        <target>Puerto</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.smtpUser" datatype="html">
+        <source>Usuario</source>
+        <target>Usuario</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.smtpPassword" datatype="html">
+        <source>Contraseña</source>
+        <target>Contraseña</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.email.footnote" datatype="html">
+        <source>Cada tenant usa sus propias credenciales para métricas de uso.</source>
+        <target>Cada tenant usa sus propias credenciales para métricas de uso.</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.waBaseUrl" datatype="html">
+        <source>URL base</source>
+        <target>URL base</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.waBearer" datatype="html">
+        <source>Token Bearer</source>
+        <target>Token Bearer</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.waInstanceId" datatype="html">
+        <source>ID de instancia</source>
+        <target>ID de instancia</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.waInstanceToken" datatype="html">
+        <source>Token de instancia</source>
+        <target>Token de instancia</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.col.service" datatype="html">
+        <source>Servicio</source>
+        <target>Servicio</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.col.description" datatype="html">
+        <source>Descripción</source>
+        <target>Descripción</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.col.apiKey" datatype="html">
+        <source>Clave API (Token)</source>
+        <target>Clave API (Token)</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.urlOverride" datatype="html">
+        <source>URL alternativa (opcional)</source>
+        <target>URL alternativa (opcional)</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.taxId" datatype="html">
+        <source>RFC / ID fiscal</source>
+        <target>RFC / ID fiscal</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.colors" datatype="html">
+        <source>Colores</source>
+        <target>Colores</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.btn.cancel" datatype="html">
+        <source>CANCELAR</source>
+        <target>CANCELAR</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.btn.save" datatype="html">
+        <source>GUARDAR</source>
+        <target>GUARDAR</target>
       </trans-unit>
       <trans-unit id="cvBulk.action" datatype="html">
         <source>Cargar CVs</source>
@@ -4926,6 +4986,114 @@
         <source>¿Eliminar el grupo "<x id="name" equiv-text="name" />"? Esta acción no se puede deshacer.</source>
         <target>¿Eliminar el grupo "<x id="name" equiv-text="name" />"? Esta acción no se puede deshacer.</target>
       </trans-unit>
+      <trans-unit id="historicReassign.action" datatype="html">
+        <source>Histórico / Reasignación</source>
+        <target>Histórico / Reasignación</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.title" datatype="html">
+        <source>Histórico / Reasignación</source>
+        <target>Histórico / Reasignación</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.source" datatype="html">
+        <source>Fuente de datos</source>
+        <target>Fuente de datos</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.source.history" datatype="html">
+        <source>Datos históricos</source>
+        <target>Datos históricos</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.source.reassign" datatype="html">
+        <source>Reasignación</source>
+        <target>Reasignación</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.reassignHint" datatype="html">
+        <source>Reasignación estará disponible en una siguiente etapa.</source>
+        <target>Reasignación estará disponible en una siguiente etapa.</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.search" datatype="html">
+        <source>Búsqueda candidatos históricos</source>
+        <target>Búsqueda candidatos históricos</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.searchBtn" datatype="html">
+        <source>Buscar</source>
+        <target>Buscar</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.education" datatype="html">
+        <source>Nivel de estudios</source>
+        <target>Nivel de estudios</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.educationAny" datatype="html">
+        <source>Cualquiera</source>
+        <target>Cualquiera</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.postulate" datatype="html">
+        <source>Postular</source>
+        <target>Postular</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.notifyEmail" datatype="html">
+        <source>Notificar por Email</source>
+        <target>Notificar por Email</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.notifyWhatsapp" datatype="html">
+        <source>Notificar por WhatsApp</source>
+        <target>Notificar por WhatsApp</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.import" datatype="html">
+        <source>Importar Excel</source>
+        <target>Importar Excel</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.template" datatype="html">
+        <source>Descargar plantilla</source>
+        <target>Descargar plantilla</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.templateFilename" datatype="html">
+        <source>Plantilla_Historico_Reasignacion.xlsx</source>
+        <target>Plantilla_Historico_Reasignacion.xlsx</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.confirmImport" datatype="html">
+        <source>Confirmar importación</source>
+        <target>Confirmar importación</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.importOk" datatype="html">
+        <source>Importación completada</source>
+        <target>Importación completada</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.postulateOk" datatype="html">
+        <source>Postulación realizada</source>
+        <target>Postulación realizada</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.selectOne" datatype="html">
+        <source>Selecciona al menos un trabajador histórico</source>
+        <target>Selecciona al menos un trabajador histórico</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.importTitle" datatype="html">
+        <source>Importar histórico (Excel)</source>
+        <target>Importar histórico (Excel)</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.importHint" datatype="html">
+        <source>Formatos: XLSX, XLS. Un archivo, máx. 10 MB y 1.000 filas. Usa la plantilla oficial.</source>
+        <target>Formatos: XLSX, XLS. Un archivo, máx. 10 MB y 1.000 filas. Usa la plantilla oficial.</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.onlyValidHint" datatype="html">
+        <source>Solo se procesarán las filas válidas.</source>
+        <target>Solo se procesarán las filas válidas.</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.noValidRows" datatype="html">
+        <source>El archivo no tiene filas válidas para procesar.</source>
+        <target>El archivo no tiene filas válidas para procesar.</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.importError" datatype="html">
+        <source>No se pudo completar la importación. Intenta de nuevo.</source>
+        <target>No se pudo completar la importación. Intenta de nuevo.</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.col.job" datatype="html">
+        <source>Puesto</source>
+        <target>Puesto</target>
+      </trans-unit>
+      <trans-unit id="historicReassign.col.status" datatype="html">
+        <source>Estatus</source>
+        <target>Estatus</target>
+      </trans-unit>
       <trans-unit id="shell.interviewCalendar" datatype="html">
         <source>Configuración de calendario</source>
         <target>Configuración de calendario</target>
@@ -5139,6 +5307,10 @@
       <trans-unit id="nav.main.questionnaires" datatype="html">
         <source>Cuestionarios</source>
         <target>Cuestionarios</target>
+      </trans-unit>
+      <trans-unit id="nav.main.surveys" datatype="html">
+        <source>Encuestas</source>
+        <target>Encuestas</target>
       </trans-unit>
       <trans-unit id="nav.main.tracking" datatype="html">
         <source>Seguimiento</source>
@@ -5683,14 +5855,6 @@
       <trans-unit id="portalCredentials.empty" datatype="html">
         <source>No hay portales de publicación activos</source>
         <target>No hay portales de publicación activos</target>
-      </trans-unit>
-      <trans-unit id="portalCredentials.testConnection" datatype="html">
-        <source>Probar conexión</source>
-        <target>Probar conexión</target>
-      </trans-unit>
-      <trans-unit id="portalCredentials.testConnectionUnavailable" datatype="html">
-        <source>La prueba de conexión estará disponible en una próxima versión.</source>
-        <target>La prueba de conexión estará disponible en una próxima versión.</target>
       </trans-unit>
       <trans-unit id="requisition.portals.sectionTitle" datatype="html">
         <source>Portales de publicación externos</source>
@@ -6374,6 +6538,14 @@
         <source>Cita para entrevista</source>
         <target>Cita para entrevista</target>
       </trans-unit>
+      <trans-unit id="preselection.col.requestDocuments" datatype="html">
+        <source>Solicitar documentos</source>
+        <target>Solicitar documentos</target>
+      </trans-unit>
+      <trans-unit id="preselection.col.requestCompleteInfo" datatype="html">
+        <source>Completar información</source>
+        <target>Completar información</target>
+      </trans-unit>
       <trans-unit id="preselection.col.interviewed" datatype="html">
         <source>Entrevistado</source>
         <target>Entrevistado</target>
@@ -6442,6 +6614,50 @@
         <source>No se pudo enviar el cuestionario de contacto</source>
         <target>No se pudo enviar el cuestionario de contacto</target>
       </trans-unit>
+      <trans-unit id="preselection.requestDocs.tooltip" datatype="html">
+        <source>Solicitar documentos al candidato</source>
+        <target>Solicitar documentos al candidato</target>
+      </trans-unit>
+      <trans-unit id="preselection.requestDocs.noRequirements" datatype="html">
+        <source>No hay documentos requeridos</source>
+        <target>No hay documentos requeridos</target>
+      </trans-unit>
+      <trans-unit id="preselection.requestDocs.success" datatype="html">
+        <source>Solicitud de documentos enviada</source>
+        <target>Solicitud de documentos enviada</target>
+      </trans-unit>
+      <trans-unit id="preselection.requestDocs.error" datatype="html">
+        <source>No se pudo solicitar documentos</source>
+        <target>No se pudo solicitar documentos</target>
+      </trans-unit>
+      <trans-unit id="preselection.bulk.requestDocsConfirm" datatype="html">
+        <source>¿Solicitar documentos a los candidatos seleccionados?</source>
+        <target>¿Solicitar documentos a los candidatos seleccionados?</target>
+      </trans-unit>
+      <trans-unit id="preselection.bulk.requestDocsSuccess" datatype="html">
+        <source>Solicitudes de documentos enviadas</source>
+        <target>Solicitudes de documentos enviadas</target>
+      </trans-unit>
+      <trans-unit id="preselection.bulk.requestDocsPartial" datatype="html">
+        <source>Algunas solicitudes de documentos no se enviaron</source>
+        <target>Algunas solicitudes de documentos no se enviaron</target>
+      </trans-unit>
+      <trans-unit id="preselection.requestInfo.tooltip" datatype="html">
+        <source>Solicitar completar información</source>
+        <target>Solicitar completar información</target>
+      </trans-unit>
+      <trans-unit id="preselection.requestInfo.doneTooltip" datatype="html">
+        <source>Información ya validada</source>
+        <target>Información ya validada</target>
+      </trans-unit>
+      <trans-unit id="preselection.requestInfo.success" datatype="html">
+        <source>Solicitud de información enviada</source>
+        <target>Solicitud de información enviada</target>
+      </trans-unit>
+      <trans-unit id="preselection.requestInfo.error" datatype="html">
+        <source>No se pudo solicitar completar información</source>
+        <target>No se pudo solicitar completar información</target>
+      </trans-unit>
       <trans-unit id="preselection.evaluation.tooltip" datatype="html">
         <source>Evaluación del cuestionario</source>
         <target>Evaluación del cuestionario</target>
@@ -6505,6 +6721,10 @@
       <trans-unit id="preselection.bulk.appointmentPartial" datatype="html">
         <source>Algunas citas no se agendaron</source>
         <target>Algunas citas no se agendaron</target>
+      </trans-unit>
+      <trans-unit id="preselection.bulk.whatsappSurvey" datatype="html">
+        <source>Enviar encuesta WhatsApp</source>
+        <target>Enviar encuesta WhatsApp</target>
       </trans-unit>
       <trans-unit id="preselection.bulk.noneSelected" datatype="html">
         <source>Seleccione al menos un candidato en la tabla</source>
@@ -6605,6 +6825,10 @@
       <trans-unit id="preselection.row.notifyQuestionnaire" datatype="html">
         <source>Notificar cuestionario</source>
         <target>Notificar cuestionario</target>
+      </trans-unit>
+      <trans-unit id="preselection.row.sendWhatsappSurvey" datatype="html">
+        <source>Enviar encuesta WhatsApp</source>
+        <target>Enviar encuesta WhatsApp</target>
       </trans-unit>
       <trans-unit id="preselection.row.deselectSuccess" datatype="html">
         <source>Candidato deseleccionado</source>
@@ -7438,9 +7662,17 @@
         <source>Inicio ventana</source>
         <target>Inicio ventana</target>
       </trans-unit>
+      <trans-unit id="questionnaires.exams.field.startTime" datatype="html">
+        <source>Hora inicio</source>
+        <target>Hora inicio</target>
+      </trans-unit>
       <trans-unit id="questionnaires.exams.field.endDate" datatype="html">
         <source>Fin ventana</source>
         <target>Fin ventana</target>
+      </trans-unit>
+      <trans-unit id="questionnaires.exams.field.endTime" datatype="html">
+        <source>Hora fin</source>
+        <target>Hora fin</target>
       </trans-unit>
       <trans-unit id="questionnaires.exams.field.generationConfig" datatype="html">
         <source>Reglas de selección de preguntas</source>
@@ -9212,6 +9444,10 @@
         <source>Preselección</source>
         <target>Preselección</target>
       </trans-unit>
+      <trans-unit id="requisition.step.whatsappSurvey" datatype="html">
+        <source>Encuesta WhatsApp</source>
+        <target>Encuesta WhatsApp</target>
+      </trans-unit>
       <trans-unit id="requisition.step.documents" datatype="html">
         <source>Documentos</source>
         <target>Documentos</target>
@@ -9560,9 +9796,13 @@
         <source>Examen</source>
         <target>Examen</target>
       </trans-unit>
+      <trans-unit id="requisition.field.surveyId" datatype="html">
+        <source>Encuesta WhatsApp</source>
+        <target>Encuesta WhatsApp</target>
+      </trans-unit>
       <trans-unit id="requisition.field.documentRequirements" datatype="html">
-        <source>Documentos requeridos</source>
-        <target>Documentos requeridos</target>
+        <source>Documentos definidos y configurados</source>
+        <target>Documentos definidos y configurados</target>
       </trans-unit>
       <trans-unit id="requisition.field.documentValidateAiName" datatype="html">
         <source>Validar con IA — Nombre</source>
@@ -9671,6 +9911,10 @@
       <trans-unit id="requisition.step.preselection.stepper" datatype="html">
         <source>Preselección</source>
         <target>Preselección</target>
+      </trans-unit>
+      <trans-unit id="requisition.step.whatsappSurvey.stepper" datatype="html">
+        <source>Encuesta WA</source>
+        <target>Encuesta WA</target>
       </trans-unit>
       <trans-unit id="requisition.step.documents.stepper" datatype="html">
         <source>Documentos</source>
@@ -9905,8 +10149,8 @@
         <target>Vigencia</target>
       </trans-unit>
       <trans-unit id="requisition.documents.wizard.validityMonths" datatype="html">
-        <source>Tiempo de validez (meses)</source>
-        <target>Tiempo de validez (meses)</target>
+        <source>Meses</source>
+        <target>Meses</target>
       </trans-unit>
       <trans-unit id="requisition.documents.wizard.validityMonthsPlaceholder" datatype="html">
         <source>Número de meses</source>
@@ -9925,8 +10169,20 @@
         <target>Actualizar documento</target>
       </trans-unit>
       <trans-unit id="requisition.documents.wizard.configuredTitle" datatype="html">
-        <source>Documentos configurados</source>
-        <target>Documentos configurados</target>
+        <source>Documentos definidos y configurados</source>
+        <target>Documentos definidos y configurados</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.wizard.colStatus" datatype="html">
+        <source>Estado</source>
+        <target>Estado</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.wizard.statusConfigured" datatype="html">
+        <source>Configurado</source>
+        <target>Configurado</target>
+      </trans-unit>
+      <trans-unit id="requisition.documents.wizard.statusNotConfigured" datatype="html">
+        <source>No configurado</source>
+        <target>No configurado</target>
       </trans-unit>
       <trans-unit id="requisition.documents.wizard.colType" datatype="html">
         <source>Tipo</source>
@@ -9949,8 +10205,8 @@
         <target>Acciones</target>
       </trans-unit>
       <trans-unit id="requisition.documents.wizard.empty" datatype="html">
-        <source>No hay documentos configurados. Agregue al menos uno.</source>
-        <target>No hay documentos configurados. Agregue al menos uno.</target>
+        <source>No hay tipos de documento en el catálogo del país.</source>
+        <target>No hay tipos de documento en el catálogo del país.</target>
       </trans-unit>
       <trans-unit id="requisition.documents.wizard.duplicateType" datatype="html">
         <source>Este tipo de documento ya está en la lista</source>
@@ -9964,13 +10220,29 @@
         <source>Editar</source>
         <target>Editar</target>
       </trans-unit>
+      <trans-unit id="requisition.documents.wizard.editDialog" datatype="html">
+        <source>Editar documento</source>
+        <target>Editar documento</target>
+      </trans-unit>
       <trans-unit id="requisition.documents.wizard.delete" datatype="html">
         <source>Eliminar</source>
         <target>Eliminar</target>
       </trans-unit>
+      <trans-unit id="requisition.documents.wizard.addHint" datatype="html">
+        <source>Adicionar</source>
+        <target>Adicionar</target>
+      </trans-unit>
       <trans-unit id="requisition.wizard.openTimePicker" datatype="html">
         <source>Abrir selector de hora</source>
         <target>Abrir selector de hora</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.moneyIncrement" datatype="html">
+        <source>Aumentar 0.01</source>
+        <target>Aumentar 0.01</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.moneyDecrement" datatype="html">
+        <source>Disminuir 0.01</source>
+        <target>Disminuir 0.01</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.clientSearchPlaceholder" datatype="html">
         <source>Buscar por nombre, email, código o nombre comercial</source>
@@ -10218,6 +10490,182 @@
           <x id="start" equiv-text="start" /> – <x id="end" equiv-text="end" /> de <x id="total" equiv-text="length" />
         </target>
       </trans-unit>
+      <trans-unit id="surveys.pageTitle" datatype="html">
+        <source>Encuestas WhatsApp</source>
+        <target>Encuestas WhatsApp</target>
+      </trans-unit>
+      <trans-unit id="surveys.newButton" datatype="html">
+        <source>Nueva encuesta</source>
+        <target>Nueva encuesta</target>
+      </trans-unit>
+      <trans-unit id="surveys.search" datatype="html">
+        <source>Buscar encuesta</source>
+        <target>Buscar encuesta</target>
+      </trans-unit>
+      <trans-unit id="surveys.empty" datatype="html">
+        <source>No hay encuestas registradas</source>
+        <target>No hay encuestas registradas</target>
+      </trans-unit>
+      <trans-unit id="surveys.col.name" datatype="html">
+        <source>Nombre</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit id="surveys.col.description" datatype="html">
+        <source>Descripción</source>
+        <target>Descripción</target>
+      </trans-unit>
+      <trans-unit id="surveys.col.questions" datatype="html">
+        <source>Preguntas</source>
+        <target>Preguntas</target>
+      </trans-unit>
+      <trans-unit id="surveys.col.active" datatype="html">
+        <source>Activa</source>
+        <target>Activa</target>
+      </trans-unit>
+      <trans-unit id="surveys.dialog.new" datatype="html">
+        <source>Nueva encuesta</source>
+        <target>Nueva encuesta</target>
+      </trans-unit>
+      <trans-unit id="surveys.dialog.edit" datatype="html">
+        <source>Editar encuesta</source>
+        <target>Editar encuesta</target>
+      </trans-unit>
+      <trans-unit id="surveys.field.name" datatype="html">
+        <source>Nombre</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit id="surveys.field.description" datatype="html">
+        <source>Texto de descripción</source>
+        <target>Texto de descripción</target>
+      </trans-unit>
+      <trans-unit id="surveys.field.active" datatype="html">
+        <source>Activa</source>
+        <target>Activa</target>
+      </trans-unit>
+      <trans-unit id="surveys.field.questions" datatype="html">
+        <source>Preguntas</source>
+        <target>Preguntas</target>
+      </trans-unit>
+      <trans-unit id="surveys.questions.add" datatype="html">
+        <source>Agregar pregunta</source>
+        <target>Agregar pregunta</target>
+      </trans-unit>
+      <trans-unit id="surveys.questions.remove" datatype="html">
+        <source>Quitar</source>
+        <target>Quitar</target>
+      </trans-unit>
+      <trans-unit id="surveys.questions.text" datatype="html">
+        <source>Texto de la pregunta</source>
+        <target>Texto de la pregunta</target>
+      </trans-unit>
+      <trans-unit id="surveys.questions.answerType" datatype="html">
+        <source>Tipo de respuesta</source>
+        <target>Tipo de respuesta</target>
+      </trans-unit>
+      <trans-unit id="surveys.questions.required" datatype="html">
+        <source>Obligatoria</source>
+        <target>Obligatoria</target>
+      </trans-unit>
+      <trans-unit id="surveys.questions.sortOrder" datatype="html">
+        <source>Orden</source>
+        <target>Orden</target>
+      </trans-unit>
+      <trans-unit id="surveys.questions.empty" datatype="html">
+        <source>Agregue al menos una pregunta</source>
+        <target>Agregue al menos una pregunta</target>
+      </trans-unit>
+      <trans-unit id="surveys.answerType.text" datatype="html">
+        <source>Texto</source>
+        <target>Texto</target>
+      </trans-unit>
+      <trans-unit id="surveys.answerType.number" datatype="html">
+        <source>Número</source>
+        <target>Número</target>
+      </trans-unit>
+      <trans-unit id="surveys.answerType.date" datatype="html">
+        <source>Fecha</source>
+        <target>Fecha</target>
+      </trans-unit>
+      <trans-unit id="surveys.answerType.image" datatype="html">
+        <source>Imagen</source>
+        <target>Imagen</target>
+      </trans-unit>
+      <trans-unit id="surveys.answerType.file" datatype="html">
+        <source>Archivo</source>
+        <target>Archivo</target>
+      </trans-unit>
+      <trans-unit id="surveys.save" datatype="html">
+        <source>Guardar</source>
+        <target>Guardar</target>
+      </trans-unit>
+      <trans-unit id="surveys.saving" datatype="html">
+        <source>Guardando…</source>
+        <target>Guardando…</target>
+      </trans-unit>
+      <trans-unit id="surveys.cancel" datatype="html">
+        <source>Cancelar</source>
+        <target>Cancelar</target>
+      </trans-unit>
+      <trans-unit id="surveys.success.saved" datatype="html">
+        <source>Encuesta guardada</source>
+        <target>Encuesta guardada</target>
+      </trans-unit>
+      <trans-unit id="surveys.success.deleted" datatype="html">
+        <source>Encuesta eliminada</source>
+        <target>Encuesta eliminada</target>
+      </trans-unit>
+      <trans-unit id="surveys.errors.list" datatype="html">
+        <source>No se pudieron cargar las encuestas</source>
+        <target>No se pudieron cargar las encuestas</target>
+      </trans-unit>
+      <trans-unit id="surveys.errors.load" datatype="html">
+        <source>No se pudo cargar la encuesta</source>
+        <target>No se pudo cargar la encuesta</target>
+      </trans-unit>
+      <trans-unit id="surveys.errors.save" datatype="html">
+        <source>No se pudo guardar la encuesta</source>
+        <target>No se pudo guardar la encuesta</target>
+      </trans-unit>
+      <trans-unit id="surveys.errors.delete" datatype="html">
+        <source>No se pudo eliminar la encuesta</source>
+        <target>No se pudo eliminar la encuesta</target>
+      </trans-unit>
+      <trans-unit id="surveys.errors.send" datatype="html">
+        <source>No se pudo enviar la encuesta por WhatsApp</source>
+        <target>No se pudo enviar la encuesta por WhatsApp</target>
+      </trans-unit>
+      <trans-unit id="surveys.deleteConfirm" datatype="html">
+        <source>¿Eliminar la encuesta "<x id="name" equiv-text="name" />"?</source>
+        <target>¿Eliminar la encuesta "<x id="name" equiv-text="name" />"?</target>
+      </trans-unit>
+      <trans-unit id="surveys.send.action" datatype="html">
+        <source>Enviar encuesta WhatsApp</source>
+        <target>Enviar encuesta WhatsApp</target>
+      </trans-unit>
+      <trans-unit id="surveys.send.confirm" datatype="html">
+        <source>¿Enviar la encuesta WhatsApp a los candidatos seleccionados?</source>
+        <target>¿Enviar la encuesta WhatsApp a los candidatos seleccionados?</target>
+      </trans-unit>
+      <trans-unit id="surveys.send.success" datatype="html">
+        <source>Encuesta WhatsApp enviada</source>
+        <target>Encuesta WhatsApp enviada</target>
+      </trans-unit>
+      <trans-unit id="surveys.send.partial" datatype="html">
+        <source>Algunas encuestas no se enviaron</source>
+        <target>Algunas encuestas no se enviaron</target>
+      </trans-unit>
+      <trans-unit id="surveys.send.noneEligible" datatype="html">
+        <source>Ningún candidato seleccionado está en PRESELECTED o un estado posterior</source>
+        <target>Ningún candidato seleccionado está en PRESELECTED o un estado posterior</target>
+      </trans-unit>
+      <trans-unit id="surveys.send.sent" datatype="html">
+        <source>enviados</source>
+        <target>enviados</target>
+      </trans-unit>
+      <trans-unit id="surveys.send.failed" datatype="html">
+        <source>fallaron</source>
+        <target>fallaron</target>
+      </trans-unit>
       <trans-unit id="users.errors.tenantContext" datatype="html">
         <source>No se pudo cargar el contexto del tenant</source>
         <target>No se pudo cargar el contexto del tenant</target>
@@ -10294,6 +10742,302 @@
         <source>Los apellidos son obligatorios</source>
         <target>Los apellidos son obligatorios</target>
       </trans-unit>
+      <trans-unit id="validateInfoDialog.title" datatype="html">
+        <source>Validar información</source>
+        <target>Validar información</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.loading" datatype="html">
+        <source>Cargando formulario…</source>
+        <target>Cargando formulario…</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.loadError" datatype="html">
+        <source>No se pudo cargar el formulario.</source>
+        <target>No se pudo cargar el formulario.</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.saveError" datatype="html">
+        <source>No se pudo guardar y validar la información.</source>
+        <target>No se pudo guardar y validar la información.</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.back" datatype="html">
+        <source>Regresar</source>
+        <target>Regresar</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.next" datatype="html">
+        <source>Continuar</source>
+        <target>Continuar</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.save" datatype="html">
+        <source>Guardar y validar</source>
+        <target>Guardar y validar</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.saving" datatype="html">
+        <source>Guardando…</source>
+        <target>Guardando…</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.tab.personal" datatype="html">
+        <source>Datos Personales</source>
+        <target>Datos Personales</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.tab.beneficiaries" datatype="html">
+        <source>Beneficiarios</source>
+        <target>Beneficiarios</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.tab.emergency" datatype="html">
+        <source>Contactos de Emergencia</source>
+        <target>Contactos de Emergencia</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.section.general" datatype="html">
+        <source>Información general</source>
+        <target>Información general</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.section.gov" datatype="html">
+        <source>Información instituciones gobierno</source>
+        <target>Información instituciones gobierno</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.section.tax" datatype="html">
+        <source>Información fiscal</source>
+        <target>Información fiscal</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.section.birth" datatype="html">
+        <source>Información de nacimiento</source>
+        <target>Información de nacimiento</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.section.residence" datatype="html">
+        <source>Información de residencia</source>
+        <target>Información de residencia</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.section.studies" datatype="html">
+        <source>Información de estudios</source>
+        <target>Información de estudios</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.section.beneficiary" datatype="html">
+        <source>Beneficiario</source>
+        <target>Beneficiario</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.section.beneficiariesList" datatype="html">
+        <source>Beneficiarios</source>
+        <target>Beneficiarios</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.section.contacts" datatype="html">
+        <source>Contactos</source>
+        <target>Contactos</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.section.contactsList" datatype="html">
+        <source>Contactos agregados</source>
+        <target>Contactos agregados</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.firstName" datatype="html">
+        <source>Nombre</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.lastName" datatype="html">
+        <source>Apellido paterno</source>
+        <target>Apellido paterno</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.maternalLastName" datatype="html">
+        <source>Apellido materno</source>
+        <target>Apellido materno</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.position" datatype="html">
+        <source>Puesto de interés</source>
+        <target>Puesto de interés</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.experience" datatype="html">
+        <source>Experiencia</source>
+        <target>Experiencia</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.desiredSalary" datatype="html">
+        <source>Sueldo de interés</source>
+        <target>Sueldo de interés</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.email" datatype="html">
+        <source>Email</source>
+        <target>Email</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.phone" datatype="html">
+        <source>Teléfono</source>
+        <target>Teléfono</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.country" datatype="html">
+        <source>País</source>
+        <target>País</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.gender" datatype="html">
+        <source>Género</source>
+        <target>Género</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.maritalStatus" datatype="html">
+        <source>Estado civil</source>
+        <target>Estado civil</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.curp" datatype="html">
+        <source>CURP</source>
+        <target>CURP</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.nss" datatype="html">
+        <source>NSS</source>
+        <target>NSS</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.nssDv" datatype="html">
+        <source>NSSDV</source>
+        <target>NSSDV</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.infonavit" datatype="html">
+        <source>INFONAVIT</source>
+        <target>INFONAVIT</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.rfc" datatype="html">
+        <source>RFC</source>
+        <target>RFC</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.taxRegime" datatype="html">
+        <source>Régimen fiscal</source>
+        <target>Régimen fiscal</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.rfcPostalCode" datatype="html">
+        <source>Código postal RFC</source>
+        <target>Código postal RFC</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.state" datatype="html">
+        <source>Entidad federativa</source>
+        <target>Entidad federativa</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.birthDate" datatype="html">
+        <source>Fecha</source>
+        <target>Fecha</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.postalCode" datatype="html">
+        <source>Código postal</source>
+        <target>Código postal</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.municipality" datatype="html">
+        <source>Municipio</source>
+        <target>Municipio</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.neighborhood" datatype="html">
+        <source>Colonia</source>
+        <target>Colonia</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.street" datatype="html">
+        <source>Calle</source>
+        <target>Calle</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.exteriorNumber" datatype="html">
+        <source>No. exterior</source>
+        <target>No. exterior</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.interiorNumber" datatype="html">
+        <source>No. interior</source>
+        <target>No. interior</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.educationLevel" datatype="html">
+        <source>Nivel de estudio</source>
+        <target>Nivel de estudio</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.institution" datatype="html">
+        <source>Institución</source>
+        <target>Institución</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.type" datatype="html">
+        <source>Tipo</source>
+        <target>Tipo</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.kinship" datatype="html">
+        <source>Parentesco</source>
+        <target>Parentesco</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.irrevocable" datatype="html">
+        <source>Irrevocable</source>
+        <target>Irrevocable</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.percent" datatype="html">
+        <source>Porcentaje</source>
+        <target>Porcentaje</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.age" datatype="html">
+        <source>Edad</source>
+        <target>Edad</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.prefix" datatype="html">
+        <source>Prefijo</source>
+        <target>Prefijo</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.field.yes" datatype="html">
+        <source>Sí</source>
+        <target>Sí</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.select" datatype="html">
+        <source>Seleccionar</source>
+        <target>Seleccionar</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.searchTax" datatype="html">
+        <source>Buscar datos</source>
+        <target>Buscar datos</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.searchSoon" datatype="html">
+        <source>Próximamente</source>
+        <target>Próximamente</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.add" datatype="html">
+        <source>Agregar</source>
+        <target>Agregar</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.remove" datatype="html">
+        <source>Quitar</source>
+        <target>Quitar</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.noItems" datatype="html">
+        <source>No hay elementos.</source>
+        <target>No hay elementos.</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.type.primary" datatype="html">
+        <source>Primario</source>
+        <target>Primario</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.type.contingent" datatype="html">
+        <source>Contingente</source>
+        <target>Contingente</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.hint.beneficiaries" datatype="html">
+        <source>El beneficiario se reflejará en el contrato de trabajo. Seguro de vida: Primario (1–5 beneficiarios), Contingente (1–3). La suma de porcentajes por tipo debe ser 100%.</source>
+        <target>El beneficiario se reflejará en el contrato de trabajo. Seguro de vida: Primario (1–5 beneficiarios), Contingente (1–3). La suma de porcentajes por tipo debe ser 100%.</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.hint.emergency" datatype="html">
+        <source>Debe haber dos contactos obligatorios.</source>
+        <target>Debe haber dos contactos obligatorios.</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.error.personalRequired" datatype="html">
+        <source>Nombre, apellidos y correo son obligatorios.</source>
+        <target>Nombre, apellidos y correo son obligatorios.</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.error.emptyBeneficiaries" datatype="html">
+        <source>Agrega al menos un beneficiario.</source>
+        <target>Agrega al menos un beneficiario.</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.error.beneficiaryDraft" datatype="html">
+        <source>Completa tipo, nombre, apellidos, parentesco y porcentaje del beneficiario.</source>
+        <target>Completa tipo, nombre, apellidos, parentesco y porcentaje del beneficiario.</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.error.beneficiaryRow" datatype="html">
+        <source>Completa nombre, apellido y porcentaje de cada beneficiario.</source>
+        <target>Completa nombre, apellido y porcentaje de cada beneficiario.</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.error.percentSum" datatype="html">
+        <source>La suma de porcentajes por tipo (PRIMARY / CONTINGENT) debe ser 100%.</source>
+        <target>La suma de porcentajes por tipo (PRIMARY / CONTINGENT) debe ser 100%.</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.error.emergencyMin" datatype="html">
+        <source>Debes registrar al menos 2 contactos de emergencia.</source>
+        <target>Debes registrar al menos 2 contactos de emergencia.</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.error.emergencyDraft" datatype="html">
+        <source>Completa nombre, apellido paterno y teléfono del contacto.</source>
+        <target>Completa nombre, apellido paterno y teléfono del contacto.</target>
+      </trans-unit>
+      <trans-unit id="validateInfoDialog.error.emergencyRow" datatype="html">
+        <source>Completa nombre, apellido y teléfono de cada contacto de emergencia.</source>
+        <target>Completa nombre, apellido y teléfono de cada contacto de emergencia.</target>
+      </trans-unit>
       <trans-unit id="viaBot.assistantTitle" datatype="html">
         <source>Asistente VIA</source>
         <target>Asistente VIA</target>
@@ -10319,8 +11063,12 @@
         <target>Años de experiencia</target>
       </trans-unit>
       <trans-unit id="viaBot.welcome" datatype="html">
-        <source>Indícame qué perfil buscas para esta vacante.</source>
-        <target>Indícame qué perfil buscas para esta vacante.</target>
+        <source>Pulsa Buscar para obtener candidatos según los datos de esta vacante.</source>
+        <target>Pulsa Buscar para obtener candidatos según los datos de esta vacante.</target>
+      </trans-unit>
+      <trans-unit id="viaBot.search" datatype="html">
+        <source>Buscar</source>
+        <target>Buscar</target>
       </trans-unit>
       <trans-unit id="viaBot.inputPlaceholder" datatype="html">
         <source>Escribe una instrucción para el agente…</source>
@@ -10355,8 +11103,8 @@
         <target>Agregar a preselección</target>
       </trans-unit>
       <trans-unit id="viaBot.emptyResults" datatype="html">
-        <source>Aún no hay candidatos. Envía una instrucción al asistente.</source>
-        <target>Aún no hay candidatos. Envía una instrucción al asistente.</target>
+        <source>Aún no hay candidatos. Pulsa Buscar para iniciar.</source>
+        <target>Aún no hay candidatos. Pulsa Buscar para iniciar.</target>
       </trans-unit>
       <trans-unit id="viaBot.errors.load" datatype="html">
         <source>No se pudo cargar la conversación</source>
@@ -10365,6 +11113,10 @@
       <trans-unit id="viaBot.errors.chat" datatype="html">
         <source>No se pudo enviar el mensaje al asistente</source>
         <target>No se pudo enviar el mensaje al asistente</target>
+      </trans-unit>
+      <trans-unit id="viaBot.errors.search" datatype="html">
+        <source>No se pudo ejecutar la búsqueda de candidatos</source>
+        <target>No se pudo ejecutar la búsqueda de candidatos</target>
       </trans-unit>
       <trans-unit id="viaBot.errors.reset" datatype="html">
         <source>No se pudo reiniciar la conversación</source>
@@ -10522,17 +11274,9 @@
         <source>Escribe una instrucción o borrador en el campo antes de generar.</source>
         <target>Escribe una instrucción o borrador en el campo antes de generar.</target>
       </trans-unit>
-      <trans-unit id="requisition.jobDescription.autoGenerateFromJobRequirement" datatype="html">
-        <source>Pulsa Entendido para escribir una instrucción o borrador en el campo. Pulsa Auto Generar para crear el texto a partir de Requerimiento del Empleo.</source>
-        <target>Pulsa Entendido para escribir una instrucción o borrador en el campo. Pulsa Auto Generar para crear el texto a partir de Requerimiento del Empleo.</target>
-      </trans-unit>
       <trans-unit id="requisition.jobDescription.autoGenerateFromPositionName" datatype="html">
         <source>Pulsa Entendido para escribir una instrucción o borrador en el campo. Pulsa Auto Generar para crear el texto a partir de los datos de la requisición.</source>
         <target>Pulsa Entendido para escribir una instrucción o borrador en el campo. Pulsa Auto Generar para crear el texto a partir de los datos de la requisición.</target>
-      </trans-unit>
-      <trans-unit id="requisition.jobDescription.emptySourceForAutoGenerate" datatype="html">
-        <source>Escribe o genera la descripción del puesto antes de auto generar requisitos.</source>
-        <target>Escribe o genera la descripción del puesto antes de auto generar requisitos.</target>
       </trans-unit>
       <trans-unit id="requisition.jobDescription.emptyPositionNameForAutoGenerate" datatype="html">
         <source>Escribe el nombre del puesto antes de auto generar la descripción.</source>
@@ -10553,10 +11297,6 @@
       <trans-unit id="requisition.requirements.emptyPositionName" datatype="html">
         <source>Escribe el nombre del puesto antes de generar los requisitos.</source>
         <target>Escribe el nombre del puesto antes de generar los requisitos.</target>
-      </trans-unit>
-      <trans-unit id="requisition.requirements.emptyTranslate" datatype="html">
-        <source>Escribe o genera al menos un tipo de requisito antes de traducir.</source>
-        <target>Escribe o genera al menos un tipo de requisito antes de traducir.</target>
       </trans-unit>
       <trans-unit id="requisition.jobRequirementBlock.emptyTranslate" datatype="html">
         <source>Escribe la descripción del puesto o al menos un requisito antes de traducir.</source>
@@ -10626,14 +11366,6 @@
         <source> Catálogo pendiente de implementación. Ver plan <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code&gt;" />docs/technical/CATALOG-REFACTOR-PLAN-v1.md<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;" /> y issues AVV-380+. </source>
         <target> Catálogo pendiente de implementación. Ver plan <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code&gt;" />docs/technical/CATALOG-REFACTOR-PLAN-v1.md<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;" /> y issues AVV-380+. </target>
       </trans-unit>
-      <trans-unit id="catalogs.field.colorHex" datatype="html">
-        <source>Color texto</source>
-        <target>Color texto</target>
-      </trans-unit>
-      <trans-unit id="catalogs.field.backgroundColorHex" datatype="html">
-        <source>Color fondo</source>
-        <target>Color fondo</target>
-      </trans-unit>
       <trans-unit id="catalogs.field.colors" datatype="html">
         <source>Colores</source>
         <target>Colores</target>
@@ -10657,6 +11389,26 @@
       <trans-unit id="catalogs.field.mimeType" datatype="html">
         <source>MIME type</source>
         <target>MIME type</target>
+      </trans-unit>
+      <trans-unit id="catalogs.coverageType.completeInfoTabsTitle" datatype="html">
+        <source> Tabs del formulario Completar información </source>
+        <target> Tabs del formulario Completar información </target>
+      </trans-unit>
+      <trans-unit id="catalogs.coverageType.completeInfoTabsHint" datatype="html">
+        <source> Define qué secciones se pedirán al candidato </source>
+        <target> Define qué secciones se pedirán al candidato </target>
+      </trans-unit>
+      <trans-unit id="catalogs.coverageType.tabPersonal" datatype="html">
+        <source> Datos personales (siempre requerido) </source>
+        <target> Datos personales (siempre requerido) </target>
+      </trans-unit>
+      <trans-unit id="catalogs.coverageType.tabBeneficiaries" datatype="html">
+        <source> Beneficiarios </source>
+        <target> Beneficiarios </target>
+      </trans-unit>
+      <trans-unit id="catalogs.coverageType.tabEmergencyContacts" datatype="html">
+        <source> Contactos de emergencia </source>
+        <target> Contactos de emergencia </target>
       </trans-unit>
       <trans-unit id="catalogs.field.primaryCode" datatype="html">
         <source>Clave 1</source>
@@ -10734,14 +11486,6 @@
         <source>Apellidos</source>
         <target>Apellidos</target>
       </trans-unit>
-      <trans-unit id="users.form.phoneCode" datatype="html">
-        <source>Cód. tel.</source>
-        <target>Cód. tel.</target>
-      </trans-unit>
-      <trans-unit id="users.form.phone" datatype="html">
-        <source>Teléfono</source>
-        <target>Teléfono</target>
-      </trans-unit>
       <trans-unit id="users.form.tenantCountry" datatype="html">
         <source>País (tenant)</source>
         <target>País (tenant)</target>
@@ -10801,6 +11545,14 @@
       <trans-unit id="users.form.editTitle" datatype="html">
         <source>Editar usuario</source>
         <target>Editar usuario</target>
+      </trans-unit>
+      <trans-unit id="phone.prefix" datatype="html">
+        <source>Prefijo del país</source>
+        <target>Prefijo del país</target>
+      </trans-unit>
+      <trans-unit id="phone.number" datatype="html">
+        <source>Teléfono</source>
+        <target>Teléfono</target>
       </trans-unit>
       <trans-unit id="candidateApplication.stage.applied" datatype="html">
         <source>Postulado</source>

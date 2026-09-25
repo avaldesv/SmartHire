@@ -34,6 +34,15 @@
     >
       <mat-icon>event</mat-icon> {{ labels.bulkAppointment }} ({{ selectedCount }})
     </button>
+    @if (canSendSurvey) {
+      <button
+        mat-stroked-button
+        (click)="bulkSendWhatsappSurvey()"
+        [disabled]="bulkLoading || selectedCount === 0"
+      >
+        <mat-icon>forum</mat-icon> {{ labels.bulkWhatsappSurvey }} ({{ selectedCount }})
+      </button>
+    }
     <span class="toolbar-divider"></span>
     <button mat-stroked-button (click)="action(labels.sendSmart)"><mat-icon>send</mat-icon> {{ labels.sendSmart }}</button>
     @if (hasDocumentRequirements) {

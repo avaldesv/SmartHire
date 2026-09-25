@@ -9,6 +9,7 @@ const REQUISITION_STEP_LABELS: Record<string, string> = {
   clientDescription: $localize`:@@requisition.step.clientDescription:Descripción del cliente`,
   extraBenefits: $localize`:@@requisition.step.extraBenefits:Beneficios adicionales`,
   preselection: $localize`:@@requisition.step.preselection:Preselección`,
+  whatsappSurvey: $localize`:@@requisition.step.whatsappSurvey:Encuesta WhatsApp`,
   documents: $localize`:@@requisition.step.documents:Documentos`,
   requirements: $localize`:@@requisition.step.requirements:Requerimientos`,
 };
@@ -99,6 +100,7 @@ const REQUISITION_FIELD_LABELS: Record<string, string> = {
   extraBenefitsText: $localize`:@@requisition.field.extraBenefitsText:Texto beneficios adicionales`,
   questionnaire: $localize`:@@requisition.field.questionnaire:Cuestionario`,
   exam: $localize`:@@requisition.field.exam:Examen`,
+  surveyId: $localize`:@@requisition.field.surveyId:Encuesta WhatsApp`,
   documentRequirements: $localize`:@@requisition.field.documentRequirements:Documentos definidos y configurados`,
   documentValidateAiName: $localize`:@@requisition.field.documentValidateAiName:Validar con IA — Nombre`,
   documentValidateAiValidity: $localize`:@@requisition.field.documentValidateAiValidity:Validar con IA — Vigencia`,
@@ -173,6 +175,7 @@ const REQUISITION_STEP_STEPPER_LABELS: Record<string, string> = {
   clientDescription: $localize`:@@requisition.step.clientDescription.stepper:Desc. cliente`,
   extraBenefits: $localize`:@@requisition.step.extraBenefits.stepper:Beneficios`,
   preselection: $localize`:@@requisition.step.preselection.stepper:Preselección`,
+  whatsappSurvey: $localize`:@@requisition.step.whatsappSurvey.stepper:Encuesta WA`,
   documents: $localize`:@@requisition.step.documents.stepper:Documentos`,
   requirements: $localize`:@@requisition.step.requirements.stepper:Requisitos`,
 };

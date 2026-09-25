@@ -117,6 +117,13 @@ export const routes: Routes = [
         ],
       },
       {
+        path: 'surveys',
+        canActivate: [permissionGuard],
+        data: { authorities: [AppPermissions.SURVEY_READ] },
+        loadComponent: () =>
+          import('./features/surveys/surveys-admin.component').then((m) => m.SurveysAdminComponent),
+      },
+      {
         path: 'questionnaires',
         canActivate: [permissionGuard],
         data: { authorities: [AppPermissions.QUESTIONNAIRE_READ] },

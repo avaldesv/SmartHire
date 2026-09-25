@@ -127,6 +127,7 @@ export const REQUISITION_FORM_DEFAULT_STEP_KEYS = [
   'clientDescription',
   'extraBenefits',
   'preselection',
+  'whatsappSurvey',
   'documents',
 ] as const;
 

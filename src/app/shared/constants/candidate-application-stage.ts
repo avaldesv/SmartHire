@@ -18,6 +18,25 @@ export const CANDIDATE_APPLICATION_STAGES = [
   CANDIDATE_APPLICATION_STATUS.RELEASED,
 ] as const;
 
+/** Statuses eligible for WhatsApp survey send (mirrors backend isPreselectedOrLater). */
+const PRESELECTED_OR_LATER_STATUSES = new Set([
+  'PRESELECTED',
+  'PRESELECTION',
+  'SELECTED',
+  'PREHIRED',
+  'INTERVIEW',
+  'EVALUATION',
+  'DOCUMENTS',
+  'HIRED',
+]);
+
+export function isPreselectedOrLater(status: string | null | undefined): boolean {
+  if (!status?.trim()) {
+    return false;
+  }
+  return PRESELECTED_OR_LATER_STATUSES.has(status.trim().toUpperCase());
+}
+
 export type CandidateApplicationStage = typeof CANDIDATE_APPLICATION_STAGES[number];
 
 export const CANDIDATE_APPLICATION_STAGE_LABELS: Record<string, string> = {

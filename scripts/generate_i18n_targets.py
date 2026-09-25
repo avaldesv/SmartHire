@@ -1250,6 +1250,47 @@ EN_BY_SOURCE: dict[str, str] = {
     "30 minutos": "30 minutes",
     "45 minutos": "45 minutes",
     "60 minutos": "60 minutes",
+    # WhatsApp surveys (Encuestas)
+    "Encuestas": "Surveys",
+    "Encuestas WhatsApp": "WhatsApp surveys",
+    "Nueva encuesta": "New survey",
+    "Buscar encuesta": "Search survey",
+    "No hay encuestas registradas": "No surveys registered",
+    "Editar encuesta": "Edit survey",
+    "Texto de descripción": "Description text",
+    "Agregar pregunta": "Add question",
+    "Quitar": "Remove",
+    "Texto de la pregunta": "Question text",
+    "Tipo de respuesta": "Answer type",
+    "Obligatoria": "Required",
+    "Agregue al menos una pregunta": "Add at least one question",
+    "Texto": "Text",
+    "Número": "Number",
+    "Fecha": "Date",
+    "Imagen": "Image",
+    "Archivo": "File",
+    "Guardando…": "Saving…",
+    "Encuesta guardada": "Survey saved",
+    "Encuesta eliminada": "Survey deleted",
+    "No se pudieron cargar las encuestas": "Could not load surveys",
+    "No se pudo cargar la encuesta": "Could not load the survey",
+    "No se pudo guardar la encuesta": "Could not save the survey",
+    "No se pudo eliminar la encuesta": "Could not delete the survey",
+    "No se pudo enviar la encuesta por WhatsApp": "Could not send the WhatsApp survey",
+    '¿Eliminar la encuesta "{$PH}"?': 'Delete survey "{$PH}"?',
+    "Enviar encuesta WhatsApp": "Send WhatsApp survey",
+    "¿Enviar la encuesta WhatsApp a los candidatos seleccionados?": (
+        "Send the WhatsApp survey to the selected candidates?"
+    ),
+    "Encuesta WhatsApp enviada": "WhatsApp survey sent",
+    "Algunas encuestas no se enviaron": "Some surveys were not sent",
+    "Ningún candidato seleccionado está en PRESELECTED o un estado posterior": (
+        "No selected candidate is in PRESELECTED or a later status"
+    ),
+    "enviados": "sent",
+    "fallaron": "failed",
+    "Encuesta WhatsApp": "WhatsApp survey",
+    "Encuesta WA": "WA survey",
 }
 
 ERROR_CATALOG_EN_MAP = load_error_catalog_en()
@@ -1274,6 +1315,8 @@ def translate_en(source: str) -> str:
         )
     if "Eliminar la etapa" in source:
         return source.replace("¿Eliminar la etapa", "Delete stage")
+    if "Eliminar la encuesta" in source:
+        return source.replace("¿Eliminar la encuesta", "Delete survey")
     if source.startswith("Importar "):
         return "Import " + source[len("Importar ") :]
     if "Estructura válida. Filas detectadas:" in source:

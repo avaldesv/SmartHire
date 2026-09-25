@@ -36,6 +36,7 @@ import {
   PRESELECTION_BULK_RELEASE_ALL_CONFIRM,
   PRESELECTION_BULK_RELEASE_ALL_SUCCESS,
   PRESELECTION_BULK_RELEASE_SUCCESS,
+  PRESELECTION_BULK_WHATSAPP_SURVEY,
   PRESELECTION_CHANGE_STAGE,
   PRESELECTION_CHANGE_STAGE_TITLE,
   PRESELECTION_COL_APPOINTMENT,
@@ -163,7 +164,20 @@ import {
   QuestionnaireEvaluationDialogData,
 } from '../dialogs/questionnaire-evaluation-dialog/questionnaire-evaluation-dialog.component';
 import { QuestionnaireApiService } from '../../../core/services/questionnaire-api.service';
-import { getCandidateApplicationStageLabel } from '../../../shared/constants/candidate-application-stage';
+import { SurveyApiService } from '../../../core/services/survey-api.service';
+import {
+  getCandidateApplicationStageLabel,
+  isPreselectedOrLater,
+} from '../../../shared/constants/candidate-application-stage';
+import {
+  SURVEYS_SEND_CONFIRM,
+  SURVEYS_SEND_FAILED,
+  SURVEYS_SEND_NONE_ELIGIBLE,
+  SURVEYS_SEND_PARTIAL,
+  SURVEYS_SEND_SENT,
+  SURVEYS_SEND_SUCCESS,
+  SURVEYS_ERRORS_SEND,
+} from '../../../core/i18n/survey-labels';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
 import { filter, switchMap, catchError, concatMap, from, map, of, toArray } from 'rxjs';
 import { PreselectionCandidate } from '../../../shared/models';
@@ -198,6 +212,7 @@ export class PreselectionComponent implements OnInit {
   private readonly candidateApi = inject(CandidateApiService);
   private readonly positionService = inject(PositionService);
   private readonly questionnaireApi = inject(QuestionnaireApiService);
+  private readonly surveyApi = inject(SurveyApiService);
   private readonly dialog = inject(MatDialog);
   private readonly feedback = inject(FeedbackDialogService);
   private readonly permission = inject(PermissionService);
@@ -235,6 +250,7 @@ export class PreselectionComponent implements OnInit {
     requestInfoDoneTooltip: PRESELECTION_REQUEST_INFO_DONE_TOOLTIP,
     bulkContact: PRESELECTION_BULK_CONTACT,
     bulkAppointment: PRESELECTION_BULK_APPOINTMENT,
+    bulkWhatsappSurvey: PRESELECTION_BULK_WHATSAPP_SURVEY,
     bulkMarkSelected: PRESELECTION_BULK_MARK_SELECTED,
     bulkRelease: PRESELECTION_BULK_RELEASE,
     bulkReleaseAll: PRESELECTION_BULK_RELEASE_ALL,
@@ -587,6 +603,58 @@ export class PreselectionComponent implements OnInit {
       });
   }
 
+  bulkSendWhatsappSurvey(): void {
+    if (!this.canSendSurvey || this.bulkLoading) {
+      return;
+    }
+    const selected = this.data.filter((row) => row.selected);
+    if (selected.length === 0) {
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, PRESELECTION_BULK_NONE_SELECTED);
+      return;
+    }
+    this.feedback
+      .confirm({
+        title: PRESELECTION_BULK_WHATSAPP_SURVEY,
+        message: SURVEYS_SEND_CONFIRM,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
+        this.sendWhatsappSurvey(selected);
+      });
+  }
+
+  private sendWhatsappSurvey(rows: PreselectionCandidate[]): void {
+    const eligible = rows.filter((row) => isPreselectedOrLater(row.stage));
+    if (eligible.length === 0) {
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, SURVEYS_SEND_NONE_ELIGIBLE);
+      return;
+    }
+    this.bulkLoading = true;
+    this.surveyApi
+      .sendToPosition(this.positionId, { candidateIds: eligible.map((row) => row.id) })
+      .subscribe({
+        next: (res) => {
+          this.bulkLoading = false;
+          const failed = res.errors?.length ?? 0;
+          const sent = res.sent ?? 0;
+          if (failed === 0) {
+            this.feedback.showSuccess(`${SURVEYS_SEND_SUCCESS} (${sent})`);
+            return;
+          }
+          this.feedback.showWarning(
+            SURVEYS_SEND_PARTIAL,
+            `${sent} ${SURVEYS_SEND_SENT}, ${failed} ${SURVEYS_SEND_FAILED}`,
+          );
+        },
+        error: (err) => {
+          this.bulkLoading = false;
+          this.feedback.showApiError(err, { fallbackMessage: SURVEYS_ERRORS_SEND });
+        },
+      });
+  }
+
   private openScheduleInterview(row: PreselectionCandidate): void {
     const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
     const dialogRef = this.dialog.open<
@@ -607,6 +675,10 @@ export class PreselectionComponent implements OnInit {
 
   get canEditSelection(): boolean {
     return this.permission.hasAuthority(AppPermissions.SELECTION_EDIT);
+  }
+
+  get canSendSurvey(): boolean {
+    return this.permission.hasAuthority(AppPermissions.SURVEY_SEND);
   }
 
   visibleRowActions(): PreselectionRowAction[] {
@@ -872,6 +944,10 @@ export class PreselectionComponent implements OnInit {
     }
     if (actionId === 'notifyQuestionnaire') {
       this.notifyCandidateQuestionnaire(row);
+      return;
+    }
+    if (actionId === 'sendWhatsappSurvey') {
+      this.sendWhatsappSurvey([row]);
       return;
     }
     if (actionId === 'changeStage') {

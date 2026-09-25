@@ -45,6 +45,12 @@ export const MAIN_NAV_ITEMS: MainNavItem[] = [
     authority: AppPermissions.QUESTIONNAIRE_READ,
   },
   {
+    label: $localize`:@@nav.main.surveys:Encuestas`,
+    path: '/surveys',
+    icon: 'poll',
+    authority: AppPermissions.SURVEY_READ,
+  },
+  {
     label: $localize`:@@nav.main.tracking:Seguimiento`,
     path: '/tracking',
     icon: 'timeline',
