@@ -6,6 +6,7 @@ import {
   SELECTION_TAB_AI,
   SELECTION_TAB_ANALYSIS,
   SELECTION_TAB_PRESELECTION,
+  SELECTION_TAB_SURVEY,
 } from '../../../core/i18n/selection-labels';
 import { PositionService } from '../../../core/services/position.service';
 
@@ -27,6 +28,7 @@ export class SelectionLayoutComponent {
   readonly tabs = [
     { label: SELECTION_TAB_AI, path: 'ai', icon: 'psychology' },
     { label: SELECTION_TAB_PRESELECTION, path: 'preselection', icon: 'filter_list' },
+    { label: SELECTION_TAB_SURVEY, path: 'survey', icon: 'forum' },
     { label: SELECTION_TAB_ANALYSIS, path: 'analysis', icon: 'analytics' },
   ];
 

@@ -1,0 +1,33 @@
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 32px;
+}
+
+.session-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px 20px;
+  margin: 0 0 20px;
+
+  dt {
+    margin: 0;
+    font-size: 12px;
+    color: #64748b;
+  }
+
+  dd {
+    margin: 2px 0 0;
+    font-weight: 500;
+    color: #1e293b;
+  }
+}
+
+.empty-answers {
+  margin: 0;
+  color: #64748b;
+}
+
+.answers-table {
+  width: 100%;
+}

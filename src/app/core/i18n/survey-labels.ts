@@ -52,3 +52,33 @@ export const SURVEYS_SEND_PARTIAL = $localize`:@@surveys.send.partial:Algunas en
 export const SURVEYS_SEND_NONE_ELIGIBLE = $localize`:@@surveys.send.noneEligible:Ningún candidato seleccionado está en PRESELECTED o un estado posterior`;
 export const SURVEYS_SEND_SENT = $localize`:@@surveys.send.sent:enviados`;
 export const SURVEYS_SEND_FAILED = $localize`:@@surveys.send.failed:fallaron`;
+
+export function surveysSendPhoneBusy(surveyName: string): string {
+  return $localize`:@@surveys.send.phoneBusy:Teléfono ocupado con la encuesta "${surveyName}:name:"`;
+}
+
+export const SURVEYS_RESULTS_TITLE = $localize`:@@surveys.results.title:Resultados de encuestas`;
+export const SURVEYS_RESULTS_EMPTY = $localize`:@@surveys.results.empty:No hay sesiones de encuesta`;
+export const SURVEYS_RESULTS_ERRORS_LIST = $localize`:@@surveys.results.errors.list:No se pudieron cargar los resultados`;
+export const SURVEYS_RESULTS_ERRORS_DETAIL = $localize`:@@surveys.results.errors.detail:No se pudo cargar el detalle de la sesión`;
+export const SURVEYS_RESULTS_FILTER_PHONE = $localize`:@@surveys.results.filter.phone:Teléfono`;
+export const SURVEYS_RESULTS_FILTER_COMPLETED = $localize`:@@surveys.results.filter.completed:Completada`;
+export const SURVEYS_RESULTS_FILTER_ALL = $localize`:@@surveys.results.filter.all:Todas`;
+export const SURVEYS_RESULTS_FILTER_YES = $localize`:@@surveys.results.filter.yes:Sí`;
+export const SURVEYS_RESULTS_FILTER_NO = $localize`:@@surveys.results.filter.no:No`;
+
+export const SURVEYS_RESULTS_COL_CANDIDATE = $localize`:@@surveys.results.col.candidate:Candidato`;
+export const SURVEYS_RESULTS_COL_SURVEY = $localize`:@@surveys.results.col.survey:Encuesta`;
+export const SURVEYS_RESULTS_COL_POSITION = $localize`:@@surveys.results.col.position:Posición`;
+export const SURVEYS_RESULTS_COL_PHONE = $localize`:@@surveys.results.col.phone:Teléfono`;
+export const SURVEYS_RESULTS_COL_PROGRESS = $localize`:@@surveys.results.col.progress:Progreso`;
+export const SURVEYS_RESULTS_COL_COMPLETED = $localize`:@@surveys.results.col.completed:Completada`;
+export const SURVEYS_RESULTS_COL_DATE = $localize`:@@surveys.results.col.date:Fecha`;
+
+export const SURVEYS_RESULTS_DETAIL_TITLE = $localize`:@@surveys.results.detail.title:Detalle de encuesta`;
+export const SURVEYS_RESULTS_DETAIL_CLOSE = $localize`:@@surveys.results.detail.close:Cerrar`;
+export const SURVEYS_RESULTS_DETAIL_QUESTION = $localize`:@@surveys.results.detail.question:Pregunta`;
+export const SURVEYS_RESULTS_DETAIL_ANSWER = $localize`:@@surveys.results.detail.answer:Respuesta`;
+export const SURVEYS_RESULTS_DETAIL_TYPE = $localize`:@@surveys.results.detail.type:Tipo`;
+export const SURVEYS_RESULTS_DETAIL_NO_ANSWERS = $localize`:@@surveys.results.detail.noAnswers:Sin respuestas registradas`;
+export const SURVEYS_RESULTS_VIEW_ARIA = $localize`:@@surveys.results.viewAria:Ver detalle de la sesión`;

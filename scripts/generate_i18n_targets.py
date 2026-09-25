@@ -1282,6 +1282,21 @@ EN_BY_SOURCE: dict[str, str] = {
     "¿Enviar la encuesta WhatsApp a los candidatos seleccionados?": (
         "Send the WhatsApp survey to the selected candidates?"
     ),
+    'Teléfono ocupado con la encuesta "{$PH}"': 'Phone busy with survey "{$PH}"',
+    "Resultados": "Results",
+    "Resultados de encuestas": "Survey results",
+    "No hay sesiones de encuesta": "No survey sessions",
+    "No se pudieron cargar los resultados": "Could not load survey results",
+    "No se pudo cargar el detalle de la sesión": "Could not load session detail",
+    "Completada": "Completed",
+    "Todas": "All",
+    "Progreso": "Progress",
+    "Detalle de encuesta": "Survey detail",
+    "Respuesta": "Answer",
+    "Tipo": "Type",
+    "Sin respuestas registradas": "No answers recorded",
+    "Ver detalle de la sesión": "View session detail",
+    "Encuesta": "Survey",
     "Encuesta WhatsApp enviada": "WhatsApp survey sent",
     "Algunas encuestas no se enviaron": "Some surveys were not sent",
     "Ningún candidato seleccionado está en PRESELECTED o un estado posterior": (

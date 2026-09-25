@@ -2,12 +2,16 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import {
+  ListSurveySessionsRequest,
   ListSurveysRequest,
   SendPositionSurveyRequest,
   SendPositionSurveyResponse,
   SurveyDetail,
   SurveyListItem,
   SurveyListResponse,
+  SurveySessionDetail,
+  SurveySessionListItem,
+  SurveySessionListResponse,
   UpsertSurveyRequest,
 } from '../../shared/models/survey.model';
 import { ApiClientService } from './api-client.service';
@@ -73,5 +77,68 @@ export class SurveyApiService {
       request,
       { headers: this.api.buildHeaders() },
     );
+  }
+
+  listSessions(
+    request: ListSurveySessionsRequest = {},
+    page = 0,
+    size = 20,
+  ): Observable<{ items: SurveySessionListItem[]; total: number }> {
+    return this.http
+      .post<SurveySessionListResponse>(
+        this.api.apiUrl('/api/v1/surveys/sessions/list'),
+        this.toSessionsBody(request),
+        { headers: this.api.buildHeaders(page, size) },
+      )
+      .pipe(map((res) => this.mapSessionsPage(res)));
+  }
+
+  getSession(id: number): Observable<SurveySessionDetail> {
+    return this.http.get<SurveySessionDetail>(this.api.apiUrl(`/api/v1/surveys/sessions/${id}`), {
+      headers: this.api.buildHeaders(),
+    });
+  }
+
+  listPositionSessions(
+    positionId: number,
+    request: ListSurveySessionsRequest = {},
+    page = 0,
+    size = 20,
+  ): Observable<{ items: SurveySessionListItem[]; total: number }> {
+    return this.http
+      .post<SurveySessionListResponse>(
+        this.api.apiUrl(`/api/v1/positions/${positionId}/surveys/sessions/list`),
+        this.toSessionsBody(request),
+        { headers: this.api.buildHeaders(page, size) },
+      )
+      .pipe(map((res) => this.mapSessionsPage(res)));
+  }
+
+  getPositionSession(positionId: number, id: number): Observable<SurveySessionDetail> {
+    return this.http.get<SurveySessionDetail>(
+      this.api.apiUrl(`/api/v1/positions/${positionId}/surveys/sessions/${id}`),
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  private toSessionsBody(request: ListSurveySessionsRequest) {
+    return {
+      surveyId: request.surveyId ?? null,
+      isSurveyCompleted: request.isSurveyCompleted ?? null,
+      phone: request.phone ?? null,
+      candidateId: request.candidateId ?? null,
+      filters: request.filters ?? [],
+      ordersBy: request.ordersBy ?? ['createAt:desc'],
+    };
+  }
+
+  private mapSessionsPage(res: SurveySessionListResponse): {
+    items: SurveySessionListItem[];
+    total: number;
+  } {
+    return {
+      items: res.data ?? [],
+      total: res.pagination?.total ?? 0,
+    };
   }
 }

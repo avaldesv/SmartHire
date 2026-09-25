@@ -12,7 +12,6 @@ import {
   PRESELECTION_ROW_NOTIFY_QUESTIONNAIRE,
   PRESELECTION_ROW_SCHEDULE_INTERVIEW,
   PRESELECTION_ROW_SEND_SMART,
-  PRESELECTION_ROW_SEND_WHATSAPP_SURVEY,
   PRESELECTION_ROW_VALIDATE_INFO,
   PRESELECTION_ROW_VALIDATE_STUDIES,
   PRESELECTION_ROW_VIEW_DOCUMENTS,
@@ -31,7 +30,6 @@ export type PreselectionRowActionId =
   | 'generateContract'
   | 'generateDocument'
   | 'notifyQuestionnaire'
-  | 'sendWhatsappSurvey'
   | 'viewNotifications'
   | 'changeStage'
   | 'deselectRow';
@@ -127,12 +125,6 @@ export const PRESELECTION_ROW_ACTIONS: readonly PreselectionRowAction[] = [
     label: PRESELECTION_ROW_NOTIFY_QUESTIONNAIRE,
     icon: 'mail',
     permissions: [AppPermissions.SELECTION_EDIT],
-  },
-  {
-    id: 'sendWhatsappSurvey',
-    label: PRESELECTION_ROW_SEND_WHATSAPP_SURVEY,
-    icon: 'forum',
-    permissions: [AppPermissions.SURVEY_SEND],
   },
   {
     id: 'changeStage',

@@ -7,6 +7,7 @@ export const PRESELECTION_COL_DOCS = $localize`:@@preselection.col.docs:Docs`;
 export const PRESELECTION_COL_CONTACT = $localize`:@@preselection.col.contact:Contactar`;
 export const PRESELECTION_COL_EVALUATION = $localize`:@@preselection.col.evaluation:Evaluación`;
 export const PRESELECTION_COL_APPOINTMENT = $localize`:@@preselection.col.appointment:Cita para entrevista`;
+export const PRESELECTION_COL_WHATSAPP_SURVEY = $localize`:@@preselection.col.whatsappSurvey:Encuesta WhatsApp`;
 export const PRESELECTION_COL_REQUEST_DOCUMENTS = $localize`:@@preselection.col.requestDocuments:Solicitar documentos`;
 export const PRESELECTION_COL_REQUEST_COMPLETE_INFO = $localize`:@@preselection.col.requestCompleteInfo:Completar información`;
 export const PRESELECTION_COL_INTERVIEWED = $localize`:@@preselection.col.interviewed:Entrevistado`;
@@ -49,6 +50,7 @@ export const PRESELECTION_EVALUATION_PENDING_MSG = $localize`:@@preselection.eva
 
 export const PRESELECTION_APPOINTMENT_TOOLTIP = $localize`:@@preselection.appointment.tooltip:Agendar entrevista`;
 export const PRESELECTION_APPOINTMENT_SCHEDULED_TOOLTIP = $localize`:@@preselection.appointment.scheduledTooltip:Entrevista agendada — reprogramar`;
+export const PRESELECTION_WHATSAPP_SURVEY_TOOLTIP = $localize`:@@preselection.whatsappSurvey.tooltip:Enviar encuesta WhatsApp`;
 
 export const PRESELECTION_BULK_CONTACT = $localize`:@@preselection.bulk.contact:Contactar candidatos`;
 export const PRESELECTION_BULK_CONTACT_CONFIRM = $localize`:@@preselection.bulk.contactConfirm:¿Enviar cuestionario de contacto a los candidatos seleccionados?`;
