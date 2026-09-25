@@ -111,6 +111,13 @@ export const routes: Routes = [
             loadComponent: () => import('./features/selection/preselection/preselection.component').then((m) => m.PreselectionComponent),
           },
           {
+            path: 'survey',
+            loadComponent: () =>
+              import('./features/selection/survey/selection-survey.component').then(
+                (m) => m.SelectionSurveyComponent,
+              ),
+          },
+          {
             path: 'analysis',
             loadComponent: () => import('./features/selection/analysis/analysis.component').then((m) => m.AnalysisComponent),
           },
@@ -119,9 +126,42 @@ export const routes: Routes = [
       {
         path: 'surveys',
         canActivate: [permissionGuard],
-        data: { authorities: [AppPermissions.SURVEY_READ] },
+        data: {
+          authorities: [AppPermissions.SURVEY_READ, AppPermissions.SURVEY_RESULTS_READ],
+        },
         loadComponent: () =>
-          import('./features/surveys/surveys-admin.component').then((m) => m.SurveysAdminComponent),
+          import('./features/surveys/layout/surveys-layout.component').then((m) => m.SurveysLayoutComponent),
+        children: [
+          {
+            path: '',
+            pathMatch: 'full',
+            loadComponent: () =>
+              import('./features/surveys/layout/surveys-redirect.component').then(
+                (m) => m.SurveysRedirectComponent,
+              ),
+          },
+          {
+            path: 'list',
+            canActivate: [permissionGuard],
+            data: { authorities: [AppPermissions.SURVEY_READ] },
+            loadComponent: () =>
+              import('./features/surveys/surveys-admin.component').then((m) => m.SurveysAdminComponent),
+          },
+          {
+            path: 'admin',
+            redirectTo: 'list',
+            pathMatch: 'full',
+          },
+          {
+            path: 'results',
+            canActivate: [permissionGuard],
+            data: { authorities: [AppPermissions.SURVEY_RESULTS_READ] },
+            loadComponent: () =>
+              import('./features/surveys/results/survey-results.component').then(
+                (m) => m.SurveyResultsComponent,
+              ),
+          },
+        ],
       },
       {
         path: 'questionnaires',

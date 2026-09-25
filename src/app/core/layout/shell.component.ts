@@ -75,6 +75,12 @@ export class ShellComponent implements OnInit {
       if (item.path === '/settings') {
         return this.permissions.canAccessSettings();
       }
+      if (item.path === '/surveys') {
+        return this.permissions.hasAny([
+          AppPermissions.SURVEY_READ,
+          AppPermissions.SURVEY_RESULTS_READ,
+        ]);
+      }
       return this.permissions.hasAuthority(item.authority);
     }),
   );

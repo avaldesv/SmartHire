@@ -118,6 +118,7 @@ export interface CreatePositionRequest {
   languages?: PositionLanguageItem[];
   questionnaire?: PositionQuestionnaireItem | null;
   documentRequirements?: PositionDocumentRequirementItem[];
+  surveyId?: number | null;
   assignedUserId?: number | null;
 }
 

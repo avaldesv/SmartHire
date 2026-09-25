@@ -59,10 +59,59 @@ export interface SendPositionSurveyErrorItem {
   candidateId: number;
   code: string;
   message: string;
+  surveyId?: number | null;
+  surveyName?: string | null;
+  sessionId?: number | null;
 }
 
 export interface SendPositionSurveyResponse {
   sent: number;
   skipped: number;
   errors: SendPositionSurveyErrorItem[];
+}
+
+export interface SurveySessionListItem {
+  id: number;
+  companyId?: number | null;
+  candidateId: number;
+  candidateFirstName?: string | null;
+  candidateLastName?: string | null;
+  positionId?: number | null;
+  positionName?: string | null;
+  surveyId: number;
+  surveyName?: string | null;
+  candidatePhoneNumber?: string | null;
+  totalQuestions?: number | null;
+  totalQuestionsSend?: number | null;
+  totalQuestionAnswers?: number | null;
+  isSurveyCompleted?: boolean | null;
+  isActive?: boolean | null;
+  createAt?: string | null;
+}
+
+export interface SurveySessionAnswer {
+  questionIndex?: number | null;
+  questionId?: number | null;
+  questionText: string;
+  answerType?: string | null;
+  isRequired?: boolean | null;
+  answer?: string | null;
+  /** Display alias for questionIndex when present. */
+  sortOrder?: number | null;
+}
+
+export interface SurveySessionDetail extends SurveySessionListItem {
+  updateAt?: string | null;
+  answers: SurveySessionAnswer[];
+}
+
+export type SurveySessionListResponse = ApiPageResponse<SurveySessionListItem>;
+
+export interface ListSurveySessionsRequest {
+  surveyId?: number | null;
+  isSurveyCompleted?: boolean | null;
+  phone?: string | null;
+  candidateId?: number | null;
+  ordersBy?: string[];
+  filters?: string[];
 }

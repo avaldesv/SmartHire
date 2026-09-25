@@ -19,6 +19,12 @@ export interface QuestionnairesNavItem {
   authority: string;
 }
 
+export interface SurveysNavItem {
+  label: string;
+  path: string;
+  authority: string;
+}
+
 export const MAIN_NAV_ITEMS: MainNavItem[] = [
   {
     label: $localize`:@@nav.main.home:Inicio`,
@@ -106,6 +112,19 @@ export const QUESTIONNAIRES_NAV_ITEMS: QuestionnairesNavItem[] = [
     label: $localize`:@@questionnaires.nav.questionTags:Preguntas tags`,
     path: 'question-tags',
     authority: AppPermissions.QUESTIONNAIRE_READ,
+  },
+];
+
+export const SURVEYS_NAV_ITEMS: SurveysNavItem[] = [
+  {
+    label: $localize`:@@surveys.nav.admin:Encuestas`,
+    path: 'list',
+    authority: AppPermissions.SURVEY_READ,
+  },
+  {
+    label: $localize`:@@surveys.nav.results:Resultados`,
+    path: 'results',
+    authority: AppPermissions.SURVEY_RESULTS_READ,
   },
 ];
 

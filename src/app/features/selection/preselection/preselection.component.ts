@@ -20,6 +20,7 @@ import {
   PRESELECTION_ACTION_PENDING_API,
   PRESELECTION_APPOINTMENT_SCHEDULED_TOOLTIP,
   PRESELECTION_APPOINTMENT_TOOLTIP,
+  PRESELECTION_WHATSAPP_SURVEY_TOOLTIP,
   PRESELECTION_BULK_APPOINTMENT,
   PRESELECTION_BULK_CONTACT,
   PRESELECTION_BULK_CONTACT_CONFIRM,
@@ -40,6 +41,7 @@ import {
   PRESELECTION_CHANGE_STAGE,
   PRESELECTION_CHANGE_STAGE_TITLE,
   PRESELECTION_COL_APPOINTMENT,
+  PRESELECTION_COL_WHATSAPP_SURVEY,
   PRESELECTION_COL_CANDIDATE,
   PRESELECTION_COL_COMPAT,
   PRESELECTION_COL_CONTACT,
@@ -177,6 +179,7 @@ import {
   SURVEYS_SEND_SENT,
   SURVEYS_SEND_SUCCESS,
   SURVEYS_ERRORS_SEND,
+  surveysSendPhoneBusy,
 } from '../../../core/i18n/survey-labels';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
 import { filter, switchMap, catchError, concatMap, from, map, of, toArray } from 'rxjs';
@@ -234,6 +237,7 @@ export class PreselectionComponent implements OnInit {
     colContact: PRESELECTION_COL_CONTACT,
     colEvaluation: PRESELECTION_COL_EVALUATION,
     colAppointment: PRESELECTION_COL_APPOINTMENT,
+    colWhatsappSurvey: PRESELECTION_COL_WHATSAPP_SURVEY,
     colRequestDocuments: PRESELECTION_COL_REQUEST_DOCUMENTS,
     colRequestCompleteInfo: PRESELECTION_COL_REQUEST_COMPLETE_INFO,
     colInterviewed: PRESELECTION_COL_INTERVIEWED,
@@ -244,6 +248,7 @@ export class PreselectionComponent implements OnInit {
     evaluationTooltip: PRESELECTION_EVALUATION_TOOLTIP,
     appointmentTooltip: PRESELECTION_APPOINTMENT_TOOLTIP,
     appointmentScheduledTooltip: PRESELECTION_APPOINTMENT_SCHEDULED_TOOLTIP,
+    whatsappSurveyTooltip: PRESELECTION_WHATSAPP_SURVEY_TOOLTIP,
     requestDocsTooltip: PRESELECTION_REQUEST_DOCS_TOOLTIP,
     requestDocsNoRequirements: PRESELECTION_REQUEST_DOCS_NO_REQUIREMENTS,
     requestInfoTooltip: PRESELECTION_REQUEST_INFO_TOOLTIP,
@@ -263,13 +268,15 @@ export class PreselectionComponent implements OnInit {
   requestingInfoApplicationId: number | null = null;
   interviewingApplicationId: number | null = null;
   hasDocumentRequirements = false;
+  /** Position-linked WhatsApp survey (null until loaded / none assigned). */
+  positionSurveyId: number | null = null;
   data: PreselectionCandidate[] = [];
   selectedCount = 0;
   total = 0;
   pageIndex = 0;
   pageSize = 10;
 
-  readonly columns = [
+  private readonly baseColumns = [
     'select',
     'name',
     'compatibility',
@@ -283,6 +290,8 @@ export class PreselectionComponent implements OnInit {
     'requestCompleteInfo',
     'actions',
   ];
+
+  columns = [...this.baseColumns];
 
   ngOnInit(): void {
     this.loadPositionRequirements();
@@ -302,11 +311,25 @@ export class PreselectionComponent implements OnInit {
       next: (position) => {
         const reqs = position.documentRequirements ?? [];
         this.hasDocumentRequirements = reqs.some((r) => r.documentTypeId != null && r.documentTypeId > 0);
+        this.positionSurveyId =
+          position.surveyId != null && position.surveyId > 0 ? position.surveyId : null;
+        this.refreshColumns();
       },
       error: () => {
         this.hasDocumentRequirements = false;
+        this.positionSurveyId = null;
+        this.refreshColumns();
       },
     });
+  }
+
+  private refreshColumns(): void {
+    const cols = [...this.baseColumns];
+    if (this.showWhatsappSurveyColumn) {
+      const idx = cols.indexOf('appointment');
+      cols.splice(idx + 1, 0, 'whatsappSurvey');
+    }
+    this.columns = cols;
   }
 
   loadApplications(): void {
@@ -604,7 +627,7 @@ export class PreselectionComponent implements OnInit {
   }
 
   bulkSendWhatsappSurvey(): void {
-    if (!this.canSendSurvey || this.bulkLoading) {
+    if (!this.showWhatsappSurveyColumn || this.bulkLoading) {
       return;
     }
     const selected = this.data.filter((row) => row.selected);
@@ -625,6 +648,13 @@ export class PreselectionComponent implements OnInit {
       });
   }
 
+  sendWhatsappSurveyForRow(row: PreselectionCandidate): void {
+    if (!this.showWhatsappSurveyColumn || this.bulkLoading) {
+      return;
+    }
+    this.sendWhatsappSurvey([row]);
+  }
+
   private sendWhatsappSurvey(rows: PreselectionCandidate[]): void {
     const eligible = rows.filter((row) => isPreselectedOrLater(row.stage));
     if (eligible.length === 0) {
@@ -639,13 +669,22 @@ export class PreselectionComponent implements OnInit {
           this.bulkLoading = false;
           const failed = res.errors?.length ?? 0;
           const sent = res.sent ?? 0;
+          const errorDetails = (res.errors ?? [])
+            .map((err) => {
+              if (err.code === 'SURVEY_PHONE_BUSY' && err.surveyName) {
+                return surveysSendPhoneBusy(err.surveyName);
+              }
+              return err.message?.trim() || err.code;
+            })
+            .filter(Boolean)
+            .join('\n');
           if (failed === 0) {
             this.feedback.showSuccess(`${SURVEYS_SEND_SUCCESS} (${sent})`);
             return;
           }
           this.feedback.showWarning(
             SURVEYS_SEND_PARTIAL,
-            `${sent} ${SURVEYS_SEND_SENT}, ${failed} ${SURVEYS_SEND_FAILED}`,
+            errorDetails || `${sent} ${SURVEYS_SEND_SENT}, ${failed} ${SURVEYS_SEND_FAILED}`,
           );
         },
         error: (err) => {
@@ -679,6 +718,10 @@ export class PreselectionComponent implements OnInit {
 
   get canSendSurvey(): boolean {
     return this.permission.hasAuthority(AppPermissions.SURVEY_SEND);
+  }
+
+  get showWhatsappSurveyColumn(): boolean {
+    return this.canSendSurvey && this.positionSurveyId != null && this.positionSurveyId > 0;
   }
 
   visibleRowActions(): PreselectionRowAction[] {
@@ -944,10 +987,6 @@ export class PreselectionComponent implements OnInit {
     }
     if (actionId === 'notifyQuestionnaire') {
       this.notifyCandidateQuestionnaire(row);
-      return;
-    }
-    if (actionId === 'sendWhatsappSurvey') {
-      this.sendWhatsappSurvey([row]);
       return;
     }
     if (actionId === 'changeStage') {

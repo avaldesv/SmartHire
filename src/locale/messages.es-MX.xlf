@@ -2979,7 +2979,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">180</context>
+          <context context-type="linenumber">199</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/notifications-labels.ts</context>
@@ -3362,7 +3362,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">181</context>
+          <context context-type="linenumber">200</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/notifications-labels.ts</context>
@@ -4566,7 +4566,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">36</context>
+          <context context-type="linenumber">42</context>
         </context-group>
       </trans-unit>
       <trans-unit id="candidates.list.subtitle" datatype="html">
@@ -11343,63 +11343,63 @@
         <source>Inicio</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">24</context>
+          <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nav.main.positions" datatype="html">
         <source>Posiciones</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">30</context>
+          <context context-type="linenumber">36</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nav.main.questionnaires" datatype="html">
         <source>Cuestionarios</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">42</context>
+          <context context-type="linenumber">48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nav.main.surveys" datatype="html">
         <source>Encuestas</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">48</context>
+          <context context-type="linenumber">54</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nav.main.tracking" datatype="html">
         <source>Seguimiento</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">54</context>
+          <context context-type="linenumber">60</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nav.main.reports" datatype="html">
         <source>Reportes</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">60</context>
+          <context context-type="linenumber">66</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nav.main.settings" datatype="html">
         <source>Configuraciones</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">66</context>
+          <context context-type="linenumber">72</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nav.main.candidateAccounts" datatype="html">
         <source>Cuentas de candidatos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">72</context>
+          <context context-type="linenumber">78</context>
         </context-group>
       </trans-unit>
       <trans-unit id="questionnaires.nav.questions" datatype="html">
         <source>Preguntas</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">81</context>
+          <context context-type="linenumber">87</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/questionnaires-labels.ts</context>
@@ -11410,14 +11410,14 @@
         <source>Tipos de pregunta</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">86</context>
+          <context context-type="linenumber">92</context>
         </context-group>
       </trans-unit>
       <trans-unit id="questionnaires.nav.questionnaires" datatype="html">
         <source>Cuestionarios</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">91</context>
+          <context context-type="linenumber">97</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/questionnaires-labels.ts</context>
@@ -11428,7 +11428,7 @@
         <source>Exámenes</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">96</context>
+          <context context-type="linenumber">102</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/questionnaires-labels.ts</context>
@@ -11439,7 +11439,7 @@
         <source>Categorías</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">101</context>
+          <context context-type="linenumber">107</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/questionnaires-labels.ts</context>
@@ -11450,18 +11450,32 @@
         <source>Preguntas tags</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">106</context>
+          <context context-type="linenumber">112</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/questionnaires-labels.ts</context>
           <context context-type="linenumber">5</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="surveys.nav.admin" datatype="html">
+        <source>Encuestas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+          <context context-type="linenumber">120</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.nav.results" datatype="html">
+        <source>Resultados</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
+          <context context-type="linenumber">125</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="nav.settings.users" datatype="html">
         <source>Usuarios</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">114</context>
+          <context context-type="linenumber">133</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/features/settings/users/users-admin.component.html</context>
@@ -11472,84 +11486,84 @@
         <source>Grupos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">119</context>
+          <context context-type="linenumber">138</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nav.settings.catalogs" datatype="html">
         <source>Catálogos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">124</context>
+          <context context-type="linenumber">143</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nav.settings.notifications" datatype="html">
         <source>Notificaciones</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">129</context>
+          <context context-type="linenumber">148</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nav.settings.documents" datatype="html">
         <source>Documentos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">134</context>
+          <context context-type="linenumber">153</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nav.settings.prompts" datatype="html">
         <source>Prompts IA</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">139</context>
+          <context context-type="linenumber">158</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nav.settings.publicationTemplates" datatype="html">
         <source>Plantillas de publicación</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">144</context>
+          <context context-type="linenumber">163</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nav.settings.documentTemplates" datatype="html">
         <source>Plantillas de Documentos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">149</context>
+          <context context-type="linenumber">168</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nav.settings.cvs" datatype="html">
         <source>CVs</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">154</context>
+          <context context-type="linenumber">173</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nav.settings.pipelineStages" datatype="html">
         <source>Etapas</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">159</context>
+          <context context-type="linenumber">178</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nav.settings.requisitionFormConfig" datatype="html">
         <source>Formulario requisición</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">164</context>
+          <context context-type="linenumber">183</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nav.settings.system" datatype="html">
         <source>Sistema</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">169</context>
+          <context context-type="linenumber">188</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nav.settings.audit" datatype="html">
         <source>Bitácoras</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/nav-labels.ts</context>
-          <context context-type="linenumber">174</context>
+          <context context-type="linenumber">193</context>
         </context-group>
       </trans-unit>
       <trans-unit id="notifications.pageTitle" datatype="html">
@@ -14134,718 +14148,732 @@
           <context context-type="linenumber">9</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="preselection.col.whatsappSurvey" datatype="html">
+        <source>Encuesta WhatsApp</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="preselection.col.requestDocuments" datatype="html">
         <source>Solicitar documentos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">10</context>
+          <context context-type="linenumber">11</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.col.requestCompleteInfo" datatype="html">
         <source>Completar información</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">11</context>
+          <context context-type="linenumber">12</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.col.interviewed" datatype="html">
         <source>Entrevistado</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">12</context>
+          <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.toolbar.addFromPool" datatype="html">
         <source>Agregar del pool</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">14</context>
+          <context context-type="linenumber">15</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.toolbar.viewApplicants" datatype="html">
         <source>Ver postulados</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">15</context>
+          <context context-type="linenumber">16</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.toolbar.sendSmart" datatype="html">
         <source>Enviar a nómina</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">16</context>
+          <context context-type="linenumber">17</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.toolbar.documents" datatype="html">
         <source>Documentos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">17</context>
+          <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.toolbar.requestDocuments" datatype="html">
         <source>Solicitar documentos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">18</context>
+          <context context-type="linenumber">19</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.empty" datatype="html">
         <source>No hay candidatos preseleccionados en esta posición.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">19</context>
+          <context context-type="linenumber">20</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.row.actionsAria" datatype="html">
         <source>Acciones del candidato</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">20</context>
+          <context context-type="linenumber">21</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.interviewed.tooltip" datatype="html">
         <source>Clic para marcar/desmarcar · Fecha automática al marcar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">22</context>
+          <context context-type="linenumber">23</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.interviewed.doneTooltip" datatype="html">
         <source>Entrevista realizada · Clic para desmarcar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">23</context>
+          <context context-type="linenumber">24</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.interviewed.success" datatype="html">
         <source>Entrevista registrada</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">24</context>
+          <context context-type="linenumber">25</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.interviewed.unmarkSuccess" datatype="html">
         <source>Marca de entrevista eliminada</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">25</context>
+          <context context-type="linenumber">26</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.interviewed.error" datatype="html">
         <source>No se pudo actualizar el estado de entrevista</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">26</context>
+          <context context-type="linenumber">27</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.contact.tooltip" datatype="html">
         <source>Enviar cuestionario de contacto</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">28</context>
+          <context context-type="linenumber">29</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.contact.doneTooltip" datatype="html">
         <source>Cuestionario de contacto enviado</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">29</context>
+          <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.contact.success" datatype="html">
         <source>Cuestionario de contacto enviado</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">30</context>
+          <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.contact.error" datatype="html">
         <source>No se pudo enviar el cuestionario de contacto</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">31</context>
+          <context context-type="linenumber">32</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.requestDocs.tooltip" datatype="html">
         <source>Solicitar documentos al candidato</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">33</context>
+          <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.requestDocs.noRequirements" datatype="html">
         <source>No hay documentos requeridos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">34</context>
+          <context context-type="linenumber">35</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.requestDocs.success" datatype="html">
         <source>Solicitud de documentos enviada</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">35</context>
+          <context context-type="linenumber">36</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.requestDocs.error" datatype="html">
         <source>No se pudo solicitar documentos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">36</context>
+          <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.bulk.requestDocsConfirm" datatype="html">
         <source>¿Solicitar documentos a los candidatos seleccionados?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">37</context>
+          <context context-type="linenumber">38</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.bulk.requestDocsSuccess" datatype="html">
         <source>Solicitudes de documentos enviadas</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">38</context>
+          <context context-type="linenumber">39</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.bulk.requestDocsPartial" datatype="html">
         <source>Algunas solicitudes de documentos no se enviaron</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">39</context>
+          <context context-type="linenumber">40</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.requestInfo.tooltip" datatype="html">
         <source>Solicitar completar información</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">41</context>
+          <context context-type="linenumber">42</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.requestInfo.doneTooltip" datatype="html">
         <source>Información ya validada</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">42</context>
+          <context context-type="linenumber">43</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.requestInfo.success" datatype="html">
         <source>Solicitud de información enviada</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">43</context>
+          <context context-type="linenumber">44</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.requestInfo.error" datatype="html">
         <source>No se pudo solicitar completar información</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">44</context>
+          <context context-type="linenumber">45</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.evaluation.tooltip" datatype="html">
         <source>Evaluación del cuestionario</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">46</context>
+          <context context-type="linenumber">47</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.evaluation.pendingTitle" datatype="html">
         <source>Evaluación pendiente</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">47</context>
+          <context context-type="linenumber">48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.evaluation.pendingMessage" datatype="html">
         <source>Disponible cuando el candidato responda</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">48</context>
+          <context context-type="linenumber">49</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.appointment.tooltip" datatype="html">
         <source>Agendar entrevista</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">50</context>
+          <context context-type="linenumber">51</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.appointment.scheduledTooltip" datatype="html">
         <source>Entrevista agendada — reprogramar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">51</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="preselection.whatsappSurvey.tooltip" datatype="html">
+        <source>Enviar encuesta WhatsApp</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
+          <context context-type="linenumber">53</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.bulk.contact" datatype="html">
         <source>Contactar candidatos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">53</context>
+          <context context-type="linenumber">55</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.bulk.contactConfirm" datatype="html">
         <source>¿Enviar cuestionario de contacto a los candidatos seleccionados?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">54</context>
+          <context context-type="linenumber">56</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.bulk.contactSuccess" datatype="html">
         <source>Cuestionarios de contacto enviados</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">55</context>
+          <context context-type="linenumber">57</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.bulk.contactPartial" datatype="html">
         <source>Algunos cuestionarios no se enviaron</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">56</context>
+          <context context-type="linenumber">58</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.bulk.contactSent" datatype="html">
         <source>enviados</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">57</context>
+          <context context-type="linenumber">59</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.bulk.contactFailed" datatype="html">
         <source>fallaron</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">58</context>
+          <context context-type="linenumber">60</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.bulk.appointment" datatype="html">
         <source>Enviar cita para entrevistas</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">60</context>
+          <context context-type="linenumber">62</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.bulk.appointmentTitle" datatype="html">
         <source>Enviar citas para entrevistas</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">61</context>
+          <context context-type="linenumber">63</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.bulk.appointmentHint" datatype="html">
         <source>Se usará el horario sugerido del calendario para cada candidato.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">62</context>
+          <context context-type="linenumber">64</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.bulk.appointmentSuccess" datatype="html">
         <source>Citas de entrevista enviadas</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">63</context>
+          <context context-type="linenumber">65</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.bulk.appointmentPartial" datatype="html">
         <source>Algunas citas no se agendaron</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">64</context>
+          <context context-type="linenumber">66</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.bulk.whatsappSurvey" datatype="html">
         <source>Enviar encuesta WhatsApp</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">65</context>
+          <context context-type="linenumber">67</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.bulk.noneSelected" datatype="html">
         <source>Seleccione al menos un candidato en la tabla</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">66</context>
+          <context context-type="linenumber">68</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.bulk.markSelected" datatype="html">
         <source>Marcar como seleccionado</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">68</context>
+          <context context-type="linenumber">70</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.bulk.release" datatype="html">
         <source>Liberar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">69</context>
+          <context context-type="linenumber">71</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.bulk.releaseAll" datatype="html">
         <source>Liberar todos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">70</context>
+          <context context-type="linenumber">72</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.bulk.markSuccess" datatype="html">
         <source>Candidatos seleccionados</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">71</context>
+          <context context-type="linenumber">73</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.bulk.releaseSuccess" datatype="html">
         <source>Selección liberada</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">72</context>
+          <context context-type="linenumber">74</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.bulk.releaseAllConfirm" datatype="html">
         <source>¿Liberar todas las postulaciones de esta posición? Se marcarán como RELEASED.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">73</context>
+          <context context-type="linenumber">75</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.bulk.releaseAllSuccess" datatype="html">
         <source>Todas las postulaciones liberadas</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">74</context>
+          <context context-type="linenumber">76</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.bulk.error" datatype="html">
         <source>No se pudo completar la acción masiva</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">75</context>
+          <context context-type="linenumber">77</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.loadError" datatype="html">
         <source>No se pudieron cargar los candidatos postulados</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">76</context>
+          <context context-type="linenumber">78</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.pool.created" datatype="html">
         <source>candidato(s) postulado(s)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">77</context>
+          <context context-type="linenumber">79</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.action.candidatesSuffix" datatype="html">
         <source>candidato(s)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">78</context>
+          <context context-type="linenumber">80</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.action.pendingApi" datatype="html">
         <source>pendiente de integración API</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">79</context>
+          <context context-type="linenumber">81</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.row.deselect" datatype="html">
         <source>Deseleccionar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">81</context>
+          <context context-type="linenumber">83</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.row.editProfile" datatype="html">
         <source>Editar perfil</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">82</context>
+          <context context-type="linenumber">84</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.row.downloadCv" datatype="html">
         <source>Descargar CV</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">83</context>
+          <context context-type="linenumber">85</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.row.modifyCompatibility" datatype="html">
         <source>Modificar compatibilidad</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">84</context>
+          <context context-type="linenumber">86</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.row.scheduleInterview" datatype="html">
         <source>Agendar entrevista</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">85</context>
+          <context context-type="linenumber">87</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.row.viewDocuments" datatype="html">
         <source>Ver documentos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">86</context>
+          <context context-type="linenumber">88</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.row.validateInfo" datatype="html">
         <source>Validar información</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">87</context>
+          <context context-type="linenumber">89</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.row.validateStudies" datatype="html">
         <source>Validar estudios</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">88</context>
+          <context context-type="linenumber">90</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.row.auditLog" datatype="html">
         <source>Bitácora</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">89</context>
+          <context context-type="linenumber">91</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.row.sendSmart" datatype="html">
         <source>Enviar a nómina</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">90</context>
+          <context context-type="linenumber">92</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.row.generateContract" datatype="html">
         <source>Generar contrato</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">91</context>
+          <context context-type="linenumber">93</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.row.notifyQuestionnaire" datatype="html">
         <source>Notificar cuestionario</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">92</context>
+          <context context-type="linenumber">94</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.row.sendWhatsappSurvey" datatype="html">
         <source>Enviar encuesta WhatsApp</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">93</context>
+          <context context-type="linenumber">95</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.row.deselectSuccess" datatype="html">
         <source>Candidato deseleccionado</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">94</context>
+          <context context-type="linenumber">96</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.docs.complete" datatype="html">
         <source>Completo</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">96</context>
+          <context context-type="linenumber">98</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.docs.infoOk" datatype="html">
         <source>Info ✓</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">97</context>
+          <context context-type="linenumber">99</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.docs.infoPending" datatype="html">
         <source>Info pendiente</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">98</context>
+          <context context-type="linenumber">100</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.docs.studiesOk" datatype="html">
         <source>Estudios ✓</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">99</context>
+          <context context-type="linenumber">101</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.docs.studiesPending" datatype="html">
         <source>Estudios pendiente</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">100</context>
+          <context context-type="linenumber">102</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.compat.updated" datatype="html">
         <source>Compatibilidad actualizada</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">102</context>
+          <context context-type="linenumber">104</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.compat.updateError" datatype="html">
         <source>No se pudo actualizar la compatibilidad</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">103</context>
+          <context context-type="linenumber">105</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.compat.dialogTitle" datatype="html">
         <source>Modificar compatibilidad</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">104</context>
+          <context context-type="linenumber">106</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.compat.field" datatype="html">
         <source>Compatibilidad (%)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">105</context>
+          <context context-type="linenumber">107</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.cv.downloadError" datatype="html">
         <source>No se pudo obtener la URL de descarga del CV</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">107</context>
+          <context context-type="linenumber">109</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.info.alreadyValidated" datatype="html">
         <source>La información ya está validada</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">108</context>
+          <context context-type="linenumber">110</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.info.validated" datatype="html">
         <source>Información validada</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">109</context>
+          <context context-type="linenumber">111</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.info.validateError" datatype="html">
         <source>No se pudo validar la información</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">110</context>
+          <context context-type="linenumber">112</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.studies.alreadyValidated" datatype="html">
         <source>Los estudios ya están validados</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">111</context>
+          <context context-type="linenumber">113</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.studies.validated" datatype="html">
         <source>Estudios validados</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">112</context>
+          <context context-type="linenumber">114</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.studies.validateError" datatype="html">
         <source>No se pudieron validar los estudios</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">113</context>
+          <context context-type="linenumber">115</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.smart.sendError" datatype="html">
         <source>No se pudo enviar a SMART</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">114</context>
+          <context context-type="linenumber">116</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.contract.generateError" datatype="html">
         <source>No se pudo generar el contrato</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">115</context>
+          <context context-type="linenumber">117</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.questionnaire.inviteError" datatype="html">
         <source>No se pudo enviar la invitación al cuestionario</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">116</context>
+          <context context-type="linenumber">118</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.changeStage.action" datatype="html">
         <source>Cambiar etapa</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">118</context>
+          <context context-type="linenumber">120</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.changeStage.title" datatype="html">
         <source>Cambiar etapa</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">119</context>
+          <context context-type="linenumber">121</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.changeStage.subtitle" datatype="html">
         <source>Se actualizará la etapa de los candidatos seleccionados.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">120</context>
+          <context context-type="linenumber">122</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.changeStage.candidatesLabel" datatype="html">
         <source>Candidatos</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">121</context>
+          <context context-type="linenumber">123</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.changeStage.field" datatype="html">
         <source>Nueva etapa</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">122</context>
+          <context context-type="linenumber">124</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.changeStage.save" datatype="html">
         <source>Aplicar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">123</context>
+          <context context-type="linenumber">125</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.changeStage.cancel" datatype="html">
         <source>Cancelar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">124</context>
+          <context context-type="linenumber">126</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.changeStage.success" datatype="html">
         <source>Etapa actualizada</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">125</context>
+          <context context-type="linenumber">127</context>
         </context-group>
       </trans-unit>
       <trans-unit id="preselection.changeStage.error" datatype="html">
         <source>No se pudo cambiar la etapa</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/preselection-actions-labels.ts</context>
-          <context context-type="linenumber">126</context>
+          <context context-type="linenumber">128</context>
         </context-group>
       </trans-unit>
       <trans-unit id="prompts.pageTitle" datatype="html">
@@ -20921,11 +20949,18 @@
           <context context-type="linenumber">5</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="selection.tab.survey" datatype="html">
+        <source>Encuesta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/selection-labels.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="selection.tab.analysis" datatype="html">
         <source>Análisis</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/selection-labels.ts</context>
-          <context context-type="linenumber">6</context>
+          <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
       <trans-unit id="documents.pageTitle" datatype="html">
@@ -21493,6 +21528,174 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
           <context context-type="linenumber">54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.send.phoneBusy" datatype="html">
+        <source>Teléfono ocupado con la encuesta &quot;<x id="name" equiv-text="surveyName"/>&quot;</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.results.title" datatype="html">
+        <source>Resultados de encuestas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.results.empty" datatype="html">
+        <source>No hay sesiones de encuesta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.results.errors.list" datatype="html">
+        <source>No se pudieron cargar los resultados</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.results.errors.detail" datatype="html">
+        <source>No se pudo cargar el detalle de la sesión</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
+          <context context-type="linenumber">63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.results.filter.phone" datatype="html">
+        <source>Teléfono</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.results.filter.completed" datatype="html">
+        <source>Completada</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.results.filter.all" datatype="html">
+        <source>Todas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
+          <context context-type="linenumber">66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.results.filter.yes" datatype="html">
+        <source>Sí</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.results.filter.no" datatype="html">
+        <source>No</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.results.col.candidate" datatype="html">
+        <source>Candidato</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
+          <context context-type="linenumber">70</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.results.col.survey" datatype="html">
+        <source>Encuesta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.results.col.position" datatype="html">
+        <source>Posición</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.results.col.phone" datatype="html">
+        <source>Teléfono</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.results.col.progress" datatype="html">
+        <source>Progreso</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
+          <context context-type="linenumber">74</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.results.col.completed" datatype="html">
+        <source>Completada</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
+          <context context-type="linenumber">75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.results.col.date" datatype="html">
+        <source>Fecha</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
+          <context context-type="linenumber">76</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.results.detail.title" datatype="html">
+        <source>Detalle de encuesta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
+          <context context-type="linenumber">78</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.results.detail.close" datatype="html">
+        <source>Cerrar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
+          <context context-type="linenumber">79</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.results.detail.question" datatype="html">
+        <source>Pregunta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
+          <context context-type="linenumber">80</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.results.detail.answer" datatype="html">
+        <source>Respuesta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.results.detail.type" datatype="html">
+        <source>Tipo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
+          <context context-type="linenumber">82</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.results.detail.noAnswers" datatype="html">
+        <source>Sin respuestas registradas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
+          <context context-type="linenumber">83</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="surveys.results.viewAria" datatype="html">
+        <source>Ver detalle de la sesión</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/survey-labels.ts</context>
+          <context context-type="linenumber">84</context>
         </context-group>
       </trans-unit>
       <trans-unit id="users.errors.tenantContext" datatype="html">

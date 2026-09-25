@@ -5352,6 +5352,14 @@
         <source>Preguntas tags</source>
         <target>Preguntas tags</target>
       </trans-unit>
+      <trans-unit id="surveys.nav.admin" datatype="html">
+        <source>Encuestas</source>
+        <target>Encuestas</target>
+      </trans-unit>
+      <trans-unit id="surveys.nav.results" datatype="html">
+        <source>Resultados</source>
+        <target>Resultados</target>
+      </trans-unit>
       <trans-unit id="nav.settings.users" datatype="html">
         <source>Usuarios</source>
         <target>Usuarios</target>
@@ -6538,6 +6546,10 @@
         <source>Cita para entrevista</source>
         <target>Cita para entrevista</target>
       </trans-unit>
+      <trans-unit id="preselection.col.whatsappSurvey" datatype="html">
+        <source>Encuesta WhatsApp</source>
+        <target>Encuesta WhatsApp</target>
+      </trans-unit>
       <trans-unit id="preselection.col.requestDocuments" datatype="html">
         <source>Solicitar documentos</source>
         <target>Solicitar documentos</target>
@@ -6677,6 +6689,10 @@
       <trans-unit id="preselection.appointment.scheduledTooltip" datatype="html">
         <source>Entrevista agendada — reprogramar</source>
         <target>Entrevista agendada — reprogramar</target>
+      </trans-unit>
+      <trans-unit id="preselection.whatsappSurvey.tooltip" datatype="html">
+        <source>Enviar encuesta WhatsApp</source>
+        <target>Enviar encuesta WhatsApp</target>
       </trans-unit>
       <trans-unit id="preselection.bulk.contact" datatype="html">
         <source>Contactar candidatos</source>
@@ -10332,6 +10348,10 @@
         <source>Preselección</source>
         <target>Preselección</target>
       </trans-unit>
+      <trans-unit id="selection.tab.survey" datatype="html">
+        <source>Encuesta</source>
+        <target>Encuesta</target>
+      </trans-unit>
       <trans-unit id="selection.tab.analysis" datatype="html">
         <source>Análisis</source>
         <target>Análisis</target>
@@ -10665,6 +10685,102 @@
       <trans-unit id="surveys.send.failed" datatype="html">
         <source>fallaron</source>
         <target>fallaron</target>
+      </trans-unit>
+      <trans-unit id="surveys.send.phoneBusy" datatype="html">
+        <source>Teléfono ocupado con la encuesta "<x id="name" equiv-text="surveyName" />"</source>
+        <target>Teléfono ocupado con la encuesta "<x id="name" equiv-text="surveyName" />"</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.title" datatype="html">
+        <source>Resultados de encuestas</source>
+        <target>Resultados de encuestas</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.empty" datatype="html">
+        <source>No hay sesiones de encuesta</source>
+        <target>No hay sesiones de encuesta</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.errors.list" datatype="html">
+        <source>No se pudieron cargar los resultados</source>
+        <target>No se pudieron cargar los resultados</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.errors.detail" datatype="html">
+        <source>No se pudo cargar el detalle de la sesión</source>
+        <target>No se pudo cargar el detalle de la sesión</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.filter.phone" datatype="html">
+        <source>Teléfono</source>
+        <target>Teléfono</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.filter.completed" datatype="html">
+        <source>Completada</source>
+        <target>Completada</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.filter.all" datatype="html">
+        <source>Todas</source>
+        <target>Todas</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.filter.yes" datatype="html">
+        <source>Sí</source>
+        <target>Sí</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.filter.no" datatype="html">
+        <source>No</source>
+        <target>No</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.col.candidate" datatype="html">
+        <source>Candidato</source>
+        <target>Candidato</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.col.survey" datatype="html">
+        <source>Encuesta</source>
+        <target>Encuesta</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.col.position" datatype="html">
+        <source>Posición</source>
+        <target>Posición</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.col.phone" datatype="html">
+        <source>Teléfono</source>
+        <target>Teléfono</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.col.progress" datatype="html">
+        <source>Progreso</source>
+        <target>Progreso</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.col.completed" datatype="html">
+        <source>Completada</source>
+        <target>Completada</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.col.date" datatype="html">
+        <source>Fecha</source>
+        <target>Fecha</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.detail.title" datatype="html">
+        <source>Detalle de encuesta</source>
+        <target>Detalle de encuesta</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.detail.close" datatype="html">
+        <source>Cerrar</source>
+        <target>Cerrar</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.detail.question" datatype="html">
+        <source>Pregunta</source>
+        <target>Pregunta</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.detail.answer" datatype="html">
+        <source>Respuesta</source>
+        <target>Respuesta</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.detail.type" datatype="html">
+        <source>Tipo</source>
+        <target>Tipo</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.detail.noAnswers" datatype="html">
+        <source>Sin respuestas registradas</source>
+        <target>Sin respuestas registradas</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.viewAria" datatype="html">
+        <source>Ver detalle de la sesión</source>
+        <target>Ver detalle de la sesión</target>
       </trans-unit>
       <trans-unit id="users.errors.tenantContext" datatype="html">
         <source>No se pudo cargar el contexto del tenant</source>
