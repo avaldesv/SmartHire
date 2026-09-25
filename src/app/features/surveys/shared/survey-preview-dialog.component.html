@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>{{ labels.title }}</h2>
+
+<mat-dialog-content>
+  @if (loading) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else if (!detail) {
+    <p class="empty">{{ labels.empty }}</p>
+  } @else {
+    <div class="preview-header">
+      <strong>{{ detail.name }}</strong>
+    </div>
+
+    @if (detail.descriptionText) {
+      <div class="msg-block">
+        <span class="msg-label">{{ labels.initial }}</span>
+        <p>{{ detail.descriptionText }}</p>
+      </div>
+    }
+    @if (detail.finalMessageText) {
+      <div class="msg-block">
+        <span class="msg-label">{{ labels.final }}</span>
+        <p>{{ detail.finalMessageText }}</p>
+      </div>
+    }
+
+    @if (!detail.questions.length) {
+      <p class="empty">{{ labels.noQuestions }}</p>
+    } @else {
+      <ol class="preview-questions">
+        @for (q of detail.questions; track q.id ?? $index) {
+          <li>
+            <span class="q-text">{{ q.questionText }}</span>
+            <span class="q-meta">{{ labels.type }}: {{ q.answerType }}@if (q.isRequired) { · *}</span>
+          </li>
+        }
+      </ol>
+    }
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button type="button" (click)="close()">{{ labels.close }}</button>
+</mat-dialog-actions>

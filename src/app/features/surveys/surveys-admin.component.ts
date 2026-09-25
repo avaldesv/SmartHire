@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { debounceTime, filter, forkJoin } from 'rxjs';
 import { AppPermissions } from '../../core/auth/app-permissions';
 import { catalogTallDialogConfig } from '../../core/dialog/catalog-dialog.constants';
@@ -26,8 +27,6 @@ import {
   SURVEYS_KPI_AVG_QUESTIONS,
   SURVEYS_KPI_TOTAL,
   SURVEYS_NEW_BUTTON,
-  SURVEYS_PREVIEW_EMPTY,
-  SURVEYS_PREVIEW_NO_QUESTIONS,
   SURVEYS_PREVIEW_TITLE,
   SURVEYS_SEARCH,
   SURVEYS_STATUS_ACTIVE,
@@ -42,11 +41,15 @@ import { WizardFieldCatalogService } from '../../core/services/wizard-field-cata
 import { KpiCardComponent } from '../../shared/components/kpi-card/kpi-card.component';
 import { ShPaginatorComponent } from '../../shared/components/paginator/sh-paginator.component';
 import { TableRowActionsComponent } from '../../shared/components/table-row-actions/table-row-actions.component';
-import { SurveyDetail, SurveyListItem } from '../../shared/models/survey.model';
+import { SurveyListItem } from '../../shared/models/survey.model';
 import {
   SurveyFormDialogComponent,
   SurveyFormDialogData,
 } from './survey-form-dialog.component';
+import {
+  SurveyPreviewDialogComponent,
+  SurveyPreviewDialogData,
+} from './shared/survey-preview-dialog.component';
 
 @Component({
   selector: 'sh-surveys-admin',
@@ -61,6 +64,7 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
+    MatTooltipModule,
     TableRowActionsComponent,
     KpiCardComponent,
   ],
@@ -76,14 +80,11 @@ export class SurveysAdminComponent implements OnInit {
   private readonly wizardCatalog = inject(WizardFieldCatalogService);
 
   loading = true;
-  previewLoading = false;
   deletingId: number | null = null;
   data: SurveyListItem[] = [];
   total = 0;
   pageIndex = 0;
   pageSize = 10;
-  selectedId: number | null = null;
-  preview: SurveyDetail | null = null;
 
   kpiTotal = 0;
   kpiActive = 0;
@@ -106,9 +107,6 @@ export class SurveysAdminComponent implements OnInit {
     kpiActive: SURVEYS_KPI_ACTIVE,
     kpiAvgQuestions: SURVEYS_KPI_AVG_QUESTIONS,
     previewTitle: SURVEYS_PREVIEW_TITLE,
-    previewEmpty: SURVEYS_PREVIEW_EMPTY,
-    previewNoQuestions: SURVEYS_PREVIEW_NO_QUESTIONS,
-    edit: $localize`:@@surveys.preview.edit:Editar`,
   };
 
   readonly searchForm = this.fb.nonNullable.group({ search: [''] });
@@ -142,12 +140,6 @@ export class SurveysAdminComponent implements OnInit {
         this.data = items;
         this.total = total;
         this.loading = false;
-        if (items.length && (this.selectedId == null || !items.some((i) => i.id === this.selectedId))) {
-          this.selectRow(items[0]);
-        } else if (!items.length) {
-          this.selectedId = null;
-          this.preview = null;
-        }
       },
       error: (err) => {
         this.loading = false;
@@ -165,9 +157,7 @@ export class SurveysAdminComponent implements OnInit {
       next: ({ all, active, sample }) => {
         this.kpiTotal = all.total;
         this.kpiActive = active.total;
-        const counts = sample.items
-          .map((i) => i.questionCount ?? 0)
-          .filter((n) => n >= 0);
+        const counts = sample.items.map((i) => i.questionCount ?? 0);
         if (!counts.length) {
           this.kpiAvgQuestions = '—';
           return;
@@ -179,25 +169,6 @@ export class SurveysAdminComponent implements OnInit {
         this.kpiTotal = 0;
         this.kpiActive = 0;
         this.kpiAvgQuestions = '—';
-      },
-    });
-  }
-
-  selectRow(row: SurveyListItem): void {
-    if (this.selectedId === row.id && this.preview) {
-      return;
-    }
-    this.selectedId = row.id;
-    this.previewLoading = true;
-    this.api.getById(row.id).subscribe({
-      next: (detail) => {
-        this.preview = detail;
-        this.previewLoading = false;
-      },
-      error: (err) => {
-        this.previewLoading = false;
-        this.preview = null;
-        this.feedback.showApiError(err, { fallbackMessage: SURVEYS_ERRORS_LIST });
       },
     });
   }
@@ -228,11 +199,14 @@ export class SurveysAdminComponent implements OnInit {
     this.openDialog({ surveyId: row.id });
   }
 
-  openEditFromPreview(): void {
-    if (this.selectedId == null || !this.canEdit()) {
-      return;
-    }
-    this.openDialog({ surveyId: this.selectedId });
+  openPreview(row: SurveyListItem): void {
+    this.dialog.open<SurveyPreviewDialogComponent, SurveyPreviewDialogData, void>(
+      SurveyPreviewDialogComponent,
+      {
+        ...catalogTallDialogConfig('640px'),
+        data: { surveyId: row.id },
+      },
+    );
   }
 
   private openDialog(data: SurveyFormDialogData): void {
@@ -251,14 +225,6 @@ export class SurveysAdminComponent implements OnInit {
         this.wizardCatalog.clearCache('surveys');
         this.load();
         this.loadKpis();
-        if (this.selectedId != null) {
-          const id = this.selectedId;
-          this.selectedId = null;
-          const row = this.data.find((d) => d.id === id);
-          if (row) {
-            this.selectRow(row);
-          }
-        }
       });
   }
 
@@ -282,10 +248,6 @@ export class SurveysAdminComponent implements OnInit {
             this.deletingId = null;
             this.feedback.showSuccess(SURVEYS_SUCCESS_DELETED);
             this.wizardCatalog.clearCache('surveys');
-            if (this.selectedId === row.id) {
-              this.selectedId = null;
-              this.preview = null;
-            }
             this.load();
             this.loadKpis();
           },

@@ -147,6 +147,10 @@ export class SurveyApiService {
       isSurveyCompleted: request.isSurveyCompleted ?? null,
       phone: request.phone ?? null,
       candidateId: request.candidateId ?? null,
+      candidate: request.candidate ?? null,
+      position: request.position ?? null,
+      dateFrom: request.dateFrom ?? null,
+      dateTo: request.dateTo ?? null,
       filters: request.filters ?? [],
       ordersBy: request.ordersBy ?? ['createAt:desc'],
     };

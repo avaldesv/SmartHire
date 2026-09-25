@@ -10531,8 +10531,8 @@
         <target>First name</target>
       </trans-unit>
       <trans-unit id="surveys.col.description" datatype="html">
-        <source>Descripción</source>
-        <target>Description</target>
+        <source>Mensaje inicial</source>
+        <target>Initial message</target>
       </trans-unit>
       <trans-unit id="surveys.col.questions" datatype="html">
         <source>Preguntas</source>
@@ -10555,8 +10555,24 @@
         <target>First name</target>
       </trans-unit>
       <trans-unit id="surveys.field.description" datatype="html">
-        <source>Texto de descripción</source>
-        <target>Description text</target>
+        <source>Mensaje inicial</source>
+        <target>Initial message</target>
+      </trans-unit>
+      <trans-unit id="surveys.field.descriptionHint" datatype="html">
+        <source>Texto que recibe el candidato al iniciar la encuesta</source>
+        <target>Text the candidate receives when the survey starts</target>
+      </trans-unit>
+      <trans-unit id="surveys.field.finalMessage" datatype="html">
+        <source>Mensaje final</source>
+        <target>Final message</target>
+      </trans-unit>
+      <trans-unit id="surveys.field.finalMessageHint" datatype="html">
+        <source>Texto que recibe el candidato al completar la encuesta</source>
+        <target>Text the candidate receives when the survey is completed</target>
+      </trans-unit>
+      <trans-unit id="surveys.section.messages" datatype="html">
+        <source>Mensajes WhatsApp</source>
+        <target>WhatsApp messages</target>
       </trans-unit>
       <trans-unit id="surveys.field.active" datatype="html">
         <source>Activa</source>
@@ -10725,6 +10741,30 @@
       <trans-unit id="surveys.results.filter.no" datatype="html">
         <source>No</source>
         <target>No</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.filter.candidate" datatype="html">
+        <source>Filtrar por candidato...</source>
+        <target>Filter by candidate...</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.filter.survey" datatype="html">
+        <source>Filtrar por encuesta...</source>
+        <target>Filter by survey...</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.filter.position" datatype="html">
+        <source>Filtrar por posición...</source>
+        <target>Filter by position...</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.filter.date" datatype="html">
+        <source>Filtrar por fecha...</source>
+        <target>Filter by date...</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.filter.dateFrom" datatype="html">
+        <source>Desde</source>
+        <target>From</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.filter.dateTo" datatype="html">
+        <source>Hasta</source>
+        <target>To</target>
       </trans-unit>
       <trans-unit id="surveys.results.col.candidate" datatype="html">
         <source>Candidato</source>
@@ -11753,10 +11793,6 @@
       <trans-unit id="users.form.editTitle" datatype="html">
         <source>Editar usuario</source>
         <target>Edit user</target>
-      </trans-unit>
-      <trans-unit id="surveys.preview.edit" datatype="html">
-        <source>Editar</source>
-        <target>Edit</target>
       </trans-unit>
       <trans-unit id="phone.prefix" datatype="html">
         <source>Prefijo del país</source>
