@@ -62,6 +62,7 @@ export const PRESELECTION_BULK_APPOINTMENT_TITLE = $localize`:@@preselection.bul
 export const PRESELECTION_BULK_APPOINTMENT_HINT = $localize`:@@preselection.bulk.appointmentHint:Se usará el horario sugerido del calendario para cada candidato.`;
 export const PRESELECTION_BULK_APPOINTMENT_SUCCESS = $localize`:@@preselection.bulk.appointmentSuccess:Citas de entrevista enviadas`;
 export const PRESELECTION_BULK_APPOINTMENT_PARTIAL = $localize`:@@preselection.bulk.appointmentPartial:Algunas citas no se agendaron`;
+export const PRESELECTION_BULK_WHATSAPP_SURVEY = $localize`:@@preselection.bulk.whatsappSurvey:Enviar encuesta WhatsApp`;
 export const PRESELECTION_BULK_NONE_SELECTED = $localize`:@@preselection.bulk.noneSelected:Seleccione al menos un candidato en la tabla`;
 
 export const PRESELECTION_BULK_MARK_SELECTED = $localize`:@@preselection.bulk.markSelected:Marcar como seleccionado`;
@@ -89,6 +90,7 @@ export const PRESELECTION_ROW_AUDIT_LOG = $localize`:@@preselection.row.auditLog
 export const PRESELECTION_ROW_SEND_SMART = $localize`:@@preselection.row.sendSmart:Enviar a nómina`;
 export const PRESELECTION_ROW_GENERATE_CONTRACT = $localize`:@@preselection.row.generateContract:Generar contrato`;
 export const PRESELECTION_ROW_NOTIFY_QUESTIONNAIRE = $localize`:@@preselection.row.notifyQuestionnaire:Notificar cuestionario`;
+export const PRESELECTION_ROW_SEND_WHATSAPP_SURVEY = $localize`:@@preselection.row.sendWhatsappSurvey:Enviar encuesta WhatsApp`;
 export const PRESELECTION_ROW_DESELECT_SUCCESS = $localize`:@@preselection.row.deselectSuccess:Candidato deseleccionado`;
 
 export const PRESELECTION_DOCS_COMPLETE = $localize`:@@preselection.docs.complete:Completo`;

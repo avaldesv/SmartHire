@@ -1,0 +1,26 @@
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 48px;
+}
+
+.empty-state {
+  padding: 24px 16px;
+  margin: 0;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.flag-yes {
+  color: #2e7d32;
+}
+
+.flag-no {
+  color: rgba(0, 0, 0, 0.38);
+}
+
+:host ::ng-deep .mat-column-actions {
+  width: 1%;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
