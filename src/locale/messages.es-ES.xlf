@@ -10782,6 +10782,98 @@
         <source>Ver detalle de la sesión</source>
         <target>Ver detalle de la sesión</target>
       </trans-unit>
+      <trans-unit id="surveys.kpi.total" datatype="html">
+        <source>Total encuestas</source>
+        <target>Total encuestas</target>
+      </trans-unit>
+      <trans-unit id="surveys.kpi.active" datatype="html">
+        <source>Activas</source>
+        <target>Activas</target>
+      </trans-unit>
+      <trans-unit id="surveys.kpi.avgQuestions" datatype="html">
+        <source>Preguntas promedio</source>
+        <target>Preguntas promedio</target>
+      </trans-unit>
+      <trans-unit id="surveys.preview.title" datatype="html">
+        <source>Vista previa</source>
+        <target>Vista previa</target>
+      </trans-unit>
+      <trans-unit id="surveys.preview.empty" datatype="html">
+        <source>Seleccione una encuesta para ver sus preguntas</source>
+        <target>Seleccione una encuesta para ver sus preguntas</target>
+      </trans-unit>
+      <trans-unit id="surveys.preview.noQuestions" datatype="html">
+        <source>Esta encuesta no tiene preguntas</source>
+        <target>Esta encuesta no tiene preguntas</target>
+      </trans-unit>
+      <trans-unit id="surveys.col.status" datatype="html">
+        <source>Estado</source>
+        <target>Estado</target>
+      </trans-unit>
+      <trans-unit id="surveys.status.active" datatype="html">
+        <source>Activa</source>
+        <target>Activa</target>
+      </trans-unit>
+      <trans-unit id="surveys.status.inactive" datatype="html">
+        <source>Inactiva</source>
+        <target>Inactiva</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.view.sessions" datatype="html">
+        <source>Sesiones</source>
+        <target>Sesiones</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.view.bySurvey" datatype="html">
+        <source>Por encuesta</source>
+        <target>Por encuesta</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.kpi.sent" datatype="html">
+        <source>Envíos</source>
+        <target>Envíos</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.kpi.completed" datatype="html">
+        <source>Completadas</source>
+        <target>Completadas</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.kpi.inProgress" datatype="html">
+        <source>En curso</source>
+        <target>En curso</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.kpi.rate" datatype="html">
+        <source>Tasa de respuesta</source>
+        <target>Tasa de respuesta</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.col.sent" datatype="html">
+        <source>Enviados</source>
+        <target>Enviados</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.col.inProgress" datatype="html">
+        <source>En curso</source>
+        <target>En curso</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.col.rate" datatype="html">
+        <source>% respuesta</source>
+        <target>% respuesta</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.col.lastSent" datatype="html">
+        <source>Último envío</source>
+        <target>Último envío</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.bySurvey.empty" datatype="html">
+        <source>No hay envíos de encuestas</source>
+        <target>No hay envíos de encuestas</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.bySurvey.errors" datatype="html">
+        <source>No se pudo cargar el resumen por encuesta</source>
+        <target>No se pudo cargar el resumen por encuesta</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.back" datatype="html">
+        <source>Volver al resumen</source>
+        <target>Volver al resumen</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.drill.title" datatype="html">
+        <source>Candidatos de la encuesta</source>
+        <target>Candidatos de la encuesta</target>
+      </trans-unit>
       <trans-unit id="users.errors.tenantContext" datatype="html">
         <source>No se pudo cargar el contexto del tenant</source>
         <target>No se pudo cargar el contexto del tenant</target>
@@ -11661,6 +11753,10 @@
       <trans-unit id="users.form.editTitle" datatype="html">
         <source>Editar usuario</source>
         <target>Editar usuario</target>
+      </trans-unit>
+      <trans-unit id="surveys.preview.edit" datatype="html">
+        <source>Editar</source>
+        <target>Editar</target>
       </trans-unit>
       <trans-unit id="phone.prefix" datatype="html">
         <source>Prefijo del país</source>

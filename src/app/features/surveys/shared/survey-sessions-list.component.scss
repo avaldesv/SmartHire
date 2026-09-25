@@ -1,7 +1,26 @@
+.sessions-with-drawer {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  align-items: start;
+
+  &--open {
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+
+    @media (max-width: 960px) {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+.sessions-main {
+  min-width: 0;
+}
+
 .loading-wrap {
   display: flex;
   justify-content: center;
-  padding: 48px;
+  padding: 40px;
 }
 
 .empty-state {
@@ -10,15 +29,84 @@
   color: rgba(0, 0, 0, 0.6);
 }
 
+.chip {
+  display: inline-flex;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #f0fdfa;
+  color: #0f766e;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-pill {
+  display: inline-flex;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+
+  &--on {
+    background: #ecfdf5;
+    color: #15803d;
+  }
+
+  &--off {
+    background: #fff7ed;
+    color: #c2410c;
+  }
+}
+
+.session-drawer {
+  padding: 12px 16px 20px;
+  position: sticky;
+  top: 12px;
+  max-height: calc(100vh - 120px);
+  overflow: auto;
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+
+  h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: #1e3a5f;
+  }
+}
+
+.session-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 12px;
+  margin: 0 0 16px;
+
+  dt {
+    font-size: 11px;
+    color: #94a3b8;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 2px 0 0;
+    font-size: 13px;
+    color: #0f172a;
+  }
+}
+
+.answers-table {
+  width: 100%;
+  font-size: 13px;
+}
+
 .flag-yes {
   color: #2e7d32;
 }
 
 .flag-no {
   color: rgba(0, 0, 0, 0.38);
-}
-
-:host ::ng-deep .mat-column-actions {
-  width: 1%;
-  white-space: nowrap;
 }

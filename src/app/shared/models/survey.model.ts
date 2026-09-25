@@ -115,3 +115,25 @@ export interface ListSurveySessionsRequest {
   ordersBy?: string[];
   filters?: string[];
 }
+
+export interface SurveySessionsSummaryTotals {
+  sessionsSent: number;
+  sessionsCompleted: number;
+  sessionsInProgress: number;
+  completionRate: number;
+}
+
+export interface SurveySessionSurveySummaryItem {
+  surveyId: number;
+  surveyName?: string | null;
+  sessionsSent: number;
+  sessionsCompleted: number;
+  sessionsInProgress: number;
+  completionRate: number;
+  lastSentAt?: string | null;
+}
+
+export interface SurveySessionsSummaryResponse {
+  totals: SurveySessionsSummaryTotals;
+  bySurvey: SurveySessionSurveySummaryItem[];
+}
