@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
+import { COMMON_EM_DASH } from '../../../core/i18n/common-labels';
 import {
   SURVEYS_RESULTS_COL_CANDIDATE,
   SURVEYS_RESULTS_COL_COMPLETED,
@@ -13,15 +14,21 @@ import {
   SURVEYS_RESULTS_DETAIL_ANSWER,
   SURVEYS_RESULTS_DETAIL_CLOSE,
   SURVEYS_RESULTS_DETAIL_NO_ANSWERS,
+  SURVEYS_RESULTS_DETAIL_ORDER,
   SURVEYS_RESULTS_DETAIL_QUESTION,
   SURVEYS_RESULTS_DETAIL_TITLE,
   SURVEYS_RESULTS_DETAIL_TYPE,
   SURVEYS_RESULTS_ERRORS_DETAIL,
   SURVEYS_RESULTS_FILTER_NO,
   SURVEYS_RESULTS_FILTER_YES,
+  surveysAnswerTypeLabel,
 } from '../../../core/i18n/survey-labels';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { SurveyApiService } from '../../../core/services/survey-api.service';
+import {
+  ShModalActionsDirective,
+  ShModalFormComponent,
+} from '../../../shared/components/modal-form/sh-modal-form.component';
 import { SurveySessionAnswer, SurveySessionDetail } from '../../../shared/models/survey.model';
 
 export interface SurveySessionDetailDialogData {
@@ -32,7 +39,14 @@ export interface SurveySessionDetailDialogData {
 @Component({
   selector: 'sh-survey-session-detail-dialog',
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, MatProgressSpinnerModule, MatTableModule],
+  imports: [
+    MatDialogModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    MatTableModule,
+    ShModalFormComponent,
+    ShModalActionsDirective,
+  ],
   templateUrl: './survey-session-detail-dialog.component.html',
   styleUrl: './survey-session-detail-dialog.component.scss',
 })
@@ -51,12 +65,14 @@ export class SurveySessionDetailDialogComponent implements OnInit {
     phone: SURVEYS_RESULTS_COL_PHONE,
     progress: SURVEYS_RESULTS_COL_PROGRESS,
     completed: SURVEYS_RESULTS_COL_COMPLETED,
+    order: SURVEYS_RESULTS_DETAIL_ORDER,
     question: SURVEYS_RESULTS_DETAIL_QUESTION,
     answer: SURVEYS_RESULTS_DETAIL_ANSWER,
     type: SURVEYS_RESULTS_DETAIL_TYPE,
     noAnswers: SURVEYS_RESULTS_DETAIL_NO_ANSWERS,
     yes: SURVEYS_RESULTS_FILTER_YES,
     no: SURVEYS_RESULTS_FILTER_NO,
+    empty: COMMON_EM_DASH,
   };
 
   readonly answerColumns = ['order', 'question', 'type', 'answer'];
@@ -90,14 +106,17 @@ export class SurveySessionDetailDialogComponent implements OnInit {
 
   candidateName(): string {
     if (!this.detail) {
-      return '—';
+      return this.labels.empty;
     }
-    return `${this.detail.candidateFirstName ?? ''} ${this.detail.candidateLastName ?? ''}`.trim() || '—';
+    return (
+      `${this.detail.candidateFirstName ?? ''} ${this.detail.candidateLastName ?? ''}`.trim() ||
+      this.labels.empty
+    );
   }
 
   progressLabel(): string {
     if (!this.detail) {
-      return '—';
+      return this.labels.empty;
     }
     const answered = this.detail.totalQuestionAnswers ?? 0;
     const total = this.detail.totalQuestionsSend ?? this.detail.totalQuestions ?? 0;
@@ -106,6 +125,10 @@ export class SurveySessionDetailDialogComponent implements OnInit {
 
   answerOrder(row: SurveySessionAnswer): number {
     return (row.sortOrder ?? row.questionIndex ?? 0) + 1;
+  }
+
+  answerTypeLabel(answerType: string | null | undefined): string {
+    return surveysAnswerTypeLabel(answerType, this.labels.empty);
   }
 
   close(): void {

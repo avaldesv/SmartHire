@@ -1,6 +1,4 @@
-<h2 mat-dialog-title>{{ labels.title }}</h2>
-
-<mat-dialog-content>
+<sh-modal-form [title]="labels.title" contentClass="session-detail-body">
   @if (loading) {
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else if (detail) {
@@ -11,15 +9,15 @@
       </div>
       <div>
         <dt>{{ labels.survey }}</dt>
-        <dd>{{ detail.surveyName || '—' }}</dd>
+        <dd>{{ detail.surveyName || labels.empty }}</dd>
       </div>
       <div>
         <dt>{{ labels.position }}</dt>
-        <dd>{{ detail.positionName || '—' }}</dd>
+        <dd>{{ detail.positionName || labels.empty }}</dd>
       </div>
       <div>
         <dt>{{ labels.phone }}</dt>
-        <dd>{{ detail.candidatePhoneNumber || '—' }}</dd>
+        <dd>{{ detail.candidatePhoneNumber || labels.empty }}</dd>
       </div>
       <div>
         <dt>{{ labels.progress }}</dt>
@@ -34,30 +32,32 @@
     @if (!answers.length) {
       <p class="empty-answers">{{ labels.noAnswers }}</p>
     } @else {
-      <table mat-table [dataSource]="answers" class="answers-table">
-        <ng-container matColumnDef="order">
-          <th mat-header-cell *matHeaderCellDef>#</th>
-          <td mat-cell *matCellDef="let row">{{ answerOrder(row) }}</td>
-        </ng-container>
-        <ng-container matColumnDef="question">
-          <th mat-header-cell *matHeaderCellDef>{{ labels.question }}</th>
-          <td mat-cell *matCellDef="let row">{{ row.questionText }}</td>
-        </ng-container>
-        <ng-container matColumnDef="type">
-          <th mat-header-cell *matHeaderCellDef>{{ labels.type }}</th>
-          <td mat-cell *matCellDef="let row">{{ row.answerType || '—' }}</td>
-        </ng-container>
-        <ng-container matColumnDef="answer">
-          <th mat-header-cell *matHeaderCellDef>{{ labels.answer }}</th>
-          <td mat-cell *matCellDef="let row">{{ row.answer || '—' }}</td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="answerColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: answerColumns"></tr>
-      </table>
+      <div class="answers-scroll">
+        <table mat-table [dataSource]="answers" class="answers-table">
+          <ng-container matColumnDef="order">
+            <th mat-header-cell *matHeaderCellDef>{{ labels.order }}</th>
+            <td mat-cell *matCellDef="let row">{{ answerOrder(row) }}</td>
+          </ng-container>
+          <ng-container matColumnDef="question">
+            <th mat-header-cell *matHeaderCellDef>{{ labels.question }}</th>
+            <td mat-cell *matCellDef="let row">{{ row.questionText }}</td>
+          </ng-container>
+          <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef>{{ labels.type }}</th>
+            <td mat-cell *matCellDef="let row">{{ answerTypeLabel(row.answerType) }}</td>
+          </ng-container>
+          <ng-container matColumnDef="answer">
+            <th mat-header-cell *matHeaderCellDef>{{ labels.answer }}</th>
+            <td mat-cell *matCellDef="let row">{{ row.answer || labels.empty }}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="answerColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: answerColumns"></tr>
+        </table>
+      </div>
     }
   }
-</mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <button mat-stroked-button type="button" (click)="close()">{{ labels.close }}</button>
-</mat-dialog-actions>
+  <div shModalActions>
+    <button mat-stroked-button type="button" (click)="close()">{{ labels.close }}</button>
+  </div>
+</sh-modal-form>

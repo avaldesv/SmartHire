@@ -13,7 +13,7 @@ import { debounceTime, filter, forkJoin } from 'rxjs';
 import { AppPermissions } from '../../core/auth/app-permissions';
 import { catalogTallDialogConfig, surveyFormDialogConfig } from '../../core/dialog/catalog-dialog.constants';
 import { FeedbackDialogService } from '../../core/feedback/feedback-dialog.service';
-import { COMMON_CLEAR_FILTERS } from '../../core/i18n/common-labels';
+import { COMMON_CLEAR_FILTERS, COMMON_EM_DASH } from '../../core/i18n/common-labels';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../core/i18n/feedback-labels';
 import {
   SURVEYS_COL_DESCRIPTION,
@@ -88,7 +88,7 @@ export class SurveysAdminComponent implements OnInit {
 
   kpiTotal = 0;
   kpiActive = 0;
-  kpiAvgQuestions: number | string = '—';
+  kpiAvgQuestions: number | string = COMMON_EM_DASH;
 
   readonly columns = ['name', 'description', 'questionCount', 'isActive', 'actions'];
 
@@ -107,6 +107,7 @@ export class SurveysAdminComponent implements OnInit {
     kpiActive: SURVEYS_KPI_ACTIVE,
     kpiAvgQuestions: SURVEYS_KPI_AVG_QUESTIONS,
     previewTitle: SURVEYS_PREVIEW_TITLE,
+    emDash: COMMON_EM_DASH,
   };
 
   readonly searchForm = this.fb.nonNullable.group({ search: [''] });
@@ -159,7 +160,7 @@ export class SurveysAdminComponent implements OnInit {
         this.kpiActive = active.total;
         const counts = sample.items.map((i) => i.questionCount ?? 0);
         if (!counts.length) {
-          this.kpiAvgQuestions = '—';
+          this.kpiAvgQuestions = this.labels.emDash;
           return;
         }
         const avg = counts.reduce((a, b) => a + b, 0) / counts.length;
@@ -168,7 +169,7 @@ export class SurveysAdminComponent implements OnInit {
       error: () => {
         this.kpiTotal = 0;
         this.kpiActive = 0;
-        this.kpiAvgQuestions = '—';
+        this.kpiAvgQuestions = this.labels.emDash;
       },
     });
   }

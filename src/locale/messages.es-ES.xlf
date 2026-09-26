@@ -10814,6 +10814,10 @@
         <source>Cerrar</source>
         <target>Cerrar</target>
       </trans-unit>
+      <trans-unit id="surveys.results.detail.order" datatype="html">
+        <source>#</source>
+        <target>#</target>
+      </trans-unit>
       <trans-unit id="surveys.results.detail.question" datatype="html">
         <source>Pregunta</source>
         <target>Pregunta</target>
@@ -10833,6 +10837,10 @@
       <trans-unit id="surveys.results.viewAria" datatype="html">
         <source>Ver detalle de la sesión</source>
         <target>Ver detalle de la sesión</target>
+      </trans-unit>
+      <trans-unit id="surveys.results.viewToggleAria" datatype="html">
+        <source>Resultados</source>
+        <target>Resultados</target>
       </trans-unit>
       <trans-unit id="surveys.kpi.total" datatype="html">
         <source>Total encuestas</source>
