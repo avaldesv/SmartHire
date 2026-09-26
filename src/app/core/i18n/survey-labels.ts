@@ -26,6 +26,9 @@ export const SURVEYS_QUESTION_TYPE = $localize`:@@surveys.questions.answerType:T
 export const SURVEYS_QUESTION_REQUIRED = $localize`:@@surveys.questions.required:Obligatoria`;
 export const SURVEYS_QUESTION_ORDER = $localize`:@@surveys.questions.sortOrder:Orden`;
 export const SURVEYS_QUESTIONS_EMPTY = $localize`:@@surveys.questions.empty:Agregue al menos una pregunta`;
+export const SURVEYS_QUESTIONS_EMPTY_TITLE = $localize`:@@surveys.questions.emptyTitle:Aún no hay preguntas`;
+export const SURVEYS_QUESTIONS_ADD_FIRST = $localize`:@@surveys.questions.addFirst:Agregar primera pregunta`;
+export const SURVEYS_QUESTIONS_ADD_MORE = $localize`:@@surveys.questions.addMore:Agregar pregunta`;
 
 export const SURVEYS_ANSWER_TYPE_TEXT = $localize`:@@surveys.answerType.text:Texto`;
 export const SURVEYS_ANSWER_TYPE_NUMBER = $localize`:@@surveys.answerType.number:Número`;

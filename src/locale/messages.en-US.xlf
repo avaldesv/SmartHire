@@ -10610,6 +10610,18 @@
         <source>Agregue al menos una pregunta</source>
         <target>Add at least one question</target>
       </trans-unit>
+      <trans-unit id="surveys.questions.emptyTitle" datatype="html">
+        <source>Aún no hay preguntas</source>
+        <target>Aún no hay preguntas</target>
+      </trans-unit>
+      <trans-unit id="surveys.questions.addFirst" datatype="html">
+        <source>Agregar primera pregunta</source>
+        <target>Agregar primera pregunta</target>
+      </trans-unit>
+      <trans-unit id="surveys.questions.addMore" datatype="html">
+        <source>Agregar pregunta</source>
+        <target>Add question</target>
+      </trans-unit>
       <trans-unit id="surveys.answerType.text" datatype="html">
         <source>Texto</source>
         <target>Text</target>
