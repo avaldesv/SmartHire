@@ -5,8 +5,7 @@
   flex: 1;
 }
 
-/* Layout grid is enforced globally via .sh-survey-form-dialog-panel (tall dialog
-   otherwise forces form { display:flex; flex-direction:column }). */
+/* Layout grid is enforced globally via .sh-survey-form-dialog-panel */
 .survey-split {
   width: 100%;
 }
@@ -57,11 +56,21 @@
   }
 }
 
-.questions-list {
+/* Only the question rows scroll; footer button stays pinned below */
+.questions-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  flex: 1;
+  padding-right: 4px;
+}
+
+.questions-footer {
+  flex: 0 0 auto;
+  padding-top: 4px;
+  background: #fff;
 }
 
 .question-row {
@@ -102,7 +111,6 @@
 }
 
 .add-more-btn {
-  align-self: flex-start;
   border-style: dashed !important;
 }
 
