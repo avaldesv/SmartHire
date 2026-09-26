@@ -6,6 +6,9 @@ export const CATALOG_FORM_DIALOG_PANEL_CLASS = 'sh-catalog-form-dialog-panel';
 /** Taller catalog dialogs (grids, maps, long forms). */
 export const CATALOG_TALL_DIALOG_PANEL_CLASS = 'sh-catalog-tall-dialog-panel';
 
+/** Wide split layout for survey create/edit (option D). */
+export const SURVEY_FORM_DIALOG_PANEL_CLASS = 'sh-survey-form-dialog-panel';
+
 /** Default MatDialog options aligned with catalog create/edit modals. */
 export function catalogDialogConfig(
   width: string,
@@ -28,6 +31,19 @@ export function catalogTallDialogConfig(
 ): MatDialogConfig {
   return catalogDialogConfig(width, {
     panelClass: [CATALOG_FORM_DIALOG_PANEL_CLASS, CATALOG_TALL_DIALOG_PANEL_CLASS],
+    ...extra,
+  });
+}
+
+/** Survey create/edit — wide two-column layout. */
+export function surveyFormDialogConfig(extra: MatDialogConfig = {}): MatDialogConfig {
+  return catalogDialogConfig('1120px', {
+    panelClass: [
+      CATALOG_FORM_DIALOG_PANEL_CLASS,
+      CATALOG_TALL_DIALOG_PANEL_CLASS,
+      SURVEY_FORM_DIALOG_PANEL_CLASS,
+    ],
+    minWidth: '960px',
     ...extra,
   });
 }
