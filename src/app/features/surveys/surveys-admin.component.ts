@@ -213,7 +213,7 @@ export class SurveysAdminComponent implements OnInit {
     const ref = this.dialog.open<SurveyFormDialogComponent, SurveyFormDialogData, boolean>(
       SurveyFormDialogComponent,
       {
-        ...catalogTallDialogConfig('880px'),
+        ...catalogTallDialogConfig('1100px'),
         data,
       },
     );

@@ -1,3 +1,4 @@
+import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { Component, OnInit, inject } from '@angular/core';
 import {
   FormArray,
@@ -7,16 +8,16 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FeedbackDialogService } from '../../core/feedback/feedback-dialog.service';
 import {
-  SURVEYS_ADD_QUESTION,
   SURVEYS_ANSWER_TYPE_DATE,
   SURVEYS_ANSWER_TYPE_FILE,
   SURVEYS_ANSWER_TYPE_IMAGE,
@@ -29,17 +30,16 @@ import {
   SURVEYS_ERRORS_SAVE,
   SURVEYS_FIELD_ACTIVE,
   SURVEYS_FIELD_DESCRIPTION,
-  SURVEYS_FIELD_DESCRIPTION_HINT,
   SURVEYS_FIELD_FINAL_MESSAGE,
-  SURVEYS_FIELD_FINAL_MESSAGE_HINT,
   SURVEYS_FIELD_NAME,
   SURVEYS_FIELD_QUESTIONS,
-  SURVEYS_SECTION_MESSAGES,
   SURVEYS_QUESTION_ORDER,
   SURVEYS_QUESTION_REQUIRED,
   SURVEYS_QUESTION_TEXT,
-  SURVEYS_QUESTION_TYPE,
+  SURVEYS_QUESTIONS_ADD_FIRST,
+  SURVEYS_QUESTIONS_ADD_MORE,
   SURVEYS_QUESTIONS_EMPTY,
+  SURVEYS_QUESTIONS_EMPTY_TITLE,
   SURVEYS_REMOVE_QUESTION,
   SURVEYS_SAVE,
   SURVEYS_SAVING,
@@ -60,14 +60,16 @@ export interface SurveyFormDialogData {
   standalone: true,
   imports: [
     ReactiveFormsModule,
+    DragDropModule,
     MatDialogModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatCheckboxModule,
+    MatSlideToggleModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    MatTooltipModule,
     ShModalFormComponent,
     ShModalActionsDirective,
   ],
@@ -81,6 +83,8 @@ export class SurveyFormDialogComponent implements OnInit {
   private readonly feedback = inject(FeedbackDialogService);
   private readonly fb = inject(FormBuilder);
 
+  readonly messageMaxLength = 500;
+
   loading = !!this.data.surveyId;
   saving = false;
   editingId: number | null = this.data.surveyId ?? null;
@@ -88,19 +92,15 @@ export class SurveyFormDialogComponent implements OnInit {
   readonly title = this.data.surveyId ? SURVEYS_DIALOG_EDIT : SURVEYS_DIALOG_NEW;
   readonly fieldName = SURVEYS_FIELD_NAME;
   readonly fieldDescription = SURVEYS_FIELD_DESCRIPTION;
-  readonly fieldDescriptionHint = SURVEYS_FIELD_DESCRIPTION_HINT;
   readonly fieldFinalMessage = SURVEYS_FIELD_FINAL_MESSAGE;
-  readonly fieldFinalMessageHint = SURVEYS_FIELD_FINAL_MESSAGE_HINT;
-  readonly sectionMessages = SURVEYS_SECTION_MESSAGES;
   readonly fieldActive = SURVEYS_FIELD_ACTIVE;
-  readonly fieldQuestions = SURVEYS_FIELD_QUESTIONS;
-  readonly addQuestionLabel = SURVEYS_ADD_QUESTION;
   readonly removeQuestionLabel = SURVEYS_REMOVE_QUESTION;
   readonly questionTextLabel = SURVEYS_QUESTION_TEXT;
-  readonly questionTypeLabel = SURVEYS_QUESTION_TYPE;
   readonly questionRequiredLabel = SURVEYS_QUESTION_REQUIRED;
   readonly questionOrderLabel = SURVEYS_QUESTION_ORDER;
-  readonly questionsEmptyLabel = SURVEYS_QUESTIONS_EMPTY;
+  readonly questionsEmptyTitle = SURVEYS_QUESTIONS_EMPTY_TITLE;
+  readonly addFirstQuestionLabel = SURVEYS_QUESTIONS_ADD_FIRST;
+  readonly addMoreQuestionLabel = SURVEYS_QUESTIONS_ADD_MORE;
   readonly cancelLabel = SURVEYS_CANCEL;
   readonly saveLabel = SURVEYS_SAVE;
   readonly savingLabel = SURVEYS_SAVING;
@@ -115,8 +115,8 @@ export class SurveyFormDialogComponent implements OnInit {
 
   readonly form = this.fb.nonNullable.group({
     name: ['', Validators.required],
-    descriptionText: [''],
-    finalMessageText: [''],
+    descriptionText: ['', Validators.maxLength(this.messageMaxLength)],
+    finalMessageText: ['', Validators.maxLength(this.messageMaxLength)],
     isActive: [true],
     questions: this.fb.array<FormGroup>([]),
   });
@@ -125,9 +125,17 @@ export class SurveyFormDialogComponent implements OnInit {
     return this.form.controls.questions;
   }
 
+  get descriptionLength(): number {
+    return (this.form.controls.descriptionText.value ?? '').length;
+  }
+
+  get finalMessageLength(): number {
+    return (this.form.controls.finalMessageText.value ?? '').length;
+  }
+
   ngOnInit(): void {
     if (!this.editingId) {
-      this.addQuestion();
+      // Match proposal D: start empty until the user adds the first question.
       this.loading = false;
       return;
     }
@@ -143,21 +151,17 @@ export class SurveyFormDialogComponent implements OnInit {
         const sorted = [...(survey.questions ?? [])].sort(
           (a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0),
         );
-        if (sorted.length === 0) {
-          this.addQuestion();
-        } else {
-          for (const q of sorted) {
-            this.questions.push(
-              this.createQuestionGroup({
-                sortOrder: q.sortOrder ?? this.questions.length + 1,
-                questionText: q.questionText,
-                answerType: SURVEY_ANSWER_TYPES.includes(q.answerType as never)
-                  ? q.answerType
-                  : 'TEXT',
-                isRequired: q.isRequired ?? true,
-              }),
-            );
-          }
+        for (const q of sorted) {
+          this.questions.push(
+            this.createQuestionGroup({
+              sortOrder: q.sortOrder ?? this.questions.length + 1,
+              questionText: q.questionText,
+              answerType: SURVEY_ANSWER_TYPES.includes(q.answerType as never)
+                ? q.answerType
+                : 'TEXT',
+              isRequired: q.isRequired ?? true,
+            }),
+          );
         }
         this.loading = false;
       },
@@ -181,21 +185,22 @@ export class SurveyFormDialogComponent implements OnInit {
   }
 
   removeQuestion(index: number): void {
-    if (this.questions.length <= 1) {
-      return;
-    }
     this.questions.removeAt(index);
     this.reindexSortOrders();
   }
 
-  moveQuestion(index: number, direction: -1 | 1): void {
-    const target = index + direction;
-    if (target < 0 || target >= this.questions.length) {
+  toggleRequired(index: number): void {
+    const ctrl = this.questions.at(index);
+    ctrl.patchValue({ isRequired: !ctrl.value.isRequired });
+  }
+
+  dropQuestion(event: CdkDragDrop<FormGroup[]>): void {
+    if (event.previousIndex === event.currentIndex) {
       return;
     }
-    const current = this.questions.at(index);
-    this.questions.removeAt(index);
-    this.questions.insert(target, current);
+    const item = this.questions.at(event.previousIndex);
+    this.questions.removeAt(event.previousIndex);
+    this.questions.insert(event.currentIndex, item);
     this.reindexSortOrders();
   }
 
