@@ -71,15 +71,15 @@
         </ng-container>
         <ng-container matColumnDef="survey">
           <th mat-header-cell *matHeaderCellDef>{{ labels.colSurvey }}</th>
-          <td mat-cell *matCellDef="let row">{{ row.surveyName || '—' }}</td>
+          <td mat-cell *matCellDef="let row">{{ row.surveyName || labels.emDash }}</td>
         </ng-container>
         <ng-container matColumnDef="position">
           <th mat-header-cell *matHeaderCellDef>{{ labels.colPosition }}</th>
-          <td mat-cell *matCellDef="let row">{{ row.positionName || '—' }}</td>
+          <td mat-cell *matCellDef="let row">{{ row.positionName || labels.emDash }}</td>
         </ng-container>
         <ng-container matColumnDef="phone">
           <th mat-header-cell *matHeaderCellDef>{{ labels.colPhone }}</th>
-          <td mat-cell *matCellDef="let row">{{ row.candidatePhoneNumber || '—' }}</td>
+          <td mat-cell *matCellDef="let row">{{ row.candidatePhoneNumber || labels.emDash }}</td>
         </ng-container>
         <ng-container matColumnDef="progress">
           <th mat-header-cell *matHeaderCellDef>{{ labels.colProgress }}</th>

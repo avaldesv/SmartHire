@@ -13,7 +13,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { debounceTime } from 'rxjs';
 import { catalogTallDialogConfig } from '../../../core/dialog/catalog-dialog.constants';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
-import { COMMON_CLEAR_FILTERS } from '../../../core/i18n/common-labels';
+import { COMMON_CLEAR_FILTERS, COMMON_EM_DASH } from '../../../core/i18n/common-labels';
 import {
   SURVEYS_RESULTS_COL_CANDIDATE,
   SURVEYS_RESULTS_COL_COMPLETED,
@@ -110,6 +110,7 @@ export class SurveySessionsListComponent implements OnInit, OnChanges {
     colCompleted: SURVEYS_RESULTS_COL_COMPLETED,
     colDate: SURVEYS_RESULTS_COL_DATE,
     viewAria: SURVEYS_RESULTS_VIEW_ARIA,
+    emDash: COMMON_EM_DASH,
   };
 
   readonly filterForm = this.fb.nonNullable.group({
@@ -166,7 +167,9 @@ export class SurveySessionsListComponent implements OnInit, OnChanges {
   }
 
   candidateName(row: SurveySessionListItem): string {
-    return `${row.candidateFirstName ?? ''} ${row.candidateLastName ?? ''}`.trim() || '—';
+    return (
+      `${row.candidateFirstName ?? ''} ${row.candidateLastName ?? ''}`.trim() || this.labels.emDash
+    );
   }
 
   progressPercent(row: SurveySessionListItem): number {
@@ -186,7 +189,7 @@ export class SurveySessionsListComponent implements OnInit, OnChanges {
 
   formatDate(value: string | null | undefined): string {
     if (!value) {
-      return '—';
+      return this.labels.emDash;
     }
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) {

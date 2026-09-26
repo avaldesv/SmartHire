@@ -1,6 +1,4 @@
-<h2 mat-dialog-title>{{ labels.title }}</h2>
-
-<mat-dialog-content>
+<sh-modal-form [title]="labels.title" contentClass="preview-dialog-body">
   @if (loading) {
     <div class="loading-wrap"><mat-spinner diameter="36" /></div>
   } @else if (!detail) {
@@ -30,14 +28,19 @@
         @for (q of detail.questions; track q.id ?? $index) {
           <li>
             <span class="q-text">{{ q.questionText }}</span>
-            <span class="q-meta">{{ labels.type }}: {{ q.answerType }}@if (q.isRequired) { · *}</span>
+            <span class="q-meta">
+              {{ labels.type }}: {{ answerTypeLabel(q.answerType) }}
+              @if (q.isRequired) {
+                · {{ labels.required }}
+              }
+            </span>
           </li>
         }
       </ol>
     }
   }
-</mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <button mat-stroked-button type="button" (click)="close()">{{ labels.close }}</button>
-</mat-dialog-actions>
+  <div shModalActions>
+    <button mat-stroked-button type="button" (click)="close()">{{ labels.close }}</button>
+  </div>
+</sh-modal-form>

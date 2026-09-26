@@ -5,6 +5,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
+import { COMMON_EM_DASH } from '../../../core/i18n/common-labels';
 import {
   SURVEYS_RESULTS_BACK,
   SURVEYS_RESULTS_BY_SURVEY_EMPTY,
@@ -23,6 +24,7 @@ import {
   SURVEYS_RESULTS_VIEW_ARIA,
   SURVEYS_RESULTS_VIEW_BY_SURVEY,
   SURVEYS_RESULTS_VIEW_SESSIONS,
+  SURVEYS_RESULTS_VIEW_TOGGLE_ARIA,
 } from '../../../core/i18n/survey-labels';
 import { SurveyApiService } from '../../../core/services/survey-api.service';
 import { KpiCardComponent } from '../../../shared/components/kpi-card/kpi-card.component';
@@ -81,8 +83,10 @@ export class SurveyResultsComponent implements OnInit {
     colLastSent: SURVEYS_RESULTS_COL_LAST_SENT,
     empty: SURVEYS_RESULTS_BY_SURVEY_EMPTY,
     viewAria: SURVEYS_RESULTS_VIEW_ARIA,
+    viewToggleAria: SURVEYS_RESULTS_VIEW_TOGGLE_ARIA,
     back: SURVEYS_RESULTS_BACK,
     drillTitle: SURVEYS_RESULTS_DRILL_TITLE,
+    emDash: COMMON_EM_DASH,
   };
 
   ngOnInit(): void {
@@ -120,7 +124,7 @@ export class SurveyResultsComponent implements OnInit {
 
   formatDate(value: string | null | undefined): string {
     if (!value) {
-      return '—';
+      return this.labels.emDash;
     }
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) {

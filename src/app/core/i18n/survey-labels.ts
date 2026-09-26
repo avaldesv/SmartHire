@@ -36,6 +36,26 @@ export const SURVEYS_ANSWER_TYPE_DATE = $localize`:@@surveys.answerType.date:Fec
 export const SURVEYS_ANSWER_TYPE_IMAGE = $localize`:@@surveys.answerType.image:Imagen`;
 export const SURVEYS_ANSWER_TYPE_FILE = $localize`:@@surveys.answerType.file:Archivo`;
 
+const SURVEYS_ANSWER_TYPE_LABELS: Record<string, string> = {
+  TEXT: SURVEYS_ANSWER_TYPE_TEXT,
+  NUMBER: SURVEYS_ANSWER_TYPE_NUMBER,
+  DATE: SURVEYS_ANSWER_TYPE_DATE,
+  IMAGE: SURVEYS_ANSWER_TYPE_IMAGE,
+  FILE: SURVEYS_ANSWER_TYPE_FILE,
+};
+
+/** Localized label for API answer-type codes (TEXT, NUMBER, …). */
+export function surveysAnswerTypeLabel(
+  answerType: string | null | undefined,
+  emptyFallback?: string,
+): string {
+  const key = (answerType ?? '').trim().toUpperCase();
+  if (!key) {
+    return emptyFallback ?? '—';
+  }
+  return SURVEYS_ANSWER_TYPE_LABELS[key] ?? answerType!.trim();
+}
+
 export const SURVEYS_SAVE = $localize`:@@surveys.save:Guardar`;
 export const SURVEYS_SAVING = $localize`:@@surveys.saving:Guardando…`;
 export const SURVEYS_CANCEL = $localize`:@@surveys.cancel:Cancelar`;
@@ -90,11 +110,13 @@ export const SURVEYS_RESULTS_COL_DATE = $localize`:@@surveys.results.col.date:Fe
 
 export const SURVEYS_RESULTS_DETAIL_TITLE = $localize`:@@surveys.results.detail.title:Detalle de encuesta`;
 export const SURVEYS_RESULTS_DETAIL_CLOSE = $localize`:@@surveys.results.detail.close:Cerrar`;
+export const SURVEYS_RESULTS_DETAIL_ORDER = $localize`:@@surveys.results.detail.order:#`;
 export const SURVEYS_RESULTS_DETAIL_QUESTION = $localize`:@@surveys.results.detail.question:Pregunta`;
 export const SURVEYS_RESULTS_DETAIL_ANSWER = $localize`:@@surveys.results.detail.answer:Respuesta`;
 export const SURVEYS_RESULTS_DETAIL_TYPE = $localize`:@@surveys.results.detail.type:Tipo`;
 export const SURVEYS_RESULTS_DETAIL_NO_ANSWERS = $localize`:@@surveys.results.detail.noAnswers:Sin respuestas registradas`;
 export const SURVEYS_RESULTS_VIEW_ARIA = $localize`:@@surveys.results.viewAria:Ver detalle de la sesión`;
+export const SURVEYS_RESULTS_VIEW_TOGGLE_ARIA = $localize`:@@surveys.results.viewToggleAria:Resultados`;
 
 export const SURVEYS_KPI_TOTAL = $localize`:@@surveys.kpi.total:Total encuestas`;
 export const SURVEYS_KPI_ACTIVE = $localize`:@@surveys.kpi.active:Activas`;
