@@ -47,7 +47,7 @@
             </button>
           </div>
         } @else {
-          <div class="questions-list" cdkDropList (cdkDropListDropped)="dropQuestion($event)">
+          <div class="questions-scroll" cdkDropList (cdkDropListDropped)="dropQuestion($event)">
             @for (question of questions.controls; track $index; let i = $index) {
               <div class="question-row" [formGroupName]="i" cdkDrag>
                 <button
@@ -99,9 +99,11 @@
             }
           </div>
 
-          <button mat-stroked-button type="button" class="add-more-btn" (click)="addQuestion()">
-            <mat-icon>add</mat-icon> {{ addMoreQuestionLabel }}
-          </button>
+          <div class="questions-footer">
+            <button mat-stroked-button type="button" class="add-more-btn" (click)="addQuestion()">
+              <mat-icon>add</mat-icon> {{ addMoreQuestionLabel }}
+            </button>
+          </div>
         }
       </section>
     </form>

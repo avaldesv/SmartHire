@@ -498,6 +498,8 @@ a:hover { text-decoration: underline; }
 .sh-survey-form-dialog-panel .mat-mdc-dialog-content.sh-catalog-dialog-body,
 .sh-survey-form-dialog-panel .mat-mdc-dialog-title + .mat-mdc-dialog-content.sh-catalog-dialog-body {
   overflow: hidden !important;
+  /* Extra top gap so Nombre is not glued to the teal header */
+  padding: 28px 20px 16px !important;
 }
 
 .sh-survey-form-dialog-panel .mat-mdc-dialog-content.sh-catalog-dialog-body > form.survey-split {
@@ -515,6 +517,7 @@ a:hover { text-decoration: underline; }
   flex-direction: column;
   gap: 8px;
   padding-right: 24px;
+  padding-top: 4px;
   border-right: 1px solid #e2e8f0;
   min-width: 0;
   overflow: auto;
@@ -525,8 +528,10 @@ a:hover { text-decoration: underline; }
   flex-direction: column;
   gap: 12px;
   padding-left: 24px;
+  padding-top: 4px;
   min-width: 0;
-  overflow: auto;
+  /* Parent must NOT scroll — only .questions-scroll scrolls */
+  overflow: hidden;
 }
 
 @media (max-width: 900px) {
