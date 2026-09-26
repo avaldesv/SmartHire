@@ -2,46 +2,13 @@
   display: flex;
   justify-content: center;
   padding: 48px;
+  flex: 1;
 }
 
+/* Layout grid is enforced globally via .sh-survey-form-dialog-panel (tall dialog
+   otherwise forces form { display:flex; flex-direction:column }). */
 .survey-split {
-  display: grid;
-  grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.4fr);
-  gap: 0;
-  min-height: 420px;
-  align-items: stretch;
-
-  @media (max-width: 900px) {
-    grid-template-columns: 1fr;
-  }
-}
-
-.survey-split__left {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding-right: 20px;
-  border-right: 1px solid #e2e8f0;
-
-  @media (max-width: 900px) {
-    padding-right: 0;
-    padding-bottom: 16px;
-    border-right: 0;
-    border-bottom: 1px solid #e2e8f0;
-  }
-}
-
-.survey-split__right {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding-left: 20px;
-  min-width: 0;
-
-  @media (max-width: 900px) {
-    padding-left: 0;
-    padding-top: 16px;
-  }
+  width: 100%;
 }
 
 .active-row {
@@ -74,7 +41,7 @@
   border: 1px dashed #cbd5e1;
   border-radius: 12px;
   background: #f8fafc;
-  min-height: 280px;
+  min-height: 320px;
 
   p {
     margin: 0;
@@ -114,14 +81,11 @@
   &.cdk-drag-placeholder {
     opacity: 0.4;
   }
-
-  @media (max-width: 700px) {
-    grid-template-columns: 36px minmax(0, 1fr) 110px 36px 36px;
-  }
 }
 
 .drag-handle {
   color: #94a3b8;
+  cursor: grab;
 }
 
 .question-text,
@@ -135,10 +99,6 @@
   &--on {
     color: #eab308;
   }
-
-  mat-icon {
-    font-variation-settings: 'FILL' 1;
-  }
 }
 
 .add-more-btn {
@@ -148,10 +108,6 @@
 
 .full-width {
   width: 100%;
-}
-
-:host ::ng-deep .survey-dialog-body {
-  max-width: none;
 }
 
 :host ::ng-deep .question-row .mat-mdc-form-field-subscript-wrapper {

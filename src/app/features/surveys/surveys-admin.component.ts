@@ -11,7 +11,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { debounceTime, filter, forkJoin } from 'rxjs';
 import { AppPermissions } from '../../core/auth/app-permissions';
-import { catalogTallDialogConfig } from '../../core/dialog/catalog-dialog.constants';
+import { catalogTallDialogConfig, surveyFormDialogConfig } from '../../core/dialog/catalog-dialog.constants';
 import { FeedbackDialogService } from '../../core/feedback/feedback-dialog.service';
 import { COMMON_CLEAR_FILTERS } from '../../core/i18n/common-labels';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../core/i18n/feedback-labels';
@@ -213,7 +213,7 @@ export class SurveysAdminComponent implements OnInit {
     const ref = this.dialog.open<SurveyFormDialogComponent, SurveyFormDialogData, boolean>(
       SurveyFormDialogComponent,
       {
-        ...catalogTallDialogConfig('1100px'),
+        ...surveyFormDialogConfig(),
         data,
       },
     );
