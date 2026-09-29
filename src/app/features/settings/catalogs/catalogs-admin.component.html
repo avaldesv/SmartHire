@@ -572,6 +572,82 @@
 
             <hr class="company-divider" />
 
+            <section class="company-section">
+              <h3 class="company-section__title">{{ companySectionEvaluatest }}</h3>
+              <div class="company-channel company-channel--evaluatest" formGroupName="evaluatest">
+                <div class="company-channel__header">
+                  <mat-icon class="company-channel__icon">psychology</mat-icon>
+                  <span class="company-channel__title">Evaluatest</span>
+                  <mat-slide-toggle formControlName="isEnabled" color="primary">{{ companyFieldEnabled }}</mat-slide-toggle>
+                </div>
+                <div class="company-evaluatest-grid">
+                  <mat-form-field appearance="outline" subscriptSizing="dynamic" class="company-evaluatest-grid__full">
+                    <mat-label>{{ companyFieldEvalBaseUrl }}</mat-label>
+                    <input matInput formControlName="baseUrl" placeholder="https://apim-evaluatestia-prod-001.azure.net" />
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                    <mat-label>{{ companyFieldEvalUserEmail }}</mat-label>
+                    <input matInput type="email" formControlName="userEmail" autocomplete="off" />
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                    <mat-label>{{ companyFieldEvalSubscriptionKey }}</mat-label>
+                    <input
+                      matInput
+                      [type]="showEvalSubscriptionKey ? 'text' : 'password'"
+                      formControlName="subscriptionKey"
+                      autocomplete="new-password"
+                    />
+                    <button
+                      mat-icon-button
+                      matSuffix
+                      type="button"
+                      (click)="showEvalSubscriptionKey = !showEvalSubscriptionKey"
+                      tabindex="-1"
+                    >
+                      <mat-icon>{{ showEvalSubscriptionKey ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </button>
+                    @if (evaluatestSubscriptionKeyConfigured) {
+                      <mat-hint>{{ companyEvalSecretHint }}</mat-hint>
+                    }
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                    <mat-label>{{ companyFieldEvalPassword }}</mat-label>
+                    <input
+                      matInput
+                      [type]="showEvalPassword ? 'text' : 'password'"
+                      formControlName="password"
+                      autocomplete="new-password"
+                    />
+                    <button
+                      mat-icon-button
+                      matSuffix
+                      type="button"
+                      (click)="showEvalPassword = !showEvalPassword"
+                      tabindex="-1"
+                    >
+                      <mat-icon>{{ showEvalPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </button>
+                    @if (evaluatestPasswordConfigured) {
+                      <mat-hint>{{ companyEvalSecretHint }}</mat-hint>
+                    }
+                  </mat-form-field>
+                  @if (evaluatestFolderName || evaluatestUnityId != null) {
+                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                      <mat-label>{{ companyFieldEvalFolder }}</mat-label>
+                      <input matInput [value]="evaluatestFolderName || '—'" readonly />
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                      <mat-label>{{ companyFieldEvalUnity }}</mat-label>
+                      <input matInput [value]="evaluatestUnityId ?? '—'" readonly />
+                    </mat-form-field>
+                  }
+                </div>
+                <p class="company-channel__footnote">{{ companyEvalFootnote }}</p>
+              </div>
+            </section>
+
+            <hr class="company-divider" />
+
             <section class="company-section company-section--docs">
               <h3 class="company-section__title">{{ companySectionDocServices }}</h3>
               <div class="company-doc-table-wrap">

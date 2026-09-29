@@ -27,6 +27,7 @@ import { CatalogBrandService } from '../../../core/services/catalog-brand.servic
 import { CatalogClientService } from '../../../core/services/catalog-client.service';
 import { CatalogCompanyService } from '../../../core/services/catalog-company.service';
 import { CompanyIntegrationsService } from '../../../core/services/company-integrations.service';
+import { EvaluatestApiService, EvaluatestCredentials } from '../../../core/services/evaluatest-api.service';
 import { CompanyIntegrations } from '../../../shared/models/company-integrations.model';
 import {
   COMPANY_BTN_CANCEL,
@@ -38,8 +39,16 @@ import {
   COMPANY_COL_SERVICE,
   COMPANY_DIALOG_SUBTITLE,
   COMPANY_EMAIL_FOOTNOTE,
+  COMPANY_EVAL_FOOTNOTE,
+  COMPANY_EVAL_SECRET_HINT,
   COMPANY_FIELD_COLORS,
   COMPANY_FIELD_ENABLED,
+  COMPANY_FIELD_EVAL_BASE_URL,
+  COMPANY_FIELD_EVAL_FOLDER,
+  COMPANY_FIELD_EVAL_PASSWORD,
+  COMPANY_FIELD_EVAL_SUBSCRIPTION_KEY,
+  COMPANY_FIELD_EVAL_UNITY,
+  COMPANY_FIELD_EVAL_USER_EMAIL,
   COMPANY_FIELD_MAIL_FROM,
   COMPANY_FIELD_SMTP_HOST,
   COMPANY_FIELD_SMTP_PASSWORD,
@@ -53,6 +62,7 @@ import {
   COMPANY_FIELD_WA_INSTANCE_TOKEN,
   COMPANY_SECTION_CHANNELS,
   COMPANY_SECTION_DOC_SERVICES,
+  COMPANY_SECTION_EVALUATEST,
   COMPANY_SECTION_GENERAL,
 } from '../../../core/i18n/company-integrations-labels';
 import { forkJoin, of, switchMap } from 'rxjs';
@@ -309,6 +319,7 @@ export class CatalogsAdminComponent implements OnInit {
   readonly companyDialogSubtitle = COMPANY_DIALOG_SUBTITLE;
   readonly companySectionGeneral = COMPANY_SECTION_GENERAL;
   readonly companySectionChannels = COMPANY_SECTION_CHANNELS;
+  readonly companySectionEvaluatest = COMPANY_SECTION_EVALUATEST;
   readonly companySectionDocServices = COMPANY_SECTION_DOC_SERVICES;
   readonly companyChannelEmail = COMPANY_CHANNEL_EMAIL;
   readonly companyChannelWhatsapp = COMPANY_CHANNEL_WHATSAPP;
@@ -323,6 +334,14 @@ export class CatalogsAdminComponent implements OnInit {
   readonly companyFieldWaBearer = COMPANY_FIELD_WA_BEARER;
   readonly companyFieldWaInstanceId = COMPANY_FIELD_WA_INSTANCE_ID;
   readonly companyFieldWaInstanceToken = COMPANY_FIELD_WA_INSTANCE_TOKEN;
+  readonly companyFieldEvalBaseUrl = COMPANY_FIELD_EVAL_BASE_URL;
+  readonly companyFieldEvalSubscriptionKey = COMPANY_FIELD_EVAL_SUBSCRIPTION_KEY;
+  readonly companyFieldEvalUserEmail = COMPANY_FIELD_EVAL_USER_EMAIL;
+  readonly companyFieldEvalPassword = COMPANY_FIELD_EVAL_PASSWORD;
+  readonly companyFieldEvalFolder = COMPANY_FIELD_EVAL_FOLDER;
+  readonly companyFieldEvalUnity = COMPANY_FIELD_EVAL_UNITY;
+  readonly companyEvalSecretHint = COMPANY_EVAL_SECRET_HINT;
+  readonly companyEvalFootnote = COMPANY_EVAL_FOOTNOTE;
   readonly companyColService = COMPANY_COL_SERVICE;
   readonly companyColDescription = COMPANY_COL_DESCRIPTION;
   readonly companyColApiKey = COMPANY_COL_API_KEY;
@@ -334,6 +353,12 @@ export class CatalogsAdminComponent implements OnInit {
   showSmtpPassword = false;
   showWaBearer = false;
   showWaInstanceToken = false;
+  showEvalSubscriptionKey = false;
+  showEvalPassword = false;
+  evaluatestSubscriptionKeyConfigured = false;
+  evaluatestPasswordConfigured = false;
+  evaluatestFolderName: string | null = null;
+  evaluatestUnityId: number | null = null;
   docTokenVisible: boolean[] = [];
   readonly colSymbol = CATALOG_COLUMN_SYMBOL;
   readonly colDenomination = CATALOG_COLUMN_DENOMINATION;
@@ -408,6 +433,7 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly positionStatusService = inject(CatalogPositionStatusService);
   private readonly companyService = inject(CatalogCompanyService);
   private readonly companyIntegrationsService = inject(CompanyIntegrationsService);
+  private readonly evaluatestApi = inject(EvaluatestApiService);
   private readonly currencyService = inject(CatalogCurrencyService);
   private readonly careerService = inject(CatalogCareerService);
   private readonly languageService = inject(CatalogLanguageService);
@@ -1471,6 +1497,13 @@ export class CatalogsAdminComponent implements OnInit {
       whatsappBearer: [''],
       whatsappInstanceId: [''],
       whatsappInstanceToken: [''],
+    }),
+    evaluatest: this.fb.nonNullable.group({
+      isEnabled: [false],
+      baseUrl: [''],
+      subscriptionKey: [''],
+      userEmail: [''],
+      password: [''],
     }),
     documentServices: this.fb.array<FormGroup>([]),
   });
@@ -4819,6 +4852,9 @@ export class CatalogsAdminComponent implements OnInit {
     this.showSmtpPassword = false;
     this.showWaBearer = false;
     this.showWaInstanceToken = false;
+    this.showEvalSubscriptionKey = false;
+    this.showEvalPassword = false;
+    this.resetEvaluatestFlags();
     this.openCatalogFormDialog('company', 'new');
     this.loadingCompanyDetail = true;
     this.companyForm.reset({
@@ -4859,6 +4895,13 @@ export class CatalogsAdminComponent implements OnInit {
         whatsappInstanceId: '',
         whatsappInstanceToken: '',
       },
+      evaluatest: {
+        isEnabled: false,
+        baseUrl: '',
+        subscriptionKey: '',
+        userEmail: '',
+        password: '',
+      },
     });
     this.documentServices.clear();
     this.companyIntegrationsService.template().subscribe({
@@ -4879,13 +4922,17 @@ export class CatalogsAdminComponent implements OnInit {
     this.showSmtpPassword = false;
     this.showWaBearer = false;
     this.showWaInstanceToken = false;
+    this.showEvalSubscriptionKey = false;
+    this.showEvalPassword = false;
+    this.resetEvaluatestFlags();
     this.openCatalogFormDialog('company', 'edit');
     this.loadingCompanyDetail = true;
     forkJoin({
       company: this.companyService.getById(row.id),
       integrations: this.companyIntegrationsService.get(row.id),
+      evaluatest: this.evaluatestApi.getCredentials(row.id),
     }).subscribe({
-      next: ({ company, integrations }) => {
+      next: ({ company, integrations, evaluatest }) => {
         this.loadingCompanyDetail = false;
         const existingSlug = company.portalSlug?.trim() ?? '';
         this.portalSlugManual = existingSlug.length > 0;
@@ -4914,6 +4961,7 @@ export class CatalogsAdminComponent implements OnInit {
           isActive: company.isActive,
         });
         this.applyIntegrationsToForm(integrations);
+        this.applyEvaluatestToForm(evaluatest);
         if (!existingSlug) {
           this.syncPortalSlugFromName(company.name);
         }
@@ -4963,6 +5011,38 @@ export class CatalogsAdminComponent implements OnInit {
       );
       this.docTokenVisible.push(false);
     }
+  }
+
+  private resetEvaluatestFlags(): void {
+    this.evaluatestSubscriptionKeyConfigured = false;
+    this.evaluatestPasswordConfigured = false;
+    this.evaluatestFolderName = null;
+    this.evaluatestUnityId = null;
+  }
+
+  private applyEvaluatestToForm(credentials: EvaluatestCredentials): void {
+    this.evaluatestSubscriptionKeyConfigured = credentials.subscriptionKeyConfigured;
+    this.evaluatestPasswordConfigured = credentials.passwordConfigured;
+    this.evaluatestFolderName = credentials.folderName ?? null;
+    this.evaluatestUnityId = credentials.unityId ?? null;
+    this.companyForm.controls.evaluatest.patchValue({
+      isEnabled: credentials.isEnabled ?? false,
+      baseUrl: credentials.baseUrl ?? '',
+      subscriptionKey: '',
+      userEmail: credentials.userEmail ?? '',
+      password: '',
+    });
+  }
+
+  private buildEvaluatestPayload() {
+    const value = this.companyForm.controls.evaluatest.getRawValue();
+    return {
+      baseUrl: value.baseUrl.trim() || null,
+      subscriptionKey: value.subscriptionKey.trim() || null,
+      userEmail: value.userEmail.trim() || null,
+      password: value.password.trim() || null,
+      isEnabled: value.isEnabled,
+    };
   }
 
   toggleDocTokenVisible(index: number): void {
@@ -5088,6 +5168,7 @@ export class CatalogsAdminComponent implements OnInit {
       isActive: value.isActive,
     };
     const integrationsPayload = this.buildIntegrationsPayload();
+    const evaluatestPayload = this.buildEvaluatestPayload();
     this.savingCompany = true;
     const companyRequest$ =
       this.editingCompanyId != null
@@ -5100,7 +5181,10 @@ export class CatalogsAdminComponent implements OnInit {
           if (id == null) {
             return of(company);
           }
-          return this.companyIntegrationsService.upsert(id, integrationsPayload).pipe(switchMap(() => of(company)));
+          return this.companyIntegrationsService.upsert(id, integrationsPayload).pipe(
+            switchMap(() => this.evaluatestApi.upsertCredentials(id, evaluatestPayload)),
+            switchMap(() => of(company)),
+          );
         }),
       )
       .subscribe({
