@@ -13,10 +13,47 @@ export interface EvaluatestCatalogItem {
   resolvedName?: string | null;
 }
 
+export interface EvaluatestCredentials {
+  companyId: number;
+  baseUrl: string | null;
+  subscriptionKeyConfigured: boolean;
+  userEmail: string | null;
+  passwordConfigured: boolean;
+  isEnabled: boolean | null;
+  folderName: string | null;
+  unityId: number | null;
+}
+
+export interface UpsertEvaluatestCredentialsRequest {
+  baseUrl: string | null;
+  subscriptionKey: string | null;
+  userEmail: string | null;
+  password: string | null;
+  isEnabled: boolean;
+}
+
 @Injectable({ providedIn: 'root' })
 export class EvaluatestApiService {
   private readonly http = inject(HttpClient);
   private readonly api = inject(ApiClientService);
+
+  getCredentials(companyId: number): Observable<EvaluatestCredentials> {
+    return this.http.get<EvaluatestCredentials>(
+      this.api.apiUrl(`/api/v1/companies/${companyId}/integrations/evaluatest`),
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  upsertCredentials(
+    companyId: number,
+    request: UpsertEvaluatestCredentialsRequest,
+  ): Observable<EvaluatestCredentials> {
+    return this.http.put<EvaluatestCredentials>(
+      this.api.apiUrl(`/api/v1/companies/${companyId}/integrations/evaluatest`),
+      request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
 
   getCompetenceModels(languageId: number): Observable<EvaluatestCatalogItem[]> {
     return this.get('/api/v1/evaluatest/catalogs/competence-models', { languageId });
