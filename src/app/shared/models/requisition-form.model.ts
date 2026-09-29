@@ -128,6 +128,7 @@ export const REQUISITION_FORM_DEFAULT_STEP_KEYS = [
   'extraBenefits',
   'preselection',
   'whatsappSurvey',
+  'evaluatestJob',
   'documents',
 ] as const;
 

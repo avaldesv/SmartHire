@@ -1,4 +1,13 @@
 <div class="form-grid">
+  @if (isEvaluatestJobStep) {
+    <div class="span-2">
+      <sh-evaluatest-requirements-step
+        [stepForm]="stepForm"
+        [initial]="evaluatestInitial"
+        [defaultJobName]="evaluatestDefaultJobName"
+      />
+    </div>
+  } @else {
   @for (field of visibleFields; track field.fieldKey) {
     @if (isGeneralRequirementsBlockStart(field)) {
       <div class="general-requirements-block span-2">
@@ -231,5 +240,6 @@
         [disabled]="isReadOnly(field)"
       />
     }
+  }
   }
 </div>

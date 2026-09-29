@@ -119,7 +119,20 @@ export interface CreatePositionRequest {
   questionnaire?: PositionQuestionnaireItem | null;
   documentRequirements?: PositionDocumentRequirementItem[];
   surveyId?: number | null;
+  evaluatest?: PositionEvaluatestPayload | null;
   assignedUserId?: number | null;
+}
+
+export interface PositionEvaluatestPayload {
+  evaluatestEnabled?: boolean | null;
+  jobName?: string | null;
+  competenceModelId?: number | null;
+  jobLevelId?: number | null;
+  selectionJobPatternId?: number | null;
+  industryId?: number | null;
+  functionalAreaId?: number | null;
+  industryJobTypeId?: number | null;
+  evaluatestJobProfileId?: number | null;
 }
 
 export interface CreatePositionResponse {

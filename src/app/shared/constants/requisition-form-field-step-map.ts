@@ -86,6 +86,7 @@ export const REQUISITION_FIELDS_BY_STEP: Record<(typeof REQUISITION_FORM_DEFAULT
   extraBenefits: ['extraBenefitsText'],
   preselection: ['questionnaire'],
   whatsappSurvey: ['surveyId'],
+  evaluatestJob: [],
   documents: [
     'documentRequirements',
     'documentValidateAiName',
