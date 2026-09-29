@@ -115,12 +115,6 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
     return fromRoot && typeof fromRoot === 'object' ? (fromRoot as PositionEvaluatestPayload) : null;
   }
 
-  get evaluatestDefaultJobName(): string | null {
-    const flat = flattenDynamicFormValues(this.rootForm);
-    const name = flat['positionName'];
-    return typeof name === 'string' && name.trim() ? name.trim() : null;
-  }
-
   visibleFields: ResolvedRequisitionFormField[] = [];
   optionsByField: Partial<Record<string, WizardFieldOption[]>> = {};
   loadingByField: Partial<Record<string, boolean>> = {};
