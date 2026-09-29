@@ -12,9 +12,8 @@ import {
   evaluatestOptionId,
   evaluatestOptionLabel,
 } from '../../../../core/services/evaluatest-api.service';
+import { DEFAULT_LOGIN_LOCALE, LocaleService } from '../../../../core/services/locale.service';
 import { PositionEvaluatestPayload } from '../../../../shared/models/position.model';
-
-const LANGUAGE_ID = 1;
 
 /** Hardcoded SelectionJobPattern options (refine when Brivé catalog is confirmed). */
 const SELECTION_JOB_PATTERNS: { id: number; name: string }[] = [
@@ -39,6 +38,7 @@ const SELECTION_JOB_PATTERNS: { id: number; name: string }[] = [
 export class EvaluatestRequirementsStepComponent implements OnInit, OnDestroy {
   private readonly fb = inject(FormBuilder);
   private readonly api = inject(EvaluatestApiService);
+  private readonly localeService = inject(LocaleService);
   private readonly subs = new Subscription();
 
   @Input({ required: true }) stepForm!: FormGroup;
@@ -121,8 +121,14 @@ export class EvaluatestRequirementsStepComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
+  /** Portal locale (e.g. es-MX) — Evaluatest catalog path segment, not language id. */
+  private currentLanguage(): string {
+    return this.localeService.getLanguageHeader()?.trim() || DEFAULT_LOGIN_LOCALE;
+  }
+
   private loadBaseCatalogs(): void {
     this.loadingBase = true;
+    const language = this.currentLanguage();
     let pending = 3;
     const done = () => {
       pending -= 1;
@@ -130,21 +136,21 @@ export class EvaluatestRequirementsStepComponent implements OnInit, OnDestroy {
         this.loadingBase = false;
       }
     };
-    this.api.getCompetenceModels(LANGUAGE_ID).subscribe({
+    this.api.getCompetenceModels(language).subscribe({
       next: (items) => {
         this.competenceModels = items ?? [];
         done();
       },
       error: () => done(),
     });
-    this.api.getIndustries(LANGUAGE_ID).subscribe({
+    this.api.getIndustries(language).subscribe({
       next: (items) => {
         this.industries = items ?? [];
         done();
       },
       error: () => done(),
     });
-    this.api.getFunctionalAreas(LANGUAGE_ID).subscribe({
+    this.api.getFunctionalAreas(language).subscribe({
       next: (items) => {
         this.functionalAreas = items ?? [];
         done();
@@ -155,7 +161,7 @@ export class EvaluatestRequirementsStepComponent implements OnInit, OnDestroy {
 
   private loadJobLevels(competenceModelId: number): void {
     this.loadingLevels = true;
-    this.api.getJobLevels(competenceModelId, LANGUAGE_ID).subscribe({
+    this.api.getJobLevels(competenceModelId, this.currentLanguage()).subscribe({
       next: (items) => {
         this.jobLevels = items ?? [];
         this.loadingLevels = false;
@@ -175,15 +181,17 @@ export class EvaluatestRequirementsStepComponent implements OnInit, OnDestroy {
       return;
     }
     this.loadingIndustryTypes = true;
-    this.api.getIndustryJobTypes(Number(industryId), Number(jobLevelId), LANGUAGE_ID).subscribe({
-      next: (items) => {
-        this.industryJobTypes = items ?? [];
-        this.loadingIndustryTypes = false;
-      },
-      error: () => {
-        this.industryJobTypes = [];
-        this.loadingIndustryTypes = false;
-      },
-    });
+    this.api
+      .getIndustryJobTypes(Number(industryId), Number(jobLevelId), this.currentLanguage())
+      .subscribe({
+        next: (items) => {
+          this.industryJobTypes = items ?? [];
+          this.loadingIndustryTypes = false;
+        },
+        error: () => {
+          this.industryJobTypes = [];
+          this.loadingIndustryTypes = false;
+        },
+      });
   }
 }
