@@ -326,6 +326,10 @@ export function buildDynamicCreatePayload(
   mapLegacyLanguageFields(payload, formValues);
   mapLegacyDocumentFields(payload, formValues);
 
+  if (formValues['evaluatest'] != null && typeof formValues['evaluatest'] === 'object') {
+    payload['evaluatest'] = formValues['evaluatest'];
+  }
+
   return payload as unknown as CreatePositionRequest;
 }
 
@@ -483,6 +487,9 @@ export function hydrateDynamicFormValues(
       values[field.fieldKey] = resolveHydratedValue(field, position, positionRecord);
     }
   }
+  if (position.evaluatest) {
+    values['evaluatest'] = position.evaluatest;
+  }
   return values;
 }
 
@@ -623,6 +630,13 @@ export function patchDynamicForm(
         continue;
       }
       control.patchValue(value, { emitEvent: false });
+    }
+    if (step.stepKey === 'evaluatestJob' && values['evaluatest'] != null) {
+      if (!stepGroup.contains('evaluatest')) {
+        stepGroup.addControl('evaluatest', fb.control(values['evaluatest']));
+      } else {
+        stepGroup.get('evaluatest')!.patchValue(values['evaluatest'], { emitEvent: false });
+      }
     }
   }
   refreshDynamicValidators(form, config);

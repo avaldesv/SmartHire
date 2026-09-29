@@ -10,8 +10,9 @@ const REQUISITION_STEP_LABELS: Record<string, string> = {
   extraBenefits: $localize`:@@requisition.step.extraBenefits:Beneficios adicionales`,
   preselection: $localize`:@@requisition.step.preselection:Preselección`,
   whatsappSurvey: $localize`:@@requisition.step.whatsappSurvey:Encuesta WhatsApp`,
+  evaluatestJob: $localize`:@@requisition.step.evaluatestJob:Requerimientos`,
   documents: $localize`:@@requisition.step.documents:Documentos`,
-  requirements: $localize`:@@requisition.step.requirements:Requerimientos`,
+  requirements: $localize`:@@requisition.step.requirements:Requisitos del perfil`,
 };
 
 const REQUISITION_FIELD_LABELS: Record<string, string> = {
@@ -176,6 +177,7 @@ const REQUISITION_STEP_STEPPER_LABELS: Record<string, string> = {
   extraBenefits: $localize`:@@requisition.step.extraBenefits.stepper:Beneficios`,
   preselection: $localize`:@@requisition.step.preselection.stepper:Preselección`,
   whatsappSurvey: $localize`:@@requisition.step.whatsappSurvey.stepper:Encuesta WA`,
+  evaluatestJob: $localize`:@@requisition.step.evaluatestJob.stepper:Requerimientos`,
   documents: $localize`:@@requisition.step.documents.stepper:Documentos`,
   requirements: $localize`:@@requisition.step.requirements.stepper:Requisitos`,
 };

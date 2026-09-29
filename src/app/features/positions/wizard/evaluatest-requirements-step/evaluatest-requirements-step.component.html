@@ -1,0 +1,85 @@
+<section class="evaluatest-step" [formGroup]="form">
+  <div class="evaluatest-step__header">
+    <h3 class="evaluatest-step__title">{{ labels.section }}</h3>
+    <mat-slide-toggle formControlName="evaluatestEnabled" color="primary">
+      {{ labels.toggle }}
+    </mat-slide-toggle>
+  </div>
+
+  @if (loadingBase) {
+    <div class="evaluatest-step__loading">
+      <mat-spinner diameter="28" />
+      <span>{{ labels.loading }}</span>
+    </div>
+  }
+
+  <div class="form-grid">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ labels.jobName }}</mat-label>
+      <input matInput formControlName="jobName" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ labels.competenceModel }}</mat-label>
+      <mat-select formControlName="competenceModelId">
+        <mat-option [value]="null">{{ labels.selectPlaceholder }}</mat-option>
+        @for (item of competenceModels; track optionId(item)) {
+          <mat-option [value]="optionId(item)">{{ optionLabel(item) }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ labels.jobLevel }}</mat-label>
+      <mat-select formControlName="jobLevelId" [disabled]="loadingLevels || !form.controls['competenceModelId'].value">
+        <mat-option [value]="null">{{ labels.selectPlaceholder }}</mat-option>
+        @for (item of jobLevels; track optionId(item)) {
+          <mat-option [value]="optionId(item)">{{ optionLabel(item) }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ labels.selectionJobPattern }}</mat-label>
+      <mat-select formControlName="selectionJobPatternId">
+        <mat-option [value]="null">{{ labels.selectPlaceholder }}</mat-option>
+        @for (item of selectionPatterns; track item.id) {
+          <mat-option [value]="item.id">{{ item.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ labels.industry }}</mat-label>
+      <mat-select formControlName="industryId">
+        <mat-option [value]="null">{{ labels.selectPlaceholder }}</mat-option>
+        @for (item of industries; track optionId(item)) {
+          <mat-option [value]="optionId(item)">{{ optionLabel(item) }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ labels.functionalArea }}</mat-label>
+      <mat-select formControlName="functionalAreaId">
+        <mat-option [value]="null">{{ labels.selectPlaceholder }}</mat-option>
+        @for (item of functionalAreas; track optionId(item)) {
+          <mat-option [value]="optionId(item)">{{ optionLabel(item) }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ labels.industryJobType }}</mat-label>
+      <mat-select
+        formControlName="industryJobTypeId"
+        [disabled]="loadingIndustryTypes || !form.controls['industryId'].value || !form.controls['jobLevelId'].value"
+      >
+        <mat-option [value]="null">{{ labels.selectPlaceholder }}</mat-option>
+        @for (item of industryJobTypes; track optionId(item)) {
+          <mat-option [value]="optionId(item)">{{ optionLabel(item) }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+</section>

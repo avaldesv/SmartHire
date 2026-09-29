@@ -53,7 +53,9 @@ import {
   type JobDescriptionPromptSnapshot,
 } from '../job-description-ai-field/build-job-description-prompt';
 import { WizardClientSearchFieldComponent } from '../wizard-client-search-field/wizard-client-search-field.component';
+import { EvaluatestRequirementsStepComponent } from '../evaluatest-requirements-step/evaluatest-requirements-step.component';
 import { CLIENT_ID_FIELD_KEY } from '../../../../shared/constants/requisition-client-catalog-fill';
+import { PositionEvaluatestPayload } from '../../../../shared/models/position.model';
 
 @Component({
   selector: 'sh-dynamic-wizard-step',
@@ -73,6 +75,7 @@ import { CLIENT_ID_FIELD_KEY } from '../../../../shared/constants/requisition-cl
     JobDescriptionAiFieldComponent,
     JobRequirementsAiColumnComponent,
     WizardClientSearchFieldComponent,
+    EvaluatestRequirementsStepComponent,
   ],
   templateUrl: './dynamic-wizard-step.component.html',
   styleUrl: './dynamic-wizard-step.component.scss',
@@ -97,6 +100,26 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
   @Input({ required: true }) config!: ResolvedRequisitionFormConfig;
   @Input() countryId: number | null = null;
   @Input() isEditMode = false;
+
+  get isEvaluatestJobStep(): boolean {
+    return this.step?.stepKey === 'evaluatestJob';
+  }
+
+  get evaluatestInitial(): PositionEvaluatestPayload | null {
+    const value = this.stepForm?.get('evaluatest')?.value;
+    if (value && typeof value === 'object') {
+      return value as PositionEvaluatestPayload;
+    }
+    const flat = flattenDynamicFormValues(this.rootForm);
+    const fromRoot = flat['evaluatest'];
+    return fromRoot && typeof fromRoot === 'object' ? (fromRoot as PositionEvaluatestPayload) : null;
+  }
+
+  get evaluatestDefaultJobName(): string | null {
+    const flat = flattenDynamicFormValues(this.rootForm);
+    const name = flat['positionName'];
+    return typeof name === 'string' && name.trim() ? name.trim() : null;
+  }
 
   visibleFields: ResolvedRequisitionFormField[] = [];
   optionsByField: Partial<Record<string, WizardFieldOption[]>> = {};
