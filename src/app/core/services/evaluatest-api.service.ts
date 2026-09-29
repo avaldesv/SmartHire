@@ -55,32 +55,32 @@ export class EvaluatestApiService {
     );
   }
 
-  getCompetenceModels(languageId: number): Observable<EvaluatestCatalogItem[]> {
-    return this.get('/api/v1/evaluatest/catalogs/competence-models', { languageId });
+  getCompetenceModels(language: string): Observable<EvaluatestCatalogItem[]> {
+    return this.get('/api/v1/evaluatest/catalogs/competence-models', { language });
   }
 
-  getJobLevels(competenceModelId: number, languageId: number): Observable<EvaluatestCatalogItem[]> {
-    return this.get('/api/v1/evaluatest/catalogs/job-levels', { competenceModelId, languageId });
+  getJobLevels(competenceModelId: number, language: string): Observable<EvaluatestCatalogItem[]> {
+    return this.get('/api/v1/evaluatest/catalogs/job-levels', { competenceModelId, language });
   }
 
-  getFunctionalAreas(languageId: number): Observable<EvaluatestCatalogItem[]> {
-    return this.get('/api/v1/evaluatest/catalogs/functional-areas', { languageId });
+  getFunctionalAreas(language: string): Observable<EvaluatestCatalogItem[]> {
+    return this.get('/api/v1/evaluatest/catalogs/functional-areas', { language });
   }
 
-  getIndustries(languageId: number): Observable<EvaluatestCatalogItem[]> {
-    return this.get('/api/v1/evaluatest/catalogs/industries', { languageId });
+  getIndustries(language: string): Observable<EvaluatestCatalogItem[]> {
+    return this.get('/api/v1/evaluatest/catalogs/industries', { language });
   }
 
   getIndustryJobTypes(
     industryId: number,
     jobLevelId: number,
-    languageId: number,
+    language: string,
     profileLibraryId = 1,
   ): Observable<EvaluatestCatalogItem[]> {
     return this.get('/api/v1/evaluatest/catalogs/industry-job-types', {
       industryId,
       jobLevelId,
-      languageId,
+      language,
       profileLibraryId,
     });
   }
