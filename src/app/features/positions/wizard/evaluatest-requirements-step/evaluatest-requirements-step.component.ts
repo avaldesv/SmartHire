@@ -1,11 +1,11 @@
 import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Subscription, distinctUntilChanged } from 'rxjs';
+import { Subscription, distinctUntilChanged, startWith } from 'rxjs';
 import {
   EvaluatestApiService,
   EvaluatestCatalogItem,
@@ -43,7 +43,8 @@ export class EvaluatestRequirementsStepComponent implements OnInit, OnDestroy {
 
   @Input({ required: true }) stepForm!: FormGroup;
   @Input() initial: PositionEvaluatestPayload | null = null;
-  @Input() defaultJobName: string | null = null;
+  /** Position name control from Datos generales (`positionName`). */
+  @Input() positionNameControl: FormControl<string | null> | null = null;
 
   readonly labels = {
     section: $localize`:@@requisition.evaluatest.section:Detalles del Puesto`,
@@ -76,9 +77,10 @@ export class EvaluatestRequirementsStepComponent implements OnInit, OnDestroy {
   optionLabel = evaluatestOptionLabel;
 
   ngOnInit(): void {
+    const syncedName = this.readPositionName();
     this.form = this.fb.group({
       evaluatestEnabled: [this.initial?.evaluatestEnabled ?? true],
-      jobName: [this.initial?.jobName ?? this.defaultJobName ?? ''],
+      jobName: [{ value: syncedName, disabled: true }],
       competenceModelId: [this.initial?.competenceModelId ?? null],
       jobLevelId: [this.initial?.jobLevelId ?? null],
       selectionJobPatternId: [this.initial?.selectionJobPatternId ?? null],
@@ -92,6 +94,14 @@ export class EvaluatestRequirementsStepComponent implements OnInit, OnDestroy {
       this.stepForm.setControl('evaluatest', this.form);
     } else {
       this.stepForm.addControl('evaluatest', this.form);
+    }
+
+    if (this.positionNameControl) {
+      this.subs.add(
+        this.positionNameControl.valueChanges
+          .pipe(startWith(this.positionNameControl.value), distinctUntilChanged())
+          .subscribe(() => this.syncJobNameFromPosition()),
+      );
     }
 
     this.loadBaseCatalogs();
@@ -119,6 +129,20 @@ export class EvaluatestRequirementsStepComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
+  }
+
+  private readPositionName(): string {
+    const raw = this.positionNameControl?.value;
+    return typeof raw === 'string' ? raw.trim() : '';
+  }
+
+  private syncJobNameFromPosition(): void {
+    const name = this.readPositionName();
+    const control = this.form?.get('jobName');
+    if (!control || control.value === name) {
+      return;
+    }
+    control.setValue(name, { emitEvent: false });
   }
 
   /** Portal locale (e.g. es-MX) — Evaluatest catalog path segment, not language id. */
