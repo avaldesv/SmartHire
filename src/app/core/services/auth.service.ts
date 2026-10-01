@@ -390,7 +390,7 @@ export class AuthService {
   }): AuthUser {
     const email = input.email.includes('@') ? input.email : `${input.email}@empresa.com`;
     const firstName = input.firstName?.trim() || 'Usuario';
-    const lastName = input.lastName?.trim() || 'SmartHire';
+    const lastName = input.lastName?.trim() || 'Via';
     const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
     return {
       id: String(input.userId ?? email),
