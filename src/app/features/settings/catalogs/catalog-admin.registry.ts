@@ -178,7 +178,7 @@ const CATALOG_CATEGORIES_RAW: CatalogCategoryDefinition[] = [
   },
   {
     id: 'smarthireOps',
-    label: 'SmartHire / Operación',
+    label: 'Via / Operación',
     catalogs: [
       { id: 'kinship', label: 'Parentesco', panelKey: 'kinship', implemented: true },
       { id: 'cancellationType', label: 'Tipo de cancelación', panelKey: 'cancellationType', implemented: true },

@@ -2621,8 +2621,8 @@
         <target>MP Data</target>
       </trans-unit>
       <trans-unit id="catalogs.category.smarthireOps" datatype="html">
-        <source>SmartHire / Operación</source>
-        <target>SmartHire / Operations</target>
+        <source>Via / Operación</source>
+        <target>Via / Operations</target>
       </trans-unit>
       <trans-unit id="catalogs.entry.gender" datatype="html">
         <source>Género</source>
@@ -11423,8 +11423,8 @@
         <target>Ir al inicio</target>
       </trans-unit>
       <trans-unit id="app.brand" datatype="html">
-        <source>Smart Hire</source>
-        <target>Smart Hire</target>
+        <source>Via</source>
+        <target>Via</target>
       </trans-unit>
       <trans-unit id="shell.help" datatype="html">
         <source>Ayuda</source>

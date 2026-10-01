@@ -1,6 +1,6 @@
-# Smart Hire — Portal Reclutadores (Maqueta Angular)
+# Via — Portal Reclutadores (Maqueta Angular)
 
-Maqueta funcional del **portal interno de reclutadores** Smart Hire, basada en la **Propuesta A — Smart Hire Pro**.  
+Maqueta funcional del **portal interno de reclutadores** Via, basada en la **Propuesta A — Via**.  
 Datos **100% mock** (sin backend). Cubre los módulos y pantallas definidos en los RF/NFR del análisis de migración.
 
 ## Requisitos
@@ -90,9 +90,9 @@ src/app/
 | `/reports/view/:slug` | Reportes genéricos (sidebar) |
 | `/settings/*` | Usuarios, grupos, catálogos, notificaciones, docs, prompts, CVs, entrevistas, etapas, sistema, bitácoras |
 
-## Diseño — Smart Hire Pro
+## Diseño — Via
 
-- Marca: **Smart Hire** (sin identidad Manpower)
+- Marca: **Via** (wordmark v.ia)
 - Colores: teal `#0D9488`, navy `#1E3A5F`, fondo `#F8FAFC`
 - Tipografía: Inter + JetBrains Mono (IDs)
 - Layout: top nav horizontal + content area

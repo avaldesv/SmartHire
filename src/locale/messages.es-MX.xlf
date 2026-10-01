@@ -4972,7 +4972,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="catalogs.category.smarthireOps" datatype="html">
-        <source>SmartHire / Operación</source>
+        <source>Via / Operación</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
           <context context-type="linenumber">8</context>
@@ -22839,7 +22839,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="app.brand" datatype="html">
-        <source>Smart Hire</source>
+        <source>Via</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/layout/shell.component.html</context>
           <context context-type="linenumber">4,6</context>

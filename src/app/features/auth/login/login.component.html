@@ -1,11 +1,8 @@
 <div class="login-page">
   <div class="login-card">
     <div class="brand">
-      <div class="logo-mark">SH</div>
-      <div>
-        <h1 i18n="@@app.brand">Smart Hire</h1>
-        <p i18n="@@auth.login.subtitle">Portal de Reclutamiento</p>
-      </div>
+      <img class="brand-logo" src="brand/via-logo-dark.png" width="220" height="127" alt="Via" i18n-alt="@@app.brand" />
+      <p i18n="@@auth.login.subtitle">Portal de Reclutamiento</p>
     </div>
 
     <form [formGroup]="form" (ngSubmit)="submit()">

@@ -52,7 +52,7 @@ export class SystemConfigComponent {
   readonly saveLabel = SYSTEM_SAVE_BUTTON;
 
   readonly form = this.fb.nonNullable.group({
-    instanceName: ['Smart Hire MX'],
+    instanceName: ['Via MX'],
     timezone: ['America/Mexico_City'],
     locale: ['es-MX'],
     maintenanceMode: [false],
