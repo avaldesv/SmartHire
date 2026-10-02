@@ -28,6 +28,7 @@ import { getRequisitionStatusLabel, isCreatedPositionStatus, isOpenForCancellati
 import { CV_BULK_ACTION } from '../../../../core/i18n/cv-bulk-labels';
 import { EXCEL_BULK_ACTION } from '../../../../core/i18n/excel-bulk-labels';
 import { HISTORIC_REASSIGN_ACTION } from '../../../../core/i18n/historic-reassign-labels';
+import { EVALUATEST_BATTERY_MENU } from '../../../../core/i18n/evaluatest-battery-labels';
 import {
   POSITIONS_ACTION_APPLY_CANDIDATES,
   POSITIONS_ACTION_APPROVE_CANCELLATION,
@@ -209,6 +210,10 @@ import {
   ReassignPositionDialogResult,
 } from '../../list/reassign-position-dialog.component';
 import {
+  EvaluatestBatteryDialogComponent,
+  EvaluatestBatteryDialogData,
+} from '../../list/evaluatest-battery-dialog/evaluatest-battery-dialog.component';
+import {
   RequisitionScopeDialogComponent,
   RequisitionScopeDialogResult,
 } from '../../wizard/requisition-scope-dialog/requisition-scope-dialog.component';
@@ -341,6 +346,7 @@ export class PositionsTableComponent implements OnInit {
   readonly actionCvBulk = CV_BULK_ACTION;
   readonly actionExcelBulk = EXCEL_BULK_ACTION;
   readonly actionHistoricReassign = HISTORIC_REASSIGN_ACTION;
+  readonly actionEvaluatestBattery = EVALUATEST_BATTERY_MENU;
   readonly goSelectionAria = POSITIONS_ACTION_GO_SELECTION_ARIA;
   readonly moreActionsAria = POSITIONS_ACTION_MORE_ARIA;
 
@@ -476,6 +482,15 @@ export class PositionsTableComponent implements OnInit {
 
   canEdit(): boolean {
     return this.isTenantAdmin() || this.permissions.hasAuthority(AppPermissions.REQUISITION_EDIT);
+  }
+
+  canUpdateEvaluatestBattery(row: PositionListItem): boolean {
+    return (
+      this.canEdit() &&
+      row.evaluatestJobProfileId != null &&
+      row.evaluatestJobProfileId > 0 &&
+      !this.isRowTerminal(row.status)
+    );
   }
 
   isRowTerminal(status: string | null | undefined): boolean {
@@ -1308,6 +1323,22 @@ export class PositionsTableComponent implements OnInit {
     this.dialog.open(PositionEventsDialogComponent, {
       ...catalogDialogConfig('560px'),
       data: { positionId: row.id, requisitionNo: row.requisitionNo },
+    });
+  }
+
+  openEvaluatestBattery(row: PositionListItem): void {
+    if (!this.canUpdateEvaluatestBattery(row)) {
+      return;
+    }
+    this.dialog.open(EvaluatestBatteryDialogComponent, {
+      width: '1100px',
+      maxWidth: '96vw',
+      maxHeight: '92vh',
+      autoFocus: false,
+      data: {
+        positionId: row.id,
+        positionName: row.name,
+      } satisfies EvaluatestBatteryDialogData,
     });
   }
 

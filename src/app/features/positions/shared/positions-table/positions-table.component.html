@@ -378,6 +378,11 @@
               <button mat-menu-item (click)="openHistoricReassign(row)">
                 <mat-icon>history_edu</mat-icon> {{ actionHistoricReassign }}
               </button>
+              @if (canUpdateEvaluatestBattery(row)) {
+                <button mat-menu-item (click)="openEvaluatestBattery(row)">
+                  <mat-icon>science</mat-icon> {{ actionEvaluatestBattery }}
+                </button>
+              }
               <button mat-menu-item (click)="duplicatePosition(row)">
                 <mat-icon>content_copy</mat-icon> {{ actionDuplicate }}
               </button>

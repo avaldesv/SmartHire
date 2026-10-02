@@ -1,0 +1,32 @@
+/** Labels for Evaluatest update-battery dialog. */
+
+export const EVALUATEST_BATTERY_TITLE = $localize`:@@evaluatest.battery.title:Actualizar batería`;
+export const EVALUATEST_BATTERY_POSITION = $localize`:@@evaluatest.battery.position:Puesto`;
+export const EVALUATEST_BATTERY_COMPETENCE_MODEL = $localize`:@@evaluatest.battery.competenceModel:Modelo de competencias`;
+export const EVALUATEST_BATTERY_GENERAL = $localize`:@@evaluatest.battery.general:Datos generales`;
+export const EVALUATEST_BATTERY_EVALUATE = $localize`:@@evaluatest.battery.evaluate:Evaluar competencias`;
+export const EVALUATEST_BATTERY_YES = $localize`:@@evaluatest.battery.yes:Sí`;
+export const EVALUATEST_BATTERY_NO = $localize`:@@evaluatest.battery.no:No`;
+export const EVALUATEST_BATTERY_NECESSARY = $localize`:@@evaluatest.battery.necessary:Puntaje necesario`;
+export const EVALUATEST_BATTERY_DESIRABLE = $localize`:@@evaluatest.battery.desirable:Puntaje deseable`;
+export const EVALUATEST_BATTERY_CURRENT_COMPETENCES = $localize`:@@evaluatest.battery.currentCompetences:Competencias actuales`;
+export const EVALUATEST_BATTERY_ADD_COMPETENCES = $localize`:@@evaluatest.battery.addCompetences:Agregar competencias`;
+export const EVALUATEST_BATTERY_SELECT_COMPETENCE = $localize`:@@evaluatest.battery.selectCompetence:Seleccionar competencia`;
+export const EVALUATEST_BATTERY_EMPTY_NEW_COMPETENCES = $localize`:@@evaluatest.battery.emptyNewCompetences:Sin competencias nuevas`;
+export const EVALUATEST_BATTERY_CURRENT_TESTS = $localize`:@@evaluatest.battery.currentTests:Pruebas actuales`;
+export const EVALUATEST_BATTERY_ADD_TESTS = $localize`:@@evaluatest.battery.addTests:Agregar pruebas`;
+export const EVALUATEST_BATTERY_SELECT_TEST = $localize`:@@evaluatest.battery.selectTest:Seleccionar prueba`;
+export const EVALUATEST_BATTERY_ID = $localize`:@@evaluatest.battery.id:Id`;
+export const EVALUATEST_BATTERY_NAME = $localize`:@@evaluatest.battery.name:Nombre`;
+export const EVALUATEST_BATTERY_LEVEL = $localize`:@@evaluatest.battery.level:Nivel`;
+export const EVALUATEST_BATTERY_REQUIRED = $localize`:@@evaluatest.battery.required:Requerido`;
+export const EVALUATEST_BATTERY_MANDATORY = $localize`:@@evaluatest.battery.mandatory:Obligatorio`;
+export const EVALUATEST_BATTERY_TEST_ESIC = $localize`:@@evaluatest.battery.testEsic:isTestESIC`;
+export const EVALUATEST_BATTERY_AVG_TIME = $localize`:@@evaluatest.battery.avgTime:Tiempo (min)`;
+export const EVALUATEST_BATTERY_ADD = $localize`:@@evaluatest.battery.add:Agregar`;
+export const EVALUATEST_BATTERY_CANCEL = $localize`:@@evaluatest.battery.cancel:Cancelar`;
+export const EVALUATEST_BATTERY_SAVE = $localize`:@@evaluatest.battery.save:Guardar batería`;
+export const EVALUATEST_BATTERY_LOAD_ERROR = $localize`:@@evaluatest.battery.loadError:No se pudo cargar la batería Evaluatest`;
+export const EVALUATEST_BATTERY_SAVE_OK = $localize`:@@evaluatest.battery.saveOk:Batería actualizada correctamente`;
+export const EVALUATEST_BATTERY_SAVE_ERROR = $localize`:@@evaluatest.battery.saveError:No se pudo actualizar la batería Evaluatest`;
+export const EVALUATEST_BATTERY_MENU = $localize`:@@evaluatest.battery.menu:Actualizar batería`;

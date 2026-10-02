@@ -1,0 +1,215 @@
+<div class="battery-dialog">
+  <header class="battery-dialog__header">
+    <div>
+      <h2>{{ labels.title }}</h2>
+      <p class="meta">
+        <span>{{ labels.position }}: {{ jobName }}</span>
+        @if (competenceModelName) {
+          <span>{{ labels.competenceModel }}: {{ competenceModelName }}</span>
+        }
+      </p>
+    </div>
+    <button mat-icon-button type="button" (click)="dialogRef.close(false)" aria-label="Cerrar">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+
+  @if (loading()) {
+    <div class="battery-dialog__loading"><mat-spinner diameter="40" /></div>
+  } @else {
+    <div class="battery-dialog__body" [formGroup]="form">
+      <section class="card">
+        <h3>{{ labels.general }}</h3>
+        <div class="general-row">
+          <div class="field">
+            <label class="field-label required">{{ labels.evaluate }}</label>
+            <mat-radio-group formControlName="isCompetenceEvaluation" class="radio-row">
+              <mat-radio-button [value]="true">{{ labels.yes }}</mat-radio-button>
+              <mat-radio-button [value]="false">{{ labels.no }}</mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <mat-form-field appearance="outline" class="score-field">
+            <mat-label>{{ labels.necessary }}</mat-label>
+            <input matInput type="number" formControlName="mandatoryWeight" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="score-field">
+            <mat-label>{{ labels.desirable }}</mat-label>
+            <input matInput type="number" formControlName="desirableWeight" />
+          </mat-form-field>
+        </div>
+      </section>
+
+      <div class="grid-2">
+        <section class="card">
+          <h3>{{ labels.currentCompetences }}</h3>
+          <div class="table-wrap">
+            <table mat-table [dataSource]="currentCompetences" class="battery-table">
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef>{{ labels.id }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+              </ng-container>
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>{{ labels.name }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+              </ng-container>
+              <ng-container matColumnDef="level">
+                <th mat-header-cell *matHeaderCellDef>{{ labels.level }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.level }}</td>
+              </ng-container>
+              <ng-container matColumnDef="required">
+                <th mat-header-cell *matHeaderCellDef>{{ labels.required }}</th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-slide-toggle
+                    color="primary"
+                    [checked]="!!row.required"
+                    (change)="row.required = $event.checked"
+                  />
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="competenceColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: competenceColumns"></tr>
+            </table>
+          </div>
+        </section>
+
+        <section class="card">
+          <h3>{{ labels.addCompetences }}</h3>
+          <div class="add-row">
+            <mat-form-field appearance="outline" class="grow">
+              <mat-label>{{ labels.selectCompetence }}</mat-label>
+              <mat-select formControlName="selectedCompetenceId">
+                @for (opt of availableCompetences; track opt.id) {
+                  <mat-option [value]="opt.id">{{ opt.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <button
+              mat-mini-fab
+              color="primary"
+              type="button"
+              class="add-btn"
+              (click)="addCompetence()"
+              [attr.aria-label]="labels.add"
+            >
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+          <div class="table-wrap">
+            @if (pendingCompetences.length === 0) {
+              <p class="empty">{{ labels.emptyNewCompetences }}</p>
+            } @else {
+              <table mat-table [dataSource]="pendingCompetences" class="battery-table">
+                <ng-container matColumnDef="id">
+                  <th mat-header-cell *matHeaderCellDef>{{ labels.id }}</th>
+                  <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+                </ng-container>
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef>{{ labels.name }}</th>
+                  <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+                </ng-container>
+                <ng-container matColumnDef="level">
+                  <th mat-header-cell *matHeaderCellDef>{{ labels.level }}</th>
+                  <td mat-cell *matCellDef="let row">{{ row.level }}</td>
+                </ng-container>
+                <ng-container matColumnDef="required">
+                  <th mat-header-cell *matHeaderCellDef>{{ labels.required }}</th>
+                  <td mat-cell *matCellDef="let row">
+                    <mat-slide-toggle
+                      color="primary"
+                      [checked]="!!row.required"
+                      (change)="togglePendingRequired(row, $event.checked)"
+                    />
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="pendingCompetenceColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: pendingCompetenceColumns"></tr>
+              </table>
+            }
+          </div>
+        </section>
+      </div>
+
+      <div class="grid-2">
+        <section class="card">
+          <h3>{{ labels.currentTests }}</h3>
+          <div class="table-wrap">
+            <table mat-table [dataSource]="currentTests" class="battery-table">
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef>{{ labels.id }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+              </ng-container>
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>{{ labels.name }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+              </ng-container>
+              <ng-container matColumnDef="mandatory">
+                <th mat-header-cell *matHeaderCellDef>{{ labels.mandatory }}</th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-slide-toggle
+                    color="primary"
+                    [checked]="!!row.mandatory"
+                    (change)="row.mandatory = $event.checked"
+                  />
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="isTestEsic">
+                <th mat-header-cell *matHeaderCellDef>{{ labels.testEsic }}</th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-slide-toggle
+                    color="primary"
+                    [checked]="!!row.isTestEsic"
+                    (change)="row.isTestEsic = $event.checked"
+                  />
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="avgTime">
+                <th mat-header-cell *matHeaderCellDef>{{ labels.avgTime }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.avgTimeMinutes }}</td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="testColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: testColumns"></tr>
+            </table>
+          </div>
+        </section>
+
+        <section class="card">
+          <h3>{{ labels.addTests }}</h3>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>{{ labels.selectTest }}</mat-label>
+            <input matInput formControlName="testSearch" [placeholder]="labels.selectTest" />
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+          <ul class="test-picker" role="listbox">
+            @for (opt of filteredTests; track opt.id) {
+              <li>
+                <button type="button" class="test-option" (click)="selectTest(opt)">
+                  {{ opt.name }}
+                </button>
+              </li>
+            }
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <footer class="battery-dialog__footer">
+      <button mat-stroked-button color="primary" type="button" (click)="dialogRef.close(false)">
+        {{ labels.cancel }}
+      </button>
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        class="save-btn"
+        [disabled]="saving() || form.invalid"
+        (click)="save()"
+      >
+        @if (saving()) {
+          <mat-spinner diameter="18" />
+        } @else {
+          {{ labels.save }}
+        }
+      </button>
+    </footer>
+  }
+</div>
