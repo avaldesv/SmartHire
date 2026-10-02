@@ -24,6 +24,10 @@ import {
   UpdatePositionResponse,
   UploadCancellationEvidenceResponse,
 } from '../../shared/models/position.model';
+import {
+  EvaluatestBatteryResponse,
+  UpdateEvaluatestBatteryRequest,
+} from '../../shared/models/evaluatest-battery.model';
 import { ApiClientService } from './api-client.service';
 import { TenantContextService } from './tenant-context.service';
 
@@ -263,6 +267,24 @@ export class PositionService {
     return this.http.post<ExecutePositionCancellationResponse>(
       this.api.apiUrl(`/api/v1/positions/${id}/execute-cancellation`),
       {},
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  getEvaluatestBattery(id: number): Observable<EvaluatestBatteryResponse> {
+    return this.http.get<EvaluatestBatteryResponse>(
+      this.api.apiUrl(`/api/v1/positions/${id}/evaluatest/battery`),
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  updateEvaluatestBattery(
+    id: number,
+    request: UpdateEvaluatestBatteryRequest,
+  ): Observable<EvaluatestBatteryResponse> {
+    return this.http.put<EvaluatestBatteryResponse>(
+      this.api.apiUrl(`/api/v1/positions/${id}/evaluatest/battery`),
+      request,
       { headers: this.api.buildHeaders() },
     );
   }

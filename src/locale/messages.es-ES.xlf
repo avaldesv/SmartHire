@@ -3857,8 +3857,8 @@
         <target>Parcialmente cubierta</target>
       </trans-unit>
       <trans-unit id="catalogs.company.dialog.subtitle" datatype="html">
-        <source>Datos generales, canales de notificación e integraciones de documentos</source>
-        <target>Datos generales, canales de notificación e integraciones de documentos</target>
+        <source>Datos generales, canales de notificación, Evaluatest e integraciones de documentos</source>
+        <target>Datos generales, canales de notificación, Evaluatest e integraciones de documentos</target>
       </trans-unit>
       <trans-unit id="catalogs.company.section.general" datatype="html">
         <source>1. Datos generales</source>
@@ -3868,9 +3868,13 @@
         <source>2. Canales de notificación</source>
         <target>2. Canales de notificación</target>
       </trans-unit>
+      <trans-unit id="catalogs.company.section.evaluatest" datatype="html">
+        <source>3. Evaluatest</source>
+        <target>3. Evaluatest</target>
+      </trans-unit>
       <trans-unit id="catalogs.company.section.docServices" datatype="html">
-        <source>3. Servicios de procesamiento de documentos</source>
-        <target>3. Servicios de procesamiento de documentos</target>
+        <source>4. Servicios de procesamiento de documentos</source>
+        <target>4. Servicios de procesamiento de documentos</target>
       </trans-unit>
       <trans-unit id="catalogs.company.channel.email" datatype="html">
         <source>Correo (SMTP)</source>
@@ -3923,6 +3927,38 @@
       <trans-unit id="catalogs.company.field.waInstanceToken" datatype="html">
         <source>Token de instancia</source>
         <target>Token de instancia</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.evaluatestBaseUrl" datatype="html">
+        <source>URL base APIM</source>
+        <target>URL base APIM</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.evaluatestSubscriptionKey" datatype="html">
+        <source>Subscription-Key</source>
+        <target>Subscription-Key</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.evaluatestUserEmail" datatype="html">
+        <source>Correo Evaluatest</source>
+        <target>Correo Evaluatest</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.evaluatestPassword" datatype="html">
+        <source>Contraseña Evaluatest</source>
+        <target>Contraseña Evaluatest</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.evaluatestFolder" datatype="html">
+        <source>Carpeta (sync)</source>
+        <target>Carpeta (sync)</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.evaluatestUnity" datatype="html">
+        <source>Unity ID</source>
+        <target>Unity ID</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.evaluatest.secretHint" datatype="html">
+        <source>Dejar vacío para conservar el valor actual</source>
+        <target>Dejar vacío para conservar el valor actual</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.evaluatest.footnote" datatype="html">
+        <source>Credenciales por tenant para catálogos y perfiles de puesto Evaluatest.</source>
+        <target>Credenciales por tenant para catálogos y perfiles de puesto Evaluatest.</target>
       </trans-unit>
       <trans-unit id="catalogs.company.col.service" datatype="html">
         <source>Servicio</source>
@@ -4685,6 +4721,126 @@
       <trans-unit id="documentTemplates.variables.deleteConfirm" datatype="html">
         <source>¿Eliminar la variable "<x id="code" equiv-text="code" />"? Esta acción no se puede deshacer.</source>
         <target>¿Eliminar la variable "<x id="code" equiv-text="code" />"? Esta acción no se puede deshacer.</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.title" datatype="html">
+        <source>Actualizar batería</source>
+        <target>Actualizar batería</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.position" datatype="html">
+        <source>Puesto</source>
+        <target>Puesto</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.competenceModel" datatype="html">
+        <source>Modelo de competencias</source>
+        <target>Modelo de competencias</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.general" datatype="html">
+        <source>Datos generales</source>
+        <target>Datos generales</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.evaluate" datatype="html">
+        <source>Evaluar competencias</source>
+        <target>Evaluar competencias</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.yes" datatype="html">
+        <source>Sí</source>
+        <target>Sí</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.no" datatype="html">
+        <source>No</source>
+        <target>No</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.necessary" datatype="html">
+        <source>Puntaje necesario</source>
+        <target>Puntaje necesario</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.desirable" datatype="html">
+        <source>Puntaje deseable</source>
+        <target>Puntaje deseable</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.currentCompetences" datatype="html">
+        <source>Competencias actuales</source>
+        <target>Competencias actuales</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.addCompetences" datatype="html">
+        <source>Agregar competencias</source>
+        <target>Agregar competencias</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.selectCompetence" datatype="html">
+        <source>Seleccionar competencia</source>
+        <target>Seleccionar competencia</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.emptyNewCompetences" datatype="html">
+        <source>Sin competencias nuevas</source>
+        <target>Sin competencias nuevas</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.currentTests" datatype="html">
+        <source>Pruebas actuales</source>
+        <target>Pruebas actuales</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.addTests" datatype="html">
+        <source>Agregar pruebas</source>
+        <target>Agregar pruebas</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.selectTest" datatype="html">
+        <source>Seleccionar prueba</source>
+        <target>Seleccionar prueba</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.id" datatype="html">
+        <source>Id</source>
+        <target>Id</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.name" datatype="html">
+        <source>Nombre</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.level" datatype="html">
+        <source>Nivel</source>
+        <target>Nivel</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.required" datatype="html">
+        <source>Requerido</source>
+        <target>Requerido</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.mandatory" datatype="html">
+        <source>Obligatorio</source>
+        <target>Obligatorio</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.testEsic" datatype="html">
+        <source>isTestESIC</source>
+        <target>isTestESIC</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.avgTime" datatype="html">
+        <source>Tiempo (min)</source>
+        <target>Tiempo (min)</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.add" datatype="html">
+        <source>Agregar</source>
+        <target>Agregar</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.cancel" datatype="html">
+        <source>Cancelar</source>
+        <target>Cancelar</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.save" datatype="html">
+        <source>Guardar batería</source>
+        <target>Guardar batería</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.loadError" datatype="html">
+        <source>No se pudo cargar la batería Evaluatest</source>
+        <target>No se pudo cargar la batería Evaluatest</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.saveOk" datatype="html">
+        <source>Batería actualizada correctamente</source>
+        <target>Batería actualizada correctamente</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.saveError" datatype="html">
+        <source>No se pudo actualizar la batería Evaluatest</source>
+        <target>No se pudo actualizar la batería Evaluatest</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.battery.menu" datatype="html">
+        <source>Actualizar batería</source>
+        <target>Actualizar batería</target>
       </trans-unit>
       <trans-unit id="excelBulk.action" datatype="html">
         <source>Carga masiva Excel</source>
@@ -9464,13 +9620,17 @@
         <source>Encuesta WhatsApp</source>
         <target>Encuesta WhatsApp</target>
       </trans-unit>
+      <trans-unit id="requisition.step.evaluatestJob" datatype="html">
+        <source>Requerimientos</source>
+        <target>Requerimientos</target>
+      </trans-unit>
       <trans-unit id="requisition.step.documents" datatype="html">
         <source>Documentos</source>
         <target>Documentos</target>
       </trans-unit>
       <trans-unit id="requisition.step.requirements" datatype="html">
-        <source>Requerimientos</source>
-        <target>Requerimientos</target>
+        <source>Requisitos del perfil</source>
+        <target>Requisitos del perfil</target>
       </trans-unit>
       <trans-unit id="requisition.field.brandId" datatype="html">
         <source>Marca</source>
@@ -9931,6 +10091,10 @@
       <trans-unit id="requisition.step.whatsappSurvey.stepper" datatype="html">
         <source>Encuesta WA</source>
         <target>Encuesta WA</target>
+      </trans-unit>
+      <trans-unit id="requisition.step.evaluatestJob.stepper" datatype="html">
+        <source>Requerimientos</source>
+        <target>Requerimientos</target>
       </trans-unit>
       <trans-unit id="requisition.step.documents.stepper" datatype="html">
         <source>Documentos</source>
@@ -11517,6 +11681,50 @@
       <trans-unit id="requisition.section.jobRequirement" datatype="html">
         <source>Requerimiento del Empleo</source>
         <target>Requerimiento del Empleo</target>
+      </trans-unit>
+      <trans-unit id="requisition.evaluatest.section" datatype="html">
+        <source>Detalles del Puesto</source>
+        <target>Detalles del Puesto</target>
+      </trans-unit>
+      <trans-unit id="requisition.evaluatest.toggle" datatype="html">
+        <source>Evalua Test</source>
+        <target>Evalua Test</target>
+      </trans-unit>
+      <trans-unit id="requisition.evaluatest.jobName" datatype="html">
+        <source>Nombre</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit id="requisition.evaluatest.competenceModel" datatype="html">
+        <source>Modelo de Competencias</source>
+        <target>Modelo de Competencias</target>
+      </trans-unit>
+      <trans-unit id="requisition.evaluatest.jobLevel" datatype="html">
+        <source>Nivel del perfil</source>
+        <target>Nivel del perfil</target>
+      </trans-unit>
+      <trans-unit id="requisition.evaluatest.selectionJobPattern" datatype="html">
+        <source>SelectionJobPattern</source>
+        <target>SelectionJobPattern</target>
+      </trans-unit>
+      <trans-unit id="requisition.evaluatest.industry" datatype="html">
+        <source>Industria</source>
+        <target>Industria</target>
+      </trans-unit>
+      <trans-unit id="requisition.evaluatest.functionalArea" datatype="html">
+        <source>Área funcional</source>
+        <target>Área funcional</target>
+      </trans-unit>
+      <trans-unit id="requisition.evaluatest.industryJobType" datatype="html">
+        <source>Tipos de puestos por industria</source>
+        <target>Tipos de puestos por industria</target>
+      </trans-unit>
+      <trans-unit id="requisition.evaluatest.selectPlaceholder" datatype="html">
+        <source>--- Seleccionar un valor ---</source>
+        <target>--- Seleccionar un valor ---</target>
+      </trans-unit>
+      <trans-unit id="common.loading" datatype="html">
+        <source>Cargando…</source>
+        <target>Cargando…</target>
       </trans-unit>
       <trans-unit id="requisition.action.generateJobDescription" datatype="html">
         <source>Generar</source>

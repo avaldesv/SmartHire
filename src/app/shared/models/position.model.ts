@@ -181,6 +181,7 @@ export interface PositionListItem {
   cancellationScope?: string | null;
   statusName?: string | null;
   statusType?: string | null;
+  evaluatestJobProfileId?: number | null;
 }
 
 export interface PositionDetail extends CreatePositionRequest {

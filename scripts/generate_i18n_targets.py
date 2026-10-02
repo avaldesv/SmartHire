@@ -90,6 +90,30 @@ def load_error_catalog_en() -> dict[str, str]:
 
 
 EN_BY_SOURCE: dict[str, str] = {
+    "Actualizar batería": "Update battery",
+    "Puesto": "Position",
+    "Modelo de competencias": "Competency model",
+    "Datos generales": "General data",
+    "Evaluar competencias": "Evaluate competencies",
+    "Puntaje necesario": "Required score",
+    "Puntaje deseable": "Desirable score",
+    "Competencias actuales": "Current competencies",
+    "Agregar competencias": "Add competencies",
+    "Seleccionar competencia": "Select competency",
+    "Sin competencias nuevas": "No new competencies",
+    "Pruebas actuales": "Current tests",
+    "Agregar pruebas": "Add tests",
+    "Seleccionar prueba": "Select test",
+    "Nivel": "Level",
+    "Requerido": "Required",
+    "Obligatorio": "Mandatory",
+    "isTestESIC": "isTestESIC",
+    "Tiempo (min)": "Time (min)",
+    "Guardar batería": "Save battery",
+    "No se pudo cargar la batería Evaluatest": "Could not load Evaluatest battery",
+    "Batería actualizada correctamente": "Battery updated successfully",
+    "No se pudo actualizar la batería Evaluatest": "Could not update Evaluatest battery",
+
     "No se pudo iniciar sesión. Intente de nuevo.": "Sign-in failed. Please try again.",
     "No se pudo completar el inicio de sesión con SSO. Intente de nuevo o use usuario y contraseña.": (
         "SSO sign-in could not be completed. Try again or use username and password."
