@@ -33,11 +33,14 @@
             formControlName="finalMessageText"
             [maxlength]="messageMaxLength"
           ></textarea>
+          <mat-hint>{{ fieldFinalMessageHint }}</mat-hint>
           <mat-hint align="end">{{ finalMessageLength }} / {{ messageMaxLength }}</mat-hint>
         </mat-form-field>
       </aside>
 
       <section class="survey-split__right" formArrayName="questions">
+        <h3 class="questions-heading">{{ fieldQuestions }}</h3>
+
         @if (questions.length === 0) {
           <div class="questions-empty-state">
             <mat-icon class="questions-empty-state__icon">assignment</mat-icon>
@@ -49,52 +52,97 @@
         } @else {
           <div class="questions-scroll" cdkDropList (cdkDropListDropped)="dropQuestion($event)">
             @for (question of questions.controls; track $index; let i = $index) {
-              <div class="question-row" [formGroupName]="i" cdkDrag>
-                <button
-                  mat-icon-button
-                  type="button"
-                  class="drag-handle"
-                  cdkDragHandle
-                  [attr.aria-label]="questionOrderLabel"
-                  [matTooltip]="questionOrderLabel"
-                >
-                  <mat-icon>drag_indicator</mat-icon>
-                </button>
+              <div class="question-card" [formGroupName]="i" cdkDrag>
+                <div class="question-card__header">
+                  <button
+                    mat-icon-button
+                    type="button"
+                    class="drag-handle"
+                    cdkDragHandle
+                    [attr.aria-label]="questionOrderLabel"
+                    [matTooltip]="questionOrderLabel"
+                  >
+                    <mat-icon>drag_indicator</mat-icon>
+                  </button>
 
-                <mat-form-field appearance="outline" class="question-text" subscriptSizing="dynamic">
-                  <input matInput formControlName="questionText" [placeholder]="questionTextLabel" />
-                </mat-form-field>
+                  <span class="question-badge">{{ i + 1 }}</span>
 
-                <mat-form-field appearance="outline" class="question-type" subscriptSizing="dynamic">
-                  <mat-select formControlName="answerType">
-                    @for (option of answerTypeOptions; track option.value) {
-                      <mat-option [value]="option.value">{{ option.label }}</mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
+                  <mat-form-field appearance="outline" class="question-text" subscriptSizing="dynamic">
+                    <input matInput formControlName="questionText" [placeholder]="questionTextLabel" />
+                  </mat-form-field>
 
-                <button
-                  mat-icon-button
-                  type="button"
-                  class="required-btn"
-                  [class.required-btn--on]="question.value.isRequired"
-                  (click)="toggleRequired(i)"
-                  [attr.aria-label]="questionRequiredLabel"
-                  [matTooltip]="questionRequiredLabel"
-                >
-                  <mat-icon>{{ question.value.isRequired ? 'star' : 'star_border' }}</mat-icon>
-                </button>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    class="required-btn"
+                    [class.required-btn--on]="question.value.isRequired"
+                    (click)="toggleRequired(i)"
+                    [attr.aria-label]="questionRequiredLabel"
+                    [matTooltip]="questionRequiredLabel"
+                  >
+                    <mat-icon>{{ question.value.isRequired ? 'star' : 'star_border' }}</mat-icon>
+                  </button>
 
-                <button
-                  mat-icon-button
-                  type="button"
-                  color="warn"
-                  (click)="removeQuestion(i)"
-                  [attr.aria-label]="removeQuestionLabel"
-                  [matTooltip]="removeQuestionLabel"
-                >
-                  <mat-icon>delete</mat-icon>
-                </button>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    color="warn"
+                    (click)="removeQuestion(i)"
+                    [attr.aria-label]="removeQuestionLabel"
+                    [matTooltip]="removeQuestionLabel"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+
+                <div class="question-card__body">
+                  <mat-form-field appearance="outline" class="question-type" subscriptSizing="dynamic">
+                    <mat-label>{{ questionTypeLabel }}</mat-label>
+                    <mat-select
+                      formControlName="answerType"
+                      (selectionChange)="onAnswerTypeChange(i)"
+                    >
+                      @for (option of answerTypeOptions; track option.value) {
+                        <mat-option [value]="option.value">{{ option.label }}</mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+
+                  @if (isMappingEnabled(i)) {
+                    <div class="target-block">
+                      <div class="target-block__title">{{ targetSectionLabel }}</div>
+                      <div class="target-block__row">
+                        <mat-form-field appearance="outline" class="target-table" subscriptSizing="dynamic">
+                          <mat-label>{{ targetTableLabel }}</mat-label>
+                          <mat-select
+                            formControlName="targetTable"
+                            (selectionChange)="onTargetTableChange(i)"
+                          >
+                            <mat-option [value]="null">{{ targetOptionalLabel }}</mat-option>
+                            @for (table of mappingTables; track table.table) {
+                              <mat-option [value]="table.table">
+                                {{ table.label }} ({{ table.table }})
+                              </mat-option>
+                            }
+                          </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="target-column" subscriptSizing="dynamic">
+                          <mat-label>{{ targetColumnLabel }}</mat-label>
+                          <mat-select formControlName="targetColumn" [disabled]="!question.value.targetTable">
+                            <mat-option [value]="null">{{ targetOptionalLabel }}</mat-option>
+                            @for (field of fieldsForQuestion(i); track field.column) {
+                              <mat-option [value]="field.column">
+                                {{ field.label }} ({{ field.column }})
+                              </mat-option>
+                            }
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <p class="target-block__hint">{{ targetHintLabel }}</p>
+                    </div>
+                  }
+                </div>
               </div>
             }
           </div>

@@ -6998,6 +6998,10 @@
         <source>Notificar cuestionario</source>
         <target>Notify questionnaire</target>
       </trans-unit>
+      <trans-unit id="preselection.row.inviteEvaluatest" datatype="html">
+        <source>Enviar a Evaluatest</source>
+        <target>Enviar a Evaluatest</target>
+      </trans-unit>
       <trans-unit id="preselection.row.sendWhatsappSurvey" datatype="html">
         <source>Enviar encuesta WhatsApp</source>
         <target>Send WhatsApp survey</target>
@@ -7005,6 +7009,54 @@
       <trans-unit id="preselection.row.deselectSuccess" datatype="html">
         <source>Candidato deseleccionado</source>
         <target>Candidate deselected</target>
+      </trans-unit>
+      <trans-unit id="preselection.bulk.inviteEvaluatest" datatype="html">
+        <source>Enviar a Evaluatest</source>
+        <target>Enviar a Evaluatest</target>
+      </trans-unit>
+      <trans-unit id="preselection.bulk.inviteEvaluatestConfirm" datatype="html">
+        <source>¿Enviar a Evaluatest a los candidatos seleccionados?</source>
+        <target>¿Enviar a Evaluatest a los candidatos seleccionados?</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluatest.alreadySentAlsoNew" datatype="html">
+        <source> Los demás candidatos seleccionados se enviarán ahora.</source>
+        <target> Los demás candidatos seleccionados se enviarán ahora.</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluatest.resendConfirmLabel" datatype="html">
+        <source>Reenviar notificación</source>
+        <target>Reenviar notificación</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluatest.skipResendLabel" datatype="html">
+        <source>No reenviar</source>
+        <target>No reenviar</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluatest.inviteSuccess" datatype="html">
+        <source>Candidatos enviados a Evaluatest</source>
+        <target>Candidatos enviados a Evaluatest</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluatest.resendSuccess" datatype="html">
+        <source>Notificación de Evaluatest reenviada</source>
+        <target>Notificación de Evaluatest reenviada</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluatest.alreadySentOne" datatype="html">
+        <source>El candidato <x id="names" equiv-text="names" /> ya se envió anteriormente a Evaluatest para esta requisición. ¿Desea reenviarle la notificación?</source>
+        <target>El candidato <x id="names" equiv-text="names" /> ya se envió anteriormente a Evaluatest para esta requisición. ¿Desea reenviarle la notificación?</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluatest.alreadySentMany" datatype="html">
+        <source>Los candidatos <x id="names" equiv-text="names" /> ya se enviaron anteriormente a Evaluatest para esta requisición. ¿Desea reenviarles la notificación?</source>
+        <target>Los candidatos <x id="names" equiv-text="names" /> ya se enviaron anteriormente a Evaluatest para esta requisición. ¿Desea reenviarles la notificación?</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluatest.partial" datatype="html">
+        <source>Algunas invitaciones Evaluatest no se completaron</source>
+        <target>Algunas invitaciones Evaluatest no se completaron</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluatest.error" datatype="html">
+        <source>No se pudo completar la acción de Evaluatest</source>
+        <target>No se pudo completar la acción de Evaluatest</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluatest.disabled" datatype="html">
+        <source>Evaluatest no está activo en esta posición</source>
+        <target>Evaluatest no está activo en esta posición</target>
       </trans-unit>
       <trans-unit id="preselection.docs.complete" datatype="html">
         <source>Completo</source>
@@ -10707,12 +10759,12 @@
         <target>Active</target>
       </trans-unit>
       <trans-unit id="surveys.dialog.new" datatype="html">
-        <source>Nueva encuesta</source>
-        <target>New survey</target>
+        <source>Crear cuestionario</source>
+        <target>Create questionnaire</target>
       </trans-unit>
       <trans-unit id="surveys.dialog.edit" datatype="html">
-        <source>Editar encuesta</source>
-        <target>Edit survey</target>
+        <source>Editar cuestionario</source>
+        <target>Edit questionnaire</target>
       </trans-unit>
       <trans-unit id="surveys.field.name" datatype="html">
         <source>Nombre</source>
@@ -10731,15 +10783,15 @@
         <target>Final message</target>
       </trans-unit>
       <trans-unit id="surveys.field.finalMessageHint" datatype="html">
-        <source>Texto que recibe el candidato al completar la encuesta</source>
-        <target>Text the candidate receives when the survey is completed</target>
+        <source>Este mensaje se enviará al finalizar el cuestionario.</source>
+        <target>This message will be sent when the questionnaire is completed.</target>
       </trans-unit>
       <trans-unit id="surveys.section.messages" datatype="html">
         <source>Mensajes WhatsApp</source>
         <target>WhatsApp messages</target>
       </trans-unit>
       <trans-unit id="surveys.field.active" datatype="html">
-        <source>Activa</source>
+        <source>Activo</source>
         <target>Active</target>
       </trans-unit>
       <trans-unit id="surveys.field.questions" datatype="html">
@@ -10769,6 +10821,26 @@
       <trans-unit id="surveys.questions.sortOrder" datatype="html">
         <source>Orden</source>
         <target>Order</target>
+      </trans-unit>
+      <trans-unit id="surveys.questions.targetSection" datatype="html">
+        <source>Campo destino en BD</source>
+        <target>Destination DB field</target>
+      </trans-unit>
+      <trans-unit id="surveys.questions.targetTable" datatype="html">
+        <source>Tabla</source>
+        <target>Table</target>
+      </trans-unit>
+      <trans-unit id="surveys.questions.targetColumn" datatype="html">
+        <source>Campo</source>
+        <target>Field</target>
+      </trans-unit>
+      <trans-unit id="surveys.questions.targetHint" datatype="html">
+        <source>La respuesta se validará con IA y se guardará en este campo</source>
+        <target>The answer will be validated with AI and saved to this field</target>
+      </trans-unit>
+      <trans-unit id="surveys.questions.targetOptional" datatype="html">
+        <source>Sin mapeo (solo respuestas de sesión)</source>
+        <target>No mapping (session answers only)</target>
       </trans-unit>
       <trans-unit id="surveys.questions.empty" datatype="html">
         <source>Agregue al menos una pregunta</source>
