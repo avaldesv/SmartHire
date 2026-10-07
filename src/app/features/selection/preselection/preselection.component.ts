@@ -65,11 +65,12 @@ import {
   PRESELECTION_DOCS_STUDIES_OK,
   PRESELECTION_DOCS_STUDIES_PENDING,
   PRESELECTION_EMPTY,
-  PRESELECTION_EVALUATEST_ALREADY,
+  PRESELECTION_EVALUATEST_ALREADY_SENT_ALSO_NEW,
+  PRESELECTION_EVALUATEST_RESEND_CONFIRM_LABEL,
+  PRESELECTION_EVALUATEST_SKIP_RESEND_LABEL,
   PRESELECTION_EVALUATEST_DISABLED,
   PRESELECTION_EVALUATEST_ERROR,
   PRESELECTION_EVALUATEST_INVITE_SUCCESS,
-  PRESELECTION_EVALUATEST_NOT_INVITED,
   PRESELECTION_EVALUATEST_PARTIAL,
   PRESELECTION_EVALUATEST_RESEND_SUCCESS,
   PRESELECTION_EVALUATION_PENDING_MSG,
@@ -77,8 +78,7 @@ import {
   PRESELECTION_EVALUATION_TOOLTIP,
   PRESELECTION_BULK_INVITE_EVALUATEST,
   PRESELECTION_BULK_INVITE_EVALUATEST_CONFIRM,
-  PRESELECTION_BULK_RESEND_EVALUATEST,
-  PRESELECTION_BULK_RESEND_EVALUATEST_CONFIRM,
+  preselectionEvaluatestAlreadySentConfirm,
   PRESELECTION_INFO_VALIDATED,
   PRESELECTION_INTERVIEWED_DONE_TOOLTIP,
   PRESELECTION_INTERVIEWED_ERROR,
@@ -193,7 +193,7 @@ import {
   surveysSendPhoneBusy,
 } from '../../../core/i18n/survey-labels';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
-import { filter, switchMap, catchError, concatMap, from, map, of, toArray } from 'rxjs';
+import { Observable, filter, switchMap, catchError, concatMap, forkJoin, from, map, of, toArray } from 'rxjs';
 import { PreselectionCandidate } from '../../../shared/models';
 import {
   PRESELECTION_ROW_ACTIONS,
@@ -268,7 +268,6 @@ export class PreselectionComponent implements OnInit {
     bulkAppointment: PRESELECTION_BULK_APPOINTMENT,
     bulkWhatsappSurvey: PRESELECTION_BULK_WHATSAPP_SURVEY,
     bulkInviteEvaluatest: PRESELECTION_BULK_INVITE_EVALUATEST,
-    bulkResendEvaluatest: PRESELECTION_BULK_RESEND_EVALUATEST,
     bulkMarkSelected: PRESELECTION_BULK_MARK_SELECTED,
     bulkRelease: PRESELECTION_BULK_RELEASE,
     bulkReleaseAll: PRESELECTION_BULK_RELEASE_ALL,
@@ -752,14 +751,8 @@ export class PreselectionComponent implements OnInit {
 
   rowVisibleActions(row: PreselectionCandidate): PreselectionRowAction[] {
     return this.visibleRowActions().filter((action) => {
-      if (action.id === 'inviteEvaluatest' || action.id === 'resendEvaluatest') {
-        if (!this.evaluatestEnabled) {
-          return false;
-        }
-        if (action.id === 'inviteEvaluatest') {
-          return !row.evaluatestInvited;
-        }
-        return !!row.evaluatestInvited;
+      if (action.id === 'inviteEvaluatest') {
+        return this.evaluatestEnabled;
       }
       return true;
     });
@@ -820,16 +813,11 @@ export class PreselectionComponent implements OnInit {
   }
 
   bulkInviteEvaluatestSelected(): void {
-    const selected = this.data.filter((row) => row.selected && !row.evaluatestInvited);
-    this.inviteEvaluatest(selected, true);
+    const selected = this.data.filter((row) => row.selected);
+    this.sendEvaluatest(selected);
   }
 
-  bulkResendEvaluatestSelected(): void {
-    const selected = this.data.filter((row) => row.selected && row.evaluatestInvited);
-    this.resendEvaluatest(selected, true);
-  }
-
-  private inviteEvaluatest(rows: PreselectionCandidate[], fromBulk = false): void {
+  private sendEvaluatest(rows: PreselectionCandidate[]): void {
     if (!this.canEditSelection || this.bulkLoading) {
       return;
     }
@@ -838,10 +826,34 @@ export class PreselectionComponent implements OnInit {
       return;
     }
     if (rows.length === 0) {
-      this.feedback.showWarning(
-        FEEDBACK_GENERIC_WARNING_TITLE,
-        fromBulk ? PRESELECTION_BULK_NONE_SELECTED : PRESELECTION_EVALUATEST_ALREADY,
-      );
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, PRESELECTION_BULK_NONE_SELECTED);
+      return;
+    }
+    const pending = rows.filter((row) => !row.evaluatestInvited);
+    const already = rows.filter((row) => row.evaluatestInvited);
+    if (already.length > 0) {
+      const names = this.formatCandidateNameList(already);
+      let message = preselectionEvaluatestAlreadySentConfirm(names, already.length);
+      if (pending.length > 0) {
+        message += PRESELECTION_EVALUATEST_ALREADY_SENT_ALSO_NEW;
+      }
+      this.feedback
+        .confirm({
+          title: PRESELECTION_BULK_INVITE_EVALUATEST,
+          message,
+          confirmLabel: PRESELECTION_EVALUATEST_RESEND_CONFIRM_LABEL,
+          cancelLabel:
+            pending.length > 0 ? PRESELECTION_EVALUATEST_SKIP_RESEND_LABEL : undefined,
+        })
+        .subscribe((ok) => {
+          if (ok) {
+            this.executeEvaluatestSend(pending, already);
+            return;
+          }
+          if (pending.length > 0) {
+            this.executeEvaluatestSend(pending, []);
+          }
+        });
       return;
     }
     this.feedback
@@ -853,67 +865,92 @@ export class PreselectionComponent implements OnInit {
         if (!ok) {
           return;
         }
-        this.bulkLoading = true;
-        this.positionService
-          .inviteEvaluatestCandidates(
-            this.positionId,
-            rows.map((row) => row.applicationId),
-          )
-          .subscribe({
-            next: (res) => {
-              this.bulkLoading = false;
-              this.handleEvaluatestInviteResults(res.results ?? [], true);
-              this.loadApplications();
-            },
-            error: (err) => {
-              this.bulkLoading = false;
-              this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_EVALUATEST_ERROR });
-            },
-          });
+        this.executeEvaluatestSend(pending, []);
       });
   }
 
-  private resendEvaluatest(rows: PreselectionCandidate[], fromBulk = false): void {
-    if (!this.canEditSelection || this.bulkLoading) {
-      return;
-    }
-    if (!this.evaluatestEnabled) {
-      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, PRESELECTION_EVALUATEST_DISABLED);
-      return;
-    }
-    if (rows.length === 0) {
-      this.feedback.showWarning(
-        FEEDBACK_GENERIC_WARNING_TITLE,
-        fromBulk ? PRESELECTION_BULK_NONE_SELECTED : PRESELECTION_EVALUATEST_NOT_INVITED,
+  private executeEvaluatestSend(
+    pending: PreselectionCandidate[],
+    already: PreselectionCandidate[],
+  ): void {
+    type InviteResult = {
+      success: boolean;
+      status?: string | null;
+      errorMessage?: string | null;
+    };
+    const calls: Observable<InviteResult[]>[] = [];
+    if (pending.length > 0) {
+      calls.push(
+        this.positionService
+          .inviteEvaluatestCandidates(
+            this.positionId,
+            pending.map((row) => row.applicationId),
+          )
+          .pipe(
+            map((res) => res.results ?? []),
+            catchError(() =>
+              of(
+                pending.map(
+                  (): InviteResult => ({
+                    success: false,
+                    errorMessage: PRESELECTION_EVALUATEST_ERROR,
+                  }),
+                ),
+              ),
+            ),
+          ),
       );
-      return;
     }
-    this.feedback
-      .confirm({
-        title: PRESELECTION_BULK_RESEND_EVALUATEST,
-        message: PRESELECTION_BULK_RESEND_EVALUATEST_CONFIRM,
-      })
-      .subscribe((ok) => {
-        if (!ok) {
-          return;
-        }
-        this.bulkLoading = true;
+    if (already.length > 0) {
+      calls.push(
         this.positionService
           .resendEvaluatestInvitations(
             this.positionId,
-            rows.map((row) => row.applicationId),
+            already.map((row) => row.applicationId),
           )
-          .subscribe({
-            next: (res) => {
-              this.bulkLoading = false;
-              this.handleEvaluatestInviteResults(res.results ?? [], false);
-            },
-            error: (err) => {
-              this.bulkLoading = false;
-              this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_EVALUATEST_ERROR });
-            },
-          });
-      });
+          .pipe(
+            map((res) => res.results ?? []),
+            catchError(() =>
+              of(
+                already.map(
+                  (): InviteResult => ({
+                    success: false,
+                    errorMessage: PRESELECTION_EVALUATEST_ERROR,
+                  }),
+                ),
+              ),
+            ),
+          ),
+      );
+    }
+    if (calls.length === 0) {
+      return;
+    }
+    this.bulkLoading = true;
+    forkJoin(calls).subscribe({
+      next: (parts) => {
+        this.bulkLoading = false;
+        this.handleEvaluatestInviteResults(parts.flat(), pending.length > 0);
+        this.loadApplications();
+      },
+      error: (err) => {
+        this.bulkLoading = false;
+        this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_EVALUATEST_ERROR });
+      },
+    });
+  }
+
+  private formatCandidateNameList(rows: PreselectionCandidate[]): string {
+    const names = rows.map(
+      (row) => `${row.firstName} ${row.lastName}`.trim() || row.email,
+    );
+    if (names.length <= 1) {
+      return names[0] ?? '';
+    }
+    if (names.length === 2) {
+      return `${names[0]} y ${names[1]}`;
+    }
+    return `${names.slice(0, -1).join(', ')} y ${names[names.length - 1]}`;
   }
 
   private handleEvaluatestInviteResults(
@@ -1153,11 +1190,7 @@ export class PreselectionComponent implements OnInit {
       return;
     }
     if (actionId === 'inviteEvaluatest') {
-      this.inviteEvaluatest([row]);
-      return;
-    }
-    if (actionId === 'resendEvaluatest') {
-      this.resendEvaluatest([row]);
+      this.sendEvaluatest([row]);
       return;
     }
     if (actionId === 'changeStage') {

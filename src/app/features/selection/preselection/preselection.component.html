@@ -64,14 +64,6 @@
       >
         <mat-icon>quiz</mat-icon> {{ labels.bulkInviteEvaluatest }}
       </button>
-      <button
-        mat-stroked-button
-        (click)="bulkResendEvaluatestSelected()"
-        [disabled]="bulkLoading || selectedCount === 0 || !canEditSelection"
-        [matTooltip]="labels.bulkResendEvaluatest"
-      >
-        <mat-icon>forward_to_inbox</mat-icon> {{ labels.bulkResendEvaluatest }}
-      </button>
     }
     <button
       mat-flat-button

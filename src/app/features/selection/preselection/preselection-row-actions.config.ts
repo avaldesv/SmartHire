@@ -11,7 +11,6 @@ import {
   PRESELECTION_ROW_MODIFY_COMPATIBILITY,
   PRESELECTION_ROW_INVITE_EVALUATEST,
   PRESELECTION_ROW_NOTIFY_QUESTIONNAIRE,
-  PRESELECTION_ROW_RESEND_EVALUATEST,
   PRESELECTION_ROW_SCHEDULE_INTERVIEW,
   PRESELECTION_ROW_SEND_SMART,
   PRESELECTION_ROW_VALIDATE_INFO,
@@ -33,7 +32,6 @@ export type PreselectionRowActionId =
   | 'generateDocument'
   | 'notifyQuestionnaire'
   | 'inviteEvaluatest'
-  | 'resendEvaluatest'
   | 'viewNotifications'
   | 'changeStage'
   | 'deselectRow';
@@ -134,12 +132,6 @@ export const PRESELECTION_ROW_ACTIONS: readonly PreselectionRowAction[] = [
     id: 'inviteEvaluatest',
     label: PRESELECTION_ROW_INVITE_EVALUATEST,
     icon: 'quiz',
-    permissions: [AppPermissions.SELECTION_EDIT],
-  },
-  {
-    id: 'resendEvaluatest',
-    label: PRESELECTION_ROW_RESEND_EVALUATEST,
-    icon: 'forward_to_inbox',
     permissions: [AppPermissions.SELECTION_EDIT],
   },
   {
