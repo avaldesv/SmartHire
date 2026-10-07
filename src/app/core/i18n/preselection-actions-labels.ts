@@ -92,8 +92,22 @@ export const PRESELECTION_ROW_AUDIT_LOG = $localize`:@@preselection.row.auditLog
 export const PRESELECTION_ROW_SEND_SMART = $localize`:@@preselection.row.sendSmart:Enviar a nómina`;
 export const PRESELECTION_ROW_GENERATE_CONTRACT = $localize`:@@preselection.row.generateContract:Generar contrato`;
 export const PRESELECTION_ROW_NOTIFY_QUESTIONNAIRE = $localize`:@@preselection.row.notifyQuestionnaire:Notificar cuestionario`;
+export const PRESELECTION_ROW_INVITE_EVALUATEST = $localize`:@@preselection.row.inviteEvaluatest:Registrar en Evaluatest`;
+export const PRESELECTION_ROW_RESEND_EVALUATEST = $localize`:@@preselection.row.resendEvaluatest:Reenviar link Evaluatest`;
 export const PRESELECTION_ROW_SEND_WHATSAPP_SURVEY = $localize`:@@preselection.row.sendWhatsappSurvey:Enviar encuesta WhatsApp`;
 export const PRESELECTION_ROW_DESELECT_SUCCESS = $localize`:@@preselection.row.deselectSuccess:Candidato deseleccionado`;
+
+export const PRESELECTION_BULK_INVITE_EVALUATEST = $localize`:@@preselection.bulk.inviteEvaluatest:Registrar en Evaluatest`;
+export const PRESELECTION_BULK_RESEND_EVALUATEST = $localize`:@@preselection.bulk.resendEvaluatest:Reenviar link Evaluatest`;
+export const PRESELECTION_BULK_INVITE_EVALUATEST_CONFIRM = $localize`:@@preselection.bulk.inviteEvaluatestConfirm:¿Registrar en Evaluatest a los candidatos seleccionados?`;
+export const PRESELECTION_BULK_RESEND_EVALUATEST_CONFIRM = $localize`:@@preselection.bulk.resendEvaluatestConfirm:¿Reenviar el link de Evaluatest a los candidatos seleccionados?`;
+export const PRESELECTION_EVALUATEST_INVITE_SUCCESS = $localize`:@@preselection.evaluatest.inviteSuccess:Candidatos registrados en Evaluatest`;
+export const PRESELECTION_EVALUATEST_RESEND_SUCCESS = $localize`:@@preselection.evaluatest.resendSuccess:Links de Evaluatest reenviados`;
+export const PRESELECTION_EVALUATEST_PARTIAL = $localize`:@@preselection.evaluatest.partial:Algunas invitaciones Evaluatest no se completaron`;
+export const PRESELECTION_EVALUATEST_ERROR = $localize`:@@preselection.evaluatest.error:No se pudo completar la acción de Evaluatest`;
+export const PRESELECTION_EVALUATEST_ALREADY = $localize`:@@preselection.evaluatest.already:El candidato ya fue invitado a Evaluatest`;
+export const PRESELECTION_EVALUATEST_NOT_INVITED = $localize`:@@preselection.evaluatest.notInvited:No hay invitación Evaluatest para reenviar`;
+export const PRESELECTION_EVALUATEST_DISABLED = $localize`:@@preselection.evaluatest.disabled:Evaluatest no está activo en esta posición`;
 
 export const PRESELECTION_DOCS_COMPLETE = $localize`:@@preselection.docs.complete:Completo`;
 export const PRESELECTION_DOCS_INFO_OK = $localize`:@@preselection.docs.infoOk:Info ✓`;
