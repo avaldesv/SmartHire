@@ -65,9 +65,20 @@ import {
   PRESELECTION_DOCS_STUDIES_OK,
   PRESELECTION_DOCS_STUDIES_PENDING,
   PRESELECTION_EMPTY,
+  PRESELECTION_EVALUATEST_ALREADY,
+  PRESELECTION_EVALUATEST_DISABLED,
+  PRESELECTION_EVALUATEST_ERROR,
+  PRESELECTION_EVALUATEST_INVITE_SUCCESS,
+  PRESELECTION_EVALUATEST_NOT_INVITED,
+  PRESELECTION_EVALUATEST_PARTIAL,
+  PRESELECTION_EVALUATEST_RESEND_SUCCESS,
   PRESELECTION_EVALUATION_PENDING_MSG,
   PRESELECTION_EVALUATION_PENDING_TITLE,
   PRESELECTION_EVALUATION_TOOLTIP,
+  PRESELECTION_BULK_INVITE_EVALUATEST,
+  PRESELECTION_BULK_INVITE_EVALUATEST_CONFIRM,
+  PRESELECTION_BULK_RESEND_EVALUATEST,
+  PRESELECTION_BULK_RESEND_EVALUATEST_CONFIRM,
   PRESELECTION_INFO_VALIDATED,
   PRESELECTION_INTERVIEWED_DONE_TOOLTIP,
   PRESELECTION_INTERVIEWED_ERROR,
@@ -256,6 +267,8 @@ export class PreselectionComponent implements OnInit {
     bulkContact: PRESELECTION_BULK_CONTACT,
     bulkAppointment: PRESELECTION_BULK_APPOINTMENT,
     bulkWhatsappSurvey: PRESELECTION_BULK_WHATSAPP_SURVEY,
+    bulkInviteEvaluatest: PRESELECTION_BULK_INVITE_EVALUATEST,
+    bulkResendEvaluatest: PRESELECTION_BULK_RESEND_EVALUATEST,
     bulkMarkSelected: PRESELECTION_BULK_MARK_SELECTED,
     bulkRelease: PRESELECTION_BULK_RELEASE,
     bulkReleaseAll: PRESELECTION_BULK_RELEASE_ALL,
@@ -268,6 +281,8 @@ export class PreselectionComponent implements OnInit {
   requestingInfoApplicationId: number | null = null;
   interviewingApplicationId: number | null = null;
   hasDocumentRequirements = false;
+  /** Position has Evaluatest enabled with a remote job profile. */
+  evaluatestEnabled = false;
   /** Position-linked WhatsApp survey (null until loaded / none assigned). */
   positionSurveyId: number | null = null;
   data: PreselectionCandidate[] = [];
@@ -313,11 +328,17 @@ export class PreselectionComponent implements OnInit {
         this.hasDocumentRequirements = reqs.some((r) => r.documentTypeId != null && r.documentTypeId > 0);
         this.positionSurveyId =
           position.surveyId != null && position.surveyId > 0 ? position.surveyId : null;
+        const ev = position.evaluatest;
+        this.evaluatestEnabled =
+          !!ev?.evaluatestEnabled &&
+          ev.evaluatestJobProfileId != null &&
+          ev.evaluatestJobProfileId > 0;
         this.refreshColumns();
       },
       error: () => {
         this.hasDocumentRequirements = false;
         this.positionSurveyId = null;
+        this.evaluatestEnabled = false;
         this.refreshColumns();
       },
     });
@@ -364,6 +385,7 @@ export class PreselectionComponent implements OnInit {
           smartSent: false,
           questionnaireStatus: app.questionnaireStatus ?? null,
           questionnaireAutoScorePercent: app.questionnaireAutoScorePercent ?? null,
+          evaluatestInvited: app.evaluatestInvited ?? false,
         }));
         this.total = res.total;
         this.loading = false;
@@ -728,6 +750,21 @@ export class PreselectionComponent implements OnInit {
     return this.rowActionCatalog.filter((action) => this.permission.hasAnyPermission(action.permissions));
   }
 
+  rowVisibleActions(row: PreselectionCandidate): PreselectionRowAction[] {
+    return this.visibleRowActions().filter((action) => {
+      if (action.id === 'inviteEvaluatest' || action.id === 'resendEvaluatest') {
+        if (!this.evaluatestEnabled) {
+          return false;
+        }
+        if (action.id === 'inviteEvaluatest') {
+          return !row.evaluatestInvited;
+        }
+        return !!row.evaluatestInvited;
+      }
+      return true;
+    });
+  }
+
   contactQuestionnaire(row: PreselectionCandidate): void {
     if (!this.canEditSelection || this.contactingApplicationId != null) {
       return;
@@ -780,6 +817,132 @@ export class PreselectionComponent implements OnInit {
         this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_REQUEST_INFO_ERROR });
       },
     });
+  }
+
+  bulkInviteEvaluatestSelected(): void {
+    const selected = this.data.filter((row) => row.selected && !row.evaluatestInvited);
+    this.inviteEvaluatest(selected, true);
+  }
+
+  bulkResendEvaluatestSelected(): void {
+    const selected = this.data.filter((row) => row.selected && row.evaluatestInvited);
+    this.resendEvaluatest(selected, true);
+  }
+
+  private inviteEvaluatest(rows: PreselectionCandidate[], fromBulk = false): void {
+    if (!this.canEditSelection || this.bulkLoading) {
+      return;
+    }
+    if (!this.evaluatestEnabled) {
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, PRESELECTION_EVALUATEST_DISABLED);
+      return;
+    }
+    if (rows.length === 0) {
+      this.feedback.showWarning(
+        FEEDBACK_GENERIC_WARNING_TITLE,
+        fromBulk ? PRESELECTION_BULK_NONE_SELECTED : PRESELECTION_EVALUATEST_ALREADY,
+      );
+      return;
+    }
+    this.feedback
+      .confirm({
+        title: PRESELECTION_BULK_INVITE_EVALUATEST,
+        message: PRESELECTION_BULK_INVITE_EVALUATEST_CONFIRM,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
+        this.bulkLoading = true;
+        this.positionService
+          .inviteEvaluatestCandidates(
+            this.positionId,
+            rows.map((row) => row.applicationId),
+          )
+          .subscribe({
+            next: (res) => {
+              this.bulkLoading = false;
+              this.handleEvaluatestInviteResults(res.results ?? [], true);
+              this.loadApplications();
+            },
+            error: (err) => {
+              this.bulkLoading = false;
+              this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_EVALUATEST_ERROR });
+            },
+          });
+      });
+  }
+
+  private resendEvaluatest(rows: PreselectionCandidate[], fromBulk = false): void {
+    if (!this.canEditSelection || this.bulkLoading) {
+      return;
+    }
+    if (!this.evaluatestEnabled) {
+      this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, PRESELECTION_EVALUATEST_DISABLED);
+      return;
+    }
+    if (rows.length === 0) {
+      this.feedback.showWarning(
+        FEEDBACK_GENERIC_WARNING_TITLE,
+        fromBulk ? PRESELECTION_BULK_NONE_SELECTED : PRESELECTION_EVALUATEST_NOT_INVITED,
+      );
+      return;
+    }
+    this.feedback
+      .confirm({
+        title: PRESELECTION_BULK_RESEND_EVALUATEST,
+        message: PRESELECTION_BULK_RESEND_EVALUATEST_CONFIRM,
+      })
+      .subscribe((ok) => {
+        if (!ok) {
+          return;
+        }
+        this.bulkLoading = true;
+        this.positionService
+          .resendEvaluatestInvitations(
+            this.positionId,
+            rows.map((row) => row.applicationId),
+          )
+          .subscribe({
+            next: (res) => {
+              this.bulkLoading = false;
+              this.handleEvaluatestInviteResults(res.results ?? [], false);
+            },
+            error: (err) => {
+              this.bulkLoading = false;
+              this.feedback.showApiError(err, { fallbackMessage: PRESELECTION_EVALUATEST_ERROR });
+            },
+          });
+      });
+  }
+
+  private handleEvaluatestInviteResults(
+    results: {
+      success: boolean;
+      status?: string | null;
+      errorMessage?: string | null;
+    }[],
+    isInvite: boolean,
+  ): void {
+    const succeeded = results.filter((item) => item.success).length;
+    const failed = results.length - succeeded;
+    if (failed === 0) {
+      this.feedback.showSuccess(
+        `${isInvite ? PRESELECTION_EVALUATEST_INVITE_SUCCESS : PRESELECTION_EVALUATEST_RESEND_SUCCESS} (${succeeded})`,
+      );
+      return;
+    }
+    if (succeeded === 0) {
+      const firstError = results.find((item) => !item.success)?.errorMessage;
+      this.feedback.showApiError(null, {
+        fallbackMessage: firstError || PRESELECTION_EVALUATEST_ERROR,
+      });
+      return;
+    }
+    this.feedback.showWarning(
+      PRESELECTION_EVALUATEST_PARTIAL,
+      `${succeeded} ${PRESELECTION_BULK_CONTACT_SENT}, ${failed} ${PRESELECTION_BULK_CONTACT_FAILED}`,
+    );
   }
 
   bulkRequestDocumentsSelected(): void {
@@ -987,6 +1150,14 @@ export class PreselectionComponent implements OnInit {
     }
     if (actionId === 'notifyQuestionnaire') {
       this.notifyCandidateQuestionnaire(row);
+      return;
+    }
+    if (actionId === 'inviteEvaluatest') {
+      this.inviteEvaluatest([row]);
+      return;
+    }
+    if (actionId === 'resendEvaluatest') {
+      this.resendEvaluatest([row]);
       return;
     }
     if (actionId === 'changeStage') {

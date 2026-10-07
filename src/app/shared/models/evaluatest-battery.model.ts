@@ -35,6 +35,21 @@ export interface EvaluatestBatteryResponse {
   availableTests: EvaluatestBatteryCatalogOption[];
 }
 
+export interface EvaluatestInviteItem {
+  applicationId: number;
+  candidateId?: number | null;
+  success: boolean;
+  status?: string | null;
+  errorCode?: string | null;
+  errorMessage?: string | null;
+  urlUnattended?: string | null;
+  evaluatestCandidateId?: number | null;
+}
+
+export interface EvaluatestInviteResponse {
+  results: EvaluatestInviteItem[];
+}
+
 export interface UpdateEvaluatestBatteryRequest {
   isCompetenceEvaluation?: boolean | null;
   mandatoryWeight?: number | null;

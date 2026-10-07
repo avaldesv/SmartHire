@@ -26,6 +26,7 @@ import {
 } from '../../shared/models/position.model';
 import {
   EvaluatestBatteryResponse,
+  EvaluatestInviteResponse,
   UpdateEvaluatestBatteryRequest,
 } from '../../shared/models/evaluatest-battery.model';
 import { ApiClientService } from './api-client.service';
@@ -285,6 +286,28 @@ export class PositionService {
     return this.http.put<EvaluatestBatteryResponse>(
       this.api.apiUrl(`/api/v1/positions/${id}/evaluatest/battery`),
       request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  inviteEvaluatestCandidates(
+    positionId: number,
+    applicationIds: number[],
+  ): Observable<EvaluatestInviteResponse> {
+    return this.http.post<EvaluatestInviteResponse>(
+      this.api.apiUrl(`/api/v1/positions/${positionId}/evaluatest/invitations`),
+      { applicationIds },
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  resendEvaluatestInvitations(
+    positionId: number,
+    applicationIds: number[],
+  ): Observable<EvaluatestInviteResponse> {
+    return this.http.post<EvaluatestInviteResponse>(
+      this.api.apiUrl(`/api/v1/positions/${positionId}/evaluatest/invitations/resend`),
+      { applicationIds },
       { headers: this.api.buildHeaders() },
     );
   }

@@ -55,6 +55,24 @@
         <mat-icon>description</mat-icon> {{ labels.requestDocuments }}
       </button>
     }
+    @if (evaluatestEnabled) {
+      <button
+        mat-stroked-button
+        (click)="bulkInviteEvaluatestSelected()"
+        [disabled]="bulkLoading || selectedCount === 0 || !canEditSelection"
+        [matTooltip]="labels.bulkInviteEvaluatest"
+      >
+        <mat-icon>quiz</mat-icon> {{ labels.bulkInviteEvaluatest }}
+      </button>
+      <button
+        mat-stroked-button
+        (click)="bulkResendEvaluatestSelected()"
+        [disabled]="bulkLoading || selectedCount === 0 || !canEditSelection"
+        [matTooltip]="labels.bulkResendEvaluatest"
+      >
+        <mat-icon>forward_to_inbox</mat-icon> {{ labels.bulkResendEvaluatest }}
+      </button>
+    }
     <button
       mat-flat-button
       color="primary"
@@ -232,13 +250,13 @@
             <button
               mat-icon-button
               [matMenuTriggerFor]="rowMenu"
-              [disabled]="visibleRowActions().length === 0"
+              [disabled]="rowVisibleActions(row).length === 0"
               [attr.aria-label]="labels.rowActionsAria"
             >
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #rowMenu="matMenu">
-              @for (action of visibleRowActions(); track action.id) {
+              @for (action of rowVisibleActions(row); track action.id) {
                 @if (action.dividerBefore) {
                   <mat-divider />
                 }

@@ -96,6 +96,7 @@ export interface PreselectionCandidate extends Candidate {
   smartSent: boolean;
   questionnaireStatus?: string | null;
   questionnaireAutoScorePercent?: number | null;
+  evaluatestInvited?: boolean | null;
 }
 
 export interface SystemUser {
