@@ -90,6 +90,13 @@ def load_error_catalog_en() -> dict[str, str]:
 
 
 EN_BY_SOURCE: dict[str, str] = {
+    "Crear cuestionario": "Create questionnaire",
+    "Editar cuestionario": "Edit questionnaire",
+    "Este mensaje se enviará al finalizar el cuestionario.": "This message will be sent when the questionnaire is completed.",
+    "Campo destino en BD": "Destination DB field",
+    "Tabla": "Table",
+    "La respuesta se validará con IA y se guardará en este campo": "The answer will be validated with AI and saved to this field",
+    "Sin mapeo (solo respuestas de sesión)": "No mapping (session answers only)",
     "Actualizar batería": "Update battery",
     "Puesto": "Position",
     "Modelo de competencias": "Competency model",

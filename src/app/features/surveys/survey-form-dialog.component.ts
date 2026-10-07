@@ -16,6 +16,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { FeedbackDialogService } from '../../core/feedback/feedback-dialog.service';
 import {
   SURVEYS_ANSWER_TYPE_DATE,
@@ -31,11 +33,18 @@ import {
   SURVEYS_FIELD_ACTIVE,
   SURVEYS_FIELD_DESCRIPTION,
   SURVEYS_FIELD_FINAL_MESSAGE,
+  SURVEYS_FIELD_FINAL_MESSAGE_HINT,
   SURVEYS_FIELD_NAME,
   SURVEYS_FIELD_QUESTIONS,
   SURVEYS_QUESTION_ORDER,
   SURVEYS_QUESTION_REQUIRED,
+  SURVEYS_QUESTION_TARGET_COLUMN,
+  SURVEYS_QUESTION_TARGET_HINT,
+  SURVEYS_QUESTION_TARGET_OPTIONAL,
+  SURVEYS_QUESTION_TARGET_SECTION,
+  SURVEYS_QUESTION_TARGET_TABLE,
   SURVEYS_QUESTION_TEXT,
+  SURVEYS_QUESTION_TYPE,
   SURVEYS_QUESTIONS_ADD_FIRST,
   SURVEYS_QUESTIONS_ADD_MORE,
   SURVEYS_QUESTIONS_EMPTY,
@@ -49,7 +58,13 @@ import {
   ShModalActionsDirective,
   ShModalFormComponent,
 } from '../../shared/components/modal-form/sh-modal-form.component';
-import { SURVEY_ANSWER_TYPES, UpsertSurveyRequest } from '../../shared/models/survey.model';
+import {
+  SURVEY_ANSWER_TYPES,
+  SURVEY_MAPPABLE_ANSWER_TYPES,
+  SurveyFieldMappingField,
+  SurveyFieldMappingTable,
+  UpsertSurveyRequest,
+} from '../../shared/models/survey.model';
 
 export interface SurveyFormDialogData {
   surveyId?: number;
@@ -85,19 +100,28 @@ export class SurveyFormDialogComponent implements OnInit {
 
   readonly messageMaxLength = 500;
 
-  loading = !!this.data.surveyId;
+  loading = true;
   saving = false;
   editingId: number | null = this.data.surveyId ?? null;
+  mappingTables: SurveyFieldMappingTable[] = [];
 
   readonly title = this.data.surveyId ? SURVEYS_DIALOG_EDIT : SURVEYS_DIALOG_NEW;
   readonly fieldName = SURVEYS_FIELD_NAME;
   readonly fieldDescription = SURVEYS_FIELD_DESCRIPTION;
   readonly fieldFinalMessage = SURVEYS_FIELD_FINAL_MESSAGE;
+  readonly fieldFinalMessageHint = SURVEYS_FIELD_FINAL_MESSAGE_HINT;
   readonly fieldActive = SURVEYS_FIELD_ACTIVE;
+  readonly fieldQuestions = SURVEYS_FIELD_QUESTIONS;
   readonly removeQuestionLabel = SURVEYS_REMOVE_QUESTION;
   readonly questionTextLabel = SURVEYS_QUESTION_TEXT;
+  readonly questionTypeLabel = SURVEYS_QUESTION_TYPE;
   readonly questionRequiredLabel = SURVEYS_QUESTION_REQUIRED;
   readonly questionOrderLabel = SURVEYS_QUESTION_ORDER;
+  readonly targetSectionLabel = SURVEYS_QUESTION_TARGET_SECTION;
+  readonly targetTableLabel = SURVEYS_QUESTION_TARGET_TABLE;
+  readonly targetColumnLabel = SURVEYS_QUESTION_TARGET_COLUMN;
+  readonly targetHintLabel = SURVEYS_QUESTION_TARGET_HINT;
+  readonly targetOptionalLabel = SURVEYS_QUESTION_TARGET_OPTIONAL;
   readonly questionsEmptyTitle = SURVEYS_QUESTIONS_EMPTY_TITLE;
   readonly addFirstQuestionLabel = SURVEYS_QUESTIONS_ADD_FIRST;
   readonly addMoreQuestionLabel = SURVEYS_QUESTIONS_ADD_MORE;
@@ -134,34 +158,41 @@ export class SurveyFormDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!this.editingId) {
-      // Match proposal D: start empty until the user adds the first question.
-      this.loading = false;
-      return;
-    }
-    this.api.getById(this.editingId).subscribe({
-      next: (survey) => {
-        this.form.patchValue({
-          name: survey.name,
-          descriptionText: survey.descriptionText ?? '',
-          finalMessageText: survey.finalMessageText ?? '',
-          isActive: survey.isActive ?? true,
-        });
-        this.questions.clear();
-        const sorted = [...(survey.questions ?? [])].sort(
-          (a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0),
-        );
-        for (const q of sorted) {
-          this.questions.push(
-            this.createQuestionGroup({
-              sortOrder: q.sortOrder ?? this.questions.length + 1,
-              questionText: q.questionText,
-              answerType: SURVEY_ANSWER_TYPES.includes(q.answerType as never)
-                ? q.answerType
-                : 'TEXT',
-              isRequired: q.isRequired ?? true,
-            }),
+    const survey$ = this.editingId
+      ? this.api.getById(this.editingId)
+      : of(null);
+    const mappings$ = this.api.fieldMappings().pipe(
+      catchError(() => of({ tables: [] as SurveyFieldMappingTable[] })),
+    );
+
+    forkJoin({ survey: survey$, mappings: mappings$ }).subscribe({
+      next: ({ survey, mappings }) => {
+        this.mappingTables = mappings.tables ?? [];
+        if (survey) {
+          this.form.patchValue({
+            name: survey.name,
+            descriptionText: survey.descriptionText ?? '',
+            finalMessageText: survey.finalMessageText ?? '',
+            isActive: survey.isActive ?? true,
+          });
+          this.questions.clear();
+          const sorted = [...(survey.questions ?? [])].sort(
+            (a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0),
           );
+          for (const q of sorted) {
+            this.questions.push(
+              this.createQuestionGroup({
+                sortOrder: q.sortOrder ?? this.questions.length + 1,
+                questionText: q.questionText,
+                answerType: SURVEY_ANSWER_TYPES.includes(q.answerType as never)
+                  ? q.answerType
+                  : 'TEXT',
+                isRequired: q.isRequired ?? true,
+                targetTable: q.targetTable ?? null,
+                targetColumn: q.targetColumn ?? null,
+              }),
+            );
+          }
         }
         this.loading = false;
       },
@@ -180,6 +211,8 @@ export class SurveyFormDialogComponent implements OnInit {
         questionText: '',
         answerType: 'TEXT',
         isRequired: true,
+        targetTable: null,
+        targetColumn: null,
       }),
     );
   }
@@ -204,6 +237,29 @@ export class SurveyFormDialogComponent implements OnInit {
     this.reindexSortOrders();
   }
 
+  isMappingEnabled(index: number): boolean {
+    const type = String(this.questions.at(index).value.answerType ?? '').toUpperCase();
+    return SURVEY_MAPPABLE_ANSWER_TYPES.includes(type as never);
+  }
+
+  fieldsForQuestion(index: number): SurveyFieldMappingField[] {
+    const tableName = this.questions.at(index).value.targetTable as string | null;
+    if (!tableName) {
+      return [];
+    }
+    return this.mappingTables.find((t) => t.table === tableName)?.fields ?? [];
+  }
+
+  onAnswerTypeChange(index: number): void {
+    if (!this.isMappingEnabled(index)) {
+      this.questions.at(index).patchValue({ targetTable: null, targetColumn: null });
+    }
+  }
+
+  onTargetTableChange(index: number): void {
+    this.questions.at(index).patchValue({ targetColumn: null });
+  }
+
   cancel(): void {
     this.dialogRef.close(false);
   }
@@ -223,12 +279,20 @@ export class SurveyFormDialogComponent implements OnInit {
       descriptionText: raw.descriptionText?.trim() || null,
       finalMessageText: raw.finalMessageText?.trim() || null,
       isActive: raw.isActive,
-      questions: raw.questions.map((q, index) => ({
-        sortOrder: Number(q['sortOrder']) || index + 1,
-        questionText: String(q['questionText']).trim(),
-        answerType: String(q['answerType']),
-        isRequired: !!q['isRequired'],
-      })),
+      questions: raw.questions.map((q, index) => {
+        const answerType = String(q['answerType']);
+        const mappable = SURVEY_MAPPABLE_ANSWER_TYPES.includes(answerType as never);
+        const targetTable = mappable ? ((q['targetTable'] as string | null) || null) : null;
+        const targetColumn = mappable ? ((q['targetColumn'] as string | null) || null) : null;
+        return {
+          sortOrder: Number(q['sortOrder']) || index + 1,
+          questionText: String(q['questionText']).trim(),
+          answerType,
+          isRequired: !!q['isRequired'],
+          targetTable,
+          targetColumn,
+        };
+      }),
     };
 
     this.saving = true;
@@ -252,12 +316,16 @@ export class SurveyFormDialogComponent implements OnInit {
     questionText: string;
     answerType: string;
     isRequired: boolean;
+    targetTable: string | null;
+    targetColumn: string | null;
   }): FormGroup {
-    return this.fb.nonNullable.group({
+    return this.fb.group({
       sortOrder: [value.sortOrder, [Validators.required, Validators.min(1)]],
       questionText: [value.questionText, Validators.required],
       answerType: [value.answerType, Validators.required],
       isRequired: [value.isRequired],
+      targetTable: [value.targetTable],
+      targetColumn: [value.targetColumn],
     });
   }
 

@@ -7,6 +7,7 @@ import {
   SendPositionSurveyRequest,
   SendPositionSurveyResponse,
   SurveyDetail,
+  SurveyFieldMappingsResponse,
   SurveyListItem,
   SurveyListResponse,
   SurveySessionDetail,
@@ -49,6 +50,13 @@ export class SurveyApiService {
     return this.http.get<SurveyDetail>(this.api.apiUrl(`/api/v1/surveys/${id}`), {
       headers: this.api.buildHeaders(),
     });
+  }
+
+  fieldMappings(): Observable<SurveyFieldMappingsResponse> {
+    return this.http.get<SurveyFieldMappingsResponse>(
+      this.api.apiUrl('/api/v1/surveys/field-mappings'),
+      { headers: this.api.buildHeaders() },
+    );
   }
 
   create(request: UpsertSurveyRequest): Observable<SurveyDetail> {
