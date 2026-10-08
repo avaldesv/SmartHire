@@ -96,51 +96,59 @@
                 </div>
 
                 <div class="question-card__body">
-                  <mat-form-field appearance="outline" class="question-type" subscriptSizing="dynamic">
-                    <mat-label>{{ questionTypeLabel }}</mat-label>
-                    <mat-select
-                      formControlName="answerType"
-                      (selectionChange)="onAnswerTypeChange(i)"
-                    >
-                      @for (option of answerTypeOptions; track option.value) {
-                        <mat-option [value]="option.value">{{ option.label }}</mat-option>
-                      }
-                    </mat-select>
-                  </mat-form-field>
+                  <div class="target-block">
+                    <div class="target-block__title">{{ targetSectionLabel }}</div>
+                    <div class="target-block__row">
+                      <mat-form-field appearance="outline" class="target-table" subscriptSizing="dynamic">
+                        <mat-label>{{ targetTableLabel }}</mat-label>
+                        <mat-select
+                          formControlName="targetTable"
+                          (selectionChange)="onTargetTableChange(i)"
+                        >
+                          <mat-option [value]="null">{{ targetOptionalLabel }}</mat-option>
+                          @for (table of mappingTables; track table.table) {
+                            <mat-option [value]="table.table">
+                              {{ table.label }} ({{ table.table }})
+                            </mat-option>
+                          }
+                        </mat-select>
+                      </mat-form-field>
 
-                  @if (isMappingEnabled(i)) {
-                    <div class="target-block">
-                      <div class="target-block__title">{{ targetSectionLabel }}</div>
-                      <div class="target-block__row">
-                        <mat-form-field appearance="outline" class="target-table" subscriptSizing="dynamic">
-                          <mat-label>{{ targetTableLabel }}</mat-label>
-                          <mat-select
-                            formControlName="targetTable"
-                            (selectionChange)="onTargetTableChange(i)"
-                          >
-                            <mat-option [value]="null">{{ targetOptionalLabel }}</mat-option>
-                            @for (table of mappingTables; track table.table) {
-                              <mat-option [value]="table.table">
-                                {{ table.label }} ({{ table.table }})
-                              </mat-option>
-                            }
-                          </mat-select>
-                        </mat-form-field>
-
-                        <mat-form-field appearance="outline" class="target-column" subscriptSizing="dynamic">
-                          <mat-label>{{ targetColumnLabel }}</mat-label>
-                          <mat-select formControlName="targetColumn" [disabled]="!question.value.targetTable">
-                            <mat-option [value]="null">{{ targetOptionalLabel }}</mat-option>
-                            @for (field of fieldsForQuestion(i); track field.column) {
-                              <mat-option [value]="field.column">
-                                {{ field.label }} ({{ field.column }})
-                              </mat-option>
-                            }
-                          </mat-select>
-                        </mat-form-field>
-                      </div>
-                      <p class="target-block__hint">{{ targetHintLabel }}</p>
+                      <mat-form-field appearance="outline" class="target-column" subscriptSizing="dynamic">
+                        <mat-label>{{ targetColumnLabel }}</mat-label>
+                        <mat-select
+                          formControlName="targetColumn"
+                          [disabled]="!question.value.targetTable"
+                          (selectionChange)="onTargetColumnChange(i)"
+                        >
+                          <mat-option [value]="null">{{ targetOptionalLabel }}</mat-option>
+                          @for (field of fieldsForQuestion(i); track field.column) {
+                            <mat-option [value]="field.column">
+                              {{ field.label }} ({{ field.column }})
+                            </mat-option>
+                          }
+                        </mat-select>
+                      </mat-form-field>
                     </div>
+                    <p class="target-block__hint">{{ targetHintLabel }}</p>
+                    @if (hasMapping(i)) {
+                      <p class="target-block__derived">
+                        {{ answerTypeFromMappingLabel }}:
+                        <strong>{{ derivedAnswerTypeLabel(i) }}</strong>
+                      </p>
+                    }
+                  </div>
+
+                  @if (!hasMapping(i)) {
+                    <mat-form-field appearance="outline" class="question-type" subscriptSizing="dynamic">
+                      <mat-label>{{ questionTypeLabel }}</mat-label>
+                      <mat-select formControlName="answerType">
+                        @for (option of answerTypeOptions; track option.value) {
+                          <mat-option [value]="option.value">{{ option.label }}</mat-option>
+                        }
+                      </mat-select>
+                      <mat-hint>{{ questionTypeHintLabel }}</mat-hint>
+                    </mat-form-field>
                   }
                 </div>
               </div>
