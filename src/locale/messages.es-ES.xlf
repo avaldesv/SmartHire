@@ -10842,6 +10842,14 @@
         <source>Sin mapeo (solo respuestas de sesión)</source>
         <target>Sin mapeo (solo respuestas de sesión)</target>
       </trans-unit>
+      <trans-unit id="surveys.questions.answerTypeHint" datatype="html">
+        <source>Solo aplica si no hay campo destino en BD</source>
+        <target>Solo aplica si no hay campo destino en BD</target>
+      </trans-unit>
+      <trans-unit id="surveys.questions.answerTypeFromMapping" datatype="html">
+        <source>Tipo derivado del campo BD</source>
+        <target>Tipo derivado del campo BD</target>
+      </trans-unit>
       <trans-unit id="surveys.questions.empty" datatype="html">
         <source>Agregue al menos una pregunta</source>
         <target>Agregue al menos una pregunta</target>

@@ -45,6 +45,8 @@ import {
   SURVEYS_QUESTION_TARGET_TABLE,
   SURVEYS_QUESTION_TEXT,
   SURVEYS_QUESTION_TYPE,
+  SURVEYS_QUESTION_TYPE_FROM_MAPPING,
+  SURVEYS_QUESTION_TYPE_HINT,
   SURVEYS_QUESTIONS_ADD_FIRST,
   SURVEYS_QUESTIONS_ADD_MORE,
   SURVEYS_QUESTIONS_EMPTY,
@@ -52,6 +54,7 @@ import {
   SURVEYS_REMOVE_QUESTION,
   SURVEYS_SAVE,
   SURVEYS_SAVING,
+  surveysAnswerTypeLabel,
 } from '../../core/i18n/survey-labels';
 import { SurveyApiService } from '../../core/services/survey-api.service';
 import {
@@ -60,7 +63,6 @@ import {
 } from '../../shared/components/modal-form/sh-modal-form.component';
 import {
   SURVEY_ANSWER_TYPES,
-  SURVEY_MAPPABLE_ANSWER_TYPES,
   SurveyFieldMappingField,
   SurveyFieldMappingTable,
   UpsertSurveyRequest,
@@ -115,6 +117,8 @@ export class SurveyFormDialogComponent implements OnInit {
   readonly removeQuestionLabel = SURVEYS_REMOVE_QUESTION;
   readonly questionTextLabel = SURVEYS_QUESTION_TEXT;
   readonly questionTypeLabel = SURVEYS_QUESTION_TYPE;
+  readonly questionTypeHintLabel = SURVEYS_QUESTION_TYPE_HINT;
+  readonly answerTypeFromMappingLabel = SURVEYS_QUESTION_TYPE_FROM_MAPPING;
   readonly questionRequiredLabel = SURVEYS_QUESTION_REQUIRED;
   readonly questionOrderLabel = SURVEYS_QUESTION_ORDER;
   readonly targetSectionLabel = SURVEYS_QUESTION_TARGET_SECTION;
@@ -158,9 +162,7 @@ export class SurveyFormDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const survey$ = this.editingId
-      ? this.api.getById(this.editingId)
-      : of(null);
+    const survey$ = this.editingId ? this.api.getById(this.editingId) : of(null);
     const mappings$ = this.api.fieldMappings().pipe(
       catchError(() => of({ tables: [] as SurveyFieldMappingTable[] })),
     );
@@ -180,16 +182,19 @@ export class SurveyFormDialogComponent implements OnInit {
             (a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0),
           );
           for (const q of sorted) {
+            const targetTable = q.targetTable ?? null;
+            const targetColumn = q.targetColumn ?? null;
+            const derived = this.answerTypeFromField(targetTable, targetColumn);
             this.questions.push(
               this.createQuestionGroup({
                 sortOrder: q.sortOrder ?? this.questions.length + 1,
                 questionText: q.questionText,
-                answerType: SURVEY_ANSWER_TYPES.includes(q.answerType as never)
-                  ? q.answerType
-                  : 'TEXT',
+                answerType:
+                  derived ??
+                  (SURVEY_ANSWER_TYPES.includes(q.answerType as never) ? q.answerType : 'TEXT'),
                 isRequired: q.isRequired ?? true,
-                targetTable: q.targetTable ?? null,
-                targetColumn: q.targetColumn ?? null,
+                targetTable,
+                targetColumn,
               }),
             );
           }
@@ -237,9 +242,9 @@ export class SurveyFormDialogComponent implements OnInit {
     this.reindexSortOrders();
   }
 
-  isMappingEnabled(index: number): boolean {
-    const type = String(this.questions.at(index).value.answerType ?? '').toUpperCase();
-    return SURVEY_MAPPABLE_ANSWER_TYPES.includes(type as never);
+  hasMapping(index: number): boolean {
+    const value = this.questions.at(index).value;
+    return !!value.targetTable && !!value.targetColumn;
   }
 
   fieldsForQuestion(index: number): SurveyFieldMappingField[] {
@@ -250,14 +255,27 @@ export class SurveyFormDialogComponent implements OnInit {
     return this.mappingTables.find((t) => t.table === tableName)?.fields ?? [];
   }
 
-  onAnswerTypeChange(index: number): void {
-    if (!this.isMappingEnabled(index)) {
-      this.questions.at(index).patchValue({ targetTable: null, targetColumn: null });
-    }
+  derivedAnswerTypeLabel(index: number): string {
+    const value = this.questions.at(index).value;
+    const type =
+      this.answerTypeFromField(value.targetTable ?? null, value.targetColumn ?? null) ?? 'TEXT';
+    return surveysAnswerTypeLabel(type);
   }
 
   onTargetTableChange(index: number): void {
-    this.questions.at(index).patchValue({ targetColumn: null });
+    this.questions.at(index).patchValue({ targetColumn: null, answerType: 'TEXT' });
+  }
+
+  onTargetColumnChange(index: number): void {
+    const ctrl = this.questions.at(index);
+    const table = (ctrl.value.targetTable as string | null) ?? null;
+    const column = (ctrl.value.targetColumn as string | null) ?? null;
+    const derived = this.answerTypeFromField(table, column);
+    if (derived) {
+      ctrl.patchValue({ answerType: derived });
+    } else if (!table || !column) {
+      ctrl.patchValue({ answerType: 'TEXT' });
+    }
   }
 
   cancel(): void {
@@ -280,17 +298,19 @@ export class SurveyFormDialogComponent implements OnInit {
       finalMessageText: raw.finalMessageText?.trim() || null,
       isActive: raw.isActive,
       questions: raw.questions.map((q, index) => {
-        const answerType = String(q['answerType']);
-        const mappable = SURVEY_MAPPABLE_ANSWER_TYPES.includes(answerType as never);
-        const targetTable = mappable ? ((q['targetTable'] as string | null) || null) : null;
-        const targetColumn = mappable ? ((q['targetColumn'] as string | null) || null) : null;
+        const targetTable = (q['targetTable'] as string | null) || null;
+        const targetColumn = (q['targetColumn'] as string | null) || null;
+        const hasMapping = !!targetTable && !!targetColumn;
+        const answerType = hasMapping
+          ? this.answerTypeFromField(targetTable, targetColumn) ?? 'TEXT'
+          : String(q['answerType'] || 'TEXT');
         return {
           sortOrder: Number(q['sortOrder']) || index + 1,
           questionText: String(q['questionText']).trim(),
           answerType,
           isRequired: !!q['isRequired'],
-          targetTable,
-          targetColumn,
+          targetTable: hasMapping ? targetTable : null,
+          targetColumn: hasMapping ? targetColumn : null,
         };
       }),
     };
@@ -309,6 +329,32 @@ export class SurveyFormDialogComponent implements OnInit {
         this.feedback.showApiError(err, { fallbackMessage: SURVEYS_ERRORS_SAVE });
       },
     });
+  }
+
+  private answerTypeFromField(
+    table: string | null,
+    column: string | null,
+  ): string | null {
+    if (!table || !column) {
+      return null;
+    }
+    const field = this.mappingTables
+      .find((t) => t.table === table)
+      ?.fields.find((f) => f.column === column);
+    if (!field) {
+      return null;
+    }
+    switch ((field.kind ?? '').toUpperCase()) {
+      case 'NUMBER':
+      case 'DECIMAL':
+        return 'NUMBER';
+      case 'DATE':
+        return 'DATE';
+      case 'TEXT':
+      case 'BOOLEAN':
+      default:
+        return 'TEXT';
+    }
   }
 
   private createQuestionGroup(value: {
