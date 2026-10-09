@@ -24,12 +24,23 @@ import {
   WizardFieldOption,
 } from '../../../../shared/models/requisition-wizard.model';
 import {
+  buildModalityCodeByIdFromOptions,
+  FieldRulesContext,
   isFieldReadOnly,
   isFieldRequired,
   isFieldVisible,
   fieldValueFrom,
   fieldFillFromCatalog,
+  updateExamModalityCodeByIdFromOptions,
 } from '../dynamic-wizard-rules.util';
+import { DynamicRequisitionWizardService } from '../../../../core/services/dynamic-requisition-wizard.service';
+import { PositionService } from '../../../../core/services/position.service';
+import {
+  REQUISITION_WIZARD_AI_PROFILE_IMAGE_CHOOSE,
+  REQUISITION_WIZARD_AI_PROFILE_IMAGE_UPLOADING,
+  REQUISITION_WIZARD_AI_PROFILE_IMAGE_UPLOAD_ERROR,
+} from '../../../../core/i18n/requisition-wizard-labels';
+import { WizardAiInterviewProfileImageValue } from '../../../../shared/models/requisition-wizard.model';
 import { RequisitionFormFieldRules } from '../../../../shared/models/requisition-form.model';
 import { resolveWizardFieldLabel } from '../requisition-wizard-labels';
 import {
@@ -82,6 +93,8 @@ import { PositionEvaluatestPayload } from '../../../../shared/models/position.mo
 })
 export class DynamicWizardStepComponent implements OnInit, OnChanges {
   private readonly catalogService = inject(WizardFieldCatalogService);
+  private readonly dynamicWizardService = inject(DynamicRequisitionWizardService);
+  private readonly positionService = inject(PositionService);
   private readonly fb = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -93,6 +106,9 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
   readonly noDocumentsLabel = REQUISITION_WIZARD_NO_DOCUMENTS;
   readonly noExamsLabel = REQUISITION_WIZARD_NO_EXAMS;
   readonly loadingOptionsLabel = REQUISITION_SCOPE_LOADING;
+  readonly aiProfileImageChooseLabel = REQUISITION_WIZARD_AI_PROFILE_IMAGE_CHOOSE;
+  readonly aiProfileImageUploadingLabel = REQUISITION_WIZARD_AI_PROFILE_IMAGE_UPLOADING;
+  readonly aiProfileImageUploadErrorLabel = REQUISITION_WIZARD_AI_PROFILE_IMAGE_UPLOAD_ERROR;
 
   @Input({ required: true }) step!: ResolvedRequisitionFormStep;
   @Input({ required: true }) stepForm!: FormGroup;
@@ -131,6 +147,8 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
   private flatValues: Record<string, unknown> = {};
   private geographySetup = false;
   private readonly catalogFillStop$ = new Subject<void>();
+  imageUploadBusyByField: Partial<Record<string, boolean>> = {};
+  imageUploadErrorByField: Partial<Record<string, string | null>> = {};
 
   ngOnInit(): void {
     this.rootForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
@@ -201,11 +219,74 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
   }
 
   isReadOnly(field: ResolvedRequisitionFormField): boolean {
-    return isFieldReadOnly(field, this.flatValues);
+    return isFieldReadOnly(field, this.flatValues, this.fieldRulesContext());
   }
 
   isRequired(field: ResolvedRequisitionFormField): boolean {
-    return isFieldRequired(field, this.flatValues);
+    return isFieldRequired(field, this.flatValues, this.fieldRulesContext());
+  }
+
+  private fieldRulesContext(): FieldRulesContext {
+    return { modalityCodeById: this.buildModalityCodeById() };
+  }
+
+  private buildModalityCodeById(): Map<number, string> {
+    const opts = this.optionsByField['examModalityId'] ?? [];
+    return buildModalityCodeByIdFromOptions(opts);
+  }
+
+  aiProfileImageValue(fieldKey: string): WizardAiInterviewProfileImageValue | null {
+    const raw = this.fieldControl(fieldKey).value;
+    if (raw && typeof raw === 'object' && 'storageKey' in (raw as object)) {
+      return raw as WizardAiInterviewProfileImageValue;
+    }
+    return null;
+  }
+
+  aiProfileImagePreviewUrl(fieldKey: string): string | null {
+    return this.aiProfileImageValue(fieldKey)?.previewUrl?.trim() || null;
+  }
+
+  aiProfileImageFileLabel(fieldKey: string): string | null {
+    const value = this.aiProfileImageValue(fieldKey);
+    if (!value?.storageKey) {
+      return null;
+    }
+    const ext = value.extension ? `.${value.extension}` : '';
+    const parts = value.storageKey.split('/');
+    const name = parts[parts.length - 1] || value.storageKey;
+    return `${name}${ext && !name.endsWith(ext) ? ext : ''}`;
+  }
+
+  onAiProfileImageSelected(fieldKey: string, event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) {
+      return;
+    }
+    this.imageUploadBusyByField[fieldKey] = true;
+    this.imageUploadErrorByField[fieldKey] = null;
+    this.positionService.uploadAiInterviewProfileImage(file).subscribe({
+      next: (response) => {
+        this.fieldControl(fieldKey).setValue({
+          storageKey: response.storageKey,
+          extension: response.extension,
+          previewUrl: response.previewUrl ?? null,
+        });
+        this.imageUploadBusyByField[fieldKey] = false;
+        input.value = '';
+      },
+      error: () => {
+        this.imageUploadBusyByField[fieldKey] = false;
+        this.imageUploadErrorByField[fieldKey] = this.aiProfileImageUploadErrorLabel;
+        input.value = '';
+      },
+    });
+  }
+
+  clearAiProfileImage(fieldKey: string): void {
+    this.fieldControl(fieldKey).setValue(null);
+    this.imageUploadErrorByField[fieldKey] = null;
   }
 
   private syncMirroredFields(): void {
@@ -311,12 +392,13 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
     if (field.uiType === 'document-config-section') {
       return false;
     }
-    if (!isFieldVisible(field, this.flatValues)) {
+    const rulesContext = this.fieldRulesContext();
+    if (!isFieldVisible(field, this.flatValues, rulesContext)) {
       return false;
     }
     if (field.fieldKey === 'jobPortalId') {
       const multi = this.step.fields.find((f) => f.fieldKey === 'publishedPortals');
-      if (multi && isFieldVisible(multi, this.flatValues)) {
+      if (multi && isFieldVisible(multi, this.flatValues, rulesContext)) {
         return false;
       }
     }
@@ -356,6 +438,11 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
       this.catalogService.loadOptions(field.dataSourceKey, { countryId: this.countryId }).subscribe({
         next: (opts) => {
           this.optionsByField[field.fieldKey] = opts;
+          if (field.dataSourceKey === 'exam-modalities') {
+            updateExamModalityCodeByIdFromOptions(opts);
+            this.refreshVisibleFields();
+            this.dynamicWizardService.refreshValidators(this.rootForm, this.config);
+          }
           this.loadingByField[field.fieldKey] = false;
         },
         error: () => {
@@ -587,7 +674,7 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
     if (!field) {
       return true;
     }
-    return isFieldVisible(field, this.flatValues);
+    return isFieldVisible(field, this.flatValues, this.fieldRulesContext());
   }
 
   documentSectionReadOnly(fieldKey: string): boolean {
@@ -595,6 +682,6 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
     if (!field) {
       return false;
     }
-    return isFieldReadOnly(field, this.flatValues);
+    return isFieldReadOnly(field, this.flatValues, this.fieldRulesContext());
   }
 }

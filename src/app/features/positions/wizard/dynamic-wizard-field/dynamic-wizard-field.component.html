@@ -9,7 +9,7 @@
       } @else {
         <mat-option [value]="null">—</mat-option>
         @for (opt of options; track opt.id) {
-          <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
+          <mat-option [value]="selectOptionValue(opt)">{{ opt.label }}</mat-option>
         }
       }
     </mat-select>

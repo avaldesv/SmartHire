@@ -36,6 +36,8 @@ import {
   REQ_FORM_CONFIG_RULE_REQUIRED,
   REQ_FORM_CONFIG_RULE_FILL_CLIENT,
   REQ_FORM_CONFIG_RULE_READONLY_CLIENT,
+  REQ_FORM_CONFIG_RULE_VISIBLE_AI,
+  REQ_FORM_CONFIG_RULE_REQUIRED_AI,
   REQ_FORM_CONFIG_RULE_VISIBLE,
   REQ_FORM_CONFIG_RULES_TITLE,
   REQ_FORM_CONFIG_SAVE_DRAFT,
@@ -61,11 +63,15 @@ import {
 } from '../../../core/i18n/requisition-wizard-labels';
 import { AppPermissions } from '../../../core/auth/app-permissions';
 import { PermissionService } from '../../../core/services/permission.service';
+import { EXAM_MODALITY_CODE_AI_INTERVIEW } from '../../../core/services/exam-modality-api.service';
 import { RequisitionFormConfigService } from '../../../core/services/requisition-form-config.service';
 import { RequisitionFormFieldService } from '../../../core/services/requisition-form-field.service';
 import { SecurityRoleService } from '../../../core/services/security-role.service';
 import { REQUISITION_FORM_DEFAULT_STEP_KEYS } from '../../../shared/models/requisition-form.model';
 import {
+  EXAM_MODALITY_ID_FIELD_KEY,
+  isAiInterviewModalityRuleCondition,
+  isAiInterviewProfileFieldKey,
   PEOPLE_IN_CHARGE_COUNT_FIELD_KEY,
   PEOPLE_IN_CHARGE_FIELD_KEY,
   RequisitionFormConfigDetail,
@@ -147,6 +153,8 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
   readonly ruleRequiredLabel = REQ_FORM_CONFIG_RULE_REQUIRED;
   readonly ruleFillClientLabel = REQ_FORM_CONFIG_RULE_FILL_CLIENT;
   readonly ruleReadOnlyClientLabel = REQ_FORM_CONFIG_RULE_READONLY_CLIENT;
+  readonly ruleVisibleAiLabel = REQ_FORM_CONFIG_RULE_VISIBLE_AI;
+  readonly ruleRequiredAiLabel = REQ_FORM_CONFIG_RULE_REQUIRED_AI;
   readonly noRulesHint = REQ_FORM_CONFIG_NO_RULES;
   readonly readOnlyHint = REQ_FORM_CONFIG_READ_ONLY_HINT;
   readonly rolesViewLabel = REQ_FORM_CONFIG_ROLES_VIEW;
@@ -197,6 +205,8 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
   editRoleIds: number[] = [];
   ruleVisibleWhen = false;
   ruleRequiredWhen = false;
+  ruleVisibleWhenAi = false;
+  ruleRequiredWhenAi = false;
   ruleFillFromCatalog = false;
   ruleReadOnlyWhenClient = false;
 
@@ -352,9 +362,18 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
         rules.visibleWhen?.fieldKey === PEOPLE_IN_CHARGE_FIELD_KEY && rules.visibleWhen.equals === true;
       this.ruleRequiredWhen =
         rules.requiredWhen?.fieldKey === PEOPLE_IN_CHARGE_FIELD_KEY && rules.requiredWhen.equals === true;
+      this.ruleVisibleWhenAi = false;
+      this.ruleRequiredWhenAi = false;
+    } else if (isAiInterviewProfileFieldKey(key)) {
+      this.ruleVisibleWhenAi = isAiInterviewModalityRuleCondition(rules.visibleWhen);
+      this.ruleRequiredWhenAi = isAiInterviewModalityRuleCondition(rules.requiredWhen);
+      this.ruleVisibleWhen = false;
+      this.ruleRequiredWhen = false;
     } else {
       this.ruleVisibleWhen = false;
       this.ruleRequiredWhen = false;
+      this.ruleVisibleWhenAi = false;
+      this.ruleRequiredWhenAi = false;
     }
     this.ruleFillFromCatalog = key === CLIENT_ID_FIELD_KEY && !!rules.fillFromCatalog?.mappings?.length;
     this.ruleReadOnlyWhenClient =
@@ -385,9 +404,14 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
     const key = this.fieldDefKey(fieldDefId);
     return (
       key === PEOPLE_IN_CHARGE_COUNT_FIELD_KEY ||
+      isAiInterviewProfileFieldKey(key) ||
       key === CLIENT_ID_FIELD_KEY ||
       isClientCatalogFillTarget(key)
     );
+  }
+
+  supportsAiInterviewRules(fieldDefId: number): boolean {
+    return isAiInterviewProfileFieldKey(this.fieldDefKey(fieldDefId));
   }
 
   supportsPeopleInChargeRules(fieldDefId: number): boolean {
@@ -445,12 +469,43 @@ export class RequisitionFormConfigDialogComponent implements OnInit {
     if (!target) {
       return;
     }
-    const rules: RequisitionFormFieldRules = {};
+    const rules = this.parseRules(target.rulesJson);
     if (this.ruleVisibleWhen) {
       rules.visibleWhen = { fieldKey: PEOPLE_IN_CHARGE_FIELD_KEY, equals: true };
+    } else {
+      delete rules.visibleWhen;
     }
     if (this.ruleRequiredWhen) {
       rules.requiredWhen = { fieldKey: PEOPLE_IN_CHARGE_FIELD_KEY, equals: true };
+    } else {
+      delete rules.requiredWhen;
+    }
+    const rulesJson = Object.keys(rules).length > 0 ? JSON.stringify(rules) : null;
+    this.patchField(target, { rulesJson });
+  }
+
+  applyAiInterviewRules(): void {
+    if (this.isReadOnly()) {
+      return;
+    }
+    const target = this.selectedFieldConfig();
+    if (!target) {
+      return;
+    }
+    const rules = this.parseRules(target.rulesJson);
+    const aiCondition = {
+      fieldKey: EXAM_MODALITY_ID_FIELD_KEY,
+      equalsCode: EXAM_MODALITY_CODE_AI_INTERVIEW,
+    };
+    if (this.ruleVisibleWhenAi) {
+      rules.visibleWhen = aiCondition;
+    } else {
+      delete rules.visibleWhen;
+    }
+    if (this.ruleRequiredWhenAi) {
+      rules.requiredWhen = aiCondition;
+    } else {
+      delete rules.requiredWhen;
     }
     const rulesJson = Object.keys(rules).length > 0 ? JSON.stringify(rules) : null;
     this.patchField(target, { rulesJson });

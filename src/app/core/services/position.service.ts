@@ -23,6 +23,7 @@ import {
   UpdatePositionRequest,
   UpdatePositionResponse,
   UploadCancellationEvidenceResponse,
+  UploadAiInterviewProfileImageResponse,
 } from '../../shared/models/position.model';
 import {
   EvaluatestBatteryResponse,
@@ -309,6 +310,16 @@ export class PositionService {
       this.api.apiUrl(`/api/v1/positions/${positionId}/evaluatest/invitations/resend`),
       { applicationIds },
       { headers: this.api.buildHeaders() },
+    );
+  }
+
+  uploadAiInterviewProfileImage(file: File): Observable<UploadAiInterviewProfileImageResponse> {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.http.post<UploadAiInterviewProfileImageResponse>(
+      this.api.apiUrl('/api/v1/positions/ai-interview-profile-image'),
+      formData,
+      { headers: this.buildMultipartHeaders() },
     );
   }
 

@@ -15,7 +15,6 @@ export interface CompanyExamModalityItem {
   createLinkTokenConfigured: boolean;
   ownerId: string | null;
   model: string | null;
-  voice: string | null;
   showTranscription: boolean | null;
   instructionsTemplate: string | null;
 }
@@ -33,7 +32,6 @@ export interface UpsertCompanyExamModalityItemRequest {
   createLinkToken?: string | null;
   ownerId?: string | null;
   model?: string | null;
-  voice?: string | null;
   showTranscription?: boolean | null;
   instructionsTemplate?: string | null;
 }

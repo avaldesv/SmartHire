@@ -40,7 +40,8 @@ export interface RequisitionFormFieldConfig {
 
 export interface RequisitionFormFieldRuleCondition {
   fieldKey: string;
-  equals: boolean;
+  equals?: boolean | number | string;
+  equalsCode?: string;
 }
 
 export interface RequisitionFormFieldReadOnlyWhen {
@@ -134,3 +135,24 @@ export const REQUISITION_FORM_DEFAULT_STEP_KEYS = [
 
 export const PEOPLE_IN_CHARGE_FIELD_KEY = 'hasPeopleInCharge';
 export const PEOPLE_IN_CHARGE_COUNT_FIELD_KEY = 'peopleInChargeCount';
+
+export const EXAM_MODALITY_ID_FIELD_KEY = 'examModalityId';
+export const AI_INTERVIEW_PROFILE_FIELD_KEYS = [
+  'aiInterviewRole',
+  'aiInterviewDescription',
+  'aiInterviewVoice',
+  'aiInterviewProfileImage',
+] as const;
+
+export function isAiInterviewProfileFieldKey(fieldKey: string): boolean {
+  return (AI_INTERVIEW_PROFILE_FIELD_KEYS as readonly string[]).includes(fieldKey);
+}
+
+export function isAiInterviewModalityRuleCondition(
+  condition: RequisitionFormFieldRuleCondition | undefined,
+): boolean {
+  return (
+    condition?.fieldKey === EXAM_MODALITY_ID_FIELD_KEY &&
+    condition.equalsCode === 'AI_INTERVIEW'
+  );
+}

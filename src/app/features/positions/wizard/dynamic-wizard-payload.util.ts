@@ -20,6 +20,7 @@ import {
   ResolvedRequisitionFormField,
   WizardDocumentRequirementRow,
   WizardLanguageRow,
+  WizardAiInterviewProfileImageValue,
   WizardQuestionnaireValue,
 } from '../../../shared/models/requisition-wizard.model';
 import { WizardPublishedPortalRow } from '../../../shared/models/job-portal-credentials.model';
@@ -78,6 +79,8 @@ export function defaultValueForUiType(uiType: string, fieldKey?: string): unknow
       return {
         examId: null,
       } as WizardQuestionnaireValue;
+    case 'image-upload':
+      return null;
     default:
       return '';
   }
@@ -156,6 +159,7 @@ export function buildFieldValidators(
     case 'portal-publications-grid':
     case 'language-grid':
     case 'questionnaire-picker':
+    case 'image-upload':
       return required ? [requiredCompositeValidator(field)] : [];
     default:
       return required ? [Validators.required] : [];
@@ -197,6 +201,10 @@ function requiredCompositeValidator(field: ResolvedRequisitionFormField): Valida
     if (field.uiType === 'portal-publications-grid') {
       const rows = (control.value ?? []) as WizardPublishedPortalRow[];
       return rows.length > 0 ? null : { required: true };
+    }
+    if (field.uiType === 'image-upload') {
+      const value = control.value as WizardAiInterviewProfileImageValue | null;
+      return value?.storageKey?.trim() && value.extension?.trim() ? null : { required: true };
     }
     return control.value != null && control.value !== '' ? null : { required: true };
   };
@@ -330,27 +338,68 @@ export function buildDynamicCreatePayload(
     payload['evaluatest'] = formValues['evaluatest'];
   }
 
-  mergeExamModalityIntoQuestionnaire(payload, formValues);
+  mergeStandaloneQuestionnaireFields(payload, formValues);
 
   return payload as unknown as CreatePositionRequest;
 }
 
-function mergeExamModalityIntoQuestionnaire(
+const STANDALONE_QUESTIONNAIRE_FORM_KEYS = [
+  'examModalityId',
+  'aiInterviewRole',
+  'aiInterviewDescription',
+  'aiInterviewVoice',
+  'aiInterviewProfileImage',
+] as const;
+
+function mergeStandaloneQuestionnaireFields(
   payload: Record<string, unknown>,
   formValues: Record<string, unknown>,
 ): void {
-  if (!Object.prototype.hasOwnProperty.call(formValues, 'examModalityId')) {
+  const touched = STANDALONE_QUESTIONNAIRE_FORM_KEYS.some((key) =>
+    Object.prototype.hasOwnProperty.call(formValues, key),
+  );
+  if (!touched) {
     return;
   }
-  const modalityId = formValues['examModalityId'] as number | null | undefined;
-  const questionnaire = payload['questionnaire'] as PositionQuestionnaireItem | undefined;
-  if (questionnaire != null) {
-    payload['questionnaire'] = {
-      ...questionnaire,
-      examModalityId: modalityId ?? questionnaire.examModalityId ?? null,
-    };
+
+  const existing = (payload['questionnaire'] as PositionQuestionnaireItem | undefined) ?? {};
+  const merged: PositionQuestionnaireItem = { ...existing };
+
+  if (Object.prototype.hasOwnProperty.call(formValues, 'examModalityId')) {
+    merged.examModalityId = (formValues['examModalityId'] as number | null | undefined) ?? null;
+    delete payload['examModalityId'];
   }
-  delete payload['examModalityId'];
+
+  for (const key of ['aiInterviewRole', 'aiInterviewDescription', 'aiInterviewVoice'] as const) {
+    if (Object.prototype.hasOwnProperty.call(formValues, key)) {
+      const raw = formValues[key];
+      merged[key] = raw === '' || raw == null ? null : String(raw);
+      delete payload[key];
+    }
+  }
+
+  if (Object.prototype.hasOwnProperty.call(formValues, 'aiInterviewProfileImage')) {
+    const image = formValues['aiInterviewProfileImage'] as WizardAiInterviewProfileImageValue | null;
+    merged.aiProfileImageStorageKey = image?.storageKey?.trim() || null;
+    merged.aiProfileImageExtension = image?.extension?.trim() || null;
+    delete payload['aiInterviewProfileImage'];
+  }
+
+  if (questionnaireHasPayload(merged)) {
+    payload['questionnaire'] = merged;
+  }
+}
+
+function questionnaireHasPayload(item: PositionQuestionnaireItem): boolean {
+  return (
+    item.examId != null ||
+    item.questionnaireId != null ||
+    item.examModalityId != null ||
+    !!item.aiInterviewRole?.trim() ||
+    !!item.aiInterviewDescription?.trim() ||
+    !!item.aiInterviewVoice?.trim() ||
+    !!item.aiProfileImageStorageKey?.trim()
+  );
 }
 
 function assignPayloadField(
@@ -422,10 +471,17 @@ function assignPayloadField(
           evaluationType: q.evaluationType ?? existing?.evaluationType ?? null,
           acceptancePercentage: q.acceptancePercentage ?? existing?.acceptancePercentage ?? null,
           examModalityId: q.examModalityId ?? existing?.examModalityId ?? null,
+          aiInterviewRole: existing?.aiInterviewRole ?? null,
+          aiInterviewDescription: existing?.aiInterviewDescription ?? null,
+          aiInterviewVoice: existing?.aiInterviewVoice ?? null,
+          aiProfileImageStorageKey: existing?.aiProfileImageStorageKey ?? null,
+          aiProfileImageExtension: existing?.aiProfileImageExtension ?? null,
         } satisfies PositionQuestionnaireItem;
       }
       break;
     }
+    case 'image-upload':
+      break;
     case 'number': {
       if (isRequisitionPositiveIntegerField(fieldKey)) {
         payload[targetKey] = toPositiveIntegerOrNull(raw);
@@ -578,6 +634,15 @@ function resolveHydratedValue(
         };
       }
       return defaultValueForUiType(field.uiType, field.fieldKey);
+    case 'image-upload':
+      if (field.fieldKey === 'aiInterviewProfileImage' && position.questionnaire) {
+        const storageKey = position.questionnaire.aiProfileImageStorageKey?.trim();
+        const extension = position.questionnaire.aiProfileImageExtension?.trim();
+        if (storageKey && extension) {
+          return { storageKey, extension } satisfies WizardAiInterviewProfileImageValue;
+        }
+      }
+      return null;
     case 'multiselect': {
       if (field.fieldKey === 'workDays') {
         const text =
@@ -596,6 +661,15 @@ function resolveHydratedValue(
     default: {
       if (field.fieldKey === 'examModalityId') {
         return position.questionnaire?.examModalityId ?? null;
+      }
+      if (field.fieldKey === 'aiInterviewRole') {
+        return position.questionnaire?.aiInterviewRole ?? '';
+      }
+      if (field.fieldKey === 'aiInterviewDescription') {
+        return position.questionnaire?.aiInterviewDescription ?? '';
+      }
+      if (field.fieldKey === 'aiInterviewVoice') {
+        return position.questionnaire?.aiInterviewVoice ?? null;
       }
       const alias = PAYLOAD_FIELD_ALIASES[field.fieldKey];
       let value =

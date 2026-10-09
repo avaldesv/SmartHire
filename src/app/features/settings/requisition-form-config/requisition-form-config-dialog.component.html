@@ -183,6 +183,24 @@
                   {{ ruleRequiredLabel }}
                 </mat-checkbox>
               }
+              @if (supportsAiInterviewRules(selectedField!.fieldDefId)) {
+                <mat-checkbox
+                  [(ngModel)]="ruleVisibleWhenAi"
+                  [ngModelOptions]="{ standalone: true }"
+                  [disabled]="isReadOnly()"
+                  (change)="applyAiInterviewRules()"
+                >
+                  {{ ruleVisibleAiLabel }}
+                </mat-checkbox>
+                <mat-checkbox
+                  [(ngModel)]="ruleRequiredWhenAi"
+                  [ngModelOptions]="{ standalone: true }"
+                  [disabled]="isReadOnly()"
+                  (change)="applyAiInterviewRules()"
+                >
+                  {{ ruleRequiredAiLabel }}
+                </mat-checkbox>
+              }
               @if (supportsClientFillRules(selectedField!.fieldDefId)) {
                 <mat-checkbox
                   [(ngModel)]="ruleFillFromCatalog"

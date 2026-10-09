@@ -101,6 +101,10 @@ const REQUISITION_FIELD_LABELS: Record<string, string> = {
   extraBenefitsText: $localize`:@@requisition.field.extraBenefitsText:Texto beneficios adicionales`,
   questionnaire: $localize`:@@requisition.field.questionnaire:Cuestionario`,
   examModalityId: $localize`:@@requisition.field.examModalityId:Modalidad de examen`,
+  aiInterviewRole: $localize`:@@requisition.field.aiInterviewRole:Rol del entrevistador IA`,
+  aiInterviewDescription: $localize`:@@requisition.field.aiInterviewDescription:Descripción del perfil (entrevista IA)`,
+  aiInterviewVoice: $localize`:@@requisition.field.aiInterviewVoice:Voz (entrevista IA)`,
+  aiInterviewProfileImage: $localize`:@@requisition.field.aiInterviewProfileImage:Imagen de perfil (entrevista IA)`,
   exam: $localize`:@@requisition.field.exam:Examen`,
   surveyId: $localize`:@@requisition.field.surveyId:Encuesta WhatsApp`,
   documentRequirements: $localize`:@@requisition.field.documentRequirements:Documentos definidos y configurados`,
@@ -259,6 +263,9 @@ export const REQUISITION_WIZARD_ADD_LANGUAGE = $localize`:@@requisition.wizard.a
 export const REQUISITION_WIZARD_LOADING_DOCUMENTS = $localize`:@@requisition.wizard.loadingDocuments:Cargando tipos de documento...`;
 export const REQUISITION_WIZARD_NO_DOCUMENTS = $localize`:@@requisition.wizard.noDocuments:Sin tipos de documento para el país seleccionado.`;
 export const REQUISITION_WIZARD_NO_EXAMS = $localize`:@@requisition.wizard.noExams:No hay exámenes publicados. Publíquelos en Cuestionarios → Exámenes.`;
+export const REQUISITION_WIZARD_AI_PROFILE_IMAGE_CHOOSE = $localize`:@@requisition.wizard.aiProfileImage.choose:Seleccionar imagen`;
+export const REQUISITION_WIZARD_AI_PROFILE_IMAGE_UPLOADING = $localize`:@@requisition.wizard.aiProfileImage.uploading:Subiendo imagen…`;
+export const REQUISITION_WIZARD_AI_PROFILE_IMAGE_UPLOAD_ERROR = $localize`:@@requisition.wizard.aiProfileImage.uploadError:No se pudo subir la imagen. Intente de nuevo.`;
 export const REQUISITION_WIZARD_EVALUATION_TYPE = $localize`:@@requisition.wizard.evaluationType:Tipo evaluación`;
 export const REQUISITION_WIZARD_EVAL_PERCENTAGE = $localize`:@@requisition.wizard.evalPercentage:Porcentaje`;
 export const REQUISITION_WIZARD_EVAL_SCORE = $localize`:@@requisition.wizard.evalScore:Puntaje`;
