@@ -25,6 +25,13 @@ export interface ResolvedRequisitionFormConfig {
 export interface WizardFieldOption {
   id: number;
   label: string;
+  code?: string;
+}
+
+export interface WizardAiInterviewProfileImageValue {
+  storageKey: string;
+  extension: string;
+  previewUrl?: string | null;
 }
 
 export interface WizardLanguageRow {
@@ -48,4 +55,9 @@ export interface WizardQuestionnaireValue {
   evaluationType?: string | null;
   acceptancePercentage?: number | null;
   examModalityId?: number | null;
+  aiInterviewRole?: string | null;
+  aiInterviewDescription?: string | null;
+  aiInterviewVoice?: string | null;
+  aiProfileImageStorageKey?: string | null;
+  aiProfileImageExtension?: string | null;
 }

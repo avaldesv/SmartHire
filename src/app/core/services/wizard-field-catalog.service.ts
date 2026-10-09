@@ -32,6 +32,8 @@ import { SecurityRecruiterGroupService } from './security-recruiter-group.servic
 import { SecurityUserService } from './security-user.service';
 import { SurveyApiService } from './survey-api.service';
 import { ExamModalityApiService } from './exam-modality-api.service';
+import { AiInterviewVoiceApiService } from './ai-interview-voice-api.service';
+import { updateExamModalityCodeByIdFromOptions } from '../../features/positions/wizard/dynamic-wizard-rules.util';
 import { TenantContextService } from './tenant-context.service';
 import { catalogClientOptionLabel } from '../../shared/constants/requisition-client-catalog-fill';
 
@@ -73,6 +75,7 @@ export class WizardFieldCatalogService {
   private readonly examService = inject(QuestionnaireExamApiService);
   private readonly surveyService = inject(SurveyApiService);
   private readonly examModalityApi = inject(ExamModalityApiService);
+  private readonly aiInterviewVoiceApi = inject(AiInterviewVoiceApiService);
   private readonly tenantContext = inject(TenantContextService);
 
   /** In-flight / completed option lists keyed by datasource + context. */
@@ -255,16 +258,29 @@ export class WizardFieldCatalogService {
       case 'exam-modalities': {
         const companyId = this.tenantContext.getCompanyId();
         return this.examModalityApi.getByCompany(companyId).pipe(
-          map((response) =>
-            (response.items ?? [])
+          map((response) => {
+            const options = (response.items ?? [])
               .filter((item) => item.isEnabled === true)
               .map((item) => ({
                 id: item.examModalityId,
                 label: (item.name ?? item.code ?? String(item.examModalityId)).trim(),
-              })),
-          ),
+                code: item.code?.trim() || undefined,
+              }));
+            updateExamModalityCodeByIdFromOptions(options);
+            return options;
+          }),
         );
       }
+      case 'ai-interview-voices':
+        return this.aiInterviewVoiceApi.list(0, 100).pipe(
+          map((items) =>
+            items.map((item) => ({
+              id: item.id,
+              label: (item.name ?? item.code ?? String(item.id)).trim(),
+              code: item.code?.trim() || undefined,
+            })),
+          ),
+        );
       case 'surveys':
         return this.surveyService
           .list({ isActive: true }, 0, 200)

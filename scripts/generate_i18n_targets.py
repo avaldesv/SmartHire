@@ -75,6 +75,15 @@ EN_BY_ID = {
     "validateInfoDialog.error.emergencyMin": "You must register at least 2 emergency contacts.",
     "validateInfoDialog.error.emergencyDraft": "Complete first name, paternal last name and phone for the contact.",
     "validateInfoDialog.error.emergencyRow": "Complete first name, last name and phone for each emergency contact.",
+    "requisition.field.aiInterviewRole": "AI interviewer role",
+    "requisition.field.aiInterviewDescription": "AI interview profile description",
+    "requisition.field.aiInterviewVoice": "AI interview voice",
+    "requisition.field.aiInterviewProfileImage": "AI interview profile image",
+    "requisition.wizard.aiProfileImage.choose": "Choose image",
+    "requisition.wizard.aiProfileImage.uploading": "Uploading image…",
+    "requisition.wizard.aiProfileImage.uploadError": "Could not upload the image. Please try again.",
+    "requisitionFormConfig.rule.visibleWhenAiInterview": "Visible when exam modality is AI interview",
+    "requisitionFormConfig.rule.requiredWhenAiInterview": "Required when exam modality is AI interview",
 }
 
 NS = {"x": "urn:oasis:names:tc:xliff:document:1.2"}

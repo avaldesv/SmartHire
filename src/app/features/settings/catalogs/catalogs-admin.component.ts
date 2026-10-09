@@ -79,7 +79,7 @@ import {
   COMPANY_EXAM_MODALITY_FIELD_OWNER_ID,
   COMPANY_EXAM_MODALITY_FIELD_PROFILE_TOKEN,
   COMPANY_EXAM_MODALITY_FIELD_SHOW_TRANSCRIPTION,
-  COMPANY_EXAM_MODALITY_FIELD_VOICE,
+  COMPANY_EXAM_MODALITY_INSTRUCTIONS_HINT,
   COMPANY_EXAM_MODALITY_FOOTNOTE,
   COMPANY_EXAM_MODALITY_SECRET_HINT,
 } from '../../../core/i18n/company-integrations-labels';
@@ -366,7 +366,7 @@ export class CatalogsAdminComponent implements OnInit {
   readonly companyExamModalityLinkToken = COMPANY_EXAM_MODALITY_FIELD_LINK_TOKEN;
   readonly companyExamModalityOwnerId = COMPANY_EXAM_MODALITY_FIELD_OWNER_ID;
   readonly companyExamModalityModel = COMPANY_EXAM_MODALITY_FIELD_MODEL;
-  readonly companyExamModalityVoice = COMPANY_EXAM_MODALITY_FIELD_VOICE;
+  readonly companyExamModalityInstructionsHint = COMPANY_EXAM_MODALITY_INSTRUCTIONS_HINT;
   readonly companyExamModalityShowTranscription = COMPANY_EXAM_MODALITY_FIELD_SHOW_TRANSCRIPTION;
   readonly companyExamModalityInstructions = COMPANY_EXAM_MODALITY_FIELD_INSTRUCTIONS;
   readonly companyExamModalitySecretHint = COMPANY_EXAM_MODALITY_SECRET_HINT;
@@ -5114,7 +5114,6 @@ export class CatalogsAdminComponent implements OnInit {
           createLinkToken: [''],
           ownerId: [item.ownerId ?? ''],
           model: [item.model ?? ''],
-          voice: [item.voice ?? ''],
           showTranscription: [item.showTranscription ?? false],
           instructionsTemplate: [item.instructionsTemplate ?? ''],
         }),
@@ -5136,7 +5135,6 @@ export class CatalogsAdminComponent implements OnInit {
         createLinkToken: string;
         ownerId: string;
         model: string;
-        voice: string;
         showTranscription: boolean;
         instructionsTemplate: string;
       };
@@ -5146,7 +5144,6 @@ export class CatalogsAdminComponent implements OnInit {
         baseUrl: row.baseUrl.trim() || null,
         ownerId: row.ownerId.trim() || null,
         model: row.model.trim() || null,
-        voice: row.voice.trim() || null,
         showTranscription: row.showTranscription,
         instructionsTemplate: row.instructionsTemplate.trim() || null,
       };

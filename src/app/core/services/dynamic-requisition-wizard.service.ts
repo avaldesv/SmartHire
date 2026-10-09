@@ -11,11 +11,14 @@ import {
   refreshDynamicValidators,
 } from '../../features/positions/wizard/dynamic-wizard-payload.util';
 import { RequisitionFormConfigService } from './requisition-form-config.service';
+import { WizardFieldCatalogService } from './wizard-field-catalog.service';
+import { updateExamModalityCodeByIdFromOptions } from '../../features/positions/wizard/dynamic-wizard-rules.util';
 
 @Injectable({ providedIn: 'root' })
 export class DynamicRequisitionWizardService {
   private readonly fb = inject(FormBuilder);
   private readonly formConfigService = inject(RequisitionFormConfigService);
+  private readonly fieldCatalogService = inject(WizardFieldCatalogService);
 
   resolve(countryId: number, coverageTypeId: number): Observable<ResolvedRequisitionFormConfig | null> {
     return this.formConfigService.resolve(countryId, coverageTypeId).pipe(
@@ -38,7 +41,13 @@ export class DynamicRequisitionWizardService {
   }
 
   refreshValidators(form: FormGroup, config: ResolvedRequisitionFormConfig): void {
-    refreshDynamicValidators(form, config);
+    this.fieldCatalogService.loadOptions('exam-modalities', {}).subscribe({
+      next: (opts) => {
+        updateExamModalityCodeByIdFromOptions(opts);
+        refreshDynamicValidators(form, config);
+      },
+      error: () => refreshDynamicValidators(form, config),
+    });
   }
 
   getFlatValues(form: FormGroup): Record<string, unknown> {

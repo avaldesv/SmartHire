@@ -21,6 +21,18 @@ export interface PositionQuestionnaireItem {
   acceptancePercentage?: number | null;
   examModalityId?: number | null;
   aiProfileSlug?: string | null;
+  aiInterviewRole?: string | null;
+  aiInterviewDescription?: string | null;
+  aiInterviewVoice?: string | null;
+  aiProfileImageStorageKey?: string | null;
+  aiProfileImageExtension?: string | null;
+}
+
+export interface UploadAiInterviewProfileImageResponse {
+  storageKey: string;
+  extension: string;
+  contentType: string;
+  previewUrl?: string | null;
 }
 
 export interface CreatePositionRequest {

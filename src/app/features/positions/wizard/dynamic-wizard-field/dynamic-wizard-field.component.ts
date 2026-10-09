@@ -91,4 +91,11 @@ export class DynamicWizardFieldComponent {
   get isSimpleInput(): boolean {
     return this.field.uiType === 'text' || this.isTextarea || (this.isNumber && !this.isMoney);
   }
+
+  selectOptionValue(opt: WizardFieldOption): string | number {
+    if (this.field.fieldKey === 'aiInterviewVoice' && opt.code) {
+      return opt.code;
+    }
+    return opt.id;
+  }
 }

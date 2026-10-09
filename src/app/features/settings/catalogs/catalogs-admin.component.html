@@ -721,16 +721,13 @@
                           <mat-label>{{ companyExamModalityModel }}</mat-label>
                           <input matInput formControlName="model" autocomplete="off" />
                         </mat-form-field>
-                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                          <mat-label>{{ companyExamModalityVoice }}</mat-label>
-                          <input matInput formControlName="voice" autocomplete="off" />
-                        </mat-form-field>
                         <mat-checkbox formControlName="showTranscription" class="company-exam-modality__checkbox">
                           {{ companyExamModalityShowTranscription }}
                         </mat-checkbox>
                         <mat-form-field appearance="outline" subscriptSizing="dynamic" class="company-evaluatest-grid__full">
                           <mat-label>{{ companyExamModalityInstructions }}</mat-label>
                           <textarea matInput formControlName="instructionsTemplate" rows="3"></textarea>
+                          <mat-hint>{{ companyExamModalityInstructionsHint }}</mat-hint>
                         </mat-form-field>
                       </div>
                     }

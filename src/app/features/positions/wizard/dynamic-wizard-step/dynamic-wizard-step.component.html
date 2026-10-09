@@ -221,6 +221,47 @@
           [showCharCount]="true"
         />
       </div>
+    } @else if (field.uiType === 'image-upload') {
+      <div class="span-2 ai-profile-image-field">
+        <label class="ai-profile-image-field__label">{{ fieldLabel(field) }}</label>
+        @if (aiProfileImagePreviewUrl(field.fieldKey); as previewUrl) {
+          <img class="ai-profile-image-field__preview" [src]="previewUrl" alt="" />
+        }
+        @if (aiProfileImageFileLabel(field.fieldKey); as fileLabel) {
+          <p class="ai-profile-image-field__filename">{{ fileLabel }}</p>
+        }
+        <div class="ai-profile-image-field__actions">
+          <input
+            type="file"
+            accept="image/*"
+            class="ai-profile-image-field__file-input"
+            [id]="'ai-profile-image-' + field.fieldKey"
+            [disabled]="isReadOnly(field) || imageUploadBusyByField[field.fieldKey]"
+            (change)="onAiProfileImageSelected(field.fieldKey, $event)"
+          />
+          <label
+            mat-stroked-button
+            class="ai-profile-image-field__choose"
+            [for]="'ai-profile-image-' + field.fieldKey"
+            [class.ai-profile-image-field__choose--disabled]="isReadOnly(field) || imageUploadBusyByField[field.fieldKey]"
+          >
+            @if (imageUploadBusyByField[field.fieldKey]) {
+              <mat-spinner diameter="18"></mat-spinner>
+              {{ aiProfileImageUploadingLabel }}
+            } @else {
+              {{ aiProfileImageChooseLabel }}
+            }
+          </label>
+          @if (aiProfileImageValue(field.fieldKey) && !isReadOnly(field)) {
+            <button mat-button type="button" (click)="clearAiProfileImage(field.fieldKey)">
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+        </div>
+        @if (imageUploadErrorByField[field.fieldKey]) {
+          <p class="ai-profile-image-field__error">{{ imageUploadErrorByField[field.fieldKey] }}</p>
+        }
+      </div>
     } @else if (field.uiType === 'textarea') {
       <div class="span-2 field-full">
         <sh-dynamic-wizard-field

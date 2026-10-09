@@ -4096,10 +4096,6 @@
         <source>Modelo</source>
         <target>Modelo</target>
       </trans-unit>
-      <trans-unit id="company.examModality.voice" datatype="html">
-        <source>Voz</source>
-        <target>Voz</target>
-      </trans-unit>
       <trans-unit id="company.examModality.showTranscription" datatype="html">
         <source>Mostrar transcripción</source>
         <target>Mostrar transcripción</target>
@@ -4107,6 +4103,10 @@
       <trans-unit id="company.examModality.instructionsTemplate" datatype="html">
         <source>Plantilla de instrucciones</source>
         <target>Plantilla de instrucciones</target>
+      </trans-unit>
+      <trans-unit id="company.examModality.instructionsHint" datatype="html">
+        <source>Puede usar {{puesto}} para insertar el nombre del puesto en las instrucciones.</source>
+        <target>Puede usar {{puesto}} para insertar el nombre del puesto en las instrucciones.</target>
       </trans-unit>
       <trans-unit id="company.examModality.secretHint" datatype="html">
         <source>Dejar vacío para conservar el valor actual</source>
@@ -9688,6 +9688,14 @@
         <source>Obligatorio cuando "Tiene personas a cargo" está activo</source>
         <target>Obligatorio cuando "Tiene personas a cargo" está activo</target>
       </trans-unit>
+      <trans-unit id="requisitionFormConfig.rule.visibleWhenAiInterview" datatype="html">
+        <source>Visible cuando la modalidad de examen es entrevista con IA</source>
+        <target>Visible cuando la modalidad de examen es entrevista con IA</target>
+      </trans-unit>
+      <trans-unit id="requisitionFormConfig.rule.requiredWhenAiInterview" datatype="html">
+        <source>Obligatorio cuando la modalidad de examen es entrevista con IA</source>
+        <target>Obligatorio cuando la modalidad de examen es entrevista con IA</target>
+      </trans-unit>
       <trans-unit id="requisitionFormConfig.rule.fillFromClient" datatype="html">
         <source>Al seleccionar un cliente, autollenar los campos relacionados del catálogo</source>
         <target>Al seleccionar un cliente, autollenar los campos relacionados del catálogo</target>
@@ -10248,6 +10256,22 @@
         <source>Modalidad de examen</source>
         <target>Modalidad de examen</target>
       </trans-unit>
+      <trans-unit id="requisition.field.aiInterviewRole" datatype="html">
+        <source>Rol del entrevistador IA</source>
+        <target>Rol del entrevistador IA</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.aiInterviewDescription" datatype="html">
+        <source>Descripción del perfil (entrevista IA)</source>
+        <target>Descripción del perfil (entrevista IA)</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.aiInterviewVoice" datatype="html">
+        <source>Voz (entrevista IA)</source>
+        <target>Voz (entrevista IA)</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.aiInterviewProfileImage" datatype="html">
+        <source>Imagen de perfil (entrevista IA)</source>
+        <target>Imagen de perfil (entrevista IA)</target>
+      </trans-unit>
       <trans-unit id="requisition.field.exam" datatype="html">
         <source>Examen</source>
         <target>Examen</target>
@@ -10563,6 +10587,18 @@
       <trans-unit id="requisition.wizard.noExams" datatype="html">
         <source>No hay exámenes publicados. Publíquelos en Cuestionarios → Exámenes.</source>
         <target>No hay exámenes publicados. Publíquelos en Cuestionarios → Exámenes.</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.aiProfileImage.choose" datatype="html">
+        <source>Seleccionar imagen</source>
+        <target>Seleccionar imagen</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.aiProfileImage.uploading" datatype="html">
+        <source>Subiendo imagen…</source>
+        <target>Subiendo imagen…</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.aiProfileImage.uploadError" datatype="html">
+        <source>No se pudo subir la imagen. Intente de nuevo.</source>
+        <target>No se pudo subir la imagen. Intente de nuevo.</target>
       </trans-unit>
       <trans-unit id="requisition.wizard.evaluationType" datatype="html">
         <source>Tipo evaluación</source>

@@ -84,7 +84,14 @@ export const REQUISITION_FIELDS_BY_STEP: Record<(typeof REQUISITION_FORM_DEFAULT
   ],
   clientDescription: ['clientExpansionDescription'],
   extraBenefits: ['extraBenefitsText'],
-  preselection: ['examModalityId', 'questionnaire'],
+  preselection: [
+    'examModalityId',
+    'questionnaire',
+    'aiInterviewRole',
+    'aiInterviewDescription',
+    'aiInterviewVoice',
+    'aiInterviewProfileImage',
+  ],
   whatsappSurvey: ['surveyId'],
   evaluatestJob: [],
   documents: [
