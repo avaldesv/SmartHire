@@ -28,6 +28,13 @@ import { CatalogClientService } from '../../../core/services/catalog-client.serv
 import { CatalogCompanyService } from '../../../core/services/catalog-company.service';
 import { CompanyIntegrationsService } from '../../../core/services/company-integrations.service';
 import { EvaluatestApiService, EvaluatestCredentials } from '../../../core/services/evaluatest-api.service';
+import {
+  CompanyExamModalityItem,
+  ExamModalityApiService,
+  examModalityShowsExternalConfig,
+  UpsertCompanyExamModalityItemRequest,
+  UpsertCompanyExamModalitiesRequest,
+} from '../../../core/services/exam-modality-api.service';
 import { CompanyIntegrations } from '../../../shared/models/company-integrations.model';
 import {
   COMPANY_BTN_CANCEL,
@@ -63,7 +70,18 @@ import {
   COMPANY_SECTION_CHANNELS,
   COMPANY_SECTION_DOC_SERVICES,
   COMPANY_SECTION_EVALUATEST,
+  COMPANY_SECTION_EXAM_MODALITIES,
   COMPANY_SECTION_GENERAL,
+  COMPANY_EXAM_MODALITY_FIELD_BASE_URL,
+  COMPANY_EXAM_MODALITY_FIELD_INSTRUCTIONS,
+  COMPANY_EXAM_MODALITY_FIELD_LINK_TOKEN,
+  COMPANY_EXAM_MODALITY_FIELD_MODEL,
+  COMPANY_EXAM_MODALITY_FIELD_OWNER_ID,
+  COMPANY_EXAM_MODALITY_FIELD_PROFILE_TOKEN,
+  COMPANY_EXAM_MODALITY_FIELD_SHOW_TRANSCRIPTION,
+  COMPANY_EXAM_MODALITY_FIELD_VOICE,
+  COMPANY_EXAM_MODALITY_FOOTNOTE,
+  COMPANY_EXAM_MODALITY_SECRET_HINT,
 } from '../../../core/i18n/company-integrations-labels';
 import { forkJoin, of, switchMap } from 'rxjs';
 import { CatalogCoverageCategoryService } from '../../../core/services/catalog-coverage-category.service';
@@ -320,6 +338,7 @@ export class CatalogsAdminComponent implements OnInit {
   readonly companySectionGeneral = COMPANY_SECTION_GENERAL;
   readonly companySectionChannels = COMPANY_SECTION_CHANNELS;
   readonly companySectionEvaluatest = COMPANY_SECTION_EVALUATEST;
+  readonly companySectionExamModalities = COMPANY_SECTION_EXAM_MODALITIES;
   readonly companySectionDocServices = COMPANY_SECTION_DOC_SERVICES;
   readonly companyChannelEmail = COMPANY_CHANNEL_EMAIL;
   readonly companyChannelWhatsapp = COMPANY_CHANNEL_WHATSAPP;
@@ -342,6 +361,17 @@ export class CatalogsAdminComponent implements OnInit {
   readonly companyFieldEvalUnity = COMPANY_FIELD_EVAL_UNITY;
   readonly companyEvalSecretHint = COMPANY_EVAL_SECRET_HINT;
   readonly companyEvalFootnote = COMPANY_EVAL_FOOTNOTE;
+  readonly companyExamModalityBaseUrl = COMPANY_EXAM_MODALITY_FIELD_BASE_URL;
+  readonly companyExamModalityProfileToken = COMPANY_EXAM_MODALITY_FIELD_PROFILE_TOKEN;
+  readonly companyExamModalityLinkToken = COMPANY_EXAM_MODALITY_FIELD_LINK_TOKEN;
+  readonly companyExamModalityOwnerId = COMPANY_EXAM_MODALITY_FIELD_OWNER_ID;
+  readonly companyExamModalityModel = COMPANY_EXAM_MODALITY_FIELD_MODEL;
+  readonly companyExamModalityVoice = COMPANY_EXAM_MODALITY_FIELD_VOICE;
+  readonly companyExamModalityShowTranscription = COMPANY_EXAM_MODALITY_FIELD_SHOW_TRANSCRIPTION;
+  readonly companyExamModalityInstructions = COMPANY_EXAM_MODALITY_FIELD_INSTRUCTIONS;
+  readonly companyExamModalitySecretHint = COMPANY_EXAM_MODALITY_SECRET_HINT;
+  readonly companyExamModalityFootnote = COMPANY_EXAM_MODALITY_FOOTNOTE;
+  readonly examModalityShowsExternalConfig = examModalityShowsExternalConfig;
   readonly companyColService = COMPANY_COL_SERVICE;
   readonly companyColDescription = COMPANY_COL_DESCRIPTION;
   readonly companyColApiKey = COMPANY_COL_API_KEY;
@@ -359,6 +389,10 @@ export class CatalogsAdminComponent implements OnInit {
   evaluatestPasswordConfigured = false;
   evaluatestFolderName: string | null = null;
   evaluatestUnityId: number | null = null;
+  examModalityProfileTokenVisible: boolean[] = [];
+  examModalityLinkTokenVisible: boolean[] = [];
+  examModalityProfileTokenConfigured: boolean[] = [];
+  examModalityLinkTokenConfigured: boolean[] = [];
   docTokenVisible: boolean[] = [];
   readonly colSymbol = CATALOG_COLUMN_SYMBOL;
   readonly colDenomination = CATALOG_COLUMN_DENOMINATION;
@@ -434,6 +468,7 @@ export class CatalogsAdminComponent implements OnInit {
   private readonly companyService = inject(CatalogCompanyService);
   private readonly companyIntegrationsService = inject(CompanyIntegrationsService);
   private readonly evaluatestApi = inject(EvaluatestApiService);
+  private readonly examModalityApi = inject(ExamModalityApiService);
   private readonly currencyService = inject(CatalogCurrencyService);
   private readonly careerService = inject(CatalogCareerService);
   private readonly languageService = inject(CatalogLanguageService);
@@ -1505,11 +1540,16 @@ export class CatalogsAdminComponent implements OnInit {
       userEmail: [''],
       password: [''],
     }),
+    examModalities: this.fb.array<FormGroup>([]),
     documentServices: this.fb.array<FormGroup>([]),
   });
 
   get documentServices(): FormArray<FormGroup> {
     return this.companyForm.controls.documentServices;
+  }
+
+  get examModalities(): FormArray<FormGroup> {
+    return this.companyForm.controls.examModalities;
   }
 
   readonly coverageCategoryForm = this.fb.nonNullable.group({
@@ -4855,6 +4895,8 @@ export class CatalogsAdminComponent implements OnInit {
     this.showEvalSubscriptionKey = false;
     this.showEvalPassword = false;
     this.resetEvaluatestFlags();
+    this.resetExamModalityFlags();
+    this.examModalities.clear();
     this.openCatalogFormDialog('company', 'new');
     this.loadingCompanyDetail = true;
     this.companyForm.reset({
@@ -4925,14 +4967,16 @@ export class CatalogsAdminComponent implements OnInit {
     this.showEvalSubscriptionKey = false;
     this.showEvalPassword = false;
     this.resetEvaluatestFlags();
+    this.resetExamModalityFlags();
     this.openCatalogFormDialog('company', 'edit');
     this.loadingCompanyDetail = true;
     forkJoin({
       company: this.companyService.getById(row.id),
       integrations: this.companyIntegrationsService.get(row.id),
       evaluatest: this.evaluatestApi.getCredentials(row.id),
+      examModalities: this.examModalityApi.getByCompany(row.id),
     }).subscribe({
-      next: ({ company, integrations, evaluatest }) => {
+      next: ({ company, integrations, evaluatest, examModalities }) => {
         this.loadingCompanyDetail = false;
         const existingSlug = company.portalSlug?.trim() ?? '';
         this.portalSlugManual = existingSlug.length > 0;
@@ -4962,6 +5006,7 @@ export class CatalogsAdminComponent implements OnInit {
         });
         this.applyIntegrationsToForm(integrations);
         this.applyEvaluatestToForm(evaluatest);
+        this.applyExamModalitiesToForm(examModalities.items ?? []);
         if (!existingSlug) {
           this.syncPortalSlugFromName(company.name);
         }
@@ -5043,6 +5088,87 @@ export class CatalogsAdminComponent implements OnInit {
       password: value.password.trim() || null,
       isEnabled: value.isEnabled,
     };
+  }
+
+  private resetExamModalityFlags(): void {
+    this.examModalityProfileTokenVisible = [];
+    this.examModalityLinkTokenVisible = [];
+    this.examModalityProfileTokenConfigured = [];
+    this.examModalityLinkTokenConfigured = [];
+  }
+
+  private applyExamModalitiesToForm(items: CompanyExamModalityItem[]): void {
+    this.examModalities.clear();
+    this.resetExamModalityFlags();
+    for (const item of items) {
+      this.examModalities.push(
+        this.fb.nonNullable.group({
+          examModalityId: [item.examModalityId],
+          code: [item.code ?? ''],
+          name: [item.name ?? ''],
+          description: [item.description ?? ''],
+          requiresExternalConfig: [item.requiresExternalConfig ?? false],
+          isEnabled: [item.isEnabled ?? false],
+          baseUrl: [item.baseUrl ?? ''],
+          createProfileToken: [''],
+          createLinkToken: [''],
+          ownerId: [item.ownerId ?? ''],
+          model: [item.model ?? ''],
+          voice: [item.voice ?? ''],
+          showTranscription: [item.showTranscription ?? false],
+          instructionsTemplate: [item.instructionsTemplate ?? ''],
+        }),
+      );
+      this.examModalityProfileTokenVisible.push(false);
+      this.examModalityLinkTokenVisible.push(false);
+      this.examModalityProfileTokenConfigured.push(item.createProfileTokenConfigured);
+      this.examModalityLinkTokenConfigured.push(item.createLinkTokenConfigured);
+    }
+  }
+
+  private buildExamModalitiesPayload(): UpsertCompanyExamModalitiesRequest {
+    const items: UpsertCompanyExamModalityItemRequest[] = this.examModalities.controls.map((ctrl) => {
+      const row = ctrl.getRawValue() as {
+        examModalityId: number;
+        isEnabled: boolean;
+        baseUrl: string;
+        createProfileToken: string;
+        createLinkToken: string;
+        ownerId: string;
+        model: string;
+        voice: string;
+        showTranscription: boolean;
+        instructionsTemplate: string;
+      };
+      const item: UpsertCompanyExamModalityItemRequest = {
+        examModalityId: row.examModalityId,
+        isEnabled: row.isEnabled,
+        baseUrl: row.baseUrl.trim() || null,
+        ownerId: row.ownerId.trim() || null,
+        model: row.model.trim() || null,
+        voice: row.voice.trim() || null,
+        showTranscription: row.showTranscription,
+        instructionsTemplate: row.instructionsTemplate.trim() || null,
+      };
+      const profileToken = row.createProfileToken.trim();
+      const linkToken = row.createLinkToken.trim();
+      if (profileToken) {
+        item.createProfileToken = profileToken;
+      }
+      if (linkToken) {
+        item.createLinkToken = linkToken;
+      }
+      return item;
+    });
+    return { items };
+  }
+
+  toggleExamModalityProfileTokenVisible(index: number): void {
+    this.examModalityProfileTokenVisible[index] = !this.examModalityProfileTokenVisible[index];
+  }
+
+  toggleExamModalityLinkTokenVisible(index: number): void {
+    this.examModalityLinkTokenVisible[index] = !this.examModalityLinkTokenVisible[index];
   }
 
   toggleDocTokenVisible(index: number): void {
@@ -5169,6 +5295,7 @@ export class CatalogsAdminComponent implements OnInit {
     };
     const integrationsPayload = this.buildIntegrationsPayload();
     const evaluatestPayload = this.buildEvaluatestPayload();
+    const examModalitiesPayload = this.buildExamModalitiesPayload();
     this.savingCompany = true;
     const companyRequest$ =
       this.editingCompanyId != null
@@ -5183,6 +5310,11 @@ export class CatalogsAdminComponent implements OnInit {
           }
           return this.companyIntegrationsService.upsert(id, integrationsPayload).pipe(
             switchMap(() => this.evaluatestApi.upsertCredentials(id, evaluatestPayload)),
+            switchMap(() =>
+              this.examModalities.controls.length
+                ? this.examModalityApi.upsertByCompany(id, examModalitiesPayload)
+                : of(null),
+            ),
             switchMap(() => of(company)),
           );
         }),

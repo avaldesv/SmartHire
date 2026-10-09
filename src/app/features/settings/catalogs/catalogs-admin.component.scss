@@ -327,8 +327,30 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
   line-height: 1.3;
 }
 
-.company-channel--evaluatest {
+.company-channel--evaluatest,
+.company-channel--exam-modality {
   max-width: 100%;
+}
+
+.company-exam-modalities {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.company-channel--exam-modality-disabled {
+  opacity: 0.72;
+}
+
+.company-channel__description {
+  margin: 0 0 8px;
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.company-exam-modality__checkbox {
+  grid-column: 1 / -1;
+  margin: 4px 0 8px;
 }
 
 .company-evaluatest-grid {

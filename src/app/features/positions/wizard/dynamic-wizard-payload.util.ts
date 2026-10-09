@@ -330,7 +330,27 @@ export function buildDynamicCreatePayload(
     payload['evaluatest'] = formValues['evaluatest'];
   }
 
+  mergeExamModalityIntoQuestionnaire(payload, formValues);
+
   return payload as unknown as CreatePositionRequest;
+}
+
+function mergeExamModalityIntoQuestionnaire(
+  payload: Record<string, unknown>,
+  formValues: Record<string, unknown>,
+): void {
+  if (!Object.prototype.hasOwnProperty.call(formValues, 'examModalityId')) {
+    return;
+  }
+  const modalityId = formValues['examModalityId'] as number | null | undefined;
+  const questionnaire = payload['questionnaire'] as PositionQuestionnaireItem | undefined;
+  if (questionnaire != null) {
+    payload['questionnaire'] = {
+      ...questionnaire,
+      examModalityId: modalityId ?? questionnaire.examModalityId ?? null,
+    };
+  }
+  delete payload['examModalityId'];
 }
 
 function assignPayloadField(
@@ -395,11 +415,13 @@ function assignPayloadField(
     case 'questionnaire-picker': {
       const q = raw as WizardQuestionnaireValue;
       if (q.examId != null) {
+        const existing = payload['questionnaire'] as PositionQuestionnaireItem | undefined;
         payload['questionnaire'] = {
           examId: q.examId,
-          questionnaireId: null,
-          evaluationType: null,
-          acceptancePercentage: null,
+          questionnaireId: q.questionnaireId ?? existing?.questionnaireId ?? null,
+          evaluationType: q.evaluationType ?? existing?.evaluationType ?? null,
+          acceptancePercentage: q.acceptancePercentage ?? existing?.acceptancePercentage ?? null,
+          examModalityId: q.examModalityId ?? existing?.examModalityId ?? null,
         } satisfies PositionQuestionnaireItem;
       }
       break;
@@ -552,6 +574,7 @@ function resolveHydratedValue(
       if (position.questionnaire) {
         return {
           examId: position.questionnaire.examId ?? null,
+          examModalityId: position.questionnaire.examModalityId ?? null,
         };
       }
       return defaultValueForUiType(field.uiType, field.fieldKey);
@@ -571,6 +594,9 @@ function resolveHydratedValue(
       return [];
     }
     default: {
+      if (field.fieldKey === 'examModalityId') {
+        return position.questionnaire?.examModalityId ?? null;
+      }
       const alias = PAYLOAD_FIELD_ALIASES[field.fieldKey];
       let value =
         (alias ? positionRecord[alias as string] : undefined) ??

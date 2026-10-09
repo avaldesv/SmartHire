@@ -19,6 +19,8 @@ export interface PositionQuestionnaireItem {
   questionnaireId?: number | null;
   evaluationType?: string | null;
   acceptancePercentage?: number | null;
+  examModalityId?: number | null;
+  aiProfileSlug?: string | null;
 }
 
 export interface CreatePositionRequest {

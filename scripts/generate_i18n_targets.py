@@ -120,6 +120,37 @@ EN_BY_SOURCE: dict[str, str] = {
     "No se pudo cargar la batería Evaluatest": "Could not load Evaluatest battery",
     "Batería actualizada correctamente": "Battery updated successfully",
     "No se pudo actualizar la batería Evaluatest": "Could not update Evaluatest battery",
+    "Modalidad de examen": "Exam modality",
+    "4. Modalidades de examen": "4. Exam modalities",
+    "5. Servicios de procesamiento de documentos": "5. Document processing services",
+    "Datos generales, canales de notificación, Evaluatest, modalidades de examen e integraciones de documentos": (
+        "General data, notification channels, Evaluatest, exam modalities, and document integrations"
+    ),
+    "URL base": "Base URL",
+    "Token crear perfil": "Create profile token",
+    "Token crear enlace": "Create link token",
+    "Owner ID": "Owner ID",
+    "Modelo": "Model",
+    "Voz": "Voice",
+    "Mostrar transcripción": "Show transcription",
+    "Plantilla de instrucciones": "Instructions template",
+    "Dejar vacío para conservar el valor actual": "Leave blank to keep the current value",
+    "Habilite modalidades y configure credenciales externas cuando aplique (p. ej. entrevista con IA).": (
+        "Enable modalities and configure external credentials when applicable (e.g. AI interview)."
+    ),
+    "Evaluación del cuestionario": "Questionnaire evaluation",
+    "Evaluación de entrevista IA": "AI interview evaluation",
+    "Puntaje automático": "Automatic score",
+    "Respondido": "Answered",
+    "Abiertas pendientes": "Pending open answers",
+    "Respuestas del candidato": "Candidate answers",
+    "Transcripción": "Transcript",
+    "Respuesta esperada": "Expected answer",
+    "Correcta": "Correct",
+    "Incorrecta": "Incorrect",
+    "Disponible cuando el candidato responda": "Available when the candidate answers",
+    "El candidato aún no ha respondido el cuestionario": "The candidate has not answered the questionnaire yet",
+    "No se pudo cargar la evaluación": "Could not load the evaluation",
 
     "No se pudo iniciar sesión. Intente de nuevo.": "Sign-in failed. Please try again.",
     "No se pudo completar el inicio de sesión con SSO. Intente de nuevo o use usuario y contraseña.": (

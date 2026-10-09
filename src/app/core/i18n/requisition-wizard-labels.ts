@@ -100,6 +100,7 @@ const REQUISITION_FIELD_LABELS: Record<string, string> = {
   clientExpansionDescription: $localize`:@@requisition.field.clientExpansionDescription:Descripción expansión cliente`,
   extraBenefitsText: $localize`:@@requisition.field.extraBenefitsText:Texto beneficios adicionales`,
   questionnaire: $localize`:@@requisition.field.questionnaire:Cuestionario`,
+  examModalityId: $localize`:@@requisition.field.examModalityId:Modalidad de examen`,
   exam: $localize`:@@requisition.field.exam:Examen`,
   surveyId: $localize`:@@requisition.field.surveyId:Encuesta WhatsApp`,
   documentRequirements: $localize`:@@requisition.field.documentRequirements:Documentos definidos y configurados`,

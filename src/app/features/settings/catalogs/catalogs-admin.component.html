@@ -648,6 +648,100 @@
 
             <hr class="company-divider" />
 
+            <section class="company-section">
+              <h3 class="company-section__title">{{ companySectionExamModalities }}</h3>
+              <div formArrayName="examModalities" class="company-exam-modalities">
+                @for (modality of examModalities.controls; track modality.get('examModalityId')?.value; let i = $index) {
+                  <div
+                    class="company-channel company-channel--exam-modality"
+                    [formGroupName]="i"
+                    [class.company-channel--exam-modality-disabled]="!modality.get('isEnabled')?.value"
+                  >
+                    <div class="company-channel__header">
+                      <mat-icon class="company-channel__icon">quiz</mat-icon>
+                      <span class="company-channel__title">{{ modality.get('name')?.value }}</span>
+                      <mat-slide-toggle formControlName="isEnabled" color="primary">{{ companyFieldEnabled }}</mat-slide-toggle>
+                    </div>
+                    @if (modality.get('description')?.value) {
+                      <p class="company-channel__description">{{ modality.get('description')?.value }}</p>
+                    }
+                    @if (examModalityShowsExternalConfig(modality.getRawValue())) {
+                      <div class="company-evaluatest-grid">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="company-evaluatest-grid__full">
+                          <mat-label>{{ companyExamModalityBaseUrl }}</mat-label>
+                          <input matInput formControlName="baseUrl" autocomplete="off" />
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                          <mat-label>{{ companyExamModalityProfileToken }}</mat-label>
+                          <input
+                            matInput
+                            [type]="examModalityProfileTokenVisible[i] ? 'text' : 'password'"
+                            formControlName="createProfileToken"
+                            autocomplete="new-password"
+                          />
+                          <button
+                            mat-icon-button
+                            matSuffix
+                            type="button"
+                            (click)="toggleExamModalityProfileTokenVisible(i)"
+                            tabindex="-1"
+                          >
+                            <mat-icon>{{ examModalityProfileTokenVisible[i] ? 'visibility_off' : 'visibility' }}</mat-icon>
+                          </button>
+                          @if (examModalityProfileTokenConfigured[i]) {
+                            <mat-hint>{{ companyExamModalitySecretHint }}</mat-hint>
+                          }
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                          <mat-label>{{ companyExamModalityLinkToken }}</mat-label>
+                          <input
+                            matInput
+                            [type]="examModalityLinkTokenVisible[i] ? 'text' : 'password'"
+                            formControlName="createLinkToken"
+                            autocomplete="new-password"
+                          />
+                          <button
+                            mat-icon-button
+                            matSuffix
+                            type="button"
+                            (click)="toggleExamModalityLinkTokenVisible(i)"
+                            tabindex="-1"
+                          >
+                            <mat-icon>{{ examModalityLinkTokenVisible[i] ? 'visibility_off' : 'visibility' }}</mat-icon>
+                          </button>
+                          @if (examModalityLinkTokenConfigured[i]) {
+                            <mat-hint>{{ companyExamModalitySecretHint }}</mat-hint>
+                          }
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                          <mat-label>{{ companyExamModalityOwnerId }}</mat-label>
+                          <input matInput formControlName="ownerId" autocomplete="off" />
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                          <mat-label>{{ companyExamModalityModel }}</mat-label>
+                          <input matInput formControlName="model" autocomplete="off" />
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                          <mat-label>{{ companyExamModalityVoice }}</mat-label>
+                          <input matInput formControlName="voice" autocomplete="off" />
+                        </mat-form-field>
+                        <mat-checkbox formControlName="showTranscription" class="company-exam-modality__checkbox">
+                          {{ companyExamModalityShowTranscription }}
+                        </mat-checkbox>
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="company-evaluatest-grid__full">
+                          <mat-label>{{ companyExamModalityInstructions }}</mat-label>
+                          <textarea matInput formControlName="instructionsTemplate" rows="3"></textarea>
+                        </mat-form-field>
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+              <p class="company-channel__footnote">{{ companyExamModalityFootnote }}</p>
+            </section>
+
+            <hr class="company-divider" />
+
             <section class="company-section company-section--docs">
               <h3 class="company-section__title">{{ companySectionDocServices }}</h3>
               <div class="company-doc-table-wrap">

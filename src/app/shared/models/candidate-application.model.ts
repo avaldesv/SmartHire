@@ -205,8 +205,8 @@ export interface QuestionnaireEvaluationResponse {
   position: { positionId: number | null; positionName: string };
   exam: { examId: number | null; name: string };
   answers: Array<{
-    answerId: number;
-    questionId: number;
+    answerId: number | null;
+    questionId: number | null;
     questionText: string;
     questionType: string;
     answerText: string;
@@ -215,7 +215,10 @@ export interface QuestionnaireEvaluationResponse {
     pointsEarned: number | null;
     correct: boolean | null;
     evaluationStatus: string | null;
+    expectedAnswer?: string | null;
   }>;
+  modality?: string | null;
+  transcript?: Array<{ role: string; text: string }>;
 }
 
 export interface UpdateCandidateApplicationRequest {
