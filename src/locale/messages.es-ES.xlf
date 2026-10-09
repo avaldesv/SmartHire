@@ -1578,6 +1578,118 @@
         <source>No encontrado</source>
         <target>No encontrado</target>
       </trans-unit>
+      <trans-unit id="errors.SURVEY_NOT_FOUND.title" datatype="html">
+        <source>Encuesta no encontrada</source>
+        <target>Encuesta no encontrada</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_NOT_FOUND.message" datatype="html">
+        <source>La encuesta solicitada no existe.</source>
+        <target>La encuesta solicitada no existe.</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_INVALID_ANSWER_TYPE.title" datatype="html">
+        <source>Tipo de respuesta inválido</source>
+        <target>Tipo de respuesta inválido</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_INVALID_ANSWER_TYPE.message" datatype="html">
+        <source>Use TEXT, NUMBER, DATE, IMAGE o FILE.</source>
+        <target>Use TEXT, NUMBER, DATE, IMAGE o FILE.</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_SURVEY_NOT_ASSIGNED.title" datatype="html">
+        <source>Encuesta no asignada</source>
+        <target>Encuesta no asignada</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_SURVEY_NOT_ASSIGNED.message" datatype="html">
+        <source>La posición no tiene una encuesta asignada.</source>
+        <target>La posición no tiene una encuesta asignada.</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_INACTIVE.title" datatype="html">
+        <source>Encuesta inactiva</source>
+        <target>Encuesta inactiva</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_INACTIVE.message" datatype="html">
+        <source>La encuesta no está activa.</source>
+        <target>La encuesta no está activa.</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_NO_QUESTIONS.title" datatype="html">
+        <source>Sin preguntas</source>
+        <target>Sin preguntas</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_NO_QUESTIONS.message" datatype="html">
+        <source>La encuesta no tiene preguntas.</source>
+        <target>La encuesta no tiene preguntas.</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_OPEN_SESSION.title" datatype="html">
+        <source>Sesión abierta</source>
+        <target>Sesión abierta</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_OPEN_SESSION.message" datatype="html">
+        <source>Ya existe una encuesta abierta para este candidato en la posición.</source>
+        <target>Ya existe una encuesta abierta para este candidato en la posición.</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_PHONE_BUSY.title" datatype="html">
+        <source>Teléfono ocupado</source>
+        <target>Teléfono ocupado</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_PHONE_BUSY.message" datatype="html">
+        <source>El candidato tiene una encuesta incompleta y no puede participar en otra.</source>
+        <target>El candidato tiene una encuesta incompleta y no puede participar en otra.</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_SESSION_NOT_FOUND.title" datatype="html">
+        <source>Sesión no encontrada</source>
+        <target>Sesión no encontrada</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_SESSION_NOT_FOUND.message" datatype="html">
+        <source>Sesión de encuesta no encontrada.</source>
+        <target>Sesión de encuesta no encontrada.</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_TARGET_INCOMPLETE.title" datatype="html">
+        <source>Mapeo incompleto</source>
+        <target>Mapeo incompleto</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_TARGET_INCOMPLETE.message" datatype="html">
+        <source>Debe indicar tabla y campo destino juntos, o ninguno.</source>
+        <target>Debe indicar tabla y campo destino juntos, o ninguno.</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_TARGET_INVALID.title" datatype="html">
+        <source>Mapeo inválido</source>
+        <target>Mapeo inválido</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_TARGET_INVALID.message" datatype="html">
+        <source>El campo destino seleccionado no está permitido.</source>
+        <target>El campo destino seleccionado no está permitido.</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_TARGET_ANSWER_TYPE.title" datatype="html">
+        <source>Tipo no mapeable</source>
+        <target>Tipo no mapeable</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_TARGET_ANSWER_TYPE.message" datatype="html">
+        <source>Solo TEXT, NUMBER o DATE admiten mapeo a campo de BD.</source>
+        <target>Solo TEXT, NUMBER o DATE admiten mapeo a campo de BD.</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_AI_PROMPT_NOT_CONFIGURED.title" datatype="html">
+        <source>Prompt IA no configurado</source>
+        <target>Prompt IA no configurado</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_AI_PROMPT_NOT_CONFIGURED.message" datatype="html">
+        <source>No hay prompt de validación de respuestas configurado para esta compañía.</source>
+        <target>No hay prompt de validación de respuestas configurado para esta compañía.</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_AI_VALIDATION_FAILED.title" datatype="html">
+        <source>Validación IA fallida</source>
+        <target>Validación IA fallida</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_AI_VALIDATION_FAILED.message" datatype="html">
+        <source>No se pudo validar la respuesta con IA.</source>
+        <target>No se pudo validar la respuesta con IA.</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_SEND_FAILED.title" datatype="html">
+        <source>Envío fallido</source>
+        <target>Envío fallido</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_SEND_FAILED.message" datatype="html">
+        <source>No se pudo enviar la encuesta por WhatsApp.</source>
+        <target>No se pudo enviar la encuesta por WhatsApp.</target>
+      </trans-unit>
       <trans-unit id="errors.ERROR_USER_NOT_FOUND.title" datatype="html">
         <source>Usuario no encontrado</source>
         <target>Usuario no encontrado</target>

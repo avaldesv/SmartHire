@@ -1,5 +1,7 @@
 /** i18n labels for WhatsApp surveys (Encuestas) admin and send actions. */
 
+import { COMMON_EM_DASH } from './common-labels';
+
 export const SURVEYS_PAGE_TITLE = $localize`:@@surveys.pageTitle:Encuestas WhatsApp`;
 export const SURVEYS_NEW_BUTTON = $localize`:@@surveys.newButton:Nueva encuesta`;
 export const SURVEYS_SEARCH = $localize`:@@surveys.search:Buscar encuesta`;
@@ -58,7 +60,7 @@ export function surveysAnswerTypeLabel(
 ): string {
   const key = (answerType ?? '').trim().toUpperCase();
   if (!key) {
-    return emptyFallback ?? '—';
+    return emptyFallback ?? COMMON_EM_DASH;
   }
   return SURVEYS_ANSWER_TYPE_LABELS[key] ?? answerType!.trim();
 }

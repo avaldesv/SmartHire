@@ -1578,6 +1578,118 @@
         <source>No encontrado</source>
         <target>Not found</target>
       </trans-unit>
+      <trans-unit id="errors.SURVEY_NOT_FOUND.title" datatype="html">
+        <source>Encuesta no encontrada</source>
+        <target>Survey not found</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_NOT_FOUND.message" datatype="html">
+        <source>La encuesta solicitada no existe.</source>
+        <target>The requested survey does not exist.</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_INVALID_ANSWER_TYPE.title" datatype="html">
+        <source>Tipo de respuesta inválido</source>
+        <target>Invalid answer type</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_INVALID_ANSWER_TYPE.message" datatype="html">
+        <source>Use TEXT, NUMBER, DATE, IMAGE o FILE.</source>
+        <target>Use TEXT, NUMBER, DATE, IMAGE, or FILE.</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_SURVEY_NOT_ASSIGNED.title" datatype="html">
+        <source>Encuesta no asignada</source>
+        <target>Survey not assigned</target>
+      </trans-unit>
+      <trans-unit id="errors.POSITION_SURVEY_NOT_ASSIGNED.message" datatype="html">
+        <source>La posición no tiene una encuesta asignada.</source>
+        <target>The position has no survey assigned.</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_INACTIVE.title" datatype="html">
+        <source>Encuesta inactiva</source>
+        <target>Inactive survey</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_INACTIVE.message" datatype="html">
+        <source>La encuesta no está activa.</source>
+        <target>The survey is not active.</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_NO_QUESTIONS.title" datatype="html">
+        <source>Sin preguntas</source>
+        <target>No questions</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_NO_QUESTIONS.message" datatype="html">
+        <source>La encuesta no tiene preguntas.</source>
+        <target>The survey has no questions.</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_OPEN_SESSION.title" datatype="html">
+        <source>Sesión abierta</source>
+        <target>Open session</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_OPEN_SESSION.message" datatype="html">
+        <source>Ya existe una encuesta abierta para este candidato en la posición.</source>
+        <target>An open survey already exists for this candidate on the position.</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_PHONE_BUSY.title" datatype="html">
+        <source>Teléfono ocupado</source>
+        <target>Phone busy</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_PHONE_BUSY.message" datatype="html">
+        <source>El candidato tiene una encuesta incompleta y no puede participar en otra.</source>
+        <target>The candidate has an incomplete survey and cannot join another.</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_SESSION_NOT_FOUND.title" datatype="html">
+        <source>Sesión no encontrada</source>
+        <target>Session not found</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_SESSION_NOT_FOUND.message" datatype="html">
+        <source>Sesión de encuesta no encontrada.</source>
+        <target>Survey session not found.</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_TARGET_INCOMPLETE.title" datatype="html">
+        <source>Mapeo incompleto</source>
+        <target>Incomplete mapping</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_TARGET_INCOMPLETE.message" datatype="html">
+        <source>Debe indicar tabla y campo destino juntos, o ninguno.</source>
+        <target>Provide both target table and field, or neither.</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_TARGET_INVALID.title" datatype="html">
+        <source>Mapeo inválido</source>
+        <target>Invalid mapping</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_TARGET_INVALID.message" datatype="html">
+        <source>El campo destino seleccionado no está permitido.</source>
+        <target>The selected target field is not allowed.</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_TARGET_ANSWER_TYPE.title" datatype="html">
+        <source>Tipo no mapeable</source>
+        <target>Unmappable type</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_TARGET_ANSWER_TYPE.message" datatype="html">
+        <source>Solo TEXT, NUMBER o DATE admiten mapeo a campo de BD.</source>
+        <target>Only TEXT, NUMBER, or DATE can map to a DB field.</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_AI_PROMPT_NOT_CONFIGURED.title" datatype="html">
+        <source>Prompt IA no configurado</source>
+        <target>AI prompt not configured</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_AI_PROMPT_NOT_CONFIGURED.message" datatype="html">
+        <source>No hay prompt de validación de respuestas configurado para esta compañía.</source>
+        <target>No answer-validation AI prompt is configured for this company.</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_AI_VALIDATION_FAILED.title" datatype="html">
+        <source>Validación IA fallida</source>
+        <target>AI validation failed</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_AI_VALIDATION_FAILED.message" datatype="html">
+        <source>No se pudo validar la respuesta con IA.</source>
+        <target>Could not validate the answer with AI.</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_SEND_FAILED.title" datatype="html">
+        <source>Envío fallido</source>
+        <target>Send failed</target>
+      </trans-unit>
+      <trans-unit id="errors.SURVEY_SEND_FAILED.message" datatype="html">
+        <source>No se pudo enviar la encuesta por WhatsApp.</source>
+        <target>Could not send the WhatsApp survey.</target>
+      </trans-unit>
       <trans-unit id="errors.ERROR_USER_NOT_FOUND.title" datatype="html">
         <source>Usuario no encontrado</source>
         <target>User not found</target>
@@ -10844,11 +10956,11 @@
       </trans-unit>
       <trans-unit id="surveys.questions.answerTypeHint" datatype="html">
         <source>Solo aplica si no hay campo destino en BD</source>
-        <target>Only applies when there is no DB target field</target>
+        <target>Solo aplica si no hay campo destino en BD</target>
       </trans-unit>
       <trans-unit id="surveys.questions.answerTypeFromMapping" datatype="html">
         <source>Tipo derivado del campo BD</source>
-        <target>Type derived from DB field</target>
+        <target>Tipo derivado del campo BD</target>
       </trans-unit>
       <trans-unit id="surveys.questions.empty" datatype="html">
         <source>Agregue al menos una pregunta</source>
@@ -10856,11 +10968,11 @@
       </trans-unit>
       <trans-unit id="surveys.questions.emptyTitle" datatype="html">
         <source>Aún no hay preguntas</source>
-        <target>Aún no hay preguntas</target>
+        <target>No questions yet</target>
       </trans-unit>
       <trans-unit id="surveys.questions.addFirst" datatype="html">
         <source>Agregar primera pregunta</source>
-        <target>Agregar primera pregunta</target>
+        <target>Add first question</target>
       </trans-unit>
       <trans-unit id="surveys.questions.addMore" datatype="html">
         <source>Agregar pregunta</source>
@@ -10960,7 +11072,7 @@
       </trans-unit>
       <trans-unit id="surveys.send.phoneBusy" datatype="html">
         <source>Teléfono ocupado con la encuesta "<x id="name" equiv-text="surveyName" />"</source>
-        <target>Teléfono ocupado con la encuesta "<x id="name" equiv-text="surveyName" />"</target>
+        <target>Phone busy with survey "<x id="name" equiv-text="surveyName" />"</target>
       </trans-unit>
       <trans-unit id="surveys.results.title" datatype="html">
         <source>Resultados de encuestas</source>

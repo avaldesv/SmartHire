@@ -6,6 +6,7 @@ import { API_ERROR_CATALOG_NOTIFICATION } from './api-error-catalog-notification
 import { API_ERROR_CATALOG_QUESTIONNAIRE } from './api-error-catalog-questionnaire';
 import { API_ERROR_CATALOG_REQUISITION } from './api-error-catalog-requisition';
 import { API_ERROR_CATALOG_SECURITY } from './api-error-catalog-security';
+import { API_ERROR_CATALOG_SURVEY } from './api-error-catalog-survey';
 
 export interface ApiErrorI18nEntry {
   title: string;
@@ -71,4 +72,5 @@ export const API_ERROR_CATALOG: Record<string, ApiErrorI18nEntry> = {
   ...API_ERROR_CATALOG_NOTIFICATION,
   ...API_ERROR_CATALOG_QUESTIONNAIRE,
   ...API_ERROR_CATALOG_REQUISITION,
+  ...API_ERROR_CATALOG_SURVEY,
 };
