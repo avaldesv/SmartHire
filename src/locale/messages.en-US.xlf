@@ -3969,8 +3969,8 @@
         <target>Parcialmente cubierta</target>
       </trans-unit>
       <trans-unit id="catalogs.company.dialog.subtitle" datatype="html">
-        <source>Datos generales, canales de notificación, Evaluatest e integraciones de documentos</source>
-        <target>Datos generales, canales de notificación, Evaluatest e integraciones de documentos</target>
+        <source>Datos generales, canales de notificación, Evaluatest, modalidades de examen e integraciones de documentos</source>
+        <target>General data, notification channels, Evaluatest, exam modalities, and document integrations</target>
       </trans-unit>
       <trans-unit id="catalogs.company.section.general" datatype="html">
         <source>1. Datos generales</source>
@@ -3984,9 +3984,13 @@
         <source>3. Evaluatest</source>
         <target>3. Evaluatest</target>
       </trans-unit>
+      <trans-unit id="catalogs.company.section.examModalities" datatype="html">
+        <source>4. Modalidades de examen</source>
+        <target>4. Exam modalities</target>
+      </trans-unit>
       <trans-unit id="catalogs.company.section.docServices" datatype="html">
-        <source>4. Servicios de procesamiento de documentos</source>
-        <target>4. Servicios de procesamiento de documentos</target>
+        <source>5. Servicios de procesamiento de documentos</source>
+        <target>5. Document processing services</target>
       </trans-unit>
       <trans-unit id="catalogs.company.channel.email" datatype="html">
         <source>Correo (SMTP)</source>
@@ -4026,7 +4030,7 @@
       </trans-unit>
       <trans-unit id="catalogs.company.field.waBaseUrl" datatype="html">
         <source>URL base</source>
-        <target>URL base</target>
+        <target>Base URL</target>
       </trans-unit>
       <trans-unit id="catalogs.company.field.waBearer" datatype="html">
         <source>Token Bearer</source>
@@ -4066,11 +4070,51 @@
       </trans-unit>
       <trans-unit id="catalogs.company.evaluatest.secretHint" datatype="html">
         <source>Dejar vacío para conservar el valor actual</source>
-        <target>Dejar vacío para conservar el valor actual</target>
+        <target>Leave blank to keep the current value</target>
       </trans-unit>
       <trans-unit id="catalogs.company.evaluatest.footnote" datatype="html">
         <source>Credenciales por tenant para catálogos y perfiles de puesto Evaluatest.</source>
         <target>Credenciales por tenant para catálogos y perfiles de puesto Evaluatest.</target>
+      </trans-unit>
+      <trans-unit id="company.examModality.baseUrl" datatype="html">
+        <source>URL base</source>
+        <target>Base URL</target>
+      </trans-unit>
+      <trans-unit id="company.examModality.createProfileToken" datatype="html">
+        <source>Token crear perfil</source>
+        <target>Create profile token</target>
+      </trans-unit>
+      <trans-unit id="company.examModality.createLinkToken" datatype="html">
+        <source>Token crear enlace</source>
+        <target>Create link token</target>
+      </trans-unit>
+      <trans-unit id="company.examModality.ownerId" datatype="html">
+        <source>Owner ID</source>
+        <target>Owner ID</target>
+      </trans-unit>
+      <trans-unit id="company.examModality.model" datatype="html">
+        <source>Modelo</source>
+        <target>Model</target>
+      </trans-unit>
+      <trans-unit id="company.examModality.voice" datatype="html">
+        <source>Voz</source>
+        <target>Voice</target>
+      </trans-unit>
+      <trans-unit id="company.examModality.showTranscription" datatype="html">
+        <source>Mostrar transcripción</source>
+        <target>Show transcription</target>
+      </trans-unit>
+      <trans-unit id="company.examModality.instructionsTemplate" datatype="html">
+        <source>Plantilla de instrucciones</source>
+        <target>Instructions template</target>
+      </trans-unit>
+      <trans-unit id="company.examModality.secretHint" datatype="html">
+        <source>Dejar vacío para conservar el valor actual</source>
+        <target>Leave blank to keep the current value</target>
+      </trans-unit>
+      <trans-unit id="company.examModality.footnote" datatype="html">
+        <source>Habilite modalidades y configure credenciales externas cuando aplique (p. ej. entrevista con IA).</source>
+        <target>Enable modalities and configure external credentials when applicable (e.g. AI interview).</target>
       </trans-unit>
       <trans-unit id="catalogs.company.col.service" datatype="html">
         <source>Servicio</source>
@@ -7834,6 +7878,74 @@
         <source>Ámbito</source>
         <target>Scope</target>
       </trans-unit>
+      <trans-unit id="selection.evalDialog.title" datatype="html">
+        <source>Evaluación del cuestionario</source>
+        <target>Questionnaire evaluation</target>
+      </trans-unit>
+      <trans-unit id="selection.evalDialog.titleAi" datatype="html">
+        <source>Evaluación de entrevista IA</source>
+        <target>AI interview evaluation</target>
+      </trans-unit>
+      <trans-unit id="selection.evalDialog.closeAria" datatype="html">
+        <source>Cerrar</source>
+        <target>Close</target>
+      </trans-unit>
+      <trans-unit id="selection.evalDialog.close" datatype="html">
+        <source>Cerrar</source>
+        <target>Close</target>
+      </trans-unit>
+      <trans-unit id="selection.evalDialog.autoScore" datatype="html">
+        <source>Puntaje automático</source>
+        <target>Automatic score</target>
+      </trans-unit>
+      <trans-unit id="selection.evalDialog.answeredAt" datatype="html">
+        <source>Respondido</source>
+        <target>Answered</target>
+      </trans-unit>
+      <trans-unit id="selection.evalDialog.openPending" datatype="html">
+        <source>Abiertas pendientes</source>
+        <target>Pending open answers</target>
+      </trans-unit>
+      <trans-unit id="selection.evalDialog.answersTitle" datatype="html">
+        <source>Respuestas del candidato</source>
+        <target>Candidate answers</target>
+      </trans-unit>
+      <trans-unit id="selection.evalDialog.transcriptTitle" datatype="html">
+        <source>Transcripción</source>
+        <target>Transcript</target>
+      </trans-unit>
+      <trans-unit id="selection.evalDialog.expected" datatype="html">
+        <source>Respuesta esperada</source>
+        <target>Expected answer</target>
+      </trans-unit>
+      <trans-unit id="selection.evalDialog.statusAnswered" datatype="html">
+        <source>Respondido</source>
+        <target>Answered</target>
+      </trans-unit>
+      <trans-unit id="selection.evalDialog.statusCorrect" datatype="html">
+        <source>Correcta</source>
+        <target>Correct</target>
+      </trans-unit>
+      <trans-unit id="selection.evalDialog.statusIncorrect" datatype="html">
+        <source>Incorrecta</source>
+        <target>Incorrect</target>
+      </trans-unit>
+      <trans-unit id="selection.evalDialog.statusPendingManual" datatype="html">
+        <source>Pendiente</source>
+        <target>Pendiente</target>
+      </trans-unit>
+      <trans-unit id="selection.evalDialog.errorPending" datatype="html">
+        <source>Disponible cuando el candidato responda</source>
+        <target>Available when the candidate responds</target>
+      </trans-unit>
+      <trans-unit id="selection.evalDialog.errorNotAnswered" datatype="html">
+        <source>El candidato aún no ha respondido el cuestionario</source>
+        <target>The candidate has not answered the questionnaire yet</target>
+      </trans-unit>
+      <trans-unit id="selection.evalDialog.errorGeneric" datatype="html">
+        <source>No se pudo cargar la evaluación</source>
+        <target>Could not load the evaluation</target>
+      </trans-unit>
       <trans-unit id="questionnaires.exams.newButton" datatype="html">
         <source>Nuevo Examen</source>
         <target>New exam</target>
@@ -10131,6 +10243,10 @@
       <trans-unit id="requisition.field.questionnaire" datatype="html">
         <source>Cuestionario</source>
         <target>Questionnaire</target>
+      </trans-unit>
+      <trans-unit id="requisition.field.examModalityId" datatype="html">
+        <source>Modalidad de examen</source>
+        <target>Exam modality</target>
       </trans-unit>
       <trans-unit id="requisition.field.exam" datatype="html">
         <source>Examen</source>

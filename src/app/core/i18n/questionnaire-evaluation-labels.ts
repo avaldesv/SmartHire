@@ -1,0 +1,17 @@
+export const EVAL_DIALOG_TITLE = $localize`:@@selection.evalDialog.title:Evaluación del cuestionario`;
+export const EVAL_DIALOG_TITLE_AI = $localize`:@@selection.evalDialog.titleAi:Evaluación de entrevista IA`;
+export const EVAL_DIALOG_CLOSE_ARIA = $localize`:@@selection.evalDialog.closeAria:Cerrar`;
+export const EVAL_DIALOG_CLOSE = $localize`:@@selection.evalDialog.close:Cerrar`;
+export const EVAL_DIALOG_AUTO_SCORE = $localize`:@@selection.evalDialog.autoScore:Puntaje automático`;
+export const EVAL_DIALOG_ANSWERED_AT = $localize`:@@selection.evalDialog.answeredAt:Respondido`;
+export const EVAL_DIALOG_OPEN_PENDING = $localize`:@@selection.evalDialog.openPending:Abiertas pendientes`;
+export const EVAL_DIALOG_ANSWERS_TITLE = $localize`:@@selection.evalDialog.answersTitle:Respuestas del candidato`;
+export const EVAL_DIALOG_TRANSCRIPT_TITLE = $localize`:@@selection.evalDialog.transcriptTitle:Transcripción`;
+export const EVAL_DIALOG_EXPECTED = $localize`:@@selection.evalDialog.expected:Respuesta esperada`;
+export const EVAL_DIALOG_STATUS_ANSWERED = $localize`:@@selection.evalDialog.statusAnswered:Respondido`;
+export const EVAL_DIALOG_STATUS_CORRECT = $localize`:@@selection.evalDialog.statusCorrect:Correcta`;
+export const EVAL_DIALOG_STATUS_INCORRECT = $localize`:@@selection.evalDialog.statusIncorrect:Incorrecta`;
+export const EVAL_DIALOG_STATUS_PENDING_MANUAL = $localize`:@@selection.evalDialog.statusPendingManual:Pendiente`;
+export const EVAL_DIALOG_ERROR_PENDING = $localize`:@@selection.evalDialog.errorPending:Disponible cuando el candidato responda`;
+export const EVAL_DIALOG_ERROR_NOT_ANSWERED = $localize`:@@selection.evalDialog.errorNotAnswered:El candidato aún no ha respondido el cuestionario`;
+export const EVAL_DIALOG_ERROR_GENERIC = $localize`:@@selection.evalDialog.errorGeneric:No se pudo cargar la evaluación`;

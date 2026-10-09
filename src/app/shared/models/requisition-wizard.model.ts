@@ -47,4 +47,5 @@ export interface WizardQuestionnaireValue {
   questionnaireId?: number | null;
   evaluationType?: string | null;
   acceptancePercentage?: number | null;
+  examModalityId?: number | null;
 }

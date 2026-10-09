@@ -31,6 +31,8 @@ import { QuestionnaireQuestionnaireApiService } from './questionnaire-questionna
 import { SecurityRecruiterGroupService } from './security-recruiter-group.service';
 import { SecurityUserService } from './security-user.service';
 import { SurveyApiService } from './survey-api.service';
+import { ExamModalityApiService } from './exam-modality-api.service';
+import { TenantContextService } from './tenant-context.service';
 import { catalogClientOptionLabel } from '../../shared/constants/requisition-client-catalog-fill';
 
 export interface WizardCatalogContext {
@@ -70,6 +72,8 @@ export class WizardFieldCatalogService {
   private readonly questionnaireService = inject(QuestionnaireQuestionnaireApiService);
   private readonly examService = inject(QuestionnaireExamApiService);
   private readonly surveyService = inject(SurveyApiService);
+  private readonly examModalityApi = inject(ExamModalityApiService);
+  private readonly tenantContext = inject(TenantContextService);
 
   /** In-flight / completed option lists keyed by datasource + context. */
   private readonly optionsCache = new Map<string, Observable<WizardFieldOption[]>>();
@@ -248,6 +252,19 @@ export class WizardFieldCatalogService {
         return this.examService
           .list({ status: 'published', isActive: true }, 0, 200)
           .pipe(map((r) => this.toOptions(r.items)));
+      case 'exam-modalities': {
+        const companyId = this.tenantContext.getCompanyId();
+        return this.examModalityApi.getByCompany(companyId).pipe(
+          map((response) =>
+            (response.items ?? [])
+              .filter((item) => item.isEnabled === true)
+              .map((item) => ({
+                id: item.examModalityId,
+                label: (item.name ?? item.code ?? String(item.examModalityId)).trim(),
+              })),
+          ),
+        );
+      }
       case 'surveys':
         return this.surveyService
           .list({ isActive: true }, 0, 200)
