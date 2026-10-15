@@ -29,6 +29,18 @@
       <mat-spinner diameter="44" />
       <p class="loading-wrap__label">{{ labels.loading }}</p>
     </div>
+  } @else if (missingPublishedFormConfig && !isEditMode) {
+    <div class="sh-card wizard-blocked" role="alert" aria-live="assertive">
+      <mat-icon class="wizard-blocked__icon" aria-hidden="true">block</mat-icon>
+      <h2 class="wizard-blocked__title">{{ labels.noPublishedConfigTitle }}</h2>
+      <p class="wizard-blocked__message">{{ labels.noPublishedConfigMessage }}</p>
+      <div class="wizard-blocked__actions">
+        <button mat-stroked-button type="button" (click)="cancel()">{{ labels.backToList }}</button>
+        <button mat-flat-button color="primary" type="button" (click)="changeCreateScope()">
+          {{ labels.changeScope }}
+        </button>
+      </div>
+    </div>
   } @else if (useDynamicWizard && dynamicForm && resolvedConfig) {
   <div class="sh-card">
     <nav class="wizard-progress" [attr.aria-label]="labels.progressAria">
@@ -84,7 +96,7 @@
       <button mat-stroked-button type="button" (click)="sendAts()"><mat-icon>cloud_upload</mat-icon> ATS</button>
     </div>
   </div>
-  } @else {
+  } @else if (isEditMode) {
   <div class="sh-card">
     <mat-stepper linear #stepper>
       <mat-step [stepControl]="clientForm" [label]="labels.stepClient">

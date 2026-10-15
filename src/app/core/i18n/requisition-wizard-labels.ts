@@ -210,6 +210,10 @@ export const REQUISITION_SCOPE_COUNTRY = $localize`:@@requisition.wizard.scopeCo
 export const REQUISITION_SCOPE_COVERAGE = $localize`:@@requisition.wizard.scopeCoverage:Tipo de cobertura`;
 export const REQUISITION_SCOPE_COVERAGE_REQUIRED = $localize`:@@requisition.wizard.scopeCoverageRequired:Seleccione un tipo de cobertura`;
 export const REQUISITION_SCOPE_LOADING = $localize`:@@requisition.wizard.scopeLoading:Cargando...`;
+export const REQUISITION_WIZARD_NO_PUBLISHED_CONFIG_TITLE = $localize`:@@requisition.wizard.noPublishedConfigTitle:Sin configuración activa`;
+export const REQUISITION_WIZARD_NO_PUBLISHED_CONFIG_MESSAGE = $localize`:@@requisition.wizard.noPublishedConfigMessage:No es posible crear una requisición porque no existe una configuración de formulario publicada y activa para el país y tipo de cobertura seleccionados.`;
+export const REQUISITION_WIZARD_CHANGE_SCOPE = $localize`:@@requisition.wizard.changeScope:Cambiar país / cobertura`;
+export const REQUISITION_WIZARD_BACK_TO_LIST = $localize`:@@requisition.wizard.backToList:Volver al listado`;
 
 export const REQUISITION_WIZARD_LOAD_COUNTRIES_ERROR = $localize`:@@requisition.wizard.errors.loadCountries:No se pudieron cargar los países`;
 export const REQUISITION_WIZARD_LOAD_LANGUAGES_ERROR = $localize`:@@requisition.wizard.errors.loadLanguages:No se pudieron cargar los idiomas`;

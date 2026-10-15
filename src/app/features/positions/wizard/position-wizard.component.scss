@@ -229,6 +229,48 @@
   font-size: 0.95rem;
 }
 
+.wizard-blocked {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 280px;
+  padding: 48px 32px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.wizard-blocked__icon {
+  width: 48px;
+  height: 48px;
+  font-size: 48px;
+  color: #b45309;
+}
+
+.wizard-blocked__title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.wizard-blocked__message {
+  margin: 0;
+  max-width: 36rem;
+  color: #475569;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.wizard-blocked__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
 @media (max-width: 900px) {
   .form-grid {
     grid-template-columns: 1fr;
