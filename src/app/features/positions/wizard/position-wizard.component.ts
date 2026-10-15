@@ -53,10 +53,14 @@ import {
   REQUISITION_WIZARD_EDIT_TITLE,
   REQUISITION_WIZARD_LOADING,
   REQUISITION_WIZARD_NEW_TITLE,
+  REQUISITION_WIZARD_NO_PUBLISHED_CONFIG_MESSAGE,
+  REQUISITION_WIZARD_NO_PUBLISHED_CONFIG_TITLE,
   REQUISITION_WIZARD_PREVIOUS,
   REQUISITION_WIZARD_PROGRESS_ARIA,
   REQUISITION_WIZARD_SAVE,
   REQUISITION_WIZARD_SAVING,
+  REQUISITION_WIZARD_CHANGE_SCOPE,
+  REQUISITION_WIZARD_BACK_TO_LIST,
   resolveWizardStepLabel,
   requisitionWizardCreateSubtitle,
   requisitionWizardEditSubtitle,
@@ -163,6 +167,8 @@ export class PositionWizardComponent implements OnInit {
 
   useDynamicWizard = false;
   resolvingConfig = false;
+  /** Create flow: no published+active form config for country+coverage — block default wizard. */
+  missingPublishedFormConfig = false;
   resolvedConfig: ResolvedRequisitionFormConfig | null = null;
   dynamicForm: FormGroup | null = null;
 
@@ -287,6 +293,10 @@ export class PositionWizardComponent implements OnInit {
     creating: REQUISITION_WIZARD_CREATING,
     loading: REQUISITION_WIZARD_LOADING,
     progressAria: REQUISITION_WIZARD_PROGRESS_ARIA,
+    noPublishedConfigTitle: REQUISITION_WIZARD_NO_PUBLISHED_CONFIG_TITLE,
+    noPublishedConfigMessage: REQUISITION_WIZARD_NO_PUBLISHED_CONFIG_MESSAGE,
+    changeScope: REQUISITION_WIZARD_CHANGE_SCOPE,
+    backToList: REQUISITION_WIZARD_BACK_TO_LIST,
     loadingOptions: REQUISITION_SCOPE_LOADING,
     none: REQUISITION_WIZARD_NONE,
     loadingDocuments: REQUISITION_WIZARD_LOADING_DOCUMENTS,
@@ -339,6 +349,9 @@ export class PositionWizardComponent implements OnInit {
   }
 
   get wizardSubtitle(): string {
+    if (this.missingPublishedFormConfig && !this.isEditMode) {
+      return this.labels.noPublishedConfigTitle;
+    }
     const steps = this.useDynamicWizard
       ? (this.resolvedConfig?.steps.length ?? 0)
       : 8;
@@ -432,6 +445,7 @@ export class PositionWizardComponent implements OnInit {
         ),
         tap(() => {
           this.resolvingConfig = true;
+          this.missingPublishedFormConfig = false;
         }),
         switchMap(({ countryId, coverageTypeId, preserveValues }) => {
           const preserved = preserveValues ? this.collectPreservedValues() : {};
@@ -484,18 +498,29 @@ export class PositionWizardComponent implements OnInit {
   private handleMissingPublishedFormConfig(error: unknown, preserved: Record<string, unknown>): void {
     this.activeScopeKey = null;
     const entry = API_ERROR_CATALOG_REQUISITION['REQUISITION_FORM_CONFIG_NOT_PUBLISHED'];
+    if (!this.isEditMode) {
+      this.useDynamicWizard = false;
+      this.dynamicForm = null;
+      this.resolvedConfig = null;
+      this.missingPublishedFormConfig = true;
+      // Inline empty state is the primary UX; toast only for unexpected API failures.
+      if (error) {
+        this.feedback.showApiError(error, { fallbackMessage: entry.message });
+      }
+      return;
+    }
+    this.missingPublishedFormConfig = false;
     if (error) {
       this.feedback.showApiError(error, { fallbackMessage: entry.message });
     } else {
       this.feedback.showError(entry.title, entry.message);
     }
-    if (!this.isEditMode) {
-      this.useDynamicWizard = false;
-      this.dynamicForm = null;
-      this.resolvedConfig = null;
-    } else {
-      this.deactivateDynamicWizard(preserved);
-    }
+    this.deactivateDynamicWizard(preserved);
+  }
+
+  changeCreateScope(): void {
+    this.missingPublishedFormConfig = false;
+    this.openScopeDialogForCreate();
   }
 
   private requestScopeResolve(countryId: number, coverageTypeId: number, preserveValues: boolean): void {
@@ -715,6 +740,7 @@ export class PositionWizardComponent implements OnInit {
   ): void {
     this.suppressScopeResolve = true;
     this.dynamicUiStop$.next();
+    this.missingPublishedFormConfig = false;
     this.useDynamicWizard = true;
     this.resolvedConfig = config;
     this.dynamicForm = this.dynamicWizardService.buildForm(config);
