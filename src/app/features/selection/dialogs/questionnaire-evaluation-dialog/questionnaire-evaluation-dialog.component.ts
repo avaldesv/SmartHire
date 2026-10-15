@@ -62,24 +62,18 @@ export interface QuestionnaireEvaluationDialogData {
           </span>
         </div>
 
-        @if (!isAiInterview) {
-          <div class="score-row">
-            <div>
-              <span class="label">{{ autoScoreLabel }}</span>
-              <strong>{{ scoreLabel }}</strong>
-            </div>
-            @if (evaluation.answeredAt) {
-              <div class="muted">{{ answeredAtLabel }}: {{ evaluation.answeredAt | date: 'medium' }}</div>
-            }
-            @if ((evaluation.openPendingCount ?? 0) > 0) {
-              <div class="muted">{{ openPendingLabel }}: {{ evaluation.openPendingCount }}</div>
-            }
+        <div class="score-row">
+          <div>
+            <span class="label">{{ autoScoreLabel }}</span>
+            <strong>{{ scoreLabel }}</strong>
           </div>
-        } @else if (evaluation.answeredAt) {
-          <div class="score-row">
+          @if (evaluation.answeredAt) {
             <div class="muted">{{ answeredAtLabel }}: {{ evaluation.answeredAt | date: 'medium' }}</div>
-          </div>
-        }
+          }
+          @if (!isAiInterview && (evaluation.openPendingCount ?? 0) > 0) {
+            <div class="muted">{{ openPendingLabel }}: {{ evaluation.openPendingCount }}</div>
+          }
+        </div>
 
         <h3 class="section-title">{{ answersTitle }}</h3>
         <div class="answers">
