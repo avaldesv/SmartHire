@@ -9,7 +9,7 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..', 'dist', 'smarthire-recruiter-portal', 'browser');
 const DEFAULT_LOCALE = 'es-MX';
-const SUPPORTED = new Set(['es-MX', 'es-ES', 'en-US']);
+const SUPPORTED = new Set(['es-MX', 'es-ES', 'en-US', 'pt-BR']);
 const PORT = Number(process.env.PORT || 4200);
 const LOCALE_COOKIE = 'sh_portal_locale';
 
@@ -18,6 +18,7 @@ const LOCALE_ALIASES = {
   en: 'en-US',
   'en-GB': 'en-US',
   es: 'es-MX',
+  pt: 'pt-BR',
 };
 
 function normalizeLocale(value) {

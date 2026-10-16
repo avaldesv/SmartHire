@@ -131,6 +131,18 @@
                   "with": "src/environments/environment.remote.ts"
                 }
               ]
+            },
+            "remote-pt-BR": {
+              "localize": ["pt"],
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.remote.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -159,6 +171,10 @@
             },
             "remote-en-US": {
               "buildTarget": "smarthire-recruiter-portal:build:remote-en-US",
+              "proxyConfig": "proxy.conf.json"
+            },
+            "remote-pt-BR": {
+              "buildTarget": "smarthire-recruiter-portal:build:remote-pt-BR",
               "proxyConfig": "proxy.conf.json"
             }
           },
