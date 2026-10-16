@@ -7,3 +7,4 @@ registerLocaleData(localeEs, 'es-MX');
 registerLocaleData(localeEs, 'es-ES');
 registerLocaleData(localeEn, 'en');
 registerLocaleData(localeEn, 'en-US');
+registerLocaleData(localePt, 'pt-BR');
