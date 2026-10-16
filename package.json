@@ -11,6 +11,8 @@
     "start:es-MX": "ng serve --configuration=development",
     "start:es-ES": "ng serve --configuration=development,es-ES",
     "start:en-US": "ng serve --configuration=development,en-US",
+    "start:pt-BR": "ng serve --configuration=development,pt-BR",
+    "start:remote:pt-BR": "ng serve --configuration remote-pt-BR --host localhost --port 4300",
     "build": "ng build && node scripts/postbuild-i18n.js",
     "build:i18n": "ng build --configuration=production && node scripts/postbuild-i18n.js",
     "start:prod": "node scripts/serve-spa.js",

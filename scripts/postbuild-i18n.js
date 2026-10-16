@@ -9,7 +9,7 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..', 'dist', 'smarthire-recruiter-portal', 'browser');
 const DEFAULT_LOCALE = 'es-MX';
-const LOCALES = ['es-MX', 'es-ES', 'en-US'];
+const LOCALES = ['es-MX', 'es-ES', 'en-US', 'pt-BR'];
 
 function escapeRegex(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
