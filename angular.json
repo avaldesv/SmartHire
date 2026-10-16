@@ -114,6 +114,12 @@
               "extractLicenses": false,
               "sourceMap": true
             },
+            "pt-BR": {
+              "localize": ["pt"],
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            },
             "remote-en-US": {
               "localize": ["en"],
               "optimization": false,
@@ -147,6 +153,9 @@
             },
             "en-US": {
               "buildTarget": "smarthire-recruiter-portal:build:en-US"
+            },
+            "pt-BR": {
+              "buildTarget": "smarthire-recruiter-portal:build:pt-BR"
             },
             "remote-en-US": {
               "buildTarget": "smarthire-recruiter-portal:build:remote-en-US",
