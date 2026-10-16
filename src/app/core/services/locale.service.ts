@@ -13,7 +13,7 @@ export const LOCALE_RETURN_PATH_KEY = 'sh_locale_return_path';
 export const DEFAULT_LOGIN_LOCALE = 'es-MX';
 export const X_LANGUAGE_HEADER = 'X-Language';
 
-const LEGACY_LOCALE_PREFIXES = ['es-ES', 'en-US'] as const;
+const LEGACY_LOCALE_PREFIXES = ['es-ES', 'en-US','pt-BR'] as const;
 
 /**
  * Maps portal/API locales and Angular `document.lang` (CLDR codes es/en vs es-MX)
@@ -31,6 +31,9 @@ function toBundleLocale(locale: string): string {
   if (trimmed === 'es' || trimmed === 'es-ES') {
     return 'es-ES';
   }
+  if (trimmed === 'pt' || trimmed === 'pt-BR') {
+    return 'pt-BR';
+  }
   if (trimmed === 'es-MX' || trimmed.startsWith('es-')) {
     return 'es-MX';
   }
@@ -45,6 +48,9 @@ function normalizeStoredLocale(locale: string): string {
   }
   if (trimmed === 'es-ES') {
     return 'es-ES';
+  }
+  if (trimmed === 'pt' || trimmed === 'pt-BR') {
+    return 'pt-BR';
   }
   if (trimmed === 'es' || trimmed === 'es-MX' || trimmed.startsWith('es-')) {
     return 'es-MX';
