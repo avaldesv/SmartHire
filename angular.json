@@ -26,6 +26,10 @@
           "en": {
             "translation": "src/locale/messages.en-US.xlf",
             "subPath": "en-US"
+          },
+          "pt": {
+            "translation": "src/locale/messages.pt-BR.xlf",
+            "subPath": "pt-BR"
           }
         }
       },
