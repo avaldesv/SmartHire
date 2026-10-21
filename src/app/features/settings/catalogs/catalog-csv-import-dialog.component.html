@@ -27,72 +27,83 @@
   @if (isGender) {
     <div class="import-result summary-panel">
       <table class="preview-summary-table gender-summary">
+        <colgroup>
+          <col class="summary-label" />
+          <col class="summary-value" />
+          <col class="summary-label" />
+          <col class="summary-value" />
+        </colgroup>
         <tr>
-          <th colspan="3">{{ genderSummaryValidation }}</th>
+          <th colspan="4">{{ genderSummaryValidation }}</th>
         </tr>
         <tr>
           <td>{{ structureLabel }}</td>
           <td [class.ok]="structureIsValid" [class.ko]="structureIsInvalid">{{ structureStatusText }}</td>
+          <td></td>
           <td></td>
         </tr>
         <tr>
           <td>{{ rowsDetectedLabel }}</td>
           <td>{{ totalRowsDisplay }}</td>
           <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th colspan="2">{{ genderSummaryByRows }}</th>
+          <th colspan="2">{{ genderSummaryImport }}</th>
         </tr>
         <tr>
           <td>{{ genderValidRows }}</td>
-          <td>{{ validCountDisplay }}</td>
           <td>
-            @if (validation?.validRowsCsvBase64) {
-              <button mat-button type="button" (click)="downloadGenderCsv(validation?.validRowsCsvBase64, 'genders-valid.csv')">
-                <mat-icon>download</mat-icon>
-                {{ genderDownloadItems }}
-              </button>
-            }
+            <div class="value-download">
+              <span [class.ok]="hasValidation && validCount > 0">{{ validCountDisplay }}</span>
+              @if (validation?.validRowsCsvBase64) {
+                <button mat-button type="button" class="gender-download" (click)="downloadGenderCsv(validation?.validRowsCsvBase64, 'genders-valid.csv')">
+                  <mat-icon>download</mat-icon>
+                  {{ genderDownloadItems }}
+                </button>
+              }
+            </div>
+          </td>
+          <td>{{ genderImportedRows }}</td>
+          <td>
+            <div class="value-download">
+              <span>{{ importResult ? importedCount : pendingValue }}</span>
+              @if (importResult?.importedRowsCsvBase64) {
+                <button mat-button type="button" class="gender-download" (click)="downloadGenderCsv(importResult?.importedRowsCsvBase64, 'genders-imported.csv')">
+                  <mat-icon>download</mat-icon>
+                  {{ genderDownloadItems }}
+                </button>
+              }
+            </div>
           </td>
         </tr>
         <tr>
           <td>{{ genderInvalidRows }}</td>
-          <td>{{ invalidCountDisplay }}</td>
           <td>
-            @if (validation?.invalidRowsCsvBase64) {
-              <button mat-button type="button" (click)="downloadGenderCsv(validation?.invalidRowsCsvBase64, 'genders-invalid.csv')">
-                <mat-icon>download</mat-icon>
-                {{ genderDownloadItems }}
-              </button>
-            }
+            <div class="value-download">
+              <span [class.ko]="hasValidation && invalidCount > 0">{{ invalidCountDisplay }}</span>
+              @if (validation?.invalidRowsCsvBase64) {
+                <button mat-button type="button" class="gender-download" (click)="downloadGenderCsv(validation?.invalidRowsCsvBase64, 'genders-invalid.csv')">
+                  <mat-icon>download</mat-icon>
+                  {{ genderDownloadItems }}
+                </button>
+              }
+            </div>
+          </td>
+          <td>{{ genderNotImportedRows }}</td>
+          <td>
+            <div class="value-download">
+              <span [class.ko]="!!importResult && notImportedCount > 0">{{ importResult ? notImportedCount : pendingValue }}</span>
+              @if (importResult?.notImportedRowsCsvBase64) {
+                <button mat-button type="button" class="gender-download" (click)="downloadGenderCsv(importResult?.notImportedRowsCsvBase64, 'genders-not-imported.csv')">
+                  <mat-icon>download</mat-icon>
+                  {{ genderDownloadItems }}
+                </button>
+              }
+            </div>
           </td>
         </tr>
-        @if (importResult) {
-          <tr>
-            <th colspan="3">{{ genderSummaryImport }}</th>
-          </tr>
-          <tr>
-            <td>{{ genderImportedRows }}</td>
-            <td>{{ importedCount }}</td>
-            <td>
-              @if (importResult.importedRowsCsvBase64) {
-                <button mat-button type="button" (click)="downloadGenderCsv(importResult.importedRowsCsvBase64, 'genders-imported.csv')">
-                  <mat-icon>download</mat-icon>
-                  {{ genderDownloadItems }}
-                </button>
-              }
-            </td>
-          </tr>
-          <tr>
-            <td>{{ genderNotImportedRows }}</td>
-            <td>{{ notImportedCount }}</td>
-            <td>
-              @if (importResult.notImportedRowsCsvBase64) {
-                <button mat-button type="button" (click)="downloadGenderCsv(importResult.notImportedRowsCsvBase64, 'genders-not-imported.csv')">
-                  <mat-icon>download</mat-icon>
-                  {{ genderDownloadItems }}
-                </button>
-              }
-            </td>
-          </tr>
-        }
       </table>
       @if (importResult && notImportedCount > 0 && importedCount === 0) {
         <p class="notice">{{ genderNoneImported }}</p>
@@ -182,6 +193,15 @@
         }
       </button>
     } @else {
+      <button
+        mat-stroked-button
+        type="button"
+        class="equal-action-btn footer-download-btn"
+        (click)="downloadTemplate()"
+      >
+        <mat-icon>download</mat-icon>
+        {{ downloadTemplateLabel }}
+      </button>
       <button mat-flat-button color="primary" type="button" class="equal-footer-btn" (click)="close()">
         {{ closeLabel }}
       </button>

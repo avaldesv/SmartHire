@@ -55,7 +55,8 @@ export function localizeCatalogCsvStructureErrors(errors: string[]): string {
 }
 
 export const CATALOG_IMPORT_GENDER_HINT = $localize`:@@catalogImport.gender.hint:Descargue la plantilla, complete los datos y suba el archivo CSV. Al seleccionar el archivo se valida automáticamente; se importarán solo las filas válidas.`;
-export const CATALOG_IMPORT_GENDER_SUMMARY_VALIDATION = $localize`:@@catalogImport.gender.summaryValidation:Resumen de validaciones`;
+export const CATALOG_IMPORT_GENDER_SUMMARY_VALIDATION = $localize`:@@catalogImport.gender.summaryValidation:Resumen global de validaciones`;
+export const CATALOG_IMPORT_GENDER_SUMMARY_BY_ROWS = $localize`:@@catalogImport.gender.summaryByRows:Resumen de validaciones`;
 export const CATALOG_IMPORT_GENDER_SUMMARY_IMPORT = $localize`:@@catalogImport.gender.summaryImport:Resumen de importaciones`;
 export const CATALOG_IMPORT_GENDER_DOWNLOAD_ITEMS = $localize`:@@catalogImport.gender.downloadItems:Descargar ítems`;
 export const CATALOG_IMPORT_GENDER_VALID_ROWS = $localize`:@@catalogImport.gender.validRows:Filas válidas`;
@@ -87,6 +88,16 @@ const GENDER_ISSUE_LABELS: Record<string, string> = {
   'bad-separator': $localize`:@@catalogImport.gender.issue.badSeparator:El separador debe ser punto y coma.`,
   'unclosed-quote': $localize`:@@catalogImport.gender.issue.unclosedQuote:Hay comillas sin cerrar.`,
   'invalid-encoding': $localize`:@@catalogImport.gender.issue.invalidEncoding:El fichero debe estar en UTF-8.`,
+  'code-required': $localize`:@@catalogImport.gender.issue.codeRequired:El código es obligatorio.`,
+  'name-required': $localize`:@@catalogImport.gender.issue.nameRequired:El nombre es obligatorio.`,
+  'legacy-id-invalid': $localize`:@@catalogImport.gender.issue.legacyIdInvalid:El legacyId debe ser un número entero.`,
+  'country-id-invalid': $localize`:@@catalogImport.gender.issue.countryIdInvalid:El countryId debe ser un número entero.`,
+  'legacy-country-id-invalid': $localize`:@@catalogImport.gender.issue.legacyCountryIdInvalid:El legacyCountryId debe ser un número entero.`,
+  'update-legacy-id-empty': $localize`:@@catalogImport.gender.issue.updateLegacyIdEmpty:En una actualización el legacyId es obligatorio. En un alta nueva puede ir vacío.`,
+  'global-admin-required': $localize`:@@catalogImport.gender.issue.globalAdminRequired:El alcance GLOBAL solo lo importa un administrador global.`,
+  'company-header-required': $localize`:@@catalogImport.gender.issue.companyHeaderRequired:Falta la empresa de la sesión.`,
+  'tenant-not-writable': $localize`:@@catalogImport.gender.issue.tenantNotWritable:No se puede modificar este género con la empresa de la sesión.`,
+  'legacy-id-assign-failed': $localize`:@@catalogImport.gender.issue.legacyIdAssignFailed:No se pudo asignar el legacyId del alta.`,
 };
 
 export function localizeGenderCsvIssue(code: string): string {

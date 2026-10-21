@@ -91,6 +91,50 @@
   color: #1e293b;
 }
 
+.preview-summary-table.gender-summary .summary-label {
+  width: 26%;
+}
+
+.preview-summary-table.gender-summary .summary-value {
+  width: 24%;
+}
+
+.preview-summary-table.gender-summary td:nth-child(odd) {
+  white-space: nowrap;
+}
+
+.preview-summary-table.gender-summary .value-download {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.preview-summary-table.gender-summary td {
+  height: 40px;
+  padding: 0 8px;
+  vertical-align: middle;
+  box-sizing: border-box;
+}
+
+.preview-summary-table.gender-summary .download-cell {
+  white-space: nowrap;
+}
+
+.preview-summary-table.gender-summary .gender-download.mat-mdc-button {
+  height: 36px;
+  min-height: 36px;
+  padding: 0 8px;
+  line-height: 36px;
+}
+
+.preview-summary-table.gender-summary .gender-download .mat-icon {
+  width: 18px;
+  height: 18px;
+  font-size: 18px;
+  margin-right: 4px;
+}
+
 .gender-summary td.ok {
   color: #2e7d32;
   font-weight: 500;
