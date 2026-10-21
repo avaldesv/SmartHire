@@ -27,6 +27,7 @@ import {
   CATALOG_IMPORT_GENDER_NOTICE_NO_FILE,
   CATALOG_IMPORT_GENDER_NOT_IMPORTED_ROWS,
   CATALOG_IMPORT_GENDER_PARTIAL,
+  CATALOG_IMPORT_GENDER_SUMMARY_BY_ROWS,
   CATALOG_IMPORT_GENDER_SUMMARY_IMPORT,
   CATALOG_IMPORT_GENDER_SUMMARY_VALIDATION,
   CATALOG_IMPORT_GENDER_VALID_ROWS,
@@ -81,6 +82,12 @@ export interface CatalogCsvImportDialogData {
 export class CatalogCsvImportDialogComponent {
   private readonly dialogRef = inject(MatDialogRef<CatalogCsvImportDialogComponent, boolean>);
   readonly data = inject<CatalogCsvImportDialogData>(MAT_DIALOG_DATA);
+
+  constructor() {
+    if (this.data.catalogKey === 'genders') {
+      this.dialogRef.updateSize('840px');
+    }
+  }
   private readonly catalogImportExport = inject(CatalogImportExportService);
   private readonly fileInput = viewChild<ElementRef<HTMLInputElement>>('fileInput');
 
@@ -95,6 +102,8 @@ export class CatalogCsvImportDialogComponent {
   readonly hint = CATALOG_IMPORT_HINT;
   readonly genderHint = CATALOG_IMPORT_GENDER_HINT;
   readonly genderSummaryValidation = CATALOG_IMPORT_GENDER_SUMMARY_VALIDATION;
+  readonly genderSummaryByRows = CATALOG_IMPORT_GENDER_SUMMARY_BY_ROWS;
+  readonly pendingValue = CATALOG_IMPORT_STRUCTURE_PENDING_VALUE;
   readonly genderSummaryImport = CATALOG_IMPORT_GENDER_SUMMARY_IMPORT;
   readonly genderDownloadItems = CATALOG_IMPORT_GENDER_DOWNLOAD_ITEMS;
   readonly genderValidRows = CATALOG_IMPORT_GENDER_VALID_ROWS;

@@ -12390,6 +12390,10 @@
         <target>Baixe o modelo, preencha os dados e envie o arquivo CSV. Ao selecionar o arquivo ele é validado automaticamente; somente as linhas válidas serão importadas.</target>
       </trans-unit>
       <trans-unit id="catalogImport.gender.summaryValidation" datatype="html">
+        <source>Resumen global de validaciones</source>
+        <target>Resumo global das validações</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.summaryByRows" datatype="html">
         <source>Resumen de validaciones</source>
         <target>Resumo das validações</target>
       </trans-unit>
@@ -12508,6 +12512,46 @@
       <trans-unit id="catalogImport.gender.issue.invalidEncoding" datatype="html">
         <source>El fichero debe estar en UTF-8.</source>
         <target>O arquivo deve estar em UTF-8.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.codeRequired" datatype="html">
+        <source>El código es obligatorio.</source>
+        <target>O código é obrigatório.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.nameRequired" datatype="html">
+        <source>El nombre es obligatorio.</source>
+        <target>O nome é obrigatório.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.legacyIdInvalid" datatype="html">
+        <source>El legacyId debe ser un número entero.</source>
+        <target>O legacyId deve ser um número inteiro.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.countryIdInvalid" datatype="html">
+        <source>El countryId debe ser un número entero.</source>
+        <target>O countryId deve ser um número inteiro.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.legacyCountryIdInvalid" datatype="html">
+        <source>El legacyCountryId debe ser un número entero.</source>
+        <target>O legacyCountryId deve ser um número inteiro.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.updateLegacyIdEmpty" datatype="html">
+        <source>En una actualización el legacyId es obligatorio. En un alta nueva puede ir vacío.</source>
+        <target>Em uma atualização o legacyId é obrigatório. Em uma alta nova ele pode ficar vazio.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.globalAdminRequired" datatype="html">
+        <source>El alcance GLOBAL solo lo importa un administrador global.</source>
+        <target>O alcance GLOBAL só pode ser importado por um administrador global.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.companyHeaderRequired" datatype="html">
+        <source>Falta la empresa de la sesión.</source>
+        <target>Falta a empresa da sessão.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.tenantNotWritable" datatype="html">
+        <source>No se puede modificar este género con la empresa de la sesión.</source>
+        <target>Este gênero não pode ser alterado com a empresa da sessão.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.legacyIdAssignFailed" datatype="html">
+        <source>No se pudo asignar el legacyId del alta.</source>
+        <target>Não foi possível atribuir o legacyId da inclusão.</target>
       </trans-unit>
     </body>
   </file>
