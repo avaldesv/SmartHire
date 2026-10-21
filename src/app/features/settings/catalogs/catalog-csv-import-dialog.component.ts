@@ -17,6 +17,19 @@ import {
   CATALOG_IMPORT_DOWNLOAD_ERRORS,
   CATALOG_IMPORT_DOWNLOAD_PREVIEW_ERRORS,
   CATALOG_IMPORT_DOWNLOAD_TEMPLATE,
+  CATALOG_IMPORT_GENDER_DOWNLOAD_ITEMS,
+  CATALOG_IMPORT_GENDER_HINT,
+  CATALOG_IMPORT_GENDER_IMPORTED_ROWS,
+  CATALOG_IMPORT_GENDER_INVALID_ROWS,
+  CATALOG_IMPORT_GENDER_NONE,
+  CATALOG_IMPORT_GENDER_NOTICE_EMPTY,
+  CATALOG_IMPORT_GENDER_NOTICE_HEADER_ONLY,
+  CATALOG_IMPORT_GENDER_NOTICE_NO_FILE,
+  CATALOG_IMPORT_GENDER_NOT_IMPORTED_ROWS,
+  CATALOG_IMPORT_GENDER_PARTIAL,
+  CATALOG_IMPORT_GENDER_SUMMARY_IMPORT,
+  CATALOG_IMPORT_GENDER_SUMMARY_VALIDATION,
+  CATALOG_IMPORT_GENDER_VALID_ROWS,
   CATALOG_IMPORT_HINT,
   CATALOG_IMPORT_IMPORT,
   CATALOG_IMPORT_IMPORT_ERROR,
@@ -35,6 +48,7 @@ import {
   catalogImportTitle,
   localizeCatalogCsvStructureError,
   localizeCatalogCsvStructureErrors,
+  localizeGenderCsvIssue,
 } from '../../../core/i18n/catalog-import-labels';
 import {
   EXCEL_BULK_INVALID_ROWS,
@@ -75,9 +89,20 @@ export class CatalogCsvImportDialogComponent {
   validation: CatalogCsvStructureValidationResponse | null = null;
   importResult: CatalogCsvImportResponse | null = null;
   errorMessage = '';
+  noticeMessage = '';
 
   readonly importTitle = catalogImportTitle(this.data.catalogLabel);
   readonly hint = CATALOG_IMPORT_HINT;
+  readonly genderHint = CATALOG_IMPORT_GENDER_HINT;
+  readonly genderSummaryValidation = CATALOG_IMPORT_GENDER_SUMMARY_VALIDATION;
+  readonly genderSummaryImport = CATALOG_IMPORT_GENDER_SUMMARY_IMPORT;
+  readonly genderDownloadItems = CATALOG_IMPORT_GENDER_DOWNLOAD_ITEMS;
+  readonly genderValidRows = CATALOG_IMPORT_GENDER_VALID_ROWS;
+  readonly genderInvalidRows = CATALOG_IMPORT_GENDER_INVALID_ROWS;
+  readonly genderImportedRows = CATALOG_IMPORT_GENDER_IMPORTED_ROWS;
+  readonly genderNotImportedRows = CATALOG_IMPORT_GENDER_NOT_IMPORTED_ROWS;
+  readonly genderPartial = CATALOG_IMPORT_GENDER_PARTIAL;
+  readonly genderNoneImported = CATALOG_IMPORT_GENDER_NONE;
   readonly downloadTemplateLabel = CATALOG_IMPORT_DOWNLOAD_TEMPLATE;
   readonly pickFileLabel = CATALOG_IMPORT_PICK_FILE;
   readonly downloadErrorsLabel = CATALOG_IMPORT_DOWNLOAD_ERRORS;
@@ -94,6 +119,21 @@ export class CatalogCsvImportDialogComponent {
 
   resultSummary(created: number, updated: number, failed: number): string {
     return catalogImportResultSummary(this.data.catalogKey, created, updated, failed);
+  }
+
+  get isGender(): boolean {
+    return this.data.catalogKey === 'genders';
+  }
+
+  get importedCount(): number {
+    if (!this.importResult) {
+      return 0;
+    }
+    return this.importResult.created + this.importResult.updated;
+  }
+
+  get notImportedCount(): number {
+    return this.importResult?.failed ?? 0;
   }
 
   get isImportDone(): boolean {
@@ -170,9 +210,34 @@ export class CatalogCsvImportDialogComponent {
     this.validation = null;
     this.importResult = null;
     this.errorMessage = '';
-    if (this.selectedFile) {
-      this.runValidationOnly();
+    this.noticeMessage = '';
+    if (!this.selectedFile) {
+      if (this.isGender) {
+        this.noticeMessage = CATALOG_IMPORT_GENDER_NOTICE_NO_FILE;
+      }
+      return;
     }
+    if (this.isGender) {
+      void this.prepareGenderFile(this.selectedFile);
+      return;
+    }
+    this.runValidationOnly();
+  }
+
+  private async prepareGenderFile(file: File): Promise<void> {
+    const shape = genderCsvFileShape(await file.text());
+    if (this.selectedFile !== file) {
+      return;
+    }
+    if (shape === 'empty') {
+      this.noticeMessage = CATALOG_IMPORT_GENDER_NOTICE_EMPTY;
+      return;
+    }
+    if (shape === 'header-only') {
+      this.noticeMessage = CATALOG_IMPORT_GENDER_NOTICE_HEADER_ONLY;
+      return;
+    }
+    this.runValidationOnly();
   }
 
   downloadTemplate(): void {
@@ -210,6 +275,10 @@ export class CatalogCsvImportDialogComponent {
 
   importCsv(): void {
     if (!this.selectedFile) {
+      if (this.isGender) {
+        this.noticeMessage = CATALOG_IMPORT_GENDER_NOTICE_NO_FILE;
+        return;
+      }
       this.errorMessage = CATALOG_IMPORT_SELECT_FILE;
       return;
     }
@@ -250,8 +319,25 @@ export class CatalogCsvImportDialogComponent {
         return localizeCatalogCsvStructureError(body);
       }
       if (body && typeof body === 'object') {
-        const msg = (body as { message?: string; detail?: string }).message
-          ?? (body as { detail?: string }).detail;
+        const record = body as { code?: string; errorCode?: string; message?: string; detail?: string };
+        const code = record.code || record.errorCode;
+        if (this.isGender && code) {
+          const label = localizeGenderCsvIssue(code);
+          if (label !== code) {
+            this.validation = {
+              structureValid: false,
+              delimiter: ';',
+              expectedColumns: [],
+              actualColumns: [],
+              totalRows: 0,
+              structureErrors: [code],
+              validCount: 0,
+              invalidCount: 0,
+            };
+            return label;
+          }
+        }
+        const msg = record.message ?? record.detail;
         if (msg) {
           return localizeCatalogCsvStructureError(String(msg));
         }
@@ -270,6 +356,13 @@ export class CatalogCsvImportDialogComponent {
     downloadBase64Csv(this.importResult.errorReportCsvBase64, `${this.data.catalogKey}-import-errors.csv`);
   }
 
+  downloadGenderCsv(base64: string | null | undefined, filename: string): void {
+    if (!base64) {
+      return;
+    }
+    downloadBase64Csv(base64, filename);
+  }
+
   downloadPreviewErrorReport(): void {
     if (!this.validation?.previewErrorReportCsvBase64) {
       return;
@@ -283,4 +376,55 @@ export class CatalogCsvImportDialogComponent {
   close(): void {
     this.dialogRef.close(!!this.importResult);
   }
+}
+
+export function genderCsvFileShape(text: string): 'empty' | 'header-only' | 'data' {
+  const content = text.replace(/^\uFEFF/, '');
+  if (!content.trim()) {
+    return 'empty';
+  }
+  const records = splitCsvRecords(content);
+  if (records.length === 0 || records.every((cells) => cells.every((cell) => !cell.trim()))) {
+    return 'empty';
+  }
+  if (records.length === 1) {
+    return 'header-only';
+  }
+  return 'data';
+}
+
+function splitCsvRecords(content: string): string[][] {
+  const records: string[][] = [];
+  let cells: string[] = [];
+  let current = '';
+  let inQuotes = false;
+  for (let i = 0; i < content.length; i++) {
+    const char = content[i];
+    if (char === '"') {
+      if (inQuotes && content[i + 1] === '"') {
+        current += '"';
+        i++;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if (char === ';' && !inQuotes) {
+      cells.push(current);
+      current = '';
+    } else if ((char === '\n' || char === '\r') && !inQuotes) {
+      if (char === '\r' && content[i + 1] === '\n') {
+        i++;
+      }
+      cells.push(current);
+      current = '';
+      records.push(cells);
+      cells = [];
+    } else {
+      current += char;
+    }
+  }
+  if (current.length > 0 || cells.length > 0) {
+    cells.push(current);
+    records.push(cells);
+  }
+  return records;
 }

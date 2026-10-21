@@ -85,6 +85,27 @@
   }
 }
 
+.gender-summary th {
+  text-align: left;
+  padding: 8px 8px 4px;
+  color: #1e293b;
+}
+
+.gender-summary td.ok {
+  color: #2e7d32;
+  font-weight: 500;
+}
+
+.gender-summary td.ko {
+  color: #c62828;
+  font-weight: 500;
+}
+
+.notice {
+  color: #475569;
+  margin: 8px 0 0;
+}
+
 .error {
   color: #b91c1c;
   margin: 8px 0 0;
