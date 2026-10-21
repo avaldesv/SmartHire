@@ -33,6 +33,8 @@ export interface CatalogCsvStructureValidationResponse {
   invalidCount?: number;
   validRows?: Record<string, string>[];
   invalidRows?: CatalogCsvInvalidRow[];
+  validRowsCsvBase64?: string | null;
+  invalidRowsCsvBase64?: string | null;
 }
 
 export interface CatalogCsvImportResponse {
@@ -40,6 +42,8 @@ export interface CatalogCsvImportResponse {
   updated: number;
   failed: number;
   errorReportCsvBase64: string | null;
+  importedRowsCsvBase64?: string | null;
+  notImportedRowsCsvBase64?: string | null;
 }
 
 @Injectable({ providedIn: 'root' })

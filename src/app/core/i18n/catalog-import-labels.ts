@@ -54,6 +54,45 @@ export function localizeCatalogCsvStructureErrors(errors: string[]): string {
   return errors.map(localizeCatalogCsvStructureError).filter(Boolean).join(' ');
 }
 
+export const CATALOG_IMPORT_GENDER_HINT = $localize`:@@catalogImport.gender.hint:Descargue la plantilla, complete los datos y suba el archivo CSV. Al seleccionar el archivo se valida automáticamente; se importarán solo las filas válidas.`;
+export const CATALOG_IMPORT_GENDER_SUMMARY_VALIDATION = $localize`:@@catalogImport.gender.summaryValidation:Resumen de validaciones`;
+export const CATALOG_IMPORT_GENDER_SUMMARY_IMPORT = $localize`:@@catalogImport.gender.summaryImport:Resumen de importaciones`;
+export const CATALOG_IMPORT_GENDER_DOWNLOAD_ITEMS = $localize`:@@catalogImport.gender.downloadItems:Descargar ítems`;
+export const CATALOG_IMPORT_GENDER_VALID_ROWS = $localize`:@@catalogImport.gender.validRows:Filas válidas`;
+export const CATALOG_IMPORT_GENDER_INVALID_ROWS = $localize`:@@catalogImport.gender.invalidRows:Filas inválidas`;
+export const CATALOG_IMPORT_GENDER_IMPORTED_ROWS = $localize`:@@catalogImport.gender.importedRows:Filas importadas`;
+export const CATALOG_IMPORT_GENDER_NOT_IMPORTED_ROWS = $localize`:@@catalogImport.gender.notImportedRows:Filas no importadas`;
+export const CATALOG_IMPORT_GENDER_NOTICE_NO_FILE = $localize`:@@catalogImport.gender.noticeNoFile:Hay que elegir un archivo.`;
+export const CATALOG_IMPORT_GENDER_NOTICE_HEADER_ONLY = $localize`:@@catalogImport.gender.noticeHeaderOnly:No hay filas que validar. El archivo solo tiene la cabecera.`;
+export const CATALOG_IMPORT_GENDER_NOTICE_EMPTY = $localize`:@@catalogImport.gender.noticeEmpty:El fichero no trae cabecera.`;
+export const CATALOG_IMPORT_GENDER_PARTIAL = $localize`:@@catalogImport.gender.partial:La importación quedó parcial: no se importaron todas las filas.`;
+export const CATALOG_IMPORT_GENDER_NONE = $localize`:@@catalogImport.gender.noneImported:No se importó ninguna fila.`;
+
+const GENDER_ISSUE_LABELS: Record<string, string> = {
+  'legacy-id-conflict': $localize`:@@catalogImport.gender.issue.legacyIdConflict:El legacyId ya está asignado a otro género o está repetido en el CSV.`,
+  'business-key-duplicate': $localize`:@@catalogImport.gender.issue.businessKeyDuplicate:Hay más de una fila con la misma clave de negocio. Deje solo la primera.`,
+  'global-country-not-allowed': $localize`:@@catalogImport.gender.issue.globalCountryNotAllowed:En alcance GLOBAL el país debe ir vacío.`,
+  'code-too-long': $localize`:@@catalogImport.gender.issue.codeTooLong:El código supera 32 caracteres.`,
+  'name-too-long': $localize`:@@catalogImport.gender.issue.nameTooLong:El nombre supera 255 caracteres.`,
+  'value-too-long': $localize`:@@catalogImport.gender.issue.valueTooLong:El valor supera 64 caracteres.`,
+  'is-active-invalid': $localize`:@@catalogImport.gender.issue.isActiveInvalid:Solo se importan filas activas (isActive = true).`,
+  'scope-invalid': $localize`:@@catalogImport.gender.issue.scopeInvalid:El alcance debe ser TENANT o GLOBAL. Vacío se toma como TENANT.`,
+  'country-not-found': $localize`:@@catalogImport.gender.issue.countryNotFound:El país no existe o está eliminado.`,
+  'row-too-short': $localize`:@@catalogImport.gender.issue.rowTooShort:La fila trae menos celdas que la cabecera.`,
+  'row-too-long': $localize`:@@catalogImport.gender.issue.rowTooLong:La fila trae más celdas que la cabecera.`,
+  'blank-row': $localize`:@@catalogImport.gender.issue.blankRow:Hay una línea vacía en el CSV.`,
+  'missing-column': $localize`:@@catalogImport.gender.issue.missingColumn:El CSV no trae todas las columnas obligatorias.`,
+  'duplicate-column': $localize`:@@catalogImport.gender.issue.duplicateColumn:Hay una columna repetida.`,
+  'empty-file': $localize`:@@catalogImport.gender.issue.emptyFile:El fichero no trae cabecera.`,
+  'bad-separator': $localize`:@@catalogImport.gender.issue.badSeparator:El separador debe ser punto y coma.`,
+  'unclosed-quote': $localize`:@@catalogImport.gender.issue.unclosedQuote:Hay comillas sin cerrar.`,
+  'invalid-encoding': $localize`:@@catalogImport.gender.issue.invalidEncoding:El fichero debe estar en UTF-8.`,
+};
+
+export function localizeGenderCsvIssue(code: string): string {
+  return GENDER_ISSUE_LABELS[code] ?? code;
+}
+
 export function catalogImportPreviewSummary(created: number, updated: number, failed: number): string {
   return $localize`:@@catalogImport.previewSummary:Preview de negocio — Se crearían: ${created}:created: · Se actualizarían: ${updated}:updated: · Errores: ${failed}:failed:.`;
 }

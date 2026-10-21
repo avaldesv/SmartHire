@@ -12385,6 +12385,130 @@
         <source>Liberado</source>
         <target>Liberado</target>
       </trans-unit>
+      <trans-unit id="catalogImport.gender.hint" datatype="html">
+        <source>Descargue la plantilla, complete los datos y suba el archivo CSV. Al seleccionar el archivo se valida automáticamente; se importarán solo las filas válidas.</source>
+        <target>Baixe o modelo, preencha os dados e envie o arquivo CSV. Ao selecionar o arquivo ele é validado automaticamente; somente as linhas válidas serão importadas.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.summaryValidation" datatype="html">
+        <source>Resumen de validaciones</source>
+        <target>Resumo das validações</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.summaryImport" datatype="html">
+        <source>Resumen de importaciones</source>
+        <target>Resumo das importações</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.downloadItems" datatype="html">
+        <source>Descargar ítems</source>
+        <target>Baixar itens</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.validRows" datatype="html">
+        <source>Filas válidas</source>
+        <target>Linhas válidas</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.invalidRows" datatype="html">
+        <source>Filas inválidas</source>
+        <target>Linhas inválidas</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.importedRows" datatype="html">
+        <source>Filas importadas</source>
+        <target>Linhas importadas</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.notImportedRows" datatype="html">
+        <source>Filas no importadas</source>
+        <target>Linhas não importadas</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.noticeNoFile" datatype="html">
+        <source>Hay que elegir un archivo.</source>
+        <target>É preciso escolher um arquivo.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.noticeHeaderOnly" datatype="html">
+        <source>No hay filas que validar. El archivo solo tiene la cabecera.</source>
+        <target>Não há linhas para validar. O arquivo só tem o cabeçalho.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.noticeEmpty" datatype="html">
+        <source>El fichero no trae cabecera.</source>
+        <target>O arquivo não traz cabeçalho.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.partial" datatype="html">
+        <source>La importación quedó parcial: no se importaron todas las filas.</source>
+        <target>A importação ficou parcial: nem todas as linhas foram importadas.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.noneImported" datatype="html">
+        <source>No se importó ninguna fila.</source>
+        <target>Nenhuma linha foi importada.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.legacyIdConflict" datatype="html">
+        <source>El legacyId ya está asignado a otro género o está repetido en el CSV.</source>
+        <target>O legacyId já está atribuído a outro gênero ou está repetido no CSV.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.businessKeyDuplicate" datatype="html">
+        <source>Hay más de una fila con la misma clave de negocio. Deje solo la primera.</source>
+        <target>Há mais de uma linha com a mesma chave de negócio. Deixe apenas a primeira.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.globalCountryNotAllowed" datatype="html">
+        <source>En alcance GLOBAL el país debe ir vacío.</source>
+        <target>No alcance GLOBAL o país deve ficar vazio.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.codeTooLong" datatype="html">
+        <source>El código supera 32 caracteres.</source>
+        <target>O código passa de 32 caracteres.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.nameTooLong" datatype="html">
+        <source>El nombre supera 255 caracteres.</source>
+        <target>O nome passa de 255 caracteres.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.valueTooLong" datatype="html">
+        <source>El valor supera 64 caracteres.</source>
+        <target>O valor passa de 64 caracteres.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.isActiveInvalid" datatype="html">
+        <source>Solo se importan filas activas (isActive = true).</source>
+        <target>Só são importadas linhas ativas (isActive = true).</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.scopeInvalid" datatype="html">
+        <source>El alcance debe ser TENANT o GLOBAL. Vacío se toma como TENANT.</source>
+        <target>O alcance deve ser TENANT ou GLOBAL. Vazio é tratado como TENANT.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.countryNotFound" datatype="html">
+        <source>El país no existe o está eliminado.</source>
+        <target>O país não existe ou está excluído.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.rowTooShort" datatype="html">
+        <source>La fila trae menos celdas que la cabecera.</source>
+        <target>A linha traz menos células que o cabeçalho.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.rowTooLong" datatype="html">
+        <source>La fila trae más celdas que la cabecera.</source>
+        <target>A linha traz mais células que o cabeçalho.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.blankRow" datatype="html">
+        <source>Hay una línea vacía en el CSV.</source>
+        <target>Há uma linha vazia no CSV.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.missingColumn" datatype="html">
+        <source>El CSV no trae todas las columnas obligatorias.</source>
+        <target>O CSV não traz todas as colunas obrigatórias.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.duplicateColumn" datatype="html">
+        <source>Hay una columna repetida.</source>
+        <target>Há uma coluna repetida.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.emptyFile" datatype="html">
+        <source>El fichero no trae cabecera.</source>
+        <target>O arquivo não traz cabeçalho.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.badSeparator" datatype="html">
+        <source>El separador debe ser punto y coma.</source>
+        <target>O separador deve ser ponto e vírgula.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.unclosedQuote" datatype="html">
+        <source>Hay comillas sin cerrar.</source>
+        <target>Há aspas sem fechar.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.gender.issue.invalidEncoding" datatype="html">
+        <source>El fichero debe estar en UTF-8.</source>
+        <target>O arquivo deve estar em UTF-8.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
