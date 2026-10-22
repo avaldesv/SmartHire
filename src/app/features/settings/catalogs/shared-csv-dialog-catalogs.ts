@@ -42,6 +42,9 @@ const SHARED_CSV_DIALOG_KEYS = new Set<string>([
   'cancellation-types',
   'cancellation-reasons',
   'questionnaire-questions',
+  'companies',
+  'notification-templates',
+  'ai-prompts',
 ]);
 
 export function usesSharedCsvDialog(catalogKey: string): boolean {

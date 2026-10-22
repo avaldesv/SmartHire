@@ -83,7 +83,7 @@ describe('CatalogCsvImportDialogComponent gender summary', () => {
 });
 
 describe('shared CSV dialog membership', () => {
-  it('keeps genders and the first two waves on the shared dialog', () => {
+  it('keeps genders and the first three waves on the shared dialog', () => {
     expect(usesSharedCsvDialog('genders')).toBeTrue();
     expect(usesSharedCsvDialog('marital-statuses')).toBeTrue();
     expect(usesSharedCsvDialog('states')).toBeTrue();
@@ -92,6 +92,9 @@ describe('shared CSV dialog membership', () => {
     expect(usesSharedCsvDialog('company-areas')).toBeTrue();
     expect(usesSharedCsvDialog('cancellation-reasons')).toBeTrue();
     expect(usesSharedCsvDialog('questionnaire-questions')).toBeTrue();
+    expect(usesSharedCsvDialog('companies')).toBeTrue();
+    expect(usesSharedCsvDialog('notification-templates')).toBeTrue();
+    expect(usesSharedCsvDialog('ai-prompts')).toBeTrue();
     expect(sharedCsvDownloadName('genders', 'invalid')).toBe('genders-invalid.csv');
     expect(sharedCsvDownloadName('countries', 'valid')).toBe('countries-valid.csv');
     expect(sharedCsvDownloadName('questionnaire-questions', 'invalid')).toBe(
@@ -100,9 +103,8 @@ describe('shared CSV dialog membership', () => {
   });
 
   it('leaves a later-wave catalog on the previous dialog', () => {
-    expect(usesSharedCsvDialog('companies')).toBeFalse();
-    expect(usesSharedCsvDialog('notification-templates')).toBeFalse();
     expect(usesSharedCsvDialog('questionnaire-questionnaires')).toBeFalse();
+    expect(usesSharedCsvDialog('questionnaire-question-options')).toBeFalse();
   });
 
   it('names the visible catalog without changing the gender phrase', () => {
@@ -180,8 +182,15 @@ describe('CatalogCsvImportDialogComponent first wave', () => {
     expect(component.sharedDownload('imported')).toBe('questionnaire-questions-imported.csv');
   });
 
-  it('keeps the previous dialog for a third-wave catalog', () => {
-    const { fixture } = setup('companies');
+  it('shows the four-column summary for a third-wave catalog', () => {
+    const { fixture, component } = setup('companies');
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.gender-summary')).not.toBeNull();
+    expect(component.sharedDownload('not-imported')).toBe('companies-not-imported.csv');
+  });
+
+  it('keeps the previous dialog for a fourth-wave catalog', () => {
+    const { fixture } = setup('questionnaire-questionnaires');
     expect(fixture.nativeElement.querySelector('.gender-summary')).toBeNull();
     expect(fixture.nativeElement.querySelector('.preview-summary-table')).not.toBeNull();
   });
