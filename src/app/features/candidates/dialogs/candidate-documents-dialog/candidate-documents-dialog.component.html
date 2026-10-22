@@ -172,11 +172,15 @@
                   (click)="openInlineFilePicker(row)"
                 >
                   @if (uploadingTypeId === row.documentTypeId) {
-                    <mat-spinner diameter="18" />
-                    <span>{{ labels.uploading }}</span>
+                    <span class="upload-btn-content">
+                      <mat-spinner diameter="18" />
+                      <span>{{ labels.uploading }}</span>
+                    </span>
                   } @else {
-                    <mat-icon>upload</mat-icon>
-                    <span>{{ labels.upload }}</span>
+                    <span class="upload-btn-content">
+                      <mat-icon>upload</mat-icon>
+                      <span>{{ labels.upload }}</span>
+                    </span>
                   }
                 </button>
               } @else {
