@@ -95,6 +95,14 @@ describe('shared CSV dialog membership', () => {
     expect(usesSharedCsvDialog('companies')).toBeTrue();
     expect(usesSharedCsvDialog('notification-templates')).toBeTrue();
     expect(usesSharedCsvDialog('ai-prompts')).toBeTrue();
+    expect(usesSharedCsvDialog('questionnaire-knowledge-categories')).toBeTrue();
+    expect(usesSharedCsvDialog('questionnaire-tags')).toBeTrue();
+    expect(usesSharedCsvDialog('questionnaire-question-options')).toBeTrue();
+    expect(usesSharedCsvDialog('questionnaire-question-tags')).toBeTrue();
+    expect(usesSharedCsvDialog('questionnaire-questionnaires')).toBeTrue();
+    expect(usesSharedCsvDialog('questionnaire-questionnaire-questions')).toBeTrue();
+    expect(usesSharedCsvDialog('questionnaire-exams')).toBeTrue();
+    expect(usesSharedCsvDialog('questionnaire-questionnaire-publish')).toBeTrue();
     expect(sharedCsvDownloadName('genders', 'invalid')).toBe('genders-invalid.csv');
     expect(sharedCsvDownloadName('countries', 'valid')).toBe('countries-valid.csv');
     expect(sharedCsvDownloadName('questionnaire-questions', 'invalid')).toBe(
@@ -102,9 +110,8 @@ describe('shared CSV dialog membership', () => {
     );
   });
 
-  it('leaves a later-wave catalog on the previous dialog', () => {
-    expect(usesSharedCsvDialog('questionnaire-questionnaires')).toBeFalse();
-    expect(usesSharedCsvDialog('questionnaire-question-options')).toBeFalse();
+  it('leaves an unknown catalog on the previous dialog', () => {
+    expect(usesSharedCsvDialog('position-statuses')).toBeFalse();
   });
 
   it('names the visible catalog without changing the gender phrase', () => {
@@ -189,8 +196,21 @@ describe('CatalogCsvImportDialogComponent first wave', () => {
     expect(component.sharedDownload('not-imported')).toBe('companies-not-imported.csv');
   });
 
-  it('keeps the previous dialog for a fourth-wave catalog', () => {
-    const { fixture } = setup('questionnaire-questionnaires');
+  it('shows the four-column summary for a questionnaire-tree catalog', () => {
+    const { fixture, component } = setup('questionnaire-questionnaires');
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.gender-summary')).not.toBeNull();
+    expect(component.sharedDownload('invalid')).toBe('questionnaire-questionnaires-invalid.csv');
+  });
+
+  it('shows the four-column summary for publish', () => {
+    const { fixture } = setup('questionnaire-questionnaire-publish');
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.gender-summary')).not.toBeNull();
+  });
+
+  it('keeps the previous dialog for a catalog outside the waves', () => {
+    const { fixture } = setup('position-statuses');
     expect(fixture.nativeElement.querySelector('.gender-summary')).toBeNull();
     expect(fixture.nativeElement.querySelector('.preview-summary-table')).not.toBeNull();
   });

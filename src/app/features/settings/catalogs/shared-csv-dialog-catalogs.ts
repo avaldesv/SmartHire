@@ -45,6 +45,14 @@ const SHARED_CSV_DIALOG_KEYS = new Set<string>([
   'companies',
   'notification-templates',
   'ai-prompts',
+  'questionnaire-knowledge-categories',
+  'questionnaire-tags',
+  'questionnaire-question-options',
+  'questionnaire-question-tags',
+  'questionnaire-questionnaires',
+  'questionnaire-questionnaire-questions',
+  'questionnaire-exams',
+  'questionnaire-questionnaire-publish',
 ]);
 
 export function usesSharedCsvDialog(catalogKey: string): boolean {
