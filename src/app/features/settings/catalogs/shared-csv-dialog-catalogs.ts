@@ -32,6 +32,16 @@ const SHARED_CSV_DIALOG_KEYS = new Set<string>([
   'tools',
   'work-schedules',
   'workplaces',
+  'countries',
+  'municipalities',
+  'neighborhoods',
+  'languages',
+  'kinships',
+  'company-areas',
+  'company-departments',
+  'cancellation-types',
+  'cancellation-reasons',
+  'questionnaire-questions',
 ]);
 
 export function usesSharedCsvDialog(catalogKey: string): boolean {

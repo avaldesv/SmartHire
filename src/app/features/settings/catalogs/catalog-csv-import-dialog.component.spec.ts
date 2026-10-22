@@ -83,17 +83,25 @@ describe('CatalogCsvImportDialogComponent gender summary', () => {
 });
 
 describe('shared CSV dialog membership', () => {
-  it('keeps genders and the first wave on the shared dialog', () => {
+  it('keeps genders and the first two waves on the shared dialog', () => {
     expect(usesSharedCsvDialog('genders')).toBeTrue();
     expect(usesSharedCsvDialog('marital-statuses')).toBeTrue();
     expect(usesSharedCsvDialog('states')).toBeTrue();
+    expect(usesSharedCsvDialog('countries')).toBeTrue();
+    expect(usesSharedCsvDialog('languages')).toBeTrue();
+    expect(usesSharedCsvDialog('company-areas')).toBeTrue();
+    expect(usesSharedCsvDialog('cancellation-reasons')).toBeTrue();
+    expect(usesSharedCsvDialog('questionnaire-questions')).toBeTrue();
     expect(sharedCsvDownloadName('genders', 'invalid')).toBe('genders-invalid.csv');
-    expect(sharedCsvDownloadName('marital-statuses', 'valid')).toBe('marital-statuses-valid.csv');
+    expect(sharedCsvDownloadName('countries', 'valid')).toBe('countries-valid.csv');
+    expect(sharedCsvDownloadName('questionnaire-questions', 'invalid')).toBe(
+      'questionnaire-questions-invalid.csv',
+    );
   });
 
   it('leaves a later-wave catalog on the previous dialog', () => {
-    expect(usesSharedCsvDialog('countries')).toBeFalse();
     expect(usesSharedCsvDialog('companies')).toBeFalse();
+    expect(usesSharedCsvDialog('notification-templates')).toBeFalse();
     expect(usesSharedCsvDialog('questionnaire-questionnaires')).toBeFalse();
   });
 
@@ -147,8 +155,33 @@ describe('CatalogCsvImportDialogComponent first wave', () => {
     expect(component.sharedDownload('valid')).toBe('marital-statuses-valid.csv');
   });
 
-  it('keeps the previous dialog for a second-wave catalog', () => {
-    const { fixture } = setup('countries');
+  it('shows the four-column summary for a second-wave catalog', () => {
+    const { fixture, component } = setup('countries');
+    component.validation = {
+      structureValid: true,
+      delimiter: ';',
+      expectedColumns: [],
+      actualColumns: [],
+      totalRows: 1,
+      structureErrors: [],
+      validCount: 1,
+      invalidCount: 0,
+      validRowsCsvBase64: 'YQ==',
+    };
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.gender-summary')).not.toBeNull();
+    expect(component.sharedDownload('invalid')).toBe('countries-invalid.csv');
+  });
+
+  it('shows the same summary for questionnaire questions', () => {
+    const { fixture, component } = setup('questionnaire-questions');
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.gender-summary')).not.toBeNull();
+    expect(component.sharedDownload('imported')).toBe('questionnaire-questions-imported.csv');
+  });
+
+  it('keeps the previous dialog for a third-wave catalog', () => {
+    const { fixture } = setup('companies');
     expect(fixture.nativeElement.querySelector('.gender-summary')).toBeNull();
     expect(fixture.nativeElement.querySelector('.preview-summary-table')).not.toBeNull();
   });
