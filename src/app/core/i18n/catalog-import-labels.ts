@@ -104,6 +104,25 @@ export function localizeGenderCsvIssue(code: string): string {
   return GENDER_ISSUE_LABELS[code] ?? code;
 }
 
+export function catalogCsvLegacyConflict(catalogLabel: string): string {
+  return $localize`:@@catalogImport.shared.legacyIdConflict:El legacyId ya está asignado a otro registro de ${catalogLabel}:catalogLabel: o está repetido en el CSV.`;
+}
+
+export function catalogCsvTenantNotWritable(catalogLabel: string): string {
+  return $localize`:@@catalogImport.shared.tenantNotWritable:No se puede modificar este registro de ${catalogLabel}:catalogLabel: con la empresa de la sesión.`;
+}
+
+/** Gender phrases stay as written. Other shared catalogs name the visible catalog. */
+export function localizeSharedCsvIssue(code: string, catalogKey: string, catalogLabel: string): string {
+  if (catalogKey !== 'genders' && code === 'legacy-id-conflict') {
+    return catalogCsvLegacyConflict(catalogLabel);
+  }
+  if (catalogKey !== 'genders' && code === 'tenant-not-writable') {
+    return catalogCsvTenantNotWritable(catalogLabel);
+  }
+  return localizeGenderCsvIssue(code);
+}
+
 export function catalogImportPreviewSummary(created: number, updated: number, failed: number): string {
   return $localize`:@@catalogImport.previewSummary:Preview de negocio — Se crearían: ${created}:created: · Se actualizarían: ${updated}:updated: · Errores: ${failed}:failed:.`;
 }
