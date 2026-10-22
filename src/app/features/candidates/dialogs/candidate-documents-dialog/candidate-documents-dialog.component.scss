@@ -338,6 +338,12 @@ sh-paginator {
   white-space: nowrap;
 }
 
+.upload-btn-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .upload-btn mat-icon {
   font-size: 18px;
   width: 18px;
