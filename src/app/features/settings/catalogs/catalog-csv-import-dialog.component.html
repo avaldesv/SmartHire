@@ -58,7 +58,7 @@
             <div class="value-download">
               <span [class.ok]="hasValidation && validCount > 0">{{ validCountDisplay }}</span>
               @if (validation?.validRowsCsvBase64) {
-                <button mat-button type="button" class="gender-download" (click)="downloadGenderCsv(validation?.validRowsCsvBase64, 'genders-valid.csv')">
+                <button mat-button type="button" class="gender-download" (click)="downloadGenderCsv(validation?.validRowsCsvBase64, sharedDownload('valid'))">
                   <mat-icon>download</mat-icon>
                   {{ genderDownloadItems }}
                 </button>
@@ -70,7 +70,7 @@
             <div class="value-download">
               <span>{{ importResult ? importedCount : pendingValue }}</span>
               @if (importResult?.importedRowsCsvBase64) {
-                <button mat-button type="button" class="gender-download" (click)="downloadGenderCsv(importResult?.importedRowsCsvBase64, 'genders-imported.csv')">
+                <button mat-button type="button" class="gender-download" (click)="downloadGenderCsv(importResult?.importedRowsCsvBase64, sharedDownload('imported'))">
                   <mat-icon>download</mat-icon>
                   {{ genderDownloadItems }}
                 </button>
@@ -84,7 +84,7 @@
             <div class="value-download">
               <span [class.ko]="hasValidation && invalidCount > 0">{{ invalidCountDisplay }}</span>
               @if (validation?.invalidRowsCsvBase64) {
-                <button mat-button type="button" class="gender-download" (click)="downloadGenderCsv(validation?.invalidRowsCsvBase64, 'genders-invalid.csv')">
+                <button mat-button type="button" class="gender-download" (click)="downloadGenderCsv(validation?.invalidRowsCsvBase64, sharedDownload('invalid'))">
                   <mat-icon>download</mat-icon>
                   {{ genderDownloadItems }}
                 </button>
@@ -96,7 +96,7 @@
             <div class="value-download">
               <span [class.ko]="!!importResult && notImportedCount > 0">{{ importResult ? notImportedCount : pendingValue }}</span>
               @if (importResult?.notImportedRowsCsvBase64) {
-                <button mat-button type="button" class="gender-download" (click)="downloadGenderCsv(importResult?.notImportedRowsCsvBase64, 'genders-not-imported.csv')">
+                <button mat-button type="button" class="gender-download" (click)="downloadGenderCsv(importResult?.notImportedRowsCsvBase64, sharedDownload('not-imported'))">
                   <mat-icon>download</mat-icon>
                   {{ genderDownloadItems }}
                 </button>

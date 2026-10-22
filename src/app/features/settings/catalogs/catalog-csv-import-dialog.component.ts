@@ -49,7 +49,7 @@ import {
   catalogImportTitle,
   localizeCatalogCsvStructureError,
   localizeCatalogCsvStructureErrors,
-  localizeGenderCsvIssue,
+  localizeSharedCsvIssue,
 } from '../../../core/i18n/catalog-import-labels';
 import {
   EXCEL_BULK_INVALID_ROWS,
@@ -59,6 +59,7 @@ import {
   ShModalActionsDirective,
   ShModalFormComponent,
 } from '../../../shared/components/modal-form/sh-modal-form.component';
+import { sharedCsvDownloadName, usesSharedCsvDialog } from './shared-csv-dialog-catalogs';
 
 export interface CatalogCsvImportDialogData {
   catalogKey: string;
@@ -84,7 +85,7 @@ export class CatalogCsvImportDialogComponent {
   readonly data = inject<CatalogCsvImportDialogData>(MAT_DIALOG_DATA);
 
   constructor() {
-    if (this.data.catalogKey === 'genders') {
+    if (usesSharedCsvDialog(this.data.catalogKey)) {
       this.dialogRef.updateSize('840px');
     }
   }
@@ -130,8 +131,13 @@ export class CatalogCsvImportDialogComponent {
     return catalogImportResultSummary(this.data.catalogKey, created, updated, failed);
   }
 
+  /** Gender dialog, also used by catalogs whose API already shares that CSV contract. */
   get isGender(): boolean {
-    return this.data.catalogKey === 'genders';
+    return usesSharedCsvDialog(this.data.catalogKey);
+  }
+
+  sharedDownload(kind: 'valid' | 'invalid' | 'imported' | 'not-imported'): string {
+    return sharedCsvDownloadName(this.data.catalogKey, kind);
   }
 
   get importedCount(): number {
@@ -331,7 +337,7 @@ export class CatalogCsvImportDialogComponent {
         const record = body as { code?: string; errorCode?: string; message?: string; detail?: string };
         const code = record.code || record.errorCode;
         if (this.isGender && code) {
-          const label = localizeGenderCsvIssue(code);
+          const label = localizeSharedCsvIssue(code, this.data.catalogKey, this.data.catalogLabel);
           if (label !== code) {
             this.validation = {
               structureValid: false,

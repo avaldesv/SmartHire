@@ -12553,6 +12553,14 @@
         <source>No se pudo asignar el legacyId del alta.</source>
         <target>Não foi possível atribuir o legacyId da inclusão.</target>
       </trans-unit>
+      <trans-unit id="catalogImport.shared.legacyIdConflict" datatype="html">
+        <source>El legacyId ya está asignado a otro registro de <x id="catalogLabel" equiv-text="catalogLabel"/> o está repetido en el CSV.</source>
+        <target>O legacyId já está atribuído a outro registro de <x id="catalogLabel" equiv-text="catalogLabel"/> ou está repetido no CSV.</target>
+      </trans-unit>
+      <trans-unit id="catalogImport.shared.tenantNotWritable" datatype="html">
+        <source>No se puede modificar este registro de <x id="catalogLabel" equiv-text="catalogLabel"/> con la empresa de la sesión.</source>
+        <target>Não é possível alterar este registro de <x id="catalogLabel" equiv-text="catalogLabel"/> com a empresa da sessão.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
