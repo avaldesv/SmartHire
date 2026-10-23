@@ -56,3 +56,11 @@ export interface ViaBotAddToPreselectionResponse {
 export interface ViaBotResetResponse {
   reset: boolean;
 }
+
+export interface ViaBotPromptRequest {
+  candidateLimit?: number | null;
+}
+
+export interface ViaBotPromptResponse {
+  prompt: string;
+}

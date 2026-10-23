@@ -179,9 +179,11 @@ export class AiChatComponent implements OnInit {
           this.sending = false;
           this.searchPending = false;
           const userText = (res.userMessage ?? '').trim();
+          const alreadyShown =
+            !!userText && this.messages.some((m) => m.role === 'user' && m.text.trim() === userText);
           this.messages = [
             ...this.messages,
-            ...(userText ? [{ role: 'user' as const, text: userText }] : []),
+            ...(!alreadyShown && userText ? [{ role: 'user' as const, text: userText }] : []),
             { role: 'ai', text: res.response },
           ];
           this.results = (res.candidates ?? []).map((c) => ({ ...c, selected: true }));
@@ -235,12 +237,25 @@ export class AiChatComponent implements OnInit {
     this.resetting = true;
     this.viaBotApi.reset(this.positionId).subscribe({
       next: () => {
-        this.resetting = false;
-        this.messages = [{ role: 'ai', text: this.labels.welcome }];
         this.results = [];
         this.searchPending = true;
         this.messageForm.reset({ message: '' });
-        this.feedback.showSuccess(VIA_BOT_RESET_SUCCESS);
+        this.messages = [{ role: 'ai', text: this.labels.welcome }];
+        const { candidateLimit } = this.readCriteria();
+        this.viaBotApi.previewPrompt(this.positionId, { candidateLimit }).subscribe({
+          next: (preview) => {
+            this.resetting = false;
+            const prompt = (preview.prompt ?? '').trim();
+            if (prompt) {
+              this.messages = [...this.messages, { role: 'user', text: prompt }];
+            }
+            this.feedback.showSuccess(VIA_BOT_RESET_SUCCESS);
+          },
+          error: (err) => {
+            this.resetting = false;
+            this.feedback.showApiError(err, { fallbackMessage: VIA_BOT_LOAD_ERROR });
+          },
+        });
       },
       error: (err) => {
         this.resetting = false;
