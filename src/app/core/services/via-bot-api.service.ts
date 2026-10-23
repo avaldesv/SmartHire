@@ -7,6 +7,8 @@ import {
   ViaBotChatRequest,
   ViaBotChatResponse,
   ViaBotConversationResponse,
+  ViaBotPromptRequest,
+  ViaBotPromptResponse,
   ViaBotResetResponse,
 } from '../../shared/models/via-bot.model';
 import { ApiClientService } from './api-client.service';
@@ -26,6 +28,14 @@ export class ViaBotApiService {
   chat(positionId: number, request: ViaBotChatRequest): Observable<ViaBotChatResponse> {
     return this.http.post<ViaBotChatResponse>(
       this.api.apiUrl(`/api/v1/positions/${positionId}/via-bot/chat`),
+      request,
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  previewPrompt(positionId: number, request: ViaBotPromptRequest): Observable<ViaBotPromptResponse> {
+    return this.http.post<ViaBotPromptResponse>(
+      this.api.apiUrl(`/api/v1/positions/${positionId}/via-bot/prompt`),
       request,
       { headers: this.api.buildHeaders() },
     );
