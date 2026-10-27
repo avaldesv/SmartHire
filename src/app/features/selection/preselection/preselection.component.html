@@ -155,10 +155,10 @@
               class="sh-col-action-btn"
               [class.sh-col-action-btn--done]="row.evaluatestCompleted"
               [class.sh-col-action-btn--pending]="row.evaluatestInvited && !row.evaluatestCompleted"
-              [disabled]="!row.evaluatestInvited"
+              [disabled]="evaluatestColumnDisabled(row)"
               [matTooltip]="evaluatestResultsTooltip(row)"
               [attr.aria-label]="evaluatestResultsTooltip(row)"
-              (click)="openEvaluatestResults(row)"
+              (click)="onEvaluatestColumnClick(row)"
             >
               <mat-icon>{{ row.evaluatestCompleted ? 'psychology' : 'psychology_alt' }}</mat-icon>
             </button>
