@@ -98,6 +98,7 @@ export interface PreselectionCandidate extends Candidate {
   questionnaireAutoScorePercent?: number | null;
   evaluatestInvited?: boolean | null;
   evaluatestCompleted?: boolean | null;
+  evaluatestReminderExhausted?: boolean | null;
 }
 
 export interface SystemUser {

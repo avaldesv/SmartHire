@@ -80,6 +80,7 @@ import {
   PRESELECTION_EVALUATEST_TOOLTIP,
   PRESELECTION_EVALUATEST_INVITE_TOOLTIP,
   PRESELECTION_EVALUATEST_RESEND_TOOLTIP,
+  PRESELECTION_EVALUATEST_EXHAUSTED_TOOLTIP,
   PRESELECTION_EVALUATEST_PENDING_TOOLTIP,
   PRESELECTION_EVALUATEST_PENDING_TITLE,
   PRESELECTION_EVALUATEST_PENDING_MSG,
@@ -272,6 +273,7 @@ export class PreselectionComponent implements OnInit {
     evaluatestTooltip: PRESELECTION_EVALUATEST_TOOLTIP,
     evaluatestInviteTooltip: PRESELECTION_EVALUATEST_INVITE_TOOLTIP,
     evaluatestResendTooltip: PRESELECTION_EVALUATEST_RESEND_TOOLTIP,
+    evaluatestExhaustedTooltip: PRESELECTION_EVALUATEST_EXHAUSTED_TOOLTIP,
     evaluatestPendingTooltip: PRESELECTION_EVALUATEST_PENDING_TOOLTIP,
     appointmentTooltip: PRESELECTION_APPOINTMENT_TOOLTIP,
     appointmentScheduledTooltip: PRESELECTION_APPOINTMENT_SCHEDULED_TOOLTIP,
@@ -406,6 +408,7 @@ export class PreselectionComponent implements OnInit {
           questionnaireAutoScorePercent: app.questionnaireAutoScorePercent ?? null,
           evaluatestInvited: app.evaluatestInvited ?? false,
           evaluatestCompleted: app.evaluatestCompleted ?? false,
+          evaluatestReminderExhausted: app.evaluatestReminderExhausted ?? false,
         }));
         this.total = res.total;
         this.loading = false;
@@ -1140,6 +1143,9 @@ export class PreselectionComponent implements OnInit {
   evaluatestResultsTooltip(row: PreselectionCandidate): string {
     if (row.evaluatestCompleted) {
       return this.labels.evaluatestTooltip;
+    }
+    if (row.evaluatestReminderExhausted) {
+      return this.labels.evaluatestExhaustedTooltip;
     }
     if (row.evaluatestInvited) {
       return this.labels.evaluatestResendTooltip;

@@ -77,4 +77,16 @@
       color: #fff;
     }
   }
+
+  &--alert {
+    background: #dc2626;
+    border-color: #dc2626;
+    color: #fff;
+
+    &:hover:not([disabled]) {
+      background: #b91c1c;
+      border-color: #b91c1c;
+      color: #fff;
+    }
+  }
 }
