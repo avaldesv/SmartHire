@@ -26,6 +26,7 @@ export interface CandidateApplicationListItem {
   questionnaireAutoScorePercent?: number | null;
   evaluatestInvited?: boolean | null;
   evaluatestCompleted?: boolean | null;
+  evaluatestReminderExhausted?: boolean | null;
 }
 
 export interface ListCandidateApplicationsRequest {

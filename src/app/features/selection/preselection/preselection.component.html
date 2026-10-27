@@ -154,7 +154,12 @@
               type="button"
               class="sh-col-action-btn"
               [class.sh-col-action-btn--done]="row.evaluatestCompleted"
-              [class.sh-col-action-btn--pending]="row.evaluatestInvited && !row.evaluatestCompleted"
+              [class.sh-col-action-btn--alert]="
+                row.evaluatestReminderExhausted && !row.evaluatestCompleted
+              "
+              [class.sh-col-action-btn--pending]="
+                row.evaluatestInvited && !row.evaluatestCompleted && !row.evaluatestReminderExhausted
+              "
               [disabled]="evaluatestColumnDisabled(row)"
               [matTooltip]="evaluatestResultsTooltip(row)"
               [attr.aria-label]="evaluatestResultsTooltip(row)"

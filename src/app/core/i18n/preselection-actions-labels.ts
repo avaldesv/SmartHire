@@ -51,6 +51,7 @@ export const PRESELECTION_EVALUATION_PENDING_MSG = $localize`:@@preselection.eva
 export const PRESELECTION_EVALUATEST_TOOLTIP = $localize`:@@preselection.evaluatest.tooltip:Ver resultados Evaluatest`;
 export const PRESELECTION_EVALUATEST_INVITE_TOOLTIP = $localize`:@@preselection.evaluatest.inviteTooltip:Enviar a Evaluatest`;
 export const PRESELECTION_EVALUATEST_RESEND_TOOLTIP = $localize`:@@preselection.evaluatest.resendTooltip:Reenviar notificación Evaluatest con el enlace de evaluación`;
+export const PRESELECTION_EVALUATEST_EXHAUSTED_TOOLTIP = $localize`:@@preselection.evaluatest.exhaustedTooltip:Se agotaron los recordatorios automáticos — el candidato no completó la evaluación. Puedes reenviar manualmente`;
 export const PRESELECTION_EVALUATEST_PENDING_TOOLTIP = $localize`:@@preselection.evaluatest.pendingTooltip:Evaluatest pendiente — el candidato aún no completa la evaluación`;
 export const PRESELECTION_EVALUATEST_PENDING_TITLE = $localize`:@@preselection.evaluatest.pendingTitle:Resultados Evaluatest pendientes`;
 export const PRESELECTION_EVALUATEST_PENDING_MSG = $localize`:@@preselection.evaluatest.pendingMessage:Disponible cuando el candidato complete la evaluación en Evaluatest`;
