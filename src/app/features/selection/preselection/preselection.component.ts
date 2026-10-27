@@ -47,6 +47,7 @@ import {
   PRESELECTION_COL_CONTACT,
   PRESELECTION_COL_DOCS,
   PRESELECTION_COL_EVALUATION,
+  PRESELECTION_COL_EVALUATEST,
   PRESELECTION_COL_INTERVIEWED,
   PRESELECTION_COL_REQUEST_COMPLETE_INFO,
   PRESELECTION_COL_REQUEST_DOCUMENTS,
@@ -76,6 +77,10 @@ import {
   PRESELECTION_EVALUATION_PENDING_MSG,
   PRESELECTION_EVALUATION_PENDING_TITLE,
   PRESELECTION_EVALUATION_TOOLTIP,
+  PRESELECTION_EVALUATEST_TOOLTIP,
+  PRESELECTION_EVALUATEST_PENDING_TOOLTIP,
+  PRESELECTION_EVALUATEST_PENDING_TITLE,
+  PRESELECTION_EVALUATEST_PENDING_MSG,
   PRESELECTION_BULK_INVITE_EVALUATEST,
   PRESELECTION_BULK_INVITE_EVALUATEST_CONFIRM,
   preselectionEvaluatestAlreadySentConfirm,
@@ -176,6 +181,10 @@ import {
   QuestionnaireEvaluationDialogComponent,
   QuestionnaireEvaluationDialogData,
 } from '../dialogs/questionnaire-evaluation-dialog/questionnaire-evaluation-dialog.component';
+import {
+  EvaluatestResultsDialogComponent,
+  EvaluatestResultsDialogData,
+} from '../dialogs/evaluatest-results-dialog/evaluatest-results-dialog.component';
 import { QuestionnaireApiService } from '../../../core/services/questionnaire-api.service';
 import { SurveyApiService } from '../../../core/services/survey-api.service';
 import {
@@ -247,6 +256,7 @@ export class PreselectionComponent implements OnInit {
     colDocs: PRESELECTION_COL_DOCS,
     colContact: PRESELECTION_COL_CONTACT,
     colEvaluation: PRESELECTION_COL_EVALUATION,
+    colEvaluatest: PRESELECTION_COL_EVALUATEST,
     colAppointment: PRESELECTION_COL_APPOINTMENT,
     colWhatsappSurvey: PRESELECTION_COL_WHATSAPP_SURVEY,
     colRequestDocuments: PRESELECTION_COL_REQUEST_DOCUMENTS,
@@ -257,6 +267,8 @@ export class PreselectionComponent implements OnInit {
     contactTooltip: PRESELECTION_CONTACT_TOOLTIP,
     contactDoneTooltip: PRESELECTION_CONTACT_DONE_TOOLTIP,
     evaluationTooltip: PRESELECTION_EVALUATION_TOOLTIP,
+    evaluatestTooltip: PRESELECTION_EVALUATEST_TOOLTIP,
+    evaluatestPendingTooltip: PRESELECTION_EVALUATEST_PENDING_TOOLTIP,
     appointmentTooltip: PRESELECTION_APPOINTMENT_TOOLTIP,
     appointmentScheduledTooltip: PRESELECTION_APPOINTMENT_SCHEDULED_TOOLTIP,
     whatsappSurveyTooltip: PRESELECTION_WHATSAPP_SURVEY_TOOLTIP,
@@ -298,6 +310,7 @@ export class PreselectionComponent implements OnInit {
     'documentsComplete',
     'contact',
     'evaluation',
+    'evaluatestResults',
     'interviewed',
     'appointment',
     'requestDocuments',
@@ -344,7 +357,10 @@ export class PreselectionComponent implements OnInit {
   }
 
   private refreshColumns(): void {
-    const cols = [...this.baseColumns];
+    let cols = [...this.baseColumns];
+    if (!this.evaluatestEnabled) {
+      cols = cols.filter((c) => c !== 'evaluatestResults');
+    }
     if (this.showWhatsappSurveyColumn) {
       const idx = cols.indexOf('appointment');
       cols.splice(idx + 1, 0, 'whatsappSurvey');
@@ -385,6 +401,7 @@ export class PreselectionComponent implements OnInit {
           questionnaireStatus: app.questionnaireStatus ?? null,
           questionnaireAutoScorePercent: app.questionnaireAutoScorePercent ?? null,
           evaluatestInvited: app.evaluatestInvited ?? false,
+          evaluatestCompleted: app.evaluatestCompleted ?? false,
         }));
         this.total = res.total;
         this.loading = false;
@@ -1076,6 +1093,34 @@ export class PreselectionComponent implements OnInit {
         : this.labels.evaluationTooltip;
     }
     return this.labels.evaluationTooltip;
+  }
+
+  openEvaluatestResults(row: PreselectionCandidate): void {
+    const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
+    if (!row.evaluatestCompleted) {
+      this.feedback.showInfo(
+        PRESELECTION_EVALUATEST_PENDING_TITLE,
+        `${PRESELECTION_EVALUATEST_PENDING_MSG} (${name})`,
+      );
+      return;
+    }
+    const data: EvaluatestResultsDialogData = {
+      positionId: this.positionId,
+      applicationId: row.applicationId,
+      candidateName: name,
+    };
+    this.dialog.open(EvaluatestResultsDialogComponent, {
+      ...catalogDialogConfig,
+      width: '920px',
+      maxWidth: '96vw',
+      data,
+    });
+  }
+
+  evaluatestResultsTooltip(row: PreselectionCandidate): string {
+    return row.evaluatestCompleted
+      ? this.labels.evaluatestTooltip
+      : this.labels.evaluatestPendingTooltip;
   }
 
   scheduleInterviewForRow(row: PreselectionCandidate): void {

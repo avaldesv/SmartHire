@@ -30,6 +30,7 @@ import {
   EvaluatestInviteResponse,
   UpdateEvaluatestBatteryRequest,
 } from '../../shared/models/evaluatest-battery.model';
+import { EvaluatestResultsResponse } from '../../shared/models/evaluatest-results.model';
 import { ApiClientService } from './api-client.service';
 import { TenantContextService } from './tenant-context.service';
 
@@ -310,6 +311,30 @@ export class PositionService {
       this.api.apiUrl(`/api/v1/positions/${positionId}/evaluatest/invitations/resend`),
       { applicationIds },
       { headers: this.api.buildHeaders() },
+    );
+  }
+
+  getEvaluatestResults(
+    positionId: number,
+    applicationId: number,
+  ): Observable<EvaluatestResultsResponse> {
+    return this.http.get<EvaluatestResultsResponse>(
+      this.api.apiUrl(
+        `/api/v1/positions/${positionId}/applications/${applicationId}/evaluatest/results`,
+      ),
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  downloadEvaluatestResultsPdf(positionId: number, applicationId: number): Observable<Blob> {
+    return this.http.get(
+      this.api.apiUrl(
+        `/api/v1/positions/${positionId}/applications/${applicationId}/evaluatest/results/pdf`,
+      ),
+      {
+        headers: this.api.buildHeaders(),
+        responseType: 'blob',
+      },
     );
   }
 

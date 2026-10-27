@@ -1,0 +1,12 @@
+export const EVALUATEST_RESULTS_DIALOG_TITLE = $localize`:@@evaluatest.results.dialogTitle:Resultados Evaluatest`;
+export const EVALUATEST_RESULTS_CLOSE_ARIA = $localize`:@@evaluatest.results.closeAria:Cerrar`;
+export const EVALUATEST_RESULTS_CLOSE = $localize`:@@evaluatest.results.close:Cerrar`;
+export const EVALUATEST_RESULTS_DOWNLOAD_PDF = $localize`:@@evaluatest.results.downloadPdf:Descargar PDF`;
+export const EVALUATEST_RESULTS_LOADING = $localize`:@@evaluatest.results.loading:Cargando resultados…`;
+export const EVALUATEST_RESULTS_ERROR = $localize`:@@evaluatest.results.error:No se pudieron cargar los resultados de Evaluatest`;
+export const EVALUATEST_RESULTS_EMPTY = $localize`:@@evaluatest.results.empty:No hay variables en el reporte`;
+export const EVALUATEST_RESULTS_SCORE = $localize`:@@evaluatest.results.score:Puntaje`;
+export const EVALUATEST_RESULTS_LEVEL = $localize`:@@evaluatest.results.level:Nivel`;
+export const EVALUATEST_RESULTS_PERCENT = $localize`:@@evaluatest.results.percent:Dominio`;
+export const EVALUATEST_RESULTS_PDF_ERROR = $localize`:@@evaluatest.results.pdfError:No se pudo descargar el PDF`;
+export const EVALUATEST_RESULTS_PDF_SUCCESS = $localize`:@@evaluatest.results.pdfSuccess:PDF descargado`;
