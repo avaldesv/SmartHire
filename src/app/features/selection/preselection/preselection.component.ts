@@ -78,6 +78,8 @@ import {
   PRESELECTION_EVALUATION_PENDING_TITLE,
   PRESELECTION_EVALUATION_TOOLTIP,
   PRESELECTION_EVALUATEST_TOOLTIP,
+  PRESELECTION_EVALUATEST_INVITE_TOOLTIP,
+  PRESELECTION_EVALUATEST_RESEND_TOOLTIP,
   PRESELECTION_EVALUATEST_PENDING_TOOLTIP,
   PRESELECTION_EVALUATEST_PENDING_TITLE,
   PRESELECTION_EVALUATEST_PENDING_MSG,
@@ -268,6 +270,8 @@ export class PreselectionComponent implements OnInit {
     contactDoneTooltip: PRESELECTION_CONTACT_DONE_TOOLTIP,
     evaluationTooltip: PRESELECTION_EVALUATION_TOOLTIP,
     evaluatestTooltip: PRESELECTION_EVALUATEST_TOOLTIP,
+    evaluatestInviteTooltip: PRESELECTION_EVALUATEST_INVITE_TOOLTIP,
+    evaluatestResendTooltip: PRESELECTION_EVALUATEST_RESEND_TOOLTIP,
     evaluatestPendingTooltip: PRESELECTION_EVALUATEST_PENDING_TOOLTIP,
     appointmentTooltip: PRESELECTION_APPOINTMENT_TOOLTIP,
     appointmentScheduledTooltip: PRESELECTION_APPOINTMENT_SCHEDULED_TOOLTIP,
@@ -1095,6 +1099,15 @@ export class PreselectionComponent implements OnInit {
     return this.labels.evaluationTooltip;
   }
 
+  onEvaluatestColumnClick(row: PreselectionCandidate): void {
+    if (row.evaluatestCompleted) {
+      this.openEvaluatestResults(row);
+      return;
+    }
+    // State 1: invite. State 2: resend notification with stored URL.
+    this.sendEvaluatest([row]);
+  }
+
   openEvaluatestResults(row: PreselectionCandidate): void {
     const name = `${row.firstName} ${row.lastName}`.trim() || row.email;
     if (!row.evaluatestCompleted) {
@@ -1117,10 +1130,21 @@ export class PreselectionComponent implements OnInit {
     });
   }
 
+  evaluatestColumnDisabled(row: PreselectionCandidate): boolean {
+    if (row.evaluatestCompleted) {
+      return false;
+    }
+    return !this.canEditSelection || this.bulkLoading;
+  }
+
   evaluatestResultsTooltip(row: PreselectionCandidate): string {
-    return row.evaluatestCompleted
-      ? this.labels.evaluatestTooltip
-      : this.labels.evaluatestPendingTooltip;
+    if (row.evaluatestCompleted) {
+      return this.labels.evaluatestTooltip;
+    }
+    if (row.evaluatestInvited) {
+      return this.labels.evaluatestResendTooltip;
+    }
+    return this.labels.evaluatestInviteTooltip;
   }
 
   scheduleInterviewForRow(row: PreselectionCandidate): void {
