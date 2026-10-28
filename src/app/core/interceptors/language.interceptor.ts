@@ -19,15 +19,14 @@ export const languageInterceptor: HttpInterceptorFn = (req, next) => {
     ? DEFAULT_LOGIN_LOCALE
     : localeService.getLanguageHeader();
 
-  if (req.headers.has(X_LANGUAGE_HEADER)) {
-    return next(req);
+  // HeadersDto expects `language`; keep X-Language for callers that read it.
+  let headers = req.headers;
+  if (!headers.has(X_LANGUAGE_HEADER)) {
+    headers = headers.set(X_LANGUAGE_HEADER, languageHeader);
+  }
+  if (!headers.has('language')) {
+    headers = headers.set('language', languageHeader);
   }
 
-  return next(
-    req.clone({
-      setHeaders: {
-        [X_LANGUAGE_HEADER]: languageHeader,
-      },
-    }),
-  );
+  return next(req.clone({ headers }));
 };

@@ -23,3 +23,4 @@ export const VIA_BOT_RESET_SUCCESS = $localize`:@@viaBot.resetSuccess:Conversaci
 export const VIA_BOT_ADD_ERROR = $localize`:@@viaBot.errors.add:No se pudo agregar a preselección`;
 export const VIA_BOT_ADD_SUCCESS = $localize`:@@viaBot.addSuccess:candidato(s) agregado(s) a preselección`;
 export const VIA_BOT_SELECT_ONE = $localize`:@@viaBot.selectOne:Selecciona al menos un candidato`;
+export const VIA_BOT_CANDIDATE_FALLBACK = $localize`:@@viaBot.candidateFallback:Candidato #`;
