@@ -326,16 +326,41 @@ export class PositionService {
     );
   }
 
-  downloadEvaluatestResultsPdf(positionId: number, applicationId: number): Observable<Blob> {
-    return this.http.get(
-      this.api.apiUrl(
-        `/api/v1/positions/${positionId}/applications/${applicationId}/evaluatest/results/pdf`,
-      ),
-      {
-        headers: this.api.buildHeaders(),
-        responseType: 'blob',
-      },
-    );
+  downloadEvaluatestResultsPdf(
+    positionId: number,
+    applicationId: number,
+  ): Observable<{ blob: Blob; filename: string }> {
+    return this.http
+      .get(
+        this.api.apiUrl(
+          `/api/v1/positions/${positionId}/applications/${applicationId}/evaluatest/results/pdf`,
+        ),
+        {
+          headers: this.api.buildHeaders(),
+          responseType: 'blob',
+          observe: 'response',
+        },
+      )
+      .pipe(
+        map((response) => {
+          const blob = response.body ?? new Blob();
+          const disposition = response.headers.get('Content-Disposition') ?? '';
+          const matched = /filename="?([^"]+)"?/i.exec(disposition);
+          const contentType = response.headers.get('Content-Type') ?? blob.type ?? '';
+          let filename =
+            matched?.[1]?.trim() || `evaluatest-results-${applicationId}.docx`;
+          if (!matched?.[1]) {
+            if (contentType.includes('pdf')) {
+              filename = `evaluatest-results-${applicationId}.pdf`;
+            } else if (contentType.includes('msword') && !contentType.includes('openxmlformats')) {
+              filename = `evaluatest-results-${applicationId}.doc`;
+            } else {
+              filename = `evaluatest-results-${applicationId}.docx`;
+            }
+          }
+          return { blob, filename };
+        }),
+      );
   }
 
   uploadAiInterviewProfileImage(file: File): Observable<UploadAiInterviewProfileImageResponse> {

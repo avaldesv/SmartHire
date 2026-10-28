@@ -240,11 +240,11 @@ export class EvaluatestResultsDialogComponent implements OnInit {
     this.positionService
       .downloadEvaluatestResultsPdf(this.data.positionId, this.data.applicationId)
       .subscribe({
-        next: (blob) => {
+        next: ({ blob, filename }) => {
           const url = URL.createObjectURL(blob);
           const anchor = document.createElement('a');
           anchor.href = url;
-          anchor.download = `evaluatest-results-${this.data.applicationId}.pdf`;
+          anchor.download = filename;
           anchor.click();
           URL.revokeObjectURL(url);
           this.downloading = false;
