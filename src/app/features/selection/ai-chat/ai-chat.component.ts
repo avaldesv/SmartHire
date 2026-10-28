@@ -17,6 +17,7 @@ import {
   VIA_BOT_ADD_PRESELECTION,
   VIA_BOT_ADD_SUCCESS,
   VIA_BOT_ASSISTANT_TITLE,
+  VIA_BOT_CANDIDATE_FALLBACK,
   VIA_BOT_CANDIDATE_LIMIT,
   VIA_BOT_CHAT_ERROR,
   VIA_BOT_EMPTY_RESULTS,
@@ -307,7 +308,7 @@ export class AiChatComponent implements OnInit {
 
   candidateName(c: ViaBotCandidate): string {
     const name = `${c.firstName ?? ''} ${c.lastName ?? ''}`.trim();
-    return name || `Candidato #${c.candidateId}`;
+    return name || `${VIA_BOT_CANDIDATE_FALLBACK}${c.candidateId}`;
   }
 
   initials(c: ViaBotCandidate): string {
