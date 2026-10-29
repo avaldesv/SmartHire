@@ -38,8 +38,11 @@ export class DynamicWizardFieldComponent {
   @Input() options: WizardFieldOption[] = [];
   @Input() loadingOptions = false;
   @Input() disabled = false;
+  /** From wizard rules (`isRequired` / `requiredWhen`); drives asterisk on custom controls. */
+  @Input() required = false;
 
   readonly loadingOptionsLabel = REQUISITION_SCOPE_LOADING;
+  readonly requiredError = $localize`:@@requisition.wizard.errors.fieldRequired:Campo obligatorio`;
 
   get label(): string {
     return resolveWizardFieldLabel(this.field.fieldKey, this.field.labelI18nKey);

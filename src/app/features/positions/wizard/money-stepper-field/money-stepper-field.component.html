@@ -8,6 +8,8 @@
     inputmode="decimal"
     [value]="displayValue"
     [disabled]="isDisabled"
+    [required]="isRequired"
+    [errorStateMatcher]="errorStateMatcher"
     [attr.aria-label]="label"
     (input)="onInput($any($event.target).value)"
     (blur)="onBlur()"
@@ -35,4 +37,7 @@
       <mat-icon>arrow_drop_down</mat-icon>
     </button>
   </div>
+  @if (showError) {
+    <mat-error>{{ requiredError }}</mat-error>
+  }
 </mat-form-field>

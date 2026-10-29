@@ -1,11 +1,12 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import {
   ControlValueAccessor,
   FormControl,
-  NG_VALUE_ACCESSOR,
+  NgControl,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
-import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
+import { ErrorStateMatcher, MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTimepickerModule } from '@angular/material/timepicker';
@@ -22,11 +23,6 @@ import { formatDateToHhMm, parseTimeToDate, TIME_INPUT_PLACEHOLDER } from '../..
   providers: [
     provideNativeDateAdapter(),
     { provide: MAT_DATE_LOCALE, useValue: 'en-US' },
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ShTimepickerFieldComponent),
-      multi: true,
-    },
   ],
   template: `
     <mat-form-field appearance="outline" class="time-field" subscriptSizing="dynamic">
@@ -39,9 +35,14 @@ import { formatDateToHhMm, parseTimeToDate, TIME_INPUT_PLACEHOLDER } from '../..
         [formControl]="innerCtrl"
         [placeholder]="placeholder"
         [disabled]="isDisabled"
+        [required]="isRequired"
+        [errorStateMatcher]="errorStateMatcher"
       />
       <mat-timepicker-toggle matIconSuffix [for]="picker" [disabled]="isDisabled" />
       <mat-timepicker #picker interval="30minutes" />
+      @if (showError) {
+        <mat-error>{{ requiredError }}</mat-error>
+      }
     </mat-form-field>
   `,
   styles: `
@@ -57,10 +58,18 @@ import { formatDateToHhMm, parseTimeToDate, TIME_INPUT_PLACEHOLDER } from '../..
   `,
 })
 export class ShTimepickerFieldComponent implements ControlValueAccessor {
+  private readonly ngControl = inject(NgControl, { optional: true, self: true });
+
   @Input() label = '';
   @Input() placeholder = TIME_INPUT_PLACEHOLDER;
+  @Input() required = false;
 
   readonly innerCtrl = new FormControl<Date | null>(null);
+  readonly requiredError = $localize`:@@requisition.wizard.errors.fieldRequired:Campo obligatorio`;
+
+  readonly errorStateMatcher: ErrorStateMatcher = {
+    isErrorState: () => this.showError,
+  };
 
   isDisabled = false;
 
@@ -69,6 +78,9 @@ export class ShTimepickerFieldComponent implements ControlValueAccessor {
   private writing = false;
 
   constructor() {
+    if (this.ngControl) {
+      this.ngControl.valueAccessor = this;
+    }
     this.innerCtrl.valueChanges.subscribe((date) => {
       if (this.writing) {
         return;
@@ -76,6 +88,15 @@ export class ShTimepickerFieldComponent implements ControlValueAccessor {
       this.onChange(formatDateToHhMm(date));
       this.onTouched();
     });
+  }
+
+  get isRequired(): boolean {
+    return this.required || !!this.ngControl?.control?.hasValidator(Validators.required);
+  }
+
+  get showError(): boolean {
+    const control = this.ngControl?.control;
+    return !!control && control.invalid && control.touched;
   }
 
   writeValue(value: string | Date | null): void {

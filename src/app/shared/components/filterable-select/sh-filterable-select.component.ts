@@ -1,5 +1,6 @@
 import {
   Component,
+  DoCheck,
   ElementRef,
   booleanAttribute,
   computed,
@@ -69,7 +70,7 @@ function foldText(text: string): string {
   templateUrl: './sh-filterable-select.component.html',
   styleUrl: './sh-filterable-select.component.scss',
 })
-export class ShFilterableSelectComponent implements ControlValueAccessor {
+export class ShFilterableSelectComponent implements ControlValueAccessor, DoCheck {
   private readonly ngControl = inject(NgControl, { optional: true, self: true });
 
   /** Floating label of the form field. */
@@ -113,8 +114,9 @@ export class ShFilterableSelectComponent implements ControlValueAccessor {
 
   readonly defaultSearchPlaceholder = $localize`:@@filterableSelect.search:Buscar…`;
   readonly defaultNoResultsLabel = $localize`:@@filterableSelect.noResults:Sin resultados`;
+  readonly defaultRequiredError = $localize`:@@filterableSelect.required:Campo obligatorio`;
 
-  private readonly matSelect = viewChild.required(MatSelect);
+  private readonly matSelect = viewChild(MatSelect);
   private readonly searchInput = viewChild<ElementRef<HTMLInputElement>>('searchInput');
 
   private readonly currentValue = signal<unknown>(null);
@@ -221,7 +223,27 @@ export class ShFilterableSelectComponent implements ControlValueAccessor {
   }
 
   get isRequired(): boolean {
-    return this.required() || !!this.ngControl?.control?.hasValidator(Validators.required);
+    const control = this.ngControl?.control;
+    return (
+      this.required() ||
+      !!control?.hasValidator(Validators.required) ||
+      !!control?.errors?.['required']
+    );
+  }
+
+  /** Parent CVA may be marked touched without MatSelect noticing (no ngControl on the inner select). */
+  get showError(): boolean {
+    const control = this.ngControl?.control;
+    return !!control && control.invalid && control.touched;
+  }
+
+  get resolvedErrorText(): string {
+    return this.errorText() || this.defaultRequiredError;
+  }
+
+  ngDoCheck(): void {
+    // MatSelect has no FormControl of its own; force errorState from the host CVA control.
+    this.matSelect()?.updateErrorState();
   }
 
   writeValue(value: unknown): void {
@@ -263,9 +285,12 @@ export class ShFilterableSelectComponent implements ControlValueAccessor {
     }
     // Keep typing inside the filter: the panel would otherwise run type-ahead / toggle options.
     event.stopPropagation();
+    const select = this.matSelect();
+    if (!select) {
+      return;
+    }
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       event.preventDefault();
-      const select = this.matSelect();
       select.focus();
       (select as unknown as { _keyManager?: SelectKeyManagerLike })._keyManager?.setFirstItemActive();
     } else if (event.key === 'Enter') {
@@ -275,10 +300,15 @@ export class ShFilterableSelectComponent implements ControlValueAccessor {
         if (first) {
           this.currentValue.set(first.item.value);
           this.commit(first.item.value);
-          this.matSelect().close();
+          select.close();
         }
       }
     }
+  }
+
+  /** Focus the select trigger (e.g. after jumping to an invalid step). */
+  focus(): void {
+    this.matSelect()?.focus();
   }
 
   private commit(value: unknown): void {

@@ -1,12 +1,14 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import {
   ControlValueAccessor,
   FormControl,
-  NG_VALUE_ACCESSOR,
+  NgControl,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import {
   DateAdapter,
+  ErrorStateMatcher,
   MAT_DATE_FORMATS,
   MAT_DATE_LOCALE,
   provideNativeDateAdapter,
@@ -30,11 +32,6 @@ import { DATE_INPUT_PLACEHOLDER, formatDateToIso, parseDateInput } from '../../u
     { provide: MAT_DATE_LOCALE, useValue: 'es-MX' },
     { provide: DateAdapter, useClass: DmyDateAdapter },
     { provide: MAT_DATE_FORMATS, useValue: DMY_DATE_FORMATS },
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ShDatepickerFieldComponent),
-      multi: true,
-    },
   ],
   template: `
     <mat-form-field appearance="outline" class="date-field" [class.full]="full" subscriptSizing="dynamic">
@@ -47,9 +44,14 @@ import { DATE_INPUT_PLACEHOLDER, formatDateToIso, parseDateInput } from '../../u
         [formControl]="innerCtrl"
         [placeholder]="placeholder"
         [disabled]="isDisabled"
+        [required]="isRequired"
+        [errorStateMatcher]="errorStateMatcher"
       />
       <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="isDisabled" />
       <mat-datepicker #picker />
+      @if (showError) {
+        <mat-error>{{ requiredError }}</mat-error>
+      }
     </mat-form-field>
   `,
   styles: `
@@ -65,11 +67,19 @@ import { DATE_INPUT_PLACEHOLDER, formatDateToIso, parseDateInput } from '../../u
   `,
 })
 export class ShDatepickerFieldComponent implements ControlValueAccessor {
+  private readonly ngControl = inject(NgControl, { optional: true, self: true });
+
   @Input() label = '';
   @Input() placeholder = DATE_INPUT_PLACEHOLDER;
   @Input() full = false;
+  @Input() required = false;
 
   readonly innerCtrl = new FormControl<Date | null>(null);
+  readonly requiredError = $localize`:@@requisition.wizard.errors.fieldRequired:Campo obligatorio`;
+
+  readonly errorStateMatcher: ErrorStateMatcher = {
+    isErrorState: () => this.showError,
+  };
 
   isDisabled = false;
 
@@ -78,6 +88,9 @@ export class ShDatepickerFieldComponent implements ControlValueAccessor {
   private writing = false;
 
   constructor() {
+    if (this.ngControl) {
+      this.ngControl.valueAccessor = this;
+    }
     this.innerCtrl.valueChanges.subscribe((date) => {
       if (this.writing) {
         return;
@@ -85,6 +98,15 @@ export class ShDatepickerFieldComponent implements ControlValueAccessor {
       this.onChange(formatDateToIso(date));
       this.onTouched();
     });
+  }
+
+  get isRequired(): boolean {
+    return this.required || !!this.ngControl?.control?.hasValidator(Validators.required);
+  }
+
+  get showError(): boolean {
+    const control = this.ngControl?.control;
+    return !!control && control.invalid && control.touched;
   }
 
   writeValue(value: string | Date | null): void {

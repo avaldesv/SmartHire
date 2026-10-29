@@ -1,10 +1,12 @@
-import { Component, Input, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, DoCheck, Input, inject, viewChild } from '@angular/core';
+import { ControlValueAccessor, NgControl, Validators } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
+import { MatInput, MatInputModule } from '@angular/material/input';
 import {
+  REQUISITION_WIZARD_FIELD_REQUIRED,
   REQUISITION_WIZARD_MONEY_DECREMENT,
   REQUISITION_WIZARD_MONEY_INCREMENT,
 } from '../../../../core/i18n/requisition-wizard-labels';
@@ -26,18 +28,15 @@ import {
   imports: [MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule],
   templateUrl: './money-stepper-field.component.html',
   styleUrl: './money-stepper-field.component.scss',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => MoneyStepperFieldComponent),
-      multi: true,
-    },
-  ],
 })
-export class MoneyStepperFieldComponent implements ControlValueAccessor {
+export class MoneyStepperFieldComponent implements ControlValueAccessor, DoCheck {
+  private readonly ngControl = inject(NgControl, { optional: true, self: true });
+  private readonly matInput = viewChild(MatInput);
+
   @Input() label = '';
   /** Extra disable from parent template (in addition to CVA setDisabledState). */
   @Input() disabled = false;
+  @Input() required = false;
   @Input() min = 0;
   @Input() step = MONEY_STEP;
   /**
@@ -51,12 +50,32 @@ export class MoneyStepperFieldComponent implements ControlValueAccessor {
 
   readonly incrementLabel = REQUISITION_WIZARD_MONEY_INCREMENT;
   readonly decrementLabel = REQUISITION_WIZARD_MONEY_DECREMENT;
+  readonly requiredError = REQUISITION_WIZARD_FIELD_REQUIRED;
+
+  readonly errorStateMatcher: ErrorStateMatcher = {
+    isErrorState: () => this.showError,
+  };
 
   private onChange: (value: string | null) => void = () => undefined;
   private onTouched: () => void = () => undefined;
 
+  constructor() {
+    if (this.ngControl) {
+      this.ngControl.valueAccessor = this;
+    }
+  }
+
   get isDisabled(): boolean {
     return this.disabled || this.cvaDisabled;
+  }
+
+  get isRequired(): boolean {
+    return this.required || !!this.ngControl?.control?.hasValidator(Validators.required);
+  }
+
+  get showError(): boolean {
+    const control = this.ngControl?.control;
+    return !!control && control.invalid && control.touched;
   }
 
   get canDecrement(): boolean {
@@ -69,6 +88,10 @@ export class MoneyStepperFieldComponent implements ControlValueAccessor {
 
   get canIncrement(): boolean {
     return !this.isDisabled;
+  }
+
+  ngDoCheck(): void {
+    this.matInput()?.updateErrorState();
   }
 
   writeValue(value: unknown): void {

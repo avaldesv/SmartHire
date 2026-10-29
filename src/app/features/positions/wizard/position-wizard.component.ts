@@ -645,6 +645,40 @@ export class PositionWizardComponent implements OnInit {
     });
   }
 
+  /** After validation jump, focus the first invalid control in the target step. */
+  private focusFirstInvalidDynamicField(stepKey: string): void {
+    setTimeout(() => {
+      const stepGroup = this.dynamicStepForm(stepKey);
+      const firstKey = Object.keys(stepGroup.controls).find((key) => stepGroup.get(key)?.invalid);
+      const root = document.querySelector('.wizard-page') ?? document.body;
+      const preferred = firstKey
+        ? (root.querySelector(
+            [
+              `[data-wizard-field="${firstKey}"] .mat-mdc-select-trigger`,
+              `[data-wizard-field="${firstKey}"] input:not([disabled])`,
+              `[data-wizard-field="${firstKey}"] textarea:not([disabled])`,
+            ].join(', '),
+          ) as HTMLElement | null)
+        : null;
+      const fallback = root.querySelector(
+        [
+          'mat-form-field.mat-form-field-invalid .mat-mdc-select-trigger',
+          'mat-form-field.mat-form-field-invalid input:not([disabled])',
+          'mat-form-field.ng-invalid input:not([disabled])',
+          'sh-wizard-client-search-field input:not([disabled])',
+        ].join(', '),
+      ) as HTMLElement | null;
+      const target = preferred ?? fallback;
+      if (!target) {
+        return;
+      }
+      target.focus();
+      if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement) {
+        target.select();
+      }
+    }, 120);
+  }
+
   /** Actions aligned with the page title (same slot as list "Nuevo" buttons). */
   get showWizardHeaderActions(): boolean {
     if (this.loadingPosition || this.resolvingConfig) {
@@ -1542,6 +1576,7 @@ export class PositionWizardComponent implements OnInit {
       const firstInvalid = steps.findIndex((step) => this.dynamicStepForm(step.stepKey).invalid);
       if (firstInvalid >= 0) {
         this.goToDynamicStep(firstInvalid);
+        this.focusFirstInvalidDynamicField(steps[firstInvalid].stepKey);
       }
       this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, REQUISITION_WIZARD_VALIDATION_REQUIRED);
       return;

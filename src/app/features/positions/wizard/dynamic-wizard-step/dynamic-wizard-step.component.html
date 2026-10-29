@@ -174,34 +174,42 @@
       </div>
     } @else if (field.fieldKey === 'stateId') {
       <sh-filterable-select
+        [attr.data-wizard-field]="field.fieldKey"
         [label]="fieldLabel(field)"
         [options]="states"
         valueField="id"
         [formControl]="fieldControl(field.fieldKey)"
         [disabled]="isReadOnly(field)"
+        [required]="isRequired(field)"
       />
     } @else if (field.fieldKey === 'municipalityId') {
       <sh-filterable-select
+        [attr.data-wizard-field]="field.fieldKey"
         [label]="fieldLabel(field)"
         [options]="municipalities"
         valueField="id"
         [formControl]="fieldControl(field.fieldKey)"
         [disabled]="isReadOnly(field)"
+        [required]="isRequired(field)"
       />
     } @else if (field.fieldKey === 'neighborhoodId') {
       <sh-filterable-select
+        [attr.data-wizard-field]="field.fieldKey"
         [label]="fieldLabel(field)"
         [options]="neighborhoods"
         valueField="id"
         [formControl]="fieldControl(field.fieldKey)"
         [disabled]="isReadOnly(field)"
+        [required]="isRequired(field)"
       />
     } @else if (isClientSearchField(field)) {
       <sh-wizard-client-search-field
+        [attr.data-wizard-field]="field.fieldKey"
         [control]="fieldControl(field.fieldKey)"
         [countryId]="countryId"
         [disabled]="isReadOnly(field)"
         [label]="fieldLabel(field)"
+        [required]="isRequired(field)"
       />
     } @else if (field.fieldKey === 'jobDescription') {
       <div class="span-2 field-full">
@@ -260,20 +268,24 @@
     } @else if (field.uiType === 'textarea') {
       <div class="span-2 field-full">
         <sh-dynamic-wizard-field
+          [attr.data-wizard-field]="field.fieldKey"
           [field]="field"
           [control]="fieldControl(field.fieldKey)"
           [options]="optionsByField[field.fieldKey] ?? []"
           [loadingOptions]="loadingByField[field.fieldKey] ?? false"
           [disabled]="isReadOnly(field)"
+          [required]="isRequired(field)"
         />
       </div>
     } @else {
       <sh-dynamic-wizard-field
+        [attr.data-wizard-field]="field.fieldKey"
         [field]="field"
         [control]="fieldControl(field.fieldKey)"
         [options]="optionsByField[field.fieldKey] ?? []"
         [loadingOptions]="loadingByField[field.fieldKey] ?? false"
         [disabled]="isReadOnly(field)"
+        [required]="isRequired(field)"
       />
     }
   }
