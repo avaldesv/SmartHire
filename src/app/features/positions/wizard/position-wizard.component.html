@@ -65,7 +65,7 @@
       </div>
     </nav>
     <mat-stepper
-      [linear]="!isEditMode"
+      [linear]="isDynamicStepperLinear"
       #dynamicStepper
       class="wizard-stepper wizard-stepper--compact"
       (selectionChange)="onDynamicStepSelectionChange($event)"
@@ -88,7 +88,7 @@
   </div>
   } @else if (isEditMode) {
   <div class="sh-card">
-    <mat-stepper linear #staticStepper (selectionChange)="onStaticStepSelectionChange($event)">
+    <mat-stepper [linear]="isStaticStepperLinear" #staticStepper (selectionChange)="onStaticStepSelectionChange($event)">
       <mat-step [stepControl]="clientForm" [label]="labels.stepClient">
         <form [formGroup]="clientForm" class="step-form">
           <div class="form-grid">

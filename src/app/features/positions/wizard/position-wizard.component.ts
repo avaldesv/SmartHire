@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, inject, OnInit, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -42,6 +42,7 @@ import {
   flattenDynamicFormValues,
   hydrateDynamicFormValues,
   patchDynamicForm,
+  refreshDynamicValidators,
 } from './dynamic-wizard-payload.util';
 import { findResolvedField, isFieldReadOnly } from './dynamic-wizard-rules.util';
 import {
@@ -163,6 +164,9 @@ export class PositionWizardComponent implements OnInit {
   private readonly recruiterGroupService = inject(SecurityRecruiterGroupService);
   private readonly dynamicWizardService = inject(DynamicRequisitionWizardService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly cdr = inject(ChangeDetectorRef);
+  /** Temporarily disables linear guard so Guardar can jump to the first invalid step. */
+  private bypassLinearGuard = false;
 
   useDynamicWizard = false;
   resolvingConfig = false;
@@ -602,20 +606,31 @@ export class PositionWizardComponent implements OnInit {
     return this.stepTitle(step.stepKey, step.labelI18nKey);
   }
 
+  /** Create mode uses linear=true; Material blocks jumps over invalid stepControls unless we bypass. */
+  get isDynamicStepperLinear(): boolean {
+    return !this.isEditMode && !this.bypassLinearGuard;
+  }
+
+  get isStaticStepperLinear(): boolean {
+    return !this.bypassLinearGuard;
+  }
+
   goToDynamicStep(index: number): void {
     if (!this.dynamicStepper || index < 0 || index >= this.dynamicStepper.steps.length) {
       return;
     }
-    // Linear steppers refuse selectedIndex jumps unless prior steps are completed.
-    // Custom tab headers update the caption immediately; without this, content stays on step 0/1.
-    if (this.dynamicStepper.linear) {
-      const steps = this.dynamicStepper.steps.toArray();
-      for (let i = 0; i < index; i++) {
-        steps[i].completed = true;
-      }
+    this.bypassLinearGuard = true;
+    this.cdr.detectChanges();
+    const steps = this.dynamicStepper.steps.toArray();
+    for (let i = 0; i < index; i++) {
+      steps[i].completed = true;
     }
     this.dynamicStepper.selectedIndex = index;
     this.dynamicSelectedIndex = index;
+    queueMicrotask(() => {
+      this.bypassLinearGuard = false;
+      this.cdr.markForCheck();
+    });
   }
 
   /** Actions aligned with the page title (same slot as list "Nuevo" buttons). */
@@ -683,14 +698,18 @@ export class PositionWizardComponent implements OnInit {
     if (!this.staticStepper || index < 0 || index >= this.staticStepper.steps.length) {
       return;
     }
-    if (this.staticStepper.linear) {
-      const steps = this.staticStepper.steps.toArray();
-      for (let i = 0; i < index; i++) {
-        steps[i].completed = true;
-      }
+    this.bypassLinearGuard = true;
+    this.cdr.detectChanges();
+    const steps = this.staticStepper.steps.toArray();
+    for (let i = 0; i < index; i++) {
+      steps[i].completed = true;
     }
     this.staticStepper.selectedIndex = index;
     this.staticSelectedIndex = index;
+    queueMicrotask(() => {
+      this.bypassLinearGuard = false;
+      this.cdr.markForCheck();
+    });
   }
 
   onStaticStepSelectionChange(event: StepperSelectionEvent): void {
@@ -1488,6 +1507,8 @@ export class PositionWizardComponent implements OnInit {
     if (!this.dynamicForm || !this.resolvedConfig) {
       return;
     }
+    // Sync validators before checking (service.refreshValidators is async via catalog load).
+    refreshDynamicValidators(this.dynamicForm, this.resolvedConfig);
     this.dynamicWizardService.refreshValidators(this.dynamicForm, this.resolvedConfig);
     if (this.dynamicForm.invalid) {
       this.dynamicForm.markAllAsTouched();
