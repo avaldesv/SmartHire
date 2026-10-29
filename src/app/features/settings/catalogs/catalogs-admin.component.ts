@@ -1026,6 +1026,8 @@ export class CatalogsAdminComponent implements OnInit {
   clientPageIndex = 0;
   clientPageSize = 10;
   loadingClients = false;
+  /** País filter for the Clients list (null = all countries). */
+  clientCountryFilterId: number | null = null;
   savingClient = false;
   editingClientId: number | null = null;
   showClientForm = false;
@@ -2827,17 +2829,32 @@ export class CatalogsAdminComponent implements OnInit {
 
   loadClients(): void {
     this.loadingClients = true;
-    this.clientService.list(this.clientPageIndex, this.clientPageSize, ['tradeName:asc'], [], null, this.catalogSearchTerm()).subscribe({
-      next: (res) => {
-        this.clients = res.items;
-        this.clientTotal = res.total;
-        this.loadingClients = false;
-      },
-      error: (err) => {
-        this.loadingClients = false;
-        this.catalogLoadError(err, getCatalogEntryLabel('client'));
-      },
-    });
+    this.clientService
+      .list(this.clientPageIndex, this.clientPageSize, ['tradeName:asc'], [], this.clientCountryFilterId, this.catalogSearchTerm())
+      .subscribe({
+        next: (res) => {
+          this.clients = res.items;
+          this.clientTotal = res.total;
+          this.loadingClients = false;
+        },
+        error: (err) => {
+          this.loadingClients = false;
+          this.catalogLoadError(err, getCatalogEntryLabel('client'));
+        },
+      });
+  }
+
+  onClientCountryFilterChange(countryId: number | null): void {
+    this.clientCountryFilterId = countryId;
+    this.clientPageIndex = 0;
+    this.loadClients();
+  }
+
+  clearClientFilters(): void {
+    this.clearCatalogSearchTerm();
+    this.clientCountryFilterId = null;
+    this.clientPageIndex = 0;
+    this.loadClients();
   }
 
   onClientPage(e: PageEvent): void {

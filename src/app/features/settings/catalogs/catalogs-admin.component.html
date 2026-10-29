@@ -3969,9 +3969,18 @@
             <mat-label>{{ searchLabel }}</mat-label>
             <input matInput [formControl]="catalogSearchForm.controls.search" />
           </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label i18n="@@catalogs.field.country">País</mat-label>
+            <mat-select [value]="clientCountryFilterId" (selectionChange)="onClientCountryFilterChange($event.value)">
+              <mat-option [value]="null" i18n="@@catalogs.field.allCountries">Todos los países</mat-option>
+              @for (country of countries; track country.id) {
+                <mat-option [value]="country.id">{{ country.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
         </div>
         <div class="filter-actions">
-          <button mat-stroked-button type="button" (click)="clearCatalogSearchFilters()">{{ clearFiltersLabel }}</button>
+          <button mat-stroked-button type="button" (click)="clearClientFilters()">{{ clearFiltersLabel }}</button>
         </div>
       </div>
 
