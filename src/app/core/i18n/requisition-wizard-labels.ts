@@ -197,6 +197,7 @@ export const REQUISITION_STEP_LABEL_KEY_PLACEHOLDER = 'requisition.step.general'
 export const REQUISITION_WIZARD_NEW_TITLE = $localize`:@@requisition.wizard.newTitle:Nueva requisición`;
 export const REQUISITION_WIZARD_EDIT_TITLE = $localize`:@@requisition.wizard.editTitle:Editar requisición`;
 export const REQUISITION_WIZARD_CONTINUE = $localize`:@@requisition.wizard.continue:Continuar`;
+export const REQUISITION_WIZARD_NEXT = $localize`:@@requisition.wizard.next:Siguiente`;
 export const REQUISITION_WIZARD_PREVIOUS = $localize`:@@requisition.wizard.previous:Anterior`;
 export const REQUISITION_WIZARD_CANCEL = $localize`:@@common.cancel:Cancelar`;
 export const REQUISITION_WIZARD_SAVE = $localize`:@@requisition.wizard.save:Guardar`;

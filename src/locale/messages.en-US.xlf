@@ -10420,6 +10420,10 @@
         <source>Continuar</source>
         <target>Continue</target>
       </trans-unit>
+      <trans-unit id="requisition.wizard.next" datatype="html">
+        <source>Siguiente</source>
+        <target>Next</target>
+      </trans-unit>
       <trans-unit id="requisition.wizard.previous" datatype="html">
         <source>Anterior</source>
         <target>Previous</target>
