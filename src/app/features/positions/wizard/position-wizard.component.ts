@@ -47,7 +47,7 @@ import {
 import { findResolvedField, isFieldReadOnly } from './dynamic-wizard-rules.util';
 import {
   REQUISITION_WIZARD_CANCEL,
-  REQUISITION_WIZARD_CONTINUE,
+  REQUISITION_WIZARD_NEXT,
   REQUISITION_WIZARD_CREATE,
   REQUISITION_WIZARD_CREATING,
   REQUISITION_WIZARD_EDIT_TITLE,
@@ -79,8 +79,6 @@ import {
   REQUISITION_WIZARD_SAVE_SUCCESS_UPDATE,
   REQUISITION_WIZARD_SAVE_ERROR_CREATE,
   REQUISITION_WIZARD_SAVE_ERROR_UPDATE,
-  REQUISITION_WIZARD_JSON_EXPORTED,
-  REQUISITION_WIZARD_ATS_SIMULATED,
   REQUISITION_SCOPE_LOADING,
   REQUISITION_WIZARD_NONE,
   REQUISITION_WIZARD_LOADING_DOCUMENTS,
@@ -173,6 +171,8 @@ export class PositionWizardComponent implements OnInit {
   dynamicForm: FormGroup | null = null;
 
   @ViewChild('dynamicStepper') dynamicStepper?: MatStepper;
+  @ViewChild('staticStepper') staticStepper?: MatStepper;
+  staticSelectedIndex = 0;
   creating = false;
   loadingPosition = false;
   editPositionId: number | null = null;
@@ -284,7 +284,7 @@ export class PositionWizardComponent implements OnInit {
   readonly labels = {
     newTitle: REQUISITION_WIZARD_NEW_TITLE,
     editTitle: REQUISITION_WIZARD_EDIT_TITLE,
-    continue: REQUISITION_WIZARD_CONTINUE,
+    next: REQUISITION_WIZARD_NEXT,
     previous: REQUISITION_WIZARD_PREVIOUS,
     cancel: REQUISITION_WIZARD_CANCEL,
     save: REQUISITION_WIZARD_SAVE,
@@ -617,32 +617,69 @@ export class PositionWizardComponent implements OnInit {
     this.dynamicSelectedIndex = index;
   }
 
-  get showDynamicHeaderNav(): boolean {
-    return (
-      !this.loadingPosition &&
-      !this.resolvingConfig &&
-      this.useDynamicWizard &&
-      this.dynamicForm != null &&
-      this.resolvedConfig != null &&
-      (this.resolvedConfig.steps?.length ?? 0) > 0
-    );
+  get isFirstWizardStep(): boolean {
+    if (this.useDynamicWizard) {
+      return this.dynamicSelectedIndex <= 0;
+    }
+    return this.staticSelectedIndex <= 0;
   }
 
-  get isFirstDynamicStep(): boolean {
-    return this.dynamicSelectedIndex <= 0;
+  get isLastWizardStep(): boolean {
+    if (this.useDynamicWizard) {
+      const total = this.resolvedConfig?.steps.length ?? 0;
+      return total === 0 || this.dynamicSelectedIndex >= total - 1;
+    }
+    const total = this.staticStepper?.steps?.length ?? 0;
+    return total === 0 || this.staticSelectedIndex >= total - 1;
   }
 
-  get isLastDynamicStep(): boolean {
-    const total = this.resolvedConfig?.steps.length ?? 0;
-    return total === 0 || this.dynamicSelectedIndex >= total - 1;
+  previousWizardStep(): void {
+    if (this.useDynamicWizard) {
+      const prev = this.dynamicSelectedIndex - 1;
+      if (prev >= 0) {
+        this.goToDynamicStep(prev);
+      }
+      return;
+    }
+    const prev = this.staticSelectedIndex - 1;
+    if (prev >= 0) {
+      this.goToStaticStep(prev);
+    }
   }
 
-  previousDynamicStep(): void {
-    this.dynamicStepper?.previous();
+  /** Navigation only — does not validate required fields (RF D7). */
+  nextWizardStep(): void {
+    if (this.useDynamicWizard) {
+      const next = this.dynamicSelectedIndex + 1;
+      const total = this.resolvedConfig?.steps.length ?? 0;
+      if (next < total) {
+        this.goToDynamicStep(next);
+      }
+      return;
+    }
+    const next = this.staticSelectedIndex + 1;
+    const total = this.staticStepper?.steps?.length ?? 0;
+    if (next < total) {
+      this.goToStaticStep(next);
+    }
   }
 
-  nextDynamicStep(): void {
-    this.dynamicStepper?.next();
+  goToStaticStep(index: number): void {
+    if (!this.staticStepper || index < 0 || index >= this.staticStepper.steps.length) {
+      return;
+    }
+    if (this.staticStepper.linear) {
+      const steps = this.staticStepper.steps.toArray();
+      for (let i = 0; i < index; i++) {
+        steps[i].completed = true;
+      }
+    }
+    this.staticStepper.selectedIndex = index;
+    this.staticSelectedIndex = index;
+  }
+
+  onStaticStepSelectionChange(event: StepperSelectionEvent): void {
+    this.staticSelectedIndex = event.selectedIndex;
   }
 
   isDynamicStepActive(index: number): boolean {
@@ -1332,12 +1369,6 @@ export class PositionWizardComponent implements OnInit {
     );
   }
 
-  exportJson(): void {
-    const payload = this.useDynamicWizard ? this.buildDynamicPayload() : this.buildCreatePayload();
-    console.log('JSON export:', payload);
-    this.feedback.showInfo(FEEDBACK_GENERIC_INFO_TITLE, REQUISITION_WIZARD_JSON_EXPORTED);
-  }
-
   private buildDynamicPayload(): CreatePositionRequest {
     if (!this.dynamicForm || !this.resolvedConfig) {
       throw new Error('Dynamic wizard not ready');
@@ -1412,10 +1443,6 @@ export class PositionWizardComponent implements OnInit {
     };
   }
 
-  sendAts(): void {
-    this.feedback.showInfo(FEEDBACK_GENERIC_INFO_TITLE, REQUISITION_WIZARD_ATS_SIMULATED);
-  }
-
   save(): void {
     if (this.useDynamicWizard) {
       this.saveDynamic();
@@ -1432,36 +1459,14 @@ export class PositionWizardComponent implements OnInit {
     ];
     if (forms.some((f) => f.invalid)) {
       forms.forEach((f) => f.markAllAsTouched());
+      const firstInvalid = forms.findIndex((f) => f.invalid);
+      if (firstInvalid >= 0) {
+        this.goToStaticStep(firstInvalid);
+      }
       this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, REQUISITION_WIZARD_VALIDATION_REQUIRED);
       return;
     }
-    if (this.creating) {
-      return;
-    }
-    this.creating = true;
-    const payload = this.buildCreatePayload();
-    const request$ =
-      this.isEditMode && this.editPositionId != null
-        ? this.positionService.update(this.editPositionId, payload)
-        : this.positionService.create(payload);
-
-    request$.subscribe({
-      next: () => {
-        this.creating = false;
-        this.feedback.showSuccess(
-          this.isEditMode ? REQUISITION_WIZARD_SAVE_SUCCESS_UPDATE : REQUISITION_WIZARD_SAVE_SUCCESS_CREATE,
-        );
-        this.router.navigate(['/positions']);
-      },
-      error: (err) => {
-        this.creating = false;
-        this.feedback.showApiError(err, {
-          fallbackMessage: this.isEditMode
-            ? REQUISITION_WIZARD_SAVE_ERROR_UPDATE
-            : REQUISITION_WIZARD_SAVE_ERROR_CREATE,
-        });
-      },
-    });
+    this.persistPosition(() => this.buildCreatePayload());
   }
 
   private saveDynamic(): void {
@@ -1471,14 +1476,23 @@ export class PositionWizardComponent implements OnInit {
     this.dynamicWizardService.refreshValidators(this.dynamicForm, this.resolvedConfig);
     if (this.dynamicForm.invalid) {
       this.dynamicForm.markAllAsTouched();
+      const steps = this.resolvedConfig.steps;
+      const firstInvalid = steps.findIndex((step) => this.dynamicStepForm(step.stepKey).invalid);
+      if (firstInvalid >= 0) {
+        this.goToDynamicStep(firstInvalid);
+      }
       this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, REQUISITION_WIZARD_VALIDATION_REQUIRED);
       return;
     }
+    this.persistPosition(() => this.buildDynamicPayload());
+  }
+
+  private persistPosition(buildPayload: () => CreatePositionRequest): void {
     if (this.creating) {
       return;
     }
     this.creating = true;
-    const payload = this.buildDynamicPayload();
+    const payload = buildPayload();
     const request$ =
       this.isEditMode && this.editPositionId != null
         ? this.positionService.update(this.editPositionId, payload)

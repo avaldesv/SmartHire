@@ -21086,6 +21086,13 @@
           <context context-type="linenumber">199</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="requisition.wizard.next" datatype="html">
+        <source>Siguiente</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">200</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="requisition.wizard.previous" datatype="html">
         <source>Anterior</source>
         <context-group purpose="location">

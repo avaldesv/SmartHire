@@ -2,27 +2,7 @@
   <sh-page-header
     [title]="wizardTitle"
     [subtitle]="wizardSubtitle"
-  >
-    @if (showDynamicHeaderNav) {
-      <div class="wizard-header-nav">
-        @if (!isFirstDynamicStep) {
-          <button mat-stroked-button type="button" (click)="previousDynamicStep()">
-            {{ labels.previous }}
-          </button>
-        }
-        @if (!isLastDynamicStep) {
-          <button mat-stroked-button type="button" (click)="nextDynamicStep()">
-            {{ labels.continue }}
-          </button>
-        } @else {
-          <button mat-flat-button color="primary" type="button" [disabled]="creating" (click)="save()">
-            <mat-icon>check</mat-icon>
-            {{ creating ? (isEditMode ? labels.saving : labels.creating) : (isEditMode ? labels.save : labels.create) }}
-          </button>
-        }
-      </div>
-    }
-  </sh-page-header>
+  />
 
   @if (loadingPosition || resolvingConfig) {
     <div class="loading-wrap" role="status" aria-live="polite">
@@ -92,13 +72,21 @@
 
     <div class="bottom-actions">
       <button mat-stroked-button type="button" (click)="cancel()">{{ labels.cancel }}</button>
-      <button mat-stroked-button type="button" (click)="exportJson()"><mat-icon>code</mat-icon> JSON</button>
-      <button mat-stroked-button type="button" (click)="sendAts()"><mat-icon>cloud_upload</mat-icon> ATS</button>
+      <button mat-flat-button color="primary" type="button" [disabled]="creating" (click)="save()">
+        <mat-icon>check</mat-icon>
+        {{ creating ? (isEditMode ? labels.saving : labels.creating) : (isEditMode ? labels.save : labels.create) }}
+      </button>
+      @if (!isFirstWizardStep) {
+        <button mat-stroked-button type="button" (click)="previousWizardStep()">{{ labels.previous }}</button>
+      }
+      @if (!isLastWizardStep) {
+        <button mat-stroked-button type="button" (click)="nextWizardStep()">{{ labels.next }}</button>
+      }
     </div>
   </div>
   } @else if (isEditMode) {
   <div class="sh-card">
-    <mat-stepper linear #stepper>
+    <mat-stepper linear #staticStepper (selectionChange)="onStaticStepSelectionChange($event)">
       <mat-step [stepControl]="clientForm" [label]="labels.stepClient">
         <form [formGroup]="clientForm" class="step-form">
           <div class="form-grid">
@@ -144,7 +132,6 @@
             <mat-form-field appearance="outline"><mat-label>{{ labels.contact }}</mat-label><input matInput formControlName="contactName" /></mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ labels.fieldClientPosition }}</mat-label><input matInput formControlName="clientPosition" /></mat-form-field>
           </div>
-          <div class="step-actions"><button mat-button matStepperNext>{{ labels.continue }}</button></div>
         </form>
       </mat-step>
 
@@ -179,7 +166,6 @@
             <sh-money-stepper-field formControlName="salary" [label]="labels.fieldSalary" />
             <mat-form-field appearance="outline"><mat-label>{{ labels.workDays }}</mat-label><input matInput formControlName="workDays" /></mat-form-field>
           </div>
-          <div class="step-actions"><button mat-button matStepperPrevious>{{ labels.previous }}</button><button mat-button matStepperNext>{{ labels.continue }}</button></div>
         </form>
       </mat-step>
 
@@ -190,7 +176,6 @@
             <mat-form-field appearance="outline"><mat-label>{{ labels.fieldHeadcount }}</mat-label><input matInput type="number" formControlName="headcount" /></mat-form-field>
             <sh-datepicker-field [label]="labels.fieldStartDate" formControlName="startDate" />
           </div>
-          <div class="step-actions"><button mat-button matStepperPrevious>{{ labels.previous }}</button><button mat-button matStepperNext>{{ labels.continue }}</button></div>
         </form>
       </mat-step>
 
@@ -223,7 +208,6 @@
             </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ labels.fieldProbationDays }}</mat-label><input matInput type="number" formControlName="probationDays" /></mat-form-field>
           </div>
-          <div class="step-actions"><button mat-button matStepperPrevious>{{ labels.previous }}</button><button mat-button matStepperNext>{{ labels.continue }}</button></div>
         </form>
       </mat-step>
 
@@ -264,7 +248,6 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div class="step-actions"><button mat-button matStepperPrevious>{{ labels.previous }}</button><button mat-button matStepperNext>{{ labels.continue }}</button></div>
         </form>
       </mat-step>
 
@@ -323,7 +306,6 @@
               <input matInput formControlName="city" />
             </mat-form-field>
           </div>
-          <div class="step-actions"><button mat-button matStepperPrevious>{{ labels.previous }}</button><button mat-button matStepperNext>{{ labels.continue }}</button></div>
         </form>
       </mat-step>
 
@@ -345,7 +327,6 @@
             </mat-form-field>
             <mat-form-field appearance="outline"><mat-label>{{ labels.fieldExperienceYears }}</mat-label><input matInput type="number" formControlName="experienceYears" /></mat-form-field>
           </div>
-          <div class="step-actions"><button mat-button matStepperPrevious>{{ labels.previous }}</button><button mat-button matStepperNext>{{ labels.continue }}</button></div>
         </form>
       </mat-step>
 
@@ -370,21 +351,22 @@
               }
             }
           </div>
-          <div class="step-actions">
-            <button mat-button matStepperPrevious type="button">{{ labels.previous }}</button>
-            <button mat-flat-button color="primary" type="button" [disabled]="creating" (click)="save()">
-              <mat-icon>check</mat-icon>
-              {{ creating ? (isEditMode ? labels.saving : labels.creating) : (isEditMode ? labels.save : labels.create) }}
-            </button>
-          </div>
         </div>
       </mat-step>
     </mat-stepper>
 
     <div class="bottom-actions">
       <button mat-stroked-button type="button" (click)="cancel()">{{ labels.cancel }}</button>
-      <button mat-stroked-button type="button" (click)="exportJson()"><mat-icon>code</mat-icon> JSON</button>
-      <button mat-stroked-button type="button" (click)="sendAts()"><mat-icon>cloud_upload</mat-icon> ATS</button>
+      <button mat-flat-button color="primary" type="button" [disabled]="creating" (click)="save()">
+        <mat-icon>check</mat-icon>
+        {{ creating ? (isEditMode ? labels.saving : labels.creating) : (isEditMode ? labels.save : labels.create) }}
+      </button>
+      @if (!isFirstWizardStep) {
+        <button mat-stroked-button type="button" (click)="previousWizardStep()">{{ labels.previous }}</button>
+      }
+      @if (!isLastWizardStep) {
+        <button mat-stroked-button type="button" (click)="nextWizardStep()">{{ labels.next }}</button>
+      }
     </div>
   </div>
   }
