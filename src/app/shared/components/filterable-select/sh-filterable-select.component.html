@@ -40,7 +40,7 @@
       }
     }
   </mat-select>
-  @if (errorText()) {
-    <mat-error>{{ errorText() }}</mat-error>
+  @if (showError) {
+    <mat-error>{{ resolvedErrorText }}</mat-error>
   }
 </mat-form-field>

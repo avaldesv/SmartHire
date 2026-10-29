@@ -1,16 +1,19 @@
 import {
   Component,
   DestroyRef,
+  ElementRef,
   Input,
   OnChanges,
   OnInit,
   SimpleChanges,
+  ViewChild,
   inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -30,6 +33,7 @@ import {
   REQUISITION_WIZARD_CLIENT_SEARCH_NO_COUNTRY,
   REQUISITION_WIZARD_CLIENT_SEARCH_NO_RESULTS,
   REQUISITION_WIZARD_CLIENT_SEARCH_PLACEHOLDER,
+  REQUISITION_WIZARD_FIELD_REQUIRED,
 } from '../../../../core/i18n/requisition-wizard-labels';
 import { catalogClientOptionLabel } from '../../../../shared/constants/requisition-client-catalog-fill';
 import { WizardFieldOption } from '../../../../shared/models/requisition-wizard.model';
@@ -54,10 +58,14 @@ export class WizardClientSearchFieldComponent implements OnInit, OnChanges {
   private readonly destroyRef = inject(DestroyRef);
   private readonly controlStop$ = new Subject<void>();
 
+  @ViewChild('clientSearchInput') private readonly clientSearchInput?: ElementRef<HTMLInputElement>;
+
   @Input({ required: true }) control!: FormControl;
   @Input() countryId: number | null = null;
   @Input() disabled = false;
   @Input() label = '';
+  /** Shows Material required asterisk; value lives on `control`, not `searchCtrl`. */
+  @Input() required = false;
 
   readonly searchCtrl = new FormControl<string | WizardFieldOption>('', { nonNullable: true });
   options: WizardFieldOption[] = [];
@@ -68,6 +76,12 @@ export class WizardClientSearchFieldComponent implements OnInit, OnChanges {
   readonly noCountryHint = REQUISITION_WIZARD_CLIENT_SEARCH_NO_COUNTRY;
   readonly noResultsLabel = REQUISITION_WIZARD_CLIENT_SEARCH_NO_RESULTS;
   readonly clearLabel = REQUISITION_WIZARD_CLIENT_SEARCH_CLEAR;
+  readonly requiredError = REQUISITION_WIZARD_FIELD_REQUIRED;
+
+  /** Error state follows the value control (`clientId`), not the search text control. */
+  readonly errorStateMatcher: ErrorStateMatcher = {
+    isErrorState: () => !!this.control && this.control.invalid && this.control.touched,
+  };
 
   readonly displayFn = (option: WizardFieldOption | string | null): string => {
     if (!option) {
@@ -145,6 +159,16 @@ export class WizardClientSearchFieldComponent implements OnInit, OnChanges {
       this.loading = false;
       this.searched = true;
     });
+  }
+
+  /** Focus the search input (e.g. after jumping to this step on validation). */
+  focus(): void {
+    const input = this.clientSearchInput?.nativeElement;
+    if (!input) {
+      return;
+    }
+    input.focus();
+    input.select();
   }
 
   onSelected(event: MatAutocompleteSelectedEvent): void {

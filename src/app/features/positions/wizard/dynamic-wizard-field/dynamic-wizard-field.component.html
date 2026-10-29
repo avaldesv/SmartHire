@@ -12,6 +12,7 @@
     [loadingLabel]="loadingOptionsLabel"
     [formControl]="control"
     [disabled]="disabled"
+    [required]="required"
   />
 } @else if (isMultiselect) {
   <sh-filterable-select
@@ -24,17 +25,19 @@
     [loadingLabel]="loadingOptionsLabel"
     [formControl]="control"
     [disabled]="disabled || loadingOptions"
+    [required]="required"
     multiple
   />
 } @else if (isDate) {
-  <sh-datepicker-field [label]="label" [formControl]="control" />
+  <sh-datepicker-field [label]="label" [formControl]="control" [required]="required" />
 } @else if (isTime) {
-  <sh-timepicker-field [label]="label" [formControl]="control" />
+  <sh-timepicker-field [label]="label" [formControl]="control" [required]="required" />
 } @else if (isMoney) {
   <sh-money-stepper-field
     [formControl]="control"
     [label]="label"
     [disabled]="disabled"
+    [required]="required"
     [blockNonNumeric]="isSalaryMoney"
   />
 } @else if (isSimpleInput) {
@@ -46,7 +49,13 @@
   >
     <mat-label>{{ label }}</mat-label>
     @if (isTextarea) {
-      <textarea matInput rows="6" [formControl]="control" [disabled]="disabled"></textarea>
+      <textarea
+        matInput
+        rows="6"
+        [formControl]="control"
+        [disabled]="disabled"
+        [required]="required"
+      ></textarea>
     } @else {
       <input
         matInput
@@ -55,7 +64,11 @@
         [step]="numberStep"
         [formControl]="control"
         [disabled]="disabled"
+        [required]="required"
       />
+    }
+    @if (control.touched && control.invalid) {
+      <mat-error>{{ requiredError }}</mat-error>
     }
   </mat-form-field>
 }
