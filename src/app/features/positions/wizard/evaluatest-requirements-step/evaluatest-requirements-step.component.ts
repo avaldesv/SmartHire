@@ -15,6 +15,8 @@ import {
 import { DEFAULT_LOGIN_LOCALE, LocaleService } from '../../../../core/services/locale.service';
 import { PositionEvaluatestPayload } from '../../../../shared/models/position.model';
 
+import { ShFilterableSelectComponent } from '../../../../shared/components/filterable-select/sh-filterable-select.component';
+
 /** Hardcoded SelectionJobPattern options (refine when Brivé catalog is confirmed). */
 const SELECTION_JOB_PATTERNS: { id: number; name: string }[] = [
   { id: 1, name: 'Industria' },
@@ -25,6 +27,7 @@ const SELECTION_JOB_PATTERNS: { id: number; name: string }[] = [
   selector: 'sh-evaluatest-requirements-step',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,

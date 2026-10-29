@@ -68,6 +68,8 @@ import {
   ShModalFormComponent,
 } from '../../../shared/components/modal-form/sh-modal-form.component';
 
+import { ShFilterableSelectComponent } from '../../../shared/components/filterable-select/sh-filterable-select.component';
+
 export interface QuestionnaireFormDialogData {
   questionnaire?: QuestionnaireItem;
   readOnly?: boolean;
@@ -88,6 +90,7 @@ export type QuestionnaireFormDialogResult = boolean | 'published' | 'archived';
   selector: 'sh-questionnaire-form-dialog',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     ReactiveFormsModule,
     MatDialogModule,
     MatButtonModule,

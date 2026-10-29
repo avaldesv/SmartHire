@@ -19,12 +19,15 @@ import {
   CandidateBeneficiaryPayload,
 } from '../../../shared/models/candidate-beneficiary.model';
 
+import { ShFilterableSelectComponent } from '../../../shared/components/filterable-select/sh-filterable-select.component';
+
 type WizardBeneficiaryType = 'Primario' | 'Contingente';
 
 @Component({
   selector: 'sh-beneficiary-wizard',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     ReactiveFormsModule,
     MatStepperModule,
     MatFormFieldModule,

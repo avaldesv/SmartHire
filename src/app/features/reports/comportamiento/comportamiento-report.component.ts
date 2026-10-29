@@ -6,7 +6,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
 import { catchError, forkJoin, of } from 'rxjs';
 import { CatalogBusinessUnitService } from '../../../core/services/catalog-business-unit.service';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
@@ -69,6 +68,8 @@ import { PositionListItem } from '../../../shared/models/position.model';
 import { formatReportCell, formatReportPercent } from '../shared/report-format';
 import { armReportTenantReload } from '../shared/report-tenant-reload';
 
+import { ShFilterableSelectComponent } from '../../../shared/components/filterable-select/sh-filterable-select.component';
+
 export interface ComportamientoFillRate {
   positionsPct: number | null;
   hiredPct: number | null;
@@ -101,9 +102,9 @@ interface SelectOption {
   selector: 'sh-comportamiento-report',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatSelectModule,
     MatInputModule,
     MatButtonModule,
     MatIconModule,

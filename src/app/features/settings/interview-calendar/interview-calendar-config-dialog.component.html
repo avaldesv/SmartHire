@@ -20,13 +20,13 @@
             <div class="cal-row cal-row--schedule">
               <div class="cal-field">
                 <span class="cal-field__label">{{ labels.duration }}</span>
-                <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                  <mat-select formControlName="virtualDurationMinutes">
-                    @for (opt of durationOptions; track opt) {
-                      <mat-option [value]="opt">{{ formatDuration(opt) }}</mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
+                <sh-filterable-select
+                  subscriptSizing="dynamic"
+                  [options]="durationOptions"
+                  [valueField]="null"
+                  [labelFn]="formatDuration"
+                  formControlName="virtualDurationMinutes"
+                />
               </div>
               <div class="cal-field">
                 <span class="cal-field__label">{{ labels.maxDays }}</span>
@@ -117,13 +117,13 @@
             <div class="cal-row cal-row--schedule">
               <div class="cal-field">
                 <span class="cal-field__label">{{ labels.duration }}</span>
-                <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                  <mat-select formControlName="presentialDurationMinutes">
-                    @for (opt of durationOptions; track opt) {
-                      <mat-option [value]="opt">{{ formatDuration(opt) }}</mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
+                <sh-filterable-select
+                  subscriptSizing="dynamic"
+                  [options]="durationOptions"
+                  [valueField]="null"
+                  [labelFn]="formatDuration"
+                  formControlName="presentialDurationMinutes"
+                />
               </div>
               <div class="cal-field">
                 <span class="cal-field__label">{{ labels.maxDays }}</span>

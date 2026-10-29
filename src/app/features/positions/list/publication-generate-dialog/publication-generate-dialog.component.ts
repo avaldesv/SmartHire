@@ -65,6 +65,8 @@ import {
 import { ShPhoneFieldsComponent } from '../../../../shared/components/phone-fields/sh-phone-fields.component';
 import { PublicationNoTemplateDialogComponent } from '../publication-no-template-dialog.component';
 
+import { ShFilterableSelectComponent } from '../../../../shared/components/filterable-select/sh-filterable-select.component';
+
 export interface PublicationGenerateDialogData {
   positionId: number;
   contactEmail: string;
@@ -86,6 +88,7 @@ const DEV_DEFAULT_SHARE_EMAIL = 'smarthirebtech@gmail.com';
   selector: 'sh-publication-generate-dialog',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     ReactiveFormsModule,
     MatDialogModule,
     MatButtonModule,

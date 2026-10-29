@@ -25,15 +25,15 @@
         <textarea matInput rows="2" formControlName="description"></textarea>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>{{ fieldCategory }}</mat-label>
-        <mat-select formControlName="knowledgeCategoryId">
-          <mat-option [value]="null">{{ noCategoryLabel }}</mat-option>
-          @for (cat of categories; track cat.id) {
-            <mat-option [value]="cat.id">{{ cat.name }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <sh-filterable-select
+        class="full-width"
+        [label]="fieldCategory"
+        [options]="categories"
+        valueField="id"
+        labelField="name"
+        [emptyLabel]="noCategoryLabel"
+        formControlName="knowledgeCategoryId"
+      />
 
       <mat-checkbox formControlName="isActive">{{ fieldActive }}</mat-checkbox>
     </form>

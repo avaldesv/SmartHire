@@ -125,10 +125,13 @@ import {
   NOTIFICATIONS_FILTER_CLEAR,
 } from '../../../core/i18n/notifications-labels';
 
+import { ShFilterableSelectComponent } from '../../../shared/components/filterable-select/sh-filterable-select.component';
+
 @Component({
   selector: 'sh-notifications-admin',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     ReactiveFormsModule,
     MatTableModule,
     MatChipsModule,

@@ -8,7 +8,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
 import { finalize } from 'rxjs';
@@ -52,6 +51,8 @@ import {
   EvaluatestBatteryTestItem,
 } from '../../../../shared/models/evaluatest-battery.model';
 
+import { ShFilterableSelectComponent } from '../../../../shared/components/filterable-select/sh-filterable-select.component';
+
 export interface EvaluatestBatteryDialogData {
   positionId: number;
   positionName?: string | null;
@@ -61,12 +62,12 @@ export interface EvaluatestBatteryDialogData {
   selector: 'sh-evaluatest-battery-dialog',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     ReactiveFormsModule,
     MatDialogModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule,
     MatRadioModule,
     MatSlideToggleModule,
     MatCheckboxModule,

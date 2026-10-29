@@ -88,24 +88,22 @@
         <h4 class="grid-title">{{ fieldLabel(field) }}</h4>
         @for (row of languageArray(field.fieldKey).controls; track $index; let i = $index) {
           <div class="language-row" [formGroup]="$any(row)">
-            <mat-form-field appearance="outline" subscriptSizing="dynamic">
-              <mat-label>{{ languageLabel }}</mat-label>
-              <mat-select formControlName="languageId">
-                <mat-option [value]="null">—</mat-option>
-                @for (opt of languageOptions(); track opt.id) {
-                  <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field appearance="outline" subscriptSizing="dynamic">
-              <mat-label>{{ languageLevelLabel }}</mat-label>
-              <mat-select formControlName="languageLevelId">
-                <mat-option [value]="null">—</mat-option>
-                @for (opt of languageLevelOptions(); track opt.id) {
-                  <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
+            <sh-filterable-select
+              subscriptSizing="dynamic"
+              [label]="languageLabel"
+              [options]="languageOptions()"
+              valueField="id"
+              emptyLabel="—"
+              formControlName="languageId"
+            />
+            <sh-filterable-select
+              subscriptSizing="dynamic"
+              [label]="languageLevelLabel"
+              [options]="languageLevelOptions()"
+              valueField="id"
+              emptyLabel="—"
+              formControlName="languageLevelId"
+            />
             <button mat-icon-button type="button" (click)="removeLanguageRow(field.fieldKey, i)" [disabled]="languageArray(field.fieldKey).length <= 1">
               <mat-icon>delete</mat-icon>
             </button>
@@ -175,32 +173,29 @@
         </div>
       </div>
     } @else if (field.fieldKey === 'stateId') {
-      <mat-form-field appearance="outline">
-        <mat-label>{{ fieldLabel(field) }}</mat-label>
-        <mat-select [formControl]="fieldControl(field.fieldKey)" [disabled]="isReadOnly(field)">
-          @for (opt of states; track opt.id) {
-            <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <sh-filterable-select
+        [label]="fieldLabel(field)"
+        [options]="states"
+        valueField="id"
+        [formControl]="fieldControl(field.fieldKey)"
+        [disabled]="isReadOnly(field)"
+      />
     } @else if (field.fieldKey === 'municipalityId') {
-      <mat-form-field appearance="outline">
-        <mat-label>{{ fieldLabel(field) }}</mat-label>
-        <mat-select [formControl]="fieldControl(field.fieldKey)" [disabled]="isReadOnly(field)">
-          @for (opt of municipalities; track opt.id) {
-            <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <sh-filterable-select
+        [label]="fieldLabel(field)"
+        [options]="municipalities"
+        valueField="id"
+        [formControl]="fieldControl(field.fieldKey)"
+        [disabled]="isReadOnly(field)"
+      />
     } @else if (field.fieldKey === 'neighborhoodId') {
-      <mat-form-field appearance="outline">
-        <mat-label>{{ fieldLabel(field) }}</mat-label>
-        <mat-select [formControl]="fieldControl(field.fieldKey)" [disabled]="isReadOnly(field)">
-          @for (opt of neighborhoods; track opt.id) {
-            <mat-option [value]="opt.id">{{ opt.label }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <sh-filterable-select
+        [label]="fieldLabel(field)"
+        [options]="neighborhoods"
+        valueField="id"
+        [formControl]="fieldControl(field.fieldKey)"
+        [disabled]="isReadOnly(field)"
+      />
     } @else if (isClientSearchField(field)) {
       <sh-wizard-client-search-field
         [control]="fieldControl(field.fieldKey)"

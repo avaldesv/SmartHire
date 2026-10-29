@@ -7,7 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { PageEvent } from '@angular/material/paginator';
 import { ShPaginatorComponent } from '../../../shared/components/paginator/sh-paginator.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
 import { catchError, of } from 'rxjs';
 import { CatalogGeographyService } from '../../../core/services/catalog-geography.service';
 import { ReportsApiService } from '../../../core/services/reports-api.service';
@@ -48,6 +47,8 @@ import {
 import { formatReportCell } from '../shared/report-format';
 import { armReportTenantReload } from '../shared/report-tenant-reload';
 
+import { ShFilterableSelectComponent } from '../../../shared/components/filterable-select/sh-filterable-select.component';
+
 interface YearBarSeries {
   key: keyof Pick<
     RequisitionsInProcessYearResponse,
@@ -66,9 +67,9 @@ interface YearBarGroup {
   selector: 'sh-requisitions-in-process-report',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatSelectModule,
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,

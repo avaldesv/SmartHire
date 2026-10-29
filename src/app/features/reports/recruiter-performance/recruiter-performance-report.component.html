@@ -14,84 +14,64 @@
 
   <form [formGroup]="filters" class="sh-filters sh-card perf-filters">
     <div class="primary-filters-grid">
-      <mat-form-field appearance="outline">
-        <mat-label>{{ labels.filterCountry }}</mat-label>
-        <mat-select formControlName="countryId">
-          <mat-option [value]="null">{{ labels.all }}</mat-option>
-          @for (c of countries; track c.id) {
-            <mat-option [value]="c.id">{{ c.name }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <sh-filterable-select
+        [label]="labels.filterCountry"
+        [options]="countries"
+        valueField="id"
+        labelField="name"
+        [emptyLabel]="labels.all"
+        formControlName="countryId"
+      />
 
-      <mat-form-field appearance="outline">
-        <mat-label>{{ labels.filterRecruitment }}</mat-label>
-        <mat-select formControlName="recruitmentType">
-          <mat-option [value]="null">{{ labels.all }}</mat-option>
-          @for (opt of recruitmentTypeOptions; track opt.value) {
-            <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <sh-filterable-select
+        [label]="labels.filterRecruitment"
+        [options]="recruitmentTypeOptions"
+        [emptyLabel]="labels.all"
+        formControlName="recruitmentType"
+      />
 
-      <mat-form-field appearance="outline">
-        <mat-label>{{ labels.filterBu }}</mat-label>
-        <mat-select formControlName="workplaceId">
-          <mat-option [value]="null">
-            {{ filters.controls.workplaceId.disabled ? labels.selectCountry : labels.all }}
-          </mat-option>
-          @for (bu of businessUnitOptions; track bu.id) {
-            <mat-option [value]="bu.id">{{ bu.name }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <sh-filterable-select
+        [label]="labels.filterBu"
+        [options]="businessUnitOptions"
+        valueField="id"
+        labelField="name"
+        [emptyLabel]="filters.controls.workplaceId.disabled ? labels.selectCountry : labels.all"
+        formControlName="workplaceId"
+      />
 
-      <mat-form-field appearance="outline">
-        <mat-label>{{ labels.filterGroup }}</mat-label>
-        <mat-select formControlName="recruiterGroupId">
-          <mat-option [value]="null">
-            {{ filters.controls.recruiterGroupId.disabled ? labels.selectCountry : labels.all }}
-          </mat-option>
-          @for (g of groupOptions; track g.id) {
-            <mat-option [value]="g.id">{{ g.description || g.code }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <sh-filterable-select
+        [label]="labels.filterGroup"
+        [options]="groupOptions"
+        valueField="id"
+        labelField="description"
+        labelFallbackField="code"
+        [emptyLabel]="filters.controls.recruiterGroupId.disabled ? labels.selectCountry : labels.all"
+        formControlName="recruiterGroupId"
+      />
     </div>
 
     <div class="primary-filters-grid">
       <sh-year-stepper-field formControlName="year" [label]="labels.filterYear" />
 
-      <mat-form-field appearance="outline">
-        <mat-label>{{ labels.filterMonth }}</mat-label>
-        <mat-select formControlName="month">
-          @for (m of monthOptions; track m.value) {
-            <mat-option [value]="m.value">{{ m.label }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <sh-filterable-select [label]="labels.filterMonth" [options]="monthOptions" formControlName="month" />
 
-      <mat-form-field appearance="outline">
-        <mat-label>{{ labels.filterOrder }}</mat-label>
-        <mat-select formControlName="positionId">
-          <mat-option [value]="null">{{ labels.allFem }}</mat-option>
-          @for (p of positionOptions; track p.id) {
-            <mat-option [value]="p.id">{{ p.label }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <sh-filterable-select
+        [label]="labels.filterOrder"
+        [options]="positionOptions"
+        valueField="id"
+        [emptyLabel]="labels.allFem"
+        formControlName="positionId"
+      />
 
       <sh-client-filter-field formControlName="clientKey" />
 
-      <mat-form-field appearance="outline">
-        <mat-label>{{ labels.filterRecruiter }}</mat-label>
-        <mat-select formControlName="assignedUserId">
-          <mat-option [value]="null">{{ labels.all }}</mat-option>
-          @for (u of recruiterOptions; track u.id) {
-            <mat-option [value]="u.id">{{ u.label }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <sh-filterable-select
+        [label]="labels.filterRecruiter"
+        [options]="recruiterOptions"
+        valueField="id"
+        [emptyLabel]="labels.all"
+        formControlName="assignedUserId"
+      />
     </div>
   </form>
 

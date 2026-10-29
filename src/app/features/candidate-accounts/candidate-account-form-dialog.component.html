@@ -9,14 +9,12 @@
       <mat-checkbox formControlName="sendRegisterEmail">{{ fieldSendMail }}</mat-checkbox>
     } @else {
       <mat-checkbox formControlName="mustChangePassword">{{ fieldMustChange }}</mat-checkbox>
-      <mat-form-field appearance="outline" class="full">
-        <mat-label>{{ fieldRegisterStatus }}</mat-label>
-        <mat-select formControlName="registerStatusId">
-          @for (opt of statusOptions; track opt.value) {
-            <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <sh-filterable-select
+        class="full"
+        [label]="fieldRegisterStatus"
+        [options]="statusOptions"
+        formControlName="registerStatusId"
+      />
     }
   </form>
 

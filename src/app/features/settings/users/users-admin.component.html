@@ -86,33 +86,34 @@
         }
       </mat-autocomplete>
     </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label i18n="@@users.form.branch">Sucursal</mat-label>
-      <mat-select formControlName="branchId" [disabled]="!tenantCountryId">
-        <mat-option [value]="null">—</mat-option>
-        @for (branch of branchOptions; track branch.id) {
-          <mat-option [value]="branch.id">{{ branch.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label i18n="@@users.form.area">Área</mat-label>
-      <mat-select formControlName="companyAreaId">
-        <mat-option [value]="null">—</mat-option>
-        @for (area of areaOptions; track area.id) {
-          <mat-option [value]="area.id">{{ area.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label i18n="@@users.form.department">Departamento</mat-label>
-      <mat-select formControlName="companyDepartmentId">
-        <mat-option [value]="null">—</mat-option>
-        @for (dept of departmentOptions; track dept.id) {
-          <mat-option [value]="dept.id">{{ dept.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+    <sh-filterable-select
+      i18n-label="@@users.form.branch"
+      label="Sucursal"
+      [options]="branchOptions"
+      valueField="id"
+      labelField="name"
+      emptyLabel="—"
+      formControlName="branchId"
+      [disabled]="!tenantCountryId"
+    />
+    <sh-filterable-select
+      i18n-label="@@users.form.area"
+      label="Área"
+      [options]="areaOptions"
+      valueField="id"
+      labelField="name"
+      emptyLabel="—"
+      formControlName="companyAreaId"
+    />
+    <sh-filterable-select
+      i18n-label="@@users.form.department"
+      label="Departamento"
+      [options]="departmentOptions"
+      valueField="id"
+      labelField="name"
+      emptyLabel="—"
+      formControlName="companyDepartmentId"
+    />
     <mat-form-field appearance="outline">
       <mat-label i18n="@@users.form.legacyR3">Usuario R3</mat-label>
       <input matInput formControlName="legacyR3Username" />
@@ -129,14 +130,16 @@
       <mat-label i18n="@@users.form.address">Dirección</mat-label>
       <textarea matInput rows="2" formControlName="address"></textarea>
     </mat-form-field>
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label i18n="@@users.form.roles">Roles</mat-label>
-      <mat-select formControlName="roleIds" multiple>
-        @for (role of roleOptions; track role.id) {
-          <mat-option [value]="role.id">{{ role.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+    <sh-filterable-select
+      class="full-width"
+      i18n-label="@@users.form.roles"
+      label="Roles"
+      [options]="roleOptions"
+      valueField="id"
+      labelField="name"
+      formControlName="roleIds"
+      multiple
+    />
     <mat-checkbox formControlName="isActive" i18n="@@users.form.active">Activo</mat-checkbox>
     <div shModalActions>
       <button mat-stroked-button type="button" (click)="cancelForm()" i18n="@@common.cancel">Cancelar</button>

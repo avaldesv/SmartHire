@@ -8,7 +8,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule, MatTabChangeEvent } from '@angular/material/tabs';
@@ -64,16 +63,18 @@ import { ShModalActionsDirective, ShModalFormComponent } from '../../../shared/c
 import { ShTimepickerFieldComponent } from '../../../shared/components/timepicker-field/sh-timepicker-field.component';
 import { merge } from 'rxjs';
 
+import { ShFilterableSelectComponent } from '../../../shared/components/filterable-select/sh-filterable-select.component';
+
 @Component({
   selector: 'sh-interview-calendar-config-dialog',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     ReactiveFormsModule,
     MatDialogModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule,
     MatCheckboxModule,
     MatRadioModule,
     MatTabsModule,

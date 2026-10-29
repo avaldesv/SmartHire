@@ -7,7 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { COMMON_CLEAR_FILTERS } from '../../../core/i18n/common-labels';
@@ -57,10 +56,13 @@ import {
   pipelineStagesDeleteConfirm,
 } from '../../../core/i18n/pipeline-stages-labels';
 
+import { ShFilterableSelectComponent } from '../../../shared/components/filterable-select/sh-filterable-select.component';
+
 @Component({
   selector: 'sh-pipeline-stages',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     ReactiveFormsModule,
     MatTableModule,
     MatProgressSpinnerModule,
@@ -69,7 +71,6 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
-    MatSelectModule,
     MatRadioModule,
     TableRowActionsComponent,
   ],

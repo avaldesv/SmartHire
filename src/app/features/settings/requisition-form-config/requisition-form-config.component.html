@@ -13,24 +13,25 @@
 
   <form [formGroup]="selectorForm" class="sh-filters sh-card sh-filters--five-cols">
     <div class="filter-fields">
-      <mat-form-field appearance="outline" subscriptSizing="dynamic">
-        <mat-label>{{ fieldCountry }}</mat-label>
-        <mat-select formControlName="countryId">
-          <mat-option [value]="null">{{ filterAllLabel }}</mat-option>
-          @for (country of countries; track country.id) {
-            <mat-option [value]="country.id">{{ country.name }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="outline" subscriptSizing="dynamic">
-        <mat-label>{{ fieldCoverage }}</mat-label>
-        <mat-select formControlName="coverageTypeId" [disabled]="!selectorForm.controls.countryId.value">
-          <mat-option [value]="null">{{ filterAllLabel }}</mat-option>
-          @for (coverage of coverageTypes; track coverage.id) {
-            <mat-option [value]="coverage.id">{{ coverage.name }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <sh-filterable-select
+        subscriptSizing="dynamic"
+        [label]="fieldCountry"
+        [options]="countries"
+        valueField="id"
+        labelField="name"
+        [emptyLabel]="filterAllLabel"
+        formControlName="countryId"
+      />
+      <sh-filterable-select
+        subscriptSizing="dynamic"
+        [label]="fieldCoverage"
+        [options]="coverageTypes"
+        valueField="id"
+        labelField="name"
+        [emptyLabel]="filterAllLabel"
+        formControlName="coverageTypeId"
+        [disabled]="!selectorForm.controls.countryId.value"
+      />
       <mat-form-field appearance="outline" subscriptSizing="dynamic">
         <mat-label>{{ fieldStatus }}</mat-label>
         <mat-select formControlName="status">

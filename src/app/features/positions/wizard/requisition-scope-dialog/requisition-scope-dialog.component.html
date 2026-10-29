@@ -7,14 +7,13 @@
     <div class="loading-wrap"><mat-spinner diameter="32" /></div>
   } @else {
     <form [formGroup]="form" class="gender-form scope-form" (ngSubmit)="continue()">
-      <mat-form-field appearance="outline">
-        <mat-label>{{ labels.country }}</mat-label>
-        <mat-select formControlName="countryId">
-          @for (country of countries; track country.id) {
-            <mat-option [value]="country.id">{{ country.name }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <sh-filterable-select
+        [label]="labels.country"
+        [options]="countries"
+        valueField="id"
+        labelField="name"
+        formControlName="countryId"
+      />
 
       <mat-form-field appearance="outline">
         <mat-label>{{ labels.coverage }}</mat-label>

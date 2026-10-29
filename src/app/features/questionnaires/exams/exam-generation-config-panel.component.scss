@@ -39,7 +39,8 @@
   gap: 8px;
   width: 100%;
 
-  mat-form-field {
+  mat-form-field,
+  sh-filterable-select {
     flex: 1 1 120px;
   }
 

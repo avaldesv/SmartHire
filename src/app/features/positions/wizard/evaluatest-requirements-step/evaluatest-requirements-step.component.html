@@ -39,15 +39,14 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>{{ labels.selectionJobPattern }}</mat-label>
-      <mat-select formControlName="selectionJobPatternId">
-        <mat-option [value]="null">{{ labels.selectPlaceholder }}</mat-option>
-        @for (item of selectionPatterns; track item.id) {
-          <mat-option [value]="item.id">{{ item.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+    <sh-filterable-select
+      [label]="labels.selectionJobPattern"
+      [options]="selectionPatterns"
+      valueField="id"
+      labelField="name"
+      [emptyLabel]="labels.selectPlaceholder"
+      formControlName="selectionJobPatternId"
+    />
 
     <mat-form-field appearance="outline">
       <mat-label>{{ labels.industry }}</mat-label>

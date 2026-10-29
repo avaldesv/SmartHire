@@ -35,14 +35,12 @@
       </div>
     }
 
-    <mat-form-field appearance="outline">
-      <mat-label>{{ fieldChannels }}</mat-label>
-      <mat-select formControlName="channels" multiple>
-        @for (ch of channelOptions; track ch.value) {
-          <mat-option [value]="ch.value">{{ ch.label }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+    <sh-filterable-select
+      [label]="fieldChannels"
+      [options]="channelOptions"
+      formControlName="channels"
+      multiple
+    />
 
     <mat-form-field appearance="outline">
       <mat-label>{{ fieldExternalTemplateId }}</mat-label>

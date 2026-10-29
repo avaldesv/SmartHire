@@ -3,15 +3,16 @@
   <p class="hint">{{ labels.hint }}</p>
 
   <div class="draft-row">
-    <mat-form-field appearance="outline" subscriptSizing="dynamic">
-      <mat-label>{{ labels.portal }}</mat-label>
-      <mat-select [(value)]="draftPortalId" [disabled]="disabled || loading">
-        <mat-option [value]="null">{{ labels.select }}</mat-option>
-        @for (portal of availablePortals(); track portal.id) {
-          <mat-option [value]="portal.id">{{ portal.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+    <sh-filterable-select
+      subscriptSizing="dynamic"
+      [label]="labels.portal"
+      [options]="availablePortals()"
+      valueField="id"
+      labelField="name"
+      [emptyLabel]="labels.select"
+      [(value)]="draftPortalId"
+      [disabled]="disabled || loading"
+    />
     <mat-form-field appearance="outline" subscriptSizing="dynamic">
       <mat-label>{{ labels.externalId }}</mat-label>
       <input

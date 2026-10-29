@@ -68,10 +68,13 @@ import {
   CatalogFormDialogShellComponent,
 } from '../catalogs/catalog-form-dialog-shell.component';
 
+import { ShFilterableSelectComponent } from '../../../shared/components/filterable-select/sh-filterable-select.component';
+
 @Component({
   selector: 'sh-users-admin',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     ReactiveFormsModule,
     MatTableModule,
     ShPaginatorComponent,

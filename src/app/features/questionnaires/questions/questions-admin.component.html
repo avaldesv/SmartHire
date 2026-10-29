@@ -30,23 +30,21 @@
       <mat-label>{{ filterSearch }}</mat-label>
       <input matInput formControlName="text" />
     </mat-form-field>
-    <mat-form-field appearance="outline" subscriptSizing="dynamic">
-      <mat-label>{{ filterCategory }}</mat-label>
-      <mat-select formControlName="knowledgeCategoryId">
-        <mat-option [value]="null">{{ filterAll }}</mat-option>
-        @for (cat of categories; track cat.id) {
-          <mat-option [value]="cat.id">{{ cat.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="outline" subscriptSizing="dynamic">
-      <mat-label>{{ filterType }}</mat-label>
-      <mat-select formControlName="type">
-        @for (opt of typeOptions; track opt.value) {
-          <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+    <sh-filterable-select
+      subscriptSizing="dynamic"
+      [label]="filterCategory"
+      [options]="categories"
+      valueField="id"
+      labelField="name"
+      [emptyLabel]="filterAll"
+      formControlName="knowledgeCategoryId"
+    />
+    <sh-filterable-select
+      subscriptSizing="dynamic"
+      [label]="filterType"
+      [options]="typeOptions"
+      formControlName="type"
+    />
   </div>
   <div class="filter-actions">
     <button mat-stroked-button type="button" (click)="clearFilters()">{{ filterClear }}</button>

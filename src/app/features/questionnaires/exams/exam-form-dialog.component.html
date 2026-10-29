@@ -25,14 +25,14 @@
             </div>
 
             <div class="form-row">
-              <mat-form-field appearance="outline" class="questionnaire-field">
-                <mat-label>{{ fieldQuestionnaire }}</mat-label>
-                <mat-select formControlName="questionnaireId">
-                  @for (q of publishedQuestionnaires; track q.id) {
-                    <mat-option [value]="q.id">{{ q.name }}</mat-option>
-                  }
-                </mat-select>
-              </mat-form-field>
+              <sh-filterable-select
+                class="questionnaire-field"
+                [label]="fieldQuestionnaire"
+                [options]="publishedQuestionnaires"
+                valueField="id"
+                labelField="name"
+                formControlName="questionnaireId"
+              />
             </div>
 
             <div class="form-row">
@@ -69,14 +69,7 @@
                   <a class="help-link" href="#" (click)="openMaxAttemptsHelp($event)">{{ fieldHelpLink }}</a>
                 </mat-hint>
               </mat-form-field>
-              <mat-form-field appearance="outline">
-                <mat-label>{{ fieldStatus }}</mat-label>
-                <mat-select formControlName="status">
-                  @for (opt of statusOptions; track opt.value) {
-                    <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
-                  }
-                </mat-select>
-              </mat-form-field>
+              <sh-filterable-select [label]="fieldStatus" [options]="statusOptions" formControlName="status" />
             </div>
 
             <div class="form-row form-row--status">

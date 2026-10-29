@@ -218,6 +218,8 @@ import {
   RequisitionScopeDialogResult,
 } from '../../wizard/requisition-scope-dialog/requisition-scope-dialog.component';
 
+import { ShFilterableSelectComponent } from '../../../../shared/components/filterable-select/sh-filterable-select.component';
+
 interface ClientOption {
   id: number;
   label: string;
@@ -229,6 +231,7 @@ interface ClientOption {
   selector: 'sh-positions-table',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     DatePipe,
     RouterLink,
     ReactiveFormsModule,

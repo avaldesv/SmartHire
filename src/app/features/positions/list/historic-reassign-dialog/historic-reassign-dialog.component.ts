@@ -38,6 +38,8 @@ import { HistoricEmployeeApiService } from '../../../../core/services/historic-e
 import { HistoricEmployee } from '../../../../shared/models/historic-employee.model';
 import { CatalogEducationLevel } from '../../../../shared/models/catalog-education-level.model';
 
+import { ShFilterableSelectComponent } from '../../../../shared/components/filterable-select/sh-filterable-select.component';
+
 export interface HistoricReassignDialogData {
   positionId: number;
 }
@@ -46,6 +48,7 @@ export interface HistoricReassignDialogData {
   selector: 'sh-historic-reassign-dialog',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     CommonModule,
     FormsModule,
     MatDialogModule,

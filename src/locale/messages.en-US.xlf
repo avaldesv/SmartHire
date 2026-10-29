@@ -12594,6 +12594,14 @@
         <source>No se puede modificar este registro de <x id="catalogLabel" equiv-text="catalogLabel"/> con la empresa de la sesión.</source>
         <target>This <x id="catalogLabel" equiv-text="catalogLabel"/> record cannot be changed with the session company.</target>
       </trans-unit>
+      <trans-unit id="filterableSelect.search" datatype="html">
+        <source>Buscar…</source>
+        <target>Search…</target>
+      </trans-unit>
+      <trans-unit id="filterableSelect.noResults" datatype="html">
+        <source>Sin resultados</source>
+        <target>No results</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

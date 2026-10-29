@@ -68,10 +68,13 @@ import { EvaluatestRequirementsStepComponent } from '../evaluatest-requirements-
 import { CLIENT_ID_FIELD_KEY } from '../../../../shared/constants/requisition-client-catalog-fill';
 import { PositionEvaluatestPayload } from '../../../../shared/models/position.model';
 
+import { ShFilterableSelectComponent } from '../../../../shared/components/filterable-select/sh-filterable-select.component';
+
 @Component({
   selector: 'sh-dynamic-wizard-step',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,

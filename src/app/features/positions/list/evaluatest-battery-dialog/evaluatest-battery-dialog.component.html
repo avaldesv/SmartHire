@@ -75,14 +75,14 @@
         <section class="card">
           <h3>{{ labels.addCompetences }}</h3>
           <div class="add-row">
-            <mat-form-field appearance="outline" class="grow">
-              <mat-label>{{ labels.selectCompetence }}</mat-label>
-              <mat-select formControlName="selectedCompetenceId">
-                @for (opt of availableCompetences; track opt.id) {
-                  <mat-option [value]="opt.id">{{ opt.name }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
+            <sh-filterable-select
+              class="grow"
+              [label]="labels.selectCompetence"
+              [options]="availableCompetences"
+              valueField="id"
+              labelField="name"
+              formControlName="selectedCompetenceId"
+            />
             <button
               mat-mini-fab
               color="primary"

@@ -101,6 +101,16 @@ a:hover { text-decoration: underline; }
   flex: 1 1 220px;
   margin-bottom: 0;
 }
+/* Filterable select host sits where the bare mat-form-field used to be (flex item of the filter row) */
+.sh-filters.sh-card sh-filterable-select {
+  min-width: 220px;
+  max-width: 360px;
+  flex: 1 1 220px;
+}
+.sh-filters.sh-card sh-filterable-select .mat-mdc-form-field {
+  max-width: none;
+  min-width: 0;
+}
 .sh-filters.sh-card .mat-mdc-text-field-wrapper,
 .sh-filters.sh-card .mat-mdc-form-field-flex {
   height: 52px;

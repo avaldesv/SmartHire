@@ -6,7 +6,6 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -51,6 +50,8 @@ import {
   ShModalFormComponent,
 } from '../../../shared/components/modal-form/sh-modal-form.component';
 
+import { ShFilterableSelectComponent } from '../../../shared/components/filterable-select/sh-filterable-select.component';
+
 export interface PublicationTemplateFormDialogData {
   templateId?: number;
   /** Locales that already have a template (create mode only). */
@@ -67,12 +68,12 @@ const ALL_LOCALES = [
   selector: 'sh-publication-template-form-dialog',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     ReactiveFormsModule,
     MatDialogModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
     ShModalFormComponent,
