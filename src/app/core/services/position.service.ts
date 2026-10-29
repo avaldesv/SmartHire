@@ -194,11 +194,15 @@ export class PositionService {
     );
   }
 
+  /**
+   * Direct cancellation. Uses POST (not DELETE) so the JSON body is not dropped by proxies/clients.
+   */
   delete(id: number, request: PositionCancellationRequest): Observable<DirectCancelPositionResponse> {
-    return this.http.delete<DirectCancelPositionResponse>(this.api.apiUrl(`/api/v1/positions/${id}`), {
-      headers: this.api.buildHeaders(),
-      body: request,
-    });
+    return this.http.post<DirectCancelPositionResponse>(
+      this.api.apiUrl(`/api/v1/positions/${id}/direct-cancellation`),
+      request,
+      { headers: this.api.buildHeaders() },
+    );
   }
 
   getCancellationImpact(id: number): Observable<PositionCancellationImpact> {
