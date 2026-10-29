@@ -5,7 +5,6 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
 import {
   POSITIONS_ASSIGN_CONFIRM,
   POSITIONS_ASSIGN_TITLE,
@@ -23,6 +22,8 @@ import {
   ShModalFormComponent,
 } from '../../../shared/components/modal-form/sh-modal-form.component';
 
+import { ShFilterableSelectComponent } from '../../../shared/components/filterable-select/sh-filterable-select.component';
+
 export interface ReassignPositionDialogData {
   currentAssignedUserId?: number | null;
   initialAssign?: boolean;
@@ -37,11 +38,11 @@ export interface ReassignPositionDialogResult {
   selector: 'sh-reassign-position-dialog',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     ReactiveFormsModule,
     MatDialogModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatSelectModule,
     MatInputModule,
     MatProgressSpinnerModule,
     ShModalFormComponent,
@@ -53,14 +54,14 @@ export interface ReassignPositionDialogResult {
         <div class="loading-wrap"><mat-spinner diameter="32" /></div>
       } @else {
         <form [formGroup]="form" class="form">
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>{{ userLabel }}</mat-label>
-            <mat-select formControlName="assignedUserId">
-              @for (user of users; track user.id) {
-                <mat-option [value]="user.id">{{ displayName(user) }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
+          <sh-filterable-select
+            class="full-width"
+            [label]="userLabel"
+            [options]="users"
+            valueField="id"
+            [labelFn]="displayName"
+            formControlName="assignedUserId"
+          />
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>{{ reasonLabel }}</mat-label>
             <textarea matInput rows="3" formControlName="reason"></textarea>

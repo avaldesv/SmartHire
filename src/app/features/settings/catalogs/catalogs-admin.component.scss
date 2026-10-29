@@ -168,7 +168,7 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
 }
 
 /* Align catalog selector height with Nuevo in row 1 */
-:host ::ng-deep .category-shell .catalog-select.mat-mdc-form-field {
+:host ::ng-deep .category-shell .catalog-select .mat-mdc-form-field {
   height: 52px;
 }
 :host ::ng-deep .category-shell .catalog-select .mat-mdc-text-field-wrapper,

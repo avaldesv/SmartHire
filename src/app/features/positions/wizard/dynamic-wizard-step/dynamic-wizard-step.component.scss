@@ -227,7 +227,8 @@
     grid-template-columns: 1fr auto;
   }
 
-  .language-row mat-form-field:first-child {
+  .language-row mat-form-field:first-child,
+  .language-row sh-filterable-select:first-child {
     grid-column: 1 / -1;
   }
 

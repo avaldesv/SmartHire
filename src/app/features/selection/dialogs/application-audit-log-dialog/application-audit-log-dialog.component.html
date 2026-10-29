@@ -50,14 +50,7 @@
     <form [formGroup]="form" class="add-form" (ngSubmit)="addEntry()">
       <h3>Nueva entrada</h3>
       <div class="form-row">
-        <mat-form-field appearance="outline">
-          <mat-label>Acción</mat-label>
-          <mat-select formControlName="action">
-            @for (opt of actionOptions; track opt.value) {
-              <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
+        <sh-filterable-select label="Acción" [options]="actionOptions" formControlName="action" />
         <mat-form-field appearance="outline" class="grow">
           <mat-label>Compromiso (opcional)</mat-label>
           <input matInput formControlName="commitment" maxlength="255" />

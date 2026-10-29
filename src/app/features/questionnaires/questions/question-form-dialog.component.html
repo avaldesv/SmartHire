@@ -21,23 +21,15 @@
       </mat-form-field>
 
       <div class="form-row">
-        <mat-form-field appearance="outline">
-          <mat-label>{{ fieldType }}</mat-label>
-          <mat-select formControlName="type">
-            @for (item of questionTypes; track item.value) {
-              <mat-option [value]="item.value">{{ item.label }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
+        <sh-filterable-select [label]="fieldType" [options]="questionTypes" formControlName="type" />
 
-        <mat-form-field appearance="outline">
-          <mat-label>{{ fieldCategory }}</mat-label>
-          <mat-select formControlName="knowledgeCategoryId">
-            @for (cat of categories; track cat.id) {
-              <mat-option [value]="cat.id">{{ cat.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
+        <sh-filterable-select
+          [label]="fieldCategory"
+          [options]="categories"
+          valueField="id"
+          labelField="name"
+          formControlName="knowledgeCategoryId"
+        />
 
         <mat-form-field appearance="outline" class="difficulty-field">
           <mat-label>{{ fieldDifficulty }}</mat-label>

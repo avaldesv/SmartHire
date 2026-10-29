@@ -41,6 +41,8 @@ import {
   DocumentTemplateVariableItem,
 } from '../../../shared/models/document-template.model';
 
+import { ShFilterableSelectComponent } from '../../../shared/components/filterable-select/sh-filterable-select.component';
+
 export interface DocumentTemplateVariableFormDialogData {
   variable?: DocumentTemplateVariableItem;
 }
@@ -49,6 +51,7 @@ export interface DocumentTemplateVariableFormDialogData {
   selector: 'sh-document-template-variable-form-dialog',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     ReactiveFormsModule,
     MatDialogModule,
     MatButtonModule,

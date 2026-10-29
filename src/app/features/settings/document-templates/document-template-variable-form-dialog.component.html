@@ -1,13 +1,12 @@
 <sh-modal-form [title]="title">
   <form [formGroup]="form" class="variable-form">
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>{{ fieldOrigin }}</mat-label>
-      <mat-select formControlName="origin" (selectionChange)="onOriginChange()">
-        @for (option of originOptions; track option.value) {
-          <mat-option [value]="option.value">{{ option.label }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+    <sh-filterable-select
+      class="full-width"
+      [label]="fieldOrigin"
+      [options]="originOptions"
+      formControlName="origin"
+      (selectionChange)="onOriginChange()"
+    />
 
     @if (!editingId) {
       <mat-form-field appearance="outline" class="full-width">

@@ -10,14 +10,12 @@
             <input matInput formControlName="name" />
           </mat-form-field>
 
-          <mat-form-field appearance="outline" class="locale-field">
-            <mat-label>{{ fieldLocale }}</mat-label>
-            <mat-select formControlName="locale">
-              @for (option of localeOptions; track option.value) {
-                <mat-option [value]="option.value">{{ option.label }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
+          <sh-filterable-select
+            class="locale-field"
+            [label]="fieldLocale"
+            [options]="localeOptions"
+            formControlName="locale"
+          />
           @if (localeHint) {
             <p class="locale-hint">{{ localeHint }}</p>
           }

@@ -6,7 +6,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
 import { forkJoin } from 'rxjs';
 import { AppPermissions } from '../../../../core/auth/app-permissions';
 import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
@@ -45,6 +44,8 @@ import { CandidateDocumentListItem } from '../../../../shared/models/candidate-d
 import { CatalogGender } from '../../../../shared/models/catalog-gender.model';
 import { ShPhoneFieldsComponent } from '../../../../shared/components/phone-fields/sh-phone-fields.component';
 
+import { ShFilterableSelectComponent } from '../../../../shared/components/filterable-select/sh-filterable-select.component';
+
 export interface CandidateEditDialogData {
   candidateId: number;
   applicationId: number;
@@ -82,12 +83,12 @@ function findCvDocumentRow(items: CandidateDocumentListItem[]): CandidateDocumen
   selector: 'sh-candidate-edit-dialog',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     ReactiveFormsModule,
     MatDialogModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule,
     MatIconModule,
     MatProgressSpinnerModule,
     ShPhoneFieldsComponent,
@@ -116,15 +117,14 @@ function findCvDocumentRow(items: CandidateDocumentListItem[]): CandidateDocumen
             <input matInput type="email" formControlName="email" />
           </mat-form-field>
           <sh-phone-fields [form]="form" [allowEmpty]="true" />
-          <mat-form-field appearance="outline">
-            <mat-label>{{ fieldGender }}</mat-label>
-            <mat-select formControlName="genderId">
-              <mat-option [value]="null">—</mat-option>
-              @for (g of genders; track g.id) {
-                <mat-option [value]="g.id">{{ g.name }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
+          <sh-filterable-select
+            [label]="fieldGender"
+            [options]="genders"
+            valueField="id"
+            labelField="name"
+            emptyLabel="—"
+            formControlName="genderId"
+          />
           <mat-form-field appearance="outline">
             <mat-label>{{ fieldCurp }}</mat-label>
             <input matInput formControlName="curp" />

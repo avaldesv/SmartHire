@@ -5,7 +5,6 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
 import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
 import {
   PRESELECTION_CHANGE_STAGE_CANCEL,
@@ -22,6 +21,8 @@ import {
   getCandidateApplicationStageLabel,
   PRESELECTION_CHANGEABLE_STAGES,
 } from '../../../../shared/constants/candidate-application-stage';
+
+import { ShFilterableSelectComponent } from '../../../../shared/components/filterable-select/sh-filterable-select.component';
 
 export interface ChangeApplicationStageCandidateItem {
   applicationId: number;
@@ -42,12 +43,12 @@ export interface ChangeApplicationStageDialogResult {
   selector: 'sh-change-application-stage-dialog',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     ReactiveFormsModule,
     MatDialogModule,
     MatButtonModule,
     MatFormFieldModule,
     MatIconModule,
-    MatSelectModule,
     MatProgressSpinnerModule,
   ],
   templateUrl: './change-application-stage-dialog.component.html',

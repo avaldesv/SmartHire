@@ -23,14 +23,13 @@
             <mat-label>Segundo apellido</mat-label>
             <input matInput formControlName="secondLastName" />
           </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>Parentesco</mat-label>
-            <mat-select formControlName="kinshipId">
-              @for (kinship of kinships; track kinship.id) {
-                <mat-option [value]="kinship.id">{{ kinship.name }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
+          <sh-filterable-select
+            label="Parentesco"
+            [options]="kinships"
+            valueField="id"
+            labelField="name"
+            formControlName="kinshipId"
+          />
           <sh-phone-fields [form]="contactForm" />
           <mat-form-field appearance="outline" class="span-2">
             <mat-label>Correo</mat-label>

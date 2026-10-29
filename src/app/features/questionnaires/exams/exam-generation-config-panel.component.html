@@ -2,30 +2,31 @@
   <p class="generation-intro">{{ intro }}</p>
 
   <div class="form-row form-row--filters" [formGroup]="rulesForm">
-    <mat-form-field appearance="outline" class="filter-field">
-      <mat-label>{{ questionTypesLabel }}</mat-label>
-      <mat-select formControlName="questionTypes" multiple>
-        @for (opt of questionTypeOptions; track opt.value) {
-          <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="filter-field">
-      <mat-label>{{ categoriesLabel }}</mat-label>
-      <mat-select formControlName="knowledgeCategoryIds" multiple>
-        @for (cat of categories; track cat.id) {
-          <mat-option [value]="cat.id">{{ cat.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="filter-field">
-      <mat-label>{{ tagsLabel }}</mat-label>
-      <mat-select formControlName="tagIds" multiple>
-        @for (tag of tags; track tag.id) {
-          <mat-option [value]="tag.id">{{ tag.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+    <sh-filterable-select
+      class="filter-field"
+      [label]="questionTypesLabel"
+      [options]="questionTypeOptions"
+      formControlName="questionTypes"
+      multiple
+    />
+    <sh-filterable-select
+      class="filter-field"
+      [label]="categoriesLabel"
+      [options]="categories"
+      valueField="id"
+      labelField="name"
+      formControlName="knowledgeCategoryIds"
+      multiple
+    />
+    <sh-filterable-select
+      class="filter-field"
+      [label]="tagsLabel"
+      [options]="tags"
+      valueField="id"
+      labelField="name"
+      formControlName="tagIds"
+      multiple
+    />
   </div>
   <p class="field-hint">{{ questionTypesHint }}</p>
   <p class="field-hint">{{ tagsHint }}</p>
@@ -47,14 +48,16 @@
   </div>
 
   <div class="generation-section" [formGroup]="rulesForm">
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>{{ excludeQuestionsLabel }}</mat-label>
-      <mat-select formControlName="excludeQuestionIds" multiple [disabled]="!questionnaireQuestions.length">
-        @for (q of questionnaireQuestions; track q.questionId) {
-          <mat-option [value]="q.questionId">{{ questionPreview(q) }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+    <sh-filterable-select
+      class="full-width"
+      [label]="excludeQuestionsLabel"
+      [options]="questionnaireQuestions"
+      valueField="questionId"
+      [labelFn]="questionPreview"
+      formControlName="excludeQuestionIds"
+      multiple
+      [disabled]="!questionnaireQuestions.length"
+    />
     @if (!questionnaireQuestions.length) {
       <p class="field-hint">{{ excludeHint }}</p>
     }

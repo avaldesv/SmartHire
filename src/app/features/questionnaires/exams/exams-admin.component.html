@@ -20,23 +20,15 @@
       <mat-label>{{ filterName }}</mat-label>
       <input matInput formControlName="name" />
     </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>{{ filterQuestionnaire }}</mat-label>
-      <mat-select formControlName="questionnaireId">
-        <mat-option [value]="null">{{ filterAll }}</mat-option>
-        @for (q of publishedQuestionnaires; track q.id) {
-          <mat-option [value]="q.id">{{ q.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>{{ filterStatus }}</mat-label>
-      <mat-select formControlName="status">
-        @for (opt of statusOptions; track opt.value) {
-          <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+    <sh-filterable-select
+      [label]="filterQuestionnaire"
+      [options]="publishedQuestionnaires"
+      valueField="id"
+      labelField="name"
+      [emptyLabel]="filterAll"
+      formControlName="questionnaireId"
+    />
+    <sh-filterable-select [label]="filterStatus" [options]="statusOptions" formControlName="status" />
     <div class="filter-actions">
       <button mat-stroked-button type="button" (click)="clearFilters()">{{ filterClear }}</button>
       <button mat-flat-button color="primary" type="submit">{{ filterApply }}</button>

@@ -1,0 +1,46 @@
+<mat-form-field appearance="outline" class="sh-fs-field" [subscriptSizing]="subscriptSizing()">
+  @if (label()) {
+    <mat-label>{{ label() }}</mat-label>
+  }
+  <mat-select
+    [value]="selectValue()"
+    [multiple]="multiple()"
+    [disabled]="isDisabled()"
+    [placeholder]="placeholder()"
+    [required]="isRequired"
+    [errorStateMatcher]="errorStateMatcher"
+    (selectionChange)="onSelectionChange($event)"
+    (openedChange)="onOpenedChange($event)"
+  >
+    <div class="sh-fs-search">
+      <input
+        #searchInput
+        type="text"
+        autocomplete="off"
+        class="sh-fs-search__input"
+        [value]="filterText()"
+        [placeholder]="searchPlaceholder() ?? defaultSearchPlaceholder"
+        [attr.aria-label]="searchPlaceholder() ?? defaultSearchPlaceholder"
+        (input)="onFilterInput($event)"
+        (keydown)="onFilterKeydown($event)"
+      />
+    </div>
+    @if (loading()) {
+      <mat-option disabled>{{ loadingLabel() }}</mat-option>
+    } @else {
+      @for (row of rows(); track row.item.key) {
+        <mat-option
+          [value]="row.item.value"
+          [disabled]="row.hidden || row.item.disabled"
+          [class.sh-fs-hidden]="row.hidden"
+        >{{ row.item.label }}</mat-option>
+      }
+      @if (!hasMatches()) {
+        <div class="sh-fs-empty" role="status">{{ noResultsLabel() ?? defaultNoResultsLabel }}</div>
+      }
+    }
+  </mat-select>
+  @if (errorText()) {
+    <mat-error>{{ errorText() }}</mat-error>
+  }
+</mat-form-field>

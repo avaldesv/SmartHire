@@ -13,10 +13,13 @@ import { isRequisitionPositiveIntegerField } from '../requisition-integer.util';
 import { isRequisitionMoneyField } from '../requisition-money.util';
 import { MoneyStepperFieldComponent } from '../money-stepper-field/money-stepper-field.component';
 
+import { ShFilterableSelectComponent } from '../../../../shared/components/filterable-select/sh-filterable-select.component';
+
 @Component({
   selector: 'sh-dynamic-wizard-field',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -97,10 +100,12 @@ export class DynamicWizardFieldComponent {
     return this.field.uiType === 'text' || this.isTextarea || (this.isNumber && !this.isMoney);
   }
 
-  selectOptionValue(opt: WizardFieldOption): string | number {
-    if (this.field.fieldKey === 'aiInterviewVoice' && opt.code) {
-      return opt.code;
-    }
-    return opt.id;
+  /** Option property used as value: `code` for AI voices (falls back to `id`), `id` otherwise. */
+  get selectValueField(): 'code' | 'id' {
+    return this.field.fieldKey === 'aiInterviewVoice' ? 'code' : 'id';
+  }
+
+  get selectValueFallbackField(): 'id' | null {
+    return this.field.fieldKey === 'aiInterviewVoice' ? 'id' : null;
   }
 }

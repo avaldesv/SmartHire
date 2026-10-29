@@ -62,10 +62,13 @@ import {
 } from '../../../shared/models/requisition-form.model';
 import { RequisitionFormConfigDialogComponent } from './requisition-form-config-dialog.component';
 
+import { ShFilterableSelectComponent } from '../../../shared/components/filterable-select/sh-filterable-select.component';
+
 @Component({
   selector: 'sh-requisition-form-config',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     DatePipe,
     ReactiveFormsModule,
     MatProgressSpinnerModule,

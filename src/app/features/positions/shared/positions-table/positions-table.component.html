@@ -44,36 +44,36 @@
   @if (advancedFiltersOpen) {
     <!-- Bloque A — independientes de país -->
     <div class="primary-filters-grid">
-      <mat-form-field appearance="outline">
-        <mat-label>{{ filterQuestionnaire }}</mat-label>
-        <mat-select formControlName="questionnaireId">
-          <mat-option [value]="0">{{ filterAll }}</mat-option>
-          @for (item of questionnaireOptions; track item.id) {
-            <mat-option [value]="item.id">{{ item.name }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>{{ filterCreatedBy }}</mat-label>
-        <mat-select formControlName="createdByIds" multiple>
-          @for (user of creatorUserOptions; track user.id) {
-            <mat-option [value]="user.id">{{ userDisplayNameFromSecurityUser(user) }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <sh-filterable-select
+        [label]="filterQuestionnaire"
+        [options]="questionnaireOptions"
+        valueField="id"
+        labelField="name"
+        [emptyValue]="0"
+        [emptyLabel]="filterAll"
+        formControlName="questionnaireId"
+      />
+      <sh-filterable-select
+        [label]="filterCreatedBy"
+        [options]="creatorUserOptions"
+        valueField="id"
+        [labelFn]="userDisplayNameFromSecurityUser"
+        formControlName="createdByIds"
+        multiple
+      />
       <mat-form-field appearance="outline">
         <mat-label>{{ filterClientPosition }}</mat-label>
         <input matInput formControlName="clientPosition" />
       </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>{{ filterCoordinator }}</mat-label>
-        <mat-select formControlName="careResponsibleUserId">
-          <mat-option [value]="0">{{ filterAll }}</mat-option>
-          @for (user of coordinatorUserOptions; track user.id) {
-            <mat-option [value]="user.id">{{ userDisplayNameFromSecurityUser(user) }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <sh-filterable-select
+        [label]="filterCoordinator"
+        [options]="coordinatorUserOptions"
+        valueField="id"
+        [labelFn]="userDisplayNameFromSecurityUser"
+        [emptyValue]="0"
+        [emptyLabel]="filterAll"
+        formControlName="careResponsibleUserId"
+      />
     </div>
 
     <div class="primary-filters-grid">
@@ -121,15 +121,15 @@
 
     <!-- Bloque B — empieza por País -->
     <div class="primary-filters-grid">
-      <mat-form-field appearance="outline">
-        <mat-label>{{ filterCountry }}</mat-label>
-        <mat-select formControlName="countryId">
-          <mat-option [value]="0">{{ filterAll }}</mat-option>
-          @for (country of countryOptions; track country.id) {
-            <mat-option [value]="country.id">{{ country.name }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <sh-filterable-select
+        [label]="filterCountry"
+        [options]="countryOptions"
+        valueField="id"
+        labelField="name"
+        [emptyValue]="0"
+        [emptyLabel]="filterAll"
+        formControlName="countryId"
+      />
       <mat-form-field appearance="outline">
         <mat-label>{{ filterState }}</mat-label>
         @if (hasCountrySelected) {

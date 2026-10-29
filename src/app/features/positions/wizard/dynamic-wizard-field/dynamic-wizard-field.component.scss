@@ -2,7 +2,8 @@
   display: contents;
 }
 
-mat-form-field {
+mat-form-field,
+sh-filterable-select {
   width: 100%;
   min-width: 0;
 }

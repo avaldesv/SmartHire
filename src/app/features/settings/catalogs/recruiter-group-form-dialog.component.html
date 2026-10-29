@@ -17,15 +17,14 @@
     <form [formGroup]="form" class="form" (ngSubmit)="save()">
       <h3 class="section-title">{{ labels.sectionGroup }}</h3>
       <div class="grid-2">
-        <mat-form-field appearance="outline">
-          <mat-label>{{ labels.country }}</mat-label>
-          <mat-select formControlName="countryId">
-            <mat-option [value]="null">{{ labels.allCountries }}</mat-option>
-            @for (country of data.countries; track country.id) {
-              <mat-option [value]="country.id">{{ country.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
+        <sh-filterable-select
+          [label]="labels.country"
+          [options]="data.countries"
+          valueField="id"
+          labelField="name"
+          [emptyLabel]="labels.allCountries"
+          formControlName="countryId"
+        />
         <mat-form-field appearance="outline">
           <mat-label>{{ labels.code }}</mat-label>
           <input matInput formControlName="code" />

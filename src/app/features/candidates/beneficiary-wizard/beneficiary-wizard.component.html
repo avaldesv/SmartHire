@@ -18,14 +18,13 @@
                 <mat-option value="Contingente">Contingente</mat-option>
               </mat-select>
             </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Parentesco</mat-label>
-              <mat-select formControlName="kinshipId">
-                @for (kinship of kinships; track kinship.id) {
-                  <mat-option [value]="kinship.id">{{ kinship.name }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
+            <sh-filterable-select
+              label="Parentesco"
+              [options]="kinships"
+              valueField="id"
+              labelField="name"
+              formControlName="kinshipId"
+            />
             <mat-form-field appearance="outline">
               <mat-label>Nombre</mat-label>
               <input matInput formControlName="firstName" />

@@ -5,7 +5,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 import { FeedbackDialogService } from '../../core/feedback/feedback-dialog.service';
 import {
   CANDIDATE_ACCOUNTS_CANCEL,
@@ -30,6 +29,8 @@ import {
   ShModalFormComponent,
 } from '../../shared/components/modal-form/sh-modal-form.component';
 
+import { ShFilterableSelectComponent } from '../../shared/components/filterable-select/sh-filterable-select.component';
+
 export interface CandidateAccountFormDialogData {
   account?: CandidateAccountItem;
 }
@@ -38,12 +39,12 @@ export interface CandidateAccountFormDialogData {
   selector: 'sh-candidate-account-form-dialog',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     ReactiveFormsModule,
     MatDialogModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule,
     MatCheckboxModule,
     ShModalFormComponent,
     ShModalActionsDirective,

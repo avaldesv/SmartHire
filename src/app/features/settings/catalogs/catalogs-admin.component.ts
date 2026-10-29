@@ -283,6 +283,8 @@ import {
 } from '../../../core/i18n/catalog-cancellation-labels';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 
+import { ShFilterableSelectComponent } from '../../../shared/components/filterable-select/sh-filterable-select.component';
+
 /** Survives locale full-page reload so Catalogs keeps the selected entry (not Gender). */
 const CATALOGS_SELECTION_SESSION_KEY = 'sh_catalogs_selection';
 
@@ -290,6 +292,7 @@ const CATALOGS_SELECTION_SESSION_KEY = 'sh_catalogs_selection';
   selector: 'sh-catalogs-admin',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     ReactiveFormsModule,
     MatTabsModule,
     MatTableModule,

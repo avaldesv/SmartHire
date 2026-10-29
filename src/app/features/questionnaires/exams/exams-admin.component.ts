@@ -8,7 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 import { PageEvent } from '@angular/material/paginator';
 import { ShPaginatorComponent } from '../../../shared/components/paginator/sh-paginator.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
@@ -56,10 +55,13 @@ import { ExamItem, QuestionnaireItem } from '../../../shared/models/questionnair
 import { canEditScopedRecord } from '../../../shared/utils/tenant-scope.util';
 import { ExamFormDialogComponent, ExamFormDialogData } from './exam-form-dialog.component';
 
+import { ShFilterableSelectComponent } from '../../../shared/components/filterable-select/sh-filterable-select.component';
+
 @Component({
   selector: 'sh-exams-admin',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     ReactiveFormsModule,
     MatTableModule,
     ShPaginatorComponent,
@@ -69,7 +71,6 @@ import { ExamFormDialogComponent, ExamFormDialogData } from './exam-form-dialog.
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule,
     MatDialogModule,
     ScopeBadgeComponent,
     TableRowActionsComponent,

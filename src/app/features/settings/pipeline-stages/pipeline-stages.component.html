@@ -32,14 +32,13 @@
       </div>
     }
     <form [formGroup]="stageForm" class="stage-form" (ngSubmit)="save()">
-      <mat-form-field appearance="outline">
-        <mat-label>{{ fieldCountry }}</mat-label>
-        <mat-select formControlName="countryId">
-          @for (country of countries; track country.id) {
-            <mat-option [value]="country.id">{{ country.name }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <sh-filterable-select
+        [label]="fieldCountry"
+        [options]="countries"
+        valueField="id"
+        labelField="name"
+        formControlName="countryId"
+      />
       <mat-form-field appearance="outline">
         <mat-label>{{ fieldCode }}</mat-label>
         <input matInput formControlName="code" />

@@ -67,6 +67,8 @@ import {
   ShModalFormComponent,
 } from '../../../shared/components/modal-form/sh-modal-form.component';
 
+import { ShFilterableSelectComponent } from '../../../shared/components/filterable-select/sh-filterable-select.component';
+
 export interface QuestionFormDialogData {
   questionId?: number;
   readOnly?: boolean;
@@ -76,6 +78,7 @@ export interface QuestionFormDialogData {
   selector: 'sh-question-form-dialog',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     ReactiveFormsModule,
     MatDialogModule,
     MatButtonModule,

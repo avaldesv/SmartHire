@@ -5,7 +5,6 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { PageEvent } from '@angular/material/paginator';
 import { ShPaginatorComponent } from '../../../../shared/components/paginator/sh-paginator.component';
@@ -14,6 +13,8 @@ import { MatTableModule } from '@angular/material/table';
 import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
 import { ApplicationAuditLogApiService } from '../../../../core/services/application-audit-log-api.service';
 import { ApplicationAuditLogItem } from '../../../../shared/models/application-audit-log.model';
+
+import { ShFilterableSelectComponent } from '../../../../shared/components/filterable-select/sh-filterable-select.component';
 
 export interface ApplicationAuditLogDialogData {
   applicationId: number;
@@ -25,6 +26,7 @@ export interface ApplicationAuditLogDialogData {
   selector: 'sh-application-audit-log-dialog',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     DatePipe,
     ReactiveFormsModule,
     MatDialogModule,
@@ -32,7 +34,6 @@ export interface ApplicationAuditLogDialogData {
     ShPaginatorComponent,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule,
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,

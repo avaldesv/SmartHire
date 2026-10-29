@@ -74,6 +74,8 @@ import {
   ShModalFormComponent,
 } from '../../../shared/components/modal-form/sh-modal-form.component';
 
+import { ShFilterableSelectComponent } from '../../../shared/components/filterable-select/sh-filterable-select.component';
+
 export interface RecruiterGroupFormDialogData {
   groupId?: number | null;
   selectedCountryId: number | null;
@@ -93,6 +95,7 @@ export interface RecruiterGroupUserOption {
   selector: 'sh-recruiter-group-form-dialog',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     ReactiveFormsModule,
     MatDialogModule,
     MatButtonModule,

@@ -12,7 +12,6 @@ import { ControlValueAccessor, FormBuilder, NG_VALUE_ACCESSOR, ReactiveFormsModu
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 import { Subscription } from 'rxjs';
 import {
   QEXAM_GEN_DIFFICULTY_FILTER,
@@ -35,14 +34,16 @@ import { QuestionnaireTagApiService } from '../../../core/services/questionnaire
 import { KnowledgeCategoryItem, QuestionnaireQuestionLinkItem, TagItem } from '../../../shared/models/questionnaire-v2.model';
 import { buildGenerationConfigJson, parseGenerationConfig } from './exam-generation-config.util';
 
+import { ShFilterableSelectComponent } from '../../../shared/components/filterable-select/sh-filterable-select.component';
+
 @Component({
   selector: 'sh-exam-generation-config-panel',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule,
     MatCheckboxModule,
   ],
   providers: [

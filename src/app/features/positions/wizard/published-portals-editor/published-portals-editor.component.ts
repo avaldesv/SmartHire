@@ -5,7 +5,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { Subject, switchMap } from 'rxjs';
 import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
@@ -33,15 +32,17 @@ import { CatalogJobPortalService } from '../../../../core/services/catalog-job-p
 import { CatalogJobPortal } from '../../../../shared/models/catalog-job-portal.model';
 import { WizardPublishedPortalRow } from '../../../../shared/models/job-portal-credentials.model';
 
+import { ShFilterableSelectComponent } from '../../../../shared/components/filterable-select/sh-filterable-select.component';
+
 @Component({
   selector: 'sh-published-portals-editor',
   standalone: true,
   imports: [
+    ShFilterableSelectComponent,
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule,
     MatButtonModule,
     MatIconModule,
     MatTableModule,

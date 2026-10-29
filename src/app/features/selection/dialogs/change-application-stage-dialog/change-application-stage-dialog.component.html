@@ -29,14 +29,14 @@
   </section>
 
   <form [formGroup]="form" class="change-stage-form">
-    <mat-form-field appearance="outline" class="change-stage-field">
-      <mat-label>{{ stageFieldLabel }}</mat-label>
-      <mat-select formControlName="status">
-        @for (stage of stages; track stage) {
-          <mat-option [value]="stage">{{ stageLabel(stage) }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+    <sh-filterable-select
+      class="change-stage-field"
+      [label]="stageFieldLabel"
+      [options]="stages"
+      [valueField]="null"
+      [labelFn]="stageLabel"
+      formControlName="status"
+    />
   </form>
 
   @if (processing) {
