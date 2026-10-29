@@ -32,7 +32,12 @@
 } @else if (isTime) {
   <sh-timepicker-field [label]="label" [formControl]="control" />
 } @else if (isMoney) {
-  <sh-money-stepper-field [formControl]="control" [label]="label" [disabled]="disabled" />
+  <sh-money-stepper-field
+    [formControl]="control"
+    [label]="label"
+    [disabled]="disabled"
+    [blockNonNumeric]="isSalaryMoney"
+  />
 } @else if (isSimpleInput) {
   <mat-form-field
     appearance="outline"

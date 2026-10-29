@@ -163,7 +163,7 @@
                 }
               </mat-select>
             </mat-form-field>
-            <sh-money-stepper-field formControlName="salary" [label]="labels.fieldSalary" />
+            <sh-money-stepper-field formControlName="salary" [label]="labels.fieldSalary" [blockNonNumeric]="true" />
             <mat-form-field appearance="outline"><mat-label>{{ labels.workDays }}</mat-label><input matInput formControlName="workDays" /></mat-form-field>
           </div>
         </form>

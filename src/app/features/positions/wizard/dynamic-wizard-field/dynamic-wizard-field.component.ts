@@ -54,6 +54,11 @@ export class DynamicWizardFieldComponent {
     return this.isNumber && isRequisitionMoneyField(this.field.fieldKey);
   }
 
+  /** RF D4: numeric mask only for salary, not other money fields. */
+  get isSalaryMoney(): boolean {
+    return this.field.fieldKey === 'salary';
+  }
+
   get numberMin(): number | null {
     if (!this.isNumber || this.isMoney) {
       return null;
