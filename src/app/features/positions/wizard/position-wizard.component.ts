@@ -619,16 +619,28 @@ export class PositionWizardComponent implements OnInit {
     if (!this.dynamicStepper || index < 0 || index >= this.dynamicStepper.steps.length) {
       return;
     }
+    // CDK linear + stepControl blocks jumps when prior steps are invalid/not interacted,
+    // even if `completed` is set. Bypass linear on the instance, then restore.
     this.bypassLinearGuard = true;
-    this.cdr.detectChanges();
+    this.dynamicStepper.linear = false;
     const steps = this.dynamicStepper.steps.toArray();
-    for (let i = 0; i < index; i++) {
+    for (let i = 0; i <= index && i < steps.length; i++) {
       steps[i].completed = true;
+      steps[i].interacted = true;
     }
-    this.dynamicStepper.selectedIndex = index;
     this.dynamicSelectedIndex = index;
-    queueMicrotask(() => {
+    this.dynamicStepper.selectedIndex = index;
+    if (this.dynamicStepper.selectedIndex !== index) {
+      (this.dynamicStepper as unknown as { _updateSelectedItemIndex: (i: number) => void })._updateSelectedItemIndex(
+        index,
+      );
+    }
+    this.cdr.detectChanges();
+    setTimeout(() => {
       this.bypassLinearGuard = false;
+      if (this.dynamicStepper) {
+        this.dynamicStepper.linear = this.isDynamicStepperLinear;
+      }
       this.cdr.markForCheck();
     });
   }
@@ -699,15 +711,25 @@ export class PositionWizardComponent implements OnInit {
       return;
     }
     this.bypassLinearGuard = true;
-    this.cdr.detectChanges();
+    this.staticStepper.linear = false;
     const steps = this.staticStepper.steps.toArray();
-    for (let i = 0; i < index; i++) {
+    for (let i = 0; i <= index && i < steps.length; i++) {
       steps[i].completed = true;
+      steps[i].interacted = true;
     }
-    this.staticStepper.selectedIndex = index;
     this.staticSelectedIndex = index;
-    queueMicrotask(() => {
+    this.staticStepper.selectedIndex = index;
+    if (this.staticStepper.selectedIndex !== index) {
+      (this.staticStepper as unknown as { _updateSelectedItemIndex: (i: number) => void })._updateSelectedItemIndex(
+        index,
+      );
+    }
+    this.cdr.detectChanges();
+    setTimeout(() => {
       this.bypassLinearGuard = false;
+      if (this.staticStepper) {
+        this.staticStepper.linear = this.isStaticStepperLinear;
+      }
       this.cdr.markForCheck();
     });
   }
@@ -1512,6 +1534,10 @@ export class PositionWizardComponent implements OnInit {
     this.dynamicWizardService.refreshValidators(this.dynamicForm, this.resolvedConfig);
     if (this.dynamicForm.invalid) {
       this.dynamicForm.markAllAsTouched();
+      // Material step errors / linear checks also look at `interacted`.
+      this.dynamicStepper?.steps?.forEach((step) => {
+        step.interacted = true;
+      });
       const steps = this.resolvedConfig.steps;
       const firstInvalid = steps.findIndex((step) => this.dynamicStepForm(step.stepKey).invalid);
       if (firstInvalid >= 0) {
