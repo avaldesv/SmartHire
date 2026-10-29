@@ -12,6 +12,7 @@ import {
   MONEY_STEP,
   formatMoneyDisplay,
   roundMoneyToTwoDecimals,
+  sanitizeNonNegativeMoneyInput,
   stepMoneyValue,
 } from '../requisition-money.util';
 
@@ -39,6 +40,11 @@ export class MoneyStepperFieldComponent implements ControlValueAccessor {
   @Input() disabled = false;
   @Input() min = 0;
   @Input() step = MONEY_STEP;
+  /**
+   * When true (salary field only): strip non-numeric keystrokes/paste from the visible input
+   * and default empty values to 0.00.
+   */
+  @Input() blockNonNumeric = false;
 
   displayValue = '';
   private cvaDisabled = false;
@@ -66,7 +72,8 @@ export class MoneyStepperFieldComponent implements ControlValueAccessor {
   }
 
   writeValue(value: unknown): void {
-    this.displayValue = formatMoneyDisplay(value);
+    const display = formatMoneyDisplay(value);
+    this.displayValue = this.blockNonNumeric && display === '' ? '0.00' : display;
   }
 
   registerOnChange(fn: (value: string | null) => void): void {
@@ -82,12 +89,20 @@ export class MoneyStepperFieldComponent implements ControlValueAccessor {
   }
 
   onInput(raw: string): void {
-    this.displayValue = raw;
-    this.onChange(raw.trim() === '' ? null : raw);
+    const next = this.blockNonNumeric ? sanitizeNonNegativeMoneyInput(raw) : raw;
+    this.displayValue = next;
+    this.onChange(next.trim() === '' ? null : next);
   }
 
   onBlur(): void {
     const rounded = roundMoneyToTwoDecimals(this.displayValue);
+    if (this.blockNonNumeric) {
+      const next = Math.max(this.min, rounded ?? 0).toFixed(2);
+      this.displayValue = next;
+      this.onChange(next);
+      this.onTouched();
+      return;
+    }
     const next = rounded == null ? null : Math.max(this.min, rounded).toFixed(2);
     this.displayValue = next ?? '';
     this.onChange(next);

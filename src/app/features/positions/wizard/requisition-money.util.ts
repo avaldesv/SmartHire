@@ -57,3 +57,29 @@ export function formatMoneyDisplay(value: unknown): string {
   const rounded = roundMoneyToTwoDecimals(value);
   return rounded == null ? '' : rounded.toFixed(2);
 }
+
+/**
+ * Keep only digits and a single decimal separator while typing.
+ * Strips letters, signs (`-`), and other symbols so they never appear in the input.
+ * Allows a trailing separator (e.g. `12.`) while the user is still typing.
+ */
+export function sanitizeNonNegativeMoneyInput(raw: string): string {
+  const normalized = raw.replace(/,/g, '.');
+  let out = '';
+  let seenDot = false;
+  for (const ch of normalized) {
+    if (ch >= '0' && ch <= '9') {
+      out += ch;
+      continue;
+    }
+    if (ch === '.' && !seenDot) {
+      out += '.';
+      seenDot = true;
+    }
+  }
+  if (seenDot) {
+    const [intPart, fracPart = ''] = out.split('.');
+    out = `${intPart}.${fracPart.slice(0, 2)}`;
+  }
+  return out;
+}
