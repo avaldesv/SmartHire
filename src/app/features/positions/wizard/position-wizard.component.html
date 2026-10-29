@@ -2,7 +2,23 @@
   <sh-page-header
     [title]="wizardTitle"
     [subtitle]="wizardSubtitle"
-  />
+  >
+    @if (showWizardHeaderActions) {
+      <div class="wizard-header-nav">
+        <button mat-stroked-button type="button" (click)="cancel()">{{ labels.cancel }}</button>
+        <button mat-flat-button color="primary" type="button" [disabled]="creating" (click)="save()">
+          <mat-icon>check</mat-icon>
+          {{ creating ? (isEditMode ? labels.saving : labels.creating) : (isEditMode ? labels.save : labels.create) }}
+        </button>
+        @if (!isFirstWizardStep) {
+          <button mat-stroked-button type="button" (click)="previousWizardStep()">{{ labels.previous }}</button>
+        }
+        @if (!isLastWizardStep) {
+          <button mat-stroked-button type="button" (click)="nextWizardStep()">{{ labels.next }}</button>
+        }
+      </div>
+    }
+  </sh-page-header>
 
   @if (loadingPosition || resolvingConfig) {
     <div class="loading-wrap" role="status" aria-live="polite">
@@ -49,7 +65,7 @@
       </div>
     </nav>
     <mat-stepper
-      [linear]="!isEditMode"
+      [linear]="isDynamicStepperLinear"
       #dynamicStepper
       class="wizard-stepper wizard-stepper--compact"
       (selectionChange)="onDynamicStepSelectionChange($event)"
@@ -69,24 +85,10 @@
         </mat-step>
       }
     </mat-stepper>
-
-    <div class="bottom-actions">
-      <button mat-stroked-button type="button" (click)="cancel()">{{ labels.cancel }}</button>
-      <button mat-flat-button color="primary" type="button" [disabled]="creating" (click)="save()">
-        <mat-icon>check</mat-icon>
-        {{ creating ? (isEditMode ? labels.saving : labels.creating) : (isEditMode ? labels.save : labels.create) }}
-      </button>
-      @if (!isFirstWizardStep) {
-        <button mat-stroked-button type="button" (click)="previousWizardStep()">{{ labels.previous }}</button>
-      }
-      @if (!isLastWizardStep) {
-        <button mat-stroked-button type="button" (click)="nextWizardStep()">{{ labels.next }}</button>
-      }
-    </div>
   </div>
   } @else if (isEditMode) {
   <div class="sh-card">
-    <mat-stepper linear #staticStepper (selectionChange)="onStaticStepSelectionChange($event)">
+    <mat-stepper [linear]="isStaticStepperLinear" #staticStepper (selectionChange)="onStaticStepSelectionChange($event)">
       <mat-step [stepControl]="clientForm" [label]="labels.stepClient">
         <form [formGroup]="clientForm" class="step-form">
           <div class="form-grid">
@@ -324,20 +326,6 @@
         </div>
       </mat-step>
     </mat-stepper>
-
-    <div class="bottom-actions">
-      <button mat-stroked-button type="button" (click)="cancel()">{{ labels.cancel }}</button>
-      <button mat-flat-button color="primary" type="button" [disabled]="creating" (click)="save()">
-        <mat-icon>check</mat-icon>
-        {{ creating ? (isEditMode ? labels.saving : labels.creating) : (isEditMode ? labels.save : labels.create) }}
-      </button>
-      @if (!isFirstWizardStep) {
-        <button mat-stroked-button type="button" (click)="previousWizardStep()">{{ labels.previous }}</button>
-      }
-      @if (!isLastWizardStep) {
-        <button mat-stroked-button type="button" (click)="nextWizardStep()">{{ labels.next }}</button>
-      }
-    </div>
   </div>
   }
 </div>
