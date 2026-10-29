@@ -618,6 +618,20 @@ export class PositionWizardComponent implements OnInit {
     this.dynamicSelectedIndex = index;
   }
 
+  /** Actions aligned with the page title (same slot as list "Nuevo" buttons). */
+  get showWizardHeaderActions(): boolean {
+    if (this.loadingPosition || this.resolvingConfig) {
+      return false;
+    }
+    if (this.missingPublishedFormConfig && !this.isEditMode) {
+      return false;
+    }
+    if (this.useDynamicWizard) {
+      return this.dynamicForm != null && this.resolvedConfig != null;
+    }
+    return this.isEditMode;
+  }
+
   get isFirstWizardStep(): boolean {
     if (this.useDynamicWizard) {
       return this.dynamicSelectedIndex <= 0;
