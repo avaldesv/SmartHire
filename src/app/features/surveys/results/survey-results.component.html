@@ -112,7 +112,7 @@
                 <td mat-cell *matCellDef="let row">
                   <div class="rate-cell">
                     <div class="rate-bar">
-                      <span [style.width.%]="(row.completionRate ?? 0) * 100"></span>
+                      <span [style.width.%]="row.completionRate * 100"></span>
                     </div>
                     <strong>{{ ratePercent(row.completionRate) }}</strong>
                   </div>

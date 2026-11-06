@@ -172,16 +172,13 @@
                   (click)="openInlineFilePicker(row)"
                 >
                   @if (uploadingTypeId === row.documentTypeId) {
-                    <span class="upload-btn-content">
-                      <mat-spinner diameter="18" />
-                      <span>{{ labels.uploading }}</span>
-                    </span>
+                    <mat-spinner diameter="18" />
                   } @else {
-                    <span class="upload-btn-content">
-                      <mat-icon>upload</mat-icon>
-                      <span>{{ labels.upload }}</span>
-                    </span>
+                    <mat-icon>upload</mat-icon>
                   }
+                  <span>{{
+                    uploadingTypeId === row.documentTypeId ? labels.uploading : labels.upload
+                  }}</span>
                 </button>
               } @else {
                 <span class="action-tooltip-host" [matTooltip]="labels.download">
