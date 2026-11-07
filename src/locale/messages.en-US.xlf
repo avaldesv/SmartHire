@@ -12602,6 +12602,34 @@
         <source>Sin resultados</source>
         <target>No results</target>
       </trans-unit>
+      <trans-unit id="catalogs.company.section.candidateBlock" datatype="html">
+        <source>Bloqueo de candidatos</source>
+        <target>Candidate blocking</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.hiredCandidateBlockEnabled" datatype="html">
+        <source>Activar bloqueo de candidato contratado</source>
+        <target>Enable hired candidate block</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.hiredCandidateBlockDays" datatype="html">
+        <source>Tiempo de bloqueo (días)</source>
+        <target>Block duration (days)</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.hiredCandidateBlockDays.hint" datatype="html">
+        <source>Los días se cuentan desde la fecha de contratación. Cero días no bloquea; vacío se guarda como 0.</source>
+        <target>Days are counted from the hire date. Zero days does not block; empty is saved as 0.</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.hiredCandidateBlockDays.error" datatype="html">
+        <source>Indica un número entero mayor o igual que cero</source>
+        <target>Enter a whole number greater than or equal to zero</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.nonHiredCandidateBlockEnabled" datatype="html">
+        <source>Activar bloqueo de candidato no contratado</source>
+        <target>Enable non-hired candidate block</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.nonHiredCandidateBlock.help" datatype="html">
+        <source>Si está activa, la persona no puede preseleccionarse en otra requisición mientras tenga una candidatura en curso distinta de Contratado y de Postulado; si está apagada, puede estar en varias a la vez.</source>
+        <target>If enabled, the person cannot be preselected for another requisition while they have an in-progress application other than Hired and Applied; if disabled, they can be in several at once.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

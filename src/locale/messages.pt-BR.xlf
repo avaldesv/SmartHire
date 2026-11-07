@@ -12573,6 +12573,34 @@
         <source>Sin resultados</source>
         <target>Nenhum resultado</target>
       </trans-unit>
+      <trans-unit id="catalogs.company.section.candidateBlock" datatype="html">
+        <source>Bloqueo de candidatos</source>
+        <target>Bloqueio de candidatos</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.hiredCandidateBlockEnabled" datatype="html">
+        <source>Activar bloqueo de candidato contratado</source>
+        <target>Ativar bloqueio de candidato contratado</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.hiredCandidateBlockDays" datatype="html">
+        <source>Tiempo de bloqueo (días)</source>
+        <target>Tempo de bloqueio (dias)</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.hiredCandidateBlockDays.hint" datatype="html">
+        <source>Los días se cuentan desde la fecha de contratación. Cero días no bloquea; vacío se guarda como 0.</source>
+        <target>Os dias são contados a partir da data de contratação. Zero dias não bloqueia; vazio é salvo como 0.</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.hiredCandidateBlockDays.error" datatype="html">
+        <source>Indica un número entero mayor o igual que cero</source>
+        <target>Informe um número inteiro maior ou igual a zero</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.field.nonHiredCandidateBlockEnabled" datatype="html">
+        <source>Activar bloqueo de candidato no contratado</source>
+        <target>Ativar bloqueio de candidato não contratado</target>
+      </trans-unit>
+      <trans-unit id="catalogs.company.nonHiredCandidateBlock.help" datatype="html">
+        <source>Si está activa, la persona no puede preseleccionarse en otra requisición mientras tenga una candidatura en curso distinta de Contratado y de Postulado; si está apagada, puede estar en varias a la vez.</source>
+        <target>Se ativa, a pessoa não pode ser pré-selecionada em outra requisição enquanto tiver uma candidatura em andamento diferente de Contratado e de Candidatado; se desativada, pode estar em várias ao mesmo tempo.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

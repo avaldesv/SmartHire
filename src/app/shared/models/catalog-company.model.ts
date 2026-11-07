@@ -24,6 +24,9 @@ export interface CatalogCompany {
   portalAccentColor?: string | null;
   r3Interface?: boolean;
   wsSignature?: boolean;
+  hiredCandidateBlockEnabled?: boolean;
+  hiredCandidateBlockDays?: number | null;
+  nonHiredCandidateBlockEnabled?: boolean;
   isActive: boolean;
 }
 
@@ -49,6 +52,9 @@ export interface CreateCompanyRequest {
   portalAccentColor: string;
   r3Interface?: boolean;
   wsSignature?: boolean;
+  hiredCandidateBlockEnabled?: boolean;
+  hiredCandidateBlockDays?: number;
+  nonHiredCandidateBlockEnabled?: boolean;
   isActive?: boolean;
 }
 
