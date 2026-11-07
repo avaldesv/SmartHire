@@ -83,6 +83,16 @@ import {
   COMPANY_EXAM_MODALITY_FOOTNOTE,
   COMPANY_EXAM_MODALITY_SECRET_HINT,
 } from '../../../core/i18n/company-integrations-labels';
+import {
+  COMPANY_FIELD_HIRED_BLOCK_DAYS,
+  COMPANY_FIELD_HIRED_BLOCK_ENABLED,
+  COMPANY_FIELD_NON_HIRED_BLOCK_ENABLED,
+  COMPANY_HIRED_BLOCK_DAYS_ERROR,
+  COMPANY_HIRED_BLOCK_DAYS_HINT,
+  COMPANY_NON_HIRED_BLOCK_HELP,
+  COMPANY_SECTION_CANDIDATE_BLOCK,
+} from '../../../core/i18n/company-candidate-block-labels';
+import { nonNegativeIntegerValidator } from '../../../shared/utils/non-negative-integer.validator';
 import { forkJoin, of, switchMap } from 'rxjs';
 import { CatalogCoverageCategoryService } from '../../../core/services/catalog-coverage-category.service';
 import { CatalogCoverageCategory } from '../../../shared/models/catalog-coverage-category.model';
@@ -339,6 +349,13 @@ export class CatalogsAdminComponent implements OnInit {
   readonly colTaxId = CATALOG_COLUMN_TAX_ID;
   readonly companyDialogSubtitle = COMPANY_DIALOG_SUBTITLE;
   readonly companySectionGeneral = COMPANY_SECTION_GENERAL;
+  readonly companySectionCandidateBlock = COMPANY_SECTION_CANDIDATE_BLOCK;
+  readonly companyFieldHiredBlockEnabled = COMPANY_FIELD_HIRED_BLOCK_ENABLED;
+  readonly companyFieldHiredBlockDays = COMPANY_FIELD_HIRED_BLOCK_DAYS;
+  readonly companyHiredBlockDaysHint = COMPANY_HIRED_BLOCK_DAYS_HINT;
+  readonly companyHiredBlockDaysError = COMPANY_HIRED_BLOCK_DAYS_ERROR;
+  readonly companyFieldNonHiredBlockEnabled = COMPANY_FIELD_NON_HIRED_BLOCK_ENABLED;
+  readonly companyNonHiredBlockHelp = COMPANY_NON_HIRED_BLOCK_HELP;
   readonly companySectionChannels = COMPANY_SECTION_CHANNELS;
   readonly companySectionEvaluatest = COMPANY_SECTION_EVALUATEST;
   readonly companySectionExamModalities = COMPANY_SECTION_EXAM_MODALITIES;
@@ -1522,6 +1539,9 @@ export class CatalogsAdminComponent implements OnInit {
     ],
     r3Interface: [false],
     wsSignature: [false],
+    hiredCandidateBlockEnabled: [false],
+    hiredCandidateBlockDays: [null as number | null, [nonNegativeIntegerValidator()]],
+    nonHiredCandidateBlockEnabled: [false],
     isActive: [true],
     email: this.fb.nonNullable.group({
       isEnabled: [false],
@@ -4941,6 +4961,9 @@ export class CatalogsAdminComponent implements OnInit {
       portalAccentColor: DEFAULT_PORTAL_ACCENT_COLOR,
       r3Interface: false,
       wsSignature: false,
+      hiredCandidateBlockEnabled: false,
+      hiredCandidateBlockDays: 0,
+      nonHiredCandidateBlockEnabled: false,
       isActive: true,
       email: {
         isEnabled: false,
@@ -5022,6 +5045,9 @@ export class CatalogsAdminComponent implements OnInit {
           portalAccentColor: company.portalAccentColor || DEFAULT_PORTAL_ACCENT_COLOR,
           r3Interface: company.r3Interface ?? false,
           wsSignature: company.wsSignature ?? false,
+          hiredCandidateBlockEnabled: company.hiredCandidateBlockEnabled ?? false,
+          hiredCandidateBlockDays: company.hiredCandidateBlockDays ?? 0,
+          nonHiredCandidateBlockEnabled: company.nonHiredCandidateBlockEnabled ?? false,
           isActive: company.isActive,
         });
         this.applyIntegrationsToForm(integrations);
@@ -5308,6 +5334,9 @@ export class CatalogsAdminComponent implements OnInit {
       bannerUrl: value.bannerUrl || undefined,
       r3Interface: value.r3Interface,
       wsSignature: value.wsSignature,
+      hiredCandidateBlockEnabled: value.hiredCandidateBlockEnabled,
+      hiredCandidateBlockDays: value.hiredCandidateBlockDays ?? 0,
+      nonHiredCandidateBlockEnabled: value.nonHiredCandidateBlockEnabled,
       isActive: value.isActive,
     };
     const integrationsPayload = this.buildIntegrationsPayload();

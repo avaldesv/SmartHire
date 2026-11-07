@@ -215,6 +215,16 @@ h3 { margin: 0 0 16px; font-size: 1.1rem; }
   align-items: start;
 }
 
+.company-candidate-block__days {
+  max-width: 320px;
+}
+
+.company-candidate-block__help {
+  margin: -4px 0 0 36px;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
 .company-colors-field {
   display: flex;
   flex-direction: column;

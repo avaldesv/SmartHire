@@ -504,6 +504,23 @@
 
             <hr class="company-divider" />
 
+            <section class="company-section company-candidate-block">
+              <h3 class="company-section__title">{{ companySectionCandidateBlock }}</h3>
+              <mat-checkbox formControlName="hiredCandidateBlockEnabled">{{ companyFieldHiredBlockEnabled }}</mat-checkbox>
+              <mat-form-field appearance="outline" class="company-candidate-block__days">
+                <mat-label>{{ companyFieldHiredBlockDays }}</mat-label>
+                <input matInput type="number" min="0" step="1" formControlName="hiredCandidateBlockDays" />
+                <mat-hint>{{ companyHiredBlockDaysHint }}</mat-hint>
+                @if (companyForm.controls.hiredCandidateBlockDays.invalid) {
+                  <mat-error>{{ companyHiredBlockDaysError }}</mat-error>
+                }
+              </mat-form-field>
+              <mat-checkbox formControlName="nonHiredCandidateBlockEnabled">{{ companyFieldNonHiredBlockEnabled }}</mat-checkbox>
+              <p class="company-candidate-block__help">{{ companyNonHiredBlockHelp }}</p>
+            </section>
+
+            <hr class="company-divider" />
+
             <section class="company-section">
               <h3 class="company-section__title">{{ companySectionChannels }}</h3>
               <div class="company-channels-grid">
