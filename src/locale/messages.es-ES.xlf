@@ -12630,6 +12630,82 @@
         <source>Si está activa, la persona no puede preseleccionarse en otra requisición mientras tenga una candidatura en curso distinta de Contratado y de Postulado; si está apagada, puede estar en varias a la vez.</source>
         <target>Si está activa, la persona no puede preseleccionarse en otra requisición mientras tenga una candidatura en curso distinta de Contratado y de Postulado; si está apagada, puede estar en varias a la vez.</target>
       </trans-unit>
+      <trans-unit id="candidates.block.col.status" datatype="html">
+        <source>Estatus de bloqueo</source>
+        <target>Estatus de bloqueo</target>
+      </trans-unit>
+      <trans-unit id="candidates.block.blocked" datatype="html">
+        <source>Bloqueado</source>
+        <target>Bloqueado</target>
+      </trans-unit>
+      <trans-unit id="candidates.block.released" datatype="html">
+        <source>Liberado</source>
+        <target>Liberado</target>
+      </trans-unit>
+      <trans-unit id="candidates.block.updateError" datatype="html">
+        <source>No se pudo actualizar el estatus de bloqueo</source>
+        <target>No se pudo actualizar el estatus de bloqueo</target>
+      </trans-unit>
+      <trans-unit id="candidates.changeLog.action" datatype="html">
+        <source>Historial de modificaciones</source>
+        <target>Historial de modificaciones</target>
+      </trans-unit>
+      <trans-unit id="candidates.changeLog.col.date" datatype="html">
+        <source>Fecha y hora</source>
+        <target>Fecha y hora</target>
+      </trans-unit>
+      <trans-unit id="candidates.changeLog.col.user" datatype="html">
+        <source>Usuario</source>
+        <target>Usuario</target>
+      </trans-unit>
+      <trans-unit id="candidates.changeLog.col.field" datatype="html">
+        <source>Campo</source>
+        <target>Campo</target>
+      </trans-unit>
+      <trans-unit id="candidates.changeLog.col.oldValue" datatype="html">
+        <source>Valor anterior</source>
+        <target>Valor anterior</target>
+      </trans-unit>
+      <trans-unit id="candidates.changeLog.col.newValue" datatype="html">
+        <source>Valor nuevo</source>
+        <target>Valor nuevo</target>
+      </trans-unit>
+      <trans-unit id="candidates.changeLog.empty" datatype="html">
+        <source>Este candidato no tiene modificaciones registradas.</source>
+        <target>Este candidato no tiene modificaciones registradas.</target>
+      </trans-unit>
+      <trans-unit id="candidates.changeLog.loadError" datatype="html">
+        <source>No se pudo cargar el historial de modificaciones</source>
+        <target>No se pudo cargar el historial de modificaciones</target>
+      </trans-unit>
+      <trans-unit id="candidates.changeLog.field.phonePrefix" datatype="html">
+        <source>Prefijo telefónico</source>
+        <target>Prefijo telefónico</target>
+      </trans-unit>
+      <trans-unit id="errors.CANDIDATE_BLOCKED_MANUAL.title" datatype="html">
+        <source>Candidato bloqueado</source>
+        <target>Candidato bloqueado</target>
+      </trans-unit>
+      <trans-unit id="errors.CANDIDATE_BLOCKED_MANUAL.message" datatype="html">
+        <source>El candidato está bloqueado. Libéralo en el listado de Candidatos para poder preseleccionarlo.</source>
+        <target>El candidato está bloqueado. Libéralo en el listado de Candidatos para poder preseleccionarlo.</target>
+      </trans-unit>
+      <trans-unit id="errors.CANDIDATE_ALREADY_IN_PROCESS.title" datatype="html">
+        <source>Candidato en proceso</source>
+        <target>Candidato en proceso</target>
+      </trans-unit>
+      <trans-unit id="errors.CANDIDATE_ALREADY_IN_PROCESS.message" datatype="html">
+        <source>El candidato ya está en <x id="p0" equiv-text="&apos;{0}&apos;"/> en <x id="p1" equiv-text="&apos;{1}&apos;"/> (<x id="p2" equiv-text="&apos;{2}&apos;"/>).</source>
+        <target>El candidato ya está en <x id="p0" equiv-text="&apos;{0}&apos;"/> en <x id="p1" equiv-text="&apos;{1}&apos;"/> (<x id="p2" equiv-text="&apos;{2}&apos;"/>).</target>
+      </trans-unit>
+      <trans-unit id="errors.CANDIDATE_HIRED_BLOCK_ACTIVE.title" datatype="html">
+        <source>Candidato contratado bloqueado</source>
+        <target>Candidato contratado bloqueado</target>
+      </trans-unit>
+      <trans-unit id="errors.CANDIDATE_HIRED_BLOCK_ACTIVE.message" datatype="html">
+        <source>El candidato fue contratado el <x id="p0" equiv-text="&apos;{0}&apos;"/> y permanece bloqueado hasta el <x id="p1" equiv-text="&apos;{1}&apos;"/>.</source>
+        <target>El candidato fue contratado el <x id="p0" equiv-text="&apos;{0}&apos;"/> y permanece bloqueado hasta el <x id="p1" equiv-text="&apos;{1}&apos;"/>.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

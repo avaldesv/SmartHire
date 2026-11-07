@@ -16,6 +16,9 @@ ENTRY_RE = re.compile(r"\$localize`:@@errors\.([^.]+)\.(title|message):([^`]+)`"
 
 # Portal errorCode -> backend messages_en.properties key (when not inferrable).
 CODE_TO_BACKEND: dict[str, str] = {
+    "CANDIDATE_BLOCKED_MANUAL": "error.candidate_application.blocked_manual",
+    "CANDIDATE_ALREADY_IN_PROCESS": "error.candidate_application.already_in_process",
+    "CANDIDATE_HIRED_BLOCK_ACTIVE": "error.candidate_application.hired_block_active",
     "ERROR_USER_NOT_FOUND": "error.common.user_not_found",
     "ERROR_COUNTRY_NOT_FOUND": "error.common.country_not_found",
     "ERROR_WRONG_TENANT": "error.common.wrong_tenant",
@@ -154,6 +157,9 @@ TITLE_BY_CODE: dict[str, str] = {
     "POSITION_RECRUITER_GROUP_MANAGER_REQUIRED": "Group without manager",
     "POSITION_ASSIGNED_USER_REQUIRED": "Recruiter required",
     "CANDIDATE_ALREADY_PRESELECTED": "Already preselected",
+    "CANDIDATE_BLOCKED_MANUAL": "Candidate blocked",
+    "CANDIDATE_ALREADY_IN_PROCESS": "Candidate in process",
+    "CANDIDATE_HIRED_BLOCK_ACTIVE": "Hired candidate blocked",
     "DOCUMENT_VALIDATION_STATUS_REQUIRED": "Validation status required",
     "DOCUMENT_REJECTION_REASON_REQUIRED": "Rejection reason required",
     "DOCUMENT_NOT_FOUND_FOR_APPLICATION": "Document not found",

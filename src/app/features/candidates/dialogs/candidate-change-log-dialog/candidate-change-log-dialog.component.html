@@ -1,0 +1,48 @@
+<sh-modal-form [title]="ui.title" [subtitle]="candidateName">
+  @if (loading) {
+    <div class="loading-wrap"><mat-spinner diameter="36" /></div>
+  } @else if (rows.length === 0) {
+    <p class="empty-state">{{ ui.empty }}</p>
+  } @else {
+    <div class="sh-table-wrap">
+      <table mat-table class="change-log-table" [dataSource]="rows">
+        <ng-container matColumnDef="createAt">
+          <th mat-header-cell *matHeaderCellDef>{{ ui.colDate }}</th>
+          <td mat-cell *matCellDef="let row">{{ row.createAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="user">
+          <th mat-header-cell *matHeaderCellDef>{{ ui.colUser }}</th>
+          <td mat-cell *matCellDef="let row">{{ row.userDisplayName || '—' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="field">
+          <th mat-header-cell *matHeaderCellDef>{{ ui.colField }}</th>
+          <td mat-cell *matCellDef="let row">{{ fieldLabel(row.fieldKey) }}</td>
+        </ng-container>
+        <ng-container matColumnDef="oldValue">
+          <th mat-header-cell *matHeaderCellDef>{{ ui.colOld }}</th>
+          <td mat-cell *matCellDef="let row">{{ valueLabel(row.fieldKey, row.oldValue, row.oldDisplayValue) }}</td>
+        </ng-container>
+        <ng-container matColumnDef="newValue">
+          <th mat-header-cell *matHeaderCellDef>{{ ui.colNew }}</th>
+          <td mat-cell *matCellDef="let row">{{ valueLabel(row.fieldKey, row.newValue, row.newDisplayValue) }}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns"></tr>
+      </table>
+    </div>
+  }
+
+  @if (!loading && total > 0) {
+    <sh-paginator
+      [length]="total"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      [pageSizeOptions]="[10, 25, 50]"
+      (page)="onPage($event)"
+    />
+  }
+
+  <div shModalActions>
+    <button mat-flat-button color="primary" type="button" (click)="close()">{{ ui.close }}</button>
+  </div>
+</sh-modal-form>

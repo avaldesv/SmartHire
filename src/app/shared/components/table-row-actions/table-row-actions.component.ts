@@ -60,6 +60,18 @@ import { COMMON_DELETE, COMMON_EDIT, COMMON_VIEW } from '../../../core/i18n/comm
         }
       }
 
+      @if (showHistory) {
+        <button
+          mat-icon-button
+          type="button"
+          [attr.aria-label]="historyLabel"
+          [title]="historyLabel"
+          (click)="historyClick.emit()"
+        >
+          <mat-icon>history</mat-icon>
+        </button>
+      }
+
       @if (showDelete) {
         <button
           mat-icon-button
@@ -112,6 +124,8 @@ export class TableRowActionsComponent {
   @Input() showView = false;
   @Input() showEdit = true;
   @Input() showDelete = false;
+  @Input() showHistory = false;
+  @Input() historyLabel = '';
   @Input() viewDisabled = false;
   @Input() editDisabled = false;
   @Input() deleteDisabled = false;
@@ -123,4 +137,5 @@ export class TableRowActionsComponent {
   @Output() viewClick = new EventEmitter<void>();
   @Output() editClick = new EventEmitter<void>();
   @Output() deleteClick = new EventEmitter<void>();
+  @Output() historyClick = new EventEmitter<void>();
 }

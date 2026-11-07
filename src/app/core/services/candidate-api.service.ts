@@ -2,6 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map, tap } from 'rxjs';
 import {
+  CandidateBlockOverrideResponse,
+  CandidateChangeLogItem,
+  CandidateChangeLogPage,
   CandidateDetail,
   CandidateCvDownloadUrlResponse,
   CandidateListItem,
@@ -74,6 +77,27 @@ export class CandidateApiService {
         window.open(res.downloadUrl, '_blank', 'noopener,noreferrer');
       }),
     );
+  }
+
+  setBlockOverride(id: number, blocked: boolean): Observable<CandidateBlockOverrideResponse> {
+    return this.http.put<CandidateBlockOverrideResponse>(
+      this.api.apiUrl(`/api/v1/candidates/${id}/block-override`),
+      { blocked },
+      { headers: this.api.buildHeaders() },
+    );
+  }
+
+  listChangeLog(
+    candidateId: number,
+    page = 0,
+    size = 10,
+  ): Observable<{ items: CandidateChangeLogItem[]; total: number }> {
+    const body = { filters: [] as string[], ordersBy: ['createAt:desc'] as string[] };
+    return this.http
+      .post<CandidateChangeLogPage>(this.api.apiUrl(`/api/v1/candidates/${candidateId}/change-log/list`), body, {
+        headers: this.api.buildHeaders(page, size),
+      })
+      .pipe(map((res) => ({ items: res.data ?? [], total: res.pagination?.total ?? 0 })));
   }
 
   create(request: CreateCandidateRequest): Observable<CreateCandidateResponse> {

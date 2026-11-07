@@ -24752,6 +24752,139 @@
           <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="candidates.block.col.status" datatype="html">
+        <source>Estatus de bloqueo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/candidate-block-labels.ts</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="candidates.block.blocked" datatype="html">
+        <source>Bloqueado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/candidate-block-labels.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="candidates.block.released" datatype="html">
+        <source>Liberado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/candidate-block-labels.ts</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="candidates.block.updateError" datatype="html">
+        <source>No se pudo actualizar el estatus de bloqueo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/candidate-block-labels.ts</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="candidates.changeLog.action" datatype="html">
+        <source>Historial de modificaciones</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/candidate-block-labels.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="candidates.changeLog.col.date" datatype="html">
+        <source>Fecha y hora</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/candidate-block-labels.ts</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="candidates.changeLog.col.user" datatype="html">
+        <source>Usuario</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/candidate-block-labels.ts</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="candidates.changeLog.col.field" datatype="html">
+        <source>Campo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/candidate-block-labels.ts</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="candidates.changeLog.col.oldValue" datatype="html">
+        <source>Valor anterior</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/candidate-block-labels.ts</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="candidates.changeLog.col.newValue" datatype="html">
+        <source>Valor nuevo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/candidate-block-labels.ts</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="candidates.changeLog.empty" datatype="html">
+        <source>Este candidato no tiene modificaciones registradas.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/candidate-block-labels.ts</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="candidates.changeLog.loadError" datatype="html">
+        <source>No se pudo cargar el historial de modificaciones</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/candidate-block-labels.ts</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="candidates.changeLog.field.phonePrefix" datatype="html">
+        <source>Prefijo telefónico</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/candidate-block-labels.ts</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.CANDIDATE_BLOCKED_MANUAL.title" datatype="html">
+        <source>Candidato bloqueado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-candidate.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.CANDIDATE_BLOCKED_MANUAL.message" datatype="html">
+        <source>El candidato está bloqueado. Libéralo en el listado de Candidatos para poder preseleccionarlo.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-candidate.ts</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.CANDIDATE_ALREADY_IN_PROCESS.title" datatype="html">
+        <source>Candidato en proceso</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-candidate.ts</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.CANDIDATE_ALREADY_IN_PROCESS.message" datatype="html">
+        <source>El candidato ya está en <x id="p0" equiv-text="&apos;{0}&apos;"/> en <x id="p1" equiv-text="&apos;{1}&apos;"/> (<x id="p2" equiv-text="&apos;{2}&apos;"/>).</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-candidate.ts</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.CANDIDATE_HIRED_BLOCK_ACTIVE.title" datatype="html">
+        <source>Candidato contratado bloqueado</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-candidate.ts</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errors.CANDIDATE_HIRED_BLOCK_ACTIVE.message" datatype="html">
+        <source>El candidato fue contratado el <x id="p0" equiv-text="&apos;{0}&apos;"/> y permanece bloqueado hasta el <x id="p1" equiv-text="&apos;{1}&apos;"/>.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-candidate.ts</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
