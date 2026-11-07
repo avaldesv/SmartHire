@@ -1,0 +1,22 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.loading-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 160px;
+}
+
+.empty-state {
+  margin: 24px 0;
+  text-align: center;
+  color: #64748b;
+}
+
+.change-log-table {
+  width: 100%;
+}

@@ -13,6 +13,29 @@ export interface CandidateListItem {
   source: string | null;
   isActive: boolean;
   createdAt: string;
+  /** True when the candidate cannot be preselected (manual block or company rules). */
+  blocked?: boolean;
+}
+
+export interface CandidateBlockOverrideResponse {
+  id: number;
+  blocked: boolean;
+}
+
+export interface CandidateChangeLogItem {
+  id: number;
+  createAt: string;
+  userDisplayName: string | null;
+  fieldKey: string;
+  oldValue: string | null;
+  newValue: string | null;
+  oldDisplayValue?: string | null;
+  newDisplayValue?: string | null;
+}
+
+export interface CandidateChangeLogPage {
+  data: CandidateChangeLogItem[];
+  pagination: { page: number; pageSize: number; total: number };
 }
 
 export interface CandidateDetail {
