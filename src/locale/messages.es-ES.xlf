@@ -12706,6 +12706,114 @@
         <source>El candidato fue contratado el <x id="p0" equiv-text="&apos;{0}&apos;"/> y permanece bloqueado hasta el <x id="p1" equiv-text="&apos;{1}&apos;"/>.</source>
         <target>El candidato fue contratado el <x id="p0" equiv-text="&apos;{0}&apos;"/> y permanece bloqueado hasta el <x id="p1" equiv-text="&apos;{1}&apos;"/>.</target>
       </trans-unit>
+      <trans-unit id="preselection.col.evaluatest" datatype="html">
+        <source>Evaluatest</source>
+        <target>Evaluatest</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluatest.tooltip" datatype="html">
+        <source>Ver resultados Evaluatest</source>
+        <target>Ver resultados Evaluatest</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluatest.inviteTooltip" datatype="html">
+        <source>Enviar a Evaluatest</source>
+        <target>Enviar a Evaluatest</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluatest.resendTooltip" datatype="html">
+        <source>Reenviar notificación Evaluatest con el enlace de evaluación</source>
+        <target>Reenviar notificación Evaluatest con el enlace de evaluación</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluatest.exhaustedTooltip" datatype="html">
+        <source>Se agotaron los recordatorios automáticos — el candidato no completó la evaluación. Puedes reenviar manualmente</source>
+        <target>Se agotaron los recordatorios automáticos — el candidato no completó la evaluación. Puedes reenviar manualmente</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluatest.pendingTooltip" datatype="html">
+        <source>Evaluatest pendiente — el candidato aún no completa la evaluación</source>
+        <target>Evaluatest pendiente — el candidato aún no completa la evaluación</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluatest.pendingTitle" datatype="html">
+        <source>Resultados Evaluatest pendientes</source>
+        <target>Resultados Evaluatest pendientes</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluatest.pendingMessage" datatype="html">
+        <source>Disponible cuando el candidato complete la evaluación en Evaluatest</source>
+        <target>Disponible cuando el candidato complete la evaluación en Evaluatest</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.results.dialogTitle" datatype="html">
+        <source>Resultados Evaluatest</source>
+        <target>Resultados Evaluatest</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.results.closeAria" datatype="html">
+        <source>Cerrar</source>
+        <target>Cerrar</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.results.close" datatype="html">
+        <source>Cerrar</source>
+        <target>Cerrar</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.results.downloadPdf" datatype="html">
+        <source>Descargar Word</source>
+        <target>Descargar Word</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.results.loading" datatype="html">
+        <source>Cargando resultados…</source>
+        <target>Cargando resultados…</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.results.error" datatype="html">
+        <source>No se pudieron cargar los resultados de Evaluatest</source>
+        <target>No se pudieron cargar los resultados de Evaluatest</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.results.empty" datatype="html">
+        <source>No hay variables en el reporte</source>
+        <target>No hay variables en el reporte</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.results.score" datatype="html">
+        <source>Puntaje</source>
+        <target>Puntuación</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.results.level" datatype="html">
+        <source>Nivel</source>
+        <target>Nivel</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.results.percent" datatype="html">
+        <source>Dominio</source>
+        <target>Dominio</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.results.pdfError" datatype="html">
+        <source>No se pudo descargar el reporte Word</source>
+        <target>No se pudo descargar el informe Word</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.results.pdfSuccess" datatype="html">
+        <source>Reporte Word descargado</source>
+        <target>Informe Word descargado</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.errors.fieldRequired" datatype="html">
+        <source>Campo obligatorio</source>
+        <target>Campo obligatorio</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.noPublishedConfigTitle" datatype="html">
+        <source>Sin configuración activa</source>
+        <target>Sin configuración activa</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.noPublishedConfigMessage" datatype="html">
+        <source>No es posible crear una requisición porque no existe una configuración de formulario publicada y activa para el país y tipo de cobertura seleccionados.</source>
+        <target>No es posible crear una requisición porque no existe una configuración de formulario publicada y activa para el país y tipo de cobertura seleccionados.</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.changeScope" datatype="html">
+        <source>Cambiar país / cobertura</source>
+        <target>Cambiar país / cobertura</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.backToList" datatype="html">
+        <source>Volver al listado</source>
+        <target>Volver al listado</target>
+      </trans-unit>
+      <trans-unit id="filterableSelect.required" datatype="html">
+        <source>Campo obligatorio</source>
+        <target>Campo obligatorio</target>
+      </trans-unit>
+      <trans-unit id="viaBot.candidateFallback" datatype="html">
+        <source>Candidato #</source>
+        <target>Candidato #</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
