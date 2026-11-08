@@ -12706,6 +12706,114 @@
         <source>El candidato fue contratado el <x id="p0" equiv-text="&apos;{0}&apos;"/> y permanece bloqueado hasta el <x id="p1" equiv-text="&apos;{1}&apos;"/>.</source>
         <target>The candidate was hired on <x id="p0" equiv-text="&apos;{0}&apos;"/> and remains blocked until <x id="p1" equiv-text="&apos;{1}&apos;"/>.</target>
       </trans-unit>
+      <trans-unit id="preselection.col.evaluatest" datatype="html">
+        <source>Evaluatest</source>
+        <target>Evaluatest</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluatest.tooltip" datatype="html">
+        <source>Ver resultados Evaluatest</source>
+        <target>View Evaluatest results</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluatest.inviteTooltip" datatype="html">
+        <source>Enviar a Evaluatest</source>
+        <target>Send to Evaluatest</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluatest.resendTooltip" datatype="html">
+        <source>Reenviar notificación Evaluatest con el enlace de evaluación</source>
+        <target>Resend the Evaluatest notification with the assessment link</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluatest.exhaustedTooltip" datatype="html">
+        <source>Se agotaron los recordatorios automáticos — el candidato no completó la evaluación. Puedes reenviar manualmente</source>
+        <target>Automatic reminders have been used up — the candidate did not complete the assessment. You can resend manually</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluatest.pendingTooltip" datatype="html">
+        <source>Evaluatest pendiente — el candidato aún no completa la evaluación</source>
+        <target>Evaluatest pending — the candidate has not completed the assessment yet</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluatest.pendingTitle" datatype="html">
+        <source>Resultados Evaluatest pendientes</source>
+        <target>Evaluatest results pending</target>
+      </trans-unit>
+      <trans-unit id="preselection.evaluatest.pendingMessage" datatype="html">
+        <source>Disponible cuando el candidato complete la evaluación en Evaluatest</source>
+        <target>Available when the candidate completes the assessment in Evaluatest</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.results.dialogTitle" datatype="html">
+        <source>Resultados Evaluatest</source>
+        <target>Evaluatest results</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.results.closeAria" datatype="html">
+        <source>Cerrar</source>
+        <target>Close</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.results.close" datatype="html">
+        <source>Cerrar</source>
+        <target>Close</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.results.downloadPdf" datatype="html">
+        <source>Descargar Word</source>
+        <target>Download Word</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.results.loading" datatype="html">
+        <source>Cargando resultados…</source>
+        <target>Loading results…</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.results.error" datatype="html">
+        <source>No se pudieron cargar los resultados de Evaluatest</source>
+        <target>Could not load Evaluatest results</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.results.empty" datatype="html">
+        <source>No hay variables en el reporte</source>
+        <target>There are no variables in the report</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.results.score" datatype="html">
+        <source>Puntaje</source>
+        <target>Score</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.results.level" datatype="html">
+        <source>Nivel</source>
+        <target>Level</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.results.percent" datatype="html">
+        <source>Dominio</source>
+        <target>Mastery</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.results.pdfError" datatype="html">
+        <source>No se pudo descargar el reporte Word</source>
+        <target>Could not download the Word report</target>
+      </trans-unit>
+      <trans-unit id="evaluatest.results.pdfSuccess" datatype="html">
+        <source>Reporte Word descargado</source>
+        <target>Word report downloaded</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.errors.fieldRequired" datatype="html">
+        <source>Campo obligatorio</source>
+        <target>Required field</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.noPublishedConfigTitle" datatype="html">
+        <source>Sin configuración activa</source>
+        <target>No active configuration</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.noPublishedConfigMessage" datatype="html">
+        <source>No es posible crear una requisición porque no existe una configuración de formulario publicada y activa para el país y tipo de cobertura seleccionados.</source>
+        <target>A requisition cannot be created because there is no published, active form configuration for the selected country and coverage type.</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.changeScope" datatype="html">
+        <source>Cambiar país / cobertura</source>
+        <target>Change country / coverage</target>
+      </trans-unit>
+      <trans-unit id="requisition.wizard.backToList" datatype="html">
+        <source>Volver al listado</source>
+        <target>Back to the list</target>
+      </trans-unit>
+      <trans-unit id="filterableSelect.required" datatype="html">
+        <source>Campo obligatorio</source>
+        <target>Required field</target>
+      </trans-unit>
+      <trans-unit id="viaBot.candidateFallback" datatype="html">
+        <source>Candidato #</source>
+        <target>Candidate #</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
