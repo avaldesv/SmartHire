@@ -18,8 +18,8 @@ export const API_ERROR_CATALOG_CANDIDATE: Record<string, ApiErrorI18nEntry> = {
   },
   CANDIDATE_HIRED_BLOCK_ACTIVE: {
     title: $localize`:@@errors.CANDIDATE_HIRED_BLOCK_ACTIVE.title:Candidato contratado bloqueado`,
-    // {0} hire date, {1} block end, {2} status, {3} position, {4} requisition number.
-    message: $localize`:@@errors.CANDIDATE_HIRED_BLOCK_ACTIVE.message:El candidato fue contratado el ${'{0}'}:p0: y permanece bloqueado hasta el ${'{1}'}:p1:. El candidato ya está en ${'{2}'}:p2: en ${'{3}'}:p3: (${'{4}'}:p4:).`,
+    // {0} status, {1} requisition number, {2} position, {3} hire date, {4} block end (dd/mm/yyyy).
+    message: $localize`:@@errors.CANDIDATE_HIRED_BLOCK_ACTIVE.message:El candidato ya está en ${'{0}'}:p0: en (${'{1}'}:p1:) ${'{2}'}:p2:, el ${'{3}'}:p3: y permanece bloqueado hasta el ${'{4}'}:p4:.`,
   },
   DOCUMENT_VALIDATION_STATUS_REQUIRED: {
     title: $localize`:@@errors.DOCUMENT_VALIDATION_STATUS_REQUIRED.title:Validación requerida`,
