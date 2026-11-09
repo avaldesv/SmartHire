@@ -15,6 +15,7 @@
     "start:remote:pt-BR": "ng serve --configuration remote-pt-BR --host localhost --port 4300",
     "build": "ng build && node scripts/postbuild-i18n.js",
     "build:i18n": "ng build --configuration=production && node scripts/postbuild-i18n.js",
+    "build:subpath": "node scripts/build-subpath.js",
     "start:prod": "node scripts/serve-spa.js",
     "serve:dist": "node scripts/serve-spa.js",
     "extract-i18n": "ng extract-i18n",

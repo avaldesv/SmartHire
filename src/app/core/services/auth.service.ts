@@ -206,7 +206,7 @@ export class AuthService {
       this.msal.logoutRedirect();
       return;
     }
-    window.location.href = '/login';
+    window.location.href = this.localeService.appPath('/login');
   }
 
   private clearLocalSession(): void {

@@ -1,4 +1,4 @@
-import { DOCUMENT } from '@angular/common';
+import { APP_BASE_HREF, DOCUMENT } from '@angular/common';
 import { Injectable, inject, signal } from '@angular/core';
 
 /** Client-side locale preference (tab session). */
@@ -13,7 +13,7 @@ export const LOCALE_RETURN_PATH_KEY = 'sh_locale_return_path';
 export const DEFAULT_LOGIN_LOCALE = 'es-MX';
 export const X_LANGUAGE_HEADER = 'X-Language';
 
-const LEGACY_LOCALE_PREFIXES = ['es-ES', 'en-US','pt-BR'] as const;
+const LEGACY_LOCALE_PREFIXES = ['es-ES', 'en-US', 'pt-BR'] as const;
 
 /**
  * Maps portal/API locales and Angular `document.lang` (CLDR codes es/en vs es-MX)
@@ -58,9 +58,33 @@ function normalizeStoredLocale(locale: string): string {
   return trimmed;
 }
 
+/** Normalize Angular base href to a pathname prefix without trailing slash (`''` | `/via`). */
+export function normalizeDeployBasePath(baseHref: string | null | undefined): string {
+  const raw = (baseHref ?? '/').trim() || '/';
+  let pathname = raw;
+  try {
+    if (/^https?:\/\//i.test(raw)) {
+      pathname = new URL(raw).pathname;
+    }
+  } catch {
+    pathname = raw;
+  }
+  if (!pathname.startsWith('/')) {
+    pathname = `/${pathname}`;
+  }
+  if (pathname.length > 1 && pathname.endsWith('/')) {
+    pathname = pathname.slice(0, -1);
+  }
+  return pathname === '/' ? '' : pathname;
+}
+
 @Injectable({ providedIn: 'root' })
 export class LocaleService {
   private readonly document = inject(DOCUMENT);
+  private readonly appBaseHref = inject(APP_BASE_HREF, { optional: true }) ?? '/';
+  private readonly deployBasePath = normalizeDeployBasePath(
+    this.resolveBaseHrefFromDom() ?? this.appBaseHref,
+  );
 
   readonly activeLocale = signal<string>(this.readStoredLocale() ?? DEFAULT_LOGIN_LOCALE);
   readonly portalLanguageId = signal<number | null>(null);
@@ -75,13 +99,21 @@ export class LocaleService {
     return this.activeLocale();
   }
 
-  /** Routes never include locale prefix (RF: X-Language + session, not URL). */
+  /**
+   * Absolute browser path for an app route, including deploy base
+   * (`/home` or `/via/home` when base is `/via/`).
+   */
   appPath(routePath: string): string {
-    return routePath.startsWith('/') ? routePath : `/${routePath}`;
+    const route = routePath.startsWith('/') ? routePath : `/${routePath}`;
+    return `${this.deployBasePath}${route}` || '/';
   }
 
+  /**
+   * Strip deploy base (+ legacy locale URL prefixes) so callers compare app routes
+   * like `/login` regardless of whether the SPA is hosted at `/`, `/via/`, etc.
+   */
   normalizeAppPath(pathname: string): string {
-    let path = pathname.startsWith('/') ? pathname : `/${pathname}`;
+    let path = this.stripDeployBase(pathname);
     for (const prefix of LEGACY_LOCALE_PREFIXES) {
       const legacyRoot = `/${prefix}`;
       if (path.startsWith(`${legacyRoot}/`)) {
@@ -138,7 +170,7 @@ export class LocaleService {
     this.clearLocaleCookie();
   }
 
-  /** Current SPA path without legacy locale prefixes. */
+  /** Current SPA path without deploy base / legacy locale prefixes. */
   currentAppUrl(): string {
     return (
       this.normalizeAppPath(window.location.pathname) +
@@ -147,10 +179,18 @@ export class LocaleService {
     );
   }
 
+  /** Convert an app-relative URL (`/home?x=1`) into a browser URL under the deploy base. */
+  toBrowserUrl(appRelativeUrl: string): string {
+    const match = /^([^?#]*)(.*)$/.exec(appRelativeUrl);
+    const pathPart = match?.[1] || '/';
+    const suffix = match?.[2] || '';
+    return `${this.appPath(pathPart || '/')}${suffix}`;
+  }
+
   private reloadKeepingCurrentPath(): void {
     const returnUrl = this.currentAppUrl() || '/home';
     sessionStorage.setItem(LOCALE_RETURN_PATH_KEY, returnUrl);
-    window.location.assign(returnUrl);
+    window.location.assign(this.toBrowserUrl(returnUrl));
   }
 
   /**
@@ -168,7 +208,7 @@ export class LocaleService {
       return;
     }
     sessionStorage.removeItem(LOCALE_RETURN_PATH_KEY);
-    window.location.replace(saved);
+    window.location.replace(this.toBrowserUrl(saved));
   }
 
   private migrateLegacyLocaleStorage(): void {
@@ -183,20 +223,33 @@ export class LocaleService {
   }
 
   private normalizeLegacyLocaleUrl(): void {
-    const path = window.location.pathname;
+    const withoutBase = this.stripDeployBase(window.location.pathname);
     for (const prefix of LEGACY_LOCALE_PREFIXES) {
-      if (path.startsWith(`/${prefix}/`)) {
+      const legacyRoot = `/${prefix}`;
+      if (withoutBase.startsWith(`${legacyRoot}/`) || withoutBase === legacyRoot) {
         this.persistLocale(prefix);
-        const target = this.normalizeAppPath(path) + window.location.search + window.location.hash;
-        window.location.replace(target);
-        return;
-      }
-      if (path === `/${prefix}`) {
-        this.persistLocale(prefix);
-        window.location.replace('/' + window.location.search + window.location.hash);
+        const target =
+          this.normalizeAppPath(window.location.pathname) +
+          window.location.search +
+          window.location.hash;
+        window.location.replace(this.toBrowserUrl(target));
         return;
       }
     }
+  }
+
+  private stripDeployBase(pathname: string): string {
+    let path = pathname.startsWith('/') ? pathname : `/${pathname}`;
+    if (!this.deployBasePath) {
+      return path;
+    }
+    if (path === this.deployBasePath) {
+      return '/';
+    }
+    if (path.startsWith(`${this.deployBasePath}/`)) {
+      return path.slice(this.deployBasePath.length) || '/';
+    }
+    return path;
   }
 
   private persistLocale(locale: string): void {
@@ -237,5 +290,10 @@ export class LocaleService {
 
   private getBuildLocale(): string {
     return this.document.documentElement.lang?.trim() || DEFAULT_LOGIN_LOCALE;
+  }
+
+  private resolveBaseHrefFromDom(): string | null {
+    const base = this.document.querySelector('base')?.getAttribute('href');
+    return base?.trim() || null;
   }
 }
