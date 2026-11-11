@@ -3,13 +3,22 @@ import { FormControl } from '@angular/forms';
 import { of, throwError } from 'rxjs';
 import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
 import { GenerateJobDescriptionApiService } from '../../../../core/services/generate-job-description-api.service';
-import { LocaleService } from '../../../../core/services/locale.service';
+import { PortalLanguageCatalogService } from '../../../../core/services/portal-language-catalog.service';
+import { PortalLanguage } from '../../../../shared/models/portal-language.model';
 import { JobRequirementsAiColumnComponent } from './job-requirements-ai-column.component';
 
 describe('JobRequirementsAiColumnComponent', () => {
   let api: jasmine.SpyObj<GenerateJobDescriptionApiService>;
   let feedback: jasmine.SpyObj<FeedbackDialogService>;
   let component: JobRequirementsAiColumnComponent;
+
+  const esMx: PortalLanguage = {
+    id: 1,
+    code: 'ES_MX',
+    locale: 'es-MX',
+    name: 'Español (México)',
+    sortOrder: 1,
+  };
 
   const piped =
     '{|*|  "tipo_de_requisitos": {|*|    "obligatorios": {|*|      "requisito1": "A1",|*|      "requisito2": "A2",|*|      "requisito3": "A3"|*|    },|*|    "opcionales": {|*|      "requisito1": "B1",|*|      "requisito2": "B2",|*|      "requisito3": "B3"|*|    },|*|    "deseables": {|*|      "requisito1": "C1",|*|      "requisito2": "C2",|*|      "requisito3": "C3"|*|    }|*|  }|*|}';
@@ -21,7 +30,13 @@ describe('JobRequirementsAiColumnComponent', () => {
       providers: [
         { provide: GenerateJobDescriptionApiService, useValue: api },
         { provide: FeedbackDialogService, useValue: feedback },
-        { provide: LocaleService, useValue: { activeLocale: () => 'es-MX' } },
+        {
+          provide: PortalLanguageCatalogService,
+          useValue: {
+            load: () => of([esMx]),
+            resolveDefault: () => esMx,
+          },
+        },
       ],
     });
     component = TestBed.runInInjectionContext(() => new JobRequirementsAiColumnComponent());
@@ -51,6 +66,7 @@ describe('JobRequirementsAiColumnComponent', () => {
       expect(pregunta).not.toContain('TEXTO PREVIO');
       expect(pregunta).toContain('Guadalajara');
       expect(pregunta).toContain('Systek');
+      expect(pregunta).toContain('En idioma Español (México)');
     }
     expect(component.mandatoryControl.value).toBe('- A1\n- A2\n- A3');
     expect(component.optionalControl.value).toBe('- B1\n- B2\n- B3');
@@ -80,5 +96,29 @@ describe('JobRequirementsAiColumnComponent', () => {
     expect(component.jobDescriptionControl.value).toBe('TEXTO PREVIO');
     expect(component.mandatoryControl.value).toBe('- A1\n- A2\n- A3');
     expect(feedback.showApiError).toHaveBeenCalled();
+  });
+
+  it('translates description and requirements with the catalog language name', () => {
+    component.jobDescriptionControl.setValue('Descripción actual.');
+    component.mandatoryControl.setValue('- SQL');
+    component.optionalControl.setValue('');
+    component.desirableControl.setValue('');
+    api.generate.and.callFake((request: { pregunta: string }) => {
+      if (request.pregunta.includes('OBLIGATORIOS:')) {
+        return of({
+          message: 'OBLIGATORIOS:\n- SQL\n\nOPCIONALES:\n\nDESEABLES:\n',
+          conversationThreadId: 'req',
+        });
+      }
+      return of({ message: 'Translated description', conversationThreadId: 'desc' });
+    });
+    component.onTranslate();
+    const preguntas = api.generate.calls.allArgs().map((args) => args[0].pregunta);
+    expect(preguntas.length).toBe(2);
+    for (const pregunta of preguntas) {
+      expect(pregunta).toContain('Traducir el texto anterior al idioma: Español (México)');
+    }
+    expect(component.jobDescriptionControl.value).toBe('Translated description');
+    expect(component.mandatoryControl.value).toBe('- SQL');
   });
 });

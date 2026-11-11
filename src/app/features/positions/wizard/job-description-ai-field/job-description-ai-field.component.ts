@@ -1,5 +1,6 @@
 import { Component, HostBinding, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,19 +13,16 @@ import {
   FEEDBACK_UNDERSTOOD,
 } from '../../../../core/i18n/feedback-labels';
 import { GenerateJobDescriptionApiService } from '../../../../core/services/generate-job-description-api.service';
-import { LocaleService } from '../../../../core/services/locale.service';
+import { PortalLanguageCatalogService } from '../../../../core/services/portal-language-catalog.service';
+import { PortalLanguage } from '../../../../shared/models/portal-language.model';
 import {
   appendJobDescriptionLanguageInstruction,
   buildJobDescriptionPrompt,
   jobDescriptionLanguageDisplayName,
   type JobDescriptionPromptCatalogLabels,
-  type JobDescriptionPromptLanguage,
   type JobDescriptionPromptSnapshot,
 } from './build-job-description-prompt';
 import { sanitizeJobDescriptionChatMessage } from './sanitize-job-description-chat';
-
-/** UI codes for the language selector used when generating/translating job descriptions. */
-export type JobDescriptionOutputLanguage = JobDescriptionPromptLanguage;
 
 export type JobDescriptionAutoGenerateMode = 'jobDescription';
 
@@ -46,7 +44,7 @@ export type JobDescriptionAutoGenerateMode = 'jobDescription';
 export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
   private readonly api = inject(GenerateJobDescriptionApiService);
   private readonly feedback = inject(FeedbackDialogService);
-  private readonly localeService = inject(LocaleService);
+  private readonly portalLanguagesCatalog = inject(PortalLanguageCatalogService);
 
   @Input({ required: true }) control!: FormControl<string | null>;
   @Input() disabled = false;
@@ -96,19 +94,31 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
     return (this.control?.value ?? '').length;
   }
 
-  selectedLanguage: JobDescriptionOutputLanguage = 'es';
+  portalLanguages: PortalLanguage[] = [];
+  selectedLanguageId: number | null = null;
   busyAction: 'generate' | 'translate' | null = null;
   private conversationThreadId: string | null = null;
+  private languagesSub: Subscription | null = null;
 
   get busy(): boolean {
     return this.busyAction !== null;
   }
 
   ngOnInit(): void {
-    this.selectedLanguage = this.resolveDefaultLanguage(this.localeService.activeLocale());
+    this.languagesSub = this.portalLanguagesCatalog.load().subscribe({
+      next: (languages) => {
+        this.portalLanguages = languages;
+        this.selectedLanguageId = this.portalLanguagesCatalog.resolveDefault(languages)?.id ?? null;
+      },
+      error: () => {
+        this.portalLanguages = [];
+        this.selectedLanguageId = null;
+      },
+    });
   }
 
   ngOnDestroy(): void {
+    this.languagesSub?.unsubscribe();
     this.conversationThreadId = null;
   }
 
@@ -116,9 +126,13 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
     if (this.disabled || this.busy || !this.showAiActions) {
       return;
     }
+    const languageName = this.selectedLanguageName();
+    if (!languageName) {
+      return;
+    }
     const basePregunta = (this.control.value ?? '').trim();
     if (basePregunta) {
-      this.runChat(this.appendLanguageInstruction(basePregunta, this.selectedLanguage), 'generate');
+      this.runChat(this.appendLanguageInstruction(basePregunta, languageName), 'generate');
       return;
     }
 
@@ -132,7 +146,7 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
         return;
       }
       this.openAutoGenerateConfirm(this.autoGenerateFromPositionNameMessage, () =>
-        this.runChat(this.buildJobDescriptionPregunta(positionName, this.selectedLanguage), 'generate', {
+        this.runChat(this.buildJobDescriptionPregunta(positionName, languageName), 'generate', {
           sanitizeDelimiters: true,
         }),
       );
@@ -161,16 +175,17 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
   /**
    * Auto Generate (empty textarea): Appian-style prompt from wizard snapshot.
    */
-  buildJobDescriptionPregunta(
-    positionName: string,
-    language: JobDescriptionOutputLanguage,
-  ): string {
+  buildJobDescriptionPregunta(positionName: string, languageName: string): string {
     const snapshot = this.promptSnapshotFactory?.() ?? {};
-    return buildJobDescriptionPrompt({ ...snapshot, positionName }, this.promptLabels ?? {}, language);
+    return buildJobDescriptionPrompt({ ...snapshot, positionName }, this.promptLabels ?? {}, languageName);
   }
 
   onTranslate(): void {
     if (this.disabled || this.busy || !this.showAiActions) {
+      return;
+    }
+    const languageName = this.selectedLanguageName();
+    if (!languageName) {
       return;
     }
     const jobDescription = (this.control.value ?? '').trim();
@@ -178,42 +193,29 @@ export class JobDescriptionAiFieldComponent implements OnInit, OnDestroy {
       this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, this.emptyTranslateMessage);
       return;
     }
-    this.runChat(this.buildTranslatePregunta(jobDescription, this.selectedLanguage), 'translate');
-  }
-
-  /** Maps authenticated user locale (es-MX, en-US, …) to selector value. */
-  resolveDefaultLanguage(locale: string | null | undefined): JobDescriptionOutputLanguage {
-    const normalized = (locale ?? '').trim().toLowerCase();
-    if (normalized === 'en' || normalized.startsWith('en-')) {
-      return 'en';
-    }
-    return 'es';
+    this.runChat(this.buildTranslatePregunta(jobDescription, languageName), 'translate');
   }
 
   /**
-   * External chat expects the target language in the prompt text, e.g.
-   * "mejorar redaccion. En idioma inglés."
+   * External chat expects the catalog name in the prompt, e.g.
+   * "mejorar redaccion. En idioma English (US)."
    */
-  appendLanguageInstruction(
-    pregunta: string,
-    language: JobDescriptionOutputLanguage,
-  ): string {
-    return appendJobDescriptionLanguageInstruction(pregunta, language);
+  appendLanguageInstruction(pregunta: string, languageName: string): string {
+    return appendJobDescriptionLanguageInstruction(pregunta, languageName);
   }
 
   /**
-   * Translate prompt: "{jobDescription}. Traducir el texto anterior al idioma: inglés."
+   * Translate prompt: "{jobDescription}. Traducir el texto anterior al idioma: English (US)."
    */
-  buildTranslatePregunta(
-    jobDescription: string,
-    language: JobDescriptionOutputLanguage,
-  ): string {
+  buildTranslatePregunta(jobDescription: string, languageName: string): string {
     const trimmed = jobDescription.trim().replace(/\.?\s*$/, '');
-    return `${trimmed}. Traducir el texto anterior al idioma: ${this.languageDisplayName(language)}.`;
+    return `${trimmed}. Traducir el texto anterior al idioma: ${jobDescriptionLanguageDisplayName(languageName)}.`;
   }
 
-  languageDisplayName(language: JobDescriptionOutputLanguage): string {
-    return jobDescriptionLanguageDisplayName(language);
+  private selectedLanguageName(): string | null {
+    const name = this.portalLanguages.find((language) => language.id === this.selectedLanguageId)?.name ?? '';
+    const trimmed = name.trim();
+    return trimmed || null;
   }
 
   /**

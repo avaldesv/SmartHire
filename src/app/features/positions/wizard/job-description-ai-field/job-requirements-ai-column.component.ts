@@ -1,9 +1,11 @@
 import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { FeedbackDialogService } from '../../../../core/feedback/feedback-dialog.service';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../../core/i18n/feedback-labels';
 import { GenerateJobDescriptionApiService } from '../../../../core/services/generate-job-description-api.service';
-import { LocaleService } from '../../../../core/services/locale.service';
+import { PortalLanguageCatalogService } from '../../../../core/services/portal-language-catalog.service';
+import { PortalLanguage } from '../../../../shared/models/portal-language.model';
 import {
   buildJobDescriptionPrompt,
   jobDescriptionLanguageDisplayName,
@@ -17,7 +19,6 @@ import {
   formatJobRequirementsTriple,
   parseJobRequirementsJson,
   splitTranslatedRequirements,
-  type JobRequirementsPromptLanguage,
 } from './build-job-requirements-prompt';
 import { sanitizeJobDescriptionChatMessage } from './sanitize-job-description-chat';
 
@@ -34,7 +35,7 @@ type ChatAction = 'generate' | 'translate';
 export class JobRequirementsAiColumnComponent implements OnInit, OnDestroy {
   private readonly api = inject(GenerateJobDescriptionApiService);
   private readonly feedback = inject(FeedbackDialogService);
-  private readonly localeService = inject(LocaleService);
+  private readonly portalLanguagesCatalog = inject(PortalLanguageCatalogService);
 
   @Input({ required: true }) mandatoryControl!: FormControl<string | null>;
   @Input({ required: true }) optionalControl!: FormControl<string | null>;
@@ -63,11 +64,13 @@ export class JobRequirementsAiColumnComponent implements OnInit, OnDestroy {
   readonly descriptionGenerateErrorMessage = $localize`:@@requisition.jobDescription.generateError:No se pudo generar la descripción. Intenta de nuevo.`;
   readonly descriptionTranslateErrorMessage = $localize`:@@requisition.jobDescription.translateError:No se pudo traducir la descripción. Intenta de nuevo.`;
 
-  selectedLanguage: JobRequirementsPromptLanguage = 'es';
+  portalLanguages: PortalLanguage[] = [];
+  selectedLanguageId: number | null = null;
   busyAction: ChatAction | null = null;
   private pendingCalls = 0;
   private descriptionThreadId: string | null = null;
   private requirementsThreadId: string | null = null;
+  private languagesSub: Subscription | null = null;
 
   get busy(): boolean {
     return this.busyAction !== null;
@@ -80,17 +83,30 @@ export class JobRequirementsAiColumnComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const normalized = (this.localeService.activeLocale() ?? '').trim().toLowerCase();
-    this.selectedLanguage = normalized === 'en' || normalized.startsWith('en-') ? 'en' : 'es';
+    this.languagesSub = this.portalLanguagesCatalog.load().subscribe({
+      next: (languages) => {
+        this.portalLanguages = languages;
+        this.selectedLanguageId = this.portalLanguagesCatalog.resolveDefault(languages)?.id ?? null;
+      },
+      error: () => {
+        this.portalLanguages = [];
+        this.selectedLanguageId = null;
+      },
+    });
   }
 
   ngOnDestroy(): void {
+    this.languagesSub?.unsubscribe();
     this.descriptionThreadId = null;
     this.requirementsThreadId = null;
   }
 
   onGenerate(): void {
     if (this.toolbarDisabled) {
+      return;
+    }
+    const languageName = this.selectedLanguageName();
+    if (!languageName) {
       return;
     }
     const positionName = (this.positionNameControl.value ?? '').trim();
@@ -100,10 +116,10 @@ export class JobRequirementsAiColumnComponent implements OnInit, OnDestroy {
     }
     const snapshot = { ...(this.promptSnapshotFactory?.() ?? {}), positionName };
     const labels = this.promptLabels ?? {};
-    const descriptionPregunta = buildJobDescriptionPrompt(snapshot, labels, this.selectedLanguage);
+    const descriptionPregunta = buildJobDescriptionPrompt(snapshot, labels, languageName);
     const requirementsPregunta = buildJobRequirementsPrompt(
       { positionName, snapshot, labels },
-      this.selectedLanguage,
+      languageName,
     );
     this.beginCalls('generate', 2);
     this.runSide('description', descriptionPregunta, 'generate');
@@ -112,6 +128,10 @@ export class JobRequirementsAiColumnComponent implements OnInit, OnDestroy {
 
   onTranslate(): void {
     if (this.toolbarDisabled) {
+      return;
+    }
+    const languageName = this.selectedLanguageName();
+    if (!languageName) {
       return;
     }
     const description = (this.jobDescriptionControl.value ?? '').trim();
@@ -130,13 +150,13 @@ export class JobRequirementsAiColumnComponent implements OnInit, OnDestroy {
     this.beginCalls('translate', count);
     if (translateDescription) {
       const trimmed = description.replace(/\.?\s*$/, '');
-      const pregunta = `${trimmed}. Traducir el texto anterior al idioma: ${jobDescriptionLanguageDisplayName(this.selectedLanguage)}.`;
+      const pregunta = `${trimmed}. Traducir el texto anterior al idioma: ${jobDescriptionLanguageDisplayName(languageName)}.`;
       this.runSide('description', pregunta, 'translate');
     }
     if (hasRequirements) {
       this.runSide(
         'requirements',
-        buildJobRequirementsTranslatePrompt(blocks, this.selectedLanguage),
+        buildJobRequirementsTranslatePrompt(blocks, languageName),
         'translate',
       );
     }
@@ -226,6 +246,12 @@ export class JobRequirementsAiColumnComponent implements OnInit, OnDestroy {
     this.patchBlock(this.optionalControl, this.optionalDisabled, split.optional);
     this.patchBlock(this.desirableControl, this.desirableDisabled, split.desirable);
     return true;
+  }
+
+  private selectedLanguageName(): string | null {
+    const name = this.portalLanguages.find((language) => language.id === this.selectedLanguageId)?.name ?? '';
+    const trimmed = name.trim();
+    return trimmed || null;
   }
 
   private patchBlock(control: FormControl<string | null>, disabled: boolean, value: string): void {
