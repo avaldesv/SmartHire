@@ -50,7 +50,7 @@
             mat-stroked-button
             type="button"
             (click)="jobBlock.onGenerate()"
-            [disabled]="jobBlock.toolbarDisabled"
+            [disabled]="jobBlock.toolbarDisabled || jobBlock.selectedLanguageId == null"
           >
             @if (jobBlock.busyAction === 'generate') {
               <mat-spinner diameter="18"></mat-spinner>
@@ -61,16 +61,20 @@
           </button>
           <mat-form-field appearance="outline" subscriptSizing="dynamic" class="language-select">
             <mat-label>{{ jobBlock.languageLabel }}</mat-label>
-            <mat-select [(value)]="jobBlock.selectedLanguage" [disabled]="jobBlock.toolbarDisabled">
-              <mat-option value="es">Español</mat-option>
-              <mat-option value="en">English</mat-option>
+            <mat-select
+              [(value)]="jobBlock.selectedLanguageId"
+              [disabled]="jobBlock.toolbarDisabled || !jobBlock.portalLanguages.length"
+            >
+              @for (language of jobBlock.portalLanguages; track language.id) {
+                <mat-option [value]="language.id">{{ language.name }}</mat-option>
+              }
             </mat-select>
           </mat-form-field>
           <button
             mat-stroked-button
             type="button"
             (click)="jobBlock.onTranslate()"
-            [disabled]="jobBlock.toolbarDisabled"
+            [disabled]="jobBlock.toolbarDisabled || jobBlock.selectedLanguageId == null"
           >
             @if (jobBlock.busyAction === 'translate') {
               <mat-spinner diameter="18"></mat-spinner>

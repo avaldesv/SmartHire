@@ -19,7 +19,7 @@
         mat-stroked-button
         type="button"
         (click)="onGenerate()"
-        [disabled]="disabled || busy"
+        [disabled]="disabled || busy || selectedLanguageId == null"
       >
         @if (busyAction === 'generate') {
           <mat-spinner diameter="18"></mat-spinner>
@@ -31,9 +31,13 @@
 
       <mat-form-field appearance="outline" subscriptSizing="dynamic" class="language-select">
         <mat-label>{{ languageLabel }}</mat-label>
-        <mat-select [(value)]="selectedLanguage" [disabled]="disabled || busy">
-          <mat-option value="es">Español</mat-option>
-          <mat-option value="en">English</mat-option>
+        <mat-select
+          [(value)]="selectedLanguageId"
+          [disabled]="disabled || busy || !portalLanguages.length"
+        >
+          @for (language of portalLanguages; track language.id) {
+            <mat-option [value]="language.id">{{ language.name }}</mat-option>
+          }
         </mat-select>
       </mat-form-field>
 
@@ -41,7 +45,7 @@
         mat-stroked-button
         type="button"
         (click)="onTranslate()"
-        [disabled]="disabled || busy"
+        [disabled]="disabled || busy || selectedLanguageId == null"
       >
         @if (busyAction === 'translate') {
           <mat-spinner diameter="18"></mat-spinner>

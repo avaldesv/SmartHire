@@ -32,12 +32,12 @@ const VALID_JSON = {
 
 describe('buildJobRequirementsPrompt', () => {
   it('returns empty string when positionName is missing', () => {
-    expect(buildJobRequirementsPrompt({}, 'es')).toBe('');
-    expect(buildJobRequirementsPrompt({ positionName: '   ' }, 'es')).toBe('');
+    expect(buildJobRequirementsPrompt({}, 'Español (México)')).toBe('');
+    expect(buildJobRequirementsPrompt({ positionName: '   ' }, 'Español (México)')).toBe('');
   });
 
   it('includes positionName, JSON schema and language; omits jobDescription when empty', () => {
-    const prompt = buildJobRequirementsPrompt({ positionName: 'Analista de datos' }, 'es');
+    const prompt = buildJobRequirementsPrompt({ positionName: 'Analista de datos' }, 'Español (México)');
 
     expect(prompt).toContain('Analista de datos');
     expect(prompt).toContain('especialista experto en reclutamiento');
@@ -49,7 +49,7 @@ describe('buildJobRequirementsPrompt', () => {
     expect(prompt).toContain('"requisito2"');
     expect(prompt).toContain('"requisito3"');
     expect(prompt).toContain('UTF-8');
-    expect(prompt).toContain('En idioma español');
+    expect(prompt).toContain('En idioma Español (México)');
     expect(prompt).not.toContain('500 caracteres');
     expect(prompt).not.toContain('Complementa con la siguiente descripción');
   });
@@ -62,7 +62,7 @@ describe('buildJobRequirementsPrompt', () => {
         snapshot: { city: 'Guadalajara', tradeName: 'Systek' },
         labels: {},
       },
-      'en',
+      'English (US)',
     );
 
     expect(prompt).toContain('Ingeniero de software');
@@ -70,7 +70,7 @@ describe('buildJobRequirementsPrompt', () => {
     expect(prompt).toContain('Systek');
     expect(prompt).not.toContain('Desarrollar APIs en Java');
     expect(prompt).not.toContain('Complementa con la siguiente descripción del puesto');
-    expect(prompt).toContain('En idioma inglés');
+    expect(prompt).toContain('En idioma English (US)');
   });
 });
 
@@ -145,7 +145,7 @@ describe('job-requirements translate labels', () => {
         optional: '',
         desirable: '- Python',
       },
-      'en',
+      'Português (Brasil)',
     );
 
     expect(prompt).toContain('OBLIGATORIOS:');
@@ -153,7 +153,7 @@ describe('job-requirements translate labels', () => {
     expect(prompt).toContain('DESEABLES:');
     expect(prompt).toContain('- Licenciatura');
     expect(prompt).toContain('- Python');
-    expect(prompt).toContain('Traducir el texto anterior al idioma: inglés');
+    expect(prompt).toContain('Traducir el texto anterior al idioma: Português (Brasil)');
     expect(prompt).toContain('Conservar las etiquetas');
 
     const translated = `OBLIGATORIOS:

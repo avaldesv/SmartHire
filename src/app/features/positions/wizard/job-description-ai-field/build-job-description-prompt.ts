@@ -3,7 +3,8 @@
  * No Angular inject / HTTP. Empty snapshot fields add no filler phrases.
  */
 
-export type JobDescriptionPromptLanguage = 'es' | 'en';
+/** Catalog `name` from config_portal_language, inserted verbatim into the prompt. */
+export type JobDescriptionPromptLanguage = string;
 
 export interface JobDescriptionPromptCatalogLabels {
   jobPortal?: Record<number, string>;
@@ -219,16 +220,20 @@ export function collectJobWizardDataClauses(
   return clauses;
 }
 
-export function jobDescriptionLanguageDisplayName(language: JobDescriptionPromptLanguage): string {
-  return language === 'en' ? 'inglés' : 'español';
+export function jobDescriptionLanguageDisplayName(languageName: JobDescriptionPromptLanguage): string {
+  return languageName.trim();
 }
 
 export function appendJobDescriptionLanguageInstruction(
   pregunta: string,
-  language: JobDescriptionPromptLanguage,
+  languageName: JobDescriptionPromptLanguage,
 ): string {
   const trimmed = pregunta.trim().replace(/\.?\s*$/, '');
-  return `${trimmed}. En idioma ${jobDescriptionLanguageDisplayName(language)}.`;
+  const name = jobDescriptionLanguageDisplayName(languageName);
+  if (!name) {
+    return trimmed;
+  }
+  return `${trimmed}. En idioma ${name}.`;
 }
 
 function resolvePublicationDestination(

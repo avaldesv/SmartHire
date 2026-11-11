@@ -17,12 +17,12 @@ const LABELS: JobDescriptionPromptCatalogLabels = {
 
 describe('buildJobDescriptionPrompt', () => {
   it('returns empty string when positionName is missing', () => {
-    expect(buildJobDescriptionPrompt({}, LABELS, 'es')).toBe('');
-    expect(buildJobDescriptionPrompt({ positionName: '   ' }, LABELS, 'es')).toBe('');
+    expect(buildJobDescriptionPrompt({}, LABELS, 'Español (México)')).toBe('');
+    expect(buildJobDescriptionPrompt({ positionName: '   ' }, LABELS, 'Español (México)')).toBe('');
   });
 
   it('includes positionName, tone, closing and language; omits empty optional fields', () => {
-    const prompt = buildJobDescriptionPrompt({ positionName: 'Analista de datos' }, {}, 'es');
+    const prompt = buildJobDescriptionPrompt({ positionName: 'Analista de datos' }, {}, 'Español (México)');
 
     expect(prompt).toContain('Analista de datos');
     expect(prompt).toContain('especialista en reclutamiento');
@@ -30,7 +30,7 @@ describe('buildJobDescriptionPrompt', () => {
     expect(prompt).toContain(
       'En la respuesta no incluyas el nombre de la vacante, ni nada adicional a la publicación de la vacante',
     );
-    expect(prompt).toContain('En idioma español');
+    expect(prompt).toContain('En idioma Español (México)');
     expect(prompt).not.toContain('1000 caracteres');
     expect(prompt).not.toContain('para publicar en');
     expect(prompt).not.toContain('escolaridad');
@@ -66,7 +66,7 @@ describe('buildJobDescriptionPrompt', () => {
       clientExpansionDescription: 'expansión Bajío',
     };
 
-    const prompt = buildJobDescriptionPrompt(snapshot, LABELS, 'en');
+    const prompt = buildJobDescriptionPrompt(snapshot, LABELS, 'English (US)');
 
     expect(prompt).toContain('para publicar en OCC Mundial, Computrabajo');
     expect(prompt).toContain('recluta@empresa.test');
@@ -87,7 +87,7 @@ describe('buildJobDescriptionPrompt', () => {
     expect(prompt).toContain('desarrollo profesional');
     expect(prompt).toContain('hashtags');
     expect(prompt).toContain('expansión Bajío');
-    expect(prompt).toContain('En idioma inglés');
+    expect(prompt).toContain('En idioma English (US)');
   });
 
   it('omits salary when hideSalary is true even if min/max exist', () => {
@@ -99,7 +99,7 @@ describe('buildJobDescriptionPrompt', () => {
         publishSalaryMax: 12000,
       },
       {},
-      'es',
+      'Español (México)',
     );
 
     expect(prompt).not.toContain('8000');
@@ -114,7 +114,7 @@ describe('buildJobDescriptionPrompt', () => {
         responsibilityLevelId: 99,
       },
       { workplace: { 99: 'Alta' } },
-      'es',
+      'Español (México)',
     );
 
     expect(prompt).not.toContain('responsabilidad');
@@ -131,7 +131,7 @@ describe('buildJobDescriptionPrompt', () => {
         workplaceId: 4,
       },
       {},
-      'es',
+      'Español (México)',
     );
 
     expect(prompt).not.toContain('para publicar en');
@@ -154,7 +154,7 @@ describe('buildJobDescriptionPrompt', () => {
         extraBenefitsText: '',
       },
       {},
-      'es',
+      'Español (México)',
     );
 
     expect(prompt).toContain('Acme SA de CV');
@@ -168,7 +168,7 @@ describe('buildJobDescriptionPrompt', () => {
     const prompt = buildJobDescriptionPrompt(
       { positionName: 'Operador', maxAge: 50 },
       {},
-      'es',
+      'Español (México)',
     );
     expect(prompt).not.toContain('edad');
     expect(prompt).not.toContain('50');
