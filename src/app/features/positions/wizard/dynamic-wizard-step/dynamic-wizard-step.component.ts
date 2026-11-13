@@ -51,6 +51,7 @@ import {
   REQUISITION_WIZARD_LOADING_DOCUMENTS,
   REQUISITION_WIZARD_NO_DOCUMENTS,
   REQUISITION_WIZARD_NO_EXAMS,
+  resolveRequisitionFieldLabel,
 } from '../../../../core/i18n/requisition-wizard-labels';
 import { DocumentRequirementsEditorComponent } from '../document-requirements-editor/document-requirements-editor.component';
 import { flattenDynamicFormValues } from '../dynamic-wizard-payload.util';
@@ -425,6 +426,21 @@ export class DynamicWizardStepComponent implements OnInit, OnChanges {
 
   private loadFieldOptions(): void {
     for (const field of this.step.fields) {
+      if (field.fieldKey === 'budgetType' && field.uiType === 'select') {
+        this.optionsByField[field.fieldKey] = [
+          {
+            id: 1,
+            code: 'INTERNAL',
+            label: resolveRequisitionFieldLabel('budgetInternal'),
+          },
+          {
+            id: 2,
+            code: 'EXTERNAL',
+            label: resolveRequisitionFieldLabel('budgetExternal'),
+          },
+        ];
+        continue;
+      }
       if (
         !field.dataSourceKey ||
         field.uiType === 'document-grid' ||

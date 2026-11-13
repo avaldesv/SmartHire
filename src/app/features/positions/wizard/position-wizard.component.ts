@@ -254,8 +254,14 @@ export class PositionWizardComponent implements OnInit {
   readonly manpowerForm = this.fb.nonNullable.group({
     positionsCount: [1, [Validators.required, Validators.min(1), integerValidator()]],
     headcount: [1, Validators.required],
+    budgetType: ['INTERNAL' as 'INTERNAL' | 'EXTERNAL', Validators.required],
     startDate: ['', Validators.required],
   });
+
+  readonly budgetTypeOptions = [
+    { value: 'INTERNAL', label: resolveRequisitionFieldLabel('budgetInternal') },
+    { value: 'EXTERNAL', label: resolveRequisitionFieldLabel('budgetExternal') },
+  ];
 
   readonly hiringForm = this.fb.nonNullable.group({
     hiringContractTypeId: [null as number | null, Validators.required],
@@ -332,6 +338,7 @@ export class PositionWizardComponent implements OnInit {
     fieldShift: resolveRequisitionFieldLabel('shiftId'),
     fieldSalary: resolveRequisitionFieldLabel('salary'),
     fieldHeadcount: resolveRequisitionFieldLabel('headcount'),
+    fieldBudgetType: resolveRequisitionFieldLabel('budgetType'),
     fieldStartDate: resolveRequisitionFieldLabel('startDate'),
     fieldHiringContractType: resolveRequisitionFieldLabel('hiringContractTypeId'),
     fieldBenefit: resolveRequisitionFieldLabel('benefitId'),
@@ -976,6 +983,10 @@ export class PositionWizardComponent implements OnInit {
         positionsCount:
           typeof values['positionsCount'] === 'number' ? (values['positionsCount'] as number) : 1,
         headcount: typeof values['headcount'] === 'number' ? (values['headcount'] as number) : 1,
+        budgetType:
+          values['budgetType'] === 'EXTERNAL' || values['budgetType'] === 'INTERNAL'
+            ? (values['budgetType'] as 'INTERNAL' | 'EXTERNAL')
+            : 'INTERNAL',
         startDate: formatDateToIso(values['startDate']) ?? '',
       },
       { emitEvent: false },
@@ -1408,6 +1419,10 @@ export class PositionWizardComponent implements OnInit {
           this.manpowerForm.patchValue({
             positionsCount: position.positionsCount,
             headcount: position.headcount,
+            budgetType:
+              position.budgetType === 'EXTERNAL' || position.budgetType === 'INTERNAL'
+                ? position.budgetType
+                : 'INTERNAL',
             startDate: formatDateToIso(position.startDate) ?? '',
           });
           this.hiringForm.patchValue({
@@ -1513,6 +1528,7 @@ export class PositionWizardComponent implements OnInit {
       workDays: general.workDays,
       positionsCount: manpower.positionsCount,
       headcount: manpower.headcount,
+      budgetType: manpower.budgetType,
       startDate: formatDateToIso(manpower.startDate) ?? '',
       hiringContractTypeId: hiring.hiringContractTypeId!,
       benefitId: hiring.benefitId!,

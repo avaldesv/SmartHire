@@ -28,9 +28,6 @@ import {
   PUBGEN_FIELD_SHARE_PREFIX,
   PUBGEN_FORMAT_JPG,
   PUBGEN_FORMAT_PDF,
-  PUBGEN_LOCALE_EN,
-  PUBGEN_LOCALE_ES,
-  PUBGEN_LOCALE_PT,
   PUBGEN_PREVIEW_EMPTY,
   PUBGEN_PREVIEW_LOADING,
   PUBGEN_PREVIEW_PDF_ARIA,
@@ -66,6 +63,8 @@ import { ShPhoneFieldsComponent } from '../../../../shared/components/phone-fiel
 import { PublicationNoTemplateDialogComponent } from '../publication-no-template-dialog.component';
 
 import { ShFilterableSelectComponent } from '../../../../shared/components/filterable-select/sh-filterable-select.component';
+import { PortalLanguageCatalogService } from '../../../../core/services/portal-language-catalog.service';
+import { CATALOG_MSG_LOAD_PORTAL_LANGUAGES } from '../../../../core/i18n/catalog-messages-labels';
 
 export interface PublicationGenerateDialogData {
   positionId: number;
@@ -73,13 +72,14 @@ export interface PublicationGenerateDialogData {
   contactPhone: string;
 }
 
-const LOCALE_OPTIONS = [
-  { value: 'es', label: PUBGEN_LOCALE_ES },
-  { value: 'en', label: PUBGEN_LOCALE_EN },
-  { value: 'pt', label: PUBGEN_LOCALE_PT },
-] as const;
-
 const DEFAULT_DIAL_CODE = '+52';
+
+/** Maps portal locale (es-MX) to publication_template locale (es). */
+function primaryPublicationLocale(locale: string): string {
+  const normalized = locale.trim().toLowerCase();
+  const sep = normalized.indexOf('-');
+  return sep > 0 ? normalized.slice(0, sep) : normalized || 'es';
+}
 
 /** Temporary share default while Resend only delivers to the Resend account mailbox. */
 const DEV_DEFAULT_SHARE_EMAIL = 'smarthirebtech@gmail.com';
@@ -115,6 +115,7 @@ export class PublicationGenerateDialogComponent implements OnInit, OnDestroy {
   private readonly feedback = inject(FeedbackDialogService);
   private readonly fb = inject(FormBuilder);
   private readonly sanitizer = inject(DomSanitizer);
+  private readonly portalLanguagesCatalog = inject(PortalLanguageCatalogService);
 
   readonly dialogTitle = PUBGEN_DIALOG_TITLE;
   readonly contactSectionLabel = PUBGEN_CONTACT_SECTION;
@@ -140,7 +141,7 @@ export class PublicationGenerateDialogComponent implements OnInit, OnDestroy {
   readonly shareLoadingLabel = PUBGEN_SHARE_LOADING;
   readonly emailLoadingLabel = PUBGEN_EMAIL_LOADING;
 
-  readonly localeOptions = [...LOCALE_OPTIONS];
+  localeOptions: { value: string; label: string }[] = [];
   readonly formatOptions: { value: PublicationDocumentFormat; label: string }[] = [
     { value: 'JPG', label: PUBGEN_FORMAT_JPG },
     { value: 'PDF', label: PUBGEN_FORMAT_PDF },
@@ -166,7 +167,8 @@ export class PublicationGenerateDialogComponent implements OnInit, OnDestroy {
   readonly configForm = this.fb.nonNullable.group({
     contactEmail: [this.data.contactEmail, [Validators.required, Validators.email]],
     contactPhone: [this.data.contactPhone, Validators.required],
-    locale: ['es', Validators.required],
+    /** Full portal locale (es-MX); mapped to primary for templates. */
+    locale: ['es-MX', Validators.required],
   });
 
   readonly formatForm = this.fb.nonNullable.group({
@@ -181,6 +183,7 @@ export class PublicationGenerateDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadDialCodes();
+    this.loadPortalLanguages();
     this.contactSub = this.configForm.controls.contactPhone.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe(() => {
@@ -201,7 +204,7 @@ export class PublicationGenerateDialogComponent implements OnInit, OnDestroy {
         this.templateLocales = new Set(
           items.filter((item) => item.isActive).map((item) => item.locale.trim().toLowerCase()),
         );
-        if (this.configForm.valid) {
+        if (this.configForm.valid && this.localeOptions.length) {
           this.tryGenerate(true);
         } else {
           this.configForm.markAllAsTouched();
@@ -209,6 +212,31 @@ export class PublicationGenerateDialogComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         this.feedback.showApiError(err, { fallbackMessage: PUBGEN_TEMPLATES_CHECK_ERROR });
+      },
+    });
+  }
+
+  private loadPortalLanguages(): void {
+    this.portalLanguagesCatalog.load().subscribe({
+      next: (languages) => {
+        this.localeOptions = languages.map((lang) => ({
+          value: lang.locale,
+          label: lang.name,
+        }));
+        const preferred = this.portalLanguagesCatalog.resolveDefault(languages);
+        if (preferred?.locale) {
+          this.configForm.controls.locale.setValue(preferred.locale, { emitEvent: false });
+        } else if (this.localeOptions.length) {
+          this.configForm.controls.locale.setValue(this.localeOptions[0].value, {
+            emitEvent: false,
+          });
+        }
+        if (this.configForm.valid && this.templateLocales.size) {
+          this.tryGenerate(true);
+        }
+      },
+      error: (err) => {
+        this.feedback.showApiError(err, { fallbackMessage: CATALOG_MSG_LOAD_PORTAL_LANGUAGES });
       },
     });
   }
@@ -368,7 +396,7 @@ export class PublicationGenerateDialogComponent implements OnInit, OnDestroy {
   }
 
   private selectedLocale(): string {
-    return (this.configForm.controls.locale.value ?? 'es').trim().toLowerCase();
+    return primaryPublicationLocale(this.configForm.controls.locale.value ?? 'es');
   }
 
   private tryGenerate(promptIfMissing: boolean): void {

@@ -34,6 +34,10 @@ export interface ViaBotChatRequest {
   experienceYears?: number | null;
   /** When true, backend builds and sends the initial candidate-search prompt. */
   bootstrap?: boolean;
+  /** config_portal_language.locale (e.g. es-MX). */
+  responseLanguageLocale?: string | null;
+  /** config_portal_language.name (e.g. Español (México)). */
+  responseLanguageName?: string | null;
 }
 
 export interface ViaBotChatResponse {
@@ -59,6 +63,8 @@ export interface ViaBotResetResponse {
 
 export interface ViaBotPromptRequest {
   candidateLimit?: number | null;
+  responseLanguageLocale?: string | null;
+  responseLanguageName?: string | null;
 }
 
 export interface ViaBotPromptResponse {

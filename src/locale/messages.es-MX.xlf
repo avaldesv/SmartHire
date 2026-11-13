@@ -20105,7 +20105,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.step.manpower" datatype="html">
-        <source>Datos Manpower</source>
+        <source>Propuesta Económica</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
           <context context-type="linenumber">4</context>
@@ -20925,6 +20925,27 @@
           <context context-type="linenumber">121</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="requisition.field.budgetType" datatype="html">
+        <source>Presupuesto</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">122</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.budget.internal" datatype="html">
+        <source>Interno</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">123</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requisition.budget.external" datatype="html">
+        <source>Externo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
+          <context context-type="linenumber">124</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="requisition.field.startDate" datatype="html">
         <source>Fecha inicio</source>
         <context-group purpose="location">
@@ -20982,10 +21003,10 @@
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.step.manpower.stepper" datatype="html">
-        <source>Datos Manpower</source>
+        <source>Propuesta Económica</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-wizard-labels.ts</context>
-          <context context-type="linenumber">176</context>
+          <context context-type="linenumber">179</context>
         </context-group>
       </trans-unit>
       <trans-unit id="requisition.step.hiring.stepper" datatype="html">
@@ -23555,6 +23576,13 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/via-bot-labels.ts</context>
           <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="viaBot.responseLanguage" datatype="html">
+        <source>Idioma de respuesta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/via-bot-labels.ts</context>
+          <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
       <trans-unit id="viaBot.welcome" datatype="html">

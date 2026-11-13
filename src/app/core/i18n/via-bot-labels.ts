@@ -4,6 +4,7 @@ export const VIA_BOT_SCOPE_POOL = $localize`:@@viaBot.scope.pool:Pool de candida
 export const VIA_BOT_SCOPE_APPLICANTS = $localize`:@@viaBot.scope.applicants:Postulados a la requisición`;
 export const VIA_BOT_CANDIDATE_LIMIT = $localize`:@@viaBot.candidateLimit:Candidatos`;
 export const VIA_BOT_EXPERIENCE_YEARS = $localize`:@@viaBot.experienceYears:Años de experiencia`;
+export const VIA_BOT_RESPONSE_LANGUAGE = $localize`:@@viaBot.responseLanguage:Idioma de respuesta`;
 export const VIA_BOT_WELCOME = $localize`:@@viaBot.welcome:Pulsa Buscar para obtener candidatos según los datos de esta vacante.`;
 export const VIA_BOT_SEARCH = $localize`:@@viaBot.search:Buscar`;
 export const VIA_BOT_INPUT_PLACEHOLDER = $localize`:@@viaBot.inputPlaceholder:Escribe una instrucción para el agente…`;

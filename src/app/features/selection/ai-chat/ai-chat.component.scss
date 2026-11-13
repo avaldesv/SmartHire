@@ -72,6 +72,16 @@
 .via-bot__criteria-field {
   width: 160px;
   flex: 0 0 auto;
+
+  &--experience {
+    min-width: 200px;
+    width: 220px;
+  }
+
+  &--language {
+    min-width: 220px;
+    width: 240px;
+  }
 }
 
 .via-bot__messages {

@@ -1,7 +1,7 @@
 const REQUISITION_STEP_LABELS: Record<string, string> = {
   client: $localize`:@@requisition.step.client:Datos Cliente`,
   general: $localize`:@@requisition.step.general:Datos generales`,
-  manpower: $localize`:@@requisition.step.manpower:Datos Manpower`,
+  manpower: $localize`:@@requisition.step.manpower:Propuesta Económica`,
   hiring: $localize`:@@requisition.step.hiring:Contratación`,
   languages: $localize`:@@requisition.step.languages:Idiomas`,
   address: $localize`:@@requisition.step.address:Dirección`,
@@ -119,6 +119,9 @@ const REQUISITION_FIELD_LABELS: Record<string, string> = {
   experienceYears: $localize`:@@requisition.field.experienceYears:Años experiencia`,
   generalNotes: $localize`:@@requisition.field.generalNotes:Notas generales`,
   headcount: $localize`:@@requisition.field.headcount:Headcount`,
+  budgetType: $localize`:@@requisition.field.budgetType:Presupuesto`,
+  budgetInternal: $localize`:@@requisition.budget.internal:Interno`,
+  budgetExternal: $localize`:@@requisition.budget.external:Externo`,
   startDate: $localize`:@@requisition.field.startDate:Fecha inicio`,
   probationDays: $localize`:@@requisition.field.probationDays:Días prueba`,
   clientPosition: $localize`:@@requisition.field.clientPosition:Puesto Cliente`,
@@ -173,7 +176,7 @@ export function resolveRequisitionFieldLabel(fieldKey: string, labelI18nKey?: st
 const REQUISITION_STEP_STEPPER_LABELS: Record<string, string> = {
   client: $localize`:@@requisition.step.client.stepper:Datos cliente`,
   general: $localize`:@@requisition.step.general.stepper:Datos generales`,
-  manpower: $localize`:@@requisition.step.manpower.stepper:Datos Manpower`,
+  manpower: $localize`:@@requisition.step.manpower.stepper:Propuesta Económica`,
   hiring: $localize`:@@requisition.step.hiring.stepper:Contratación`,
   languages: $localize`:@@requisition.step.languages.stepper:Idiomas`,
   address: $localize`:@@requisition.step.address.stepper:Dirección`,
