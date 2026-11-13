@@ -6691,8 +6691,8 @@
         <target>OK</target>
       </trans-unit>
       <trans-unit id="positions.publication.noTemplate.create" datatype="html">
-        <source>Crear publicación</source>
-        <target>Crear publicación</target>
+        <source>Crear Plantilla de Publicación</source>
+        <target>Crear Plantilla de Publicación</target>
       </trans-unit>
       <trans-unit id="positions.publication.noTemplate.checkError" datatype="html">
         <source>No se pudo verificar si existen plantillas de publicación</source>

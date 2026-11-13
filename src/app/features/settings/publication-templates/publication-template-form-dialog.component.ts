@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
+import { CATALOG_MSG_LOAD_PORTAL_LANGUAGES } from '../../../core/i18n/catalog-messages-labels';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {
   Subscription,
@@ -31,19 +32,17 @@ import {
   PUBTEMPLATES_FIELD_HTML_BODY,
   PUBTEMPLATES_FIELD_LOCALE,
   PUBTEMPLATES_FIELD_NAME,
-  PUBTEMPLATES_LOCALE_EN,
-  PUBTEMPLATES_LOCALE_ES,
   PUBTEMPLATES_LOCALE_HINT_CREATE,
   PUBTEMPLATES_LOCALE_HINT_EDIT,
-  PUBTEMPLATES_LOCALE_PT,
   PUBTEMPLATES_PREVIEW_EMPTY,
   PUBTEMPLATES_PREVIEW_LOADING,
   PUBTEMPLATES_PREVIEW_TITLE,
   PUBTEMPLATES_SAVE,
   PUBTEMPLATES_SAVING,
-  PUBTEMPLATES_SNACK_CLOSE,
 } from '../../../core/i18n/publication-templates-labels';
+import { PortalLanguageCatalogService } from '../../../core/services/portal-language-catalog.service';
 import { PublicationTemplateApiService } from '../../../core/services/publication-template-api.service';
+import { PortalLanguage } from '../../../shared/models/portal-language.model';
 import { PublicationTemplateItem } from '../../../shared/models/publication-template.model';
 import {
   ShModalActionsDirective,
@@ -54,15 +53,9 @@ import { ShFilterableSelectComponent } from '../../../shared/components/filterab
 
 export interface PublicationTemplateFormDialogData {
   templateId?: number;
-  /** Locales that already have a template (create mode only). */
+  /** Locales that already have a template (exact catalog form, e.g. es-MX). */
   usedLocales?: string[];
 }
-
-const ALL_LOCALES = [
-  { value: 'es', label: PUBTEMPLATES_LOCALE_ES },
-  { value: 'en', label: PUBTEMPLATES_LOCALE_EN },
-  { value: 'pt', label: PUBTEMPLATES_LOCALE_PT },
-] as const;
 
 @Component({
   selector: 'sh-publication-template-form-dialog',
@@ -89,8 +82,9 @@ export class PublicationTemplateFormDialogComponent implements OnInit, OnDestroy
   private readonly feedback = inject(FeedbackDialogService);
   private readonly fb = inject(FormBuilder);
   private readonly sanitizer = inject(DomSanitizer);
+  private readonly portalLanguagesCatalog = inject(PortalLanguageCatalogService);
 
-  readonly localeOptions: { value: string; label: string }[] = [...ALL_LOCALES];
+  localeOptions: { value: string; label: string }[] = [];
   localeHint = '';
 
   loading = true;
@@ -98,7 +92,6 @@ export class PublicationTemplateFormDialogComponent implements OnInit, OnDestroy
   previewing = false;
   previewHtml: SafeHtml | null = null;
   editingId: number | null = this.data.templateId ?? null;
-  readonly localeReadonly = !!this.data.templateId;
 
   readonly dialogNew = PUBTEMPLATES_DIALOG_NEW;
   readonly dialogEdit = PUBTEMPLATES_DIALOG_EDIT;
@@ -116,7 +109,7 @@ export class PublicationTemplateFormDialogComponent implements OnInit, OnDestroy
 
   readonly form = this.fb.nonNullable.group({
     name: ['', Validators.required],
-    locale: ['es', Validators.required],
+    locale: ['es-MX', Validators.required],
     htmlBody: ['', Validators.required],
     isDefault: [false],
     isActive: [true],
@@ -124,38 +117,47 @@ export class PublicationTemplateFormDialogComponent implements OnInit, OnDestroy
 
   private previewSub: Subscription | null = null;
   private livePreviewEnabled = false;
+  private portalLanguages: PortalLanguage[] = [];
 
   get title(): string {
     return this.editingId ? this.dialogEdit : this.dialogNew;
   }
 
   ngOnInit(): void {
-    if (!this.editingId) {
-      this.setupCreateLocales();
-      return;
-    }
-    this.localeHint = PUBTEMPLATES_LOCALE_HINT_EDIT;
-    this.api.getById(this.editingId).subscribe({
-      next: (template) => {
-        this.patchForm(template);
-        this.form.controls.locale.disable({ emitEvent: false });
-        this.loading = false;
-        this.enableLivePreview();
+    this.portalLanguagesCatalog.load().subscribe({
+      next: (languages) => {
+        this.portalLanguages = languages;
+        if (!this.editingId) {
+          this.setupCreateLocales();
+          return;
+        }
+        this.localeHint = PUBTEMPLATES_LOCALE_HINT_EDIT;
+        this.api.getById(this.editingId).subscribe({
+          next: (template) => {
+            this.patchForm(template);
+            this.setupEditLocales(template.locale);
+            this.loading = false;
+            this.enableLivePreview();
+          },
+          error: (err) => {
+            this.loading = false;
+            this.feedback.showApiError(err, { fallbackMessage: PUBTEMPLATES_ERRORS_LOAD });
+            this.enableLivePreview();
+          },
+        });
       },
       error: (err) => {
         this.loading = false;
-        this.feedback.showApiError(err, { fallbackMessage: PUBTEMPLATES_ERRORS_LOAD });
-        this.enableLivePreview();
+        this.feedback.showApiError(err, { fallbackMessage: CATALOG_MSG_LOAD_PORTAL_LANGUAGES });
+        this.dialogRef.close(false);
       },
     });
   }
 
   private setupCreateLocales(): void {
     this.localeHint = PUBTEMPLATES_LOCALE_HINT_CREATE;
-    const used = new Set((this.data.usedLocales ?? []).map((l) => l.trim().toLowerCase()));
-    const available = ALL_LOCALES.filter((opt) => !used.has(opt.value));
-    this.localeOptions.length = 0;
-    this.localeOptions.push(...available);
+    const available = this.availableLocaleOptions(null);
+    this.localeOptions = available;
     if (available.length === 0) {
       this.loading = false;
       this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, PUBTEMPLATES_ERRORS_NO_LOCALES);
@@ -165,6 +167,39 @@ export class PublicationTemplateFormDialogComponent implements OnInit, OnDestroy
     this.form.controls.locale.setValue(available[0].value, { emitEvent: false });
     this.loading = false;
     this.enableLivePreview();
+  }
+
+  private setupEditLocales(currentLocale: string): void {
+    const current = currentLocale?.trim() || '';
+    this.localeOptions = this.availableLocaleOptions(current);
+    if (current && !this.localeOptions.some((opt) => opt.value === current)) {
+      this.localeOptions = [
+        { value: current, label: this.labelForLocale(current) },
+        ...this.localeOptions,
+      ];
+    }
+  }
+
+  /**
+   * Create: catalog locales without a template.
+   * Edit: current locale + catalog locales without a template.
+   */
+  private availableLocaleOptions(currentLocale: string | null): { value: string; label: string }[] {
+    const used = new Set((this.data.usedLocales ?? []).map((l) => l.trim()).filter(Boolean));
+    if (currentLocale) {
+      used.delete(currentLocale.trim());
+    }
+    return this.portalLanguages
+      .filter((lang) => !!lang.locale?.trim() && !used.has(lang.locale.trim()))
+      .map((lang) => ({
+        value: lang.locale.trim(),
+        label: lang.name?.trim() || lang.locale.trim(),
+      }));
+  }
+
+  private labelForLocale(locale: string): string {
+    const match = this.portalLanguages.find((lang) => lang.locale?.trim() === locale);
+    return match?.name?.trim() || locale;
   }
 
   ngOnDestroy(): void {

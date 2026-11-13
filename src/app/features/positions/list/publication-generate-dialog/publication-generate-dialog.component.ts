@@ -74,13 +74,6 @@ export interface PublicationGenerateDialogData {
 
 const DEFAULT_DIAL_CODE = '+52';
 
-/** Maps portal locale (es-MX) to publication_template locale (es). */
-function primaryPublicationLocale(locale: string): string {
-  const normalized = locale.trim().toLowerCase();
-  const sep = normalized.indexOf('-');
-  return sep > 0 ? normalized.slice(0, sep) : normalized || 'es';
-}
-
 /** Temporary share default while Resend only delivers to the Resend account mailbox. */
 const DEV_DEFAULT_SHARE_EMAIL = 'smarthirebtech@gmail.com';
 
@@ -202,7 +195,7 @@ export class PublicationGenerateDialogComponent implements OnInit, OnDestroy {
     this.templateApi.list(0, 100).subscribe({
       next: ({ items }) => {
         this.templateLocales = new Set(
-          items.filter((item) => item.isActive).map((item) => item.locale.trim().toLowerCase()),
+          items.filter((item) => item.isActive).map((item) => item.locale.trim()).filter(Boolean),
         );
         if (this.configForm.valid && this.localeOptions.length) {
           this.tryGenerate(true);
@@ -396,7 +389,8 @@ export class PublicationGenerateDialogComponent implements OnInit, OnDestroy {
   }
 
   private selectedLocale(): string {
-    return primaryPublicationLocale(this.configForm.controls.locale.value ?? 'es');
+    const locale = (this.configForm.controls.locale.value ?? 'es-MX').trim();
+    return locale || 'es-MX';
   }
 
   private tryGenerate(promptIfMissing: boolean): void {
@@ -416,11 +410,18 @@ export class PublicationGenerateDialogComponent implements OnInit, OnDestroy {
       return true;
     }
     if (promptIfMissing) {
-      this.dialog.open(PublicationNoTemplateDialogComponent, {
-        width: '480px',
-        maxWidth: '95vw',
-        data: { locale },
-      });
+      this.dialog
+        .open(PublicationNoTemplateDialogComponent, {
+          width: '480px',
+          maxWidth: '95vw',
+          data: { locale },
+        })
+        .afterClosed()
+        .subscribe((result) => {
+          if (result === 'goto-templates') {
+            this.dialogRef.close();
+          }
+        });
     }
     return false;
   }
