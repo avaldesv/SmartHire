@@ -14,6 +14,9 @@ export interface PublicationNoTemplateDialogData {
   locale?: string;
 }
 
+/** Result when the user chooses to create a template in Settings. */
+export type PublicationNoTemplateDialogResult = 'goto-templates' | void;
+
 @Component({
   selector: 'sh-publication-no-template-dialog',
   standalone: true,
@@ -39,7 +42,9 @@ export interface PublicationNoTemplateDialogData {
   ],
 })
 export class PublicationNoTemplateDialogComponent {
-  private readonly dialogRef = inject(MatDialogRef<PublicationNoTemplateDialogComponent, void>);
+  private readonly dialogRef = inject(
+    MatDialogRef<PublicationNoTemplateDialogComponent, PublicationNoTemplateDialogResult>,
+  );
   private readonly router = inject(Router);
 
   readonly title = POSITIONS_NO_PUBLICATION_TEMPLATE_TITLE;
@@ -52,7 +57,7 @@ export class PublicationNoTemplateDialogComponent {
   }
 
   goToTemplates(): void {
-    this.dialogRef.close();
+    this.dialogRef.close('goto-templates');
     void this.router.navigate(['/settings/publication-templates']);
   }
 }

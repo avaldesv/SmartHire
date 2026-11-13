@@ -12,7 +12,7 @@ import { MatTableModule } from '@angular/material/table';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { COMMON_CLEAR_FILTERS } from '../../../core/i18n/common-labels';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
-import { debounceTime, filter } from 'rxjs';
+import { debounceTime, filter, forkJoin } from 'rxjs';
 import { AppPermissions } from '../../../core/auth/app-permissions';
 import {
   PUBTEMPLATES_COL_ACTIVE,
@@ -29,7 +29,9 @@ import {
   PUBTEMPLATES_SUCCESS_SAVED,
   publicationTemplatesDeleteConfirm,
 } from '../../../core/i18n/publication-templates-labels';
+import { CATALOG_MSG_LOAD_PORTAL_LANGUAGES } from '../../../core/i18n/catalog-messages-labels';
 import { PermissionService } from '../../../core/services/permission.service';
+import { PortalLanguageCatalogService } from '../../../core/services/portal-language-catalog.service';
 import { PublicationTemplateApiService } from '../../../core/services/publication-template-api.service';
 import { TableRowActionsComponent } from '../../../shared/components/table-row-actions/table-row-actions.component';
 import { PublicationTemplateItem } from '../../../shared/models/publication-template.model';
@@ -62,6 +64,7 @@ export class PublicationTemplatesAdminComponent implements OnInit {
   private readonly feedback = inject(FeedbackDialogService);
   private readonly dialog = inject(MatDialog);
   private readonly fb = inject(FormBuilder);
+  private readonly portalLanguagesCatalog = inject(PortalLanguageCatalogService);
 
   loading = true;
   deletingId: number | null = null;
@@ -150,10 +153,18 @@ export class PublicationTemplatesAdminComponent implements OnInit {
     if (!this.canCreate()) {
       return;
     }
-    this.api.list(0, 100).subscribe({
-      next: ({ items }) => {
-        const usedLocales = [...new Set(items.map((item) => item.locale.trim().toLowerCase()))];
-        const available = ['es', 'en', 'pt'].filter((locale) => !usedLocales.includes(locale));
+    forkJoin({
+      templates: this.api.list(0, 100),
+      languages: this.portalLanguagesCatalog.load(),
+    }).subscribe({
+      next: ({ templates, languages }) => {
+        const usedLocales = [
+          ...new Set(templates.items.map((item) => item.locale.trim()).filter(Boolean)),
+        ];
+        const used = new Set(usedLocales);
+        const available = languages.filter(
+          (lang) => !!lang.locale?.trim() && !used.has(lang.locale.trim()),
+        );
         if (available.length === 0) {
           this.feedback.showWarning(FEEDBACK_GENERIC_WARNING_TITLE, PUBTEMPLATES_ERRORS_ALL_LOCALES_USED);
           return;
@@ -161,7 +172,9 @@ export class PublicationTemplatesAdminComponent implements OnInit {
         this.openDialog({ usedLocales });
       },
       error: (err) => {
-        this.feedback.showApiError(err, { fallbackMessage: PUBTEMPLATES_ERRORS_LIST });
+        this.feedback.showApiError(err, {
+          fallbackMessage: PUBTEMPLATES_ERRORS_LIST + ' / ' + CATALOG_MSG_LOAD_PORTAL_LANGUAGES,
+        });
       },
     });
   }
@@ -170,7 +183,15 @@ export class PublicationTemplatesAdminComponent implements OnInit {
     if (!this.canEdit()) {
       return;
     }
-    this.openDialog({ templateId: row.id });
+    this.api.list(0, 100).subscribe({
+      next: ({ items }) => {
+        const usedLocales = [...new Set(items.map((item) => item.locale.trim()).filter(Boolean))];
+        this.openDialog({ templateId: row.id, usedLocales });
+      },
+      error: (err) => {
+        this.feedback.showApiError(err, { fallbackMessage: PUBTEMPLATES_ERRORS_LIST });
+      },
+    });
   }
 
   private openDialog(data: PublicationTemplateFormDialogData): void {

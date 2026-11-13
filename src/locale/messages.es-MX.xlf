@@ -14405,7 +14405,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="positions.publication.noTemplate.create" datatype="html">
-        <source>Crear publicación</source>
+        <source>Crear Plantilla de Publicación</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
           <context context-type="linenumber">133</context>

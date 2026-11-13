@@ -130,7 +130,7 @@ export const POSITIONS_GENERATE_PUBLICATION_LOAD_ERROR = $localize`:@@positions.
 export const POSITIONS_NO_PUBLICATION_TEMPLATE_TITLE = $localize`:@@positions.publication.noTemplate.title:Plantilla de publicación requerida`;
 export const POSITIONS_NO_PUBLICATION_TEMPLATE_MESSAGE = $localize`:@@positions.publication.noTemplate.message:No hay plantilla de publicación para el idioma seleccionado. Cree una plantilla en Configuración para poder generar el anuncio.`;
 export const POSITIONS_NO_PUBLICATION_TEMPLATE_OK = $localize`:@@positions.publication.noTemplate.ok:OK`;
-export const POSITIONS_NO_PUBLICATION_TEMPLATE_CREATE = $localize`:@@positions.publication.noTemplate.create:Crear publicación`;
+export const POSITIONS_NO_PUBLICATION_TEMPLATE_CREATE = $localize`:@@positions.publication.noTemplate.create:Crear Plantilla de Publicación`;
 export const POSITIONS_NO_PUBLICATION_TEMPLATE_CHECK_ERROR = $localize`:@@positions.publication.noTemplate.checkError:No se pudo verificar si existen plantillas de publicación`;
 
 export const POSITIONS_CANCEL_DIALOG_REQUISITION = $localize`:@@positions.cancelDialog.requisition:Requisición`;
