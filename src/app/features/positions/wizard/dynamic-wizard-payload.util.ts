@@ -66,7 +66,7 @@ export function defaultValueForUiType(uiType: string, fieldKey?: string): unknow
     case 'select':
     case 'client-search':
     case 'user-picker':
-      return null;
+      return fieldKey === 'budgetType' ? 'INTERNAL' : null;
     case 'multiselect':
       return [] as number[];
     case 'language-grid':

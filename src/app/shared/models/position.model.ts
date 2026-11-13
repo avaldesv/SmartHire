@@ -53,6 +53,8 @@ export interface CreatePositionRequest {
   workDays: string;
   positionsCount: number;
   headcount: number;
+  /** INTERNAL | EXTERNAL — economic proposal budget. */
+  budgetType?: string | null;
   startDate: string;
   hiringContractTypeId: number;
   benefitId: number;

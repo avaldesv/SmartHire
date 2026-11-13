@@ -30,10 +30,17 @@
         <mat-label>{{ labels.candidateLimit }}</mat-label>
         <input matInput type="number" min="1" max="50" formControlName="candidateLimit" />
       </mat-form-field>
-      <mat-form-field appearance="outline" class="via-bot__criteria-field" subscriptSizing="dynamic">
+      <mat-form-field appearance="outline" class="via-bot__criteria-field via-bot__criteria-field--experience" subscriptSizing="dynamic">
         <mat-label>{{ labels.experienceYears }}</mat-label>
         <input matInput type="number" min="0" max="60" formControlName="experienceYears" />
       </mat-form-field>
+      <sh-filterable-select
+        class="via-bot__criteria-field via-bot__criteria-field--language"
+        [label]="labels.responseLanguage"
+        [options]="languageOptions"
+        formControlName="portalLanguageId"
+        [disabled]="sending || resetting"
+      />
     </form>
 
     @if (loadingConversation) {

@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { catalogDialogConfig } from '../../../core/dialog/catalog-dialog.constants';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
 import { FEEDBACK_GENERIC_WARNING_TITLE } from '../../../core/i18n/feedback-labels';
+import { CATALOG_MSG_LOAD_PORTAL_LANGUAGES } from '../../../core/i18n/catalog-messages-labels';
 import {
   VIA_BOT_ADD_ERROR,
   VIA_BOT_ADD_PRESELECTION,
@@ -27,6 +28,7 @@ import {
   VIA_BOT_NEW_CONVERSATION,
   VIA_BOT_RESET_ERROR,
   VIA_BOT_RESET_SUCCESS,
+  VIA_BOT_RESPONSE_LANGUAGE,
   VIA_BOT_RESULTS_COUNT,
   VIA_BOT_RESULTS_TITLE,
   VIA_BOT_RESULTS_UPDATED,
@@ -40,12 +42,15 @@ import {
   VIA_BOT_SEND,
   VIA_BOT_WELCOME,
 } from '../../../core/i18n/via-bot-labels';
+import { PortalLanguageCatalogService } from '../../../core/services/portal-language-catalog.service';
 import { ViaBotApiService } from '../../../core/services/via-bot-api.service';
 import {
   CandidateProfileDialogComponent,
   CandidateProfileDialogData,
 } from '../../candidates/dialogs/candidate-profile-dialog/candidate-profile-dialog.component';
+import { PortalLanguage } from '../../../shared/models/portal-language.model';
 import { ViaBotCandidate, ViaBotScope } from '../../../shared/models/via-bot.model';
+import { ShFilterableSelectComponent } from '../../../shared/components/filterable-select/sh-filterable-select.component';
 
 type ChatBubble = { role: 'user' | 'ai'; text: string };
 
@@ -65,6 +70,7 @@ type CandidateRow = ViaBotCandidate & { selected: boolean };
     MatIconModule,
     MatCheckboxModule,
     MatDialogModule,
+    ShFilterableSelectComponent,
   ],
   templateUrl: './ai-chat.component.html',
   styleUrl: './ai-chat.component.scss',
@@ -75,6 +81,7 @@ export class AiChatComponent implements OnInit {
   private readonly viaBotApi = inject(ViaBotApiService);
   private readonly feedback = inject(FeedbackDialogService);
   private readonly dialog = inject(MatDialog);
+  private readonly portalLanguagesCatalog = inject(PortalLanguageCatalogService);
 
   readonly positionId = +this.route.parent!.snapshot.paramMap.get('positionId')!;
 
@@ -85,6 +92,7 @@ export class AiChatComponent implements OnInit {
     scopeApplicants: VIA_BOT_SCOPE_APPLICANTS,
     candidateLimit: VIA_BOT_CANDIDATE_LIMIT,
     experienceYears: VIA_BOT_EXPERIENCE_YEARS,
+    responseLanguage: VIA_BOT_RESPONSE_LANGUAGE,
     welcome: VIA_BOT_WELCOME,
     search: VIA_BOT_SEARCH,
     inputPlaceholder: VIA_BOT_INPUT_PLACEHOLDER,
@@ -107,10 +115,13 @@ export class AiChatComponent implements OnInit {
   scope: ViaBotScope = 'POOL';
   messages: ChatBubble[] = [{ role: 'ai', text: this.labels.welcome }];
   results: CandidateRow[] = [];
+  portalLanguages: PortalLanguage[] = [];
+  languageOptions: { value: number; label: string }[] = [];
 
   readonly criteriaForm = this.fb.nonNullable.group({
     candidateLimit: [5, [Validators.required, Validators.min(1), Validators.max(50)]],
     experienceYears: this.fb.control<number | null>(null, [Validators.min(0), Validators.max(60)]),
+    portalLanguageId: [null as number | null, Validators.required],
   });
 
   readonly messageForm = this.fb.nonNullable.group({
@@ -118,6 +129,7 @@ export class AiChatComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.loadPortalLanguages();
     this.loadConversation();
   }
 
@@ -166,14 +178,16 @@ export class AiChatComponent implements OnInit {
       this.criteriaForm.markAllAsTouched();
       return;
     }
-    const { candidateLimit, experienceYears } = this.readCriteria();
+    const criteria = this.readCriteria();
     this.sending = true;
     this.viaBotApi
       .chat(this.positionId, {
         bootstrap: true,
         scope: this.scope,
-        candidateLimit,
-        experienceYears,
+        candidateLimit: criteria.candidateLimit,
+        experienceYears: criteria.experienceYears,
+        responseLanguageLocale: criteria.responseLanguageLocale,
+        responseLanguageName: criteria.responseLanguageName,
       })
       .subscribe({
         next: (res) => {
@@ -206,7 +220,7 @@ export class AiChatComponent implements OnInit {
     if (!text) {
       return;
     }
-    const { candidateLimit, experienceYears } = this.readCriteria();
+    const criteria = this.readCriteria();
     this.messages = [...this.messages, { role: 'user', text }];
     this.messageForm.reset({ message: '' });
     this.sending = true;
@@ -214,9 +228,11 @@ export class AiChatComponent implements OnInit {
       .chat(this.positionId, {
         message: text,
         scope: this.scope,
-        candidateLimit,
-        experienceYears,
+        candidateLimit: criteria.candidateLimit,
+        experienceYears: criteria.experienceYears,
         bootstrap: false,
+        responseLanguageLocale: criteria.responseLanguageLocale,
+        responseLanguageName: criteria.responseLanguageName,
       })
       .subscribe({
         next: (res) => {
@@ -242,21 +258,27 @@ export class AiChatComponent implements OnInit {
         this.searchPending = true;
         this.messageForm.reset({ message: '' });
         this.messages = [{ role: 'ai', text: this.labels.welcome }];
-        const { candidateLimit } = this.readCriteria();
-        this.viaBotApi.previewPrompt(this.positionId, { candidateLimit }).subscribe({
-          next: (preview) => {
-            this.resetting = false;
-            const prompt = (preview.prompt ?? '').trim();
-            if (prompt) {
-              this.messages = [...this.messages, { role: 'user', text: prompt }];
-            }
-            this.feedback.showSuccess(VIA_BOT_RESET_SUCCESS);
-          },
-          error: (err) => {
-            this.resetting = false;
-            this.feedback.showApiError(err, { fallbackMessage: VIA_BOT_LOAD_ERROR });
-          },
-        });
+        const criteria = this.readCriteria();
+        this.viaBotApi
+          .previewPrompt(this.positionId, {
+            candidateLimit: criteria.candidateLimit,
+            responseLanguageLocale: criteria.responseLanguageLocale,
+            responseLanguageName: criteria.responseLanguageName,
+          })
+          .subscribe({
+            next: (preview) => {
+              this.resetting = false;
+              const prompt = (preview.prompt ?? '').trim();
+              if (prompt) {
+                this.messages = [...this.messages, { role: 'user', text: prompt }];
+              }
+              this.feedback.showSuccess(VIA_BOT_RESET_SUCCESS);
+            },
+            error: (err) => {
+              this.resetting = false;
+              this.feedback.showApiError(err, { fallbackMessage: VIA_BOT_LOAD_ERROR });
+            },
+          });
       },
       error: (err) => {
         this.resetting = false;
@@ -318,7 +340,29 @@ export class AiChatComponent implements OnInit {
     return value || '?';
   }
 
-  private readCriteria(): { candidateLimit: number; experienceYears: number | null } {
+  private loadPortalLanguages(): void {
+    this.portalLanguagesCatalog.load().subscribe({
+      next: (languages) => {
+        this.portalLanguages = languages;
+        this.languageOptions = languages.map((lang) => ({
+          value: lang.id,
+          label: lang.name,
+        }));
+        const preferred = this.portalLanguagesCatalog.resolveDefault(languages);
+        this.criteriaForm.controls.portalLanguageId.setValue(preferred?.id ?? languages[0]?.id ?? null);
+      },
+      error: (err) => {
+        this.feedback.showApiError(err, { fallbackMessage: CATALOG_MSG_LOAD_PORTAL_LANGUAGES });
+      },
+    });
+  }
+
+  private readCriteria(): {
+    candidateLimit: number;
+    experienceYears: number | null;
+    responseLanguageLocale: string | null;
+    responseLanguageName: string | null;
+  } {
     const candidateLimit = this.criteriaForm.controls.candidateLimit.value;
     const experienceRaw = this.criteriaForm.controls.experienceYears.value;
     const experienceNum =
@@ -327,6 +371,13 @@ export class AiChatComponent implements OnInit {
         : Number(experienceRaw);
     const experienceYears =
       Number.isNaN(experienceNum) || experienceNum <= 0 ? null : experienceNum;
-    return { candidateLimit, experienceYears };
+    const languageId = this.criteriaForm.controls.portalLanguageId.value;
+    const language = this.portalLanguages.find((lang) => lang.id === languageId) ?? null;
+    return {
+      candidateLimit,
+      experienceYears,
+      responseLanguageLocale: language?.locale ?? null,
+      responseLanguageName: language?.name ?? null,
+    };
   }
 }

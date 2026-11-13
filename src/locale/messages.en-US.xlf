@@ -9869,8 +9869,8 @@
         <target>General information</target>
       </trans-unit>
       <trans-unit id="requisition.step.manpower" datatype="html">
-        <source>Datos Manpower</source>
-        <target>Manpower data</target>
+        <source>Propuesta Económica</source>
+        <target>Economic proposal</target>
       </trans-unit>
       <trans-unit id="requisition.step.hiring" datatype="html">
         <source>Contratación</source>
@@ -10328,6 +10328,18 @@
         <source>Headcount</source>
         <target>Headcount</target>
       </trans-unit>
+      <trans-unit id="requisition.field.budgetType" datatype="html">
+        <source>Presupuesto</source>
+        <target>Budget</target>
+      </trans-unit>
+      <trans-unit id="requisition.budget.internal" datatype="html">
+        <source>Interno</source>
+        <target>Internal</target>
+      </trans-unit>
+      <trans-unit id="requisition.budget.external" datatype="html">
+        <source>Externo</source>
+        <target>External</target>
+      </trans-unit>
       <trans-unit id="requisition.field.startDate" datatype="html">
         <source>Fecha inicio</source>
         <target>Start date</target>
@@ -10361,8 +10373,8 @@
         <target>General information</target>
       </trans-unit>
       <trans-unit id="requisition.step.manpower.stepper" datatype="html">
-        <source>Datos Manpower</source>
-        <target>Manpower data</target>
+        <source>Propuesta Económica</source>
+        <target>Economic proposal</target>
       </trans-unit>
       <trans-unit id="requisition.step.hiring.stepper" datatype="html">
         <source>Contratación</source>
@@ -11840,7 +11852,11 @@
       </trans-unit>
       <trans-unit id="viaBot.experienceYears" datatype="html">
         <source>Años de experiencia</source>
-        <target>Años de experiencia</target>
+        <target>Years of experience</target>
+      </trans-unit>
+      <trans-unit id="viaBot.responseLanguage" datatype="html">
+        <source>Idioma de respuesta</source>
+        <target>Response language</target>
       </trans-unit>
       <trans-unit id="viaBot.welcome" datatype="html">
         <source>Pulsa Buscar para obtener candidatos según los datos de esta vacante.</source>

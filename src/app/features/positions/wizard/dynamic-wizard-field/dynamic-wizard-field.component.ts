@@ -105,10 +105,14 @@ export class DynamicWizardFieldComponent {
 
   /** Option property used as value: `code` for AI voices (falls back to `id`), `id` otherwise. */
   get selectValueField(): 'code' | 'id' {
-    return this.field.fieldKey === 'aiInterviewVoice' ? 'code' : 'id';
+    return this.field.fieldKey === 'aiInterviewVoice' || this.field.fieldKey === 'budgetType'
+      ? 'code'
+      : 'id';
   }
 
   get selectValueFallbackField(): 'id' | null {
-    return this.field.fieldKey === 'aiInterviewVoice' ? 'id' : null;
+    return this.field.fieldKey === 'aiInterviewVoice' || this.field.fieldKey === 'budgetType'
+      ? 'id'
+      : null;
   }
 }
