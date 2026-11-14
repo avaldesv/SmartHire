@@ -65,22 +65,49 @@
 .via-bot__criteria {
   display: flex;
   flex-wrap: wrap;
+  align-items: flex-start;
   gap: 12px;
   margin-bottom: 12px;
 }
 
 .via-bot__criteria-field {
-  width: 160px;
-  flex: 0 0 auto;
+  width: 220px;
+  min-width: 220px;
+  max-width: 220px;
+  flex: 0 0 220px;
+  height: 52px;
+  margin-bottom: 0;
+}
 
-  &--experience {
-    min-width: 200px;
-    width: 220px;
+:host ::ng-deep .via-bot__criteria {
+  .mat-mdc-form-field {
+    width: 100%;
+    height: 52px;
+    margin-bottom: 0;
   }
 
-  &--language {
+  .mat-mdc-text-field-wrapper,
+  .mat-mdc-form-field-flex {
+    height: 52px;
+  }
+
+  .mat-mdc-form-field-infix {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    min-height: 0;
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+
+  sh-filterable-select {
+    display: block;
+    width: 220px;
     min-width: 220px;
-    width: 240px;
+    max-width: 220px;
+    flex: 0 0 220px;
+    height: 52px;
   }
 }
 
