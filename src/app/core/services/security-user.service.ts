@@ -6,6 +6,7 @@ import {
   SecurityUser,
   SecurityUserListResponse,
   UpdateSecurityUserRequest,
+  UploadUserPhotoResponse,
 } from '../../shared/models/security-user.model';
 import { ApiClientService } from './api-client.service';
 
@@ -63,6 +64,14 @@ export class SecurityUserService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(this.api.apiUrl(`/api/v1/users/${id}`), {
       headers: this.api.buildHeaders(),
+    });
+  }
+
+  uploadPhoto(id: number, file: File): Observable<UploadUserPhotoResponse> {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.http.post<UploadUserPhotoResponse>(this.api.apiUrl(`/api/v1/users/${id}/photo`), formData, {
+      headers: this.api.buildMultipartHeaders(),
     });
   }
 }

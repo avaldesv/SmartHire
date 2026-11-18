@@ -1,11 +1,122 @@
 h3 { margin: 0 0 16px; font-size: 1.1rem; }
 .loading-wrap { display: flex; justify-content: center; padding: 48px; }
+
+.photo-file-input {
+  display: none;
+}
+
 .user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.user-form__header {
+  display: grid;
+  grid-template-columns: 112px 1fr 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.user-form__photo-wrap {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 124px;
+}
+
+.user-form__photo {
+  flex: 1 1 auto;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 124px;
+  padding: 0;
+  border: 1px dashed rgba(13, 148, 136, 0.45);
+  border-radius: 8px;
+  background: #f8fafc;
+  cursor: pointer;
+  overflow: hidden;
+  color: #64748b;
+
+  &:hover {
+    border-color: #0d9488;
+    background: rgba(13, 148, 136, 0.06);
+  }
+
+  mat-icon {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.user-form__photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.user-form__photo-error {
+  font-size: 0.75rem;
+  color: #b91c1c;
+  line-height: 1.3;
+}
+
+.user-form__r1-user {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.user-form__r1-user--wide {
+  grid-column: 2 / 4;
+}
+
+.user-form__r1-pass {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.user-form__r2-name {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.user-form__r2-last {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.user-form__r3 {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+
+  sh-phone-fields {
+    flex: 1 1 280px;
+    min-width: 0;
+  }
+
+  mat-checkbox {
+    flex: 0 0 auto;
+    margin-left: auto;
+  }
+}
+
+.user-form__rest {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 12px;
   align-items: center;
 }
+
 .phone-code { min-width: 180px; }
 .phone-number { min-width: 180px; }
 .tenant-country-badge {

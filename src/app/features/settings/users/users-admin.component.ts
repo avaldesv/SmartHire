@@ -1,4 +1,12 @@
-import { Component, effect, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  effect,
+  inject,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators, type AsyncValidatorFn } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -57,6 +65,10 @@ import {
   USERS_PASSWORD_REQUIRED,
   USERS_NAME_REQUIRED,
   USERS_LAST_NAME_REQUIRED,
+  USERS_PHOTO_PICK_ARIA,
+  USERS_PHOTO_SIZE_ERROR,
+  USERS_PHOTO_TYPE_ERROR,
+  USERS_PHOTO_UPLOAD_ERROR,
   USERS_YES,
   usersDeleteConfirm,
 } from '../../../core/i18n/users-labels';
@@ -69,6 +81,10 @@ import {
 } from '../catalogs/catalog-form-dialog-shell.component';
 
 import { ShFilterableSelectComponent } from '../../../shared/components/filterable-select/sh-filterable-select.component';
+
+const USER_PHOTO_MAX_BYTES = 10 * 1024 * 1024;
+const USER_PHOTO_ALLOWED_TYPES = new Set(['image/png', 'image/jpeg', 'image/jpg']);
+const USER_PHOTO_ACCEPT = 'image/png,image/jpeg,.jpg,.jpeg';
 
 @Component({
   selector: 'sh-users-admin',
@@ -96,6 +112,7 @@ import { ShFilterableSelectComponent } from '../../../shared/components/filterab
 })
 export class UsersAdminComponent implements OnInit {
   @ViewChild('userFormTpl') userFormTpl!: TemplateRef<unknown>;
+  @ViewChild('photoInput') photoInput?: ElementRef<HTMLInputElement>;
 
   private readonly userService = inject(SecurityUserService);
   private readonly roleService = inject(SecurityRoleService);
@@ -122,9 +139,13 @@ export class UsersAdminComponent implements OnInit {
   readonly passwordRequired = USERS_PASSWORD_REQUIRED;
   readonly nameRequired = USERS_NAME_REQUIRED;
   readonly lastNameRequired = USERS_LAST_NAME_REQUIRED;
+  readonly photoPickAria = USERS_PHOTO_PICK_ARIA;
+  readonly photoTypeError = USERS_PHOTO_TYPE_ERROR;
+  readonly photoSizeError = USERS_PHOTO_SIZE_ERROR;
   readonly yesLabel = USERS_YES;
   readonly noLabel = USERS_NO;
   readonly clearFiltersLabel = COMMON_CLEAR_FILTERS;
+  readonly photoAccept = USER_PHOTO_ACCEPT;
 
   loading = true;
   saving = false;
@@ -142,6 +163,10 @@ export class UsersAdminComponent implements OnInit {
   pageIndex = 0;
   pageSize = 10;
   editingUserId: number | null = null;
+  existingPhotoUrl: string | null = null;
+  photoPreviewUrl: string | null = null;
+  pendingPhotoFile: File | null = null;
+  photoClientError: string | null = null;
 
   private readonly usernameAvailableAsync: AsyncValidatorFn = (control) => {
     if (this.editingUserId != null) {
@@ -192,6 +217,10 @@ export class UsersAdminComponent implements OnInit {
 
   get canSave(): boolean {
     return this.userForm.valid && !this.userForm.pending && !this.saving;
+  }
+
+  get displayPhotoUrl(): string | null {
+    return this.photoPreviewUrl ?? this.existingPhotoUrl;
   }
 
   constructor() {
@@ -386,6 +415,7 @@ export class UsersAdminComponent implements OnInit {
 
   openCreate(): void {
     this.editingUserId = null;
+    this.resetPhotoState();
     const defaultDialCode = this.defaultTenantDialCode();
     this.userForm.reset({
       username: '',
@@ -415,6 +445,8 @@ export class UsersAdminComponent implements OnInit {
 
   openEdit(row: SecurityUser): void {
     this.editingUserId = row.id;
+    this.resetPhotoState();
+    this.existingPhotoUrl = row.photo?.trim() || null;
     this.userForm.controls.username.disable();
     this.userForm.controls.password.clearValidators();
     this.userForm.controls.password.updateValueAndValidity();
@@ -444,11 +476,13 @@ export class UsersAdminComponent implements OnInit {
         this.formDialogRef = null;
         this.editingUserId = null;
         this.userForm.controls.username.enable();
+        this.resetPhotoState();
       });
     });
   }
 
   private patchUserForm(user: SecurityUser): void {
+    this.existingPhotoUrl = user.photo?.trim() || null;
     this.userForm.patchValue(
       {
         username: user.username,
@@ -479,6 +513,58 @@ export class UsersAdminComponent implements OnInit {
 
   cancelForm(): void {
     this.formDialogRef?.close(false);
+    this.resetPhotoState();
+  }
+
+  openPhotoPicker(): void {
+    this.photoInput?.nativeElement.click();
+  }
+
+  onPhotoSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    input.value = '';
+    if (!file) {
+      return;
+    }
+    this.photoClientError = null;
+    if (!this.isAllowedPhotoFile(file)) {
+      this.photoClientError = this.photoTypeError;
+      return;
+    }
+    if (file.size > USER_PHOTO_MAX_BYTES) {
+      this.photoClientError = this.photoSizeError;
+      return;
+    }
+    this.revokePhotoPreview();
+    this.pendingPhotoFile = file;
+    this.photoPreviewUrl = URL.createObjectURL(file);
+  }
+
+  private isAllowedPhotoFile(file: File): boolean {
+    const type = file.type.toLowerCase();
+    if (USER_PHOTO_ALLOWED_TYPES.has(type)) {
+      return true;
+    }
+    const name = file.name.toLowerCase();
+    return name.endsWith('.png') || name.endsWith('.jpg') || name.endsWith('.jpeg');
+  }
+
+  private resetPhotoState(): void {
+    this.revokePhotoPreview();
+    this.pendingPhotoFile = null;
+    this.existingPhotoUrl = null;
+    this.photoClientError = null;
+    if (this.photoInput?.nativeElement) {
+      this.photoInput.nativeElement.value = '';
+    }
+  }
+
+  private revokePhotoPreview(): void {
+    if (this.photoPreviewUrl) {
+      URL.revokeObjectURL(this.photoPreviewUrl);
+      this.photoPreviewUrl = null;
+    }
   }
 
   save(): void {
@@ -506,8 +592,9 @@ export class UsersAdminComponent implements OnInit {
     this.saving = true;
 
     if (this.editingUserId != null) {
+      const userId = this.editingUserId;
       this.userService
-        .update(this.editingUserId, {
+        .update(userId, {
           email: value.email,
           name: value.name,
           lastName: value.lastName,
@@ -517,7 +604,7 @@ export class UsersAdminComponent implements OnInit {
           ...profilePayload,
         })
         .subscribe({
-          next: () => this.onSaveSuccess(),
+          next: () => this.uploadPhotoIfNeeded(userId),
           error: (err) => this.onSaveError(err),
         });
       return;
@@ -537,21 +624,37 @@ export class UsersAdminComponent implements OnInit {
         ...profilePayload,
       })
       .subscribe({
-        next: () => this.onSaveSuccess(),
+        next: (user) => this.uploadPhotoIfNeeded(user.id),
         error: (err) => this.onSaveError(err),
       });
   }
 
+  private uploadPhotoIfNeeded(userId: number): void {
+    const file = this.pendingPhotoFile;
+    if (!file) {
+      this.onSaveSuccess();
+      return;
+    }
+    this.userService.uploadPhoto(userId, file).subscribe({
+      next: (res) => {
+        this.existingPhotoUrl = res.photo?.trim() || this.existingPhotoUrl;
+        this.onSaveSuccess();
+      },
+      error: (err) => this.onSaveError(err, USERS_PHOTO_UPLOAD_ERROR),
+    });
+  }
+
   private onSaveSuccess(): void {
     this.saving = false;
+    this.resetPhotoState();
     this.formDialogRef?.close(true);
     this.load();
     this.feedback.showSuccess(USERS_SAVE_SUCCESS);
   }
 
-  private onSaveError(err?: unknown): void {
+  private onSaveError(err?: unknown, fallbackMessage = USERS_SAVE_ERROR): void {
     this.saving = false;
-    this.feedback.showApiError(err, { fallbackMessage: USERS_SAVE_ERROR });
+    this.feedback.showApiError(err, { fallbackMessage });
   }
 
   deleteUser(row: SecurityUser): void {
