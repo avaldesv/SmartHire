@@ -41,7 +41,7 @@ describe('catalog-admin.registry', () => {
 
     it('removes Datos MP and places Tipo cubrimiento under Via-Operacion', () => {
       const categories = resolveVisibleCategories(true);
-      expect(categories.some((category) => category.id === 'datosMp')).toBeFalse();
+      expect(categories.some((category) => (category.id as string) === 'datosMp')).toBeFalse();
       const generales = categories.find((category) => category.id === 'generales');
       const smarthireOps = categories.find((category) => category.id === 'smarthireOps');
       expect(generales?.catalogs.some((entry) => entry.id === 'country' && entry.panelKey === 'country')).toBeTrue();
