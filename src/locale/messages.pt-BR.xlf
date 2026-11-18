@@ -11505,6 +11505,22 @@
         <source>Los apellidos son obligatorios</source>
         <target>Os sobrenomes são obrigatórios</target>
       </trans-unit>
+      <trans-unit id="users.form.photoPick" datatype="html">
+        <source>Seleccionar foto de perfil</source>
+        <target>Selecionar foto de perfil</target>
+      </trans-unit>
+      <trans-unit id="users.errors.photoType" datatype="html">
+        <source>Tipo de archivo no permitido. Use PNG o JPG</source>
+        <target>Tipo de arquivo não permitido. Use PNG ou JPG</target>
+      </trans-unit>
+      <trans-unit id="users.errors.photoSize" datatype="html">
+        <source>La foto supera el máximo de 10 MB</source>
+        <target>A foto ultrapassa o máximo de 10 MB</target>
+      </trans-unit>
+      <trans-unit id="users.errors.photoUpload" datatype="html">
+        <source>No se pudo subir la foto</source>
+        <target>Não foi possível enviar a foto</target>
+      </trans-unit>
       <trans-unit id="validateInfoDialog.title" datatype="html">
         <source>Validar información</source>
         <target>Validar informações</target>

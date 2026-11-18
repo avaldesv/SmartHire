@@ -23018,6 +23018,30 @@
           <context context-type="linenumber">26</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="users.form.photoPick" datatype="html">
+        <source>Seleccionar foto de perfil</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.errors.photoType" datatype="html">
+        <source>Tipo de archivo no permitido. Use PNG o JPG</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.errors.photoSize" datatype="html">
+        <source>La foto supera el máximo de 10 MB</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.errors.photoUpload" datatype="html">
+        <source>No se pudo subir la foto</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="validateInfoDialog.title" datatype="html">
         <source>Validar información</source>
         <context-group purpose="location">

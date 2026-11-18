@@ -24,3 +24,7 @@ export const USERS_EMAIL_INVALID = $localize`:@@users.errors.emailInvalid:El cor
 export const USERS_PASSWORD_REQUIRED = $localize`:@@users.errors.passwordRequired:La contraseña es obligatoria`;
 export const USERS_NAME_REQUIRED = $localize`:@@users.errors.nameRequired:El nombre es obligatorio`;
 export const USERS_LAST_NAME_REQUIRED = $localize`:@@users.errors.lastNameRequired:Los apellidos son obligatorios`;
+export const USERS_PHOTO_PICK_ARIA = $localize`:@@users.form.photoPick:Seleccionar foto de perfil`;
+export const USERS_PHOTO_TYPE_ERROR = $localize`:@@users.errors.photoType:Tipo de archivo no permitido. Use PNG o JPG`;
+export const USERS_PHOTO_SIZE_ERROR = $localize`:@@users.errors.photoSize:La foto supera el máximo de 10 MB`;
+export const USERS_PHOTO_UPLOAD_ERROR = $localize`:@@users.errors.photoUpload:No se pudo subir la foto`;

@@ -59,6 +59,14 @@ export interface UpdateSecurityUserRequest extends SecurityUserProfile {
 
 export type SecurityUserListResponse = ApiPageResponse<SecurityUser>;
 
+export interface UploadUserPhotoResponse {
+  id: number;
+  photo: string;
+  storageKey?: string;
+  extension?: string;
+  contentType?: string;
+}
+
 export interface SupervisorOption {
   id: number;
   label: string;
