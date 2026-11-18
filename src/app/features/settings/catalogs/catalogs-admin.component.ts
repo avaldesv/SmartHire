@@ -476,7 +476,6 @@ export class CatalogsAdminComponent implements OnInit {
     notificaciones: 'messages',
     empresas: 'companyArea',
     portal: 'jobPortal',
-    datosMp: 'mpCountry',
     smarthireOps: 'kinship',
   };
 

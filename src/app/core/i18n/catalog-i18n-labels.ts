@@ -4,8 +4,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   notificaciones: $localize`:@@catalogs.category.notificaciones:Notificaciones`,
   empresas: $localize`:@@catalogs.category.empresas:Empresas`,
   portal: $localize`:@@catalogs.category.portal:Portal`,
-  datosMp: $localize`:@@catalogs.category.datosMp:Datos MP`,
-  smarthireOps: $localize`:@@catalogs.category.smarthireOps:Via / Operación`,
+  smarthireOps: $localize`:@@catalogs.category.smarthireOps:Via-Operacion`,
 };
 
 const ENTRY_LABELS: Record<string, string> = {

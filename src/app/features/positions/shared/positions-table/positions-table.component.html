@@ -345,18 +345,25 @@
               [editRouterLink]="['/positions', row.id, 'edit']"
               [showEdit]="canEdit() && !isRowTerminal(row.status)"
             />
-            <button mat-icon-button [routerLink]="['/selection', row.id, 'ai']" [attr.aria-label]="goSelectionAria">
+            <button
+              mat-icon-button
+              [routerLink]="['/selection', row.id, 'ai']"
+              [matTooltip]="goSelectionTooltip"
+              [attr.aria-label]="goSelectionAria"
+            >
               <mat-icon>psychology</mat-icon>
             </button>
-            <button mat-icon-button [matMenuTriggerFor]="rowMenu" [attr.aria-label]="moreActionsAria">
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="rowMenu"
+              [matTooltip]="moreActionsAria"
+              [attr.aria-label]="moreActionsAria"
+            >
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #rowMenu="matMenu">
               <button mat-menu-item (click)="openHistory(row)">
                 <mat-icon>history</mat-icon> {{ actionHistory }}
-              </button>
-              <button mat-menu-item [routerLink]="['/selection', row.id, 'preselection']">
-                <mat-icon>psychology</mat-icon> {{ actionGoPreselection }}
               </button>
               @if (canEdit() && !isRowTerminal(row.status)) {
                 <button mat-menu-item (click)="reassignPosition(row)">
