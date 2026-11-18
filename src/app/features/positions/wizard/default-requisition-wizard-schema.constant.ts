@@ -43,7 +43,7 @@ export const DEFAULT_REQUISITION_WIZARD_SCHEMA: ResolvedRequisitionFormConfig = 
           true,
           JSON.stringify(CLIENT_CATALOG_FILL_RULES),
         ),
-        field('ot', 'text', 'requisition.field.ot'),
+        field('ot', 'text', 'requisition.field.ot', null, true, JSON.stringify(CLIENT_CATALOG_READ_ONLY_WHEN)),
         field(
           'clientKey',
           'text',
@@ -132,6 +132,7 @@ export const DEFAULT_REQUISITION_WIZARD_SCHEMA: ResolvedRequisitionFormConfig = 
       orderIndex: 3,
       fields: [
         field('requisitionTypeId', 'select', 'requisition.field.requisitionTypeId', 'requisition-types'),
+        field('budgetType', 'select', 'requisition.field.budgetType'),
         field(
           'orderId',
           'text',

@@ -138,6 +138,9 @@ function defaultRulesJsonForField(fieldKey: string): string | null {
   if (fieldKey === CLIENT_ID_FIELD_KEY) {
     return JSON.stringify(CLIENT_CATALOG_FILL_RULES);
   }
+  if (fieldKey === 'ot') {
+    return JSON.stringify(CLIENT_CATALOG_READ_ONLY_WHEN);
+  }
   if (isClientCatalogFillTarget(fieldKey)) {
     return JSON.stringify(CLIENT_CATALOG_READ_ONLY_WHEN);
   }

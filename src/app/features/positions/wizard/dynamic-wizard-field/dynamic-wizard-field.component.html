@@ -67,8 +67,8 @@
         [required]="required"
       />
     }
-    @if (control.touched && control.invalid) {
-      <mat-error>{{ requiredError }}</mat-error>
+    @if (validationError; as errorMessage) {
+      <mat-error>{{ errorMessage }}</mat-error>
     }
   </mat-form-field>
 }

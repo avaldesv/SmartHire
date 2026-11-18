@@ -12777,6 +12777,10 @@
         <source>Campo obligatorio</source>
         <target>Campo obrigatório</target>
       </trans-unit>
+      <trans-unit id="requisition.wizard.errors.positiveIntegerMin" datatype="html">
+        <source>Debe ser un número mayor o igual a 1</source>
+        <target>Deve ser um número maior ou igual a 1</target>
+      </trans-unit>
       <trans-unit id="requisition.wizard.noPublishedConfigTitle" datatype="html">
         <source>Sin configuración activa</source>
         <target>Sem configuração ativa</target>
