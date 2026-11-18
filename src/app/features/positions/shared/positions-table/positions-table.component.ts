@@ -16,6 +16,7 @@ import { ShPaginatorComponent } from '../../../../shared/components/paginator/sh
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { catchError, debounceTime, distinctUntilChanged, filter, forkJoin, map, of, switchMap } from 'rxjs';
 import { AppPermissions } from '../../../../core/auth/app-permissions';
 import { catalogDialogConfig } from '../../../../core/dialog/catalog-dialog.constants';
@@ -36,7 +37,6 @@ import {
   POSITIONS_ACTION_DUPLICATE,
   POSITIONS_ACTION_EXECUTE_CANCELLATION,
   POSITIONS_ACTION_GENERATE_PUBLICATION,
-  POSITIONS_ACTION_GO_PRESELECTION,
   POSITIONS_ACTION_GO_SELECTION_ARIA,
   POSITIONS_ACTION_HISTORY,
   POSITIONS_ACTION_MORE_ARIA,
@@ -246,6 +246,7 @@ interface ClientOption {
     MatIconModule,
     MatProgressSpinnerModule,
     MatMenuModule,
+    MatTooltipModule,
     MatDialogModule,
     StatusBadgeComponent,
     TableRowActionsComponent,
@@ -341,7 +342,6 @@ export class PositionsTableComponent implements OnInit {
   readonly actionAssign = POSITIONS_ACTION_ASSIGN;
   readonly actionReassign = POSITIONS_ACTION_REASSIGN;
   readonly actionHistory = POSITIONS_ACTION_HISTORY;
-  readonly actionGoPreselection = POSITIONS_ACTION_GO_PRESELECTION;
   readonly actionApplyCandidates = POSITIONS_ACTION_APPLY_CANDIDATES;
   readonly actionViewApplicants = POSITIONS_ACTION_VIEW_APPLICANTS;
   readonly actionGeneratePublication = POSITIONS_ACTION_GENERATE_PUBLICATION;
@@ -351,6 +351,7 @@ export class PositionsTableComponent implements OnInit {
   readonly actionHistoricReassign = HISTORIC_REASSIGN_ACTION;
   readonly actionEvaluatestBattery = EVALUATEST_BATTERY_MENU;
   readonly goSelectionAria = POSITIONS_ACTION_GO_SELECTION_ARIA;
+  readonly goSelectionTooltip = POSITIONS_ACTION_GO_SELECTION_ARIA;
   readonly moreActionsAria = POSITIONS_ACTION_MORE_ARIA;
 
   loading = true;

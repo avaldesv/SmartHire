@@ -2,12 +2,13 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { COMMON_DELETE, COMMON_EDIT, COMMON_VIEW } from '../../../core/i18n/common-labels';
 
 @Component({
   selector: 'sh-table-row-actions',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, RouterLink],
+  imports: [MatButtonModule, MatIconModule, MatTooltipModule, RouterLink],
   template: `
     <div class="table-row-actions">
       @if (showView) {
@@ -15,6 +16,7 @@ import { COMMON_DELETE, COMMON_EDIT, COMMON_VIEW } from '../../../core/i18n/comm
           <a
             mat-icon-button
             [routerLink]="viewRouterLink"
+            [matTooltip]="viewLabel"
             [attr.aria-label]="viewLabel"
             [class.disabled-link]="viewDisabled"
             [attr.aria-disabled]="viewDisabled"
@@ -26,6 +28,7 @@ import { COMMON_DELETE, COMMON_EDIT, COMMON_VIEW } from '../../../core/i18n/comm
           <button
             mat-icon-button
             type="button"
+            [matTooltip]="viewLabel"
             [attr.aria-label]="viewLabel"
             [disabled]="viewDisabled"
             (click)="viewClick.emit()"
@@ -40,6 +43,7 @@ import { COMMON_DELETE, COMMON_EDIT, COMMON_VIEW } from '../../../core/i18n/comm
           <a
             mat-icon-button
             [routerLink]="editRouterLink"
+            [matTooltip]="editLabel"
             [attr.aria-label]="editLabel"
             [class.disabled-link]="editDisabled"
             [attr.aria-disabled]="editDisabled"
@@ -51,6 +55,7 @@ import { COMMON_DELETE, COMMON_EDIT, COMMON_VIEW } from '../../../core/i18n/comm
           <button
             mat-icon-button
             type="button"
+            [matTooltip]="editLabel"
             [attr.aria-label]="editLabel"
             [disabled]="editDisabled"
             (click)="editClick.emit()"
@@ -64,8 +69,8 @@ import { COMMON_DELETE, COMMON_EDIT, COMMON_VIEW } from '../../../core/i18n/comm
         <button
           mat-icon-button
           type="button"
+          [matTooltip]="historyLabel"
           [attr.aria-label]="historyLabel"
-          [title]="historyLabel"
           (click)="historyClick.emit()"
         >
           <mat-icon>history</mat-icon>
@@ -77,6 +82,7 @@ import { COMMON_DELETE, COMMON_EDIT, COMMON_VIEW } from '../../../core/i18n/comm
           mat-icon-button
           color="warn"
           type="button"
+          [matTooltip]="deleteLabel"
           [attr.aria-label]="deleteLabel"
           [disabled]="deleteDisabled"
           (click)="deleteClick.emit()"

@@ -2733,8 +2733,8 @@
         <target>MP Data</target>
       </trans-unit>
       <trans-unit id="catalogs.category.smarthireOps" datatype="html">
-        <source>Via / Operación</source>
-        <target>Via / Operations</target>
+        <source>Via-Operacion</source>
+        <target>Via-Operations</target>
       </trans-unit>
       <trans-unit id="catalogs.entry.gender" datatype="html">
         <source>Género</source>
@@ -6427,8 +6427,8 @@
         <target>Search position</target>
       </trans-unit>
       <trans-unit id="positions.searchPlaceholder" datatype="html">
-        <source>Cliente, puesto, OT, clave…</source>
-        <target>Client, position, WO, code…</target>
+        <source>REQ, cliente, puesto, OT, clave…</source>
+        <target>REQ, client, position, WO, code…</target>
       </trans-unit>
       <trans-unit id="positions.errors.load" datatype="html">
         <source>No se pudieron cargar las posiciones</source>

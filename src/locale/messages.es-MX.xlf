@@ -5168,7 +5168,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="catalogs.category.smarthireOps" datatype="html">
-        <source>Via / Operación</source>
+        <source>Via-Operacion</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/catalog-i18n-labels.ts</context>
           <context context-type="linenumber">8</context>
@@ -13943,7 +13943,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="positions.searchPlaceholder" datatype="html">
-        <source>Cliente, puesto, OT, clave…</source>
+        <source>REQ, cliente, puesto, OT, clave…</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/positions-labels.ts</context>
           <context context-type="linenumber">67</context>

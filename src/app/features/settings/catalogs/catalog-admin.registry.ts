@@ -6,7 +6,6 @@ export type CatalogCategoryId =
   | 'notificaciones'
   | 'empresas'
   | 'portal'
-  | 'datosMp'
   | 'smarthireOps';
 
 /** Maps to an implemented admin panel in catalogs-admin. */
@@ -169,17 +168,10 @@ const CATALOG_CATEGORIES_RAW: CatalogCategoryDefinition[] = [
     catalogs: [{ id: 'jobPortal', label: 'Portales de publicación', panelKey: 'jobPortal', implemented: true }],
   },
   {
-    id: 'datosMp',
-    label: 'Datos MP',
-    catalogs: [
-      { id: 'mpCountry', label: 'País', panelKey: 'country', implemented: true },
-      { id: 'mpCoverageType', label: 'Tipo cubrimiento', panelKey: 'coverageType', implemented: true },
-    ],
-  },
-  {
     id: 'smarthireOps',
-    label: 'Via / Operación',
+    label: 'Via-Operacion',
     catalogs: [
+      { id: 'mpCoverageType', label: 'Tipo cubrimiento', panelKey: 'coverageType', implemented: true },
       { id: 'kinship', label: 'Parentesco', panelKey: 'kinship', implemented: true },
       { id: 'cancellationType', label: 'Tipo de cancelación', panelKey: 'cancellationType', implemented: true },
       { id: 'cancellationReason', label: 'Motivos de cancelación', panelKey: 'cancellationReason', implemented: true },

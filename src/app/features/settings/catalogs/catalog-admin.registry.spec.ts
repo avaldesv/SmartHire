@@ -38,6 +38,16 @@ describe('catalog-admin.registry', () => {
       expect(smarthireOps?.catalogs.some((entry) => entry.id === 'positionStatus' && entry.implemented)).toBeTrue();
       expect(smarthireOps?.catalogs.some((entry) => entry.id === 'brand')).toBeFalse();
     });
+
+    it('removes Datos MP and places Tipo cubrimiento under Via-Operacion', () => {
+      const categories = resolveVisibleCategories(true);
+      expect(categories.some((category) => category.id === 'datosMp')).toBeFalse();
+      const generales = categories.find((category) => category.id === 'generales');
+      const smarthireOps = categories.find((category) => category.id === 'smarthireOps');
+      expect(generales?.catalogs.some((entry) => entry.id === 'country' && entry.panelKey === 'country')).toBeTrue();
+      expect(generales?.catalogs.some((entry) => entry.id === 'mpCountry')).toBeFalse();
+      expect(smarthireOps?.catalogs.some((entry) => entry.id === 'mpCoverageType' && entry.panelKey === 'coverageType')).toBeTrue();
+    });
   });
 
   describe('ensureValidCatalogSelection', () => {
