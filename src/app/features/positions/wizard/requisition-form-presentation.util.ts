@@ -26,6 +26,13 @@ const DEFAULT_CLIENT_ID_FIELD = DEFAULT_REQUISITION_WIZARD_SCHEMA.steps
   .find((step) => step.stepKey === 'client')
   ?.fields.find((field) => field.fieldKey === CLIENT_ID_FIELD_KEY);
 
+const BUDGET_TYPE_FIELD_KEY = 'budgetType';
+const REQUISITION_TYPE_FIELD_KEY = 'requisitionTypeId';
+
+const DEFAULT_BUDGET_TYPE_FIELD = DEFAULT_REQUISITION_WIZARD_SCHEMA.steps
+  .find((step) => step.stepKey === 'manpower')
+  ?.fields.find((field) => field.fieldKey === BUDGET_TYPE_FIELD_KEY);
+
 /** Align resolved config with built-in field definitions (code is source of truth). */
 export function applyBuiltinFieldPresentation(
   config: ResolvedRequisitionFormConfig,
@@ -36,12 +43,40 @@ export function applyBuiltinFieldPresentation(
       const aligned = step.fields.map((field) =>
         mergeClientCatalogRules(alignBuiltinPresentation(field)),
       );
-      if (step.stepKey !== 'client') {
-        return { ...step, fields: aligned };
+      if (step.stepKey === 'client') {
+        return { ...step, fields: placeClientIdAfterCoverage(aligned) };
       }
-      return { ...step, fields: placeClientIdAfterCoverage(aligned) };
+      if (step.stepKey === 'manpower') {
+        return { ...step, fields: placeBudgetTypeAfterRequisitionType(aligned) };
+      }
+      return { ...step, fields: aligned };
     }),
   };
+}
+
+function placeBudgetTypeAfterRequisitionType(
+  fields: ResolvedRequisitionFormField[],
+): ResolvedRequisitionFormField[] {
+  const withoutBudget = fields.filter((field) => field.fieldKey !== BUDGET_TYPE_FIELD_KEY);
+  const existing = fields.find((field) => field.fieldKey === BUDGET_TYPE_FIELD_KEY);
+  const budgetField =
+    existing ?? (DEFAULT_BUDGET_TYPE_FIELD ? alignBuiltinPresentation({ ...DEFAULT_BUDGET_TYPE_FIELD }) : null);
+  if (!budgetField) {
+    return fields;
+  }
+  const typeIdx = withoutBudget.findIndex((field) => field.fieldKey === REQUISITION_TYPE_FIELD_KEY);
+  if (typeIdx < 0) {
+    return [...withoutBudget, budgetField];
+  }
+  const nextKey = withoutBudget[typeIdx + 1]?.fieldKey;
+  if (nextKey === BUDGET_TYPE_FIELD_KEY) {
+    return fields;
+  }
+  return [
+    ...withoutBudget.slice(0, typeIdx + 1),
+    budgetField,
+    ...withoutBudget.slice(typeIdx + 1),
+  ];
 }
 
 function placeClientIdAfterCoverage(
@@ -92,7 +127,10 @@ function mergeClientCatalogRules(field: ResolvedRequisitionFormField): ResolvedR
     rules.fillFromCatalog = CLIENT_CATALOG_FILL_RULES.fillFromCatalog;
     changed = true;
   }
-  if (isClientCatalogFillTarget(field.fieldKey) && !rules.readOnlyWhen) {
+  if (
+    (isClientCatalogFillTarget(field.fieldKey) || field.fieldKey === 'ot') &&
+    !rules.readOnlyWhen
+  ) {
     rules.readOnlyWhen = CLIENT_CATALOG_READ_ONLY_WHEN.readOnlyWhen;
     changed = true;
   }

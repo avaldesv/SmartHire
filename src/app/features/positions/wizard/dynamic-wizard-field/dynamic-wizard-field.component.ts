@@ -10,6 +10,7 @@ import { ShTimepickerFieldComponent } from '../../../../shared/components/timepi
 import { resolveWizardFieldLabel } from '../requisition-wizard-labels';
 import { REQUISITION_SCOPE_LOADING } from '../../../../core/i18n/requisition-wizard-labels';
 import { isRequisitionPositiveIntegerField } from '../requisition-integer.util';
+import { resolveRequisitionWizardFieldError } from '../requisition-wizard-field-errors.util';
 import { isRequisitionMoneyField } from '../requisition-money.util';
 import { MoneyStepperFieldComponent } from '../money-stepper-field/money-stepper-field.component';
 
@@ -42,7 +43,12 @@ export class DynamicWizardFieldComponent {
   @Input() required = false;
 
   readonly loadingOptionsLabel = REQUISITION_SCOPE_LOADING;
-  readonly requiredError = $localize`:@@requisition.wizard.errors.fieldRequired:Campo obligatorio`;
+  get validationError(): string | null {
+    if (!this.control.touched || !this.control.invalid) {
+      return null;
+    }
+    return resolveRequisitionWizardFieldError(this.control.errors, this.field.fieldKey);
+  }
 
   get label(): string {
     return resolveWizardFieldLabel(this.field.fieldKey, this.field.labelI18nKey);

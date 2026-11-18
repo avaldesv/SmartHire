@@ -229,6 +229,7 @@ export const REQUISITION_WIZARD_LOAD_POSITION_ERROR = $localize`:@@requisition.w
 export const REQUISITION_WIZARD_LOAD_CATALOGS_ERROR = $localize`:@@requisition.wizard.errors.loadCatalogs:Error al cargar catálogos de la requisición`;
 export const REQUISITION_WIZARD_VALIDATION_REQUIRED = $localize`:@@requisition.wizard.errors.validationRequired:Complete los campos obligatorios`;
 export const REQUISITION_WIZARD_FIELD_REQUIRED = $localize`:@@requisition.wizard.errors.fieldRequired:Campo obligatorio`;
+export const REQUISITION_WIZARD_POSITIVE_INTEGER_MIN = $localize`:@@requisition.wizard.errors.positiveIntegerMin:Debe ser un número mayor o igual a 1`;
 export const REQUISITION_WIZARD_SAVE_SUCCESS_CREATE = $localize`:@@requisition.wizard.success.create:Requisición creada correctamente`;
 export const REQUISITION_WIZARD_SAVE_SUCCESS_UPDATE = $localize`:@@requisition.wizard.success.update:Requisición actualizada correctamente`;
 export const REQUISITION_WIZARD_SAVE_ERROR_CREATE = $localize`:@@requisition.wizard.errors.create:No se pudo crear la requisición`;

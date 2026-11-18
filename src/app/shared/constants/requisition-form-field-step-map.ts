@@ -38,6 +38,7 @@ export const REQUISITION_FIELDS_BY_STEP: Record<(typeof REQUISITION_FORM_DEFAULT
   ],
   manpower: [
     'requisitionTypeId',
+    'budgetType',
     'orderId',
     'serviceFee',
     'currencyId',
