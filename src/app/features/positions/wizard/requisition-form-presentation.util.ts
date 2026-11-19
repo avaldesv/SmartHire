@@ -27,13 +27,15 @@ const DEFAULT_CLIENT_ID_FIELD = DEFAULT_REQUISITION_WIZARD_SCHEMA.steps
   ?.fields.find((field) => field.fieldKey === CLIENT_ID_FIELD_KEY);
 
 const BUDGET_TYPE_FIELD_KEY = 'budgetType';
-const REQUISITION_TYPE_FIELD_KEY = 'requisitionTypeId';
 
 const DEFAULT_BUDGET_TYPE_FIELD = DEFAULT_REQUISITION_WIZARD_SCHEMA.steps
   .find((step) => step.stepKey === 'manpower')
   ?.fields.find((field) => field.fieldKey === BUDGET_TYPE_FIELD_KEY);
 
-/** Align resolved config with built-in field definitions (code is source of truth). */
+/**
+ * Align resolved config with built-in field definitions (uiType / dataSource).
+ * Preserves published Config field order (orderIndex). Does not reorder manpower.
+ */
 export function applyBuiltinFieldPresentation(
   config: ResolvedRequisitionFormConfig,
 ): ResolvedRequisitionFormConfig {
@@ -47,36 +49,24 @@ export function applyBuiltinFieldPresentation(
         return { ...step, fields: placeClientIdAfterCoverage(aligned) };
       }
       if (step.stepKey === 'manpower') {
-        return { ...step, fields: placeBudgetTypeAfterRequisitionType(aligned) };
+        return { ...step, fields: ensureBudgetTypePresent(aligned) };
       }
       return { ...step, fields: aligned };
     }),
   };
 }
 
-function placeBudgetTypeAfterRequisitionType(
+/** Append budgetType only when missing — never reorder relative to Config. */
+function ensureBudgetTypePresent(
   fields: ResolvedRequisitionFormField[],
 ): ResolvedRequisitionFormField[] {
-  const withoutBudget = fields.filter((field) => field.fieldKey !== BUDGET_TYPE_FIELD_KEY);
-  const existing = fields.find((field) => field.fieldKey === BUDGET_TYPE_FIELD_KEY);
-  const budgetField =
-    existing ?? (DEFAULT_BUDGET_TYPE_FIELD ? alignBuiltinPresentation({ ...DEFAULT_BUDGET_TYPE_FIELD }) : null);
-  if (!budgetField) {
+  if (fields.some((field) => field.fieldKey === BUDGET_TYPE_FIELD_KEY)) {
     return fields;
   }
-  const typeIdx = withoutBudget.findIndex((field) => field.fieldKey === REQUISITION_TYPE_FIELD_KEY);
-  if (typeIdx < 0) {
-    return [...withoutBudget, budgetField];
-  }
-  const nextKey = withoutBudget[typeIdx + 1]?.fieldKey;
-  if (nextKey === BUDGET_TYPE_FIELD_KEY) {
+  if (!DEFAULT_BUDGET_TYPE_FIELD) {
     return fields;
   }
-  return [
-    ...withoutBudget.slice(0, typeIdx + 1),
-    budgetField,
-    ...withoutBudget.slice(typeIdx + 1),
-  ];
+  return [...fields, alignBuiltinPresentation({ ...DEFAULT_BUDGET_TYPE_FIELD })];
 }
 
 function placeClientIdAfterCoverage(
