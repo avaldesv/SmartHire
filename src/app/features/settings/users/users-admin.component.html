@@ -185,6 +185,18 @@
 } @else {
   <div class="sh-card sh-table-wrap">
     <table mat-table [dataSource]="data">
+      <ng-container matColumnDef="photo">
+        <th mat-header-cell *matHeaderCellDef class="photo-col" i18n="@@users.table.photo">Foto</th>
+        <td mat-cell *matCellDef="let row" class="photo-col">
+          <span class="user-list-avatar" aria-hidden="true">
+            @if (row.photo?.trim()) {
+              <img class="user-list-avatar__img" [src]="row.photo" alt="" />
+            } @else {
+              <mat-icon class="user-list-avatar__icon">person</mat-icon>
+            }
+          </span>
+        </td>
+      </ng-container>
       <ng-container matColumnDef="username">
         <th mat-header-cell *matHeaderCellDef i18n="@@users.table.username">Usuario</th>
         <td mat-cell *matCellDef="let row">{{ row.username }}</td>

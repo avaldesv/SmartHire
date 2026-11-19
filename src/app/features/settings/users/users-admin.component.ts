@@ -213,7 +213,7 @@ export class UsersAdminComponent implements OnInit {
     roleIds: [[] as number[]],
   });
 
-  readonly columns = ['username', 'name', 'lastName', 'email', 'roles', 'active', 'actions'];
+  readonly columns = ['photo', 'username', 'name', 'lastName', 'email', 'roles', 'active', 'actions'];
 
   get canSave(): boolean {
     return this.userForm.valid && !this.userForm.pending && !this.saving;
