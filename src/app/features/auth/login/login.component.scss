@@ -59,10 +59,10 @@
   }
 
   &--hidden {
-    color: #0d9488;
+    color: var(--mat-sys-primary, #0d9488);
 
     mat-icon {
-      color: #0d9488;
+      color: var(--mat-sys-primary, #0d9488);
     }
   }
 
