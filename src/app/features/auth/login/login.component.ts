@@ -7,7 +7,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../../core/services/auth.service';
-import { AUTH_LOGIN_FAILED, AUTH_SSO_FAILED } from '../../../core/i18n/auth-labels';
+import {
+  AUTH_LOGIN_FAILED,
+  AUTH_PASSWORD_HIDE,
+  AUTH_PASSWORD_SHOW,
+  AUTH_SSO_FAILED,
+} from '../../../core/i18n/auth-labels';
 import { ApiErrorTranslationService } from '../../../core/services/api-error-translation.service';
 
 @Component({
@@ -25,6 +30,9 @@ export class LoginComponent implements OnInit {
 
   loading = false;
   error = '';
+  showPassword = false;
+  readonly passwordShowAria = AUTH_PASSWORD_SHOW;
+  readonly passwordHideAria = AUTH_PASSWORD_HIDE;
 
   readonly form = this.fb.nonNullable.group({
     email: ['admin', [Validators.required]],
@@ -35,6 +43,10 @@ export class LoginComponent implements OnInit {
     if (this.route.snapshot.queryParamMap.get('ssoError') === '1') {
       this.error = AUTH_SSO_FAILED;
     }
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 
   submit(): void {
