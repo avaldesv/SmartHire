@@ -1271,8 +1271,8 @@
         <target>Clonagem não permitida</target>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_CONFIG_CLONE_INVALID.message" datatype="html">
-        <source>Solo se pueden clonar configuraciones publicadas o deprecadas.</source>
-        <target>Apenas é possível clonar configurações publicadas ou descontinuadas.</target>
+        <source>Solo se pueden clonar configuraciones publicadas o obsoletas.</source>
+        <target>Apenas é possível clonar configurações publicadas ou obsoletas.</target>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_PUBLISH_INVALID.title" datatype="html">
         <source>Publicación inválida</source>
@@ -9549,7 +9549,7 @@
         <target>Publicado</target>
       </trans-unit>
       <trans-unit id="requisitionFormConfig.statusDeprecated" datatype="html">
-        <source>Deprecado</source>
+        <source>Obsoleto</source>
         <target>Obsoleto</target>
       </trans-unit>
       <trans-unit id="requisitionFormConfig.field.status" datatype="html">
@@ -9773,8 +9773,8 @@
         <target>Ações</target>
       </trans-unit>
       <trans-unit id="requisitionFormConfig.readOnlyHint" datatype="html">
-        <source>Configuración publicada o deprecada (solo lectura). Use el icono de copiar para crear un borrador desde plantilla.</source>
-        <target>Configuração publicada ou depreciada (somente leitura). Use o ícone de copiar para criar um rascunho a partir do modelo.</target>
+        <source>Configuración publicada o obsoleta (solo lectura). Use el icono de copiar para crear un borrador desde plantilla.</source>
+        <target>Configuração publicada ou obsoleta (somente leitura). Use o ícone de copiar para criar um rascunho a partir do modelo.</target>
       </trans-unit>
       <trans-unit id="requisitionFormConfig.success.deleted" datatype="html">
         <source>Configuración eliminada</source>

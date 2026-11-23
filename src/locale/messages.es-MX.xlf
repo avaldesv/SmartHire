@@ -2222,7 +2222,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_CONFIG_CLONE_INVALID.message" datatype="html">
-        <source>Solo se pueden clonar configuraciones publicadas o deprecadas.</source>
+        <source>Solo se pueden clonar configuraciones publicadas o obsoletas.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/api-error-catalog-requisition.ts</context>
           <context context-type="linenumber">144</context>
@@ -19587,7 +19587,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="requisitionFormConfig.statusDeprecated" datatype="html">
-        <source>Deprecado</source>
+        <source>Obsoleto</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
           <context context-type="linenumber">9</context>
@@ -19979,7 +19979,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="requisitionFormConfig.readOnlyHint" datatype="html">
-        <source>Configuración publicada o deprecada (solo lectura). Use el icono de copiar para crear un borrador desde plantilla.</source>
+        <source>Configuración publicada o obsoleta (solo lectura). Use el icono de copiar para crear un borrador desde plantilla.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/i18n/requisition-form-config-labels.ts</context>
           <context context-type="linenumber">68</context>

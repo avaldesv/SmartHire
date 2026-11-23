@@ -6,7 +6,7 @@ export const REQ_FORM_CONFIG_STATUS = $localize`:@@requisitionFormConfig.status:
 export const REQ_FORM_CONFIG_VERSION = $localize`:@@requisitionFormConfig.version:Versión`;
 export const REQ_FORM_CONFIG_STATUS_DRAFT = $localize`:@@requisitionFormConfig.statusDraft:Borrador`;
 export const REQ_FORM_CONFIG_STATUS_PUBLISHED = $localize`:@@requisitionFormConfig.statusPublished:Publicado`;
-export const REQ_FORM_CONFIG_STATUS_DEPRECATED = $localize`:@@requisitionFormConfig.statusDeprecated:Deprecado`;
+export const REQ_FORM_CONFIG_STATUS_DEPRECATED = $localize`:@@requisitionFormConfig.statusDeprecated:Obsoleto`;
 export const REQ_FORM_CONFIG_FIELD_STATUS = $localize`:@@requisitionFormConfig.field.status:Estado`;
 export const REQ_FORM_CONFIG_FILTER_ALL = $localize`:@@requisitionFormConfig.filter.all:Todos`;
 export const REQ_FORM_CONFIG_CLONE = $localize`:@@requisitionFormConfig.clone:Crear borrador desde plantilla`;
@@ -65,7 +65,7 @@ export const REQ_FORM_CONFIG_COL_VERSION = $localize`:@@requisitionFormConfig.co
 export const REQ_FORM_CONFIG_COL_STATUS = $localize`:@@requisitionFormConfig.column.status:Estado`;
 export const REQ_FORM_CONFIG_COL_PUBLISHED_AT = $localize`:@@requisitionFormConfig.column.publishedAt:Publicado`;
 export const REQ_FORM_CONFIG_COL_ACTIONS = $localize`:@@requisitionFormConfig.column.actions:Acciones`;
-export const REQ_FORM_CONFIG_READ_ONLY_HINT = $localize`:@@requisitionFormConfig.readOnlyHint:Configuración publicada o deprecada (solo lectura). Use el icono de copiar para crear un borrador desde plantilla.`;
+export const REQ_FORM_CONFIG_READ_ONLY_HINT = $localize`:@@requisitionFormConfig.readOnlyHint:Configuración publicada o obsoleta (solo lectura). Use el icono de copiar para crear un borrador desde plantilla.`;
 export const REQ_FORM_CONFIG_DELETE_SUCCESS = $localize`:@@requisitionFormConfig.success.deleted:Configuración eliminada`;
 export const REQ_FORM_CONFIG_DELETE_ERROR = $localize`:@@requisitionFormConfig.errors.delete:No se pudo eliminar la configuración`;
 

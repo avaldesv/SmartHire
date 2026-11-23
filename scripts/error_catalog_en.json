@@ -272,7 +272,7 @@
   "Solo los cuestionarios publicados pueden archivarse": "Only published questionnaires can be archived",
   "Solo se puede reintentar un envío en estado FAILED": "Only failed outbox entries can be retried",
   "Solo se puede solicitar cancelación en posiciones en borrador o activas.": "Cancellation can only be requested for draft or active positions",
-  "Solo se pueden clonar configuraciones publicadas o deprecadas.": "Only published or deprecated configurations can be cloned",
+  "Solo se pueden clonar configuraciones publicadas o obsoletas.": "Only published or obsolete configurations can be cloned",
   "Solo se pueden editar configuraciones en borrador.": "Only draft configurations can be edited",
   "Solo se pueden eliminar configuraciones en borrador.": "Only draft configurations can be deleted",
   "Solo un administrador global puede crear usuarios global admin": "Only a global administrator can create global admin users",

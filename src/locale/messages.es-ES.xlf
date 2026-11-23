@@ -1271,8 +1271,8 @@
         <target>Clonación no permitida</target>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_CONFIG_CLONE_INVALID.message" datatype="html">
-        <source>Solo se pueden clonar configuraciones publicadas o deprecadas.</source>
-        <target>Solo se pueden clonar configuraciones publicadas o deprecadas.</target>
+        <source>Solo se pueden clonar configuraciones publicadas o obsoletas.</source>
+        <target>Solo se pueden clonar configuraciones publicadas o obsoletas.</target>
       </trans-unit>
       <trans-unit id="errors.REQUISITION_FORM_PUBLISH_INVALID.title" datatype="html">
         <source>Publicación inválida</source>
@@ -9573,8 +9573,8 @@
         <target>Publicado</target>
       </trans-unit>
       <trans-unit id="requisitionFormConfig.statusDeprecated" datatype="html">
-        <source>Deprecado</source>
-        <target>Deprecado</target>
+        <source>Obsoleto</source>
+        <target>Obsoleto</target>
       </trans-unit>
       <trans-unit id="requisitionFormConfig.field.status" datatype="html">
         <source>Estado</source>
@@ -9797,8 +9797,8 @@
         <target>Acciones</target>
       </trans-unit>
       <trans-unit id="requisitionFormConfig.readOnlyHint" datatype="html">
-        <source>Configuración publicada o deprecada (solo lectura). Use el icono de copiar para crear un borrador desde plantilla.</source>
-        <target>Configuración publicada o deprecada (solo lectura). Use el icono de copiar para crear un borrador desde plantilla.</target>
+        <source>Configuración publicada o obsoleta (solo lectura). Use el icono de copiar para crear un borrador desde plantilla.</source>
+        <target>Configuración publicada o obsoleta (solo lectura). Use el icono de copiar para crear un borrador desde plantilla.</target>
       </trans-unit>
       <trans-unit id="requisitionFormConfig.success.deleted" datatype="html">
         <source>Configuración eliminada</source>
