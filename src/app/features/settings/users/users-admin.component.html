@@ -61,7 +61,26 @@
       @if (!editingUserId) {
         <mat-form-field appearance="outline" class="user-form__r1-pass">
           <mat-label i18n="@@users.form.password">Contraseña</mat-label>
-          <input matInput type="password" formControlName="password" />
+          <input
+            matInput
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            autocomplete="new-password"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            class="user-form__password-toggle"
+            [class.user-form__password-toggle--hidden]="!showPassword"
+            [class.user-form__password-toggle--visible]="showPassword"
+            [attr.aria-label]="showPassword ? passwordHideAria : passwordShowAria"
+            [attr.aria-pressed]="showPassword"
+            (click)="togglePasswordVisibility()"
+            tabindex="-1"
+          >
+            <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
           <mat-error>{{ passwordRequired }}</mat-error>
         </mat-form-field>
       }

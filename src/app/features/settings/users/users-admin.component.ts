@@ -63,6 +63,8 @@ import {
   USERS_EMAIL_REQUIRED,
   USERS_EMAIL_INVALID,
   USERS_PASSWORD_REQUIRED,
+  USERS_PASSWORD_SHOW,
+  USERS_PASSWORD_HIDE,
   USERS_NAME_REQUIRED,
   USERS_LAST_NAME_REQUIRED,
   USERS_PHOTO_PICK_ARIA,
@@ -137,6 +139,8 @@ export class UsersAdminComponent implements OnInit {
   readonly emailRequired = USERS_EMAIL_REQUIRED;
   readonly emailInvalid = USERS_EMAIL_INVALID;
   readonly passwordRequired = USERS_PASSWORD_REQUIRED;
+  readonly passwordShowAria = USERS_PASSWORD_SHOW;
+  readonly passwordHideAria = USERS_PASSWORD_HIDE;
   readonly nameRequired = USERS_NAME_REQUIRED;
   readonly lastNameRequired = USERS_LAST_NAME_REQUIRED;
   readonly photoPickAria = USERS_PHOTO_PICK_ARIA;
@@ -163,6 +167,7 @@ export class UsersAdminComponent implements OnInit {
   pageIndex = 0;
   pageSize = 10;
   editingUserId: number | null = null;
+  showPassword = false;
   existingPhotoUrl: string | null = null;
   photoPreviewUrl: string | null = null;
   pendingPhotoFile: File | null = null;
@@ -413,8 +418,13 @@ export class UsersAdminComponent implements OnInit {
     this.userForm.patchValue({ supervisorId: null, supervisorSearch: '' });
   }
 
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
   openCreate(): void {
     this.editingUserId = null;
+    this.showPassword = false;
     this.resetPhotoState();
     const defaultDialCode = this.defaultTenantDialCode();
     this.userForm.reset({
@@ -475,6 +485,7 @@ export class UsersAdminComponent implements OnInit {
       this.formDialogRef.afterClosed().subscribe(() => {
         this.formDialogRef = null;
         this.editingUserId = null;
+        this.showPassword = false;
         this.userForm.controls.username.enable();
         this.resetPhotoState();
       });
