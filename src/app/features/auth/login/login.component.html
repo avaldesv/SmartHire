@@ -16,7 +16,26 @@
 
       <mat-form-field appearance="outline" class="full-width">
         <mat-label i18n="@@auth.login.password">Contraseña</mat-label>
-        <input matInput type="password" formControlName="password" autocomplete="current-password" />
+        <input
+          matInput
+          [type]="showPassword ? 'text' : 'password'"
+          formControlName="password"
+          autocomplete="current-password"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          class="login-password-toggle"
+          [class.login-password-toggle--hidden]="!showPassword"
+          [class.login-password-toggle--visible]="showPassword"
+          [attr.aria-label]="showPassword ? passwordHideAria : passwordShowAria"
+          [attr.aria-pressed]="showPassword"
+          (click)="togglePasswordVisibility()"
+          tabindex="-1"
+        >
+          <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
         @if (form.controls.password.hasError('required') && form.controls.password.touched) {
           <mat-error i18n="@@auth.login.passwordRequired">La contraseña es obligatoria</mat-error>
         }
