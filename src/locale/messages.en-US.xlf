@@ -11526,6 +11526,14 @@
         <source>La contraseña es obligatoria</source>
         <target>Password is required</target>
       </trans-unit>
+      <trans-unit id="users.form.passwordShow" datatype="html">
+        <source>Mostrar contraseña</source>
+        <target>Show password</target>
+      </trans-unit>
+      <trans-unit id="users.form.passwordHide" datatype="html">
+        <source>Ocultar contraseña</source>
+        <target>Hide password</target>
+      </trans-unit>
       <trans-unit id="users.errors.nameRequired" datatype="html">
         <source>El nombre es obligatorio</source>
         <target>El nombre es obligatorio</target>

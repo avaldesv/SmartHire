@@ -23004,6 +23004,18 @@
           <context context-type="linenumber">24</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="users.form.passwordShow" datatype="html">
+        <source>Mostrar contraseña</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="users.form.passwordHide" datatype="html">
+        <source>Ocultar contraseña</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/i18n/users-labels.ts</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="users.errors.nameRequired" datatype="html">
         <source>El nombre es obligatorio</source>
         <context-group purpose="location">
