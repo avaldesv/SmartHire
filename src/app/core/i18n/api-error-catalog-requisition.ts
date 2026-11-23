@@ -141,7 +141,7 @@ export const API_ERROR_CATALOG_REQUISITION: Record<string, ApiErrorI18nEntry> = 
   },
   REQUISITION_FORM_CONFIG_CLONE_INVALID: {
     title: $localize`:@@errors.REQUISITION_FORM_CONFIG_CLONE_INVALID.title:Clonación no permitida`,
-    message: $localize`:@@errors.REQUISITION_FORM_CONFIG_CLONE_INVALID.message:Solo se pueden clonar configuraciones publicadas o deprecadas.`,
+    message: $localize`:@@errors.REQUISITION_FORM_CONFIG_CLONE_INVALID.message:Solo se pueden clonar configuraciones publicadas o obsoletas.`,
   },
   REQUISITION_FORM_PUBLISH_INVALID: {
     title: $localize`:@@errors.REQUISITION_FORM_PUBLISH_INVALID.title:Publicación inválida`,
