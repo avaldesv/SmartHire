@@ -40,6 +40,7 @@ import {
 import { CatalogBranch } from '../../../shared/models/catalog-branch.model';
 import { CatalogCompanyArea } from '../../../shared/models/catalog-company-area.model';
 import { CatalogCompanyDepartment } from '../../../shared/models/catalog-company-department.model';
+import { AuthService } from '../../../core/services/auth.service';
 import { TenantContextService } from '../../../core/services/tenant-context.service';
 import { ApiErrorTranslationService } from '../../../core/services/api-error-translation.service';
 import { FeedbackDialogService } from '../../../core/feedback/feedback-dialog.service';
@@ -122,6 +123,7 @@ export class UsersAdminComponent implements OnInit {
   private readonly branchService = inject(CatalogBranchService);
   private readonly areaService = inject(CatalogCompanyAreaService);
   private readonly departmentService = inject(CatalogCompanyDepartmentService);
+  private readonly auth = inject(AuthService);
   private readonly tenantContext = inject(TenantContextService);
   private readonly feedback = inject(FeedbackDialogService);
   private readonly apiErrors = inject(ApiErrorTranslationService);
@@ -648,7 +650,12 @@ export class UsersAdminComponent implements OnInit {
     }
     this.userService.uploadPhoto(userId, file).subscribe({
       next: (res) => {
-        this.existingPhotoUrl = res.photo?.trim() || this.existingPhotoUrl;
+        const photo = res.photo?.trim() || null;
+        this.existingPhotoUrl = photo || this.existingPhotoUrl;
+        const current = this.auth.currentUser();
+        if (current && String(userId) === current.id && photo) {
+          this.auth.patchCurrentUserPhoto(photo);
+        }
         this.onSaveSuccess();
       },
       error: (err) => this.onSaveError(err, USERS_PHOTO_UPLOAD_ERROR),

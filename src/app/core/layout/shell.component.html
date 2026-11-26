@@ -18,14 +18,31 @@
       <mat-icon>help_outline</mat-icon>
     </button>
     <button mat-button [matMenuTriggerFor]="userMenu" class="user-btn">
-      <span class="avatar">{{ user()?.initials }}</span>
+      <span class="avatar" aria-hidden="true">
+        @if (user()?.photo) {
+          <img class="avatar__img" [src]="user()!.photo!" alt="" />
+        } @else {
+          <mat-icon class="avatar__icon">person</mat-icon>
+        }
+      </span>
       <mat-icon>arrow_drop_down</mat-icon>
     </button>
+    <input
+      #ownPhotoInput
+      type="file"
+      class="own-photo-input"
+      accept="image/png,image/jpeg,.jpg,.jpeg"
+      (change)="onOwnPhotoSelected($event)"
+    />
     <mat-menu #userMenu="matMenu">
       <div class="menu-user">
         <strong>{{ user()?.firstName }} {{ user()?.lastName }}</strong>
         <small>{{ user()?.email }}</small>
       </div>
+      <button mat-menu-item type="button" [disabled]="photoUploading()" (click)="pickOwnPhoto()">
+        <mat-icon>photo_camera</mat-icon>
+        <span i18n="@@shell.updatePhoto">Actualizar foto</span>
+      </button>
       @if (portalLanguages().length > 0) {
         <button mat-menu-item [matMenuTriggerFor]="languageMenu" [disabled]="languageChanging()">
           <mat-icon>language</mat-icon>

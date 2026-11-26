@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, computed, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,17 +13,28 @@ import { PermissionService } from '../services/permission.service';
 import { TenantContextService } from '../services/tenant-context.service';
 import { UserSettingsApiService } from '../services/user-settings-api.service';
 import { CatalogCompanyService } from '../services/catalog-company.service';
+import { FeedbackDialogService } from '../feedback/feedback-dialog.service';
+import { FEEDBACK_GENERIC_WARNING_TITLE } from '../i18n/feedback-labels';
 import { CatalogCompany } from '../../shared/models/catalog-company.model';
 import { PortalLanguage } from '../../shared/models/portal-language.model';
 import { AppPermissions } from '../auth/app-permissions';
 import { MAIN_NAV_ITEMS } from '../i18n/nav-labels';
 import { INTERVIEW_CAL_MENU } from '../i18n/interview-calendar-labels';
 import { PORTAL_CRED_MENU } from '../i18n/portal-credentials-labels';
+import {
+  USERS_PHOTO_SIZE_ERROR,
+  USERS_PHOTO_TYPE_ERROR,
+  USERS_PHOTO_UPLOAD_ERROR,
+  USERS_PHOTO_UPLOAD_SUCCESS,
+} from '../i18n/users-labels';
 import { interviewCalendarDialogConfig } from '../../features/settings/interview-calendar/interview-calendar-dialog.constants';
 import { jobPortalCredentialsDialogConfig } from '../../features/settings/job-portal-credentials/job-portal-credentials-dialog.constants';
 import { NotificationBellComponent } from './notification-bell/notification-bell.component';
 import { InterviewCalendarConfigDialogComponent } from '../../features/settings/interview-calendar/interview-calendar-config-dialog.component';
 import { JobPortalCredentialsDialogComponent } from '../../features/settings/job-portal-credentials/job-portal-credentials-dialog.component';
+
+const OWN_PHOTO_MAX_BYTES = 10 * 1024 * 1024;
+const OWN_PHOTO_ALLOWED_TYPES = new Set(['image/png', 'image/jpeg', 'image/jpg']);
 
 @Component({
   selector: 'sh-shell',
@@ -45,6 +56,8 @@ import { JobPortalCredentialsDialogComponent } from '../../features/settings/job
   styleUrl: './shell.component.scss',
 })
 export class ShellComponent implements OnInit {
+  @ViewChild('ownPhotoInput') ownPhotoInput?: ElementRef<HTMLInputElement>;
+
   private readonly auth = inject(AuthService);
   private readonly localeService = inject(LocaleService);
   private readonly permissions = inject(PermissionService);
@@ -53,6 +66,7 @@ export class ShellComponent implements OnInit {
   private readonly userSettingsApi = inject(UserSettingsApiService);
   private readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
+  private readonly feedback = inject(FeedbackDialogService);
 
   readonly interviewCalendarMenuLabel = INTERVIEW_CAL_MENU;
   readonly portalCredentialsMenuLabel = PORTAL_CRED_MENU;
@@ -64,6 +78,7 @@ export class ShellComponent implements OnInit {
   readonly tenantOptions = signal<CatalogCompany[]>([]);
   readonly portalLanguages = signal<PortalLanguage[]>([]);
   readonly languageChanging = signal(false);
+  readonly photoUploading = signal(false);
 
   readonly activeLanguageName = computed(() => {
     const currentId = this.activePortalLanguageId() ?? this.user()?.portalLanguageId;
@@ -128,6 +143,39 @@ export class ShellComponent implements OnInit {
 
   openJobPortalCredentials(): void {
     this.dialog.open(JobPortalCredentialsDialogComponent, jobPortalCredentialsDialogConfig());
+  }
+
+  pickOwnPhoto(): void {
+    this.ownPhotoInput?.nativeElement.click();
+  }
+
+  onOwnPhotoSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    input.value = '';
+    if (!file || this.photoUploading()) {
+      return;
+    }
+    const type = (file.type || '').toLowerCase();
+    if (!OWN_PHOTO_ALLOWED_TYPES.has(type)) {
+      this.feedback.showError(FEEDBACK_GENERIC_WARNING_TITLE, USERS_PHOTO_TYPE_ERROR);
+      return;
+    }
+    if (file.size > OWN_PHOTO_MAX_BYTES) {
+      this.feedback.showError(FEEDBACK_GENERIC_WARNING_TITLE, USERS_PHOTO_SIZE_ERROR);
+      return;
+    }
+    this.photoUploading.set(true);
+    this.auth.uploadOwnPhoto(file).subscribe({
+      next: () => {
+        this.photoUploading.set(false);
+        this.feedback.showSuccess(USERS_PHOTO_UPLOAD_SUCCESS);
+      },
+      error: (err) => {
+        this.photoUploading.set(false);
+        this.feedback.showApiError(err, { fallbackMessage: USERS_PHOTO_UPLOAD_ERROR });
+      },
+    });
   }
 
   private loadTenantOptions(): void {
