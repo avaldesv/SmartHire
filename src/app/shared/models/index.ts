@@ -4,6 +4,8 @@ export interface AuthUser {
   firstName: string;
   lastName: string;
   initials: string;
+  /** Signed profile photo URL when available; otherwise undefined. */
+  photo?: string | null;
   roles: string[];
   authorities: string[];
   branch: string;

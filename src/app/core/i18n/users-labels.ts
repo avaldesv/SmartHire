@@ -30,3 +30,4 @@ export const USERS_PHOTO_PICK_ARIA = $localize`:@@users.form.photoPick:Seleccion
 export const USERS_PHOTO_TYPE_ERROR = $localize`:@@users.errors.photoType:Tipo de archivo no permitido. Use PNG o JPG`;
 export const USERS_PHOTO_SIZE_ERROR = $localize`:@@users.errors.photoSize:La foto supera el máximo de 10 MB`;
 export const USERS_PHOTO_UPLOAD_ERROR = $localize`:@@users.errors.photoUpload:No se pudo subir la foto`;
+export const USERS_PHOTO_UPLOAD_SUCCESS = $localize`:@@users.success.photoUpdated:Foto actualizada`;

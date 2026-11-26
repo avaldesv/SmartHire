@@ -38,6 +38,15 @@ interface AuthMeApiResponse {
   portalLanguageId?: number;
   portalLanguageCode?: string;
   locale?: string;
+  photo?: string | null;
+}
+
+export interface UploadOwnPhotoResponse {
+  id: number;
+  photo: string;
+  storageKey?: string;
+  extension?: string;
+  contentType?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -148,6 +157,7 @@ export class AuthService {
           portalLanguageId: profile.portalLanguageId,
           portalLanguageCode: profile.portalLanguageCode,
           locale: profile.locale,
+          photo: profile.photo,
         });
         this.currentUser.set(user);
         sessionStorage.setItem('sh_user', JSON.stringify(user));
@@ -167,6 +177,34 @@ export class AuthService {
         return throwError(() => err);
       }),
     );
+  }
+
+  uploadOwnPhoto(file: File): Observable<UploadOwnPhotoResponse> {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.http
+      .post<UploadOwnPhotoResponse>(this.api.apiUrl('/api/v1/auth/me/photo'), formData, {
+        headers: this.api.buildMultipartHeaders(),
+      })
+      .pipe(
+        tap((res) => {
+          const photo = res.photo?.trim() || null;
+          if (photo) {
+            this.patchCurrentUserPhoto(photo);
+          }
+        }),
+      );
+  }
+
+  /** Updates session avatar after own photo change (settings or profile menu). */
+  patchCurrentUserPhoto(photoUrl: string | null): void {
+    const current = this.currentUser();
+    if (!current) {
+      return;
+    }
+    const updated: AuthUser = { ...current, photo: photoUrl };
+    this.currentUser.set(updated);
+    sessionStorage.setItem('sh_user', JSON.stringify(updated));
   }
 
   ssoLogin(): void {
@@ -387,17 +425,20 @@ export class AuthService {
     portalLanguageId?: number;
     portalLanguageCode?: string;
     locale?: string;
+    photo?: string | null;
   }): AuthUser {
     const email = input.email.includes('@') ? input.email : `${input.email}@empresa.com`;
     const firstName = input.firstName?.trim() || 'Usuario';
     const lastName = input.lastName?.trim() || 'Via';
     const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+    const photo = input.photo?.trim() || null;
     return {
       id: String(input.userId ?? email),
       email,
       firstName,
       lastName,
       initials,
+      photo,
       roles: (input.roles ?? []).map((role) => role.toUpperCase()),
       authorities: (input.authorities ?? []).map((authority) => authority.toUpperCase()),
       branch: 'CDMX Centro',
